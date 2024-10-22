@@ -76,6 +76,27 @@ const config: Config = {
         },
       },
     },
+    fontSize: {
+      10: '10px',
+      12: '12px',
+      14: '14px',
+      16: '16px',
+      18: '18px',
+      20: '20px',
+      22: '22px',
+      24: '24px',
+      26: '26px',
+      28: '28px',
+    },
+    fontWeight: {
+      400: '400',
+      500: '500',
+      600: '600',
+      700: '700',
+    },
+    fontFamily: {
+      sans: ['Pretendard', 'Arial'],
+    },
   },
   plugins: [],
 };
