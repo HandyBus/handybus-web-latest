@@ -3,25 +3,50 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --brand-primary-50: 230 2521 246;
+  --brand-primary-sub: 193 246 235;
+  --brand-primary-200: 138 237 215;
+  --brand-primary-300: 84 228 197;
+  --brand-primary-400: 51 223 185;
+  --brand-primary-main: 0 200 150;
+  --brand-primary-600: 0 196 153;
+  --brand-primary-700: 0 153 119;
+  --brand-primary-800: 0 118 92;
+  --brand-primary-900: 0 90 71;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --basic-white: 255 255 255;
+  --basic-black: 0 0 0;
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  --basic-grey-50: 247 248 249;
+  --basic-grey-100: 230 230 230;
+  --basic-grey-200: 204 204 204;
+  --basic-grey-300: 179 179 179;
+  --basic-grey-400: 153 153 153;
+  --basic-grey-500: 128 128 128;
+  --basic-grey-600: 102 102 102;
+  --basic-grey-700: 77 77 77;
+  --basic-grey-800: 51 51 51;
+  --basic-grey-900: 26 26 26;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  --basic-red-50: 253 234 234;
+  --basic-red-100: 250 189 189;
+  --basic-red-200: 248 157 157;
+  --basic-red-300: 244 113 112;
+  --basic-red-400: 242 85 85;
+  --basic-red-500: 239 43 42;
+  --basic-red-600: 217 39 38;
+  --basic-red-700: 170 31 30;
+  --basic-red-800: 131 24 23;
+  --basic-red-900: 100 18 18;
+
+  --basic-blue-50: 230 242 255;
+  --basic-blue-100: 178 215 254;
+  --basic-blue-200: 140 195 254;
+  --basic-blue-300: 88 168 254;
+  --basic-blue-400: 56 151 253;
+  --basic-blue-500: 6 125 253;
+  --basic-blue-600: 5 114 230;
+  --basic-blue-700: 4 89 180;
+  --basic-blue-800: 3 69 139;
+  --basic-blue-900: 3 53 106;
 }
