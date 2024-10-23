@@ -25,7 +25,7 @@ const SearchBar = ({ value, setValue, placeholder }: Props) => {
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="h-full w-full py-12 pl-[50px] pr-[46px] outline-none"
+        className="h-full w-full py-12 pl-[50px] pr-[46px] outline-none placeholder:text-grey-300"
       />
       <button className="absolute left-16 top-1/2 -translate-y-1/2">
         <ArrowLeft />
