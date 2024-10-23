@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <header className="flex h-48 w-full items-center justify-between bg-basic-white px-16 py-12">
       <button onClick={handleLogoClick}>
-        <LogoIcon />
+        <LogoIcon fill="black" />
       </button>
       <button onClick={handleProfileClick}>
         <UserIcon />
