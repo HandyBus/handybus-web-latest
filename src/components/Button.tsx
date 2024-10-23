@@ -1,6 +1,7 @@
+import type { HTMLProps } from 'react';
 import Spinner from '@/icons/spinner.svg';
 
-interface Props extends React.HTMLProps<HTMLButtonElement> {
+interface Props extends HTMLProps<HTMLButtonElement> {
   loading?: boolean;
   variant?: 'primary' | 'secondary';
   type?: 'button' | 'submit' | 'reset';
