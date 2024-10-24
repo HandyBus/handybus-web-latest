@@ -18,7 +18,7 @@ const Rating = ({ value = 0, onChange }: Props) => {
       {[1, 2, 3, 4, 5].flatMap((n) => (
         <span
           className={`${value >= n ? 'text-primary-main' : 'text-grey-100'}`}
-          onClick={handleClick(2)}
+          onClick={handleClick(n)}
         >
           <Star />
         </span>
