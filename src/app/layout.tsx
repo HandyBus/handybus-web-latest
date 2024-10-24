@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
+import { CookiesProvider } from 'react-cookie';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <CookiesProvider>{children}</CookiesProvider>
+      </body>
     </html>
   );
 }
