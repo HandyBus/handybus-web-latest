@@ -14,7 +14,7 @@ const HandyDescCheck = ({ disabled, children }: Props) => {
       >
         <HandyDescCheckIcon />
       </span>
-      <span className="my-12">{children}</span>
+      <span className="my-12 text-grey-700">{children}</span>
     </div>
   );
 };
