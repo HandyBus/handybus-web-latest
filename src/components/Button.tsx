@@ -1,6 +1,5 @@
 import type { HTMLProps } from 'react';
-import Spinner from '@/icons/spinner.svg'; // 경로를 적절히 조정하세요
-// import Icon from './icon/Icon';
+import Spinner from '@/icons/spinner.svg';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   loading?: boolean;
@@ -28,7 +27,6 @@ const Button = ({ children, variant = 'primary', loading, ...rest }: Props) => {
         <>
           <span className="mr-4 animate-spin">
             <Spinner />
-            {/* <Icon iconName="spinner" size={24} /> */}
           </span>
           {children}
         </>
