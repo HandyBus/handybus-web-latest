@@ -5,7 +5,7 @@ import NaverBlogIcon from '@/icons/naver-blog.svg';
 
 const Footer = () => {
   return (
-    <footer className="flex w-full flex-col gap-16 bg-[#F5F5F5] px-16 py-[28px]">
+    <footer className="flex w-full flex-col gap-16 px-16 py-[28px]">
       <LogoIcon fill="#808080" width="106" height="23" viewBox="0 0 83 18" />
       <div className="text-12 font-400 leading-[1.6] text-grey-400">
         상호명: 핸디버스 <br />
