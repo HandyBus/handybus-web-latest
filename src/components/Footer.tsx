@@ -1,7 +1,7 @@
-import LogoIcon from '@/icons/logo.svg';
-import TwitterIcon from '@/icons/twitter.svg';
-import InstagramIcon from '@/icons/instagram.svg';
-import NaverBlogIcon from '@/icons/naver-blog.svg';
+import LogoIcon from 'public/icons/logo.svg';
+import TwitterIcon from 'public/icons/twitter.svg';
+import InstagramIcon from 'public/icons/instagram.svg';
+import NaverBlogIcon from 'public/icons/naver-blog.svg';
 
 const Footer = () => {
   return (
