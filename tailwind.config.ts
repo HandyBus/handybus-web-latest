@@ -17,6 +17,15 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  animate: {
+    spin: 'spin 1s linear infinite',
+  },
+  keyframes: {
+    spin: {
+      '0%': { transform: 'rotate(0deg)' },
+      '100%': { transform: 'rotate(360deg)' },
+    }
+  },
   theme: {
     spacing: PX_ENTRIES,
     colors: {
