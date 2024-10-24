@@ -21,10 +21,9 @@ const Select = ({ options, onChange, placeholder, value, disabled }: Props) => {
         background: disabled ? CHEVRON_DISABLED : CHEVRON_ENABLED,
       }}
       disabled={disabled}
-      className={`w-full appearance-none rounded-none border-b border-b-grey-100 bg-white p-8 pr-32
-        ${disabled ? 'primary cursor-not-allowed' : 'cursor-pointer'}
-        ${value === undefined ? '' : 'text-grey-800'}
-        ${disabled || value === undefined ? 'text-grey-300' : ''}`}
+      className={`w-full cursor-pointer appearance-none rounded-none border-b border-b-grey-100 bg-white p-12
+        pr-32 disabled:cursor-not-allowed disabled:text-grey-300 disabled:opacity-100
+        ${value === undefined ? 'text-grey-300' : 'text-grey-800'}`}
       value={value || placeholderOpt.value}
       onChange={onChange && ((e) => onChange(e.target.value))}
     >
