@@ -24,7 +24,7 @@ const config: Config = {
     spin: {
       '0%': { transform: 'rotate(0deg)' },
       '100%': { transform: 'rotate(360deg)' },
-    }
+    },
   },
   theme: {
     spacing: PX_ENTRIES,
@@ -37,6 +37,7 @@ const config: Config = {
         300: 'rgb(var(--primary-300) / <alpha-value>)',
         400: 'rgb(var(--primary-400) / <alpha-value>)',
         main: 'rgb(var(--primary-main) / <alpha-value>)',
+        sub: 'rgb(var(--primary-sub) / <alpha-value>)',
         600: 'rgb(var(--primary-600) / <alpha-value>)',
         700: 'rgb(var(--primary-700) / <alpha-value>)',
         800: 'rgb(var(--primary-800) / <alpha-value>)',
