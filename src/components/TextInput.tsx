@@ -1,28 +1,33 @@
 'use client';
 
-import { HTMLInputTypeAttribute, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
   FieldValues,
   UseControllerProps,
+  UseFormSetValue,
   useController,
 } from 'react-hook-form';
+import DeleteIcon from '@/icons/delete.svg';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children: ReactNode;
   placeholder?: string;
-  type?: HTMLInputTypeAttribute;
+  setValue: UseFormSetValue<FieldValues>;
 }
 
 const TextInput = <T extends FieldValues>({
   children,
   placeholder,
+  setValue,
   ...controls
 }: Props<T>) => {
   const { field, fieldState } = useController({
     ...controls,
   });
 
-  console.log(fieldState.error);
+  const handleResetValue = () => {
+    setValue<string>(field.name, '');
+  };
 
   return (
     <div className="relative flex w-full flex-col gap-8">
@@ -33,9 +38,17 @@ const TextInput = <T extends FieldValues>({
         id={field.name}
         placeholder={placeholder}
         {...field}
-        className={`w-full border-b border-grey-100 p-12 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
+        className={`h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
       />
-      {field.value && <div></div>}
+      {field.value && (
+        <button
+          type="button"
+          onClick={handleResetValue}
+          className="absolute right-12 top-48"
+        >
+          <DeleteIcon />
+        </button>
+      )}
       {fieldState?.error?.message && (
         <div className="h-[20px] text-12 font-400 text-red-500">
           {fieldState?.error?.message}
