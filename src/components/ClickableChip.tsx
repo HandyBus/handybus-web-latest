@@ -21,11 +21,11 @@ const ClickableChip = ({
       className={`whitespace-nowrap rounded-full px-12 py-4 text-14
       ${isPrimary && !disabled && selected ? 'bg-grey-700 text-white' : ''}
       ${isPrimary && !disabled && !selected ? 'bg-grey-50 text-grey-700' : ''}
-      ${isPrimary && disabled && selected ? 'bg-grey-50 text-grey-700 opacity-50' : ''}
+      ${isPrimary && disabled && selected ? 'bg-grey-700 text-white opacity-50' : ''}
       ${isPrimary && disabled && !selected ? 'bg-grey-50 text-grey-300' : ''}
-      ${!isPrimary && !disabled && selected ? 'border border-grey-600-sub text-grey-700' : ''}
+      ${!isPrimary && !disabled && selected ? 'border border-grey-600-sub bg-transparent text-grey-700' : ''}
       ${!isPrimary && !disabled && !selected ? 'bg-grey-50 text-grey-700' : ''}
-      ${!isPrimary && disabled && selected ? 'border border-grey-600-sub text-grey-700 opacity-50' : ''}
+      ${!isPrimary && disabled && selected ? 'border border-grey-600-sub bg-transparent text-grey-700 opacity-50' : ''}
       ${!isPrimary && disabled && !selected ? 'bg-grey-50 text-grey-300' : ''}`}
       disabled={disabled}
       {...rest}
