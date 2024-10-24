@@ -1,6 +1,4 @@
-import type { PropsWithChildren } from 'react';
-
-interface Props extends PropsWithChildren {
+interface Props {
   status: 'demand-survey' | 'pending' | 'closed' | 'ended';
 }
 
