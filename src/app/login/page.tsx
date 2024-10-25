@@ -1,6 +1,6 @@
-import Logo from '@/icons/logo-large-white.svg';
-import Kakao from '@/icons/kakao.svg';
-import Naver from '@/icons/naver.svg';
+import Logo from 'public/icons/logo-large-white.svg';
+import Kakao from 'public/icons/kakao.svg';
+import Naver from 'public/icons/naver.svg';
 
 const Login = () => {
   return (

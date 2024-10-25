@@ -1,7 +1,7 @@
 'use client';
 
-import UserIcon from '@/icons/user.svg';
-import LogoIcon from '@/icons/logo.svg';
+import UserIcon from 'public/icons/user.svg';
+import LogoIcon from 'public/icons/logo.svg';
 
 const Header = () => {
   const handleLogoClick = () => {};

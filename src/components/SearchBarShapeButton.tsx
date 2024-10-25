@@ -1,5 +1,5 @@
 import type { HTMLProps } from 'react';
-import Magnify from '@/icons/magnify.svg';
+import Magnify from 'public/icons/magnify.svg';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   type?: 'submit' | 'reset' | 'button';

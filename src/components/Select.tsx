@@ -10,8 +10,8 @@ interface Props {
   disabled?: boolean;
 }
 
-const CHEVRON_ENABLED = `url('/chevron-enabled.svg') calc(100% - 5px) center no-repeat`;
-const CHEVRON_DISABLED = `url('/chevron-disabled.svg') calc(100% - 5px) center no-repeat`;
+const CHEVRON_ENABLED = `url('/icons/chevron-enabled.svg') calc(100% - 5px) center no-repeat`;
+const CHEVRON_DISABLED = `url('/icons/chevron-disabled.svg') calc(100% - 5px) center no-repeat`;
 
 const Select = ({ options, onChange, placeholder, value, disabled }: Props) => {
   const placeholderOpt = { value: 0, label: placeholder };
