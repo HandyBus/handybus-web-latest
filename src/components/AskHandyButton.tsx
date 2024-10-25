@@ -1,5 +1,5 @@
 import type { HTMLProps } from 'react';
-import ChevronRight from '@/icons/chevron-right.svg';
+import ChevronRight from 'public/icons/chevron-right.svg';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   type?: 'button' | 'submit' | 'reset';

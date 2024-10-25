@@ -7,7 +7,7 @@ import {
   UseFormSetValue,
   useController,
 } from 'react-hook-form';
-import DeleteIcon from '@/icons/delete.svg';
+import DeleteIcon from 'public/icons/delete.svg';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children: ReactNode;

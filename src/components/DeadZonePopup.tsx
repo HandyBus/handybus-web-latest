@@ -1,6 +1,6 @@
 'use client';
 
-import LargeLogo from '@/icons/logo-large.svg';
+import LargeLogo from 'public/icons/logo-large.svg';
 
 const DeadZonePopup = () => {
   const redirectToReview = () => {};
