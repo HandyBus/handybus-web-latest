@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import Star from '@/icons/star.svg';
+import Star from 'public/icons/star.svg';
 import RatingForm from './RatingForm';
 
 interface Props {

@@ -2,7 +2,7 @@
 
 import type { Dispatch, MouseEvent, TouchEvent, SetStateAction } from 'react';
 import { useRef, useState } from 'react';
-import Star from '@/icons/star.svg';
+import Star from 'public/icons/star.svg';
 
 interface Props {
   size?: 'medium' | 'large';
