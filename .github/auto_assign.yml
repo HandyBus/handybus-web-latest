@@ -1,9 +1,2 @@
 addReviewers: true
 addAssignees: author
-
-reviewers:
-  - joonseong11
-  - gw-lim
-  - stonechoe
-
-numberOfReviewers: 0
