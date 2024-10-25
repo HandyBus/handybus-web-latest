@@ -1,5 +1,7 @@
-import BackIcon from '@/icons/chevron-left.svg';
+'use client';
+
 import { useRouter } from 'next/navigation';
+import BackIcon from 'public/icons/chevron-left.svg';
 
 const AppBar = () => {
   const router = useRouter();

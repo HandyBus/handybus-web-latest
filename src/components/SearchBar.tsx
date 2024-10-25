@@ -1,7 +1,7 @@
 'use client';
 
-import ArrowLeft from '@/icons/arrow-left.svg';
-import DeleteIcon from '@/icons/delete.svg';
+import ArrowLeft from 'public/icons/arrow-left.svg';
+import DeleteIcon from 'public/icons/delete.svg';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 interface Props {

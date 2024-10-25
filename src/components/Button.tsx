@@ -1,5 +1,5 @@
 import type { HTMLProps } from 'react';
-import Spinner from '@/icons/spinner.svg';
+import Spinner from 'public/icons/spinner.svg';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   loading?: boolean;
