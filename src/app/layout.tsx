@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
+import DeadZone from '@/components/DeadZone';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,8 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="ko">
+      <body className="overflow-hidden">
+        <DeadZone>{children}</DeadZone>
+      </body>
     </html>
   );
 }
