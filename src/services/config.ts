@@ -1,22 +1,15 @@
-import { getAccessToken } from '@/utils/handleToken';
 import axios, { AxiosError } from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: BASE_URL,
   timeout: 20000,
 });
 
 export const authInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 20000,
-});
-
-authInstance.interceptors.request.use((config) => {
-  const accessToken = getAccessToken();
-  config.headers.Authorization = `Bearer ${accessToken}`;
-  return config;
 });
 
 authInstance.interceptors.response.use(
@@ -42,3 +35,7 @@ authInstance.interceptors.response.use(
     // }
   },
 );
+
+export const setAuthHeader = (token: string) => {
+  authInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+};
