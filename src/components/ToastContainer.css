@@ -139,6 +139,7 @@
   justify-content: space-between;
   max-height: var(--toastify-toast-max-height);
   font-family: var(--toastify-font-family);
+  font-size: 16px;
   cursor: default;
   direction: ltr;
   /* webkit only issue #791 */
