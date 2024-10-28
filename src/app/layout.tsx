@@ -17,10 +17,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="overflow-hidden">
-        <DeadZone>
-          {children}
-          <ToastContainer />
-        </DeadZone>
+        <DeadZone>{children}</DeadZone>
+        <ToastContainer />
       </body>
     </html>
   );

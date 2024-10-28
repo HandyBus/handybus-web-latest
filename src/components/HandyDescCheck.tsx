@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import HandyDescCheckIcon from '@/icons/handy-desc-check.svg';
+import HandyDescCheckIcon from 'public/icons/toasty-check.svg';
 
 interface Props extends PropsWithChildren {
   disabled?: boolean;
@@ -8,7 +8,7 @@ interface Props extends PropsWithChildren {
 
 const HandyDescCheck = ({ disabled, children }: Props) => {
   return (
-    <div className="flex flex-row items-center gap-[10px] rounded-lg bg-grey-50 px-16">
+    <div className="flex w-[343px] flex-row items-center gap-[10px] rounded-lg bg-grey-50 px-16">
       <span
         className={`text-20 ${disabled ? 'text-grey-600-sub' : 'text-primary-main'}`}
       >

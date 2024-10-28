@@ -2,7 +2,7 @@ import { ToastContainer as ToastifyToastContainer } from 'react-toastify';
 import './ToastContainer.css';
 // import 'react-toastify/dist/ReactToastify.css';
 
-import CheckSingle from 'public/icons/check-single.svg';
+import Check from 'public/icons/toasty-check.svg';
 
 const ToastContainer = () => {
   return (
@@ -17,7 +17,7 @@ const ToastContainer = () => {
       draggable={true}
       theme="colored"
       transition={undefined}
-      icon={<CheckSingle />}
+      icon={<Check />}
     />
   );
 };
