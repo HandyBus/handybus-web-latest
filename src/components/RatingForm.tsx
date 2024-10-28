@@ -60,7 +60,7 @@ const RatingForm = ({ size = 'medium', value = 0, onChange }: Props) => {
   return (
     <div
       className={`inline-flex cursor-pointer touch-pan-y [&>:first-child]:pl-0  [&>:last-child]:pr-0 
-        ${size === 'medium' ? ' text- text-28 *:pl-[1px] *:pr-[1px]' : ' text-16 *:pl-[2px] *:pr-[2px]'}
+        ${size === 'large' ? 'text-28 *:pl-[2px] *:pr-[2px]' : ' text-16 *:pl-[1px] *:pr-[1px]'}
         `}
       ref={containerRef}
       onClick={handleClick}
