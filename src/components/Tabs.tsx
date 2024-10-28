@@ -1,30 +1,56 @@
 'use client';
 
-interface TabItem {
+import { MouseEventHandler } from 'react';
+
+interface TabItem<T> {
   label: string;
-  value: string;
+  value: T;
 }
 
-interface Props {
-  items: TabItem[];
-  selected: string;
-  onSelect?: (value: string) => void;
+interface Props<T> {
+  items: TabItem<T>[];
+  selected: T;
+  onSelect?: (value: T) => void;
 }
 
-const Tabs = ({ items, selected, onSelect }: Props) => {
+const Tab = ({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string;
+  selected: boolean;
+  onClick?: MouseEventHandler;
+}) => {
   return (
-    <div className="flex flex-row border-b border-b-grey-100">
-      {items.flatMap((v) => (
-        <button
-          className={
-            v.value === selected
-              ? 'border-b-2 border-b-black p-8'
-              : 'p-8 text-grey-500'
-          }
-          onClick={() => onSelect?.(v.value)}
-        >
-          {v.label}
-        </button>
+    <button
+      className={`whitespace-nowrap p-8 text-14
+        ${selected ? 'border-b-2 border-b-black' : 'border-b-2 border-b-grey-100 text-grey-500'}`}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+};
+
+const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
+  const len = items.length;
+
+  return (
+    <div className="flex w-full flex-row overflow-x-scroll">
+      {items.flatMap((v, i) => (
+        <>
+          <Tab
+            key={`${v.label}Tab${i}`}
+            label={v.label}
+            selected={v.value === selected}
+            onClick={() => onSelect?.(v.value)}
+          />
+          <div
+            key={`${v.label}div${i}`}
+            className={`border-b-2 border-b-grey-100 ${len - 1 === i ? 'w-full' : 'w-[7px]'}`}
+          />
+        </>
       ))}
     </div>
   );
