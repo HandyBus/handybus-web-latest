@@ -3,7 +3,7 @@ import Spinner from 'public/icons/spinner.svg';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   loading?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'alert' | 'modalSecondary';
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -18,7 +18,13 @@ const Button = ({ children, variant = 'primary', loading, ...rest }: Props) => {
         ${
           variant === 'primary'
             ? 'bg-primary-main text-white active:bg-primary-700 '
-            : 'bg-grey-50 text-grey-700 active:bg-grey-100'
+            : variant === 'secondary'
+              ? 'bg-grey-50 text-grey-700 active:bg-grey-100'
+              : variant === 'alert'
+                ? 'bg-red-500 text-14 leading-[22.4px] text-white'
+                : variant === 'modalSecondary'
+                  ? 'bg-grey-50 text-14 font-500 leading-[22.4px] text-grey-700 active:bg-grey-100'
+                  : ''
         }
       `}
       {...rest}
