@@ -5,9 +5,15 @@ import Kakao from 'public/icons/kakao.svg';
 import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
+import { instance } from '@/services/config';
 
 const Login = () => {
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
+  const test = async () => {
+    const a = await instance.get('/concerts/all/dates/all/shuttles');
+    console.log(a);
+  };
+
+  test();
 
   return (
     <main className="flex h-full w-full flex-col items-center bg-primary-main">
