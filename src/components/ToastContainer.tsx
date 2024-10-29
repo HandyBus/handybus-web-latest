@@ -1,6 +1,5 @@
 import { ToastContainer as ToastifyToastContainer } from 'react-toastify';
-import './ToastContainer.css';
-// import 'react-toastify/dist/ReactToastify.css';
+import '@/styles/ToastContainer.css';
 
 import Check from 'public/icons/toasty-check.svg';
 
