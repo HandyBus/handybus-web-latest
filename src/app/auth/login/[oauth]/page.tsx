@@ -2,19 +2,21 @@
 
 import { postLogin } from '@/services/auth';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type LoginMethodType = 'kakao' | 'naver';
 
 const OAuth = () => {
   const router = useRouter();
+  const isInitiated = useRef(false);
 
   const handleOAuth = async (url: URL) => {
     const loginMethod = url.pathname.split('/').pop() as LoginMethodType;
     const code = url.searchParams.get('code')!;
+    const state = url.searchParams.get('state')!;
 
     try {
-      const tokens = await postLogin(loginMethod, { code });
+      const tokens = await postLogin(loginMethod, { code, state });
       console.log('TOKENS: ', tokens);
     } catch (e) {
       console.error(e);
@@ -23,6 +25,10 @@ const OAuth = () => {
   };
 
   useEffect(() => {
+    if (isInitiated.current) {
+      return;
+    }
+    isInitiated.current = true;
     const url = new URL(window.location.href);
     handleOAuth(url);
   }, []);
