@@ -1,6 +1,7 @@
 'use client';
 
 import { postLogin } from '@/services/auth';
+import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -17,7 +18,9 @@ const OAuth = () => {
 
     try {
       const tokens = await postLogin(loginMethod, { code, state });
-      console.log('TOKENS: ', tokens);
+      setRefreshToken(tokens.refreshToken);
+      setAccessToken(tokens.accessToken);
+      router.push('/');
     } catch (e) {
       console.error(e);
       router.push('/login');
@@ -33,7 +36,7 @@ const OAuth = () => {
     handleOAuth(url);
   }, []);
 
-  return <div>oauth</div>;
+  return <div />;
 };
 
 export default OAuth;

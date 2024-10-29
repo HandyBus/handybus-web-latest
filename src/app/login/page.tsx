@@ -5,16 +5,8 @@ import Kakao from 'public/icons/kakao.svg';
 import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
-import { instance } from '@/services/config';
 
 const Login = () => {
-  const test = async () => {
-    const a = await instance.get('/concerts/all/dates/all/shuttles');
-    console.log(a);
-  };
-
-  test();
-
   return (
     <main className="flex h-full w-full flex-col items-center bg-primary-main">
       <div className="my-auto flex flex-col items-center">
