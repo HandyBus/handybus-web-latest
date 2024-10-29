@@ -2,36 +2,11 @@
 
 import { MouseEventHandler } from 'react';
 
-interface TabItem<T> {
-  label: string;
-  value: T;
-}
-
 interface Props<T> {
   items: TabItem<T>[];
   selected: T;
   onSelect?: (value: T) => void;
 }
-
-const Tab = ({
-  label,
-  selected,
-  onClick,
-}: {
-  label: string;
-  selected: boolean;
-  onClick?: MouseEventHandler;
-}) => {
-  return (
-    <button
-      className={`whitespace-nowrap p-8 text-14
-        ${selected ? 'border-b-2 border-b-black' : 'border-b-2 border-b-grey-100 text-grey-500'}`}
-      onClick={onClick}
-    >
-      {label}
-    </button>
-  );
-};
 
 const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
   const len = items.length;
@@ -57,3 +32,28 @@ const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
 };
 
 export default Tabs;
+
+interface TabItem<T> {
+  label: string;
+  value: T;
+}
+
+const Tab = ({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string;
+  selected: boolean;
+  onClick?: MouseEventHandler;
+}) => {
+  return (
+    <button
+      className={`whitespace-nowrap p-8 text-14
+        ${selected ? 'border-b-2 border-b-black' : 'border-b-2 border-b-grey-100 text-grey-500'}`}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+};
