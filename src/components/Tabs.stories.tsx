@@ -33,10 +33,6 @@ export const Interactice: Story = {
       { value: 30, label: '지난 콘서트' },
     ];
     const [selected, setSelected] = useState<number>(30);
-    return Tabs<number>({
-      items: items,
-      selected: selected,
-      onSelect: setSelected,
-    });
+    return <Tabs items={items} selected={selected} onSelect={setSelected} />;
   },
 };
