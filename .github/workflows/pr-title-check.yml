@@ -53,8 +53,8 @@ jobs:
             remove
             revert
           requireScope: false
-          subjectPattern: ^[a-z].+$
+          subjectPattern: ^[a-z가-힣].+$
           subjectPatternError: |
-            The subject must start with a lowercase letter and not end with a period.
+            The subject must start with a lowercase letter or a Korean character and not end with a period.
           wip: false
           validateSingleCommit: false
