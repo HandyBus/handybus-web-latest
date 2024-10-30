@@ -49,7 +49,7 @@ const Tab = ({
 }) => {
   return (
     <button
-      className={`whitespace-nowrap p-8 text-14
+      className={`whitespace-nowrap p-8 text-14 font-600
         ${selected ? 'border-b-2 border-b-black' : 'border-b-2 border-b-grey-100 text-grey-500'}`}
       onClick={onClick}
     >
