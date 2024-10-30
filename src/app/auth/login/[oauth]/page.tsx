@@ -5,19 +5,21 @@ import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-type LoginMethodType = 'kakao' | 'naver';
+interface Props {
+  params: { oauth: 'kakao' | 'naver' };
+  searchParams: { code: string; state?: string };
+}
 
-const OAuth = () => {
+const OAuth = ({ params, searchParams }: Props) => {
   const router = useRouter();
   const isInitiated = useRef(false);
 
-  const handleOAuth = async (url: URL) => {
-    const loginMethod = url.pathname.split('/').pop() as LoginMethodType;
-    const code = url.searchParams.get('code')!;
-    const state = url.searchParams.get('state')!;
-
+  const handleOAuth = async () => {
     try {
-      const tokens = await postLogin(loginMethod, { code, state });
+      const tokens = await postLogin(params.oauth, {
+        code: searchParams.code,
+        state: searchParams?.state,
+      });
       setRefreshToken(tokens.refreshToken);
       setAccessToken(tokens.accessToken);
       router.push('/');
@@ -32,8 +34,7 @@ const OAuth = () => {
       return;
     }
     isInitiated.current = true;
-    const url = new URL(window.location.href);
-    handleOAuth(url);
+    handleOAuth();
   }, []);
 
   return <div />;
