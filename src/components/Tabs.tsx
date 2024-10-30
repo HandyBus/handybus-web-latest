@@ -1,6 +1,7 @@
 'use client';
 
-import { MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
+import { Fragment } from 'react';
 
 interface Props<T> {
   items: TabItem<T>[];
@@ -14,18 +15,16 @@ const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
   return (
     <div className="flex w-full flex-row overflow-x-scroll">
       {items.flatMap((v, i) => (
-        <>
+        <Fragment key={v.label}>
           <Tab
-            key={`${v.label}Tab${i}`}
             label={v.label}
             selected={v.value === selected}
             onClick={() => onSelect?.(v.value)}
           />
           <div
-            key={`${v.label}div${i}`}
             className={`border-b-2 border-b-grey-100 ${len - 1 === i ? 'w-full' : 'w-[7px]'}`}
           />
-        </>
+        </Fragment>
       ))}
     </div>
   );
