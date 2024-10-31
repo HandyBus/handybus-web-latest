@@ -1,6 +1,10 @@
 'use client';
 
 import useFunnel from '@/hooks/useFunnel';
+import ProfileInfoStep from './steps/ProfileInfoStep';
+import PersonalInfoStep from './steps/PersonalInfoStep';
+import ResidenceStep from './steps/ResidenceStep';
+import ArtistStep from './steps/ArtistStep';
 
 const ONBOARDING_STEPS = [
   '프로필 정보',
@@ -14,51 +18,25 @@ const OnboardingFunnel = () => {
     useFunnel(ONBOARDING_STEPS);
 
   return (
-    <form noValidate className="h-full w-full bg-white">
+    <form noValidate className="w-full grow">
       <Funnel>
         <Step name="프로필 정보">
-          <div>
-            1 프로필 정보
-            <button type="button" onClick={handlePrevStep}>
-              이전으로
-            </button>
-            <button type="button" onClick={handleNextStep}>
-              다음으로
-            </button>
-          </div>
+          <ProfileInfoStep handleNextStep={handleNextStep} />
         </Step>
         <Step name="개인 정보">
-          <div>
-            2 개인 정보
-            <button type="button" onClick={handlePrevStep}>
-              이전으로
-            </button>
-            <button type="button" onClick={handleNextStep}>
-              다음으로
-            </button>
-          </div>
+          <PersonalInfoStep
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
         </Step>
         <Step name="거주지">
-          <div>
-            3 거주지
-            <button type="button" onClick={handlePrevStep}>
-              이전으로
-            </button>
-            <button type="button" onClick={handleNextStep}>
-              다음으로
-            </button>
-          </div>
+          <ResidenceStep
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
         </Step>
         <Step name="최애 가수">
-          <div>
-            4 최애 가수
-            <button type="button" onClick={handlePrevStep}>
-              이전으로
-            </button>
-            <button type="button" onClick={handleNextStep}>
-              다음으로
-            </button>
-          </div>
+          <ArtistStep handlePrevStep={handlePrevStep} />
         </Step>
       </Funnel>
     </form>

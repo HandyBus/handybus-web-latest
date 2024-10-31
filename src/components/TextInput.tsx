@@ -31,7 +31,10 @@ const TextInput = <T extends FieldValues>({
 
   return (
     <div className="relative flex w-full flex-col gap-8">
-      <label htmlFor={field.name} className="block h-[26px] text-16 font-500">
+      <label
+        htmlFor={field.name}
+        className="block h-[26px] text-16 font-500 text-grey-600-sub"
+      >
         {children}
       </label>
       <input
