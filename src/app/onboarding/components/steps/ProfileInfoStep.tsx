@@ -42,16 +42,15 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
           닉네임
         </TextInput>
       </div>
-      <div className="absolute bottom-12 flex w-full flex-col items-center bg-white">
+      <div className="absolute bottom-[26px] flex w-full flex-col items-center bg-white">
         <div className="py-16">
           <Indicator max={4} value={1} />
         </div>
         <div className="w-full px-32 py-8">
-          <Button onClick={handleNextStep}>다음으로</Button>
+          <Button type="button" onClick={handleNextStep}>
+            다음으로
+          </Button>
         </div>
-        <button className="text-center text-12 text-grey-400 underline underline-offset-2">
-          이전으로
-        </button>
       </div>
     </div>
   );
