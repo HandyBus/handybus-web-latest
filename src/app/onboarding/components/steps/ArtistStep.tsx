@@ -3,11 +3,13 @@
 import Button from '@/components/buttons/button/Button';
 import Indicator from '@/components/indicator/Indicator';
 import XIcon from 'public/icons/x.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MicrophoneIcon from 'public/icons/microphone.svg';
 import SearchBar from '@/components/buttons/search-bar/SearchBar';
 import SearchInput from '@/components/inputs/search-input/SearchInput';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
+import { useFormContext } from 'react-hook-form';
+import { OnboardingFormValues } from '../../page';
 
 const MOCK_ALL_ARTISTS = [
   '아이유',
@@ -36,6 +38,19 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
+
+  const { getValues, setValue } = useFormContext<OnboardingFormValues>();
+
+  useEffect(() => {
+    const savedArtists = getValues('artists');
+    setSelectedArtists(savedArtists);
+  }, []);
+
+  useEffect(() => {
+    if (selectedArtists.length !== 0) {
+      setValue('artists', selectedArtists);
+    }
+  }, [selectedArtists]);
 
   return (
     <>

@@ -2,9 +2,9 @@
 
 import { ReactNode } from 'react';
 import {
+  FieldPath,
   FieldValues,
   UseControllerProps,
-  UseFormSetValue,
   useController,
 } from 'react-hook-form';
 import DeleteIcon from 'public/icons/delete.svg';
@@ -12,7 +12,7 @@ import DeleteIcon from 'public/icons/delete.svg';
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children: ReactNode;
   placeholder?: string;
-  setValue: UseFormSetValue<FieldValues>;
+  setValue: (name: FieldPath<T>, value: string) => void;
 }
 
 const TextInput = <T extends FieldValues>({
@@ -26,7 +26,7 @@ const TextInput = <T extends FieldValues>({
   });
 
   const handleResetValue = () => {
-    setValue<string>(field.name, '');
+    setValue(field.name, '');
   };
 
   return (

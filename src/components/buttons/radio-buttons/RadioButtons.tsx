@@ -1,25 +1,30 @@
 'use client';
 
-import { ButtonHTMLAttributes, useState } from 'react';
+import { ButtonHTMLAttributes, Dispatch, SetStateAction } from 'react';
 
-interface Props {
-  names: readonly string[];
+interface Props<T> {
+  values: readonly T[];
   disabled?: boolean;
+  selectedValue: T | undefined;
+  setSelectedValue: Dispatch<SetStateAction<T | undefined>>;
 }
 
-const RadioButtons = ({ names, disabled = false }: Props) => {
-  const [selectedButton, setSelectedButton] = useState('');
-
+const RadioButtons = <T extends string>({
+  values,
+  selectedValue,
+  setSelectedValue,
+  disabled = false,
+}: Props<T>) => {
   return (
     <section className="flex w-full flex-wrap gap-8">
-      {names.map((name) => (
+      {values.map((value) => (
         <RadioButton
-          key={name}
-          onClick={() => setSelectedButton(name)}
-          selected={name === selectedButton}
+          key={value}
+          onClick={() => setSelectedValue(value)}
+          selected={value === selectedValue}
           disabled={disabled}
         >
-          {name}
+          {value}
         </RadioButton>
       ))}
     </section>

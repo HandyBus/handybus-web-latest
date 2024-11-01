@@ -9,6 +9,8 @@ import {
   SMALL_REGIONS,
 } from '@/constants/regions';
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { OnboardingFormValues } from '../../page';
 
 interface Props {
   handleNextStep: () => void;
@@ -19,9 +21,23 @@ const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
   const [bigRegion, setBigRegion] = useState<BigRegionsType>();
   const [smallRegion, setSmallRegion] = useState<string | undefined>(undefined);
 
+  const { getValues, setValue } = useFormContext<OnboardingFormValues>();
+
   useEffect(() => {
-    setSmallRegion(undefined);
-  }, [bigRegion]);
+    const savedBigRegion = getValues('bigRegion');
+    const savedSmallRegion = getValues('smallRegion');
+    setBigRegion(savedBigRegion);
+    setSmallRegion(savedSmallRegion);
+  }, []);
+
+  useEffect(() => {
+    if (bigRegion) {
+      setValue('bigRegion', bigRegion);
+    }
+    if (smallRegion) {
+      setValue('smallRegion', smallRegion);
+    }
+  }, [bigRegion, smallRegion]);
 
   return (
     <div className="relative h-full w-full grow">
@@ -41,7 +57,10 @@ const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
           options={BIG_REGIONS}
           placeholder="도/광역시"
           value={bigRegion}
-          onChange={setBigRegion}
+          onChange={(e) => {
+            setBigRegion(e);
+            setSmallRegion(undefined);
+          }}
         />
         <SelectInput
           options={SMALL_REGIONS[bigRegion!] ?? []}

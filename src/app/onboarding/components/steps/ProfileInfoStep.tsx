@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import { useFormContext } from 'react-hook-form';
 import CameraIcon from 'public/icons/camera.svg';
-
 import Indicator from '@/components/indicator/Indicator';
 import Button from '@/components/buttons/button/Button';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import TextInput from '@/components/inputs/text-input/TextInput';
+import { OnboardingFormValues } from '../../page';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 
@@ -16,23 +16,28 @@ interface Props {
 }
 
 const ProfileInfoStep = ({ handleNextStep }: Props) => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, getValues } =
+    useFormContext<OnboardingFormValues>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      return;
-    }
+  const showImagePreview = (file: File) => {
     setImageFile(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImageSrc(reader.result as string);
     };
+  };
+
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    showImagePreview(file);
   };
 
   const clearSelectedFile = () => {
@@ -43,6 +48,21 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
     setImageSrc(null);
     fileInputRef.current.value = '';
   };
+
+  useEffect(() => {
+    const savedFile = getValues('profileImage');
+    if (!savedFile) {
+      return;
+    }
+    showImagePreview(savedFile);
+  }, []);
+
+  useEffect(() => {
+    if (!fileInputRef.current) {
+      return;
+    }
+    setValue('profileImage', imageFile);
+  }, [imageFile]);
 
   return (
     <div className="relative h-full w-full grow">

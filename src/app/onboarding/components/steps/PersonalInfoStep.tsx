@@ -1,8 +1,24 @@
+'use client';
+
 import Button from '@/components/buttons/button/Button';
 import RadioButtons from '@/components/buttons/radio-buttons/RadioButtons';
 import Indicator from '@/components/indicator/Indicator';
+import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { OnboardingFormValues } from '../../page';
 
 const DEFAULT_NICKNAME = '민지사랑해';
+export const GENDER_OPTIONS = ['여성', '남성'] as const;
+export const AGE_OPTIONS = [
+  '10대 이하',
+  '20대',
+  '30대',
+  '40대',
+  '50대',
+  '60대',
+  '70대',
+  '80대 이상',
+] as const;
 
 interface Props {
   handleNextStep: () => void;
@@ -10,6 +26,29 @@ interface Props {
 }
 
 const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
+  const [selectedGender, setSelectedGender] =
+    useState<(typeof GENDER_OPTIONS)[number]>();
+  const [selectedAge, setSelectedAge] =
+    useState<(typeof AGE_OPTIONS)[number]>();
+
+  const { setValue, getValues } = useFormContext<OnboardingFormValues>();
+
+  useEffect(() => {
+    const savedSelectedGender = getValues('gender');
+    const savedSelectedAge = getValues('age');
+    setSelectedGender(savedSelectedGender);
+    setSelectedAge(savedSelectedAge);
+  }, []);
+
+  useEffect(() => {
+    if (selectedGender) {
+      setValue('gender', selectedGender);
+    }
+    if (selectedAge) {
+      setValue('age', selectedAge);
+    }
+  }, [selectedGender, selectedAge]);
+
   return (
     <div className="relative h-full w-full grow">
       <h2 className="p-28 text-26 font-700 text-grey-900">
@@ -20,23 +59,20 @@ const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           성별을 선택해주세요
         </div>
-        <RadioButtons names={['여성', '남성']} />
+        <RadioButtons
+          values={GENDER_OPTIONS}
+          selectedValue={selectedGender}
+          setSelectedValue={setSelectedGender}
+        />
       </div>
       <div className="w-full p-28">
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           연령대를 선택해주세요
         </div>
         <RadioButtons
-          names={[
-            '10대 이하',
-            '20대',
-            '30대',
-            '40대',
-            '50대',
-            '60대',
-            '70대',
-            '80대 이상',
-          ]}
+          values={AGE_OPTIONS}
+          selectedValue={selectedAge}
+          setSelectedValue={setSelectedAge}
         />
       </div>
       <div className="absolute bottom-12 flex w-full flex-col items-center bg-white">
