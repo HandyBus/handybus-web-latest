@@ -29,7 +29,7 @@ const SectionTitle = ({ title, showMore }: TitleProps) => {
   return (
     <div className="flex w-full flex-row justify-between px-16 pb-4 pt-60">
       <h2 className="text-22 font-700">{title}</h2>
-      {showMore !== undefined && (
+      {showMore && (
         <Link href={showMore}>
           <span className="inline-flex cursor-pointer items-center gap-[2px] text-12 font-400 text-grey-600-sub">
             전체보기
