@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
 import DeadZone from '@/components/dead-zone/DeadZone';
+import ToastContainer from '@/components/toast-container/ToastContainer';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="overflow-hidden">
         <DeadZone>{children}</DeadZone>
+        <ToastContainer />
       </body>
     </html>
   );
