@@ -63,7 +63,7 @@ const ConfirmModalContent = ({
     <>
       {' '}
       <div>
-        <h2 id="modal-title" className="leading-30.8 text-22 font-700">
+        <h2 id="modal-title" className="text-22 font-700 leading-[30.8]">
           {title}
         </h2>
         <p
