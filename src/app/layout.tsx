@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
-import DeadZone from '@/components/DeadZone';
+import DeadZone from '@/components/dead-zone/DeadZone';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

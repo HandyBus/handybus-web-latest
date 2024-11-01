@@ -2,19 +2,17 @@
 
 import type { Dispatch, SetStateAction } from 'react';
 
+const CHEVRON_ENABLED = `url('/icons/chevron-enabled.svg') calc(100% - 12px) center no-repeat`;
+const CHEVRON_DISABLED = `url('/icons/chevron-disabled.svg') calc(100% - 12px) center no-repeat`;
 interface Props {
-  options: { value: string; label: string }[];
+  options: string[];
   onChange?: Dispatch<string> | Dispatch<SetStateAction<string>>;
   value?: string;
   placeholder?: string;
   disabled?: boolean;
 }
 
-const CHEVRON_ENABLED = `url('/icons/chevron-enabled.svg') calc(100% - 5px) center no-repeat`;
-const CHEVRON_DISABLED = `url('/icons/chevron-disabled.svg') calc(100% - 5px) center no-repeat`;
-
 const Select = ({ options, onChange, placeholder, value, disabled }: Props) => {
-  const placeholderOpt = { value: 0, label: placeholder };
   return (
     <select
       style={{
@@ -24,22 +22,19 @@ const Select = ({ options, onChange, placeholder, value, disabled }: Props) => {
       className={`w-full cursor-pointer appearance-none rounded-none border-b border-b-grey-100 bg-white p-12
         pr-32 disabled:cursor-not-allowed disabled:text-grey-300 disabled:opacity-100
         ${value === undefined ? 'text-grey-300' : 'text-grey-800'}`}
-      value={value || placeholderOpt.value}
+      value={value || placeholder}
       onChange={onChange && ((e) => onChange(e.target.value))}
     >
       {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
+        <option key={option} value={option}>
+          {option}
         </option>
       ))}
-      <option
-        key={placeholderOpt.value}
-        value={placeholderOpt.value}
-        disabled
-        hidden
-      >
-        {placeholderOpt.label}
-      </option>
+      {placeholder !== undefined && (
+        <option key={placeholder} value={placeholder} disabled hidden>
+          {placeholder}
+        </option>
+      )}
     </select>
   );
 };
