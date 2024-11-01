@@ -2,7 +2,7 @@
 
 import Button from '@/components/buttons/button/Button';
 import Indicator from '@/components/indicator/Indicator';
-import Select from '@/components/select/Select';
+import SelectInput from '@/components/inputs/select-input/SelectInput';
 import {
   BIG_REGIONS,
   BigRegionsType,
@@ -37,13 +37,13 @@ const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
         <div className="text-16 font-500 text-grey-600-sub">
           거주 지역을 선택해주세요
         </div>
-        <Select
+        <SelectInput
           options={BIG_REGIONS}
           placeholder="도/광역시"
           value={bigRegion}
           onChange={setBigRegion}
         />
-        <Select
+        <SelectInput
           options={SMALL_REGIONS[bigRegion!] ?? []}
           placeholder="시/군/구"
           disabled={!bigRegion}

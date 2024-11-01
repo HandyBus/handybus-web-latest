@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import { useFormContext } from 'react-hook-form';
 import CameraIcon from 'public/icons/camera.svg';
-import TextInput from '@/components/text/text-input/TextInput';
+
 import Indicator from '@/components/indicator/Indicator';
 import Button from '@/components/buttons/button/Button';
 import { ChangeEvent, useRef, useState } from 'react';
+import TextInput from '@/components/inputs/text-input/TextInput';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 

@@ -1,13 +1,13 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import CheckBox from '@/components/checkbox/CheckBox';
 import Indicator from '@/components/indicator/Indicator';
-import SearchBarShapeButton from '@/components/search/search-bar-shape-button/SearchBarShapeButton';
-import SearchBar from '@/components/search/search-bar/SearchBar';
 import XIcon from 'public/icons/x.svg';
 import { useState } from 'react';
 import MicrophoneIcon from 'public/icons/microphone.svg';
+import SearchBar from '@/components/buttons/search-bar/SearchBar';
+import SearchInput from '@/components/inputs/search-input/SearchInput';
+import CheckBox from '@/components/buttons/checkbox/CheckBox';
 
 const MOCK_ALL_ARTISTS = [
   '아이유',
@@ -44,12 +44,9 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
           최애 가수를 찾아주세요
         </h2>
         <div className="px-28 pb-28">
-          <SearchBarShapeButton
-            type="button"
-            onClick={() => setIsListOpen(true)}
-          >
+          <SearchBar type="button" onClick={() => setIsListOpen(true)}>
             가수 이름으로 검색
-          </SearchBarShapeButton>
+          </SearchBar>
         </div>
         <div className="px-28 py-12 text-16 font-600 text-grey-600-sub">
           나의 최애 가수
@@ -103,7 +100,7 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
       </div>
       {isListOpen && (
         <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col bg-white">
-          <SearchBar
+          <SearchInput
             value={searchValue}
             setValue={setSearchValue}
             handleBack={() => setIsListOpen(false)}
