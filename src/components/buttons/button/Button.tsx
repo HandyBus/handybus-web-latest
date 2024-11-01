@@ -14,7 +14,7 @@ const Button = ({ children, variant = 'primary', loading, ...rest }: Props) => {
     <button
       disabled={disabled}
       className={`
-        flex flex-row items-center whitespace-nowrap rounded-full p-12 disabled:cursor-not-allowed disabled:bg-grey-50 disabled:text-grey-300
+        flex h-44 w-full flex-row items-center justify-center whitespace-nowrap rounded-full p-12 text-center disabled:cursor-not-allowed disabled:bg-grey-50 disabled:text-grey-300
         ${
           variant === 'primary'
             ? 'bg-primary-main text-white active:bg-primary-700 '
