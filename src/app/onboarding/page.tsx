@@ -7,7 +7,7 @@ const Onboarding = () => {
   const methods = useForm();
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="relative flex h-full w-full flex-col">
       <header className="flex h-[46px] w-full items-center px-28 py-12 text-14 font-600 text-grey-300">
         회원가입
       </header>

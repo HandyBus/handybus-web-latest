@@ -25,7 +25,7 @@ const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
 
   return (
     <div className="relative h-full w-full grow">
-      <div className="p-28 text-26 font-700 text-grey-900">
+      <div className="p-28">
         <h2 className="pb-[6px] text-26 font-700 text-grey-900">
           어디에 거주하고 계세요?
         </h2>
