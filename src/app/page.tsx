@@ -1,4 +1,4 @@
-import Button from '@/components/Button';
+import Button from '@/components/buttons/button/Button';
 
 const Home = () => {
   return (
