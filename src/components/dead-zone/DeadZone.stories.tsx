@@ -20,13 +20,11 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     children: 'Secondary Button',
-    variant: 'secondary',
   },
 };
 
 export const Loading: Story = {
   args: {
-    loading: true,
     children: 'Loading',
   },
 };

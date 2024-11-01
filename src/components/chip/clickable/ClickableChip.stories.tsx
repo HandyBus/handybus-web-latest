@@ -26,7 +26,6 @@ export const Secondary: Story = {
 
 export const Loading: Story = {
   args: {
-    loading: true,
     children: 'Loading',
   },
 };
