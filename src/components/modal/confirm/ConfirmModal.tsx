@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '../../Button';
+import Button from '@/components/buttons/button/Button';
 import CustomModal from '../CustomModal';
 
 interface ButtonLabels {
@@ -63,7 +63,7 @@ const ConfirmModalContent = ({
     <>
       {' '}
       <div>
-        <h2 id="modal-title" className="text-22 font-700 leading-[30.8]">
+        <h2 id="modal-title" className="text-22 font-700 leading-[30.8px]">
           {title}
         </h2>
         <p

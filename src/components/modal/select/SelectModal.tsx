@@ -1,11 +1,11 @@
-import Button from '../../Button';
 import CustomModal from '../CustomModal';
 import ChevronRight from 'public/icons/quill-chevron-right.svg';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-dayjs.locale('ko');
+import Button from '@/components/buttons/button/Button';
 
 interface RouteInfo {
+  id: number;
   placeInfo: string;
   onSelect: () => void;
 }
@@ -25,8 +25,8 @@ const SelectModal = ({
   scheduledData = '2024-08-24 10:00:00',
   hubPlaceInfo = '서울특별시 동대문구',
   shuttleBusRoutes = [
-    { placeInfo: '노원 - DDP 노선', onSelect: () => {} },
-    { placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
+    { id: 1, placeInfo: '노원 - DDP 노선', onSelect: () => {} },
+    { id: 2, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
   ],
 }: Props) => {
   return (
@@ -60,6 +60,7 @@ const SelectModalContent = ({
   shuttleBusRoutes,
   onClosed,
 }: SelectModalContentProps) => {
+  dayjs.locale('ko');
   const convetScheduledData = dayjs(scheduledData).format(
     'YYYY년 MM월 DD일 (ddd)',
   );
@@ -81,11 +82,11 @@ const SelectModalContent = ({
         에서 탈 만한 노선을 알려드릴게요.
       </p>
       <div id="suttle-bus-route-information" className="flex flex-col gap-8">
-        {shuttleBusRoutes
-          ? shuttleBusRoutes.map((route, index) => (
+        {shuttleBusRoutes.length > 0
+          ? shuttleBusRoutes.map((route) => (
               <SelectModalButton
-                id={`${route.placeInfo}-${index}`}
-                key={`${route.placeInfo}-${index}`}
+                id={route.id.toString()}
+                key={route.id.toString()}
                 onClick={route.onSelect}
               >
                 {route.placeInfo}

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import SelectModal from './SelectModal';
 
 const meta: Meta<typeof SelectModal> = {
-  title: 'Components/SelectModal',
+  title: 'Components/Modal/SelectModal',
   component: SelectModal,
   tags: ['autodocs'],
 };
