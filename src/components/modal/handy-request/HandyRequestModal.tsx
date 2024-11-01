@@ -31,7 +31,7 @@ const ModalContent = ({ onConfirm, onClosed }: ModalContentProps) => {
   return (
     <>
       <Image
-        src={'/rectangle.png'} // TODO: public 경로의 이미지 불러오기 안됨
+        src={'/rectangle.png'}
         width={40}
         height={40}
         alt="Handy Request icon"
