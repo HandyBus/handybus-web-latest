@@ -12,10 +12,10 @@ interface Props {
 const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
   return (
     <div className="relative h-full w-full grow">
-      <div className="p-28 text-26 font-700 text-grey-900">
+      <h2 className="p-28 text-26 font-700 text-grey-900">
         <span className="text-primary-main">{DEFAULT_NICKNAME}</span>님의 <br />
         성별과 연령대를 알려주세요
-      </div>
+      </h2>
       <div className="w-full p-28">
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           성별을 선택해주세요
