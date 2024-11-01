@@ -1,9 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 import { useFormContext } from 'react-hook-form';
 import CameraIcon from 'public/icons/camera.svg';
 import TextInput from '@/components/text/text-input/TextInput';
 import Indicator from '@/components/indicator/Indicator';
 import Button from '@/components/buttons/button/Button';
+import { ChangeEvent, useRef, useState } from 'react';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 
@@ -13,6 +16,32 @@ interface Props {
 
 const ProfileInfoStep = ({ handleNextStep }: Props) => {
   const { control, setValue } = useFormContext();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageSrc(reader.result as string);
+    };
+  };
+
+  const clearSelectedFile = () => {
+    if (!fileInputRef.current) {
+      return;
+    }
+    setImageFile(null);
+    setImageSrc(null);
+    fileInputRef.current.value = '';
+  };
 
   return (
     <div className="relative h-full w-full grow">
@@ -24,13 +53,39 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
           핸디버스가 어떻게 불러드릴까요?
         </p>
       </div>
-      <div className="flex w-full justify-center py-28">
-        <div className="relative flex h-200 w-200 items-center justify-center rounded-full">
-          <Image src={DEFAULT_PROFILE_SRC} fill alt="프로필 이미지" />
-          <button className="absolute bottom-12 right-12 flex h-[34px] w-[34px] items-center justify-center rounded-full bg-grey-300">
-            <CameraIcon />
-          </button>
+      <div className="relative flex h-[286px] w-full flex-col items-center justify-center gap-12 py-28">
+        <div className="relative flex h-200 w-200 items-center justify-center overflow-hidden rounded-full">
+          <Image
+            src={imageSrc || DEFAULT_PROFILE_SRC}
+            alt="프로필 이미지"
+            fill
+            className="object-cover"
+          />
         </div>
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="absolute bottom-[calc(50%-85px)] right-[calc(50%-85px)] flex h-[34px] w-[34px] items-center justify-center rounded-full bg-black/30"
+        >
+          <CameraIcon />
+          <input
+            ref={fileInputRef}
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleFileSelect}
+            className="hidden"
+          />
+        </button>
+        {imageFile && (
+          <button
+            type="button"
+            onClick={clearSelectedFile}
+            className="h-[18px] text-14 font-500 text-grey-600-sub underline underline-offset-2"
+          >
+            프로필 사진 지우기
+          </button>
+        )}
       </div>
       <div className="p-28">
         <TextInput
