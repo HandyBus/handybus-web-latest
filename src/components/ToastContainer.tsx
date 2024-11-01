@@ -1,5 +1,5 @@
 import { ToastContainer as ToastifyToastContainer } from 'react-toastify';
-import '@/styles/ToastContainer.css';
+import './ToastContainer.css';
 
 import Check from 'public/icons/toasty-check.svg';
 
