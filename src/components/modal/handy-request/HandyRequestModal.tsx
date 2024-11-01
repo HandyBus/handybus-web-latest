@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Button from '../../Button';
 import CustomModal from '../CustomModal';
+import Button from '../../buttons/button/Button';
 
 interface Props {
   onConfirm: () => void;
@@ -31,7 +31,7 @@ const ModalContent = ({ onConfirm, onClosed }: ModalContentProps) => {
   return (
     <>
       <Image
-        src={'./Rectangle.png'} // TODO: public 경로의 이미지 불러오기 안됨
+        src={'/rectangle.png'} // TODO: public 경로의 이미지 불러오기 안됨
         width={40}
         height={40}
         alt="Handy Request icon"

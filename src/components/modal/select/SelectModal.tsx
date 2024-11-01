@@ -1,8 +1,8 @@
-import Button from '../../Button';
 import CustomModal from '../CustomModal';
 import ChevronRight from 'public/icons/quill-chevron-right.svg';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import Button from '../../buttons/button/Button';
 dayjs.locale('ko');
 
 interface RouteInfo {

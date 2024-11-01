@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '../../Button';
+import Button from '../../buttons/button/Button';
 import CustomModal from '../CustomModal';
 
 interface ButtonLabels {
