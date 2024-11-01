@@ -1,6 +1,14 @@
-import Button from '@/components/Button';
-import Indicator from '@/components/Indicator';
-import Select from '@/components/Select';
+'use client';
+
+import Button from '@/components/buttons/button/Button';
+import Indicator from '@/components/indicator/Indicator';
+import Select from '@/components/select/Select';
+import {
+  BIG_REGIONS,
+  BigRegionsType,
+  SMALL_REGIONS,
+} from '@/constants/regions';
+import { useEffect, useState } from 'react';
 
 interface Props {
   handleNextStep: () => void;
@@ -8,6 +16,13 @@ interface Props {
 }
 
 const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
+  const [bigRegion, setBigRegion] = useState<BigRegionsType>();
+  const [smallRegion, setSmallRegion] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    setSmallRegion(undefined);
+  }, [bigRegion]);
+
   return (
     <div className="relative h-full w-full grow">
       <div className="p-28 text-26 font-700 text-grey-900">
@@ -23,12 +38,17 @@ const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
           거주 지역을 선택해주세요
         </div>
         <Select
-          options={[{ label: '서울특별시', value: '서울특별시' }]}
+          options={BIG_REGIONS}
           placeholder="도/광역시"
+          value={bigRegion}
+          onChange={setBigRegion}
         />
         <Select
-          options={[{ label: '서울특별시', value: '서울특별시' }]}
+          options={SMALL_REGIONS[bigRegion!] ?? []}
           placeholder="시/군/구"
+          disabled={!bigRegion}
+          value={smallRegion}
+          onChange={setSmallRegion}
         />
       </div>
       <div className="absolute bottom-12 flex w-full flex-col items-center bg-white">

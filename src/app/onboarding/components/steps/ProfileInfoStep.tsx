@@ -1,9 +1,9 @@
-import Button from '@/components/Button';
-import Indicator from '@/components/Indicator';
-import TextInput from '@/components/TextInput';
 import Image from 'next/image';
 import { useFormContext } from 'react-hook-form';
 import CameraIcon from 'public/icons/camera.svg';
+import TextInput from '@/components/text/text-input/TextInput';
+import Indicator from '@/components/indicator/Indicator';
+import Button from '@/components/buttons/button/Button';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 

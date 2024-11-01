@@ -1,6 +1,6 @@
-import Button from '@/components/Button';
-import Indicator from '@/components/Indicator';
-import RadioButtons from '@/components/RadioButtons';
+import Button from '@/components/buttons/button/Button';
+import Indicator from '@/components/indicator/Indicator';
+import RadioButtons from '@/components/radio/RadioButtons';
 
 const DEFAULT_NICKNAME = '민지사랑해';
 

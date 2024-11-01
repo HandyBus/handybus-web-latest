@@ -1,3 +1,5 @@
+export type BigRegionsType = (typeof BIG_REGIONS)[number];
+
 export const BIG_REGIONS = [
   '서울특별시',
   '부산광역시',
