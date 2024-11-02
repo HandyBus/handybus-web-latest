@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { useState } from '@storybook/preview-api';
 import Rating from './Rating';
+import { useState } from 'storybook/internal/preview-api';
 
 const meta: Meta<typeof Rating> = {
   title: 'Components/Rating',
