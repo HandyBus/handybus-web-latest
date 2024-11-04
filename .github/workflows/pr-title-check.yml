@@ -17,11 +17,14 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: Build project
-        run: npm run build || exit 1
+        run: pnpm run build || exit 1
 
       - name: Debug Information
         run: |

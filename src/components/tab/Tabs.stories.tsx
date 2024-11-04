@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { useState } from '@storybook/preview-api';
+import { useState } from 'storybook/internal/preview-api';
 import Tabs from './Tabs';
 
 const meta: Meta<typeof Tabs> = {

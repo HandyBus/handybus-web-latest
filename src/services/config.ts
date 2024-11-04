@@ -1,4 +1,6 @@
 import axios, { AxiosError } from 'axios';
+import { postRefreshToken } from './auth';
+import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -19,23 +21,24 @@ authInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // 토큰 만료 시 토큰 재발급 로직 - 추후 백엔드 refresh 로직 완성되면 수정하여 적용 예정
-    // try {
-    //   const config = error.config;
-    //   const newToken = await postRefreshToken();
-    //   setRefreshToken(newToken.refreshToken);
+    try {
+      const config = error.config;
+      const newTokens = await postRefreshToken();
 
-    //   const response = await axios({
-    //     ...config,
-    //     headers: { Authorization: `Bearer ${newToken.accessToken}` },
-    //   });
-    //   return await Promise.resolve(response);
-    // } catch (e) {
-    //   console.error(e);
-    // }
+      setRefreshToken(newTokens.refreshToken);
+      setAccessToken(newTokens.accessToken);
+
+      const response = await instance({
+        ...config,
+        headers: { Authorization: `Bearer ${newTokens.accessToken}` },
+      });
+      return await Promise.resolve(response);
+    } catch (e) {
+      const error = e as AxiosError;
+      if (error.status === 401) {
+        window.location.href = '/login';
+      }
+      console.error(error);
+    }
   },
 );
-
-export const setAuthHeader = (token: string) => {
-  authInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-};

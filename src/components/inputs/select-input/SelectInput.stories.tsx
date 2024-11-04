@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { useState } from '@storybook/preview-api';
 import SelectInput from './SelectInput';
+import { useState } from 'storybook/internal/preview-api';
 
 const meta: Meta<typeof SelectInput> = {
-  title: 'Components/inputs/SelectInput',
+  title: 'Components/Select',
   component: SelectInput,
   tags: ['autodocs'],
 };
