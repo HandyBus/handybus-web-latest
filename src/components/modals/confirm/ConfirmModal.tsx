@@ -63,12 +63,15 @@ const ConfirmModalContent = ({
     <>
       {' '}
       <div>
-        <h2 id="modal-title" className="text-22 font-700 leading-[30.8px]">
+        <h2
+          id="modal-title"
+          className="break-keep text-22 font-700 leading-[30.8px]"
+        >
           {title}
         </h2>
         <p
           id="modal-description"
-          className="text-16 font-400 leading-6 text-grey-500"
+          className="break-keep text-16 font-400 leading-6 text-grey-500"
         >
           {description}
         </p>

@@ -7,6 +7,10 @@ import {
   GENDER_OPTIONS,
 } from './components/steps/PersonalInfoStep';
 import { BigRegionsType } from '@/constants/regions';
+import { useState } from 'react';
+import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
+import AppBar from '@/components/app-bar/AppBar';
+import { useRouter } from 'next/navigation';
 
 export interface OnboardingFormValues {
   nickname: string;
@@ -32,15 +36,30 @@ const Onboarding = () => {
     mode: 'onBlur',
   });
 
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="relative flex h-full w-full flex-col">
-      <header className="flex h-[46px] w-full items-center px-28 py-12 text-14 font-600 text-grey-300">
-        회원가입
-      </header>
-      <FormProvider {...methods}>
-        <OnboardingFunnel />
-      </FormProvider>
-    </div>
+    <>
+      <div className="relative flex h-full w-full flex-col">
+        <AppBar
+          handleBack={() => {
+            setIsOpen(true);
+            console.log('BACK');
+          }}
+        />
+        <FormProvider {...methods}>
+          <OnboardingFunnel />
+        </FormProvider>
+      </div>
+      <ConfirmModal
+        isOpen={isOpen}
+        onClosed={() => setIsOpen(false)}
+        onConfirm={() => router.push('/')}
+        title="회원가입을 취소하시겠습니까?"
+        buttonLabels={{ back: '돌아가기', confirm: '취소하기' }}
+      />
+    </>
   );
 };
 
