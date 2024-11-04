@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import HandyRequestModal from './HandyRequestModal';
 
 const meta: Meta<typeof HandyRequestModal> = {
-  title: 'Components/HandyRequestModal',
+  title: 'Components/Modal/HandyRequestModal',
   component: HandyRequestModal,
   tags: ['autodocs'],
 };
