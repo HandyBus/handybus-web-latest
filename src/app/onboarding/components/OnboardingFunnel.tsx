@@ -5,6 +5,8 @@ import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
+import { SubmitHandler, useFormContext } from 'react-hook-form';
+import { OnboardingFormValues } from '../page';
 
 const ONBOARDING_STEPS = [
   '프로필 정보',
@@ -17,8 +19,18 @@ const OnboardingFunnel = () => {
   const { Funnel, Step, handleNextStep, handlePrevStep } =
     useFunnel(ONBOARDING_STEPS);
 
+  const { handleSubmit } = useFormContext<OnboardingFormValues>();
+
+  const submitForm: SubmitHandler<OnboardingFormValues> = (formData) => {
+    console.log(formData);
+  };
+
   return (
-    <form noValidate className="w-full grow">
+    <form
+      onSubmit={handleSubmit(submitForm)}
+      noValidate
+      className="w-full grow"
+    >
       <Funnel>
         <Step name="프로필 정보">
           <ProfileInfoStep handleNextStep={handleNextStep} />

@@ -102,7 +102,7 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
             <Indicator max={4} value={4} />
           </div>
           <div className="w-full px-32 pb-4 pt-8">
-            <Button type="button">핸디버스 만나러 가기</Button>
+            <Button type="submit">핸디버스 만나러 가기</Button>
           </div>
           <button
             type="button"

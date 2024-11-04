@@ -1,0 +1,13 @@
+export const ERROR_MESSAGES = {
+  nickname: {
+    required: '닉네임을 입력해주세요.',
+    pattern: '영문/한글/숫자 포함 2~12자로 작성해주세요.',
+  },
+  gender: { required: '성별을 입력해주세요.' },
+  age: { required: '연령대를 입력해주세요.' },
+  region: { required: '거주 지역을 선택해주세요.' },
+};
+
+export const REG_EXP = {
+  nickname: /^[0-9a-zA-Z]{2,12}$/,
+};

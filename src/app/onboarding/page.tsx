@@ -42,12 +42,7 @@ const Onboarding = () => {
   return (
     <>
       <div className="relative flex h-full w-full flex-col">
-        <AppBar
-          handleBack={() => {
-            setIsOpen(true);
-            console.log('BACK');
-          }}
-        />
+        <AppBar handleBack={() => setIsOpen(true)} />
         <FormProvider {...methods}>
           <OnboardingFunnel />
         </FormProvider>

@@ -3,9 +3,9 @@
 import Button from '@/components/buttons/button/Button';
 import RadioButtons from '@/components/buttons/radio-buttons/RadioButtons';
 import Indicator from '@/components/indicator/Indicator';
-import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '../../page';
+import { ERROR_MESSAGES } from '../../constants/formValidation';
 
 const DEFAULT_NICKNAME = '민지사랑해';
 export const GENDER_OPTIONS = ['여성', '남성'] as const;
@@ -26,28 +26,15 @@ interface Props {
 }
 
 const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
-  const [selectedGender, setSelectedGender] =
-    useState<(typeof GENDER_OPTIONS)[number]>();
-  const [selectedAge, setSelectedAge] =
-    useState<(typeof AGE_OPTIONS)[number]>();
+  const { control, setValue, trigger } = useFormContext<OnboardingFormValues>();
 
-  const { setValue, getValues } = useFormContext<OnboardingFormValues>();
+  const handleCheckStep = async () => {
+    const isStepValid = await trigger(['gender', 'age']);
 
-  useEffect(() => {
-    const savedSelectedGender = getValues('gender');
-    const savedSelectedAge = getValues('age');
-    setSelectedGender(savedSelectedGender);
-    setSelectedAge(savedSelectedAge);
-  }, []);
-
-  useEffect(() => {
-    if (selectedGender) {
-      setValue('gender', selectedGender);
+    if (isStepValid) {
+      handleNextStep();
     }
-    if (selectedAge) {
-      setValue('age', selectedAge);
-    }
-  }, [selectedGender, selectedAge]);
+  };
 
   return (
     <div className="relative h-full w-full grow">
@@ -55,14 +42,18 @@ const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
         <span className="text-primary-main">{DEFAULT_NICKNAME}</span>님의 <br />
         성별과 연령대를 알려주세요
       </h2>
-      <div className="w-full p-28">
+      <div className="w-full p-28 pb-0">
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           성별을 선택해주세요
         </div>
         <RadioButtons
           values={GENDER_OPTIONS}
-          selectedValue={selectedGender}
-          setSelectedValue={setSelectedGender}
+          name="gender"
+          control={control}
+          setValue={setValue}
+          rules={{
+            required: ERROR_MESSAGES.gender.required,
+          }}
         />
       </div>
       <div className="w-full p-28">
@@ -71,8 +62,12 @@ const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
         </div>
         <RadioButtons
           values={AGE_OPTIONS}
-          selectedValue={selectedAge}
-          setSelectedValue={setSelectedAge}
+          name="age"
+          control={control}
+          setValue={setValue}
+          rules={{
+            required: ERROR_MESSAGES.age.required,
+          }}
         />
       </div>
       <div className="absolute bottom-12 flex w-full flex-col items-center bg-white">
@@ -80,7 +75,7 @@ const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
           <Indicator max={4} value={2} />
         </div>
         <div className="w-full px-32 pb-4 pt-8">
-          <Button type="button" onClick={handleNextStep}>
+          <Button type="button" onClick={handleCheckStep}>
             다음으로
           </Button>
         </div>

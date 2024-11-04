@@ -52,11 +52,9 @@ const TextInput = <T extends FieldValues>({
           <DeleteIcon />
         </button>
       )}
-      {fieldState?.error?.message && (
-        <div className="h-[20px] text-12 font-400 text-red-500">
-          {fieldState?.error?.message}
-        </div>
-      )}
+      <p className="h-[20px] text-12 font-400 text-red-500">
+        {fieldState?.error?.message}
+      </p>
     </div>
   );
 };

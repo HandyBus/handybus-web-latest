@@ -8,6 +8,7 @@ import Button from '@/components/buttons/button/Button';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import { OnboardingFormValues } from '../../page';
+import { ERROR_MESSAGES, REG_EXP } from '../../constants/formValidation';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const ProfileInfoStep = ({ handleNextStep }: Props) => {
-  const { control, setValue, getValues } =
+  const { control, setValue, getValues, trigger } =
     useFormContext<OnboardingFormValues>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +64,14 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
     }
     setValue('profileImage', imageFile);
   }, [imageFile]);
+
+  const handleCheckStep = async () => {
+    const isStepValid = await trigger(['nickname']);
+
+    if (isStepValid) {
+      handleNextStep();
+    }
+  };
 
   return (
     <div className="relative h-full w-full grow">
@@ -114,6 +123,13 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
           control={control}
           setValue={setValue}
           placeholder="영문/한글/숫자 포함 2 ~ 12자"
+          rules={{
+            required: ERROR_MESSAGES.nickname.required,
+            pattern: {
+              value: REG_EXP.nickname,
+              message: ERROR_MESSAGES.nickname.pattern,
+            },
+          }}
         >
           닉네임
         </TextInput>
@@ -123,7 +139,7 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
           <Indicator max={4} value={1} />
         </div>
         <div className="w-full px-32 py-8">
-          <Button type="button" onClick={handleNextStep}>
+          <Button type="button" onClick={handleCheckStep}>
             다음으로
           </Button>
         </div>
