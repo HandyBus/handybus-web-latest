@@ -5,10 +5,11 @@ import { useFormContext } from 'react-hook-form';
 import CameraIcon from 'public/icons/camera.svg';
 import Indicator from '@/components/indicator/Indicator';
 import Button from '@/components/buttons/button/Button';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import { OnboardingFormValues } from '../../page';
 import { ERROR_MESSAGES, REG_EXP } from '../../constants/formValidation';
+import { usePutNickname } from '@/services/users';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const ProfileInfoStep = ({ handleNextStep }: Props) => {
-  const { control, setValue, getValues, trigger } =
+  const { control, setValue, getValues, trigger, setError, clearErrors } =
     useFormContext<OnboardingFormValues>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,9 +29,7 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
     setImageFile(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImageSrc(reader.result as string);
-    };
+    reader.onloadend = () => setImageSrc(reader.result as string);
   };
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,11 +64,35 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
     setValue('profileImage', imageFile);
   }, [imageFile]);
 
+  const handleNicknameDuplicateError = () => {
+    setError('nickname', {
+      type: 'duplicate',
+      message: ERROR_MESSAGES.nickname.duplicate,
+    });
+  };
+
+  const handleValidStep = () => {
+    clearErrors();
+    handleNextStep();
+  };
+
+  const putNickname = usePutNickname({
+    onSuccess: handleValidStep,
+    onError: handleNicknameDuplicateError,
+  });
+
   const handleCheckStep = async () => {
     const isStepValid = await trigger(['nickname']);
+    if (!isStepValid) {
+      return;
+    }
+    const newNickname = getValues('nickname');
+    putNickname.mutate(newNickname);
+  };
 
-    if (isStepValid) {
-      handleNextStep();
+  const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleCheckStep();
     }
   };
 
@@ -122,6 +145,7 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
           name="nickname"
           control={control}
           setValue={setValue}
+          onKeyDown={handleEnter}
           placeholder="영문/한글/숫자 포함 2 ~ 12자"
           rules={{
             required: ERROR_MESSAGES.nickname.required,
@@ -139,7 +163,11 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
           <Indicator max={4} value={1} />
         </div>
         <div className="w-full px-32 py-8">
-          <Button type="button" onClick={handleCheckStep}>
+          <Button
+            type="button"
+            onClick={handleCheckStep}
+            loading={putNickname.isPending}
+          >
             다음으로
           </Button>
         </div>

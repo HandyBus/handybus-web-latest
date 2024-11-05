@@ -3,6 +3,7 @@ import './globals.css';
 import '@/app/fonts/pretendard/font.css';
 import Provider from '@/components/Provider';
 import { ReactNode } from 'react';
+import ToastContainer from '@/components/toast-container/ToastContainer';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="overflow-hidden">
-        <Provider>{children}</Provider>
+        <Provider>
+          {children}
+          <ToastContainer />
+        </Provider>
       </body>
     </html>
   );

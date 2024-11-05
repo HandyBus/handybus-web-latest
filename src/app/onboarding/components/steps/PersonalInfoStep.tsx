@@ -8,8 +8,8 @@ import { OnboardingFormValues } from '../../page';
 import { ERROR_MESSAGES } from '../../constants/formValidation';
 
 const DEFAULT_NICKNAME = '민지사랑해';
-export const GENDER_OPTIONS = ['여성', '남성'] as const;
-export const AGE_OPTIONS = [
+const GENDER_OPTIONS = ['여성', '남성'] as const;
+const AGE_OPTIONS = [
   '10대 이하',
   '20대',
   '30대',

@@ -10,45 +10,31 @@ import SearchInput from '@/components/inputs/search-input/SearchInput';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '../../page';
-
-const MOCK_ALL_ARTISTS = [
-  '아이유',
-  '뉴진스',
-  '트와이스',
-  '방탄소년단',
-  'NCT',
-  '레드벨벳',
-  '엔믹스',
-  '아이브',
-  '임영웅',
-  '보넥도',
-  '투어스',
-  '엔하이픈',
-  '에이티즈',
-  '있지',
-  '에스파',
-  '스테이씨',
-];
+import { useGetArtists } from '@/services/artists';
+import { ArtistType } from '@/types/client.types';
 
 interface Props {
   handlePrevStep: () => void;
+  isLoading: boolean;
 }
 
-const ArtistStep = ({ handlePrevStep }: Props) => {
+const ArtistStep = ({ handlePrevStep, isLoading }: Props) => {
+  const { data: artists } = useGetArtists();
+
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
+  const [selectedArtists, setSelectedArtists] = useState<ArtistType[]>([]);
 
   const { getValues, setValue } = useFormContext<OnboardingFormValues>();
 
   useEffect(() => {
-    const savedArtists = getValues('artists');
+    const savedArtists = getValues('favoriteArtists');
     setSelectedArtists(savedArtists);
   }, []);
 
   useEffect(() => {
     if (selectedArtists.length !== 0) {
-      setValue('artists', selectedArtists);
+      setValue('favoriteArtists', selectedArtists);
     }
   }, [selectedArtists]);
 
@@ -70,11 +56,11 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
           <div className="max-h-400 overflow-y-auto">
             {selectedArtists.map((artist) => (
               <div
-                key={artist}
+                key={artist.id}
                 className="flex items-center justify-between gap-16 px-32 py-12"
               >
                 <span className="line-clamp-1 text-16 font-400 text-grey-800">
-                  {artist}
+                  {artist.name}
                 </span>
                 <button
                   type="button"
@@ -102,11 +88,14 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
             <Indicator max={4} value={4} />
           </div>
           <div className="w-full px-32 pb-4 pt-8">
-            <Button type="submit">핸디버스 만나러 가기</Button>
+            <Button type="submit" disabled={isLoading}>
+              핸디버스 만나러 가기
+            </Button>
           </div>
           <button
             type="button"
             onClick={handlePrevStep}
+            disabled={isLoading}
             className="text-center text-12 text-grey-400 underline underline-offset-2"
           >
             이전으로
@@ -122,21 +111,23 @@ const ArtistStep = ({ handlePrevStep }: Props) => {
             placeholder="가수 이름으로 검색"
           />
           <div className="grow overflow-y-auto pt-12">
-            {MOCK_ALL_ARTISTS.map((artist) => (
+            {artists.map((artist) => (
               <button
-                key={artist}
+                key={artist.id}
                 type="button"
                 onClick={() =>
                   setSelectedArtists((prev) =>
                     prev.includes(artist)
-                      ? prev.filter((e) => e !== artist)
+                      ? prev.filter((el) => el !== artist)
                       : [...prev, artist],
                   )
                 }
                 className="line-clamp-1 flex h-56 w-full items-center gap-16 px-32"
               >
                 <CheckBox isChecked={selectedArtists.includes(artist)} />
-                <span className="text-16 font-400 text-grey-800">{artist}</span>
+                <span className="text-16 font-400 text-grey-800">
+                  {artist.name}
+                </span>
               </button>
             ))}
           </div>

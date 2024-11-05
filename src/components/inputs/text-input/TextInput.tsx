@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { KeyboardEvent, ReactNode } from 'react';
 import {
   FieldPath,
   FieldValues,
@@ -11,14 +11,16 @@ import DeleteIcon from 'public/icons/delete.svg';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children: ReactNode;
-  placeholder?: string;
   setValue: (name: FieldPath<T>, value: string) => void;
+  placeholder?: string;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const TextInput = <T extends FieldValues>({
   children,
-  placeholder,
   setValue,
+  placeholder,
+  onKeyDown,
   ...controls
 }: Props<T>) => {
   const { field, fieldState } = useController({
@@ -40,6 +42,7 @@ const TextInput = <T extends FieldValues>({
       <input
         id={field.name}
         placeholder={placeholder}
+        onKeyDown={onKeyDown}
         {...field}
         className={`h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
       />

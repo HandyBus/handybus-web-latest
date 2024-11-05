@@ -7,6 +7,11 @@ import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '../page';
+import { KeyboardEvent } from 'react';
+import { usePutUser } from '@/services/users';
+import { getImageUrl } from '@/services/common';
+import { REGION_TO_ID } from '@/constants/regions';
+import { toast } from 'react-toastify';
 
 const ONBOARDING_STEPS = [
   '프로필 정보',
@@ -20,14 +25,48 @@ const OnboardingFunnel = () => {
     useFunnel(ONBOARDING_STEPS);
 
   const { handleSubmit } = useFormContext<OnboardingFormValues>();
+  const { mutate: putUser, isPending } = usePutUser();
 
-  const submitForm: SubmitHandler<OnboardingFormValues> = (formData) => {
-    console.log(formData);
+  const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
+    const favoriteArtistsIDs = formData.favoriteArtists.map(
+      (artist) => artist.id,
+    );
+
+    const imageUrl = await getImageUrl({
+      key: 'users/profiles',
+      file: formData.profileImage,
+    });
+
+    const regionID = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
+
+    if (!regionID) {
+      toast.error('회원가입에 실패하였습니다.');
+      return;
+    }
+
+    const body = {
+      nickname: formData.nickname,
+      ageRange: formData.age,
+      gender:
+        formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
+      profileImage: imageUrl,
+      favoriteArtistsIDs,
+      regionID,
+    };
+
+    putUser(body);
+  };
+
+  const handleEnter = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
   };
 
   return (
     <form
       onSubmit={handleSubmit(submitForm)}
+      onKeyDown={handleEnter}
       noValidate
       className="w-full grow"
     >
@@ -48,7 +87,7 @@ const OnboardingFunnel = () => {
           />
         </Step>
         <Step name="최애 가수">
-          <ArtistStep handlePrevStep={handlePrevStep} />
+          <ArtistStep handlePrevStep={handlePrevStep} isLoading={isPending} />
         </Step>
       </Funnel>
     </form>

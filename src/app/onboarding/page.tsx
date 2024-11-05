@@ -2,24 +2,22 @@
 
 import { FormProvider, useForm } from 'react-hook-form';
 import OnboardingFunnel from './components/OnboardingFunnel';
-import {
-  AGE_OPTIONS,
-  GENDER_OPTIONS,
-} from './components/steps/PersonalInfoStep';
 import { BigRegionsType } from '@/constants/regions';
 import { useState } from 'react';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import AppBar from '@/components/app-bar/AppBar';
 import { useRouter } from 'next/navigation';
+import { AgeType, ArtistType } from '@/types/client.types';
 
 export interface OnboardingFormValues {
   nickname: string;
   profileImage: File | null;
-  gender: (typeof GENDER_OPTIONS)[number];
-  age: (typeof AGE_OPTIONS)[number];
+  gender: '남성' | '여성';
+  age: AgeType;
   bigRegion: BigRegionsType;
   smallRegion: string;
-  artists: string[];
+  regionID: number;
+  favoriteArtists: ArtistType[];
 }
 
 const Onboarding = () => {
@@ -31,7 +29,7 @@ const Onboarding = () => {
       age: undefined,
       bigRegion: undefined,
       smallRegion: undefined,
-      artists: [],
+      favoriteArtists: [],
     },
     mode: 'onBlur',
   });
