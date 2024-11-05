@@ -7,7 +7,7 @@ import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '../page';
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { usePutUser } from '@/services/users';
 import { getImageUrl } from '@/services/common';
 import { REGION_TO_ID } from '@/constants/regions';
@@ -26,8 +26,11 @@ const OnboardingFunnel = () => {
 
   const { handleSubmit } = useFormContext<OnboardingFormValues>();
   const { mutate: putUser, isPending } = usePutUser();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isLoading = isPending || isSubmitting;
 
   const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
+    setIsSubmitting(true);
     const favoriteArtistsIDs = formData.favoriteArtists.map(
       (artist) => artist.id,
     );
@@ -55,6 +58,7 @@ const OnboardingFunnel = () => {
     };
 
     putUser(body);
+    setIsSubmitting(false);
   };
 
   const handleEnter = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -87,7 +91,7 @@ const OnboardingFunnel = () => {
           />
         </Step>
         <Step name="최애 가수">
-          <ArtistStep handlePrevStep={handlePrevStep} isLoading={isPending} />
+          <ArtistStep handlePrevStep={handlePrevStep} isLoading={isLoading} />
         </Step>
       </Funnel>
     </form>
