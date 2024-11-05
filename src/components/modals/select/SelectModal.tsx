@@ -27,13 +27,15 @@ const SelectModal = ({
   shuttleBusRoutes = [
     { id: 1, placeInfo: '노원 - DDP 노선', onSelect: () => {} },
     { id: 2, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
+    // { id: 3, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
+    // { id: 4, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
   ],
 }: Props) => {
   return (
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
-      styles="z-50 flex max-h-[366px] w-[301px] flex-col items-center justify-center gap-16 bg-white px-24 py-20 rounded-[20px]"
+      styles="fixed top-50 left-50 z-[101] flex max-h-[540px] w-[301px] flex-col items-center justify-center gap-16 bg-white px-24 py-20 rounded-[20px]"
     >
       <SelectModalContent
         scheduledData={scheduledData}
@@ -67,7 +69,7 @@ const SelectModalContent = ({
 
   return (
     <>
-      <h2 id="modal-title" className="text-22 font-700 leading-[30.8px]">
+      <h2 id="modal-title" className="text-22 font-700 leading-[30.8px] ">
         현재 예약을 받고 있는 노선이 있어요
       </h2>
       <p
@@ -83,7 +85,7 @@ const SelectModalContent = ({
       </p>
       <div id="suttle-bus-route-information" className="flex flex-col gap-8">
         {shuttleBusRoutes.length > 0
-          ? shuttleBusRoutes.map((route) => (
+          ? shuttleBusRoutes.slice(0, 4).map((route) => (
               <SelectModalButton
                 id={route.id.toString()}
                 key={route.id.toString()}

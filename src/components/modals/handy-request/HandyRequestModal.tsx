@@ -13,7 +13,7 @@ const HandyRequestModal = ({ onConfirm, isOpen, onClosed }: Props) => {
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
-      styles="z-50 flex h-[393px] w-280 flex-col items-center justify-center gap-12 bg-white px-24 py-20 rounded-[20px]"
+      styles="fixed top-50 left-50 z-[101] flex h-[393px] w-280 flex-col items-center justify-center gap-12 bg-white px-24 py-20 rounded-[20px]"
     >
       <ModalContent onConfirm={onConfirm} onClosed={onClosed} />
     </CustomModal>
