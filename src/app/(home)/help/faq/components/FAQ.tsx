@@ -2,8 +2,8 @@
 
 import type { PropsWithChildren } from 'react';
 import { useState, useCallback } from 'react';
-import ChevronUp from './icons/faq-chevron-up.svg';
-import ChevronDown from './icons/faq-chevron-down.svg';
+import ChevronUp from '../icons/faq-chevron-up.svg';
+import ChevronDown from '../icons/faq-chevron-down.svg';
 
 interface Props extends PropsWithChildren {
   title: string;

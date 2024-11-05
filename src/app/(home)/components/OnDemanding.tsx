@@ -1,8 +1,7 @@
 import Article from '@/components/article/Article';
-
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 
-const OnDemandingSection = () => {
+const OnDemanding = () => {
   return (
     <Article richTitle="수요 확인 중인 셔틀" showMore="/TODO">
       <div className="w-full p-16">
@@ -14,4 +13,4 @@ const OnDemandingSection = () => {
   );
 };
 
-export default OnDemandingSection;
+export default OnDemanding;

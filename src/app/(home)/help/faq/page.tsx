@@ -3,7 +3,7 @@ import Article from '@/components/article/Article';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 
 import FAQ from './components/FAQ';
-import HandyLogo from './components/icons/faq-handy-logo.svg';
+import HandyLogo from './icons/faq-handy-logo.svg';
 
 import { readFaqs } from './data';
 
