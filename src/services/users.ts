@@ -3,8 +3,9 @@ import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { setSession } from '@/utils/handleSession';
 
-const getUser = async () => {
+export const getUser = async () => {
   const res = await authInstance.get('/users/me');
   const data: UserType = res.data?.user;
   return data;
@@ -49,6 +50,7 @@ export const usePutUser = () => {
   return useMutation({
     mutationFn: putUser,
     onSuccess: () => {
+      setSession();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
     },

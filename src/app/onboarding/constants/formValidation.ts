@@ -10,5 +10,5 @@ export const ERROR_MESSAGES = {
 };
 
 export const REG_EXP = {
-  nickname: /^[0-9a-zA-Z]{2,12}$/,
+  nickname: /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,12}$/,
 };

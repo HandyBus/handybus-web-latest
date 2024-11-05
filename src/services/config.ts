@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { postRefreshToken } from './auth';
 import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
+import { removeSession } from '@/utils/handleSession';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -36,6 +37,7 @@ authInstance.interceptors.response.use(
     } catch (e) {
       const error = e as AxiosError;
       if (error.status === 401) {
+        removeSession();
         window.location.href = '/login';
       }
       console.error(error);
