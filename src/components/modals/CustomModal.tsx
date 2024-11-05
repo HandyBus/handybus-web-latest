@@ -15,7 +15,7 @@ const CustomModal = ({ isOpen, onClosed, children, styles }: Props) => {
   if (!isOpen) return;
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-[999] flex h-[100%] w-[100%] items-center justify-center bg-black bg-opacity-50"
+      className="fixed left-0 top-0 z-[100] flex h-full w-full items-center justify-center bg-black bg-opacity-50"
       ref={backgroundRef}
       onClick={(e) => {
         if (e.target === backgroundRef.current) onClosed();

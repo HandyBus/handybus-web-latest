@@ -29,7 +29,7 @@ const ConfirmModal = ({
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
-      styles="z-50 flex h-[210px] w-280 flex-col items-center justify-center gap-32 rounded-xl bg-white p-24"
+      styles="fixed top-50 left-50 z-[101] flex h-[210px] w-280 flex-col items-center justify-center gap-32 rounded-xl bg-white p-24"
     >
       <ConfirmModalContent
         onClosed={onClosed}
