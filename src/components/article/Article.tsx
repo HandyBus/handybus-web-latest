@@ -25,7 +25,7 @@ const Article = ({
 
 export default Article;
 
-import ChevronRight from 'public/icons/chevron-right.svg';
+import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 interface TitleProps {
   title: ReactNode;
@@ -45,7 +45,9 @@ const Title = ({ title, titleSize, showMore }: TitleProps) => {
         <Link href={showMore}>
           <span className="inline-flex cursor-pointer items-center gap-[2px] text-12 font-400 text-grey-600-sub">
             전체보기
-            <span className="inline-block stroke-1">{<ChevronRight />}</span>
+            <span className="inline-block stroke-1">
+              <ChevronRightEm />
+            </span>
           </span>
         </Link>
       )}
