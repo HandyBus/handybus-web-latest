@@ -13,6 +13,6 @@ type Story = StoryObj<typeof RadioButtons>;
 
 export const Primary: Story = {
   args: {
-    names: ['여성', '남성'],
+    values: ['여성', '남성'],
   },
 };
