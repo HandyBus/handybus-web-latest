@@ -37,7 +37,7 @@ const ModalContent = ({ onConfirm, onClosed }: ModalContentProps) => {
         alt="Handy Request icon"
       />
       <h2
-        className="hyphens-manual text-center text-22 font-700 leading-[30.8px]"
+        className="text-center text-22 font-700 leading-[30.8px]"
         id="modal-title"
       >
         잠시만요! <br />
