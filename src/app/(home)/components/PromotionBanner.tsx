@@ -53,9 +53,9 @@ const Banner = () => {
 export default Banner;
 
 import Image from 'next/image';
-import Image1 from './banners/home/1.png';
-import Image2 from './banners/home/2.png';
-import Image3 from './banners/home/3.png';
+import Image1 from '../images/banner-1.png';
+import Image2 from '../images/banner-2.png';
+import Image3 from '../images/banner-3.png';
 import Link from 'next/link';
 
 const bannerImages = [

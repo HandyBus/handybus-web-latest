@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import AboutLogo from './images/about-logo.png';
+import AboutLogo from '../images/about-logo.png';
 
 const TopSection = () => (
   <>

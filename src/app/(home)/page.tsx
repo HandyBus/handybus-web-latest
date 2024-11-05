@@ -3,10 +3,9 @@
 import Header from '@/components/header/Header';
 
 import PromotionBanner from './components/PromotionBanner';
-
 import Overviews from './components/Overviews';
-import OnDemandingSection from './components/OnDemanding';
-import OnReservationSection from './components/OnReservation';
+import OnDemanding from './components/OnDemanding';
+import OnReservation from './components/OnReservation';
 import PromotionReviews from './components/PromotionReviews';
 
 const Home = () => {
@@ -15,8 +14,8 @@ const Home = () => {
       <Header />
       <main className="w-full flex-grow pb-12">
         <PromotionBanner />
-        <OnReservationSection />
-        <OnDemandingSection />
+        <OnReservation />
+        <OnDemanding />
         <Overviews />
         <PromotionReviews />
       </main>

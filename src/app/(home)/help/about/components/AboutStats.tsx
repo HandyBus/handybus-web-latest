@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Article from '@/components/article/Article';
-import HandyTransparent from './images/handy-transparent.png';
+import HandyTransparent from '../images/handy-transparent.png';
 
 const AboutStats = () => (
   <Article

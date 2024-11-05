@@ -61,10 +61,10 @@ const Overviews = () => {
 
 export default Overviews;
 
-import CardImage1 from './banners/home-overview/1-intro.png';
-import CardImage2 from './banners/home-overview/2-howto.png';
-import CardImage3 from './banners/home-overview/3-whatishandy.png';
-import CardImage4 from './banners/home-overview/4-faq.png';
+import CardImage1 from '../images/1-intro.png';
+import CardImage2 from '../images/2-howto.png';
+import CardImage3 from '../images/3-whatishandy.png';
+import CardImage4 from '../images/4-faq.png';
 import Card from '@/components/card/Card';
 
 const Cards = [
