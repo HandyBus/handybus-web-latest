@@ -33,7 +33,7 @@ const AboutService = () => (
         <span className="h-[6px] w-[6px] rounded bg-grey-50" />
         <span className="h-[6px] w-[6px] rounded bg-grey-50" />
       </div>
-      <div className="w-full text-center text-16 font-500 text-grey-900">
+      <p className="w-full text-center text-16 font-500 text-grey-900">
         그래서 핸디버스는
         <br />
         콘서트장까지 이동 시 편리함을 제공하기 위해
@@ -43,7 +43,7 @@ const AboutService = () => (
           직행으로 이동하는 셔틀 버스를 제공
         </b>
         합니다.
-      </div>
+      </p>
     </div>
   </Article>
 );
@@ -67,9 +67,9 @@ const Saying = ({ orient, img, children }: PropsWithChildren<SubProps>) => {
   );
 
   const balloon = (
-    <div className=" rounded-[10px] bg-white p-8 text-12 font-500 text-grey-600-sub shadow-md shadow-grey-100 [&>b]:font-600 ">
+    <p className=" rounded-[10px] bg-white p-8 text-12 font-500 text-grey-600-sub shadow-md shadow-grey-100 [&>b]:font-600 ">
       “{children}”
-    </div>
+    </p>
   );
 
   return (
