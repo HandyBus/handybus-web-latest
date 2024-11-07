@@ -40,7 +40,7 @@ const Onboarding = () => {
   return (
     <>
       <div className="relative flex h-full w-full flex-col">
-        <AppBar handleBack={() => setIsOpen(true)} />
+        <AppBar handleBack={() => setIsOpen(true)}>회원가입</AppBar>
         <FormProvider {...methods}>
           <OnboardingFunnel />
         </FormProvider>
