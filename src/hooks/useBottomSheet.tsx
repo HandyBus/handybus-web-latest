@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const TRANSFORM_DURATION = '150ms';
+const TRANSFORM_DURATION = '200ms';
 
 const useBottomSheet = () => {
   const bottomSheetRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,7 @@ const useBottomSheet = () => {
     setTimeout(() => {
       bottomSheetElement.style.display = 'none';
       backdropElement.style.display = 'none';
-    }, 300);
+    }, 150);
   };
 
   useEffect(() => {
