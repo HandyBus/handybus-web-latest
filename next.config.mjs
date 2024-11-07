@@ -10,4 +10,7 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+import createMDX from '@next/mdx';
+const withMDX = createMDX({});
+
+export default withMDX(nextConfig);
