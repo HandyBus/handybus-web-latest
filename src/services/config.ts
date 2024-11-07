@@ -18,29 +18,26 @@ export const authInstance = axios.create({
 authInstance.interceptors.response.use(
   (res) => res,
   async (error: AxiosError) => {
-    if (error.status !== 401) {
-      return Promise.reject(error);
-    }
+    const { config } = error;
 
-    try {
-      const config = error.config;
-      const newTokens = await postRefreshToken();
+    if (error.status === 401 && config) {
+      try {
+        const newTokens = await postRefreshToken();
+        setRefreshToken(newTokens.refreshToken);
+        setAccessToken(newTokens.accessToken);
 
-      setRefreshToken(newTokens.refreshToken);
-      setAccessToken(newTokens.accessToken);
-
-      const response = await instance({
-        ...config,
-        headers: { Authorization: `Bearer ${newTokens.accessToken}` },
-      });
-      return await Promise.resolve(response);
-    } catch (e) {
-      const error = e as AxiosError;
-      if (error.status === 401) {
-        removeSession();
-        window.location.href = '/login';
+        config.headers['Authorization'] = `Bearer ${newTokens.accessToken}`;
+        return instance(config);
+      } catch (e) {
+        const error = e as AxiosError;
+        if (error.status === 401) {
+          removeSession();
+          window.location.href = '/login';
+        }
+        console.error(error);
       }
-      console.error(error);
     }
+
+    return Promise.reject(error);
   },
 );
