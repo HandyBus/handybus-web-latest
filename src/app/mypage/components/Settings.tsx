@@ -1,5 +1,6 @@
 'use client';
 
+import { handleLogout } from '@/utils/handleSession';
 import Link from 'next/link';
 import ArrowRight from 'public/icons/quill-chevron-right.svg';
 
@@ -12,7 +13,7 @@ const Settings = () => {
         href="/mypage/reviews"
         description="0건"
       />
-      <ListButton title="로그아웃" href="/" hideArrow />
+      <ListButton title="로그아웃" href="/" hideArrow onClick={handleLogout} />
       <ListButton title="회원 탈퇴" href="/mypage/leave" />
     </section>
   );
