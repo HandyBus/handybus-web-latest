@@ -10,7 +10,7 @@ const Settings = () => {
       <ListButton
         title="작성한 후기 조회"
         href="/mypage/reviews"
-        description="0장"
+        description="0건"
       />
       <ListButton title="로그아웃" href="/" hideArrow />
       <ListButton title="회원 탈퇴" href="/mypage/leave" />
