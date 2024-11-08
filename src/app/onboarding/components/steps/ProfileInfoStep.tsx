@@ -10,8 +10,10 @@ import TextInput from '@/components/inputs/text-input/TextInput';
 import { OnboardingFormValues } from '../../page';
 import { ERROR_MESSAGES, REG_EXP } from '../../constants/formValidation';
 import { usePutNickname } from '@/services/users';
+import { toast } from 'react-toastify';
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 interface Props {
   handleNextStep: () => void;
@@ -35,6 +37,9 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
+      return;
+    } else if (file.size > MAX_FILE_SIZE) {
+      toast.error('10MB 이하의 파일만 업로드 할 수 있습니다.');
       return;
     }
     showImagePreview(file);
