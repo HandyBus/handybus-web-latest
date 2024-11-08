@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
-import DeadZone from '@/components/dead-zone/DeadZone';
+import Provider from '@/components/Provider';
+import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
 
 export const metadata: Metadata = {
@@ -12,13 +13,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ko">
       <body className="overflow-hidden">
-        <DeadZone>{children}</DeadZone>
-        <ToastContainer />
+        <Provider>
+          {children}
+          <ToastContainer />
+        </Provider>
       </body>
     </html>
   );
