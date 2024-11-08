@@ -116,7 +116,7 @@ const SelectModalButton = ({
       <p className="text-16 font-500 leading-[25.6px] text-grey-900">
         {children}
       </p>
-      <ChevronRight />
+      <ChevronRight color="#999999" />
     </button>
   );
 };
