@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { MutableRefObject, useCallback, useRef } from 'react';
 
 interface Metrics {
   initTouchPosition: number | null;
@@ -10,7 +10,53 @@ interface Metrics {
 const TRANSFORM_DURATION = '200ms';
 
 const useBottomSheet = () => {
-  const bottomSheetRef = useRef<HTMLDivElement>(null);
+  const bottomSheetRef = useCallback((bottomSheetElement: HTMLDivElement) => {
+    if (!bottomSheetElement || !bottomSheetElement?.parentElement) {
+      return;
+    }
+    bottomSheet.current = bottomSheetElement;
+    backdrop.current = bottomSheetElement.parentElement;
+
+    bottomSheetElement.parentElement.addEventListener(
+      'click',
+      closeBottomSheet,
+    );
+    bottomSheetElement.addEventListener('click', (e) => e.stopPropagation());
+
+    bottomSheetElement.addEventListener('touchstart', handleTouch.start);
+    bottomSheetElement.addEventListener('touchmove', handleTouch.move);
+    bottomSheetElement.addEventListener('touchend', handleTouch.end);
+
+    bottomSheetElement.addEventListener('mousedown', handleMouse.down);
+    bottomSheetElement.addEventListener('mousemove', handleMouse.move);
+    bottomSheetElement.addEventListener('mouseup', handleMouse.up);
+    bottomSheetElement.addEventListener('mouseleave', handleMouse.leave);
+
+    contentRef.current?.addEventListener('touchstart', handleContentTouch);
+    contentRef.current?.addEventListener('mousedown', handleContentTouch);
+
+    return () => {
+      bottomSheetElement.removeEventListener('click', closeBottomSheet);
+      bottomSheetElement.removeEventListener('click', (e) =>
+        e.stopPropagation(),
+      );
+
+      bottomSheetElement.removeEventListener('touchstart', handleTouch.start);
+      bottomSheetElement.removeEventListener('touchmove', handleTouch.move);
+      bottomSheetElement.removeEventListener('touchend', handleTouch.end);
+
+      bottomSheetElement.removeEventListener('mousedown', handleMouse.down);
+      bottomSheetElement.removeEventListener('mousemove', handleMouse.move);
+      bottomSheetElement.removeEventListener('mouseup', handleMouse.up);
+      bottomSheetElement.removeEventListener('mouseleave', handleMouse.leave);
+
+      contentRef.current?.removeEventListener('touchstart', handleContentTouch);
+      contentRef.current?.removeEventListener('mousedown', handleContentTouch);
+    };
+  }, []);
+
+  const bottomSheet: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const backdrop: MutableRefObject<HTMLElement | null> = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const metrics = useRef<Metrics>({
     initTouchPosition: null,
@@ -21,8 +67,8 @@ const useBottomSheet = () => {
 
   // 바텀시트 열고 닫기
   const openBottomSheet = () => {
-    const bottomSheetElement = bottomSheetRef.current;
-    const backdropElement = bottomSheetRef.current?.parentElement;
+    const bottomSheetElement = bottomSheet.current;
+    const backdropElement = backdrop.current;
     if (!bottomSheetElement || !backdropElement) {
       return;
     }
@@ -30,7 +76,7 @@ const useBottomSheet = () => {
     bottomSheetElement.style.display = 'flex';
     backdropElement.style.display = 'flex';
 
-    const bottomSheetHeight = bottomSheetRef.current.clientHeight;
+    const bottomSheetHeight = bottomSheetElement.clientHeight;
     bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
     metrics.current.closingY = bottomSheetHeight / 2;
 
@@ -41,12 +87,12 @@ const useBottomSheet = () => {
   };
 
   const closeBottomSheet = () => {
-    const bottomSheetElement = bottomSheetRef.current;
-    const backdropElement = bottomSheetRef.current?.parentElement;
+    const bottomSheetElement = bottomSheet.current;
+    const backdropElement = backdrop.current;
     if (!bottomSheetElement || !backdropElement) {
       return;
     }
-    const bottomSheetHeight = bottomSheetRef.current.clientHeight;
+    const bottomSheetHeight = bottomSheetElement.clientHeight;
     bottomSheetElement.style.transitionDuration = TRANSFORM_DURATION;
     bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
 
@@ -56,25 +102,9 @@ const useBottomSheet = () => {
     }, 150);
   };
 
-  useEffect(() => {
-    const backdropElement = bottomSheetRef.current?.parentElement;
-    const bottomSheetElement = bottomSheetRef.current;
-    if (!bottomSheetElement || !backdropElement) {
-      return;
-    }
-    backdropElement.addEventListener('click', closeBottomSheet);
-    bottomSheetElement.addEventListener('click', (e) => e.stopPropagation());
-    return () => {
-      backdropElement.removeEventListener('click', closeBottomSheet);
-      bottomSheetElement.removeEventListener('click', (e) =>
-        e.stopPropagation(),
-      );
-    };
-  }, []);
-
   // 바텀시트 드래그
   const handleStart = (clientY: number) => {
-    const bottomSheetElement = bottomSheetRef.current;
+    const bottomSheetElement = bottomSheet.current;
     if (!bottomSheetElement) {
       return;
     }
@@ -90,9 +120,9 @@ const useBottomSheet = () => {
   };
 
   const handleMove = (clientY: number, e: Event) => {
+    const bottomSheetElement = bottomSheet.current;
     const { initTouchPosition, initTransformValue, isContentAreaTouched } =
       metrics.current;
-    const bottomSheetElement = bottomSheetRef.current;
     if (!initTouchPosition || !bottomSheetElement || isContentAreaTouched) {
       return;
     }
@@ -108,8 +138,8 @@ const useBottomSheet = () => {
   };
 
   const handleEnd = () => {
+    const bottomSheetElement = bottomSheet.current;
     const { initTouchPosition, closingY } = metrics.current;
-    const bottomSheetElement = bottomSheetRef.current;
     if (!initTouchPosition || !bottomSheetElement) {
       return;
     }
@@ -122,7 +152,7 @@ const useBottomSheet = () => {
     bottomSheetElement.style.transitionDuration = TRANSFORM_DURATION;
 
     if (finalTransformValue < closingY) {
-      bottomSheetRef.current.style.transform = `translateY(0px)`;
+      bottomSheetElement.style.transform = `translateY(0px)`;
     } else {
       closeBottomSheet();
     }
@@ -147,36 +177,6 @@ const useBottomSheet = () => {
     up: handleEnd,
     leave: handleEnd,
   };
-
-  useEffect(() => {
-    const bottomSheetElement = bottomSheetRef.current;
-    const contentElement = contentRef.current;
-    bottomSheetElement?.addEventListener('touchstart', handleTouch.start);
-    bottomSheetElement?.addEventListener('touchmove', handleTouch.move);
-    bottomSheetElement?.addEventListener('touchend', handleTouch.end);
-
-    bottomSheetElement?.addEventListener('mousedown', handleMouse.down);
-    bottomSheetElement?.addEventListener('mousemove', handleMouse.move);
-    bottomSheetElement?.addEventListener('mouseup', handleMouse.up);
-    bottomSheetElement?.addEventListener('mouseleave', handleMouse.leave);
-
-    contentElement?.addEventListener('touchstart', handleContentTouch);
-    contentElement?.addEventListener('mousedown', handleContentTouch);
-
-    return () => {
-      bottomSheetElement?.removeEventListener('touchstart', handleTouch.start);
-      bottomSheetElement?.removeEventListener('touchmove', handleTouch.move);
-      bottomSheetElement?.removeEventListener('touchend', handleTouch.end);
-
-      bottomSheetElement?.removeEventListener('mousedown', handleMouse.down);
-      bottomSheetElement?.removeEventListener('mousemove', handleMouse.move);
-      bottomSheetElement?.removeEventListener('mouseup', handleMouse.up);
-      bottomSheetElement?.removeEventListener('mouseleave', handleMouse.leave);
-
-      contentElement?.removeEventListener('touchstart', handleContentTouch);
-      contentElement?.removeEventListener('mousedown', handleContentTouch);
-    };
-  }, []);
 
   return { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet };
 };
