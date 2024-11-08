@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import ArrowRight from 'public/icons/quill-chevron-right.svg';
 
 const MOCK_PROFILE_IMAGE =
@@ -15,7 +16,7 @@ const Profile = () => {
           className="object-cover"
         />
       </div>
-      <button className="flex items-center gap-8">
+      <Link href="/mypage/profile" className="flex items-center gap-8">
         <h2 className="text-22 font-600">민지사랑해</h2>
         <ArrowRight
           color="#5A5A5A"
@@ -23,7 +24,7 @@ const Profile = () => {
           height={17}
           viewBox="0 0 21 20"
         />
-      </button>
+      </Link>
     </section>
   );
 };
