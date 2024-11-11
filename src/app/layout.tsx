@@ -20,6 +20,7 @@ export default function RootLayout({
       <body className="overflow-hidden">
         <Provider>
           {children}
+          <div id="bottom-sheet" />
           <ToastContainer />
         </Provider>
       </body>
