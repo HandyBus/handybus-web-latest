@@ -11,18 +11,24 @@ import TextInput from '@/components/inputs/text-input/TextInput';
 
 interface Props {
   handleSubmit: () => void;
+  initialImageSrc?: string;
 }
 
 const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-const ProfileInfoContent = ({ handleSubmit }: Props) => {
+const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
   const { control, setValue, getValues } =
     useFormContext<OnboardingFormValues>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(
+    initialImageSrc || null,
+  );
+  useEffect(() => {
+    setImageSrc(initialImageSrc || null);
+  }, [initialImageSrc]);
 
   const showImagePreview = (file: File) => {
     setImageFile(file);
