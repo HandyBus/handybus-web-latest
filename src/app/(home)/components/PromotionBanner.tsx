@@ -4,25 +4,19 @@ import { useRef, useState } from 'react';
 import type { SwiperRef } from 'swiper/react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Virtual } from 'swiper/modules';
 import 'swiper/css';
 
 const Banner = () => {
   const swiper = useRef<SwiperRef>(null);
-  const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <>
-      {loading && <BannerItem image={bannerImages[0]} />}
       <Swiper
         ref={swiper}
         pagination={true}
-        modules={[Virtual]}
-        virtual={{ enabled: true }}
         className="relative bg-primary-main"
         onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
-        onInit={() => setLoading(false)}
       >
         {bannerImages.map((image) => (
           <SwiperSlide key={image.alt} className="aspect-[150/92]">

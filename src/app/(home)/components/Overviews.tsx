@@ -1,17 +1,15 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import Link from 'next/link';
 import Article from '@/components/article/Article';
 import Tabs from '@/components/tab/Tabs';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
-import { Virtual } from 'swiper/modules';
 import 'swiper/css';
 
 const Overviews = () => {
   const swiper = useRef<SwiperRef>(null);
-  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState(0);
 
   const handleTabChange = (index: number) => {
@@ -33,19 +31,25 @@ const Overviews = () => {
           onSelect={handleTabChange}
         />
       </div>
-      {loading && <Overview card={Cards[0]} />}
       <Swiper
         ref={swiper}
         pagination={true}
-        modules={[Virtual]}
-        virtual={{ enabled: true }}
         className="mySwiper"
         onSlideChange={(sw) => setTab(sw.activeIndex)}
-        onInit={() => setLoading(false)}
       >
-        {Cards.flatMap((card) => (
+        {Cards.map((card, idx) => (
           <SwiperSlide key={card.key}>
-            <Overview card={card} />
+            <div className="px-16 pb-8 pt-8">
+              <Link href={card.link}>
+                <Card title={card.title} description={card.description}>
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    priority={idx === 0}
+                  />
+                </Card>
+              </Link>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -59,7 +63,6 @@ import CardImage1 from '../images/1-intro.png';
 import CardImage2 from '../images/2-howto.png';
 import CardImage3 from '../images/3-whatishandy.png';
 import CardImage4 from '../images/4-faq.png';
-import Card from '@/components/card/Card';
 import { StaticImageData } from 'next/image';
 
 interface OverviewCardItem {
@@ -101,14 +104,25 @@ const Cards: OverviewCardItem[] = [
   },
 ];
 
-const Overview = ({ card }: { card: OverviewCardItem }) => (
-  <div className="px-16 pb-8 pt-8">
-    <Link href={card.link}>
-      <Card
-        title={card.title}
-        description={card.description}
-        image={card.image}
-      />
-    </Link>
-  </div>
-);
+import Image from 'next/image';
+
+type CardProps = {
+  title: string;
+  description: string;
+  children: ReactNode;
+};
+
+const Card = ({ title, description, children }: CardProps) => {
+  return (
+    <section
+      className="overflow-hidden rounded-[10px] shadow-sm"
+      style={{ boxShadow: '0px 1px 9px rgba(0, 0, 0, 0.12)' }}
+    >
+      <div>{children}</div>
+      <div className="flex flex-col items-start gap-4 p-24 ">
+        <h2 className="text-18 font-700 text-grey-900">{title}</h2>
+        <p className="text-14 font-400 text-grey-600-sub">{description}</p>
+      </div>
+    </section>
+  );
+};
