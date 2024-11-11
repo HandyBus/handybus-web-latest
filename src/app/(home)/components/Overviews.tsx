@@ -11,6 +11,7 @@ import 'swiper/css';
 
 const Overviews = () => {
   const swiper = useRef<SwiperRef>(null);
+  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState(0);
 
   const handleTabChange = (index: number) => {
@@ -32,7 +33,7 @@ const Overviews = () => {
           onSelect={handleTabChange}
         />
       </div>
-
+      {loading && <Overview card={Cards[0]} />}
       <Swiper
         ref={swiper}
         pagination={true}
@@ -40,18 +41,11 @@ const Overviews = () => {
         virtual={{ enabled: true }}
         className="mySwiper"
         onSlideChange={(sw) => setTab(sw.activeIndex)}
+        onInit={() => setLoading(false)}
       >
         {Cards.flatMap((card) => (
           <SwiperSlide key={card.key}>
-            <div className="px-16 pb-8 pt-8">
-              <Link href={card.link}>
-                <Card
-                  title={card.title}
-                  description={card.description}
-                  image={card.image}
-                />
-              </Link>
-            </div>
+            <Overview card={card} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -66,8 +60,17 @@ import CardImage2 from '../images/2-howto.png';
 import CardImage3 from '../images/3-whatishandy.png';
 import CardImage4 from '../images/4-faq.png';
 import Card from '@/components/card/Card';
+import { StaticImageData } from 'next/image';
 
-const Cards = [
+interface OverviewCardItem {
+  key: number;
+  title: string;
+  description: string;
+  image: StaticImageData;
+  link: string;
+}
+
+const Cards: OverviewCardItem[] = [
   {
     key: 1,
     title: '핸디버스 소개',
@@ -97,3 +100,15 @@ const Cards = [
     link: '/help/faq',
   },
 ];
+
+const Overview = ({ card }: { card: OverviewCardItem }) => (
+  <div className="px-16 pb-8 pt-8">
+    <Link href={card.link}>
+      <Card
+        title={card.title}
+        description={card.description}
+        image={card.image}
+      />
+    </Link>
+  </div>
+);
