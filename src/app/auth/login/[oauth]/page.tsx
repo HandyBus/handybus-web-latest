@@ -1,6 +1,8 @@
 'use client';
 
 import { postLogin } from '@/services/auth';
+import { getUser } from '@/services/users';
+import { removeSession, setSession } from '@/utils/handleSession';
 import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -22,7 +24,15 @@ const OAuth = ({ params, searchParams }: Props) => {
       });
       setRefreshToken(tokens.refreshToken);
       setAccessToken(tokens.accessToken);
-      router.push('/');
+
+      const user = await getUser();
+      if (user.ageRange === '연령대 미지정' || !user.ageRange) {
+        removeSession();
+        router.push('/onboarding');
+      } else {
+        setSession();
+        router.push('/');
+      }
     } catch (e) {
       console.error(e);
       router.push('/login');

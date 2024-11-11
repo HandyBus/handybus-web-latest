@@ -7,10 +7,11 @@ import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 interface Props {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  handleBack: () => void;
   placeholder?: string;
 }
 
-const SearchInput = ({ value, setValue, placeholder }: Props) => {
+const SearchInput = ({ value, setValue, handleBack, placeholder }: Props) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
@@ -20,14 +21,18 @@ const SearchInput = ({ value, setValue, placeholder }: Props) => {
   };
 
   return (
-    <div className="relative h-48 w-full border-b border-grey-100">
+    <div className="relative flex h-48 w-full shrink-0 items-center border-b border-grey-100">
       <input
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
         className="h-full w-full py-12 pl-[50px] pr-[46px] outline-none placeholder:text-grey-300"
       />
-      <button className="absolute left-16 top-1/2 -translate-y-1/2">
+      <button
+        type="button"
+        onClick={handleBack}
+        className="absolute left-16 top-1/2 -translate-y-1/2"
+      >
         <ArrowLeft />
       </button>
       {value && (

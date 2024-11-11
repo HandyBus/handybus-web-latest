@@ -1,27 +1,46 @@
 'use client';
 
-import { ButtonHTMLAttributes, useState } from 'react';
+import { ButtonHTMLAttributes } from 'react';
+import {
+  FieldPath,
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from 'react-hook-form';
 
-interface Props {
-  names: readonly string[];
+interface Props<T extends FieldValues, U> extends UseControllerProps<T> {
+  values: readonly U[];
+  setValue: (name: FieldPath<T>, value: string) => void;
   disabled?: boolean;
 }
 
-const RadioButtons = ({ names, disabled = false }: Props) => {
-  const [selectedButton, setSelectedButton] = useState('');
+const RadioButtons = <T extends FieldValues, U extends string>({
+  values,
+  setValue,
+  disabled = false,
+  ...controls
+}: Props<T, U>) => {
+  const { field, fieldState } = useController({
+    ...controls,
+  });
 
   return (
-    <section className="flex w-full gap-8">
-      {names.map((name) => (
-        <RadioButton
-          key={name}
-          onClick={() => setSelectedButton(name)}
-          selected={name === selectedButton}
-          disabled={disabled}
-        >
-          {name}
-        </RadioButton>
-      ))}
+    <section>
+      <div className="flex w-full flex-wrap gap-8">
+        {values.map((value) => (
+          <RadioButton
+            key={value}
+            onClick={() => setValue(field.name, value)}
+            selected={value === field.value}
+            disabled={disabled}
+          >
+            {value}
+          </RadioButton>
+        ))}
+      </div>
+      <p className="mt-8 h-[20px] text-12 font-400 text-red-500">
+        {fieldState?.error?.message}
+      </p>
     </section>
   );
 };
@@ -40,6 +59,7 @@ const RadioButton = ({
 }: RadioButtonProps) => {
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled}
       className={`h-[42px] shrink-0 rounded-full border border-grey-100 px-32 text-16 font-500 disabled:opacity-50 ${selected ? 'bg-grey-700 text-white' : 'bg-white text-grey-600-sub active:bg-grey-50'}`}

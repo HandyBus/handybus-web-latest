@@ -51,4 +51,8 @@
   --blue-700: 4 89 180;
   --blue-800: 3 69 139;
   --blue-900: 3 53 106;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
 }

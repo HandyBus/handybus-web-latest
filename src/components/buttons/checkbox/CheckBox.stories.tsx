@@ -13,12 +13,12 @@ type Story = StoryObj<typeof CheckBox>;
 
 export const Primary: Story = {
   args: {
-    children: 'Primary Button',
+    isChecked: true,
   },
 };
 
 export const Secondary: Story = {
   args: {
-    children: 'Secondary Button',
+    isChecked: false,
   },
 };
