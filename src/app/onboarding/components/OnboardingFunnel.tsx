@@ -6,12 +6,12 @@ import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { OnboardingFormValues } from '../page';
 import { KeyboardEvent, useState } from 'react';
 import { usePutUser } from '@/services/users';
 import { getImageUrl } from '@/services/common';
 import { REGION_TO_ID } from '@/constants/regions';
 import { toast } from 'react-toastify';
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 
 const ONBOARDING_STEPS = [
   '프로필 정보',
@@ -72,7 +72,7 @@ const OnboardingFunnel = () => {
       onSubmit={handleSubmit(submitForm)}
       onKeyDown={handleEnter}
       noValidate
-      className="w-full grow"
+      className="relative w-full grow"
     >
       <Funnel>
         <Step name="프로필 정보">

@@ -2,35 +2,16 @@
 
 import { FormProvider, useForm } from 'react-hook-form';
 import OnboardingFunnel from './components/OnboardingFunnel';
-import { BigRegionsType } from '@/constants/regions';
 import { useState } from 'react';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import AppBar from '@/components/app-bar/AppBar';
 import { useRouter } from 'next/navigation';
-import { AgeType, ArtistType } from '@/types/client.types';
-
-export interface OnboardingFormValues {
-  nickname: string;
-  profileImage: File | null;
-  gender: '남성' | '여성';
-  age: AgeType;
-  bigRegion: BigRegionsType;
-  smallRegion: string;
-  regionID: number;
-  favoriteArtists: ArtistType[];
-}
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+import { FORM_DEFAULT_VALUES } from '@/components/onboarding-contents/formValidation.contants';
 
 const Onboarding = () => {
   const methods = useForm<OnboardingFormValues>({
-    defaultValues: {
-      nickname: '',
-      profileImage: null,
-      gender: undefined,
-      age: undefined,
-      bigRegion: undefined,
-      smallRegion: undefined,
-      favoriteArtists: [],
-    },
+    defaultValues: FORM_DEFAULT_VALUES,
     mode: 'onBlur',
   });
 

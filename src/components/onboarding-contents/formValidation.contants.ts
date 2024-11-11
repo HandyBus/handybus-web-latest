@@ -12,3 +12,13 @@ export const ERROR_MESSAGES = {
 export const REG_EXP = {
   nickname: /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,12}$/,
 };
+
+export const FORM_DEFAULT_VALUES = {
+  nickname: '',
+  profileImage: null,
+  gender: undefined,
+  age: undefined,
+  bigRegion: undefined,
+  smallRegion: undefined,
+  favoriteArtists: [],
+};
