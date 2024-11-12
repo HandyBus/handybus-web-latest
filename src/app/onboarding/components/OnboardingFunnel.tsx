@@ -14,8 +14,11 @@ import { toast } from 'react-toastify';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { useRouter } from 'next/navigation';
 import { setSession } from '@/utils/handleSession';
+import AgreementStep from './steps/AgreementStep';
 
 const ONBOARDING_STEPS = [
+  '약관 동의',
+  '전화번호',
   '프로필 정보',
   '개인 정보',
   '거주지',
@@ -88,6 +91,12 @@ const OnboardingFunnel = () => {
       className="relative w-full grow"
     >
       <Funnel>
+        <Step name="약관 동의">
+          <AgreementStep />
+        </Step>
+        <Step name="전화번호">
+          <div>hello</div>
+        </Step>
         <Step name="프로필 정보">
           <ProfileInfoStep handleNextStep={handleNextStep} />
         </Step>
