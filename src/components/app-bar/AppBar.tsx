@@ -20,14 +20,11 @@ const AppBar = ({ children, handleBack }: Props) => {
   };
 
   return (
-    <div>
-      <div className="fixed top-0 z-50 flex h-44 w-full items-center bg-white px-16 py-12">
-        <button onClick={handleClick}>
-          <BackIcon />
-        </button>
-        <h1 className="ml-8 text-14 font-600 text-grey-500">{children}</h1>
-      </div>
-      <div className="relative h-44" />
+    <div className="sticky top-0 z-50 flex h-44 w-full items-center bg-white px-16 py-12">
+      <button onClick={handleClick}>
+        <BackIcon />
+      </button>
+      <h1 className="ml-8 text-14 font-600 text-grey-500">{children}</h1>
     </div>
   );
 };
