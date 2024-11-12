@@ -10,7 +10,7 @@ import { ERROR_MESSAGES, REG_EXP } from './formValidation.contants';
 import TextInput from '@/components/inputs/text-input/TextInput';
 
 interface Props {
-  handleSubmit: () => void;
+  handleSubmit?: () => void;
   initialImageSrc?: string;
 }
 
@@ -74,7 +74,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
 
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleSubmit();
+      handleSubmit?.();
     }
   };
 

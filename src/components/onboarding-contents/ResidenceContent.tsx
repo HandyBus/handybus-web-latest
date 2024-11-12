@@ -20,6 +20,7 @@ const ResidenceContent = () => {
   useEffect(() => {
     const savedBigRegion = getValues('bigRegion');
     const savedSmallRegion = getValues('smallRegion');
+    console.log(savedBigRegion, savedSmallRegion, formState);
     setBigRegion(savedBigRegion);
     setSmallRegion(savedSmallRegion);
   }, []);

@@ -9,5 +9,5 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: '/mypage12',
+  matcher: '/mypage',
 };

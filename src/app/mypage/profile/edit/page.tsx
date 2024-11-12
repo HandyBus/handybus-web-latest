@@ -18,6 +18,7 @@ import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import { getImageUrl } from '@/services/common';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 
@@ -54,29 +55,13 @@ const Edit = ({ searchParams }: Props) => {
     // methods.setValue('favoriteArtists', user.favoriteArtistsIDS);
   }, [user]);
 
-  const renderStep = () => {
-    switch (searchParams.type) {
-      case 'profile':
-        return (
-          <ProfileInfoContent
-            handleSubmit={() => {}}
-            initialImageSrc={user?.profileImage}
-          />
-        );
-      case 'personal-info':
-        return <PersonalInfoContent />;
-      case 'region':
-        return <ResidenceContent />;
-      case 'artist':
-        return <ArtistContent />;
-    }
-  };
-
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser } = usePutUser({
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       router.push('/mypage/profile');
     },
     onError: (e) => {
@@ -130,6 +115,23 @@ const Edit = ({ searchParams }: Props) => {
 
     putUser(body);
   };
+
+  const renderStep = () => {
+    switch (searchParams.type) {
+      case 'profile':
+        return <ProfileInfoContent initialImageSrc={user?.profileImage} />;
+      case 'personal-info':
+        return <PersonalInfoContent />;
+      case 'region':
+        return <ResidenceContent />;
+      case 'artist':
+        return <ArtistContent />;
+    }
+  };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <FormProvider {...methods}>

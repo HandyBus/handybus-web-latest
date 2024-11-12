@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './onboarding.types';
 import RadioButtons from '../buttons/radio-buttons/RadioButtons';
 import { ERROR_MESSAGES } from './formValidation.contants';
+import { useEffect, useState } from 'react';
 
 const GENDER_OPTIONS = ['여성', '남성'] as const;
 const AGE_OPTIONS = [
@@ -20,7 +21,11 @@ const AGE_OPTIONS = [
 const PersonalInfoContent = () => {
   const { control, setValue, getValues } =
     useFormContext<OnboardingFormValues>();
-  const nickname = getValues('nickname');
+
+  const [nickname, setNickname] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    setNickname(getValues('nickname'));
+  }, []);
 
   return (
     <div className="relative grow">
