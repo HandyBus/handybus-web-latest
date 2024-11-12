@@ -6,7 +6,7 @@ const DeadZonePopup = () => {
   const redirectToReview = () => {};
 
   return (
-    <div className="absolute bottom-52 right-[calc(50%-500px)] z-[99] flex h-252 w-[210px] flex-col items-center rounded-[10px] bg-grey-50 px-16 py-20 max-[1000px]:hidden">
+    <div className="fixed bottom-52 right-[calc(50%-500px)] z-[99] flex h-252 w-[210px] flex-col items-center rounded-[10px] bg-grey-50 px-16 py-20 max-[1000px]:hidden">
       <LargeLogo />
       <div className="mb-8 mt-12 text-20 font-700 tracking-[-0.5px]">
         집에서 콘서트장까지, <br />

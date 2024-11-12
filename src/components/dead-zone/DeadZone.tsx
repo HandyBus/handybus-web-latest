@@ -7,8 +7,8 @@ interface Props {
 
 const DeadZone = ({ children }: Props) => {
   return (
-    <div className="relative h-[100dvh] w-[100dvw]">
-      <div className="mx-auto h-[100dvh] max-w-500 overflow-y-auto shadow-xl shadow-grey-200">
+    <div className="relative min-h-[100dvh] w-[100dvw]">
+      <div className="mx-auto min-h-[100dvh] max-w-500 shadow-xl shadow-grey-200">
         {children}
       </div>
       <DeadZonePopup />
