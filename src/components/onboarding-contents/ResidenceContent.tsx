@@ -20,20 +20,26 @@ const ResidenceContent = () => {
   useEffect(() => {
     const savedBigRegion = getValues('bigRegion');
     const savedSmallRegion = getValues('smallRegion');
-    console.log(savedBigRegion, savedSmallRegion, formState);
     setBigRegion(savedBigRegion);
     setSmallRegion(savedSmallRegion);
   }, []);
 
   useEffect(() => {
-    if (bigRegion) {
-      setValue('bigRegion', bigRegion);
+    if (!bigRegion) {
+      return;
     }
-    setValue('smallRegion', smallRegion ?? '');
-    if (smallRegion) {
+    setValue('bigRegion', bigRegion);
+  }, [bigRegion]);
+
+  useEffect(() => {
+    if (!smallRegion) {
+      return;
+    }
+    setValue('smallRegion', smallRegion);
+    if (formState.errors.bigRegion) {
       clearErrors('bigRegion');
     }
-  }, [bigRegion, smallRegion]);
+  }, [smallRegion]);
 
   return (
     <div className="relative grow">
@@ -56,6 +62,7 @@ const ResidenceContent = () => {
           onChange={(e) => {
             setBigRegion(e);
             setSmallRegion(undefined);
+            setValue('smallRegion', undefined);
           }}
         />
         <SelectInput

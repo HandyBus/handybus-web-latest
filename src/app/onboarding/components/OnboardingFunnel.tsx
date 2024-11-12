@@ -53,7 +53,8 @@ const OnboardingFunnel = () => {
       key: 'users/profiles',
       file: formData.profileImage,
     });
-    const regionID = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
+    const regionID =
+      REGION_TO_ID[formData.bigRegion][formData.smallRegion ?? ''];
 
     if (!regionID) {
       toast.error('회원가입에 실패하였습니다.');
@@ -71,7 +72,6 @@ const OnboardingFunnel = () => {
     };
 
     putUser(body);
-    setIsSubmitting(false);
   };
 
   const handleEnter = (e: KeyboardEvent<HTMLFormElement>) => {

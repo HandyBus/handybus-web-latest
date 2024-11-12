@@ -7,7 +7,7 @@ export interface OnboardingFormValues {
   gender: '남성' | '여성';
   age: AgeType;
   bigRegion: BigRegionsType;
-  smallRegion: string;
+  smallRegion: string | undefined;
   regionID: number;
   favoriteArtists: ArtistType[];
 }
