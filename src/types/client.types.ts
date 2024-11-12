@@ -14,9 +14,10 @@ export type GenderType = 'MALE' | 'FEMALE';
 export interface UserType {
   ID: number;
   nickname: string;
+  phoneNumber: string;
   gender: GenderType;
   ageRange: AgeType;
-  phoneNumber: string;
+  regionID: number;
   profileImage: string;
   favoriteArtistsIDS: number[];
 }

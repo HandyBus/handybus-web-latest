@@ -6,12 +6,14 @@ import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { OnboardingFormValues } from '../page';
 import { KeyboardEvent, useState } from 'react';
 import { usePutUser } from '@/services/users';
 import { getImageUrl } from '@/services/common';
 import { REGION_TO_ID } from '@/constants/regions';
 import { toast } from 'react-toastify';
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+import { useRouter } from 'next/navigation';
+import { setSession } from '@/utils/handleSession';
 
 const ONBOARDING_STEPS = [
   '프로필 정보',
@@ -23,23 +25,34 @@ const ONBOARDING_STEPS = [
 const OnboardingFunnel = () => {
   const { Funnel, Step, handleNextStep, handlePrevStep } =
     useFunnel(ONBOARDING_STEPS);
-
   const { handleSubmit } = useFormContext<OnboardingFormValues>();
-  const { mutate: putUser, isPending } = usePutUser();
+
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const isLoading = isPending || isSubmitting;
+  const { mutate: putUser } = usePutUser({
+    onSuccess: () => {
+      setSession();
+      toast.success('핸디버스에 오신 것을 환영합니다!');
+      router.push('/');
+    },
+    onError: (e) => {
+      console.error(e);
+      toast.error('회원가입에 실패하였습니다.');
+    },
+    onSettled: () => {
+      setIsSubmitting(false);
+    },
+  });
 
   const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
     setIsSubmitting(true);
     const favoriteArtistsIDs = formData.favoriteArtists.map(
       (artist) => artist.id,
     );
-
     const imageUrl = await getImageUrl({
       key: 'users/profiles',
       file: formData.profileImage,
     });
-
     const regionID = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
 
     if (!regionID) {
@@ -72,7 +85,7 @@ const OnboardingFunnel = () => {
       onSubmit={handleSubmit(submitForm)}
       onKeyDown={handleEnter}
       noValidate
-      className="w-full grow"
+      className="relative w-full grow"
     >
       <Funnel>
         <Step name="프로필 정보">
@@ -91,7 +104,10 @@ const OnboardingFunnel = () => {
           />
         </Step>
         <Step name="최애 가수">
-          <ArtistStep handlePrevStep={handlePrevStep} isLoading={isLoading} />
+          <ArtistStep
+            handlePrevStep={handlePrevStep}
+            isLoading={isSubmitting}
+          />
         </Step>
       </Funnel>
     </form>

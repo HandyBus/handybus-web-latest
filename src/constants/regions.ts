@@ -285,7 +285,9 @@ export const SMALL_REGIONS = {
   제주특별자치도: ['서귀포시', '제주시'],
 } as const;
 
-export const REGION_TO_ID = {
+export const REGION_TO_ID: {
+  [bigRegion: string]: { [smallRegion: string]: number };
+} = {
   서울특별시: {
     강남구: 1,
     종로구: 4,
@@ -569,4 +571,1005 @@ export const REGION_TO_ID = {
     서귀포시: 275,
     제주시: 276,
   },
-} as { [bigRegion: string]: { [smallRegion: string]: number } };
+} as const;
+
+export const ID_TO_REGION: {
+  [id: number]: { bigRegion: BigRegionsType; smallRegion: string };
+} = {
+  1: {
+    bigRegion: '서울특별시',
+    smallRegion: '강남구',
+  },
+  4: {
+    bigRegion: '서울특별시',
+    smallRegion: '종로구',
+  },
+  5: {
+    bigRegion: '서울특별시',
+    smallRegion: '중구',
+  },
+  6: {
+    bigRegion: '서울특별시',
+    smallRegion: '용산구',
+  },
+  7: {
+    bigRegion: '서울특별시',
+    smallRegion: '성동구',
+  },
+  8: {
+    bigRegion: '서울특별시',
+    smallRegion: '광진구',
+  },
+  9: {
+    bigRegion: '서울특별시',
+    smallRegion: '동대문구',
+  },
+  10: {
+    bigRegion: '서울특별시',
+    smallRegion: '중랑구',
+  },
+  11: {
+    bigRegion: '서울특별시',
+    smallRegion: '성북구',
+  },
+  12: {
+    bigRegion: '서울특별시',
+    smallRegion: '강북구',
+  },
+  13: {
+    bigRegion: '서울특별시',
+    smallRegion: '도봉구',
+  },
+  14: {
+    bigRegion: '서울특별시',
+    smallRegion: '노원구',
+  },
+  15: {
+    bigRegion: '서울특별시',
+    smallRegion: '은평구',
+  },
+  16: {
+    bigRegion: '서울특별시',
+    smallRegion: '서대문구',
+  },
+  17: {
+    bigRegion: '서울특별시',
+    smallRegion: '마포구',
+  },
+  18: {
+    bigRegion: '서울특별시',
+    smallRegion: '양천구',
+  },
+  19: {
+    bigRegion: '서울특별시',
+    smallRegion: '강서구',
+  },
+  20: {
+    bigRegion: '서울특별시',
+    smallRegion: '구로구',
+  },
+  21: {
+    bigRegion: '서울특별시',
+    smallRegion: '금천구',
+  },
+  22: {
+    bigRegion: '서울특별시',
+    smallRegion: '영등포구',
+  },
+  23: {
+    bigRegion: '서울특별시',
+    smallRegion: '동작구',
+  },
+  24: {
+    bigRegion: '서울특별시',
+    smallRegion: '관악구',
+  },
+  25: {
+    bigRegion: '서울특별시',
+    smallRegion: '서초구',
+  },
+  27: {
+    bigRegion: '서울특별시',
+    smallRegion: '송파구',
+  },
+  28: {
+    bigRegion: '서울특별시',
+    smallRegion: '강동구',
+  },
+  29: {
+    bigRegion: '부산광역시',
+    smallRegion: '강서구',
+  },
+  30: {
+    bigRegion: '부산광역시',
+    smallRegion: '금정구',
+  },
+  31: {
+    bigRegion: '부산광역시',
+    smallRegion: '기장군',
+  },
+  32: {
+    bigRegion: '부산광역시',
+    smallRegion: '남구',
+  },
+  33: {
+    bigRegion: '부산광역시',
+    smallRegion: '동구',
+  },
+  34: {
+    bigRegion: '부산광역시',
+    smallRegion: '동래구',
+  },
+  35: {
+    bigRegion: '부산광역시',
+    smallRegion: '부산진구',
+  },
+  36: {
+    bigRegion: '부산광역시',
+    smallRegion: '북구',
+  },
+  37: {
+    bigRegion: '부산광역시',
+    smallRegion: '사상구',
+  },
+  38: {
+    bigRegion: '부산광역시',
+    smallRegion: '사하구',
+  },
+  39: {
+    bigRegion: '부산광역시',
+    smallRegion: '서구',
+  },
+  40: {
+    bigRegion: '부산광역시',
+    smallRegion: '수영구',
+  },
+  41: {
+    bigRegion: '부산광역시',
+    smallRegion: '연제구',
+  },
+  42: {
+    bigRegion: '부산광역시',
+    smallRegion: '영도구',
+  },
+  43: {
+    bigRegion: '부산광역시',
+    smallRegion: '중구',
+  },
+  44: {
+    bigRegion: '부산광역시',
+    smallRegion: '해운대구',
+  },
+  45: {
+    bigRegion: '대구광역시',
+    smallRegion: '남구',
+  },
+  46: {
+    bigRegion: '대구광역시',
+    smallRegion: '달서구',
+  },
+  47: {
+    bigRegion: '대구광역시',
+    smallRegion: '달성군',
+  },
+  48: {
+    bigRegion: '대구광역시',
+    smallRegion: '동구',
+  },
+  49: {
+    bigRegion: '대구광역시',
+    smallRegion: '북구',
+  },
+  50: {
+    bigRegion: '대구광역시',
+    smallRegion: '서구',
+  },
+  51: {
+    bigRegion: '대구광역시',
+    smallRegion: '수성구',
+  },
+  52: {
+    bigRegion: '대구광역시',
+    smallRegion: '중구',
+  },
+  53: {
+    bigRegion: '인천광역시',
+    smallRegion: '계양구',
+  },
+  54: {
+    bigRegion: '인천광역시',
+    smallRegion: '미추홀구',
+  },
+  55: {
+    bigRegion: '인천광역시',
+    smallRegion: '남동구',
+  },
+  56: {
+    bigRegion: '인천광역시',
+    smallRegion: '동구',
+  },
+  57: {
+    bigRegion: '인천광역시',
+    smallRegion: '부평구',
+  },
+  58: {
+    bigRegion: '인천광역시',
+    smallRegion: '서구',
+  },
+  59: {
+    bigRegion: '인천광역시',
+    smallRegion: '연수구',
+  },
+  60: {
+    bigRegion: '인천광역시',
+    smallRegion: '중구',
+  },
+  61: {
+    bigRegion: '인천광역시',
+    smallRegion: '강화군',
+  },
+  62: {
+    bigRegion: '인천광역시',
+    smallRegion: '옹진군',
+  },
+  63: {
+    bigRegion: '광주광역시',
+    smallRegion: '광산구',
+  },
+  64: {
+    bigRegion: '광주광역시',
+    smallRegion: '남구',
+  },
+  65: {
+    bigRegion: '광주광역시',
+    smallRegion: '동구',
+  },
+  66: {
+    bigRegion: '광주광역시',
+    smallRegion: '북구',
+  },
+  67: {
+    bigRegion: '광주광역시',
+    smallRegion: '서구',
+  },
+  69: {
+    bigRegion: '대전광역시',
+    smallRegion: '대덕구',
+  },
+  70: {
+    bigRegion: '대전광역시',
+    smallRegion: '동구',
+  },
+  71: {
+    bigRegion: '대전광역시',
+    smallRegion: '서구',
+  },
+  72: {
+    bigRegion: '대전광역시',
+    smallRegion: '유성구',
+  },
+  73: {
+    bigRegion: '대전광역시',
+    smallRegion: '중구',
+  },
+  74: {
+    bigRegion: '울산광역시',
+    smallRegion: '남구',
+  },
+  75: {
+    bigRegion: '울산광역시',
+    smallRegion: '동구',
+  },
+  76: {
+    bigRegion: '울산광역시',
+    smallRegion: '북구',
+  },
+  77: {
+    bigRegion: '울산광역시',
+    smallRegion: '중구',
+  },
+  78: {
+    bigRegion: '울산광역시',
+    smallRegion: '울주군',
+  },
+  79: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '조치원읍',
+  },
+  80: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '연기면',
+  },
+  81: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '연동면',
+  },
+  82: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '부강면',
+  },
+  83: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '금남면',
+  },
+  84: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '장군면',
+  },
+  85: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '연서면',
+  },
+  86: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '전의면',
+  },
+  87: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '전동면',
+  },
+  88: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '소정면',
+  },
+  89: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '한솔동',
+  },
+  90: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '도담동',
+  },
+  91: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '아름동',
+  },
+  92: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '종촌동',
+  },
+  93: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '고운동',
+  },
+  94: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '소담동',
+  },
+  95: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '보람동',
+  },
+  96: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '대평동',
+  },
+  97: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '반곡동',
+  },
+  98: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '새롬동',
+  },
+  99: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '다정동',
+  },
+  100: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '해밀동',
+  },
+  101: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '합강동',
+  },
+  102: {
+    bigRegion: '경기도',
+    smallRegion: '수원시',
+  },
+  103: {
+    bigRegion: '경기도',
+    smallRegion: '성남시',
+  },
+  104: {
+    bigRegion: '경기도',
+    smallRegion: '안양시',
+  },
+  105: {
+    bigRegion: '경기도',
+    smallRegion: '부천시',
+  },
+  106: {
+    bigRegion: '경기도',
+    smallRegion: '광명시',
+  },
+  107: {
+    bigRegion: '경기도',
+    smallRegion: '평택시',
+  },
+  108: {
+    bigRegion: '경기도',
+    smallRegion: '동두천시',
+  },
+  109: {
+    bigRegion: '경기도',
+    smallRegion: '안산시',
+  },
+  110: {
+    bigRegion: '경기도',
+    smallRegion: '고양시',
+  },
+  111: {
+    bigRegion: '경기도',
+    smallRegion: '과천시',
+  },
+  112: {
+    bigRegion: '경기도',
+    smallRegion: '의왕시',
+  },
+  113: {
+    bigRegion: '경기도',
+    smallRegion: '구리시',
+  },
+  114: {
+    bigRegion: '경기도',
+    smallRegion: '남양주시',
+  },
+  115: {
+    bigRegion: '경기도',
+    smallRegion: '용인시',
+  },
+  116: {
+    bigRegion: '경기도',
+    smallRegion: '시흥시',
+  },
+  117: {
+    bigRegion: '경기도',
+    smallRegion: '군포시',
+  },
+  118: {
+    bigRegion: '경기도',
+    smallRegion: '의정부시',
+  },
+  119: {
+    bigRegion: '경기도',
+    smallRegion: '하남시',
+  },
+  120: {
+    bigRegion: '경기도',
+    smallRegion: '이천시',
+  },
+  121: {
+    bigRegion: '경기도',
+    smallRegion: '안성시',
+  },
+  122: {
+    bigRegion: '경기도',
+    smallRegion: '김포시',
+  },
+  123: {
+    bigRegion: '경기도',
+    smallRegion: '화성시',
+  },
+  124: {
+    bigRegion: '경기도',
+    smallRegion: '광주시',
+  },
+  125: {
+    bigRegion: '경기도',
+    smallRegion: '양주시',
+  },
+  126: {
+    bigRegion: '경기도',
+    smallRegion: '포천시',
+  },
+  127: {
+    bigRegion: '경기도',
+    smallRegion: '여주시',
+  },
+  128: {
+    bigRegion: '경기도',
+    smallRegion: '가평군',
+  },
+  129: {
+    bigRegion: '경기도',
+    smallRegion: '양평군',
+  },
+  130: {
+    bigRegion: '경기도',
+    smallRegion: '연천군',
+  },
+  131: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '춘천시',
+  },
+  132: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '원주시',
+  },
+  133: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '강릉시',
+  },
+  134: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '동해시',
+  },
+  135: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '태백시',
+  },
+  136: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '속초시',
+  },
+  137: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '삼척시',
+  },
+  138: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '홍천군',
+  },
+  139: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '횡성군',
+  },
+  140: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '영월군',
+  },
+  141: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '평창군',
+  },
+  142: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '정선군',
+  },
+  143: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '철원군',
+  },
+  144: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '화천군',
+  },
+  145: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '양구군',
+  },
+  146: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '인제군',
+  },
+  147: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '고성군',
+  },
+  148: {
+    bigRegion: '강원특별자치도',
+    smallRegion: '양양군',
+  },
+  149: {
+    bigRegion: '충청북도',
+    smallRegion: '청주시',
+  },
+  150: {
+    bigRegion: '충청북도',
+    smallRegion: '충주시',
+  },
+  151: {
+    bigRegion: '충청북도',
+    smallRegion: '제천시',
+  },
+  152: {
+    bigRegion: '충청북도',
+    smallRegion: '보은군',
+  },
+  153: {
+    bigRegion: '충청북도',
+    smallRegion: '옥천군',
+  },
+  154: {
+    bigRegion: '충청북도',
+    smallRegion: '영동군',
+  },
+  155: {
+    bigRegion: '충청북도',
+    smallRegion: '진천군',
+  },
+  156: {
+    bigRegion: '충청북도',
+    smallRegion: '괴산군',
+  },
+  157: {
+    bigRegion: '충청북도',
+    smallRegion: '음성군',
+  },
+  158: {
+    bigRegion: '충청북도',
+    smallRegion: '단양군',
+  },
+  159: {
+    bigRegion: '충청북도',
+    smallRegion: '증평군',
+  },
+  160: {
+    bigRegion: '충청남도',
+    smallRegion: '천안시',
+  },
+  161: {
+    bigRegion: '충청남도',
+    smallRegion: '공주시',
+  },
+  162: {
+    bigRegion: '충청남도',
+    smallRegion: '보령시',
+  },
+  163: {
+    bigRegion: '충청남도',
+    smallRegion: '아산시',
+  },
+  164: {
+    bigRegion: '충청남도',
+    smallRegion: '서산시',
+  },
+  165: {
+    bigRegion: '충청남도',
+    smallRegion: '논산시',
+  },
+  166: {
+    bigRegion: '충청남도',
+    smallRegion: '계룡시',
+  },
+  167: {
+    bigRegion: '충청남도',
+    smallRegion: '당진시',
+  },
+  168: {
+    bigRegion: '충청남도',
+    smallRegion: '금산군',
+  },
+  169: {
+    bigRegion: '충청남도',
+    smallRegion: '부여군',
+  },
+  170: {
+    bigRegion: '충청남도',
+    smallRegion: '서천군',
+  },
+  171: {
+    bigRegion: '충청남도',
+    smallRegion: '청양군',
+  },
+  172: {
+    bigRegion: '충청남도',
+    smallRegion: '홍성군',
+  },
+  173: {
+    bigRegion: '충청남도',
+    smallRegion: '예산군',
+  },
+  174: {
+    bigRegion: '충청남도',
+    smallRegion: '태안군',
+  },
+  175: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '전주시',
+  },
+  176: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '군산시',
+  },
+  177: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '익산시',
+  },
+  178: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '정읍시',
+  },
+  179: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '남원시',
+  },
+  180: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '김제시',
+  },
+  181: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '완주군',
+  },
+  182: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '진안군',
+  },
+  183: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '무주군',
+  },
+  184: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '장수군',
+  },
+  185: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '임실군',
+  },
+  186: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '순창군',
+  },
+  187: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '고창군',
+  },
+  188: {
+    bigRegion: '전북특별자치도',
+    smallRegion: '부안군',
+  },
+  189: {
+    bigRegion: '전라남도',
+    smallRegion: '목포시',
+  },
+  190: {
+    bigRegion: '전라남도',
+    smallRegion: '여수시',
+  },
+  191: {
+    bigRegion: '전라남도',
+    smallRegion: '순천시',
+  },
+  192: {
+    bigRegion: '전라남도',
+    smallRegion: '나주시',
+  },
+  193: {
+    bigRegion: '전라남도',
+    smallRegion: '광양시',
+  },
+  194: {
+    bigRegion: '전라남도',
+    smallRegion: '담양군',
+  },
+  195: {
+    bigRegion: '전라남도',
+    smallRegion: '곡성군',
+  },
+  196: {
+    bigRegion: '전라남도',
+    smallRegion: '구례군',
+  },
+  197: {
+    bigRegion: '전라남도',
+    smallRegion: '고흥군',
+  },
+  198: {
+    bigRegion: '전라남도',
+    smallRegion: '보성군',
+  },
+  199: {
+    bigRegion: '전라남도',
+    smallRegion: '화순군',
+  },
+  200: {
+    bigRegion: '전라남도',
+    smallRegion: '장흥군',
+  },
+  201: {
+    bigRegion: '전라남도',
+    smallRegion: '강진군',
+  },
+  202: {
+    bigRegion: '전라남도',
+    smallRegion: '해남군',
+  },
+  203: {
+    bigRegion: '전라남도',
+    smallRegion: '영암군',
+  },
+  204: {
+    bigRegion: '전라남도',
+    smallRegion: '무안군',
+  },
+  205: {
+    bigRegion: '전라남도',
+    smallRegion: '함평군',
+  },
+  206: {
+    bigRegion: '전라남도',
+    smallRegion: '영광군',
+  },
+  207: {
+    bigRegion: '전라남도',
+    smallRegion: '장성군',
+  },
+  208: {
+    bigRegion: '전라남도',
+    smallRegion: '완도군',
+  },
+  209: {
+    bigRegion: '전라남도',
+    smallRegion: '진도군',
+  },
+  210: {
+    bigRegion: '전라남도',
+    smallRegion: '신안군',
+  },
+  234: {
+    bigRegion: '경상북도',
+    smallRegion: '포항시',
+  },
+  235: {
+    bigRegion: '경상북도',
+    smallRegion: '경주시',
+  },
+  236: {
+    bigRegion: '경상북도',
+    smallRegion: '김천시',
+  },
+  237: {
+    bigRegion: '경상북도',
+    smallRegion: '안동시',
+  },
+  238: {
+    bigRegion: '경상북도',
+    smallRegion: '구미시',
+  },
+  239: {
+    bigRegion: '경상북도',
+    smallRegion: '영주시',
+  },
+  240: {
+    bigRegion: '경상북도',
+    smallRegion: '영천시',
+  },
+  241: {
+    bigRegion: '경상북도',
+    smallRegion: '상주시',
+  },
+  242: {
+    bigRegion: '경상북도',
+    smallRegion: '문경시',
+  },
+  243: {
+    bigRegion: '경상북도',
+    smallRegion: '경산시',
+  },
+  244: {
+    bigRegion: '경상북도',
+    smallRegion: '군위군',
+  },
+  245: {
+    bigRegion: '경상북도',
+    smallRegion: '의성군',
+  },
+  246: {
+    bigRegion: '경상북도',
+    smallRegion: '청송군',
+  },
+  247: {
+    bigRegion: '경상북도',
+    smallRegion: '영양군',
+  },
+  248: {
+    bigRegion: '경상북도',
+    smallRegion: '영덕군',
+  },
+  249: {
+    bigRegion: '경상북도',
+    smallRegion: '청도군',
+  },
+  250: {
+    bigRegion: '경상북도',
+    smallRegion: '고령군',
+  },
+  251: {
+    bigRegion: '경상북도',
+    smallRegion: '성주군',
+  },
+  252: {
+    bigRegion: '경상북도',
+    smallRegion: '칠곡군',
+  },
+  253: {
+    bigRegion: '경상북도',
+    smallRegion: '예천군',
+  },
+  254: {
+    bigRegion: '경상북도',
+    smallRegion: '봉화군',
+  },
+  255: {
+    bigRegion: '경상북도',
+    smallRegion: '울진군',
+  },
+  256: {
+    bigRegion: '경상북도',
+    smallRegion: '울릉군',
+  },
+  257: {
+    bigRegion: '경상남도',
+    smallRegion: '창원시',
+  },
+  258: {
+    bigRegion: '경상남도',
+    smallRegion: '진주시',
+  },
+  259: {
+    bigRegion: '경상남도',
+    smallRegion: '통영시',
+  },
+  260: {
+    bigRegion: '경상남도',
+    smallRegion: '사천시',
+  },
+  261: {
+    bigRegion: '경상남도',
+    smallRegion: '김해시',
+  },
+  262: {
+    bigRegion: '경상남도',
+    smallRegion: '밀양시',
+  },
+  263: {
+    bigRegion: '경상남도',
+    smallRegion: '거제시',
+  },
+  264: {
+    bigRegion: '경상남도',
+    smallRegion: '양산시',
+  },
+  265: {
+    bigRegion: '경상남도',
+    smallRegion: '의령군',
+  },
+  266: {
+    bigRegion: '경상남도',
+    smallRegion: '함안군',
+  },
+  267: {
+    bigRegion: '경상남도',
+    smallRegion: '창녕군',
+  },
+  268: {
+    bigRegion: '경상남도',
+    smallRegion: '고성군',
+  },
+  269: {
+    bigRegion: '경상남도',
+    smallRegion: '남해군',
+  },
+  270: {
+    bigRegion: '경상남도',
+    smallRegion: '하동군',
+  },
+  271: {
+    bigRegion: '경상남도',
+    smallRegion: '산청군',
+  },
+  272: {
+    bigRegion: '경상남도',
+    smallRegion: '함양군',
+  },
+  273: {
+    bigRegion: '경상남도',
+    smallRegion: '거창군',
+  },
+  274: {
+    bigRegion: '경상남도',
+    smallRegion: '합천군',
+  },
+  275: {
+    bigRegion: '제주특별자치도',
+    smallRegion: '서귀포시',
+  },
+  276: {
+    bigRegion: '제주특별자치도',
+    smallRegion: '제주시',
+  },
+} as const;

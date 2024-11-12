@@ -1,4 +1,5 @@
 import { Cookies } from 'react-cookie';
+import { removeRefreshToken } from './handleToken';
 
 const SESSION = 'session';
 
@@ -15,4 +16,9 @@ export const setSession = () => {
 
 export const removeSession = () => {
   cookieStore.remove(SESSION);
+};
+
+export const handleLogout = () => {
+  removeSession();
+  removeRefreshToken();
 };
