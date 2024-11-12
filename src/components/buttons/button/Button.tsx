@@ -13,7 +13,7 @@ const Button = ({ children, variant = 'primary', loading, ...rest }: Props) => {
   const variantClasses: { [key: string]: string } = {
     primary: 'bg-primary-main text-white active:bg-primary-700',
     secondary: 'bg-grey-50 text-grey-700 active:bg-grey-100',
-    alert: 'bg-red-500 text-14 leading-[22.4px] text-white',
+    alert: 'bg-red-500 text-14 leading-[22.4px] text-white active:bg-[#EF5350]',
     modalSecondary:
       'bg-grey-50 text-14 font-500 leading-[22.4px] text-grey-700 active:bg-grey-100',
   };
