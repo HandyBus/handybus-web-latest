@@ -43,7 +43,7 @@ const ResidenceContent = () => {
 
   return (
     <div className="relative grow">
-      <div className="p-28">
+      <div className="px-28 py-16">
         <h2 className="pb-[6px] text-26 font-700 text-grey-900">
           어디에 거주하고 계세요?
         </h2>
