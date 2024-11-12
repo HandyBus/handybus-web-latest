@@ -79,7 +79,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
   };
 
   return (
-    <div className="relative h-full w-full grow">
+    <div className="relative grow">
       <div className="p-28">
         <h2 className="pb-[6px] text-26 font-700 text-grey-900">
           프로필을 입력해주세요

@@ -33,7 +33,7 @@ const ArtistContent = () => {
 
   return (
     <>
-      <div className="relative h-full w-full grow">
+      <div className="relative grow">
         <h2 className="p-28 text-26 font-700 text-grey-900">
           최애 가수를 찾아주세요
         </h2>

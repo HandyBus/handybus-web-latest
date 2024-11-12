@@ -26,7 +26,6 @@ const OAuth = ({ params, searchParams }: Props) => {
       setAccessToken(tokens.accessToken);
 
       const user = await getUser();
-      console.log(user);
       if (user.ageRange === '연령대 미지정' || !user.ageRange) {
         removeSession();
         router.push('/onboarding');

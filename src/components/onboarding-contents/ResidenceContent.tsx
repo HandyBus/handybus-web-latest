@@ -11,7 +11,7 @@ import { useFormContext } from 'react-hook-form';
 import SelectInput from '../inputs/select-input/SelectInput';
 
 const ResidenceContent = () => {
-  const { getValues, setValue, formState } =
+  const { getValues, setValue, formState, clearErrors } =
     useFormContext<OnboardingFormValues>();
 
   const [bigRegion, setBigRegion] = useState<BigRegionsType>();
@@ -28,13 +28,14 @@ const ResidenceContent = () => {
     if (bigRegion) {
       setValue('bigRegion', bigRegion);
     }
+    setValue('smallRegion', smallRegion ?? '');
     if (smallRegion) {
-      setValue('smallRegion', smallRegion);
+      clearErrors('bigRegion');
     }
   }, [bigRegion, smallRegion]);
 
   return (
-    <div className="relative h-full w-full grow">
+    <div className="relative grow">
       <div className="p-28">
         <h2 className="pb-[6px] text-26 font-700 text-grey-900">
           어디에 거주하고 계세요?

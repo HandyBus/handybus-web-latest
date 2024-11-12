@@ -23,7 +23,7 @@ const PersonalInfoContent = () => {
   const nickname = getValues('nickname');
 
   return (
-    <div className="relative h-full w-full grow">
+    <div className="relative grow">
       <h2 className="p-28 text-26 font-700 text-grey-900">
         <span className="text-primary-main">{nickname}</span>님의 <br />
         성별과 연령대를 알려주세요
