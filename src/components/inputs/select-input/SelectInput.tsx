@@ -1,47 +1,64 @@
 'use client';
 
-import type { Dispatch, SetStateAction } from 'react';
+import BottomSheet from '@/components/bottom-sheet/BottomSheet';
+import useBottomSheet from '@/hooks/useBottomSheet';
+import ChevronEnabledIcon from 'public/icons/chevron-enabled.svg';
+import ChevronDisabledIcon from 'public/icons/chevron-disabled.svg';
 
-const CHEVRON_ENABLED = `url('/icons/chevron-enabled.svg') calc(100% - 12px) center no-repeat`;
-const CHEVRON_DISABLED = `url('/icons/chevron-disabled.svg') calc(100% - 12px) center no-repeat`;
 interface Props<T> {
   options: readonly T[];
-  onChange?: Dispatch<SetStateAction<T | undefined>>;
-  value?: T;
+  value: T | undefined;
+  setValue: (value: T | undefined) => void;
   placeholder?: string;
   disabled?: boolean;
+  bottomSheetTitle?: string;
 }
 
 const SelectInput = <T extends string>({
   options,
-  onChange,
-  placeholder,
   value,
+  setValue,
+  placeholder,
   disabled,
+  bottomSheetTitle,
 }: Props<T>) => {
+  const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
+    useBottomSheet();
+
   return (
-    <select
-      style={{
-        background: disabled ? CHEVRON_DISABLED : CHEVRON_ENABLED,
-      }}
-      disabled={disabled}
-      className={`w-full cursor-pointer appearance-none rounded-none border-b border-b-grey-100 bg-white p-12 pr-32
-        outline-none disabled:cursor-not-allowed disabled:text-grey-300 disabled:opacity-100
-        ${value === undefined ? 'text-grey-300' : 'text-grey-800'}`}
-      value={value || placeholder}
-      onChange={onChange && ((e) => onChange(e.target.value as T))}
-    >
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-      {placeholder !== undefined && (
-        <option key={placeholder} value={placeholder} disabled hidden>
-          {placeholder}
-        </option>
-      )}
-    </select>
+    <>
+      <button
+        onClick={openBottomSheet}
+        type="button"
+        disabled={disabled}
+        className={`relative w-full p-12 pr-32 text-left ${value ? 'text-grey-800' : 'text-grey-300'}`}
+      >
+        {value || placeholder}
+        <div className="absolute right-12 top-16">
+          {disabled ? <ChevronDisabledIcon /> : <ChevronEnabledIcon />}
+        </div>
+      </button>
+      <BottomSheet ref={bottomSheetRef} title={bottomSheetTitle}>
+        <div
+          ref={contentRef}
+          className="flex h-full w-full flex-col overflow-y-auto bg-white"
+        >
+          {options.map((option) => (
+            <button
+              key={option}
+              className="py-16 text-left"
+              type="button"
+              onClick={() => {
+                setValue(option);
+                closeBottomSheet();
+              }}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </BottomSheet>
+    </>
   );
 };
 

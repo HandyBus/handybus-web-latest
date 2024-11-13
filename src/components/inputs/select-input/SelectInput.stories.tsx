@@ -41,6 +41,14 @@ export const Interactice: Story = {
   render: function () {
     const options = ['서울', '부산', '대구', '인천', '광주', '대전', '울산'];
     const [value, setValue] = useState<string | undefined>(undefined);
-    return <SelectInput options={options} value={value} onChange={setValue} />;
+    return (
+      <SelectInput
+        options={options}
+        value={value}
+        setValue={setValue}
+        placeholder="지역"
+        bottomSheetTitle="지역 선택"
+      />
+    );
   },
 };

@@ -51,19 +51,21 @@ const ResidenceContent = () => {
         </div>
         <SelectInput
           options={BIG_REGIONS}
-          placeholder="도/광역시"
           value={bigRegion}
-          onChange={(e) => {
-            setBigRegion(e);
+          setValue={(el) => {
+            setBigRegion(el);
             setSmallRegion(undefined);
           }}
+          placeholder="도/광역시"
+          bottomSheetTitle="도/광역시 선택"
         />
         <SelectInput
           options={SMALL_REGIONS[bigRegion!] ?? []}
-          placeholder="시/군/구"
           disabled={!bigRegion}
           value={smallRegion}
-          onChange={setSmallRegion}
+          setValue={setSmallRegion}
+          placeholder="시/군/구"
+          bottomSheetTitle="시/군/구 선택"
         />
         <p className="h-[20px] text-12 font-400 text-red-500">
           {formState.errors.bigRegion?.message}
