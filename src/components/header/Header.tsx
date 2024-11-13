@@ -8,7 +8,7 @@ const Header = () => {
   const handleProfileClick = () => {};
 
   return (
-    <header className="flex h-48 w-full items-center justify-between bg-white px-16 py-12">
+    <header className="sticky top-0 z-50 flex h-48 w-full items-center justify-between bg-white px-16 py-12">
       <button onClick={handleLogoClick}>
         <LogoIcon fill="black" />
       </button>
