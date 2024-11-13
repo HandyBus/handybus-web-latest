@@ -18,10 +18,15 @@ const useBottomSheet = () => {
     backdrop.current = bottomSheetElement.parentElement;
 
     bottomSheetElement.parentElement.addEventListener(
-      'click',
+      'mouseup',
       closeBottomSheet,
     );
-    bottomSheetElement.addEventListener('click', (e) => e.stopPropagation());
+    bottomSheetElement.parentElement.addEventListener(
+      'touchend',
+      closeBottomSheet,
+    );
+    bottomSheetElement.addEventListener('mouseup', (e) => e.stopPropagation());
+    bottomSheetElement.addEventListener('touchend', (e) => e.stopPropagation());
 
     bottomSheetElement.addEventListener('touchstart', handleTouch.start);
     bottomSheetElement.addEventListener('touchmove', handleTouch.move);
@@ -36,8 +41,18 @@ const useBottomSheet = () => {
     contentRef.current?.addEventListener('mousedown', handleContentTouch);
 
     return () => {
-      bottomSheetElement.removeEventListener('click', closeBottomSheet);
-      bottomSheetElement.removeEventListener('click', (e) =>
+      bottomSheetElement.parentElement?.removeEventListener(
+        'mouseup',
+        closeBottomSheet,
+      );
+      bottomSheetElement.parentElement?.removeEventListener(
+        'touchend',
+        closeBottomSheet,
+      );
+      bottomSheetElement.removeEventListener('mouseup', (e) =>
+        e.stopPropagation(),
+      );
+      bottomSheetElement.removeEventListener('touchend', (e) =>
         e.stopPropagation(),
       );
 
