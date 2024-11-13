@@ -14,7 +14,7 @@ interface Props<T> {
   bottomSheetTitle?: string;
 }
 
-const SelectInput = <T extends string>({
+const Select = <T extends string>({
   options,
   value,
   setValue,
@@ -62,4 +62,4 @@ const SelectInput = <T extends string>({
   );
 };
 
-export default SelectInput;
+export default Select;

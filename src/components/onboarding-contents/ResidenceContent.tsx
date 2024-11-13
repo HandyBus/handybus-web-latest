@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from 'react';
 import { OnboardingFormValues } from './onboarding.types';
 import { useFormContext } from 'react-hook-form';
-import SelectInput from '../inputs/select-input/SelectInput';
+import Select from '../select/Select';
 
 const ResidenceContent = () => {
   const { getValues, setValue, formState, clearErrors } =
@@ -49,7 +49,7 @@ const ResidenceContent = () => {
         <div className="text-16 font-500 text-grey-600-sub">
           거주 지역을 선택해주세요
         </div>
-        <SelectInput
+        <Select
           options={BIG_REGIONS}
           value={bigRegion}
           setValue={(el) => {
@@ -59,7 +59,7 @@ const ResidenceContent = () => {
           placeholder="도/광역시"
           bottomSheetTitle="도/광역시 선택"
         />
-        <SelectInput
+        <Select
           options={SMALL_REGIONS[bigRegion!] ?? []}
           disabled={!bigRegion}
           value={smallRegion}

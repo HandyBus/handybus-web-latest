@@ -1,16 +1,16 @@
 import { Meta, StoryObj } from '@storybook/react';
-import SelectInput from './SelectInput';
+import Select from './Select';
 import { useState } from 'storybook/internal/preview-api';
 
-const meta: Meta<typeof SelectInput> = {
+const meta: Meta<typeof Select> = {
   title: 'Components/Select',
-  component: SelectInput,
+  component: Select,
   tags: ['autodocs'],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof SelectInput>;
+type Story = StoryObj<typeof Select>;
 
 export const ShowingPlaceHolder: Story = {
   args: {
@@ -36,13 +36,13 @@ export const Disabled: Story = {
   },
 };
 
-export const Interactice: Story = {
+export const Interactive: Story = {
   args: {},
   render: function () {
     const options = ['서울', '부산', '대구', '인천', '광주', '대전', '울산'];
     const [value, setValue] = useState<string | undefined>(undefined);
     return (
-      <SelectInput
+      <Select
         options={options}
         value={value}
         setValue={setValue}
