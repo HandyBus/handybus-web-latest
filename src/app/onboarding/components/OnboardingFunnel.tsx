@@ -15,6 +15,7 @@ import { OnboardingFormValues } from '@/components/onboarding-contents/onboardin
 import { useRouter } from 'next/navigation';
 import { setSession } from '@/utils/handleSession';
 import AgreementStep from './steps/AgreementStep';
+import PhoneNumberStep from './steps/PhoneNumberStep';
 
 const ONBOARDING_STEPS = [
   '약관 동의',
@@ -92,10 +93,10 @@ const OnboardingFunnel = () => {
     >
       <Funnel>
         <Step name="약관 동의">
-          <AgreementStep />
+          <AgreementStep handleNextStep={handleNextStep} />
         </Step>
         <Step name="전화번호">
-          <div>hello</div>
+          <PhoneNumberStep handleNextStep={handleNextStep} />
         </Step>
         <Step name="프로필 정보">
           <ProfileInfoStep handleNextStep={handleNextStep} />

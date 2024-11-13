@@ -3,7 +3,11 @@ import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import RightArrowIcon from 'public/icons/chevron-right-sm.svg';
 import { useEffect, useState } from 'react';
 
-const AgreementStep = () => {
+interface Props {
+  handleNextStep: () => void;
+}
+
+const AgreementStep = ({ handleNextStep }: Props) => {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isServiceChecked, setIsServiceChecked] = useState(false);
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false);
@@ -76,7 +80,7 @@ const AgreementStep = () => {
           />
         </section>
         <div className="w-full px-32 py-8">
-          <Button type="button" disabled={!isEnabled}>
+          <Button type="button" disabled={!isEnabled} onClick={handleNextStep}>
             다음으로
           </Button>
         </div>
