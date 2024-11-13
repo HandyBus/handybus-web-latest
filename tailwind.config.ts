@@ -18,16 +18,18 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/data/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  animate: {
-    spin: 'spin 1s linear infinite',
-  },
-  keyframes: {
-    spin: {
-      '0%': { transform: 'rotate(0deg)' },
-      '100%': { transform: 'rotate(360deg)' },
-    },
-  },
   theme: {
+    extend: {
+      animation: {
+        fade: 'fade 0.125s ease-in',
+      },
+      keyframes: {
+        fade: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+    },
     spacing: PX_ENTRIES,
     colors: {
       transparent: 'transparent',
