@@ -1,7 +1,11 @@
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
+import useBottomSheet from '@/hooks/useBottomSheet';
 import RightArrowIcon from 'public/icons/chevron-right-sm.svg';
 import { useEffect, useState } from 'react';
+import ServiceBottomSheet from '../bottom-sheets/ServiceBottomSheet';
+import PersonalInfoBottomSheet from '../bottom-sheets/PersonalInfoBottomSheet';
+import MarketingBottomSheet from '../bottom-sheets/MarketingBottomSheet';
 
 interface Props {
   handleNextStep: () => void;
@@ -35,6 +39,24 @@ const AgreementStep = ({ handleNextStep }: Props) => {
     }
   };
 
+  const {
+    bottomSheetRef: serviceBottomSheetRef,
+    contentRef: serviceContentRef,
+    openBottomSheet: openServiceBottomSheet,
+  } = useBottomSheet();
+
+  const {
+    bottomSheetRef: personalInfoBottomSheetRef,
+    contentRef: personalInfoContentRef,
+    openBottomSheet: openPersonalInfoBottomSheet,
+  } = useBottomSheet();
+
+  const {
+    bottomSheetRef: marketingBottomSheetRef,
+    contentRef: marketingContentRef,
+    openBottomSheet: openMarketingBottomSheet,
+  } = useBottomSheet();
+
   return (
     <>
       <div className="relative grow">
@@ -65,18 +87,21 @@ const AgreementStep = ({ handleNextStep }: Props) => {
             title="서비스 이용약관"
             isChecked={isServiceChecked}
             setIsChecked={setIsServiceChecked}
+            onClick={openServiceBottomSheet}
           />
           <AgreementItem
             type="필수"
             title="개인정보 수집 및 이용 동의"
             isChecked={isPersonalInfoChecked}
             setIsChecked={setIsPersonalInfoChecked}
+            onClick={openPersonalInfoBottomSheet}
           />
           <AgreementItem
             type="선택"
             title="마케팅 활용/광고성 정보 수신 동의"
             isChecked={isMarketingChecked}
             setIsChecked={setIsMarketingChecked}
+            onClick={openMarketingBottomSheet}
           />
         </section>
         <div className="w-full px-32 py-8">
@@ -85,6 +110,21 @@ const AgreementStep = ({ handleNextStep }: Props) => {
           </Button>
         </div>
       </div>
+      <ServiceBottomSheet
+        bottomSheetRef={serviceBottomSheetRef}
+        contentRef={serviceContentRef}
+        onAccept={() => setIsServiceChecked(true)}
+      />
+      <PersonalInfoBottomSheet
+        bottomSheetRef={personalInfoBottomSheetRef}
+        contentRef={personalInfoContentRef}
+        onAccept={() => setIsPersonalInfoChecked(true)}
+      />
+      <MarketingBottomSheet
+        bottomSheetRef={marketingBottomSheetRef}
+        contentRef={marketingContentRef}
+        onAccept={() => setIsMarketingChecked(true)}
+      />
     </>
   );
 };
@@ -96,6 +136,7 @@ interface AgreementItemProps {
   title: string;
   isChecked: boolean;
   setIsChecked: (value: boolean) => void;
+  onClick: () => void;
 }
 
 const AgreementItem = ({
@@ -103,11 +144,13 @@ const AgreementItem = ({
   title,
   isChecked,
   setIsChecked,
+  onClick,
 }: AgreementItemProps) => {
   return (
     <button
       type="button"
       className="flex w-full items-center justify-between py-16 text-14  text-grey-800"
+      onClick={onClick}
     >
       <div className="flex items-center">
         <span
