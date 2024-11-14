@@ -14,15 +14,9 @@ export const getUser = async () => {
   return data;
 };
 
-export const useGetUser = () => {
-  return useQuery({
-    queryKey: ['user'],
-    queryFn: getUser,
-  });
-};
-
 const putUser = async (body: {
   nickname?: string;
+  phoneNumber?: string;
   gender?: GenderType;
   ageRange?: AgeType;
   regionID?: number;
@@ -67,13 +61,13 @@ export const usePutUser = ({
 
 const getUserDashboard = async () => {
   const res = await authInstance.get('/user-management/users/me/dashboard');
-  const data: UserDashboardType = res.data?.userDashboard?.['_props'];
+  const data: UserDashboardType = res.data?.userDashboard;
   return data;
 };
 
 export const useGetUserDashboard = () => {
   return useQuery({
-    queryKey: ['userDashboard'],
+    queryKey: ['dashboard'],
     queryFn: getUserDashboard,
   });
 };

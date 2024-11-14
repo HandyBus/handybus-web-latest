@@ -1,3 +1,5 @@
+import { BigRegionsType } from '@/constants/regions';
+
 export type AgeType =
   | '연령대 미지정'
   | '10대 이하'
@@ -29,7 +31,7 @@ export interface ArtistType {
 
 export interface RegionType {
   id: number;
-  provinceFullName: string;
+  provinceFullName: BigRegionsType;
   provinceShortName: string;
   cityFullName: string;
   cityShortName: string;

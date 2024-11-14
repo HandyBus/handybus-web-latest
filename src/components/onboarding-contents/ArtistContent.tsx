@@ -7,9 +7,9 @@ import SearchBar from '@/components/buttons/search-bar/SearchBar';
 import SearchInput from '@/components/inputs/search-input/SearchInput';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import { useFormContext } from 'react-hook-form';
-import { useGetArtists } from '@/services/artists';
 import { ArtistType } from '@/types/client.types';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+import { useGetArtists } from '@/services/shuttleOperation';
 
 const ArtistContent = () => {
   const { data: artists } = useGetArtists();

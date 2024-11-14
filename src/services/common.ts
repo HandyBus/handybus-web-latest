@@ -5,7 +5,7 @@ type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
 
 const getPresignedUrl = async (key: KeyType, extension: ExtensionType) => {
-  const res = await instance.get('/presigned-url', {
+  const res = await instance.get('/common/image/presigned-url', {
     params: { key, extension },
   });
   const data: {
@@ -39,5 +39,6 @@ export const getImageUrl = async ({
 
   const urls = await getPresignedUrl(key, extension);
   await uploadImageToS3(urls.presignedUrl, file);
+  console.log(urls.cdnUrl);
   return urls.cdnUrl;
 };

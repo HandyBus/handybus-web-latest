@@ -38,12 +38,11 @@ const OnboardingFunnel = () => {
       setSession();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
+      setIsSubmitting(false);
     },
     onError: (e) => {
       console.error(e);
       toast.error('회원가입에 실패하였습니다.');
-    },
-    onSettled: () => {
       setIsSubmitting(false);
     },
   });
