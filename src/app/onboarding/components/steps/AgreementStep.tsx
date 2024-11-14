@@ -43,18 +43,21 @@ const AgreementStep = ({ handleNextStep }: Props) => {
     bottomSheetRef: serviceBottomSheetRef,
     contentRef: serviceContentRef,
     openBottomSheet: openServiceBottomSheet,
+    closeBottomSheet: closeServiceBottomSheet,
   } = useBottomSheet();
 
   const {
     bottomSheetRef: personalInfoBottomSheetRef,
     contentRef: personalInfoContentRef,
     openBottomSheet: openPersonalInfoBottomSheet,
+    closeBottomSheet: closePersonalInfoBottomSheet,
   } = useBottomSheet();
 
   const {
     bottomSheetRef: marketingBottomSheetRef,
     contentRef: marketingContentRef,
     openBottomSheet: openMarketingBottomSheet,
+    closeBottomSheet: closeMarketingBottomSheet,
   } = useBottomSheet();
 
   return (
@@ -114,16 +117,19 @@ const AgreementStep = ({ handleNextStep }: Props) => {
         bottomSheetRef={serviceBottomSheetRef}
         contentRef={serviceContentRef}
         onAccept={() => setIsServiceChecked(true)}
+        closeBottomSheet={closeServiceBottomSheet}
       />
       <PersonalInfoBottomSheet
         bottomSheetRef={personalInfoBottomSheetRef}
         contentRef={personalInfoContentRef}
         onAccept={() => setIsPersonalInfoChecked(true)}
+        closeBottomSheet={closePersonalInfoBottomSheet}
       />
       <MarketingBottomSheet
         bottomSheetRef={marketingBottomSheetRef}
         contentRef={marketingContentRef}
         onAccept={() => setIsMarketingChecked(true)}
+        closeBottomSheet={closeMarketingBottomSheet}
       />
     </>
   );

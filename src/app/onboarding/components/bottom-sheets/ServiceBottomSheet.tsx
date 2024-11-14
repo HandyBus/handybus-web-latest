@@ -6,12 +6,14 @@ interface Props {
   bottomSheetRef: (node: HTMLDivElement) => void;
   contentRef: RefObject<HTMLDivElement>;
   onAccept: () => void;
+  closeBottomSheet: () => void;
 }
 
 const ServiceBottomSheet = ({
   bottomSheetRef,
   contentRef,
   onAccept,
+  closeBottomSheet,
 }: Props) => {
   return (
     <BottomSheet title="서비스 이용약관" ref={bottomSheetRef}>
@@ -23,10 +25,16 @@ const ServiceBottomSheet = ({
           이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
         </div>
         <div className="flex gap-8 pb-16 pt-8">
-          <Button type="button" variant="secondary">
+          <Button type="button" variant="secondary" onClick={closeBottomSheet}>
             닫기
           </Button>
-          <Button type="button" onClick={onAccept}>
+          <Button
+            type="button"
+            onClick={() => {
+              onAccept();
+              closeBottomSheet();
+            }}
+          >
             동의하기
           </Button>
         </div>
