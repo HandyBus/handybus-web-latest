@@ -112,7 +112,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
             className="hidden"
           />
         </button>
-        {imageFile && (
+        {imageSrc && (
           <button
             type="button"
             onClick={clearSelectedFile}
