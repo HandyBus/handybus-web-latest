@@ -29,11 +29,11 @@ const PersonalInfoContent = () => {
 
   return (
     <div className="relative grow">
-      <h2 className="p-28 text-26 font-700 text-grey-900">
+      <h2 className="px-28 py-16 text-26 font-700 text-grey-900">
         <span className="text-primary-main">{nickname}</span>님의 <br />
         성별과 연령대를 알려주세요
       </h2>
-      <div className="w-full p-28 pb-0">
+      <div className="w-full px-28">
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           성별을 선택해주세요
         </div>
@@ -47,7 +47,7 @@ const PersonalInfoContent = () => {
           }}
         />
       </div>
-      <div className="w-full p-28">
+      <div className="w-full px-28">
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           연령대를 선택해주세요
         </div>

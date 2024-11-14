@@ -35,7 +35,7 @@ const ResidenceStep = ({ handleNextStep, handlePrevStep }: Props) => {
       <ResidenceContent />
       <div className="absolute bottom-12 flex w-full flex-col items-center bg-white">
         <div className="py-16">
-          <Indicator max={4} value={3} />
+          <Indicator max={5} value={4} />
         </div>
         <div className="w-full px-32 pb-4 pt-8">
           <Button type="button" onClick={handleCheckStep}>
