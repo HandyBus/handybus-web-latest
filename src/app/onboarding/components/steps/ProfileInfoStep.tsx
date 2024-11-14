@@ -47,7 +47,7 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
       <ProfileInfoContent handleSubmit={handleCheckStep} />
       <div className="absolute bottom-[26px] flex w-full flex-col items-center bg-white">
         <div className="py-16">
-          <Indicator max={4} value={1} />
+          <Indicator max={5} value={2} />
         </div>
         <div className="w-full px-32 py-8">
           <Button

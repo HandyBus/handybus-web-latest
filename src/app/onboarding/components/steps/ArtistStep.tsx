@@ -15,7 +15,7 @@ const ArtistStep = ({ handlePrevStep, isLoading }: Props) => {
       <ArtistContent />
       <div className="absolute bottom-12 flex w-full flex-col items-center bg-white">
         <div className="py-16">
-          <Indicator max={4} value={4} />
+          <Indicator max={5} value={5} />
         </div>
         <div className="w-full px-32 pb-4 pt-8">
           <Button type="submit" disabled={isLoading}>

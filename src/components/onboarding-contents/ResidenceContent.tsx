@@ -20,24 +20,30 @@ const ResidenceContent = () => {
   useEffect(() => {
     const savedBigRegion = getValues('bigRegion');
     const savedSmallRegion = getValues('smallRegion');
-    console.log(savedBigRegion, savedSmallRegion, formState);
     setBigRegion(savedBigRegion);
     setSmallRegion(savedSmallRegion);
   }, []);
 
   useEffect(() => {
-    if (bigRegion) {
-      setValue('bigRegion', bigRegion);
+    if (!bigRegion) {
+      return;
     }
-    setValue('smallRegion', smallRegion ?? '');
-    if (smallRegion) {
+    setValue('bigRegion', bigRegion);
+  }, [bigRegion]);
+
+  useEffect(() => {
+    if (!smallRegion) {
+      return;
+    }
+    setValue('smallRegion', smallRegion);
+    if (formState.errors.bigRegion) {
       clearErrors('bigRegion');
     }
-  }, [bigRegion, smallRegion]);
+  }, [smallRegion]);
 
   return (
     <div className="relative grow">
-      <div className="p-28">
+      <div className="px-28 py-16">
         <h2 className="pb-[6px] text-26 font-700 text-grey-900">
           어디에 거주하고 계세요?
         </h2>
@@ -55,6 +61,7 @@ const ResidenceContent = () => {
           setValue={(el) => {
             setBigRegion(el);
             setSmallRegion(undefined);
+            setValue('smallRegion', undefined);
           }}
           placeholder="도/광역시"
           bottomSheetTitle="도/광역시 선택"

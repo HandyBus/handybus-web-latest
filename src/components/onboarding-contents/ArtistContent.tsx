@@ -34,10 +34,10 @@ const ArtistContent = () => {
   return (
     <>
       <div className="relative grow">
-        <h2 className="p-28 text-26 font-700 text-grey-900">
+        <h2 className="px-28 py-16 text-26 font-700 text-grey-900">
           최애 가수를 찾아주세요
         </h2>
-        <div className="px-28 pb-28">
+        <div className="px-28 pb-16">
           <SearchBar type="button" onClick={() => setIsListOpen(true)}>
             가수 이름으로 검색
           </SearchBar>
