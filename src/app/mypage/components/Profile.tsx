@@ -1,3 +1,4 @@
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import Image from 'next/image';
 import Link from 'next/link';
 import ArrowRight from 'public/icons/quill-chevron-right.svg';
@@ -6,10 +7,6 @@ interface Props {
   nickname: string;
   profileImage: string;
 }
-
-const DEFAULT_PROFILE_IMAGE = '/icons/default-profile.svg';
-// const DEFAULT_PROFILE_IMAGE =
-//   'https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/08/19/c5cd0937-06c6-4f4c-9f22-660c5ec8adfb.jpg';
 
 const Profile = ({ nickname, profileImage }: Props) => {
   return (
