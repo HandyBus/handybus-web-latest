@@ -121,6 +121,12 @@ export interface ShuttleDemandType {
   region: RegionType;
 }
 
+export interface CouponType {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export type AuthChannelType = 'NONE' | 'kakao' | 'naver';
 
 export interface UserDashboardType {
@@ -142,4 +148,5 @@ export interface UserDashboardType {
   reviews: ReviewType[];
   favoriteArtists: ArtistType[];
   shuttleDemands: ShuttleDemandType[];
+  coupons: CouponType[];
 }

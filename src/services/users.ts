@@ -67,7 +67,7 @@ export const usePutUser = ({
 
 const getUserDashboard = async () => {
   const res = await authInstance.get('/user-management/users/me/dashboard');
-  const data: UserDashboardType = res.data?.userDashboard;
+  const data: UserDashboardType = res.data?.userDashboard?.['_props'];
   return data;
 };
 
