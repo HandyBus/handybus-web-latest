@@ -28,7 +28,7 @@ const ArtistContent = () => {
 
   useEffect(() => {
     filterArtist();
-  }, [searchValue]);
+  }, [searchValue, artists]);
 
   const handleSelectArtist = (artist: ArtistType) =>
     setSelectedArtists((prev) =>
