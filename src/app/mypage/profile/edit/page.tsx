@@ -65,7 +65,7 @@ const Edit = ({ searchParams }: Props) => {
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
-      router.push('/mypage/profile');
+      router.replace('/mypage/profile');
     },
     onError: (e) => {
       console.error(e);
