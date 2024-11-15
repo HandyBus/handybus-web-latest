@@ -5,8 +5,8 @@ import {
   FORM_DEFAULT_VALUES,
 } from '@/components/onboarding-contents/formValidation.contants';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
-import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
-import { useGetUser, usePutUser } from '@/services/users';
+import { REGION_TO_ID } from '@/constants/regions';
+import { useGetUserDashboard, usePutUser } from '@/services/users';
 import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import AppBar from '@/components/app-bar/AppBar';
@@ -34,7 +34,7 @@ const TITLE = {
 };
 
 const Edit = ({ searchParams }: Props) => {
-  const { data: user } = useGetUser();
+  const { data: userDashboard } = useGetUserDashboard();
 
   const methods = useForm<OnboardingFormValues>({
     defaultValues: FORM_DEFAULT_VALUES,
@@ -42,18 +42,21 @@ const Edit = ({ searchParams }: Props) => {
   });
 
   useEffect(() => {
-    if (!user) {
+    if (!userDashboard) {
       return;
     }
-    methods.setValue('nickname', user.nickname);
-    methods.setValue('gender', user.gender === 'MALE' ? '남성' : '여성');
-    methods.setValue('age', user.ageRange);
-    const region = ID_TO_REGION[user.regionID];
-    methods.setValue('bigRegion', region.bigRegion);
-    methods.setValue('smallRegion', region.smallRegion);
+    methods.setValue('nickname', userDashboard.nickname);
+    methods.setValue(
+      'gender',
+      userDashboard.gender === 'MALE' ? '남성' : '여성',
+    );
+    methods.setValue('age', userDashboard.ageRange);
+    const region = userDashboard.region;
+    methods.setValue('bigRegion', region.provinceFullName);
+    methods.setValue('smallRegion', region.cityFullName);
     // TODO: 유저가 좋아하는 아티스트 값 동기화
     // methods.setValue('favoriteArtists', user.favoriteArtistsIDS);
-  }, [user]);
+  }, [userDashboard]);
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -61,8 +64,8 @@ const Edit = ({ searchParams }: Props) => {
   const { mutate: putUser } = usePutUser({
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
-      queryClient.invalidateQueries({ queryKey: ['user'] });
-      router.push('/mypage/profile');
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      router.replace('/mypage/profile');
     },
     onError: (e) => {
       console.error(e);
@@ -119,7 +122,9 @@ const Edit = ({ searchParams }: Props) => {
   const renderStep = () => {
     switch (searchParams.type) {
       case 'profile':
-        return <ProfileInfoContent initialImageSrc={user?.profileImage} />;
+        return (
+          <ProfileInfoContent initialImageSrc={userDashboard?.profileImage} />
+        );
       case 'personal-info':
         return <PersonalInfoContent />;
       case 'region':
@@ -129,7 +134,7 @@ const Edit = ({ searchParams }: Props) => {
     }
   };
 
-  if (!user) {
+  if (!userDashboard) {
     return null;
   }
 
@@ -138,9 +143,11 @@ const Edit = ({ searchParams }: Props) => {
       <form
         onSubmit={methods.handleSubmit(handleEditProfile)}
         noValidate
-        className="relative h-full w-full"
+        className="relative grow"
       >
-        <AppBar>{TITLE[searchParams.type]}</AppBar>
+        <AppBar handleBack={() => router.replace('/mypage/profile')}>
+          {TITLE[searchParams.type]}
+        </AppBar>
         {renderStep()}
         <div className="absolute bottom-0 w-full bg-white px-32 py-12">
           <Button disabled={isSubmitting}>수정하기</Button>
