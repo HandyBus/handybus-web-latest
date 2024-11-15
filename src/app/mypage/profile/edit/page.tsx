@@ -145,7 +145,9 @@ const Edit = ({ searchParams }: Props) => {
         noValidate
         className="relative grow"
       >
-        <AppBar>{TITLE[searchParams.type]}</AppBar>
+        <AppBar handleBack={() => router.replace('/mypage/profile')}>
+          {TITLE[searchParams.type]}
+        </AppBar>
         {renderStep()}
         <div className="absolute bottom-0 w-full bg-white px-32 py-12">
           <Button disabled={isSubmitting}>수정하기</Button>
