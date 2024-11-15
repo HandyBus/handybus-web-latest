@@ -39,6 +39,5 @@ export const getImageUrl = async ({
 
   const urls = await getPresignedUrl(key, extension);
   await uploadImageToS3(urls.presignedUrl, file);
-  console.log(urls.cdnUrl);
   return urls.cdnUrl;
 };

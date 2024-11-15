@@ -10,7 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import { ArtistType } from '@/types/client.types';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { useGetArtists } from '@/services/shuttleOperation';
-import useDebouncing from '@/hooks/useDebouncing';
+import useDebounce from '@/hooks/useDebounce';
 
 const ArtistContent = () => {
   const { data: artists } = useGetArtists();
@@ -19,7 +19,7 @@ const ArtistContent = () => {
   const [filteredArtists, setFilteredArtists] = useState<ArtistType[]>([]);
   const [selectedArtists, setSelectedArtists] = useState<ArtistType[]>([]);
 
-  const filterArtist = useDebouncing(() => {
+  const filterArtist = useDebounce(() => {
     const newFilteredArtists = artists?.filter((artist) =>
       artist.name.toLowerCase().includes(searchValue.toLowerCase()),
     );
