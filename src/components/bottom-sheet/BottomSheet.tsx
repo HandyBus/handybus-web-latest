@@ -14,7 +14,7 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
           <div
             ref={ref}
             role="dialog"
-            className="fixed -bottom-60 left-0 right-0 mx-auto hidden h-fit max-h-[90dvh] min-h-100 w-full max-w-500 -translate-x-1/2 flex-col rounded-t-[20px] bg-white px-32 pb-60 transition-transform duration-0 ease-out"
+            className="fixed -bottom-60 left-0 right-0 mx-auto hidden max-h-[90dvh] min-h-100 w-full max-w-500 -translate-x-1/2 flex-col rounded-t-[20px] bg-white px-32 pb-60 transition-transform duration-0 ease-out"
           >
             <div className="mx-auto my-8 h-4 w-[70px] shrink-0 rounded-full bg-grey-100" />
             {title && (
