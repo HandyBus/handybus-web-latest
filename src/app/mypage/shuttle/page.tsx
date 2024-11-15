@@ -3,6 +3,7 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Tabs from '@/components/tab/Tabs';
 import { useRouter } from 'next/navigation';
+import ShuttleCard from './components/ShuttleCard';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -41,11 +42,3 @@ const Shuttle = ({ searchParams }: Props) => {
 };
 
 export default Shuttle;
-
-const ShuttleCard = () => {
-  return (
-    <li className="flex h-200 flex-col gap-16 bg-grey-300 px-16 py-24">
-      MOCK CARD
-    </li>
-  );
-};
