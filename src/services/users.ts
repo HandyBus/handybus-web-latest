@@ -1,30 +1,29 @@
-import { AgeType, GenderType, UserType } from '@/types/client.types';
+import {
+  AgeType,
+  GenderType,
+  UserDashboardType,
+  UserType,
+} from '@/types/client.types';
 import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const getUser = async () => {
-  const res = await authInstance.get('/users/me');
+  const res = await authInstance.get('/user-management/users/me');
   const data: UserType = res.data?.user;
   return data;
 };
 
-export const useGetUser = () => {
-  return useQuery({
-    queryKey: ['user'],
-    queryFn: getUser,
-  });
-};
-
 const putUser = async (body: {
   nickname?: string;
+  phoneNumber?: string;
   gender?: GenderType;
   ageRange?: AgeType;
   regionID?: number;
   profileImage?: string;
   favoriteArtistsIDs?: number[];
 }) => {
-  const res = await authInstance.put('/users/me', body);
+  const res = await authInstance.put('/user-management/users/me', body);
   const data: UserType = res.data?.user;
   return data;
 };
@@ -57,5 +56,18 @@ export const usePutUser = ({
     onSuccess,
     onError,
     onSettled,
+  });
+};
+
+const getUserDashboard = async () => {
+  const res = await authInstance.get('/user-management/users/me/dashboard');
+  const data: UserDashboardType = res.data?.userDashboard;
+  return data;
+};
+
+export const useGetUserDashboard = () => {
+  return useQuery({
+    queryKey: ['dashboard'],
+    queryFn: getUserDashboard,
   });
 };

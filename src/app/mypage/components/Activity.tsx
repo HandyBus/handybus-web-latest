@@ -1,22 +1,32 @@
 import Link from 'next/link';
 
-const Activity = () => {
+interface Props {
+  reservationCount: number;
+  pastReservationCount: number;
+  shuttleDemandCount: number;
+}
+
+const Activity = ({
+  reservationCount,
+  pastReservationCount,
+  shuttleDemandCount,
+}: Props) => {
   return (
     <section className="m-16 flex h-[94px] rounded-[12px] bg-grey-50 py-16">
       <BoxButton
-        number={1}
+        number={reservationCount}
         title="예약 내역"
         href="/mypage/shuttle?type=current"
       />
       <Divider />
       <BoxButton
-        number={1}
+        number={shuttleDemandCount}
         title="수요 신청 현황"
         href="/mypage/shuttle?type=demand"
       />
       <Divider />
       <BoxButton
-        number={1}
+        number={pastReservationCount}
         title="지난 콘서트"
         href="/mypage/shuttle?type=past"
       />

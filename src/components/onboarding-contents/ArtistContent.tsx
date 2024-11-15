@@ -7,16 +7,35 @@ import SearchBar from '@/components/buttons/search-bar/SearchBar';
 import SearchInput from '@/components/inputs/search-input/SearchInput';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import { useFormContext } from 'react-hook-form';
-import { useGetArtists } from '@/services/artists';
 import { ArtistType } from '@/types/client.types';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+import { useGetArtists } from '@/services/shuttleOperation';
+import useDebounce from '@/hooks/useDebounce';
 
 const ArtistContent = () => {
   const { data: artists } = useGetArtists();
-
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [filteredArtists, setFilteredArtists] = useState<ArtistType[]>([]);
   const [selectedArtists, setSelectedArtists] = useState<ArtistType[]>([]);
+
+  const filterArtist = useDebounce(() => {
+    const newFilteredArtists = artists?.filter((artist) =>
+      artist.name.toLowerCase().includes(searchValue.toLowerCase()),
+    );
+    setFilteredArtists(newFilteredArtists);
+  }, 200);
+
+  useEffect(() => {
+    filterArtist();
+  }, [searchValue, artists]);
+
+  const handleSelectArtist = (artist: ArtistType) =>
+    setSelectedArtists((prev) =>
+      prev.includes(artist)
+        ? prev.filter((el) => el !== artist)
+        : [...prev, artist],
+    );
 
   const { getValues, setValue } = useFormContext<OnboardingFormValues>();
 
@@ -78,7 +97,7 @@ const ArtistContent = () => {
         )}
       </div>
       {isListOpen && (
-        <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col bg-white">
+        <div className="absolute bottom-0 left-0 right-0 top-44 flex flex-col bg-white">
           <SearchInput
             value={searchValue}
             setValue={setSearchValue}
@@ -86,20 +105,17 @@ const ArtistContent = () => {
             placeholder="가수 이름으로 검색"
           />
           <div className="grow overflow-y-auto pt-12">
-            {artists.map((artist) => (
+            {filteredArtists.map((artist) => (
               <button
                 key={artist.id}
                 type="button"
-                onClick={() =>
-                  setSelectedArtists((prev) =>
-                    prev.includes(artist)
-                      ? prev.filter((el) => el !== artist)
-                      : [...prev, artist],
-                  )
-                }
+                onClick={() => handleSelectArtist(artist)}
                 className="line-clamp-1 flex h-56 w-full items-center gap-16 px-32"
               >
-                <CheckBox isChecked={selectedArtists.includes(artist)} />
+                <CheckBox
+                  isChecked={selectedArtists.includes(artist)}
+                  setIsChecked={() => handleSelectArtist(artist)}
+                />
                 <span className="text-16 font-400 text-grey-800">
                   {artist.name}
                 </span>
