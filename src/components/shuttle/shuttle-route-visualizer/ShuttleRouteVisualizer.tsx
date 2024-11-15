@@ -1,6 +1,8 @@
 import {
   ROUTE_TYPE,
   RouteType,
+  SECTION,
+  SectionType,
   ShuttleRouteObject,
 } from '@/types/shuttle.types';
 import dayjs from 'dayjs';
@@ -8,18 +10,11 @@ import 'dayjs/locale/ko';
 
 interface Props {
   object: ShuttleRouteObject[];
+  section: SectionType;
 }
 
-const ShuttleRouteVisualizer = ({
-  object = [
-    { time: '2024-03-20 14:30:00', location: '청주터미널' },
-    { time: '2024-03-20 14:40:00', location: '청주대학교' },
-    { time: '2024-03-20 14:50:00', location: '장소3' },
-    { time: '2024-03-20 15:00:00', location: '장소4' },
-    { time: '2024-03-20 15:10:00', location: '장소5' },
-    { time: '2024-03-20 15:20:00', location: '장소6' },
-  ],
-}: Props) => {
+const ShuttleRouteVisualizer = ({ object, section }: Props) => {
+  debugger;
   return (
     <section className="flex flex-col gap-16 px-16 py-24">
       <header>
@@ -29,8 +24,16 @@ const ShuttleRouteVisualizer = ({
         </p>
       </header>
       <section className="flex flex-col gap-40">
-        <ShuttleRouteCard type={ROUTE_TYPE.DEPARTURE} object={object} />
-        <ShuttleRouteCard type={ROUTE_TYPE.RETURN} object={object} />
+        <ShuttleRouteCard
+          section={section}
+          type={ROUTE_TYPE.DEPARTURE}
+          object={object}
+        />
+        <ShuttleRouteCard
+          section={section}
+          type={ROUTE_TYPE.RETURN}
+          object={object}
+        />
       </section>
     </section>
   );
@@ -39,20 +42,22 @@ const ShuttleRouteVisualizer = ({
 export default ShuttleRouteVisualizer;
 
 interface ShuttleRouteCardProps {
+  section: SectionType;
   type: RouteType;
   object: ShuttleRouteObject[];
 }
 
-const ShuttleRouteCard = ({ type, object }: ShuttleRouteCardProps) => {
-  const shuttleTime = dayjs(object[object.length - 1].time).diff(
-    dayjs(object[0].time),
+const ShuttleRouteCard = ({ section, type, object }: ShuttleRouteCardProps) => {
+  const shuttleTime = dayjs(object[object.length - 1]?.time).diff(
+    dayjs(object[0]?.time),
     'minutes',
   );
 
   const RenderPoints = () => {
-    return object.map((_, index) => {
+    console.log('ug', section, type, object);
+    return object?.map((_, index) => {
       if (type === ROUTE_TYPE.DEPARTURE) {
-        return index === object.length - 1 ? (
+        return index === object?.length - 1 ? (
           <ArrivalPoint type={type} />
         ) : (
           <CirclePoint type={type} />
@@ -65,23 +70,6 @@ const ShuttleRouteCard = ({ type, object }: ShuttleRouteCardProps) => {
         );
       }
     });
-  };
-
-  const ShuttleRouteTimeLocation = ({
-    object,
-  }: {
-    object: ShuttleRouteObject;
-  }) => {
-    return (
-      <div className="flex gap-16">
-        <p className="text-16 font-400 leading-[24px] text-grey-900">
-          {dayjs(object.time).format('HH:mm')}
-        </p>
-        <p className="text-16 font-400 leading-[24px] text-grey-900">
-          {object.location}
-        </p>
-      </div>
-    );
   };
 
   return (
@@ -119,21 +107,31 @@ const ShuttleRouteCard = ({ type, object }: ShuttleRouteCardProps) => {
           ))}
         </ul>
       </section>
-      <p className="text-12 font-500 leading-[19.2px] text-grey-500">
-        {type === ROUTE_TYPE.DEPARTURE
-          ? object[0].location
-          : object[object.length - 1].location}
-        {type === ROUTE_TYPE.DEPARTURE ? '까지 ' : '부터 '}
-        <span className="font-600">약 {shuttleTime}분</span> 소요
-      </p>
+      {section === SECTION.SHUTTLE_DETAIL ? null : section ===
+        SECTION.RESERVATION_DETAIL ? (
+        <p className="text-12 font-500 leading-[19.2px] text-grey-500">
+          {type === ROUTE_TYPE.DEPARTURE
+            ? '탑승장소를 선택해주세요'
+            : '하차장소를 선택해주세요'}
+        </p>
+      ) : (
+        <p className="text-12 font-500 leading-[19.2px] text-grey-500">
+          {type === ROUTE_TYPE.DEPARTURE
+            ? object[0]?.location
+            : object[object.length - 1]?.location}
+          {type === ROUTE_TYPE.DEPARTURE ? '까지 ' : '부터 '}
+          <span className="font-600">약 {shuttleTime}분</span> 소요
+        </p>
+      )}
     </article>
   );
 };
 
 const CirclePoint = ({ type }: { type: RouteType }) => {
+  console.log('들어오는 타입은?', type);
   return (
     <div
-      className={`h-12 w-12 rounded-full border-[2px] border-${type === ROUTE_TYPE.DEPARTURE ? 'primary-main' : 'grey-500'} bg-white`}
+      className={`h-12 w-12 rounded-full border-[2px] ${type === ROUTE_TYPE.DEPARTURE ? 'border-primary-main' : 'border-grey-500'} bg-white`}
     />
   );
 };
@@ -141,11 +139,28 @@ const CirclePoint = ({ type }: { type: RouteType }) => {
 const ArrivalPoint = ({ type }: { type: RouteType }) => {
   return (
     <div
-      className={`relative flex h-24 w-24 items-center justify-center rounded-full bg-${type === ROUTE_TYPE.DEPARTURE ? 'primary-main' : 'grey-500'}`}
+      className={`relative flex h-24 w-24 items-center justify-center rounded-full ${type === ROUTE_TYPE.DEPARTURE ? 'bg-primary-main' : 'bg-grey-500'}`}
     >
       <span className="text-[8px] font-700 leading-[9.55px] text-white">
         {type === ROUTE_TYPE.DEPARTURE ? '도착' : '출발'}
       </span>
+    </div>
+  );
+};
+
+const ShuttleRouteTimeLocation = ({
+  object,
+}: {
+  object: ShuttleRouteObject;
+}) => {
+  return (
+    <div className="flex gap-16">
+      <p className="text-16 font-400 leading-[24px] text-grey-900">
+        {dayjs(object.time).format('HH:mm')}
+      </p>
+      <p className="text-16 font-400 leading-[24px] text-grey-900">
+        {object.location}
+      </p>
     </div>
   );
 };

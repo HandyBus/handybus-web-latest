@@ -9,3 +9,11 @@ export type ShuttleRouteObject = {
   time: string;
   location: string;
 };
+
+export const SECTION = {
+  SHUTTLE_DETAIL: 'shuttle-detail',
+  RESERVATION_DETAIL: 'reservation-detail',
+  MY_RESERVATION: 'my-reservation',
+} as const;
+
+export type SectionType = (typeof SECTION)[keyof typeof SECTION];
