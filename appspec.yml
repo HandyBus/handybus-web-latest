@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /usr/share/nginx/html
+    overwrite: yes
+permissions:
+  - object: /usr/share/nginx/html
+    owner: root
+    group: root
+    mode: 755
