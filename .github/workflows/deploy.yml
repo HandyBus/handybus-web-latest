@@ -7,9 +7,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code. # Repo checkout
-        uses: actions/checkout@v2
-      - name: Check Node v # Node v 확인
+      - name: Checkout source code.
+        uses: actions/checkout@v3
+      - name: Check Node v
         run: node -v
       - name: Install Dependencies
         run: npm install
