@@ -9,3 +9,8 @@ permissions:
     owner: root
     group: root
     mode: 755
+hooks:
+  AfterInstall:
+    - location: deploy.sh
+      timeout: 60
+      runas: root
