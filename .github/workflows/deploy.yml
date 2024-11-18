@@ -35,4 +35,4 @@ jobs:
           --application-name handybus-web
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name handybus
-          --s3-location bucket=handybus-web,key=build/build-fe.zip,bundleType=zip
+          --s3-location bucket=handybus-web,key=handybus/build-fe.zip,bundleType=zip
