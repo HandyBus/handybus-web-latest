@@ -2,13 +2,13 @@
 
 import DetailedReview from './components/DetailedReview';
 import { useGetReviews } from '@/services/reviews';
-import { useLoaderRef } from '@/hooks/useLoaderRef';
+import { useCursorArea } from '@/hooks/useCursorArea';
 import LoadingCircle from 'public/icons/loading-circle.svg';
 
 const ReviewPage = () => {
   const { data, fetchNextPage, isFetching, hasNextPage } = useGetReviews();
 
-  const bottomRef = useLoaderRef(fetchNextPage);
+  const ref = useCursorArea(fetchNextPage);
 
   return (
     <>
@@ -22,7 +22,7 @@ const ReviewPage = () => {
           ))}
         </div>
         {(isFetching || hasNextPage) && (
-          <div ref={bottomRef} className="flex flex-col items-center py-28">
+          <div ref={ref} className="flex flex-col items-center py-28">
             <span className="inline-block animate-spin">
               <LoadingCircle />
             </span>
