@@ -1,0 +1,38 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code. # Repo checkout
+        uses: actions/checkout@v2
+      - name: Check Node v # Node v 확인
+        run: node -v
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: zip create
+        run: zip -qq -r ./handybus-web
+        shell: bash
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --region ap-northeast-2 ./handybus-web s3://handybus-web/build/handybus-web
+      - name: Deploy
+        run: aws deploy create-deployment
+          --application-name handybus-web
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name handybus
+          --s3-location bucket=handybus-web,key=build/handybus-web,bundleType=zip
