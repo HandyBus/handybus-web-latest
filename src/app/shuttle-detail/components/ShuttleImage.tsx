@@ -1,14 +1,8 @@
 import Image from 'next/image';
-import QuillChveronRight from 'public/icons/quill-chevron-right.svg';
 
 const ShuttleImage = () => {
   return (
     <article className="relative">
-      <nav>
-        <button aria-label="route back">
-          <QuillChveronRight className="absolute left-16 top-16 h-32 w-32 rotate-180 [&>path]:stroke-white" />
-        </button>
-      </nav>
       <Image
         // src="/concert-sample2.webp"
         src="/concert-sample.png"

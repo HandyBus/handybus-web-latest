@@ -11,6 +11,7 @@ import NoticeSection, { NOTICE_TYPE } from './components/NoticeSection';
 import KakaoMap from './components/KakaoMap';
 import ShuttleImage from './components/ShuttleImage';
 import ShuttleInfo from './components/ShuttleInfo';
+import BackButton from './components/BackButton';
 
 // 목킹용 임시 데이터
 const title = 'ATEEZ 2024 FANMEETING 〈ATINY’S VOYAGE FROM A TO Z〉';
@@ -25,6 +26,7 @@ const shuttle_date = '2024년 7월 6일 (토)';
 const ShuttleDetailPage = () => {
   return (
     <main className="overflow-y-hidden">
+      <BackButton />
       <ShuttleImage />
       <ShuttleInfo
         shuttleStatus={shuttleStatus}
