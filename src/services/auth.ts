@@ -26,7 +26,7 @@ export const postLogin = async (
           }
         : undefined,
   };
-  const res = await instance.post('/auth', body);
+  const res = await instance.post('/auth/login', body);
   const data: TokenType = res.data;
   return data;
 };
