@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   onClick?: () => void;
   hideArrow?: boolean;
+  replace?: boolean;
 }
 
 const ListButton = ({
@@ -17,12 +18,14 @@ const ListButton = ({
   description,
   onClick,
   hideArrow = false,
+  replace = false,
 }: Props) => {
   return (
     <Link
       href={href}
       onClick={onClick}
       className="flex h-56 w-full items-center gap-16 p-16"
+      replace={replace}
     >
       <span className="grow text-left text-16 font-400 text-grey-800">
         {title}

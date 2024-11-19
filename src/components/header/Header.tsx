@@ -2,19 +2,17 @@
 
 import UserIcon from 'public/icons/user.svg';
 import LogoIcon from 'public/icons/logo.svg';
+import Link from 'next/link';
 
 const Header = () => {
-  const handleLogoClick = () => {};
-  const handleProfileClick = () => {};
-
   return (
     <header className="sticky top-0 z-50 flex h-48 w-full items-center justify-between bg-white px-16 py-12">
-      <button onClick={handleLogoClick}>
+      <Link href="/">
         <LogoIcon fill="black" />
-      </button>
-      <button onClick={handleProfileClick}>
+      </Link>
+      <Link href="/mypage">
         <UserIcon />
-      </button>
+      </Link>
     </header>
   );
 };

@@ -14,8 +14,12 @@ import { toast } from 'react-toastify';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { useRouter } from 'next/navigation';
 import { setSession } from '@/utils/handleSession';
+import AgreementStep from './steps/AgreementStep';
+import PhoneNumberStep from './steps/PhoneNumberStep';
 
 const ONBOARDING_STEPS = [
+  '약관 동의',
+  '전화번호',
   '프로필 정보',
   '개인 정보',
   '거주지',
@@ -34,12 +38,11 @@ const OnboardingFunnel = () => {
       setSession();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
+      setIsSubmitting(false);
     },
     onError: (e) => {
       console.error(e);
       toast.error('회원가입에 실패하였습니다.');
-    },
-    onSettled: () => {
       setIsSubmitting(false);
     },
   });
@@ -53,7 +56,8 @@ const OnboardingFunnel = () => {
       key: 'users/profiles',
       file: formData.profileImage,
     });
-    const regionID = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
+    const regionID =
+      REGION_TO_ID[formData.bigRegion][formData.smallRegion ?? ''];
 
     if (!regionID) {
       toast.error('회원가입에 실패하였습니다.');
@@ -71,7 +75,6 @@ const OnboardingFunnel = () => {
     };
 
     putUser(body);
-    setIsSubmitting(false);
   };
 
   const handleEnter = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -88,6 +91,12 @@ const OnboardingFunnel = () => {
       className="relative w-full grow"
     >
       <Funnel>
+        <Step name="약관 동의">
+          <AgreementStep handleNextStep={handleNextStep} />
+        </Step>
+        <Step name="전화번호">
+          <PhoneNumberStep handleNextStep={handleNextStep} />
+        </Step>
         <Step name="프로필 정보">
           <ProfileInfoStep handleNextStep={handleNextStep} />
         </Step>

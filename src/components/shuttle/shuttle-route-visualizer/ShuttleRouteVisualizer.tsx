@@ -54,7 +54,6 @@ const ShuttleRouteCard = ({ section, type, object }: ShuttleRouteCardProps) => {
   );
 
   const RenderPoints = () => {
-    console.log('ug', section, type, object);
     return object?.map((_, index) => {
       if (type === ROUTE_TYPE.DEPARTURE) {
         return index === object?.length - 1 ? (
@@ -128,7 +127,6 @@ const ShuttleRouteCard = ({ section, type, object }: ShuttleRouteCardProps) => {
 };
 
 const CirclePoint = ({ type }: { type: RouteType }) => {
-  console.log('들어오는 타입은?', type);
   return (
     <div
       className={`h-12 w-12 rounded-full border-[2px] ${type === ROUTE_TYPE.DEPARTURE ? 'border-primary-main' : 'border-grey-500'} bg-white`}

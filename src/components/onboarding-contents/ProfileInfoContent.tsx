@@ -80,7 +80,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
 
   return (
     <div className="relative grow">
-      <div className="p-28">
+      <div className="px-28 py-16">
         <h2 className="pb-[6px] text-26 font-700 text-grey-900">
           프로필을 입력해주세요
         </h2>
@@ -88,8 +88,8 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
           핸디버스가 어떻게 불러드릴까요?
         </p>
       </div>
-      <div className="relative flex h-[286px] w-full flex-col items-center justify-center gap-12 py-28">
-        <div className="relative flex h-200 w-200 items-center justify-center overflow-hidden rounded-full">
+      <div className="relative flex h-[200px] w-full flex-col items-center justify-center gap-12">
+        <div className="relative flex h-180 w-180 shrink-0 items-center justify-center overflow-hidden rounded-full">
           <Image
             src={imageSrc || DEFAULT_PROFILE_SRC}
             alt="프로필 이미지"
@@ -100,7 +100,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="absolute bottom-[calc(50%-85px)] right-[calc(50%-85px)] flex h-[34px] w-[34px] items-center justify-center rounded-full bg-black/30"
+          className="absolute bottom-[calc(50%-78px)] right-[calc(50%-78px)] flex h-[34px] w-[34px] items-center justify-center rounded-full bg-black/30"
         >
           <CameraIcon />
           <input
@@ -112,7 +112,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
             className="hidden"
           />
         </button>
-        {imageFile && (
+        {imageSrc && (
           <button
             type="button"
             onClick={clearSelectedFile}

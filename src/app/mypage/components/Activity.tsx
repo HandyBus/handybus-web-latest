@@ -1,11 +1,21 @@
-const Activity = () => {
+interface Props {
+  reservationCount: number;
+  pastReservationCount: number;
+  shuttleDemandCount: number;
+}
+
+const Activity = ({
+  reservationCount,
+  pastReservationCount,
+  shuttleDemandCount,
+}: Props) => {
   return (
     <section className="m-16 flex h-[94px] rounded-[12px] bg-grey-50 py-16">
-      <BoxButton number={1} title="예약 내역" />
+      <BoxButton number={reservationCount} title="예약 내역" />
       <Divider />
-      <BoxButton number={1} title="수요 신청 현황" />
+      <BoxButton number={shuttleDemandCount} title="수요 신청 현황" />
       <Divider />
-      <BoxButton number={1} title="지난 콘서트" />
+      <BoxButton number={pastReservationCount} title="지난 콘서트" />
     </section>
   );
 };
