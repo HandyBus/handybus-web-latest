@@ -72,7 +72,7 @@ const KakaoMapContent = ({
 }: KakaoMapContentProps) => {
   return (
     <article
-      className="relative h-auto p-16"
+      className="relative h-auto p-16 [&_div]:cursor-pointer"
       onClick={() => {
         window.open(
           `https://map.kakao.com/link/map/${placeName},${latitude},${longitude}`,
