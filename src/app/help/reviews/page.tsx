@@ -2,13 +2,13 @@
 
 import DetailedReview from './components/DetailedReview';
 import { useGetReviews } from '@/services/reviews';
-import { useCursorArea } from '@/hooks/useCursorArea';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import LoadingCircle from 'public/icons/loading-circle.svg';
 
 const ReviewPage = () => {
   const { data, fetchNextPage, isFetching, hasNextPage } = useGetReviews();
 
-  const ref = useCursorArea(fetchNextPage);
+  const ref = useInfiniteScroll(fetchNextPage);
 
   return (
     <>

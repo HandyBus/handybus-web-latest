@@ -11,7 +11,7 @@ import type {
  * @param fetchNextPage comes from result of useInfiniteQuery
  * @returns ref which is HTMLDivElement
  */
-export const useCursorArea = <TData, TError>(
+const useInfiniteScroll = <TData, TError>(
   fetchNextPage: (
     options?: FetchNextPageOptions,
   ) => Promise<InfiniteQueryObserverResult<TData, TError>>,
@@ -55,3 +55,5 @@ export const useCursorArea = <TData, TError>(
 
   return ref;
 };
+
+export default useInfiniteScroll;
