@@ -17,7 +17,7 @@ const ReviewPage = () => {
           총 후기 <span className="font-800 text-primary-main">1,350</span>개
         </div>
         <div className="flex flex-col gap-16">
-          {data?.map((review, idx) => (
+          {data.map((review, idx) => (
             <DetailedReview key={idx} review={review} />
           ))}
         </div>

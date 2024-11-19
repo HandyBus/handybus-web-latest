@@ -97,6 +97,7 @@ export const useGetReviews = () => {
     queryFn: ({ pageParam }: { pageParam: number }) =>
       getReviewsMocking(pageParam),
     initialPageParam: 0,
+    initialData: { pages: [], pageParams: [] },
     getNextPageParam: (lastPage) => lastPage.nextPage,
     select: (data) => (data.pages ?? []).flatMap((page) => page.reviews),
   });
