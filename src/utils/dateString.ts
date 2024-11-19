@@ -19,7 +19,7 @@ const singleDateString = (date: Date | null) => {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-    weekday: 'short', // 요일
+    weekday: 'short',
   } as const;
   return new Intl.DateTimeFormat('ko-KR', options).format(date);
 };

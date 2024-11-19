@@ -32,9 +32,7 @@ interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-// TODO should we use cache?
 const Page = async ({ searchParams }: Props) => {
-  // TODO check this status condition
   const data = await getOpenDemandings();
 
   const sort = fromString(
