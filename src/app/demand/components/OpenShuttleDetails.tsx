@@ -1,4 +1,5 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import Select from '@/components/select/Select';
 import ShuttleDetail from './ShuttleDetail';
@@ -6,7 +7,7 @@ import useStickyMenu from '@/hooks/useStickyMenu';
 import type { EventDetailProps } from '@/types/event.types';
 import { type DemandSortType, DEMAND_SORT } from '@/constants/demand';
 import dynamic from 'next/dynamic';
-import { toDemandSortSearchParamsType } from '../utils/demand.util';
+import { toDemandSortSearchParams } from '../utils/param.util';
 const Empty = dynamic(() => import('./Empty'));
 
 const OpenShuttleDetails = ({
@@ -17,9 +18,7 @@ const OpenShuttleDetails = ({
   sort: DemandSortType;
 }) => {
   const route = useRouter();
-
   const { ref: navRef, safeArea } = useStickyMenu();
-  // const bottomRef = useLoaderRef(fetchNextPage);
 
   if (data.length === 0) {
     return <Empty />;
@@ -34,7 +33,7 @@ const OpenShuttleDetails = ({
             options={DEMAND_SORT}
             value={sort}
             setValue={(s: DemandSortType) =>
-              route.replace(`/demand?sort=${toDemandSortSearchParamsType(s)}`)
+              route.replace(`/demand?sort=${toDemandSortSearchParams(s)}`)
             }
           />
         </div>

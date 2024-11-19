@@ -4,7 +4,7 @@ import {
   DEMAND_SORT_SEARCH_PARAMS,
 } from '@/constants/demand';
 
-export const fromSearchParam = (s: string): DemandSortSearchParamsType => {
+export const fromString = (s: string): DemandSortSearchParamsType => {
   switch (s) {
     case 'NAME_ASC':
       return 'NAME_ASC';
@@ -17,9 +17,7 @@ export const fromSearchParam = (s: string): DemandSortSearchParamsType => {
   }
 };
 
-export const toDemandSortType = (
-  s: DemandSortSearchParamsType,
-): DemandSortType => {
+export const toDemandSort = (s: DemandSortSearchParamsType): DemandSortType => {
   switch (s) {
     case 'NAME_ASC':
       return '콘서트 이름 가나다 순';
@@ -30,7 +28,7 @@ export const toDemandSortType = (
   }
 };
 
-export const toDemandSortSearchParamsType = (
+export const toDemandSortSearchParams = (
   s: DemandSortType,
 ): DemandSortSearchParamsType => {
   switch (s) {
