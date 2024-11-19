@@ -1,7 +1,7 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
 import DeadZone from './dead-zone/DeadZone';
 
@@ -15,7 +15,7 @@ const Provider = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>
       <DeadZone>{children}</DeadZone>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 };
