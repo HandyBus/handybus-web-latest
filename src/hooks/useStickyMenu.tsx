@@ -16,10 +16,10 @@ const clamp = (value: number, min: number, max: number) =>
  * @returns {Function} show - show element
  *
  * @example
- * const { ref, safeCN, show } = useAutoHideRef();
+ * const { ref, safeArea, show } = useStickyMenu();
     <div ref={ref} className="sticky top-24 z-[1] w-full">
       ...
-      <div className={safeCN}>
+      <div className={safeArea}>
         ...
       </div>
     </div>
