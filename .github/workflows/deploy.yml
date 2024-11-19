@@ -13,6 +13,14 @@ jobs:
         run: node -v
       - name: Install Dependencies
         run: npm install
+      - name: Create Env
+        run: echo -e "NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL\nNEXT_PUBLIC_KAKAO_REST_API =$NEXT_PUBLIC_KAKAO_REST_API\nNEXT_PUBLIC_KAKAO_REDIRECT_URI=$NEXT_PUBLIC_KAKAO_REDIRECT_URI\nNEXT_PUBLIC_NAVER_REST_API=$NEXT_PUBLIC_NAVER_REST_API\nNEXT_PUBLIC_NAVER_REDIRECT_URI=$NEXT_PUBLIC_NAVER_REDIRECT_URI" >> .env
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_KAKAO_REST_API: ${{ secrets.NEXT_PUBLIC_KAKAO_REST_API }}
+          NEXT_PUBLIC_KAKAO_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}
+          NEXT_PUBLIC_NAVER_REST_API: ${{ secrets.NEXT_PUBLIC_NAVER_REST_API }}
+          NEXT_PUBLIC_NAVER_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_NAVER_REDIRECT_URI }}
       - name: Build
         run: npm run build
       - name: zip create
