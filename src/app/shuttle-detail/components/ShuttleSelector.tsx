@@ -6,10 +6,12 @@ import Select from '@/components/select/Select';
 
 const ShuttleSelector = () => {
   const [date, setDate] = useState<string | undefined>(undefined);
-  const [smallLocation, setSmallLocation] = useState<string | undefined>(
+  const [bigLocation, setBigLocation] = useState<string | undefined>(
     '서울특별시',
   );
-  const [bigLocation, setBigLocation] = useState<string | undefined>('강남구');
+  const [smallLocation, setSmallLocation] = useState<string | undefined>(
+    '강남구',
+  );
   // TODO: 이후 API 연동
 
   return (
