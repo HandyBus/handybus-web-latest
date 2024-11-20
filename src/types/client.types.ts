@@ -13,6 +13,13 @@ export type AgeType =
 
 export type GenderType = 'MALE' | 'FEMALE';
 
+export type ProgressType =
+  | 'SERVICE_TERMS_AGREEMENT'
+  | 'PERSONAL_INFO_CONSENT'
+  | 'MARKETING_CONSENT'
+  | 'ONBOARDING_COMPLETE'
+  | 'PAYMENT_COMPLETE';
+
 export interface UserType {
   ID: number;
   nickname: string;
@@ -22,6 +29,11 @@ export interface UserType {
   regionID: number;
   profileImage: string;
   favoriteArtistsIDS: number[];
+  progress: {
+    id: number;
+    isCompleted: boolean;
+    type: ProgressType;
+  }[];
 }
 
 export interface ArtistType {

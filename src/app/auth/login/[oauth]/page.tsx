@@ -1,7 +1,7 @@
 'use client';
 
 import { postLogin } from '@/services/auth';
-import { getUser } from '@/services/users';
+import { getProgress } from '@/services/users';
 import { removeSession, setSession } from '@/utils/handleSession';
 import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
@@ -25,8 +25,8 @@ const OAuth = ({ params, searchParams }: Props) => {
       setRefreshToken(tokens.refreshToken);
       setAccessToken(tokens.accessToken);
 
-      const user = await getUser();
-      if (user.ageRange === '연령대 미지정' || !user.ageRange) {
+      const progress = await getProgress();
+      if (progress !== 'ONBOARDING_COMPLETE') {
         removeSession();
         router.push('/onboarding');
       } else {

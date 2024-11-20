@@ -14,6 +14,30 @@ export const getUser = async () => {
   return data;
 };
 
+export const getProgress = async () => {
+  const res = await authInstance.get('/user-management/users/me');
+  const { progress }: UserType = res.data?.user;
+
+  const isAgreedServiceTerms = progress.find(
+    (el) => el.type === 'SERVICE_TERMS_AGREEMENT',
+  )?.isCompleted;
+  const isAgreedPersonalInfo = progress.find(
+    (el) => el.type === 'PERSONAL_INFO_CONSENT',
+  )?.isCompleted;
+  const isOnboardingComplete = progress.find(
+    (el) => el.type === 'ONBOARDING_COMPLETE',
+  )?.isCompleted;
+
+  if (isOnboardingComplete) {
+    return 'ONBOARDING_COMPLETE';
+  }
+  if (isAgreedServiceTerms && isAgreedPersonalInfo) {
+    return 'AGREEMENT_COMPLETE';
+  }
+
+  return 'AGREEMENT_INCOMPLETE';
+};
+
 const putUser = async (body: {
   nickname?: string;
   phoneNumber?: string;
