@@ -30,7 +30,7 @@ const OAuth = ({ params, searchParams }: Props) => {
         removeSession();
         router.push('/onboarding');
       } else {
-        setSession();
+        setSession(user.regionID);
         router.push('/');
       }
     } catch (e) {

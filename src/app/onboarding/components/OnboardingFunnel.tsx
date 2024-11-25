@@ -29,13 +29,13 @@ const ONBOARDING_STEPS = [
 const OnboardingFunnel = () => {
   const { Funnel, Step, handleNextStep, handlePrevStep } =
     useFunnel(ONBOARDING_STEPS);
-  const { handleSubmit } = useFormContext<OnboardingFormValues>();
+  const { handleSubmit, getValues } = useFormContext<OnboardingFormValues>();
 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser } = usePutUser({
     onSuccess: () => {
-      setSession();
+      setSession(getValues('regionID'));
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
       setIsSubmitting(false);

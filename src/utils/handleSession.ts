@@ -1,6 +1,7 @@
 import { Cookies } from 'react-cookie';
 import { removeRefreshToken } from './handleToken';
 import { revalidatePath } from 'next/cache';
+import type { SessionCookie } from './handleSession.server';
 
 const SESSION = 'session';
 
@@ -11,8 +12,12 @@ export const getSession = async () => {
   return session;
 };
 
-export const setSession = () => {
-  cookieStore.set(SESSION, 'true', { path: '/' });
+export const setSession = (regionID: number) => {
+  cookieStore.set(
+    SESSION,
+    JSON.stringify({ regionID } satisfies SessionCookie),
+    { path: '/' },
+  );
 };
 
 export const removeSession = () => {

@@ -35,6 +35,15 @@ const Banner = () => {
           ))}
         </div>
       </Swiper>
+      <button
+        onClick={() => {
+          authInstance
+            .put('/user-management/users/me', { regionID: 5 })
+            .then((e) => alert(JSON.stringify(e.data)));
+        }}
+      >
+        지역 정보 변경
+      </button>
     </>
   );
 };
@@ -47,6 +56,7 @@ import Image2 from '../images/banner-2.png';
 import Image3 from '../images/banner-3.png';
 import Link from 'next/link';
 import { StaticImageData } from 'next/image';
+import { authInstance } from '@/services/config';
 interface BannerItem {
   image: StaticImageData;
   alt: string;

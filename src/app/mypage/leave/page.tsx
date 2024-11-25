@@ -11,7 +11,7 @@ const Leave = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative flex h-full w-full flex-col">
+    <div className="relative flex h-full w-full grow flex-col">
       <AppBar>탈퇴하기</AppBar>
       <main className="w-full grow">
         <section className="px-32 py-8 pt-28">
