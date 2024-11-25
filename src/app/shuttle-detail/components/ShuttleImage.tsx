@@ -4,8 +4,7 @@ const ShuttleImage = () => {
   return (
     <article className="relative">
       <Image
-        // src="/concert-sample2.webp"
-        src="/concert-sample.png"
+        src="/images/concert-sample.png"
         alt="shuttle-info-image"
         width={1080}
         height={720}
