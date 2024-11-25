@@ -26,6 +26,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       setAccessToken(tokens.accessToken);
 
       const progress = await getProgress();
+      console.log(progress);
       if (progress !== 'ONBOARDING_COMPLETE') {
         removeSession();
         router.push('/onboarding');

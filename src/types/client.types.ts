@@ -29,7 +29,7 @@ export interface UserType {
   regionID: number;
   profileImage: string;
   favoriteArtistsIDS: number[];
-  progress: {
+  progresses: {
     id: number;
     isCompleted: boolean;
     type: ProgressType;
