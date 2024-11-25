@@ -2,7 +2,7 @@ import { EventDetailProps } from '@/types/event.types';
 
 export async function getOpenDemandings() {
   const url = new URL(
-    '/shuttle-operation/shuttles/all',
+    '/shuttle-operation/shuttles',
     process.env.NEXT_PUBLIC_BASE_URL,
   );
 
