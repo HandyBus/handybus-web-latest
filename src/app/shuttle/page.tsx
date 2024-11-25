@@ -44,8 +44,6 @@ const Page = async ({ searchParams }: Props) => {
       ? ({ bigRegion, smallRegion } as Region)
       : { bigRegion: undefined, smallRegion: undefined };
 
-  console.log('region', region);
-
   const [shuttles, related] = await Promise.all([
     fetchAllShuttles(),
     fetchRelatedShuttles(region),
