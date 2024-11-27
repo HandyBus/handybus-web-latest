@@ -1,6 +1,7 @@
 'use client';
 
 import { authInstance } from '@/services/config';
+import { getSession, setSession } from '@/utils/handleSession';
 
 const Test = () => {
   const handleAuthClick = async () => {
@@ -14,11 +15,22 @@ const Test = () => {
     console.log(a);
   };
 
+  const checkRefreshToken = async () => {
+    const a = setSession({ refreshToken: '123' });
+    console.log(a);
+  };
+  const checkSession = async () => {
+    const a = getSession();
+    console.log(a);
+  };
+
   return (
     <div className="flex flex-col gap-12">
       test
       <button onClick={handleInstanceClick}>SEND</button>
       <button onClick={handleAuthClick}>AUTH SEND</button>
+      <button onClick={checkRefreshToken}>CHECK TOKEN</button>
+      <button onClick={checkSession}>CHECK TOKEN</button>
     </div>
   );
 };

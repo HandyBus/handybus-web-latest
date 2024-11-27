@@ -2,8 +2,7 @@
 
 import { postLogin } from '@/services/auth';
 import { getUser } from '@/services/users';
-import { removeSession, setSession } from '@/utils/handleSession';
-import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
+import { setSession } from '@/utils/handleSession';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -22,12 +21,13 @@ const OAuth = ({ params, searchParams }: Props) => {
         code: searchParams.code,
         state: searchParams?.state,
       });
-      setRefreshToken(tokens.refreshToken);
-      setAccessToken(tokens.accessToken);
+      setSession({
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+      });
 
       const user = await getUser();
       if (user.ageRange === '연령대 미지정' || !user.ageRange) {
-        removeSession();
         router.push('/onboarding');
       } else {
         setSession();

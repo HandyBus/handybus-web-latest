@@ -1,13 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { REFRESH_TOKEN } from './utils/handleToken';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants/token';
+import { SESSION, SessionType } from './utils/handleSession';
 
 export const AuthRequiredPages = ['/mypage'];
 
 export const middleware = async (req: NextRequest) => {
-  const refreshToken = req.cookies.get(REFRESH_TOKEN)?.value ?? '';
+  const session = req.cookies.get(SESSION)?.value;
+  const parsedSession = JSON.parse(session ?? '{}') as SessionType;
 
-  if (AuthRequiredPages.includes(req.nextUrl.pathname) && !refreshToken) {
-    return NextResponse.rewrite(new URL('/login', req.url));
+  console.log('MIDDLEWARE: ', parsedSession.isLoggedIn, req.url);
+
+  // 인증 필요 페이지에 접근할 때 세션이 없으면 로그인 페이지로 리다이렉트
+  if (
+    AuthRequiredPages.includes(req.nextUrl.pathname) &&
+    !parsedSession.isLoggedIn
+  ) {
+    console.log('DELETE TOKEN');
+    const response = NextResponse.rewrite(new URL('/login', req.url));
+    response.cookies.delete(REFRESH_TOKEN);
+    response.cookies.delete(ACCESS_TOKEN);
+    return response;
   }
 
   return NextResponse.next();
