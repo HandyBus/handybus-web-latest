@@ -20,14 +20,6 @@ const nextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://dev.api.handybus.co.kr/:path*',
-      },
-    ];
-  },
 };
 
 import createMDX from '@next/mdx';

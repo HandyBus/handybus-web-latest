@@ -1,6 +1,7 @@
 import { Cookies } from 'react-cookie';
 import { removeRefreshToken } from './handleToken';
 import { revalidatePath } from 'next/cache';
+import { AuthRequiredPages } from '@/middleware';
 
 const SESSION = 'session';
 
@@ -22,5 +23,7 @@ export const removeSession = () => {
 export const handleLogout = () => {
   removeSession();
   removeRefreshToken();
-  revalidatePath('/mypage');
+  AuthRequiredPages.forEach((page) => {
+    revalidatePath(page);
+  });
 };
