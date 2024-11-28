@@ -1,4 +1,3 @@
-import { getRefreshToken } from '@/utils/handleToken';
 import { instance } from './config';
 
 interface TokenType {
@@ -31,8 +30,7 @@ export const postLogin = async (
   return data;
 };
 
-export const postRefreshToken = async () => {
-  const refreshToken = getRefreshToken();
+export const postRefreshToken = async (refreshToken: string) => {
   const res = await instance.post('/auth/refresh', undefined, {
     headers: { Authorization: `Bearer ${refreshToken}` },
   });
