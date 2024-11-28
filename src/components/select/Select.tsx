@@ -43,7 +43,7 @@ const Select = <T extends string>({
           ref={contentRef}
           className="flex h-full w-full flex-col overflow-y-auto bg-white"
         >
-          {options.map((option) => (
+          {options?.map((option) => (
             <button
               key={option}
               className="py-16 text-left"

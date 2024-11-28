@@ -1,5 +1,6 @@
 import { Cookies } from 'react-cookie';
 import { removeRefreshToken } from './handleToken';
+import { revalidatePath } from 'next/cache';
 
 const SESSION = 'session';
 
@@ -15,10 +16,11 @@ export const setSession = () => {
 };
 
 export const removeSession = () => {
-  cookieStore.remove(SESSION);
+  cookieStore.remove(SESSION, { path: '/' });
 };
 
 export const handleLogout = () => {
   removeSession();
   removeRefreshToken();
+  revalidatePath('/mypage');
 };
