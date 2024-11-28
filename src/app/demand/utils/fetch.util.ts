@@ -1,14 +1,8 @@
 import { EventDetailProps } from '@/types/event.types';
+import { instance } from '@/services/config';
 
 export async function getOpenDemandings() {
-  const url = new URL(
-    '/shuttle-operation/shuttles',
-    process.env.NEXT_PUBLIC_BASE_URL,
-  );
-
-  const response = await fetch(url);
-
-  const shuttles = (await response.json()).shuttleDetails as EventDetailProps[];
-
-  return shuttles.filter((v) => v.status === 'OPEN');
+  const res = await instance.get('/shuttle-operation/shuttles');
+  const data: EventDetailProps[] = res.data?.shuttleDetails;
+  return data.filter((v) => v.status === 'OPEN');
 }

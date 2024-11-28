@@ -1,10 +1,5 @@
 import { DailyShuttleDetailProps } from './shuttle.types';
 
-export enum EventType {
-  CONCERT = 'CONCERT',
-  FESTIVAL = 'FESTIVAL',
-}
-
 export interface EventDetailProps {
   id: number;
   name: string;

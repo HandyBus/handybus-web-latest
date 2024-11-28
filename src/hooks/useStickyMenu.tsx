@@ -16,7 +16,7 @@ const clamp = (value: number, min: number, max: number) =>
  * @returns {Function} show - show element
  *
  * @example
- * const { ref, safeArea, show } = useStickyMenu();
+ * const { ref, safeArea } = useStickyMenu();
     <div ref={ref} className="sticky top-24 z-[1] w-full">
       ...
       <div className={safeArea}>
@@ -43,11 +43,6 @@ const useStickyMenu = () => {
         node.querySelector(`.${safeArea}`)?.clientHeight || 0;
       setObserve(true);
     }
-  }, []);
-
-  const show = useCallback(() => {
-    offset.current = 0;
-    if (elemRef.current) elemRef.current.style.transform = 'translateY(0)';
   }, []);
 
   useEffect(() => {
@@ -80,7 +75,7 @@ const useStickyMenu = () => {
       document.body.scrollHeight - window.innerHeight,
     );
 
-    const handleScroll = function () {
+    const handleScroll = () => {
       if (
         !elemRef.current ||
         totalHeight.current === undefined ||
@@ -109,7 +104,7 @@ const useStickyMenu = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [elemRef]);
 
-  return { ref: refCallback, safeArea, show };
+  return { ref: refCallback, safeArea };
 };
 
 export default useStickyMenu;
