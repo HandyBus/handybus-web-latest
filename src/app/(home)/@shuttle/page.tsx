@@ -4,7 +4,7 @@ import {
   fetchAllShuttles,
   fetchRelatedShuttles,
 } from '@/app/shuttle/util/fetch.util';
-import { getSession } from '@/utils/handleSession.server';
+import { getUser } from '@/services/users';
 import Article from '@/components/article/Article';
 import { Region } from '@/hooks/useRegion';
 import { ID_TO_REGION } from '@/constants/regions';
@@ -64,7 +64,7 @@ const getRegionAndShuttles = async (): Promise<{
   related: boolean;
   shuttles: ShuttleRoute[];
 }> => {
-  const userRegionID = (await getSession())?.regionID;
+  const userRegionID = (await getUser()).regionID;
   const userRegion = userRegionID ? ID_TO_REGION[userRegionID] : undefined;
 
   const shuttles = await fetchAllShuttles();
