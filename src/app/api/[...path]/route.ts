@@ -76,6 +76,7 @@ const createApiResponse = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
   tokens?: { accessToken?: string; refreshToken?: string },
+  session?: SessionType,
 ) => {
   const response = NextResponse.json(data);
 
@@ -95,10 +96,16 @@ const createApiResponse = (
       ACCESS_EXPIRE_TIME,
     );
   }
+
   if (tokens?.accessToken || tokens?.refreshToken) {
     response.cookies.set({
       name: SESSION,
-      value: JSON.stringify({ isLoggedIn: true }),
+      value: JSON.stringify({
+        ...session,
+        isLoggedIn: true,
+        accessToken: undefined,
+        refreshToken: undefined,
+      }),
     });
   }
 

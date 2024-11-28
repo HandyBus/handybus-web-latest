@@ -30,6 +30,6 @@ export const removeSession = () => {
 export const handleLogout = () => {
   removeSession();
   AuthRequiredPages.forEach((page) => {
-    revalidatePath(page);
+    revalidatePath(page, 'layout');
   });
 };
