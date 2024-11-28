@@ -64,7 +64,12 @@ const getRegionAndShuttles = async (): Promise<{
   related: boolean;
   shuttles: ShuttleRoute[];
 }> => {
-  const userRegionID = (await getUser()).regionID;
+  let userRegionID: number | undefined;
+  try {
+    userRegionID = (await getUser()).regionID;
+  } catch {
+    userRegionID = undefined;
+  }
   const userRegion = userRegionID ? ID_TO_REGION[userRegionID] : undefined;
 
   const shuttles = await fetchAllShuttles();
