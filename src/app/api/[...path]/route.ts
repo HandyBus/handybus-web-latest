@@ -25,7 +25,7 @@ const handleRequest = async (
 
   const config = {
     method,
-    url: BASE_URL + params.path.join('/'),
+    url: new URL(params.path.join('/'), BASE_URL).toString(),
     headers: {
       Authorization: `Bearer ${accessToken ?? parsedSession.accessToken}`,
     },
