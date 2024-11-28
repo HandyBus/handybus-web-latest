@@ -1,18 +1,26 @@
 import { Cookies } from 'react-cookie';
-import { removeRefreshToken } from './handleToken';
 import { revalidatePath } from 'next/cache';
+import { AuthRequiredPages } from '@/middleware';
 
-const SESSION = 'session';
+export interface SessionType {
+  isLoggedIn: boolean;
+  accessToken?: string;
+  refreshToken?: string;
+}
+
+export const SESSION = 'session';
 
 const cookieStore = new Cookies();
 
-export const getSession = async () => {
-  const session = await cookieStore.get(SESSION);
+export const getSession = () => {
+  const session = cookieStore.get<SessionType>(SESSION);
   return session;
 };
 
-export const setSession = () => {
-  cookieStore.set(SESSION, 'true', { path: '/' });
+export const setSession = (session?: Omit<SessionType, 'isLoggedIn'>) => {
+  const currSession = getSession();
+  const newSession = { ...currSession, ...session, isLoggedIn: true };
+  cookieStore.set(SESSION, newSession, { path: '/' });
 };
 
 export const removeSession = () => {
@@ -21,6 +29,7 @@ export const removeSession = () => {
 
 export const handleLogout = () => {
   removeSession();
-  removeRefreshToken();
-  revalidatePath('/mypage');
+  AuthRequiredPages.forEach((page) => {
+    revalidatePath(page, 'layout');
+  });
 };

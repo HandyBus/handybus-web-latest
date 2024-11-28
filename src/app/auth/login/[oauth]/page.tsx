@@ -3,7 +3,6 @@
 import { postLogin } from '@/services/auth';
 import { getProgress } from '@/services/users';
 import { removeSession, setSession } from '@/utils/handleSession';
-import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -22,8 +21,10 @@ const OAuth = ({ params, searchParams }: Props) => {
         code: searchParams.code,
         state: searchParams?.state,
       });
-      setRefreshToken(tokens.refreshToken);
-      setAccessToken(tokens.accessToken);
+      setSession({
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+      });
 
       const progress = await getProgress();
       console.log(progress);

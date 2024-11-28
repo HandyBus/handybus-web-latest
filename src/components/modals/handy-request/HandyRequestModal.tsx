@@ -31,7 +31,7 @@ const ModalContent = ({ onConfirm, onClosed }: ModalContentProps) => {
   return (
     <>
       <Image
-        src={'/rectangle.png'}
+        src={'/images/rectangle.png'}
         width={40}
         height={40}
         alt="Handy Request icon"
