@@ -3,6 +3,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants/token';
 import { getProgress } from './services/users';
 import { postRefreshToken } from './services/auth';
 import { setAuthCookies } from './utils/handleAuthCookie';
+import { SESSION } from './utils/handleSession';
 
 export const middleware = async (req: NextRequest) => {
   // 로그인 상태에서 온보딩 접근 시 마이페이지로 리다이렉트
@@ -34,11 +35,20 @@ export const middleware = async (req: NextRequest) => {
     }
   }
 
-  return NextResponse.next();
+  // 로그아웃 시 토큰 삭제
+  const response = NextResponse.next();
+  const session = req.cookies.get(SESSION)?.value;
+  const parsedSession = session ? JSON.parse(session) : null;
+  if (!parsedSession) {
+    response.cookies.delete(REFRESH_TOKEN);
+    response.cookies.delete(ACCESS_TOKEN);
+  }
+
+  return response;
 };
 
 export const config = {
-  matcher: ['/api/:path*', '/onboarding', '/mypage'],
+  matcher: ['/api/:path*', '/', '/onboarding', '/mypage'],
 };
 
 export const AuthRequiredPages = ['/mypage'];
