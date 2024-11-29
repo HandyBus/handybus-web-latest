@@ -6,6 +6,8 @@ export interface SessionType {
   isLoggedIn: boolean;
   accessToken?: string;
   refreshToken?: string;
+  accessTokenExpiresAt?: string;
+  refreshTokenExpiresAt?: string;
 }
 
 export const SESSION = 'session';

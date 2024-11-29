@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  ACCESS_EXPIRE_TIME,
-  ACCESS_TOKEN,
-  REFRESH_EXPIRE_TIME,
-  REFRESH_TOKEN,
-} from './constants/token';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants/token';
 import { getProgress } from './services/users';
 import { postRefreshToken } from './services/auth';
 import { setAuthCookies } from './utils/handleAuthCookie';
@@ -49,13 +44,13 @@ const handleTokenRefresh = async (req: NextRequest, refreshToken: string) => {
     response,
     REFRESH_TOKEN,
     tokens.refreshToken,
-    REFRESH_EXPIRE_TIME,
+    new Date(tokens.refreshTokenExpiresAt),
   );
   setAuthCookies(
     response,
     ACCESS_TOKEN,
     tokens.accessToken,
-    ACCESS_EXPIRE_TIME,
+    new Date(tokens.accessTokenExpiresAt),
   );
 
   return response;

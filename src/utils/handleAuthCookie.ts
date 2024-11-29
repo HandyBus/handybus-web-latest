@@ -5,10 +5,8 @@ export const setAuthCookies = (
   response: NextResponse,
   name: string,
   value: string,
-  expireTime: number,
+  expires: Date,
 ) => {
-  const expires = new Date(Date.now() + expireTime);
-
   response.cookies.set({
     name,
     value,

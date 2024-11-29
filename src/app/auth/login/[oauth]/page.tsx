@@ -24,6 +24,8 @@ const OAuth = ({ params, searchParams }: Props) => {
       setSession({
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
+        accessTokenExpiresAt: tokens.accessTokenExpiresAt,
+        refreshTokenExpiresAt: tokens.refreshTokenExpiresAt,
       });
 
       const progress = await getProgress();

@@ -1,9 +1,4 @@
-import {
-  ACCESS_EXPIRE_TIME,
-  ACCESS_TOKEN,
-  REFRESH_EXPIRE_TIME,
-  REFRESH_TOKEN,
-} from '@/constants/token';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/token';
 import { postRefreshToken } from '@/services/auth';
 import { BASE_URL } from '@/services/config';
 import { SESSION, SessionType } from '@/utils/handleSession';
@@ -34,10 +29,7 @@ const handleRequest = async (
 
   try {
     const response = await axios(config);
-    return createApiResponse(response.data, {
-      accessToken: parsedSession?.accessToken,
-      refreshToken: parsedSession?.refreshToken,
-    });
+    return createApiResponse(response.data, parsedSession);
   } catch (e) {
     const error = e as AxiosError;
 
@@ -75,30 +67,28 @@ const handleTokenRefresh = async (
 const createApiResponse = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
-  tokens?: { accessToken?: string; refreshToken?: string },
-  session?: SessionType,
+  session?: Partial<SessionType>,
 ) => {
   const response = NextResponse.json(data);
 
-  if (tokens?.refreshToken) {
+  if (session?.refreshToken && session?.refreshTokenExpiresAt) {
     setAuthCookies(
       response,
       REFRESH_TOKEN,
-      tokens.refreshToken,
-      REFRESH_EXPIRE_TIME,
+      session.refreshToken,
+      new Date(session.refreshTokenExpiresAt),
     );
   }
-  if (tokens?.accessToken) {
-    console.log('SET ACCESS TOKEN: ', tokens.accessToken);
+  if (session?.accessToken && session?.accessTokenExpiresAt) {
     setAuthCookies(
       response,
       ACCESS_TOKEN,
-      tokens.accessToken,
-      ACCESS_EXPIRE_TIME,
+      session.accessToken,
+      new Date(session.accessTokenExpiresAt),
     );
   }
 
-  if (tokens?.accessToken || tokens?.refreshToken) {
+  if (session?.accessToken || session?.refreshToken) {
     response.cookies.set({
       name: SESSION,
       value: JSON.stringify({
@@ -106,6 +96,8 @@ const createApiResponse = (
         isLoggedIn: true,
         accessToken: undefined,
         refreshToken: undefined,
+        accessTokenExpiresAt: undefined,
+        refreshTokenExpiresAt: undefined,
       }),
     });
   }
