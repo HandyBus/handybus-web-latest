@@ -5,6 +5,14 @@ import { postRefreshToken } from './services/auth';
 import { setAuthCookies } from './utils/handleAuthCookie';
 
 export const middleware = async (req: NextRequest) => {
+  // 로그인 상태에서 온보딩 접근 시 마이페이지로 리다이렉트
+  if (req.nextUrl.pathname === '/onboarding') {
+    const refreshToken = req.cookies.get(REFRESH_TOKEN)?.value;
+    if (refreshToken) {
+      return NextResponse.redirect(new URL('/mypage', req.url));
+    }
+  }
+
   // 인증 필요 페이지에 접근할 때 토큰 존재와 온보딩 완료 여부에 따라 리다이렉트
   if (AuthRequiredPages.includes(req.nextUrl.pathname)) {
     try {
@@ -32,7 +40,7 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ['/api/:path*', '/mypage'],
+  matcher: ['/api/:path*', '/onboarding', '/mypage'],
 };
 
 export const AuthRequiredPages = ['/mypage'];
