@@ -1,4 +1,3 @@
-import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import RightArrowIcon from 'public/icons/chevron-right-sm.svg';
@@ -6,6 +5,10 @@ import { useEffect, useState } from 'react';
 import ServiceBottomSheet from '../bottom-sheets/ServiceBottomSheet';
 import PersonalInfoBottomSheet from '../bottom-sheets/PersonalInfoBottomSheet';
 import MarketingBottomSheet from '../bottom-sheets/MarketingBottomSheet';
+import { usePutAgreement } from '@/services/users';
+import { toast } from 'react-toastify';
+import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
+import OnboardingTitle from '@/components/onboarding-contents/OnboardingTitle';
 
 interface Props {
   handleNextStep: () => void;
@@ -17,7 +20,7 @@ const AgreementStep = ({ handleNextStep }: Props) => {
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false);
   const [isMarketingChecked, setIsMarketingChecked] = useState(false);
 
-  const isEnabled = isServiceChecked && isPersonalInfoChecked;
+  const disabled = !(isServiceChecked && isPersonalInfoChecked);
 
   useEffect(() => {
     setIsAllChecked(
@@ -60,23 +63,36 @@ const AgreementStep = ({ handleNextStep }: Props) => {
     closeBottomSheet: closeMarketingBottomSheet,
   } = useBottomSheet();
 
+  const putAgreement = usePutAgreement({
+    onSuccess: handleNextStep,
+    onError: () => toast.error('약관 동의에 실패했습니다.'),
+  });
+
+  const handleSubmitAgreement = () => {
+    putAgreement.mutate({
+      isAgreedMarketing: isMarketingChecked,
+      isAgreedServiceTerms: isServiceChecked,
+      isAgreedPersonalInfo: isPersonalInfoChecked,
+    });
+  };
+
   return (
-    <>
-      <div className="relative grow">
-        <div className="px-28 py-16">
-          <h2 className="pb-[6px] text-26 font-700 text-grey-900">
-            집에서 콘서트장까지,
-            <br />
+    <OnboardingFrame handleSubmit={handleSubmitAgreement} disabled={disabled}>
+      <OnboardingTitle
+        title={
+          <>
+            집에서 콘서트장까지, <br />
             핸디버스와 함께
-          </h2>
-          <p className="text-14 font-600 text-grey-500">
-            서비스 가입을 위해
-            <br />
+          </>
+        }
+        description={
+          <>
+            서비스 가입을 위해 <br />
             아래 약관에 동의해주세요
-          </p>
-        </div>
-      </div>
-      <div className="absolute bottom-[26px] flex w-full flex-col items-center bg-white">
+          </>
+        }
+      />
+      <div className="absolute bottom-[50px] flex w-full flex-col items-center bg-white">
         <section className="w-full px-28 pb-16">
           <div className="flex w-full items-center justify-between border-b border-grey-100 py-16 text-16 font-600 text-grey-800">
             <span>약관 전체 동의</span>
@@ -107,11 +123,6 @@ const AgreementStep = ({ handleNextStep }: Props) => {
             onClick={openMarketingBottomSheet}
           />
         </section>
-        <div className="w-full px-32 py-8">
-          <Button type="button" disabled={!isEnabled} onClick={handleNextStep}>
-            다음으로
-          </Button>
-        </div>
       </div>
       <ServiceBottomSheet
         bottomSheetRef={serviceBottomSheetRef}
@@ -131,7 +142,7 @@ const AgreementStep = ({ handleNextStep }: Props) => {
         onAccept={() => setIsMarketingChecked(true)}
         closeBottomSheet={closeMarketingBottomSheet}
       />
-    </>
+    </OnboardingFrame>
   );
 };
 

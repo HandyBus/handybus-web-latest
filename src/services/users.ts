@@ -14,6 +14,32 @@ export const getUser = async () => {
   return data;
 };
 
+export const getProgress = async () => {
+  const res = await authInstance.get('/user-management/users/me');
+  const { progresses }: UserType = res.data?.user;
+
+  console.log(res.data?.user);
+
+  const isAgreedServiceTerms = progresses.find(
+    (el) => el.type === 'SERVICE_TERMS_AGREEMENT',
+  )?.isCompleted;
+  const isAgreedPersonalInfo = progresses.find(
+    (el) => el.type === 'PERSONAL_INFO_CONSENT',
+  )?.isCompleted;
+  const isOnboardingComplete = progresses.find(
+    (el) => el.type === 'ONBOARDING_COMPLETE',
+  )?.isCompleted;
+
+  if (isOnboardingComplete) {
+    return 'ONBOARDING_COMPLETE';
+  }
+  if (isAgreedServiceTerms && isAgreedPersonalInfo) {
+    return 'AGREEMENT_COMPLETE';
+  }
+
+  return 'AGREEMENT_INCOMPLETE';
+};
+
 const putUser = async (body: {
   nickname?: string;
   phoneNumber?: string;
@@ -22,6 +48,9 @@ const putUser = async (body: {
   regionID?: number;
   profileImage?: string;
   favoriteArtistsIDs?: number[];
+  isAgreedMarketing?: boolean;
+  isAgreedServiceTerms?: boolean;
+  isAgreedPersonalInfo?: boolean;
 }) => {
   const res = await authInstance.put('/user-management/users/me', body);
   const data: UserType = res.data?.user;
@@ -32,11 +61,29 @@ export const usePutNickname = ({
   onSuccess,
   onError,
 }: {
-  onSuccess: () => void;
-  onError: () => void;
+  onSuccess?: () => void;
+  onError?: () => void;
 }) => {
   return useMutation({
     mutationFn: (nickname: string) => putUser({ nickname }),
+    onSuccess,
+    onError,
+  });
+};
+
+export const usePutAgreement = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+}) => {
+  return useMutation({
+    mutationFn: (body: {
+      isAgreedMarketing: boolean;
+      isAgreedServiceTerms: boolean;
+      isAgreedPersonalInfo: boolean;
+    }) => putUser(body),
     onSuccess,
     onError,
   });

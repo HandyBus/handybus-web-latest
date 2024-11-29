@@ -9,6 +9,6 @@ export const instance = axios.create({
 });
 
 export const authInstance = axios.create({
-  baseURL: DOMAIN_URL + 'api',
+  baseURL: new URL('api', DOMAIN_URL).toString(),
   timeout: 20000,
 });
