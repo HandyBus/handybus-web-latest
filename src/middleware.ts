@@ -27,7 +27,7 @@ export const middleware = async (req: NextRequest) => {
         return NextResponse.rewrite(new URL('/onboarding', req.url));
       }
     } catch (e) {
-      console.error('middleware error: ', e);
+      console.error('Middleware Error: ', e);
       return clearTokensAndRedirect(req, '/login');
     }
   }
