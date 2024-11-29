@@ -108,14 +108,18 @@ const EditForm = ({ type, userDashboard }: Props) => {
     switch (type) {
       case 'profile':
         return (
-          <ProfileInfoContent initialImageSrc={userDashboard?.profileImage} />
+          <ProfileInfoContent initialImageSrc={userDashboard.profileImage} />
         );
       case 'personal-info':
         return <PersonalInfoContent />;
       case 'region':
         return <ResidenceContent />;
       case 'artist':
-        return <ArtistContent />;
+        return (
+          <ArtistContent
+            initialSelectedArtists={userDashboard.favoriteArtists}
+          />
+        );
     }
   };
 
@@ -124,7 +128,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
       <form
         onSubmit={methods.handleSubmit(handleEditProfile)}
         noValidate
-        className="relative grow"
+        className="relative flex grow flex-col"
       >
         <AppBar handleBack={() => router.replace('/mypage/profile')}>
           {TITLE[type]}
