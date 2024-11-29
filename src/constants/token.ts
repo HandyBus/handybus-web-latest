@@ -6,7 +6,7 @@ export const ACCESS_EXPIRE_TIME = 3600 * 1000 * 1; // 1시간
 
 export const OPTIONS = {
   httpOnly: true,
-  secure: true,
-  sameSite: 'strict',
+  secure: false,
+  sameSite: 'lax',
   path: '/',
 } as const;

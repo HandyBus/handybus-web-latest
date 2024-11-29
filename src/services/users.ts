@@ -4,9 +4,9 @@ import {
   UserDashboardType,
   UserType,
 } from '@/types/client.types';
-import { authInstance, BASE_URL } from './config';
+import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 export const getUser = async () => {
   const res = await authInstance.get('/user-management/users/me');
@@ -14,19 +14,8 @@ export const getUser = async () => {
   return data;
 };
 
-export const getProgress = async (accessToken?: string) => {
-  const PATH = '/user-management/users/me';
-  let res;
-  if (accessToken) {
-    res = await axios(PATH, {
-      baseURL: BASE_URL,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-  } else {
-    res = await authInstance.get(PATH);
-  }
+export const getProgress = async () => {
+  const res = await authInstance.get('/user-management/users/me');
 
   const { progresses }: UserType = res.data?.user;
   const isAgreedServiceTerms = progresses.find(

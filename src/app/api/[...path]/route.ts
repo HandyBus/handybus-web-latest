@@ -1,7 +1,6 @@
 import {
   ACCESS_EXPIRE_TIME,
   ACCESS_TOKEN,
-  OPTIONS,
   REFRESH_EXPIRE_TIME,
   REFRESH_TOKEN,
 } from '@/constants/token';
@@ -12,6 +11,7 @@ import axios from 'axios';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { AxiosError } from 'axios';
+import { setAuthCookies } from '@/utils/handleAuthCookie';
 
 const handleRequest = async (
   request: NextRequest,
@@ -67,7 +67,7 @@ const handleTokenRefresh = async (
     const response = await axios(config);
     return createApiResponse(response.data, newTokens);
   } catch (e) {
-    console.error(e);
+    console.error('Route Token Refresh Error: ', e);
     return createApiResponse(error.response?.data);
   }
 };
@@ -89,6 +89,7 @@ const createApiResponse = (
     );
   }
   if (tokens?.accessToken) {
+    console.log('SET ACCESS TOKEN: ', tokens.accessToken);
     setAuthCookies(
       response,
       ACCESS_TOKEN,
@@ -110,22 +111,6 @@ const createApiResponse = (
   }
 
   return response;
-};
-
-const setAuthCookies = (
-  response: NextResponse,
-  name: string,
-  value: string,
-  expireTime: number,
-) => {
-  const expires = new Date(Date.now() + expireTime);
-
-  response.cookies.set({
-    name,
-    value,
-    expires,
-    ...OPTIONS,
-  });
 };
 
 export const GET = async (
