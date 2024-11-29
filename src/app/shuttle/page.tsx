@@ -2,7 +2,7 @@ import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
 import { fetchAllShuttles, fetchRelatedShuttles } from './util/fetch.util';
-import singleSearchParam from '@/utils/singleSearchParam';
+import firstSearchParam from '@/utils/firstSearchParam';
 import {
   shuttleSortSearhParamsFromString,
   searchParamToSort,
@@ -24,18 +24,16 @@ interface Props {
 
 const Page = async ({ searchParams }: Props) => {
   const sortBy = searchParamToSort(
-    shuttleSortSearhParamsFromString(
-      singleSearchParam(searchParams.sort) || '',
-    ),
+    shuttleSortSearhParamsFromString(firstSearchParam(searchParams.sort) || ''),
   );
 
-  const bigRegion = singleSearchParam(searchParams.bigRegion) as
+  const bigRegion = firstSearchParam(searchParams.bigRegion) as
     | BigRegionsType
     | undefined;
   const smallRegion =
     bigRegion === undefined
       ? undefined
-      : (singleSearchParam(searchParams.smallRegion) as
+      : (firstSearchParam(searchParams.smallRegion) as
           | SmallRegionsType
           | undefined);
 
