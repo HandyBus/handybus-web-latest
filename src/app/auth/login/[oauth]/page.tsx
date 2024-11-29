@@ -1,8 +1,8 @@
 'use client';
 
 import { postLogin } from '@/services/auth';
-import { getUser } from '@/services/users';
-import { setSession } from '@/utils/handleSession';
+import { getProgress } from '@/services/users';
+import { removeSession, setSession } from '@/utils/handleSession';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -26,8 +26,10 @@ const OAuth = ({ params, searchParams }: Props) => {
         refreshToken: tokens.refreshToken,
       });
 
-      const user = await getUser();
-      if (user.ageRange === '연령대 미지정' || !user.ageRange) {
+      const progress = await getProgress();
+      console.log(progress);
+      if (progress !== 'ONBOARDING_COMPLETE') {
+        removeSession();
         router.push('/onboarding');
       } else {
         setSession();

@@ -3,7 +3,7 @@
 import {
   ERROR_MESSAGES,
   FORM_DEFAULT_VALUES,
-} from '@/components/onboarding-contents/formValidation.contants';
+} from '@/components/onboarding-contents/formValidation.constants';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { REGION_TO_ID } from '@/constants/regions';
 import { useGetUserDashboard, usePutUser } from '@/services/users';
@@ -14,24 +14,17 @@ import ProfileInfoContent from '@/components/onboarding-contents/ProfileInfoCont
 import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoContent';
 import ResidenceContent from '@/components/onboarding-contents/ResidenceContent';
 import ArtistContent from '@/components/onboarding-contents/ArtistContent';
-import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import { getImageUrl } from '@/services/common';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 
 type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 
 interface Props {
   searchParams: { type: EditType };
 }
-
-const TITLE = {
-  profile: '프로필 수정',
-  'personal-info': '성별 및 연령대 수정',
-  region: '거주 지역 수정',
-  artist: '최애 가수 수정',
-};
 
 const Edit = ({ searchParams }: Props) => {
   const { data: userDashboard } = useGetUserDashboard();
@@ -148,13 +141,23 @@ const Edit = ({ searchParams }: Props) => {
         <AppBar handleBack={() => router.replace('/mypage/profile')}>
           {TITLE[searchParams.type]}
         </AppBar>
-        {renderStep()}
-        <div className="absolute bottom-0 w-full bg-white px-32 py-12">
-          <Button disabled={isSubmitting}>수정하기</Button>
-        </div>
+        <OnboardingFrame
+          disabled={isSubmitting}
+          buttonType="submit"
+          buttonText="수정하기"
+        >
+          {renderStep()}
+        </OnboardingFrame>
       </form>
     </FormProvider>
   );
 };
 
 export default Edit;
+
+const TITLE = {
+  profile: '프로필 수정',
+  'personal-info': '성별 및 연령대 수정',
+  region: '거주 지역 수정',
+  artist: '최애 가수 수정',
+};
