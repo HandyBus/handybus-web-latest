@@ -4,9 +4,9 @@ import {
   UserDashboardType,
   UserType,
 } from '@/types/client.types';
-import { authInstance } from './config';
+import { authInstance, BASE_URL } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export const getUser = async () => {
   const res = await authInstance.get('/user-management/users/me');
@@ -14,12 +14,21 @@ export const getUser = async () => {
   return data;
 };
 
-export const getProgress = async () => {
-  const res = await authInstance.get('/user-management/users/me');
+export const getProgress = async (accessToken?: string) => {
+  const PATH = '/user-management/users/me';
+  let res;
+  if (accessToken) {
+    res = await axios(PATH, {
+      baseURL: BASE_URL,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  } else {
+    res = await authInstance.get(PATH);
+  }
+
   const { progresses }: UserType = res.data?.user;
-
-  console.log(res.data?.user);
-
   const isAgreedServiceTerms = progresses.find(
     (el) => el.type === 'SERVICE_TERMS_AGREEMENT',
   )?.isCompleted;
