@@ -3,7 +3,7 @@ export const ACCESS_TOKEN = 'access-token';
 
 export const OPTIONS = {
   httpOnly: true,
-  secure: true,
+  secure: process.env.NODE_ENV !== 'production',
   sameSite: 'lax',
   path: '/',
 } as const;
