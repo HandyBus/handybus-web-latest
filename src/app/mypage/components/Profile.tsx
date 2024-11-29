@@ -13,7 +13,7 @@ const Profile = ({ nickname, profileImage }: Props) => {
     <section className="mb-4 mt-28 flex flex-col items-center gap-12">
       <div className="relative h-80 w-80 overflow-hidden rounded-full">
         <Image
-          src={profileImage ?? DEFAULT_PROFILE_IMAGE}
+          src={profileImage || DEFAULT_PROFILE_IMAGE}
           alt="프로필 이미지"
           fill
           className="object-cover"

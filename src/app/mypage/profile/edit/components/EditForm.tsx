@@ -45,7 +45,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { mutate: putUser } = usePutUser({
+  const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
@@ -61,6 +61,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
     },
     onSettled: () => {
       setIsSubmitting(false);
+      router.refresh();
     },
   });
 
@@ -95,7 +96,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
-      profileImage: imageUrl,
+      profileImage: imageUrl ?? '',
       favoriteArtistsIDs,
       regionID,
     };
@@ -129,7 +130,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
           {TITLE[type]}
         </AppBar>
         <OnboardingFrame
-          disabled={isSubmitting}
+          disabled={isSubmitting || isSuccess}
           buttonType="submit"
           buttonText="수정하기"
         >

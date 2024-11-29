@@ -26,7 +26,6 @@ export const middleware = async (req: NextRequest) => {
       }
 
       const progress = await getProgress();
-      console.log('progress', progress);
       if (progress !== 'ONBOARDING_COMPLETE') {
         return NextResponse.rewrite(new URL('/onboarding', req.url));
       }

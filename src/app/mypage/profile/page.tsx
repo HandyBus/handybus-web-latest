@@ -24,7 +24,7 @@ const Profile = async () => {
           <div className="flex items-center gap-12">
             <div className="relative h-40 w-40 overflow-hidden rounded-full">
               <Image
-                src={profileImage ?? DEFAULT_PROFILE_IMAGE}
+                src={profileImage || DEFAULT_PROFILE_IMAGE}
                 alt="프로필 이미지"
                 fill
                 className="object-cover"
