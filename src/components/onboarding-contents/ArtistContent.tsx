@@ -14,10 +14,10 @@ import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
 
 interface Props {
-  initialSelectedArtists: ArtistType[];
+  initialSelectedArtists?: ArtistType[];
 }
 
-const ArtistContent = ({ initialSelectedArtists }: Props) => {
+const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   const { data: artists } = useGetArtists();
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
