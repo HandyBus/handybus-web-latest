@@ -14,7 +14,12 @@ export const getUser = async () => {
   return data;
 };
 
-export const getProgress = async () => {
+export type OnboardingProgress =
+  | 'AGREEMENT_INCOMPLETE'
+  | 'AGREEMENT_COMPLETE'
+  | 'ONBOARDING_COMPLETE';
+
+export const getProgress = async (): Promise<OnboardingProgress> => {
   const res = await authInstance.get('/user-management/users/me');
 
   const { progresses }: UserType = res.data?.user;
@@ -104,7 +109,7 @@ export const usePutUser = ({
   });
 };
 
-const getUserDashboard = async () => {
+export const getUserDashboard = async () => {
   const res = await authInstance.get('/user-management/users/me/dashboard');
   const data: UserDashboardType = res.data?.userDashboard;
   return data;

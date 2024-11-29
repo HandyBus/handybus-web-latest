@@ -1,13 +1,11 @@
-'use client';
-
 import AppBar from '@/components/app-bar/AppBar';
 import ListButton from '../components/ListButton';
 import Image from 'next/image';
-import { useGetUserDashboard } from '@/services/users';
+import { getUserDashboard } from '@/services/users';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 
-const Profile = () => {
-  const { data: userDashboard } = useGetUserDashboard();
+const Profile = async () => {
+  const userDashboard = await getUserDashboard();
 
   const nickname = userDashboard?.nickname ?? '';
   const profileImage = userDashboard?.profileImage ?? '';
@@ -17,10 +15,6 @@ const Profile = () => {
   const favoriteArtists =
     userDashboard?.favoriteArtists.map((artist) => artist.name).join(', ') ??
     '';
-
-  if (!userDashboard) {
-    return null;
-  }
 
   return (
     <>
