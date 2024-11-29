@@ -35,9 +35,12 @@ export const getImageUrl = async ({
   if (!file) {
     return;
   }
-  const extension = file.type.split('/').pop() as ExtensionType;
+  let extension = file.type.split('/').pop();
+  if (extension === 'svg+xml') {
+    extension = 'svg';
+  }
 
-  const urls = await getPresignedUrl(key, extension);
+  const urls = await getPresignedUrl(key, extension as ExtensionType);
   await uploadImageToS3(urls.presignedUrl, file);
   return urls.cdnUrl;
 };
