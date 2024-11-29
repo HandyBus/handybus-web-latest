@@ -20,8 +20,6 @@ const AgreementStep = ({ handleNextStep }: Props) => {
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false);
   const [isMarketingChecked, setIsMarketingChecked] = useState(false);
 
-  const disabled = !(isServiceChecked && isPersonalInfoChecked);
-
   useEffect(() => {
     setIsAllChecked(
       isServiceChecked && isPersonalInfoChecked && isMarketingChecked,
@@ -75,6 +73,9 @@ const AgreementStep = ({ handleNextStep }: Props) => {
       isAgreedPersonalInfo: isPersonalInfoChecked,
     });
   };
+
+  const disabled =
+    !(isServiceChecked && isPersonalInfoChecked) || putAgreement.isPending;
 
   return (
     <OnboardingFrame handleSubmit={handleSubmitAgreement} disabled={disabled}>

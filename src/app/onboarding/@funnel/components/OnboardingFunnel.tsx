@@ -37,7 +37,7 @@ const OnboardingFunnel = ({ progress }: Props) => {
 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { mutate: putUser } = usePutUser({
+  const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
       setSession();
       toast.success('핸디버스에 오신 것을 환영합니다!');
@@ -120,7 +120,7 @@ const OnboardingFunnel = ({ progress }: Props) => {
           <Step name="최애 가수">
             <ArtistStep
               handlePrevStep={handlePrevStep}
-              isLoading={isSubmitting}
+              isLoading={isSubmitting || isSuccess}
             />
           </Step>
         </Funnel>
