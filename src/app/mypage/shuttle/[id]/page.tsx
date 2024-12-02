@@ -7,6 +7,8 @@ import NoticeSection from '@/components/notice-section/NoticeSection';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import AppBar from '@/components/app-bar/AppBar';
 import Link from 'next/link';
+import Divider from '../components/Divider';
+import RefundPolicy from '../components/RefundPolicy';
 
 interface Props {
   params: {
@@ -24,7 +26,7 @@ const ShuttleDetail = ({ params }: Props) => {
         <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} />
         <Section title="당신은 핸디입니다~">TODO</Section>
         <Section title="예약 정보">
-          <div className="flex flex-col gap-28 pt-16">
+          <div className="flex flex-col gap-28">
             <section className="flex flex-col gap-8">
               <DetailRow title="탑승일" content="2024. 09. 01. (토)" />
               <DetailRow title="노선 종류" content="청주-천안" />
@@ -55,7 +57,7 @@ const ShuttleDetail = ({ params }: Props) => {
             <Passenger index={2} name="홍길동" phoneNumber="010-1234-5678" />
           </div>
         </Section>
-        <div className="h-8 w-full bg-grey-50" />
+        <Divider />
         <ShuttleRouteVisualizer
           object={[
             { time: '2024-03-20 14:30:00', location: '청주터미널' },
@@ -68,7 +70,7 @@ const ShuttleDetail = ({ params }: Props) => {
           section="my-reservation"
         />
         <Section title="결제 정보">
-          <div className="flex w-full gap-4 pb-8 pt-16">
+          <div className="flex w-full gap-4 pb-8">
             <div>예약 금액</div>
             <div className="grow text-right">
               <span className="block leading-[24px]">104,000원</span>
@@ -87,21 +89,12 @@ const ShuttleDetail = ({ params }: Props) => {
           </div>
         </Section>
         <Section title="취소 및 환불 안내">
-          <ul className="list-disc pb-16 pl-16 pt-8 text-14 leading-[160%] text-grey-500">
-            <li>
-              예약한 셔틀의 출발일 기준 8일 이전 환불 신청 건은 자동으로 전액
-              환불되지만, 이후에는 환불 규정에 따라 수수료가 발생할 수 있습니다.
-            </li>
-            <li>
-              결제 당일 취소 시, 23:59까지 무료 취소 가능합니다(당일 탑승 건
-              제외, 개별 채널톡 문의)
-            </li>
-          </ul>
+          <RefundPolicy />
           <Link href={`/mypage/shuttle/${id}/refund`}>
             <Button variant="secondary">환불 신청하기</Button>
           </Link>
         </Section>
-        <div className="h-8 w-full bg-grey-50" />
+        <Divider />
         <NoticeSection type="term-and-condition" />
       </main>
     </>
