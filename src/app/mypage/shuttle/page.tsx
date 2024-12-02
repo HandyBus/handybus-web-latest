@@ -39,7 +39,7 @@ const Shuttle = ({ searchParams }: Props) => {
           <ReservationOngoingWrapper>
             <ShuttleCard
               id={1}
-              data={MOCK_DATA}
+              data={MOCK_SHUTTLE_DATA}
               buttonText="예약 취소"
               buttonHref="1"
             />
@@ -75,7 +75,7 @@ const ReservationOngoingWrapper = ({
   );
 };
 
-const MOCK_DATA = {
+export const MOCK_SHUTTLE_DATA = {
   imageSrc:
     'https://image.xportsnews.com/contents/images/upload/article/2024/0724/mb_1721807906980977.jpg',
   title: '민트페스타 vol.74 STIRRING',

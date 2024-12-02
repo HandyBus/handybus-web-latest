@@ -1,8 +1,12 @@
-import AppBar from '@/components/app-bar/AppBar';
 import ShuttleCard from '../components/ShuttleCard';
 import { ReactNode } from 'react';
 import Section from '../components/Section';
-import Footer from '@/components/footer/Footer';
+import { MOCK_SHUTTLE_DATA } from '../page';
+import Button from '@/components/buttons/button/Button';
+import NoticeSection from '@/components/notice-section/NoticeSection';
+import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
+import AppBar from '@/components/app-bar/AppBar';
+import Link from 'next/link';
 
 interface Props {
   params: {
@@ -11,16 +15,17 @@ interface Props {
 }
 
 const ShuttleDetail = ({ params }: Props) => {
-  console.log(params);
+  const { id } = params;
+  console.log(id);
   return (
     <>
       <AppBar>예약 상세 보기</AppBar>
       <main className="grow">
-        <ShuttleCard />
+        <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} />
         <Section title="당신은 핸디입니다~">TODO</Section>
-        <Section title="셔틀 예약 내역">
-          <div className="flex flex-col gap-28 pt-24">
-            <div className="flex flex-col gap-8">
+        <Section title="예약 정보">
+          <div className="flex flex-col gap-28 pt-16">
+            <section className="flex flex-col gap-8">
               <DetailRow title="탑승일" content="2024. 09. 01. (토)" />
               <DetailRow title="노선 종류" content="청주-천안" />
               <DetailRow title="왕복 여부" content="2024. 09. 01. (토)" />
@@ -45,14 +50,25 @@ const ShuttleDetail = ({ params }: Props) => {
                 content="청주대학교"
               />
               <DetailRow title="탑승객 수" content="2명" />
-            </div>
+            </section>
             <Passenger index={1} name="홍길동" phoneNumber="010-1234-5678" />
             <Passenger index={2} name="홍길동" phoneNumber="010-1234-5678" />
           </div>
         </Section>
-        <Section title="예상 노선 정보">TODO</Section>
+        <div className="h-8 w-full bg-grey-50" />
+        <ShuttleRouteVisualizer
+          object={[
+            { time: '2024-03-20 14:30:00', location: '청주터미널' },
+            { time: '2024-03-20 14:40:00', location: '청주대학교' },
+            { time: '2024-03-20 14:50:00', location: '장소3' },
+            { time: '2024-03-20 15:00:00', location: '장소4' },
+            { time: '2024-03-20 15:10:00', location: '장소5' },
+            { time: '2024-03-20 15:20:00', location: '장소6' },
+          ]}
+          section="my-reservation"
+        />
         <Section title="결제 정보">
-          <div className="flex w-full gap-4 pb-8 pt-32">
+          <div className="flex w-full gap-4 pb-8 pt-16">
             <div>예약 금액</div>
             <div className="grow text-right">
               <span className="block leading-[24px]">104,000원</span>
@@ -70,8 +86,8 @@ const ShuttleDetail = ({ params }: Props) => {
             <div className="grow text-right text-22 font-600">104,000원</div>
           </div>
         </Section>
-        <Section title="환불 정보">
-          <ul className="list-disc pl-16 pt-4 text-14 leading-[160%] text-grey-500">
+        <Section title="취소 및 환불 안내">
+          <ul className="list-disc pb-16 pl-16 pt-8 text-14 leading-[160%] text-grey-500">
             <li>
               예약한 셔틀의 출발일 기준 8일 이전 환불 신청 건은 자동으로 전액
               환불되지만, 이후에는 환불 규정에 따라 수수료가 발생할 수 있습니다.
@@ -81,10 +97,13 @@ const ShuttleDetail = ({ params }: Props) => {
               제외, 개별 채널톡 문의)
             </li>
           </ul>
+          <Link href={`/mypage/shuttle/${id}/refund`}>
+            <Button variant="secondary">환불 신청하기</Button>
+          </Link>
         </Section>
-        <Section title="기타 유의사항">TODO</Section>
+        <div className="h-8 w-full bg-grey-50" />
+        <NoticeSection type="term-and-condition" />
       </main>
-      <Footer />
     </>
   );
 };
@@ -98,9 +117,9 @@ interface DetailRowProps {
 
 const DetailRow = ({ title, content }: DetailRowProps) => {
   return (
-    <div className="grid grid-cols-[80px_1fr] gap-32">
+    <div className="grid grid-cols-[80px_1fr] gap-32 text-16 font-400">
       <h5 className="text-grey-600-sub">{title}</h5>
-      <div>{content}</div>
+      <div className="text-grey-900">{content}</div>
     </div>
   );
 };
@@ -113,10 +132,10 @@ interface PassengerProps {
 
 const Passenger = ({ index, name, phoneNumber }: PassengerProps) => {
   return (
-    <div className="flex flex-col gap-8">
+    <section className="flex flex-col gap-8">
       <h4 className="pb-4 text-18 font-500 text-grey-700">탑승객 {index}</h4>
       <DetailRow title="이름" content={name} />
       <DetailRow title="전화번호" content={phoneNumber} />
-    </div>
+    </section>
   );
 };

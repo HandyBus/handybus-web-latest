@@ -35,7 +35,7 @@ const NoticeSection = ({ type }: Props) => {
 
 export default NoticeSection;
 
-const CancellationAndRefundContent = () => {
+export const CancellationAndRefundContent = () => {
   return (
     <article className="pt-16">
       <section className="rounded-[10px] bg-grey-50 p-16">
@@ -99,7 +99,7 @@ const CancellationAndRefundContent = () => {
   );
 };
 
-const TermAndConditionContent = () => {
+export const TermAndConditionContent = () => {
   return (
     <article className="pt-16">
       <section className="rounded-[10px] bg-grey-50 p-16 text-14 font-400 leading-[22.4px] text-grey-500">
