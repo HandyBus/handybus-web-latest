@@ -21,14 +21,29 @@ interface Props {
     reservationDate?: string;
   };
   buttonText?: string;
+  buttonHref?: string;
+  buttonDisabled?: boolean;
+  subButtonText?: string;
+  subButtonHref?: string;
+  subButtonDisabled?: boolean;
 }
 
-const ShuttleCard = ({ id, data, buttonText }: Props) => {
+const ShuttleCard = ({
+  id,
+  data,
+  buttonText,
+  buttonHref,
+  buttonDisabled,
+  subButtonText,
+  subButtonHref,
+  subButtonDisabled,
+}: Props) => {
   const router = useRouter();
-  const handleDetailClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    router.push(`/mypage/shuttle/${id}`);
-  };
+  const handleButtonClick =
+    (href: string) => (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      router.push(href);
+    };
 
   return (
     <Link
@@ -78,15 +93,28 @@ const ShuttleCard = ({ id, data, buttonText }: Props) => {
           )}
         </div>
       </div>
-      {buttonText && (
-        <button
-          onClick={handleDetailClick}
-          type="button"
-          className="flex h-40 w-full items-center justify-center rounded-full bg-grey-50 text-14 font-500 text-grey-700"
-        >
-          {buttonText}
-        </button>
-      )}
+      <div className="flex gap-8">
+        {buttonText && buttonHref && (
+          <button
+            onClick={handleButtonClick(buttonHref)}
+            disabled={buttonDisabled}
+            type="button"
+            className="flex h-40 w-full items-center justify-center rounded-full bg-primary-main text-14 font-500 text-white active:bg-primary-700 disabled:bg-grey-50 disabled:text-grey-300"
+          >
+            {buttonText}
+          </button>
+        )}
+        {subButtonText && subButtonHref && (
+          <button
+            onClick={handleButtonClick(subButtonHref)}
+            disabled={subButtonDisabled}
+            type="button"
+            className="flex h-40 w-full items-center justify-center rounded-full bg-grey-50 text-14 font-500 text-grey-700 disabled:bg-grey-50 disabled:text-grey-300"
+          >
+            {subButtonText}
+          </button>
+        )}
+      </div>
     </Link>
   );
 };

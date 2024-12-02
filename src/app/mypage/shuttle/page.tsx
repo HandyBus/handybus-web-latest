@@ -37,7 +37,12 @@ const Shuttle = ({ searchParams }: Props) => {
         </div>
         <ul>
           <ReservationOngoingWrapper>
-            <ShuttleCard id={1} data={MOCK_DATA} buttonText="예약 취소" />
+            <ShuttleCard
+              id={1}
+              data={MOCK_DATA}
+              buttonText="예약 취소"
+              buttonHref="1"
+            />
           </ReservationOngoingWrapper>
         </ul>
       </main>
