@@ -139,3 +139,18 @@ const STATUS_STYLE = {
     text: 'text-grey-500',
   },
 };
+
+export const MOCK_SHUTTLE_DATA = {
+  imageSrc:
+    'https://image.xportsnews.com/contents/images/upload/article/2024/0724/mb_1721807906980977.jpg',
+  title: '민트페스타 vol.74 STIRRING',
+  location: 'KT&G 상상마당 라이브홀',
+  date: '2024. 08. 25. (일)',
+  route: '충청북도 청주시',
+  shuttleType: '귀가행',
+  passengerCount: 2,
+  status: '수요 확인 중',
+  reservationDate: '2024. 07. 31. (수)',
+  type: '신청',
+  price: 10000,
+} as const;

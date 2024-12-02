@@ -1,8 +1,7 @@
 'use client';
 
 import AppBar from '@/components/app-bar/AppBar';
-import ShuttleCard from '../../components/ShuttleCard';
-import { MOCK_SHUTTLE_DATA } from '../../page';
+import ShuttleCard, { MOCK_SHUTTLE_DATA } from '../../components/ShuttleCard';
 import Section from '../../components/Section';
 import RefundPolicy from '../../components/RefundPolicy';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';

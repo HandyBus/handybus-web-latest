@@ -1,7 +1,6 @@
-import ShuttleCard from '../components/ShuttleCard';
+import ShuttleCard, { MOCK_SHUTTLE_DATA } from '../components/ShuttleCard';
 import { ReactNode } from 'react';
 import Section from '../components/Section';
-import { MOCK_SHUTTLE_DATA } from '../page';
 import Button from '@/components/buttons/button/Button';
 import NoticeSection from '@/components/notice-section/NoticeSection';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
