@@ -8,12 +8,14 @@ export type RouteType = (typeof ROUTE_TYPE)[keyof typeof ROUTE_TYPE];
 export type ShuttleRouteObject = {
   time: string;
   location: string;
+  is_pickup?: boolean;
+  is_dropoff?: boolean;
 };
 
 export const SECTION = {
-  SHUTTLE_DETAIL: 'shuttle-detail',
-  RESERVATION_DETAIL: 'reservation-detail',
-  MY_RESERVATION: 'my-reservation',
+  SHUTTLE_DETAIL: 'SHUTTLE-DETAIL',
+  RESERVATION_DETAIL: 'RESERVATION-DETAIL',
+  MY_RESERVATION: 'MY-RESERVATION',
 } as const;
 
 export type SectionType = (typeof SECTION)[keyof typeof SECTION];
