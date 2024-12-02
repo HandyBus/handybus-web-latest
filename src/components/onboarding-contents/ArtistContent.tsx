@@ -11,6 +11,7 @@ import { ArtistType } from '@/types/client.types';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { useGetArtists } from '@/services/shuttleOperation';
 import useDebounce from '@/hooks/useDebounce';
+import OnboardingTitle from './OnboardingTitle';
 
 const ArtistContent = () => {
   const { data: artists } = useGetArtists();
@@ -53,9 +54,7 @@ const ArtistContent = () => {
   return (
     <>
       <div className="relative grow">
-        <h2 className="px-28 py-16 text-26 font-700 text-grey-900">
-          최애 가수를 찾아주세요
-        </h2>
+        <OnboardingTitle title="최애 가수를 찾아주세요" />
         <div className="px-28 pb-16">
           <SearchBar type="button" onClick={() => setIsListOpen(true)}>
             가수 이름으로 검색
@@ -97,7 +96,7 @@ const ArtistContent = () => {
         )}
       </div>
       {isListOpen && (
-        <div className="absolute bottom-0 left-0 right-0 top-44 flex flex-col bg-white">
+        <div className="absolute -top-44 bottom-0 left-0 right-0 z-[51] flex flex-col bg-white">
           <SearchInput
             value={searchValue}
             setValue={setSearchValue}

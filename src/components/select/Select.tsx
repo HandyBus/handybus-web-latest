@@ -8,7 +8,7 @@ import ChevronDisabledIcon from 'public/icons/chevron-disabled.svg';
 interface Props<T> {
   options: readonly T[];
   value: T | undefined;
-  setValue: (value: T | undefined) => void;
+  setValue: (value: T) => void;
   placeholder?: string;
   disabled?: boolean;
   bottomSheetTitle?: string;

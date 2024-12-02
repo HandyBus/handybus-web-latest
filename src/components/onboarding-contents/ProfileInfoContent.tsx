@@ -6,8 +6,9 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import CameraIcon from 'public/icons/camera.svg';
-import { ERROR_MESSAGES, REG_EXP } from './formValidation.contants';
+import { ERROR_MESSAGES, REG_EXP } from './formValidation.constants';
 import TextInput from '@/components/inputs/text-input/TextInput';
+import OnboardingTitle from './OnboardingTitle';
 
 interface Props {
   handleSubmit?: () => void;
@@ -79,15 +80,11 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
   };
 
   return (
-    <div className="relative grow">
-      <div className="px-28 py-16">
-        <h2 className="pb-[6px] text-26 font-700 text-grey-900">
-          프로필을 입력해주세요
-        </h2>
-        <p className="text-14 font-600 text-grey-500">
-          핸디버스가 어떻게 불러드릴까요?
-        </p>
-      </div>
+    <>
+      <OnboardingTitle
+        title="프로필을 입력해주세요"
+        description="핸디버스가 어떻게 불러드릴까요?"
+      />
       <div className="relative flex h-[200px] w-full flex-col items-center justify-center gap-12">
         <div className="relative flex h-180 w-180 shrink-0 items-center justify-center overflow-hidden rounded-full">
           <Image
@@ -140,7 +137,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
           닉네임
         </TextInput>
       </div>
-    </div>
+    </>
   );
 };
 
