@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Select from '@/components/select/Select';
@@ -20,7 +21,7 @@ interface Props {
   header:
     | { type: 'REGION'; length: number }
     | { type: 'RELATED'; length: number; related: string };
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
