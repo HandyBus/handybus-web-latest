@@ -101,7 +101,18 @@ const ShuttleRouteCard = ({ section, type, object }: ShuttleRouteCardProps) => {
         <ul className="flex flex-col gap-16">
           {object.map((item, index) => (
             <li key={index}>
-              <ShuttleRouteTimeLocation object={item} />
+              <ShuttleRouteTimeLocation
+                object={item}
+                isBlurred={
+                  section !== SECTION.SHUTTLE_DETAIL &&
+                  isShuttleRouteLocationBlurred({
+                    object: item,
+                    type,
+                    index,
+                    length: object.length,
+                  })
+                }
+              />
             </li>
           ))}
         </ul>
@@ -148,17 +159,38 @@ const ArrivalPoint = ({ type }: { type: RouteType }) => {
 
 const ShuttleRouteTimeLocation = ({
   object,
+  isBlurred,
 }: {
   object: ShuttleRouteObject;
+  isBlurred: boolean;
 }) => {
   return (
     <div className="flex gap-16">
       <p className="text-16 font-400 leading-[24px] text-grey-900">
         {dayjs(object.time).format('HH:mm')}
       </p>
-      <p className="text-16 font-400 leading-[24px] text-grey-900">
+      <p
+        className={`text-16 font-400 leading-[24px] ${isBlurred ? 'text-grey-300' : 'text-grey-900'}`}
+      >
         {object.location}
       </p>
     </div>
   );
+};
+
+const isShuttleRouteLocationBlurred = ({
+  object,
+  type,
+  index,
+  length,
+}: {
+  object: ShuttleRouteObject;
+  type: RouteType;
+  index: number;
+  length: number;
+}) => {
+  if (type === ROUTE_TYPE.DEPARTURE)
+    return !(index === length - 1 || object.is_pickup);
+  if (type === ROUTE_TYPE.RETURN) return !(index === 0 || object.is_dropoff);
+  return false;
 };
