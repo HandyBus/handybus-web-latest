@@ -58,34 +58,17 @@ const Page = async ({ searchParams }: Props) => {
         <SubPage
           region={region}
           sort={sortBy}
-          serverlist={
-            data.length > 0 || !related || related.length === 0 ? (
-              <>
-                <span className="text-14 font-500 text-grey-500">
-                  {region.bigRegion === undefined ? '전국' : region.bigRegion}
-                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
-                </span>
-                <span className="text-14 font-400 text-grey-500">
-                  에서 예약 모집 중인 셔틀({data.length})
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="text-14 font-500 text-grey-500">
-                  {region.bigRegion === undefined
-                    ? '전국'
-                    : String(region.bigRegion)}
-                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
-                </span>
-                <span className="text-14 font-400 text-grey-500">
-                  에서 예약 모집 중인 셔틀이 없어{' '}
-                  <span className="text-14 font-600 text-grey-500">
-                    {relatedRegionNames(region, related)}
-                  </span>
-                  의 결과를 대신 보여드려요.
-                </span>
-              </>
-            )
+          header={
+            data.length > 0 || !related || related.length === 0
+              ? {
+                  type: 'REGION',
+                  length: data.length,
+                }
+              : {
+                  type: 'RELATED',
+                  length: related.length,
+                  related: relatedRegionNames(region, related),
+                }
           }
         >
           <div>

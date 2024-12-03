@@ -17,12 +17,14 @@ import {
 const SubPage = ({
   region: initialRegion,
   sort,
-  serverlist,
+  header,
   children,
 }: {
   sort: ShuttleSortType;
   region: Region;
-  serverlist: React.ReactNode;
+  header:
+    | { type: 'REGION'; length: number }
+    | { type: 'RELATED'; length: number; related: string };
   children: React.ReactNode;
 }) => {
   const route = useRouter();
@@ -67,7 +69,35 @@ const SubPage = ({
         </div>
         <div className={safeArea}>
           <div className="h-8 w-full bg-grey-50" />
-          <div className="px-16 py-12">{serverlist}</div>
+          <div className="px-16 py-12">
+            {header.type === 'REGION' ? (
+              <>
+                <span className="text-14 font-500 text-grey-500">
+                  {region.bigRegion === undefined ? '전국' : region.bigRegion}
+                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
+                </span>
+                <span className="text-14 font-400 text-grey-500">
+                  에서 예약 모집 중인 셔틀({header.length})
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-14 font-500 text-grey-500">
+                  {region.bigRegion === undefined
+                    ? '전국'
+                    : String(region.bigRegion)}
+                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
+                </span>
+                <span className="text-14 font-400 text-grey-500">
+                  에서 예약 모집 중인 셔틀이 없어{' '}
+                  <span className="text-14 font-600 text-grey-500">
+                    {header.related}
+                  </span>
+                  의 결과를 대신 보여드려요.
+                </span>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {children}
