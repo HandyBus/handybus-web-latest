@@ -1,12 +1,16 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/token';
-import { postRefreshToken } from '@/services/auth';
+import {
+  ACCESS_TOKEN,
+  ACCESS_TOKEN_EXPIRES_AT,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_EXPIRES_AT,
+} from '@/constants/token';
+import { postRefreshToken, TokenType } from '@/services/auth';
 import { BASE_URL } from '@/services/config';
-import { SESSION, SessionType } from '@/utils/handleSession';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { AxiosError } from 'axios';
-import { setAuthCookies } from '@/utils/handleAuthCookie';
+import { setResponseCookies } from '@/utils/handleCookie';
 
 const handleRequest = async (
   request: NextRequest,
@@ -14,22 +18,32 @@ const handleRequest = async (
   method: string,
 ) => {
   const cookieStore = cookies();
+  const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
-  const session = cookieStore.get(SESSION)?.value;
-  const parsedSession = JSON.parse(session ?? '{}') as SessionType;
+  const refreshTokenExpiresAt = cookieStore.get(
+    REFRESH_TOKEN_EXPIRES_AT,
+  )?.value;
+  const accessTokenExpiresAt = cookieStore.get(ACCESS_TOKEN_EXPIRES_AT)?.value;
+
+  console.log('accessToken', accessToken);
 
   const config = {
     method,
     url: new URL(params.path.join('/'), BASE_URL).toString(),
     headers: {
-      Authorization: `Bearer ${accessToken ?? parsedSession.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     data: method !== 'GET' ? await request.json() : undefined,
   };
 
   try {
     const response = await axios(config);
-    return createApiResponse(response.data, parsedSession);
+    return createApiResponse(response.data, {
+      refreshToken,
+      accessToken,
+      refreshTokenExpiresAt,
+      accessTokenExpiresAt,
+    });
   } catch (e) {
     const error = e as AxiosError;
 
@@ -67,39 +81,37 @@ const handleTokenRefresh = async (
 const createApiResponse = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
-  session?: Partial<SessionType>,
+  tokens?: Partial<TokenType>,
 ) => {
   const response = NextResponse.json(data);
 
-  if (session?.refreshToken && session?.refreshTokenExpiresAt) {
-    setAuthCookies(
+  if (tokens?.refreshToken && tokens?.refreshTokenExpiresAt) {
+    setResponseCookies(
       response,
       REFRESH_TOKEN,
-      session.refreshToken,
-      new Date(session.refreshTokenExpiresAt),
+      tokens.refreshToken,
+      new Date(tokens.refreshTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      REFRESH_TOKEN_EXPIRES_AT,
+      tokens.refreshTokenExpiresAt,
+      new Date(tokens.refreshTokenExpiresAt),
     );
   }
-  if (session?.accessToken && session?.accessTokenExpiresAt) {
-    setAuthCookies(
+  if (tokens?.accessToken && tokens?.accessTokenExpiresAt) {
+    setResponseCookies(
       response,
       ACCESS_TOKEN,
-      session.accessToken,
-      new Date(session.accessTokenExpiresAt),
+      tokens.accessToken,
+      new Date(tokens.accessTokenExpiresAt),
     );
-  }
-
-  if (session?.accessToken || session?.refreshToken) {
-    response.cookies.set({
-      name: SESSION,
-      value: JSON.stringify({
-        ...session,
-        isLoggedIn: true,
-        accessToken: undefined,
-        refreshToken: undefined,
-        accessTokenExpiresAt: undefined,
-        refreshTokenExpiresAt: undefined,
-      }),
-    });
+    setResponseCookies(
+      response,
+      ACCESS_TOKEN_EXPIRES_AT,
+      tokens.accessTokenExpiresAt,
+      new Date(tokens.accessTokenExpiresAt),
+    );
   }
 
   return response;

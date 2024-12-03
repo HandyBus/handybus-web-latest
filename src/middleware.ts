@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants/token';
+import {
+  ACCESS_TOKEN,
+  ACCESS_TOKEN_EXPIRES_AT,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_EXPIRES_AT,
+  TOKEN_KEYS,
+} from './constants/token';
 import { getProgress } from './services/users';
 import { postRefreshToken } from './services/auth';
-import { setAuthCookies } from './utils/handleAuthCookie';
 import { SESSION } from './utils/handleSession';
+import { setResponseCookies } from './utils/handleCookie';
 
 export const middleware = async (req: NextRequest) => {
   // 로그인 상태에서 온보딩 접근 시 마이페이지로 리다이렉트
@@ -15,11 +21,7 @@ export const middleware = async (req: NextRequest) => {
   }
 
   // 인증 필요 페이지에 접근할 때 토큰 존재와 온보딩 완료 여부에 따라 리다이렉트
-  if (
-    AuthRequiredPages.includes(
-      req.nextUrl.pathname as (typeof AuthRequiredPages)[number],
-    )
-  ) {
+  if (AuthRequiredPages.includes(req.nextUrl.pathname)) {
     const refreshToken = req.cookies.get(REFRESH_TOKEN)?.value;
     const accessToken = req.cookies.get(ACCESS_TOKEN)?.value;
     if (!refreshToken) {
@@ -44,17 +46,16 @@ export const middleware = async (req: NextRequest) => {
   const session = req.cookies.get(SESSION)?.value;
   const parsedSession = session ? JSON.parse(session) : null;
   if (!parsedSession) {
-    response.cookies.delete(REFRESH_TOKEN);
-    response.cookies.delete(ACCESS_TOKEN);
+    clearAllTokens(response);
   }
 
   return response;
 };
 
-export const AuthRequiredPages = ['/mypage'] as const;
+export const AuthRequiredPages = ['/mypage'];
 
 export const config = {
-  matcher: ['/api/:path*', '/', '/onboarding', ...AuthRequiredPages],
+  matcher: ['/api/:path*', '/', '/onboarding', '/mypage'],
 };
 
 const handleTokenRefresh = async (req: NextRequest, refreshToken: string) => {
@@ -62,16 +63,28 @@ const handleTokenRefresh = async (req: NextRequest, refreshToken: string) => {
     const tokens = await postRefreshToken(refreshToken);
     const response = NextResponse.redirect(new URL(req.url));
 
-    setAuthCookies(
+    setResponseCookies(
       response,
       REFRESH_TOKEN,
       tokens.refreshToken,
       new Date(tokens.refreshTokenExpiresAt),
     );
-    setAuthCookies(
+    setResponseCookies(
       response,
       ACCESS_TOKEN,
       tokens.accessToken,
+      new Date(tokens.accessTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      REFRESH_TOKEN_EXPIRES_AT,
+      tokens.refreshTokenExpiresAt,
+      new Date(tokens.refreshTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      ACCESS_TOKEN_EXPIRES_AT,
+      tokens.accessTokenExpiresAt,
       new Date(tokens.accessTokenExpiresAt),
     );
 
@@ -82,9 +95,12 @@ const handleTokenRefresh = async (req: NextRequest, refreshToken: string) => {
   }
 };
 
+const clearAllTokens = (response: NextResponse) => {
+  TOKEN_KEYS.forEach((key) => response.cookies.delete(key));
+};
+
 const clearTokensAndRedirect = (req: NextRequest, path: string) => {
   const response = NextResponse.rewrite(new URL(path, req.url));
-  response.cookies.delete(REFRESH_TOKEN);
-  response.cookies.delete(ACCESS_TOKEN);
+  clearAllTokens(response);
   return response;
 };
