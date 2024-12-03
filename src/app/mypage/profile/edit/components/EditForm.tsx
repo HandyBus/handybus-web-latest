@@ -5,7 +5,7 @@ import {
   FORM_DEFAULT_VALUES,
 } from '@/components/onboarding-contents/formValidation.constants';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
-import { REGION_TO_ID } from '@/constants/regions';
+import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
 import { usePutUser } from '@/services/users';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -28,16 +28,16 @@ interface Props {
 }
 
 const EditForm = ({ type, userDashboard }: Props) => {
+  const region = ID_TO_REGION[userDashboard.regionID];
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
       nickname: userDashboard.nickname,
       gender: userDashboard.gender === 'MALE' ? '남성' : '여성',
       age: userDashboard.ageRange,
-      bigRegion: userDashboard.region.provinceFullName,
-      smallRegion: userDashboard.region.cityFullName,
-      // TODO: 유저가 좋아하는 아티스트 값 동기화
-      // methods.setValue('favoriteArtists', user.favoriteArtistsIDS);
+      bigRegion: region.bigRegion,
+      smallRegion: region.smallRegion,
+      favoriteArtists: userDashboard.favoriteArtists,
     },
     mode: 'onBlur',
   });

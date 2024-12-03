@@ -3,6 +3,7 @@ import ListButton from '../components/ListButton';
 import Image from 'next/image';
 import { getUserDashboard } from '@/services/users';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
+import { ID_TO_REGION } from '@/constants/regions';
 
 const Profile = async () => {
   const userDashboard = await getUserDashboard();
@@ -11,7 +12,7 @@ const Profile = async () => {
   const profileImage = userDashboard?.profileImage ?? '';
   const gender = userDashboard?.gender === 'MALE' ? '남성' : '여성';
   const ageRange = userDashboard?.ageRange ?? '';
-  const region = userDashboard?.region;
+  const region = ID_TO_REGION[userDashboard.regionID];
   const favoriteArtists =
     userDashboard?.favoriteArtists.map((artist) => artist.name).join(', ') ??
     '';
@@ -37,7 +38,7 @@ const Profile = async () => {
             <ProfileItem title="연령대" description={ageRange} />
             <ProfileItem
               title="거주 지역"
-              description={`${region?.provinceFullName ?? ''} ${region?.cityFullName ?? ''}`}
+              description={`${region.bigRegion ?? ''} ${region.smallRegion ?? ''}`}
             />
             <ProfileItem title="최애 가수" description={favoriteArtists} />
           </ul>

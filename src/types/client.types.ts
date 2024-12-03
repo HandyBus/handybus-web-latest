@@ -150,7 +150,7 @@ export interface UserDashboardType {
   gender: GenderType;
   ageRange: AgeType;
   authChannel: AuthChannelType;
-  region: RegionType;
+  regionID: number;
   reservations: {
     past: ReservationType[];
     current: ReservationType[];
