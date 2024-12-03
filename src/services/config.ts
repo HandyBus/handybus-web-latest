@@ -1,6 +1,12 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/token';
+import {
+  ACCESS_TOKEN,
+  ACCESS_TOKEN_EXPIRES_AT,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_EXPIRES_AT,
+} from '@/constants/token';
 import { SESSION } from '@/utils/handleSession';
 import axios from 'axios';
+import { cookies } from 'next/headers';
 
 const DOMAIN_URL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -21,11 +27,31 @@ authInstance.interceptors.request.use(async (req) => {
   if (isServer) {
     const { cookies } = await import('next/headers');
     const cookieStore = cookies();
-    const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
-    const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
-    const session = cookieStore.get(SESSION)?.value;
-    req.headers.Cookie = `${REFRESH_TOKEN}=${refreshToken}; ${ACCESS_TOKEN}=${accessToken}; ${SESSION}=${session}`;
+
+    const cookieData = {
+      [REFRESH_TOKEN]: getCookieValue(cookieStore, REFRESH_TOKEN),
+      [REFRESH_TOKEN_EXPIRES_AT]: getCookieValue(
+        cookieStore,
+        REFRESH_TOKEN_EXPIRES_AT,
+      ),
+      [ACCESS_TOKEN]: getCookieValue(cookieStore, ACCESS_TOKEN),
+      [ACCESS_TOKEN_EXPIRES_AT]: getCookieValue(
+        cookieStore,
+        ACCESS_TOKEN_EXPIRES_AT,
+      ),
+      [SESSION]: getCookieValue(cookieStore, SESSION),
+    };
+
+    req.headers.Cookie = createCookieString(cookieData);
   }
 
   return req;
 });
+
+const getCookieValue = (cookieStore: ReturnType<typeof cookies>, key: string) =>
+  cookieStore.get(key)?.value ?? '';
+
+const createCookieString = (cookieData: Record<string, string>) =>
+  Object.entries(cookieData)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('; ');
