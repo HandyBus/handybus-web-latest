@@ -25,8 +25,6 @@ const handleRequest = async (
   )?.value;
   const accessTokenExpiresAt = cookieStore.get(ACCESS_TOKEN_EXPIRES_AT)?.value;
 
-  console.log('accessToken', accessToken);
-
   const config = {
     method,
     url: new URL(params.path.join('/'), BASE_URL).toString(),
