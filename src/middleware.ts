@@ -15,7 +15,11 @@ export const middleware = async (req: NextRequest) => {
   }
 
   // 인증 필요 페이지에 접근할 때 토큰 존재와 온보딩 완료 여부에 따라 리다이렉트
-  if (AuthRequiredPages.includes(req.nextUrl.pathname)) {
+  if (
+    AuthRequiredPages.includes(
+      req.nextUrl.pathname as (typeof AuthRequiredPages)[number],
+    )
+  ) {
     const refreshToken = req.cookies.get(REFRESH_TOKEN)?.value;
     const accessToken = req.cookies.get(ACCESS_TOKEN)?.value;
     if (!refreshToken) {
@@ -47,16 +51,16 @@ export const middleware = async (req: NextRequest) => {
   return response;
 };
 
-export const config = {
-  matcher: ['/api/:path*', '/', '/onboarding', '/mypage'],
-};
+export const AuthRequiredPages = ['/mypage'] as const;
 
-export const AuthRequiredPages = ['/mypage'];
+export const config = {
+  matcher: ['/api/:path*', '/', '/onboarding', ...AuthRequiredPages],
+};
 
 const handleTokenRefresh = async (req: NextRequest, refreshToken: string) => {
   try {
     const tokens = await postRefreshToken(refreshToken);
-    const response = NextResponse.redirect(new URL(req.url, req.url));
+    const response = NextResponse.redirect(new URL(req.url));
 
     setAuthCookies(
       response,
