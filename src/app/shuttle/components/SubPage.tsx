@@ -14,19 +14,16 @@ import {
   type ShuttleSortType,
 } from '../constants/params';
 
-const SubPage = ({
-  region: initialRegion,
-  sort,
-  header,
-  children,
-}: {
+interface Props {
   sort: ShuttleSortType;
   region: Region;
   header:
     | { type: 'REGION'; length: number }
     | { type: 'RELATED'; length: number; related: string };
   children: React.ReactNode;
-}) => {
+}
+
+const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
   const route = useRouter();
   const [region, setRegion] = useRegion(initialRegion);
   const { ref: navRef, safeArea, show: showBar } = useStickyMenu();
