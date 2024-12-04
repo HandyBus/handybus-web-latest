@@ -4,8 +4,6 @@ import { AuthRequiredPages } from '@/middleware';
 
 export interface SessionType {
   isLoggedIn: boolean;
-  accessToken?: string;
-  refreshToken?: string;
 }
 
 export const SESSION = 'session';

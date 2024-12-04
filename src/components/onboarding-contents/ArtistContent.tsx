@@ -13,12 +13,18 @@ import { useGetArtists } from '@/services/shuttleOperation';
 import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
 
-const ArtistContent = () => {
+interface Props {
+  initialSelectedArtists?: ArtistType[];
+}
+
+const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   const { data: artists } = useGetArtists();
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [filteredArtists, setFilteredArtists] = useState<ArtistType[]>([]);
-  const [selectedArtists, setSelectedArtists] = useState<ArtistType[]>([]);
+  const [selectedArtists, setSelectedArtists] = useState<ArtistType[]>(
+    initialSelectedArtists,
+  );
 
   const filterArtist = useDebounce(() => {
     const newFilteredArtists = artists?.filter((artist) =>
@@ -33,22 +39,15 @@ const ArtistContent = () => {
 
   const handleSelectArtist = (artist: ArtistType) =>
     setSelectedArtists((prev) =>
-      prev.includes(artist)
-        ? prev.filter((el) => el !== artist)
+      prev.find((selectedArtist) => selectedArtist.id === artist.id)
+        ? prev.filter((selectedArtist) => selectedArtist.id !== artist.id)
         : [...prev, artist],
     );
 
-  const { getValues, setValue } = useFormContext<OnboardingFormValues>();
+  const { setValue } = useFormContext<OnboardingFormValues>();
 
   useEffect(() => {
-    const savedArtists = getValues('favoriteArtists');
-    setSelectedArtists(savedArtists);
-  }, []);
-
-  useEffect(() => {
-    if (selectedArtists.length !== 0) {
-      setValue('favoriteArtists', selectedArtists);
-    }
+    setValue('favoriteArtists', selectedArtists);
   }, [selectedArtists]);
 
   return (
@@ -112,7 +111,10 @@ const ArtistContent = () => {
                 className="line-clamp-1 flex h-56 w-full items-center gap-16 px-32"
               >
                 <CheckBox
-                  isChecked={selectedArtists.includes(artist)}
+                  isChecked={
+                    selectedArtists.find((el) => el.id === artist.id) !==
+                    undefined
+                  }
                   setIsChecked={() => handleSelectArtist(artist)}
                 />
                 <span className="text-16 font-400 text-grey-800">

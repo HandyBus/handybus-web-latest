@@ -20,8 +20,6 @@ const AgreementStep = ({ handleNextStep }: Props) => {
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false);
   const [isMarketingChecked, setIsMarketingChecked] = useState(false);
 
-  const disabled = !(isServiceChecked && isPersonalInfoChecked);
-
   useEffect(() => {
     setIsAllChecked(
       isServiceChecked && isPersonalInfoChecked && isMarketingChecked,
@@ -75,6 +73,9 @@ const AgreementStep = ({ handleNextStep }: Props) => {
       isAgreedPersonalInfo: isPersonalInfoChecked,
     });
   };
+
+  const disabled =
+    !(isServiceChecked && isPersonalInfoChecked) || putAgreement.isPending;
 
   return (
     <OnboardingFrame handleSubmit={handleSubmitAgreement} disabled={disabled}>
@@ -166,16 +167,18 @@ const AgreementItem = ({
   return (
     <button
       type="button"
-      className="flex w-full items-center justify-between py-16 text-14  text-grey-800"
+      className="flex w-full items-center justify-between gap-8 py-16 text-14 text-grey-800"
       onClick={onClick}
     >
       <div className="flex items-center">
         <span
-          className={`pr-32 font-600 ${type === '필수' ? 'text-primary-main' : 'text-grey-800'}`}
+          className={`shrink-0 pr-32 font-600 ${type === '필수' ? 'text-primary-main' : 'text-grey-800'}`}
         >
           {type}
         </span>
-        <span className="pr-8 font-400 text-grey-800">{title}</span>
+        <span className="line-clamp-1 pr-8 font-400 text-grey-800">
+          {title}
+        </span>
         <RightArrowIcon />
       </div>
       <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />

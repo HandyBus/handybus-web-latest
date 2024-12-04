@@ -1,13 +1,11 @@
-'use client';
-
 import AppBar from '@/components/app-bar/AppBar';
 import Profile from './components/Profile';
 import Activity from './components/Activity';
 import Settings from './components/Settings';
-import { useGetUserDashboard } from '@/services/users';
+import { getUserDashboard } from '@/services/users';
 
-const MyPage = () => {
-  const { data: userDashboard } = useGetUserDashboard();
+const MyPage = async () => {
+  const userDashboard = await getUserDashboard();
 
   const nickname = userDashboard?.nickname ?? '';
   const profileImage = userDashboard?.profileImage ?? '';

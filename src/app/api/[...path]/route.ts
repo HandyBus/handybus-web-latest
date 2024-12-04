@@ -1,17 +1,16 @@
 import {
-  ACCESS_EXPIRE_TIME,
   ACCESS_TOKEN,
-  OPTIONS,
-  REFRESH_EXPIRE_TIME,
+  ACCESS_TOKEN_EXPIRES_AT,
   REFRESH_TOKEN,
+  REFRESH_TOKEN_EXPIRES_AT,
 } from '@/constants/token';
-import { postRefreshToken } from '@/services/auth';
+import { postRefreshToken, TokenType } from '@/services/auth';
 import { BASE_URL } from '@/services/config';
-import { SESSION, SessionType } from '@/utils/handleSession';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { AxiosError } from 'axios';
+import { setResponseCookies } from '@/utils/handleCookie';
 
 const handleRequest = async (
   request: NextRequest,
@@ -19,15 +18,18 @@ const handleRequest = async (
   method: string,
 ) => {
   const cookieStore = cookies();
+  const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
-  const session = cookieStore.get(SESSION)?.value;
-  const parsedSession = JSON.parse(session ?? '{}') as SessionType;
+  const refreshTokenExpiresAt = cookieStore.get(
+    REFRESH_TOKEN_EXPIRES_AT,
+  )?.value;
+  const accessTokenExpiresAt = cookieStore.get(ACCESS_TOKEN_EXPIRES_AT)?.value;
 
   const config = {
     method,
     url: new URL(params.path.join('/'), BASE_URL).toString(),
     headers: {
-      Authorization: `Bearer ${accessToken ?? parsedSession.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     data: method !== 'GET' ? await request.json() : undefined,
   };
@@ -35,8 +37,10 @@ const handleRequest = async (
   try {
     const response = await axios(config);
     return createApiResponse(response.data, {
-      accessToken: parsedSession?.accessToken,
-      refreshToken: parsedSession?.refreshToken,
+      refreshToken,
+      accessToken,
+      refreshTokenExpiresAt,
+      accessTokenExpiresAt,
     });
   } catch (e) {
     const error = e as AxiosError;
@@ -67,7 +71,7 @@ const handleTokenRefresh = async (
     const response = await axios(config);
     return createApiResponse(response.data, newTokens);
   } catch (e) {
-    console.error(e);
+    console.error('Route Token Refresh Error: ', e);
     return createApiResponse(error.response?.data);
   }
 };
@@ -75,57 +79,40 @@ const handleTokenRefresh = async (
 const createApiResponse = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
-  tokens?: { accessToken?: string; refreshToken?: string },
-  session?: SessionType,
+  tokens?: Partial<TokenType>,
 ) => {
   const response = NextResponse.json(data);
 
-  if (tokens?.refreshToken) {
-    setAuthCookies(
+  if (tokens?.refreshToken && tokens?.refreshTokenExpiresAt) {
+    setResponseCookies(
       response,
       REFRESH_TOKEN,
       tokens.refreshToken,
-      REFRESH_EXPIRE_TIME,
+      new Date(tokens.refreshTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      REFRESH_TOKEN_EXPIRES_AT,
+      tokens.refreshTokenExpiresAt,
+      new Date(tokens.refreshTokenExpiresAt),
     );
   }
-  if (tokens?.accessToken) {
-    setAuthCookies(
+  if (tokens?.accessToken && tokens?.accessTokenExpiresAt) {
+    setResponseCookies(
       response,
       ACCESS_TOKEN,
       tokens.accessToken,
-      ACCESS_EXPIRE_TIME,
+      new Date(tokens.accessTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      ACCESS_TOKEN_EXPIRES_AT,
+      tokens.accessTokenExpiresAt,
+      new Date(tokens.accessTokenExpiresAt),
     );
   }
 
-  if (tokens?.accessToken || tokens?.refreshToken) {
-    response.cookies.set({
-      name: SESSION,
-      value: JSON.stringify({
-        ...session,
-        isLoggedIn: true,
-        accessToken: undefined,
-        refreshToken: undefined,
-      }),
-    });
-  }
-
   return response;
-};
-
-const setAuthCookies = (
-  response: NextResponse,
-  name: string,
-  value: string,
-  expireTime: number,
-) => {
-  const expires = new Date(Date.now() + expireTime);
-
-  response.cookies.set({
-    name,
-    value,
-    expires,
-    ...OPTIONS,
-  });
 };
 
 export const GET = async (
