@@ -41,12 +41,15 @@ export const middleware = async (req: NextRequest) => {
     }
   }
 
-  // 로그아웃 시 토큰 삭제
+  // 로그아웃 시 토큰 삭제 (RSC 요청 시 토큰 삭제 방지)
   const response = NextResponse.next();
-  const session = req.cookies.get(SESSION)?.value;
-  const parsedSession = session ? JSON.parse(session) : null;
-  if (!parsedSession) {
-    clearAllTokens(response);
+  const isRSC = req.nextUrl.searchParams.has('_rsc');
+  if (!isRSC) {
+    const session = req.cookies.get(SESSION)?.value;
+    const parsedSession = session ? JSON.parse(session) : null;
+    if (!parsedSession) {
+      clearAllTokens(response);
+    }
   }
 
   return response;
