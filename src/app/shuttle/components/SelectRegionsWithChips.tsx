@@ -42,7 +42,7 @@ const SelectRegionsWithChips = ({
 
   return (
     <>
-      <div
+      <button
         className="flex cursor-pointer flex-row  items-center justify-between pb-8 pl-20 pr-16 pt-16"
         onClick={() => {
           setShowFirstRegion((prev) => !prev);
@@ -57,7 +57,7 @@ const SelectRegionsWithChips = ({
             <ChevronDown />
           </span>
         </div>
-      </div>
+      </button>
       {showFirstRegion && (
         <div className="flex w-full flex-row flex-wrap gap-x-[6px] gap-y-[8px] bg-white px-16 pb-16 pt-4">
           <SelectableChip

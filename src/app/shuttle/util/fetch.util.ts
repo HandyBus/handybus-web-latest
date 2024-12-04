@@ -1,19 +1,12 @@
 import type { ShuttleRoute } from '@/types/shuttle.types';
 import type { Region } from '@/hooks/useRegion';
+import { authInstance } from '@/services/config';
 
 export const fetchAllShuttles = async () => {
-  const url = new URL(
+  const response = await authInstance.get(
     '/shuttle-operation/shuttles/all/dates/all/routes',
-    process.env.NEXT_PUBLIC_BASE_URL || '',
   );
-
-  const a = await fetch(url, {
-    next: {
-      revalidate: 60,
-    },
-  });
-
-  return (await a.json()).shuttleRouteDetails as ShuttleRoute[];
+  return response.data.shuttleRouteDetails as ShuttleRoute[];
 };
 
 export const fetchRelatedShuttles = async (region: Region) => {
@@ -21,21 +14,10 @@ export const fetchRelatedShuttles = async (region: Region) => {
     return [];
   }
 
-  const url = new URL(
+  const response = await authInstance.get(
     '/shuttle-operation/shuttles/all/dates/all/routes',
-    process.env.NEXT_PUBLIC_BASE_URL || '',
+    { params: { ...region } },
   );
 
-  if (region.bigRegion)
-    url.searchParams.append('provinceFullName', region.bigRegion);
-  if (region.smallRegion)
-    url.searchParams.append('cityFullName', region.smallRegion);
-
-  const a = await fetch(url, {
-    next: {
-      revalidate: 60,
-    },
-  });
-
-  return (await a.json()).shuttleRouteDetails as ShuttleRoute[];
+  return response.data.shuttleRouteDetails as ShuttleRoute[];
 };
