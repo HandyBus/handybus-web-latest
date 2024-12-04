@@ -46,7 +46,12 @@ const handleRequest = async (
     const error = e as AxiosError;
 
     if (error.status !== 401) {
-      return createApiResponse(error.response?.data);
+      return createApiResponse(error.response?.data, {
+        refreshToken,
+        accessToken,
+        refreshTokenExpiresAt,
+        accessTokenExpiresAt,
+      });
     }
 
     return await handleTokenRefresh(request, error, config);
