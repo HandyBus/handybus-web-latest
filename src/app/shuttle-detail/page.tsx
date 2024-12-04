@@ -7,7 +7,9 @@ import BottomBar from './components/BottomBar';
 import ShuttleRouteVisualizer from '../../components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 
 import { SECTION } from '@/types/shuttle.types';
-import NoticeSection, { NOTICE_TYPE } from './components/NoticeSection';
+import NoticeSection, {
+  NOTICE_TYPE,
+} from '@/components/notice-section/NoticeSection';
 import KakaoMap from './components/KakaoMap';
 import ShuttleImage from './components/ShuttleImage';
 import ShuttleInfo from './components/ShuttleInfo';
