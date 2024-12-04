@@ -84,15 +84,25 @@ export type HandyStatusType =
   | 'DECLINED'
   | 'ACCEPTED';
 
-export interface ReservationType {
+type BaseReservationType = {
   id: number;
   shuttle: ShuttleType;
-  hasReview: boolean;
   reservationStatus: ReservationStatusType;
   cancelStatus: CancelStatusType;
   handyStatus: HandyStatusType;
   payment: PaymentType;
-}
+};
+
+type ReservationWithReview = BaseReservationType & {
+  hasReview: true;
+  review: ReviewType;
+};
+
+type ReservationWithoutReview = BaseReservationType & {
+  hasReview: false;
+};
+
+export type ReservationType = ReservationWithReview | ReservationWithoutReview;
 
 export interface DestinationType {
   name: string;
@@ -154,12 +164,12 @@ export interface UserDashboardType {
   reservations: {
     past: ReservationType[];
     current: ReservationType[];
+    hasReview: ReservationWithReview[];
   };
   socialInfo: {
     uniqueId: string;
     nickname: string;
   };
-  reviews: ReviewType[];
   favoriteArtists: ArtistType[];
   shuttleDemands: ShuttleDemandType[];
   coupons: CouponType[];
