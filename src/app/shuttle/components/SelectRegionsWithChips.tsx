@@ -43,7 +43,7 @@ const SelectRegionsWithChips = ({
   return (
     <>
       <button
-        className="flex cursor-pointer flex-row  items-center justify-between pb-8 pl-20 pr-16 pt-16"
+        className="flex w-full cursor-pointer flex-row  items-center justify-between pb-8 pl-20 pr-16 pt-16"
         onClick={() => {
           setShowFirstRegion((prev) => !prev);
         }}
@@ -91,8 +91,8 @@ const SelectRegionsWithChips = ({
           ))}
         </div>
       )}
-      <div
-        className="flex cursor-pointer  flex-row items-center justify-between pb-8 pl-20 pr-16 pt-16"
+      <button
+        className="flex w-full cursor-pointer flex-row items-center justify-between pb-8 pl-20 pr-16 pt-16"
         onClick={() => {
           setShowSecondRegion((prev) => !prev);
         }}
@@ -110,7 +110,7 @@ const SelectRegionsWithChips = ({
             <ChevronDown />
           </span>
         </div>
-      </div>
+      </button>
       {showSecondRegion && region.bigRegion && (
         <div className="flex w-full flex-row flex-wrap gap-x-[6px] gap-y-[8px] bg-white px-16 pb-16 pt-4">
           <SelectableChip
