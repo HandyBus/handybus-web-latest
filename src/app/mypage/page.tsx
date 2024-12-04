@@ -13,7 +13,7 @@ const MyPage = async () => {
   const pastReservationCount = userDashboard?.reservations.past.length ?? 0;
   const shuttleDemandCount = userDashboard?.shuttleDemands.length ?? 0;
   const couponCount = userDashboard?.coupons.length ?? 0;
-  const reviewCount = userDashboard?.reviews.length ?? 0;
+  const reviewCount = userDashboard?.reservations.hasReview.length ?? 0;
 
   return (
     <>
