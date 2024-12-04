@@ -8,6 +8,7 @@ import AppBar from '@/components/app-bar/AppBar';
 import Link from 'next/link';
 import Divider from '../components/Divider';
 import RefundPolicy from '../components/RefundPolicy';
+import { SECTION } from '@/types/shuttle.types';
 
 interface Props {
   params: {
@@ -66,7 +67,7 @@ const ShuttleDetail = ({ params }: Props) => {
             { time: '2024-03-20 15:10:00', location: '장소5' },
             { time: '2024-03-20 15:20:00', location: '장소6' },
           ]}
-          section="my-reservation"
+          section={SECTION.MY_RESERVATION}
         />
         <Section title="결제 정보">
           <div className="flex w-full gap-4 pb-8">
