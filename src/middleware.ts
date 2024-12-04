@@ -6,10 +6,11 @@ import {
   REFRESH_TOKEN_EXPIRES_AT,
   TOKEN_KEYS,
 } from './constants/token';
-import { getProgress } from './services/users';
 import { postRefreshToken } from './services/auth';
 import { SESSION } from './utils/handleSession';
 import { setResponseCookies } from './utils/handleCookie';
+import { parseProgress } from './utils/parseProgress';
+import { BASE_URL } from './services/config';
 
 export const middleware = async (req: NextRequest) => {
   // 로그인 상태에서 온보딩 접근 시 마이페이지로 리다이렉트
@@ -31,7 +32,7 @@ export const middleware = async (req: NextRequest) => {
       return handleTokenRefresh(req, refreshToken);
     }
     try {
-      const progress = await getProgress();
+      const progress = await getProgress(accessToken);
       if (progress !== 'ONBOARDING_COMPLETE') {
         return NextResponse.rewrite(new URL('/onboarding', req.url));
       }
@@ -106,4 +107,12 @@ const clearTokensAndRedirect = (req: NextRequest, path: string) => {
   const response = NextResponse.rewrite(new URL(path, req.url));
   clearAllTokens(response);
   return response;
+};
+
+const getProgress = async (accessToken: string) => {
+  const res = await fetch(new URL('/user-management/users/me', BASE_URL), {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const data = await res.json();
+  return parseProgress(data?.user?.progresses);
 };

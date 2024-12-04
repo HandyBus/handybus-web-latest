@@ -7,6 +7,7 @@ import {
 import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { parseProgress } from '@/utils/parseProgress';
 
 export const getUser = async () => {
   const res = await authInstance.get('/user-management/users/me');
@@ -21,26 +22,7 @@ export type OnboardingProgress =
 
 export const getProgress = async (): Promise<OnboardingProgress> => {
   const res = await authInstance.get('/user-management/users/me');
-
-  const { progresses }: UserType = res.data?.user;
-  const isAgreedServiceTerms = progresses.find(
-    (el) => el.type === 'SERVICE_TERMS_AGREEMENT',
-  )?.isCompleted;
-  const isAgreedPersonalInfo = progresses.find(
-    (el) => el.type === 'PERSONAL_INFO_CONSENT',
-  )?.isCompleted;
-  const isOnboardingComplete = progresses.find(
-    (el) => el.type === 'ONBOARDING_COMPLETE',
-  )?.isCompleted;
-
-  if (isOnboardingComplete) {
-    return 'ONBOARDING_COMPLETE';
-  }
-  if (isAgreedServiceTerms && isAgreedPersonalInfo) {
-    return 'AGREEMENT_COMPLETE';
-  }
-
-  return 'AGREEMENT_INCOMPLETE';
+  return parseProgress(res.data?.user.progresses);
 };
 
 const putUser = async (body: {
