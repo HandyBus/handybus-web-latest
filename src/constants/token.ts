@@ -13,7 +13,7 @@ export const TOKEN_KEYS = [
 
 export const OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV !== 'production',
+  secure: process.env.NODE_ENV !== 'development',
   sameSite: 'lax',
   path: '/',
 } as const;
