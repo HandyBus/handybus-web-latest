@@ -37,4 +37,14 @@ const dateString = (date: Date | Date[]) => {
   return `${singleDateString(min)} ~ ${singleDateString(max)}`;
 };
 
+export const ddayString = (date: Date) => {
+  const now = new Date();
+  const diff = date.getTime() - now.getTime();
+  const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+  if (diffDays > 0) return `D-${diffDays}`;
+  else if (diffDays < 0) return `D+${Math.abs(diffDays)}`;
+  return 'D-Day';
+};
+
 export default dateString;

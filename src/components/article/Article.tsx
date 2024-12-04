@@ -43,7 +43,7 @@ const Title = ({ title, titleSize, showMore }: TitleProps) => {
       </h2>
       {showMore && (
         <Link href={showMore}>
-          <span className="inline-flex cursor-pointer items-center gap-[2px] text-12 font-400 text-grey-600-sub">
+          <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-12 font-400 text-grey-600-sub">
             전체보기
             <span className="inline-block stroke-1">
               <ChevronRightEm />

@@ -66,9 +66,9 @@ export interface Hub {
 export interface ShuttleRouteEvent {
   name: string;
   dailyShuttles: {
-    name: string;
-    longitude: number;
-    latitude: number;
+    id: number;
+    date: string;
+    status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
   }[];
   image: string;
   status: 'OPEN' | 'ENDED' | 'INACTIVE';
