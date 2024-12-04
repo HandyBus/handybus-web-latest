@@ -37,7 +37,8 @@ const SelectRegionsWithChips = ({
   }, [showFirstRegion, showSecondRegion, onClose]);
 
   useEffect(() => {
-    setTimeout(showBar, 0);
+    const timeout = setTimeout(showBar, 0);
+    return () => clearTimeout(timeout);
   }, [showBar, showFirstRegion, showSecondRegion]);
 
   return (
