@@ -80,7 +80,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
                     )
                   }
                 >
-                  <XIcon />
+                  <XIcon color="#5A5A5A" />
                 </button>
               </div>
             ))}

@@ -9,14 +9,12 @@ import CameraIcon from 'public/icons/camera.svg';
 import { ERROR_MESSAGES, REG_EXP } from './formValidation.constants';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import OnboardingTitle from './OnboardingTitle';
+import { DEFAULT_PROFILE_IMAGE, MAX_FILE_SIZE } from '@/constants/common';
 
 interface Props {
   handleSubmit?: () => void;
   initialImageSrc?: string;
 }
-
-const DEFAULT_PROFILE_SRC = '/icons/default-profile.svg';
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
   const { control, setValue, getValues } =
@@ -88,7 +86,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
       <div className="relative flex h-[200px] w-full flex-col items-center justify-center gap-12">
         <div className="relative flex h-180 w-180 shrink-0 items-center justify-center overflow-hidden rounded-full">
           <Image
-            src={imageSrc || DEFAULT_PROFILE_SRC}
+            src={imageSrc || DEFAULT_PROFILE_IMAGE}
             alt="프로필 이미지"
             fill
             className="object-cover"
