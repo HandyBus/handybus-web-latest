@@ -14,7 +14,6 @@ interface Props {
 }
 
 const ShuttleRouteVisualizer = ({ object, section }: Props) => {
-  debugger;
   return (
     <section className="flex flex-col gap-16 px-16 py-24">
       <header>

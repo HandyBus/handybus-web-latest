@@ -15,22 +15,38 @@ interface Props {
   message: string;
   variant?: 'primary' | 'secondary' | 'alert' | 'modalSecondary';
   disabled?: boolean;
+  doesHaveShareButton?: boolean;
+  forReservation?: boolean;
+  handleNextStep?: () => void;
+  handlePrevStep?: () => void;
 }
 const BottomBar = ({
   message = '수요 신청하기',
   variant = 'secondary',
   disabled = false,
+  doesHaveShareButton = true,
+  forReservation = false,
+  handleNextStep,
+  handlePrevStep,
 }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
 
   return (
     <>
-      <BottomBarContents
-        message={message}
-        openBottomSheet={openBottomSheet}
-        variant={variant}
-        disabled={disabled}
-      />
+      {forReservation ? (
+        <ReservationBottomBar
+          handleNextStep={handleNextStep}
+          handlePrevStep={handlePrevStep}
+        />
+      ) : (
+        <BottomBarContents
+          message={message}
+          openBottomSheet={openBottomSheet}
+          variant={variant}
+          disabled={disabled}
+          doesHaveShareButton={doesHaveShareButton}
+        />
+      )}
       <div id="bottom-bar-spacer" className="h-120" />
       <ShareSheet bottomSheetRef={bottomSheetRef} contentRef={contentRef} />
     </>
@@ -39,17 +55,62 @@ const BottomBar = ({
 
 export default BottomBar;
 
+const ReservationBottomBar = ({
+  handleNextStep,
+  handlePrevStep,
+}: {
+  handleNextStep?: () => void;
+  handlePrevStep?: () => void;
+}) => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+      <div className="flex flex-col gap-4 px-16 py-8">
+        <PriceInfo />
+        <div className="flex justify-between gap-8">
+          <Button variant="secondary" className="w-76" onClick={handlePrevStep}>
+            이전
+          </Button>
+          <Button variant="primary" onClick={handleNextStep}>
+            다음단계로
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PriceInfo = () => {
+  return (
+    <section className="flex items-center justify-between">
+      <span className="text-14 font-400 leading-[22.4px] text-grey-900 ">
+        총 금액
+      </span>
+      <div className="flex items-center text-12 font-400 leading-[19.2px] text-grey-600-sub ">
+        <span>(42000 * 2인)</span>
+        <span className="ml-12 text-22 font-700 leading-[35.2px] text-grey-900">
+          총 10,000
+        </span>
+        <span className="ml-4 text-14 font-400 leading-[22.4px] text-grey-900">
+          원
+        </span>
+      </div>
+    </section>
+  );
+};
+
 interface BottomBarContentsProps {
   message: string;
   openBottomSheet: () => void;
   variant: 'primary' | 'secondary' | 'alert' | 'modalSecondary';
   disabled?: boolean;
+  doesHaveShareButton?: boolean;
 }
 const BottomBarContents = ({
   message,
   openBottomSheet,
   variant,
   disabled,
+  doesHaveShareButton = true,
 }: BottomBarContentsProps) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
@@ -62,13 +123,15 @@ const BottomBarContents = ({
           <Button variant={variant} disabled={disabled}>
             {message}
           </Button>
-          <IconButton
-            type="button"
-            className="h-[44px] w-[44px]"
-            onClick={openBottomSheet}
-          >
-            <ShareIcon />
-          </IconButton>
+          {doesHaveShareButton && (
+            <IconButton
+              type="button"
+              className="h-[44px] w-[44px]"
+              onClick={openBottomSheet}
+            >
+              <ShareIcon />
+            </IconButton>
+          )}
         </div>
       </div>
     </div>

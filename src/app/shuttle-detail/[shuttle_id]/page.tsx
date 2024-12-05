@@ -4,7 +4,7 @@ import ShuttleDemandStatus, {
 } from './components/ShuttleDemandStatus';
 import ShuttleSelector from './components/ShuttleSelector';
 import BottomBar from './components/BottomBar';
-import ShuttleRouteVisualizer from '../../components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
+import ShuttleRouteVisualizer from '../../../components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 
 import { SECTION } from '@/types/shuttle.types';
 import NoticeSection, { NOTICE_TYPE } from './components/NoticeSection';
