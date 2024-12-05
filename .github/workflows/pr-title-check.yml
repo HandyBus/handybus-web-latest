@@ -27,6 +27,7 @@ jobs:
         run: pnpm run build || exit 1
         env:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_DOMAIN_URL: ${{ secrets.NEXT_PUBLIC_DOMAIN_URL }}
 
       - name: Debug Information
         run: |

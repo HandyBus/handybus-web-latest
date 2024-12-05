@@ -1,4 +1,6 @@
 export type BigRegionsType = (typeof BIG_REGIONS)[number];
+export type SmallRegionsType =
+  (typeof SMALL_REGIONS)[keyof typeof SMALL_REGIONS][number];
 
 export const BIG_REGIONS = [
   '서울특별시',
@@ -574,7 +576,7 @@ export const REGION_TO_ID: {
 } as const;
 
 export const ID_TO_REGION: {
-  [id: number]: { bigRegion: BigRegionsType; smallRegion: string };
+  [id: number]: { bigRegion: BigRegionsType; smallRegion: SmallRegionsType };
 } = {
   1: {
     bigRegion: '서울특별시',

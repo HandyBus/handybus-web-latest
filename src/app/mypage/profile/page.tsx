@@ -1,26 +1,21 @@
-'use client';
-
 import AppBar from '@/components/app-bar/AppBar';
 import ListButton from '../components/ListButton';
 import Image from 'next/image';
-import { useGetUserDashboard } from '@/services/users';
+import { getUserDashboard } from '@/services/users';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
+import { ID_TO_REGION } from '@/constants/regions';
 
-const Profile = () => {
-  const { data: userDashboard } = useGetUserDashboard();
+const Profile = async () => {
+  const userDashboard = await getUserDashboard();
 
   const nickname = userDashboard?.nickname ?? '';
   const profileImage = userDashboard?.profileImage ?? '';
   const gender = userDashboard?.gender === 'MALE' ? '남성' : '여성';
   const ageRange = userDashboard?.ageRange ?? '';
-  const region = userDashboard?.region;
+  const region = ID_TO_REGION[userDashboard.regionID];
   const favoriteArtists =
     userDashboard?.favoriteArtists.map((artist) => artist.name).join(', ') ??
     '';
-
-  if (!userDashboard) {
-    return null;
-  }
 
   return (
     <>
@@ -30,7 +25,7 @@ const Profile = () => {
           <div className="flex items-center gap-12">
             <div className="relative h-40 w-40 overflow-hidden rounded-full">
               <Image
-                src={profileImage ?? DEFAULT_PROFILE_IMAGE}
+                src={profileImage || DEFAULT_PROFILE_IMAGE}
                 alt="프로필 이미지"
                 fill
                 className="object-cover"
@@ -43,7 +38,7 @@ const Profile = () => {
             <ProfileItem title="연령대" description={ageRange} />
             <ProfileItem
               title="거주 지역"
-              description={`${region?.provinceFullName ?? ''} ${region?.cityFullName ?? ''}`}
+              description={`${region.bigRegion ?? ''} ${region.smallRegion ?? ''}`}
             />
             <ProfileItem title="최애 가수" description={favoriteArtists} />
           </ul>

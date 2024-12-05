@@ -9,8 +9,8 @@ interface FunnelType<T> {
   children: Array<ReactElement<StepType<T>>>;
 }
 
-const useFunnel = <T,>(stepNames: readonly T[]) => {
-  const [step, setStep] = useState<T>(stepNames[0]);
+const useFunnel = <T,>(stepNames: readonly T[], initialStep?: T) => {
+  const [step, setStep] = useState<T>(initialStep ?? stepNames[0]);
 
   const Step = (props: StepType<T>) => {
     const { children } = props;

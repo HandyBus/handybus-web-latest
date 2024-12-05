@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { OnboardingFormValues } from './onboarding.types';
 import { useFormContext } from 'react-hook-form';
 import Select from '../select/Select';
+import OnboardingTitle from './OnboardingTitle';
 
 const ResidenceContent = () => {
   const { getValues, setValue, formState, clearErrors } =
@@ -42,15 +43,11 @@ const ResidenceContent = () => {
   }, [smallRegion]);
 
   return (
-    <div className="relative grow">
-      <div className="px-28 py-16">
-        <h2 className="pb-[6px] text-26 font-700 text-grey-900">
-          어디에 거주하고 계세요?
-        </h2>
-        <p className="text-14 font-600 text-grey-500">
-          해당 지역의 셔틀 정보를 먼저 알려드릴게요.
-        </p>
-      </div>
+    <>
+      <OnboardingTitle
+        title="어디에 거주하고 계세요?"
+        description="해당 지역의 셔틀 정보를 먼저 알려드릴게요."
+      />
       <div className="flex flex-col gap-16 p-28">
         <div className="text-16 font-500 text-grey-600-sub">
           거주 지역을 선택해주세요
@@ -78,7 +75,7 @@ const ResidenceContent = () => {
           {formState.errors.bigRegion?.message}
         </p>
       </div>
-    </div>
+    </>
   );
 };
 

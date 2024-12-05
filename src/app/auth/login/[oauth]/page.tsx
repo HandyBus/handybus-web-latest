@@ -1,9 +1,15 @@
 'use client';
 
+import {
+  ACCESS_TOKEN,
+  ACCESS_TOKEN_EXPIRES_AT,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_EXPIRES_AT,
+} from '@/constants/token';
 import { postLogin } from '@/services/auth';
-import { getUser } from '@/services/users';
-import { removeSession, setSession } from '@/utils/handleSession';
-import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
+import { getProgress } from '@/services/users';
+import { setCookie } from '@/utils/handleCookie';
+import { setSession } from '@/utils/handleSession';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -22,12 +28,33 @@ const OAuth = ({ params, searchParams }: Props) => {
         code: searchParams.code,
         state: searchParams?.state,
       });
-      setRefreshToken(tokens.refreshToken);
-      setAccessToken(tokens.accessToken);
 
-      const user = await getUser();
-      if (user.ageRange === '연령대 미지정' || !user.ageRange) {
-        removeSession();
+      await Promise.all([
+        setCookie(
+          REFRESH_TOKEN,
+          tokens.refreshToken,
+          new Date(tokens.refreshTokenExpiresAt),
+        ),
+        setCookie(
+          REFRESH_TOKEN_EXPIRES_AT,
+          tokens.refreshTokenExpiresAt,
+          new Date(tokens.refreshTokenExpiresAt),
+        ),
+        setCookie(
+          ACCESS_TOKEN,
+          tokens.accessToken,
+          new Date(tokens.accessTokenExpiresAt),
+        ),
+        setCookie(
+          ACCESS_TOKEN_EXPIRES_AT,
+          tokens.accessTokenExpiresAt,
+          new Date(tokens.accessTokenExpiresAt),
+        ),
+      ]);
+
+      const progress = await getProgress();
+
+      if (progress !== 'ONBOARDING_COMPLETE') {
         router.push('/onboarding');
       } else {
         setSession();

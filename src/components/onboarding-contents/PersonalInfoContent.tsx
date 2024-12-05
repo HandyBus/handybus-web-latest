@@ -3,7 +3,8 @@
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from './onboarding.types';
 import RadioButtons from '../buttons/radio-buttons/RadioButtons';
-import { ERROR_MESSAGES } from './formValidation.contants';
+import { ERROR_MESSAGES } from './formValidation.constants';
+import OnboardingTitle from './OnboardingTitle';
 import { useEffect, useState } from 'react';
 
 const GENDER_OPTIONS = ['여성', '남성'] as const;
@@ -28,11 +29,16 @@ const PersonalInfoContent = () => {
   }, []);
 
   return (
-    <div className="relative grow">
-      <h2 className="px-28 py-16 text-26 font-700 text-grey-900">
-        <span className="text-primary-main">{nickname}</span>님의 <br />
-        성별과 연령대를 알려주세요
-      </h2>
+    <>
+      <OnboardingTitle
+        title={
+          <>
+            <span className="text-primary-main">{nickname}</span>님의
+            <br />
+            성별과 연령대를 알려주세요
+          </>
+        }
+      />
       <div className="w-full px-28">
         <div className="mb-16 text-16 font-500 text-grey-600-sub">
           성별을 선택해주세요
@@ -61,7 +67,7 @@ const PersonalInfoContent = () => {
           }}
         />
       </div>
-    </div>
+    </>
   );
 };
 
