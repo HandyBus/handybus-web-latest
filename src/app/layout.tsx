@@ -26,6 +26,7 @@ export default function RootLayout({
       <body>
         <Provider>
           {children}
+          <div id="bottom-bar-root" />
           <div id="bottom-sheet" />
           <ToastContainer />
         </Provider>

@@ -52,3 +52,12 @@ export const Interactive: Story = {
     );
   },
 };
+
+export const Underlined: Story = {
+  args: {
+    placeholder: '도/광역시',
+    options: ['서울', '부산', '대구', '인천', '광주', '대전', '울산'],
+    value: '서울',
+    isUnderLined: true,
+  },
+};
