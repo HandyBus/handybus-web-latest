@@ -1,4 +1,4 @@
-import ShuttleDetailPage from '@/app/shuttle-detail/ShuttleDetailPage';
+import ShuttleDetailPage from '@/components/shuttle-detail/ShuttleDetailPage';
 
 interface PageProps {
   params: {

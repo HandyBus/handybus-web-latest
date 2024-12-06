@@ -6,7 +6,6 @@ import useFunnel from '@/hooks/useFunnel';
 import NoticeSection, {
   NOTICE_TYPE,
 } from '@/components/notice-section/NoticeSection';
-import PassengerCount from '@/app/shuttle-detail/utils/PassengerCount';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import ReservationCompleted from './sections/ReservationCompleted';
 import ApplyHandy from './sections/ApplyHandy';
@@ -17,6 +16,7 @@ import PassengerInfo from './sections/PassengerInfo';
 import ReservationShuttleInfo from './sections/ReservationShuttleInfo';
 import PassengerForm from './sections/PassengerForm';
 import StepLayout from './sections/StepLayout';
+import PassengerCount from '@/components/shuttle-detail/utils/PassengerCount';
 
 interface PassengerInfo {
   name: string;

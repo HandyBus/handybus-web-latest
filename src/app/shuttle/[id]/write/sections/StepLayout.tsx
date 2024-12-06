@@ -3,7 +3,7 @@ import ProgressBar from '@/components/progress-bar/ProgressBar';
 import BottomBar, {
   BottomBarType,
 } from '@/components/shuttle-detail/components/BottomBar';
-import Spacer from '@/app/shuttle-detail/components/Spacer';
+import Spacer from '@/components/shuttle-detail/components/Spacer';
 
 interface StepLayoutProps {
   step: number;

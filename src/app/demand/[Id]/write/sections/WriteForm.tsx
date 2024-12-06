@@ -3,9 +3,9 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import BottomBar from '@/components/shuttle-detail/components/BottomBar';
-import PassengerCount from '@/app/shuttle-detail/utils/PassengerCount';
 import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
+import PassengerCount from '@/components/shuttle-detail/utils/PassengerCount';
 
 const WriteForm = () => {
   const [count, setCount] = useState(0);
