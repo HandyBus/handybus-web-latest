@@ -1,4 +1,4 @@
-import ShuttleDetailPage from '@/app/shuttle-detail/ShuttleDetailPage';
+import ShuttleDetailPage from '@/components/shuttle-detail/ShuttleDetailPage';
 
 const Demand = ({ params }: { params: { id: string } }) => {
   return <ShuttleDetailPage shuttleId={params.id} type="DEMAND" />;
