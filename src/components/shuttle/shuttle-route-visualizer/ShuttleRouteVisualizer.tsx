@@ -165,7 +165,7 @@ const ShuttleRouteTimeLocation = ({
 }) => {
   return (
     <div className="flex gap-16">
-      <p className="text-16 font-400 leading-[24px] text-grey-900">
+      <p className="text-12 font-400 leading-[19.2px] text-grey-600-sub">
         {dayjs(object.time).format('HH:mm')}
       </p>
       <p

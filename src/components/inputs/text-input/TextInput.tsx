@@ -10,15 +10,17 @@ import {
 import DeleteIcon from 'public/icons/delete.svg';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
-  children: ReactNode;
+  children?: ReactNode;
   setValue: (name: FieldPath<T>, value: string) => void;
   placeholder?: string;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   version?: 'default' | 'shuttle';
+  value?: string;
 }
 
 const TextInput = <T extends FieldValues>({
   children,
+  value,
   setValue,
   placeholder,
   onKeyDown,
@@ -39,19 +41,22 @@ const TextInput = <T extends FieldValues>({
         version === 'shuttle' ? 'gap-0' : 'gap-8'
       }`}
     >
-      <label
-        htmlFor={field.name}
-        className={`block text-16 font-500 text-grey-600-sub ${
-          version === 'shuttle' ? 'h-auto' : 'h-[26px]'
-        }`}
-      >
-        {children}
-      </label>
+      {children && (
+        <label
+          htmlFor={field.name}
+          className={`block text-16 font-500 text-grey-600-sub ${
+            version === 'shuttle' ? 'h-auto' : 'h-[26px]'
+          }`}
+        >
+          {children}
+        </label>
+      )}
       <input
         id={field.name}
         placeholder={placeholder}
         onKeyDown={onKeyDown}
         {...field}
+        value={value}
         className={`h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
       />
       {field.value && (

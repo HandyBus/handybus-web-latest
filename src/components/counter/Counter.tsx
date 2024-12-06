@@ -18,20 +18,29 @@ const Counter = ({
         value={count}
         className="w-full text-16 font-400 leading-[24px] text-grey-800"
       />
-      <button
-        className="rounded-full bg-grey-50 p-12"
+      <CounterButton
         onClick={() => setCount((prev) => (prev > 0 ? prev - 1 : 0))}
       >
         <MinusIcon viewBox="0 0 18 18" />
-      </button>
-      <button
-        className="rounded-full bg-grey-50 p-12"
+      </CounterButton>
+      <CounterButton
         onClick={() => setCount((prev) => (prev < 9 ? prev + 1 : 9))}
       >
         <PlusIcon viewBox="0 0 18 18" />
-      </button>
+      </CounterButton>
     </div>
   );
 };
 
 export default Counter;
+
+interface CounterButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+const CounterButton = ({ onClick, children }: CounterButtonProps) => (
+  <button className="rounded-full bg-grey-50 p-12" onClick={onClick}>
+    {children}
+  </button>
+);
