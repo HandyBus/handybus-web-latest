@@ -25,11 +25,42 @@ const ShuttleDemandStatus = ({
         />
       );
     case SHUTTLE_DEMAND_STATUS_TYPE.SELECT_SHUTTLE:
-      return <></>;
+      return (
+        <SelectShuttle
+          shuttle_date={shuttle_date}
+          shuttle_location={shuttle_location}
+        />
+      );
   }
 };
 
 export default ShuttleDemandStatus;
+
+interface SelectShuttleProps {
+  shuttle_date: string;
+  shuttle_location: string;
+}
+const SelectShuttle = (
+  {
+    // shuttle_date,
+    // shuttle_location,
+  }: SelectShuttleProps,
+) => {
+  return (
+    <article className="px-16 py-24">
+      <header className="flex flex-col gap-4 py-16">
+        <h2 className="text-22 font-700 leading-[30.8px] text-grey-900">
+          셔틀 예상 가격
+        </h2>
+      </header>
+      <section className="flex flex-col gap-12">
+        <ShuttleCard type="셔틀예상가격" highlighted={true} />
+        <ShuttleCard type="셔틀예상가격" />
+        <ShuttleCard type="셔틀예상가격" />
+      </section>
+    </article>
+  );
+};
 
 interface DemandSurveyProps {
   shuttle_date: string;
@@ -53,47 +84,84 @@ const DemandSurvey = ({
         </p>
       </header>
       <section className="flex flex-col gap-12">
-        <ShuttleCard type="highlighted" />
-        <ShuttleCard />
-        <ShuttleCard />
+        <ShuttleCard type="수요신청" highlighted={true} />
+        <ShuttleCard type="수요신청" />
+        <ShuttleCard type="수요신청" />
       </section>
     </article>
   );
 };
 
 const ShuttleCard = ({
-  type = 'normal',
+  type,
+  highlighted = false,
+  // price,
 }: {
-  type?: 'highlighted' | 'normal';
+  type?: '셔틀예상가격' | '수요신청';
+  highlighted?: boolean;
+  price?: number;
 }) => {
-  return (
-    <div
-      className={`flex items-center justify-between rounded-xl px-16 py-20 ${
-        type === 'normal'
-          ? 'bg-[#F8F8F8]'
-          : 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
-      }`}
-    >
-      <div>
-        <span>
-          <p className="text-16 font-600 leading-[25.6px] text-grey-800">
-            왕복
-          </p>
-        </span>
-        <span>
-          <p className="text-12 font-400 leading-[19.2px] text-grey-500">
-            충청북도 청주시 ↔ 잠실실내체육관
-          </p>
-        </span>
+  if (type === '셔틀예상가격')
+    return (
+      <div
+        className={`flex items-center justify-between rounded-xl px-16 py-20 ${
+          highlighted
+            ? 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
+            : 'bg-[#F8F8F8]'
+        }`}
+      >
+        <div>
+          <span>
+            <p className="text-16 font-600 leading-[25.6px] text-grey-800">
+              왕복
+            </p>
+          </span>
+          <span>
+            <p className="text-12 font-400 leading-[19.2px] text-grey-500">
+              충청북도 청주시 ↔ 잠실실내체육관
+            </p>
+          </span>
+        </div>
+        <div className="flex items-baseline gap-4">
+          <span className="text-24 font-700 leading-[38.4px] text-grey-900">
+            50,000
+          </span>
+          <span className="text-14 font-400 leading-[22.4px] text-grey-600-sub">
+            원
+          </span>
+        </div>
       </div>
-      <div className="flex items-baseline gap-4">
-        <span className="text-24 font-700 leading-[38.4px] text-grey-900">
-          1,128
-        </span>
-        <span className="text-14 font-400 leading-[22.4px] text-grey-600-sub">
-          명
-        </span>
+    );
+
+  if (type === '수요신청')
+    return (
+      <div
+        className={`flex items-center justify-between rounded-xl px-16 py-20 ${
+          highlighted
+            ? 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
+            : 'bg-[#F8F8F8]'
+        }`}
+      >
+        <div>
+          <span>
+            <p className="text-16 font-600 leading-[25.6px] text-grey-800">
+              왕복
+            </p>
+          </span>
+          <span>
+            <p className="text-12 font-400 leading-[19.2px] text-grey-500">
+              충청북도 청주시 ↔ 잠실실내체육관
+            </p>
+          </span>
+        </div>
+        <div className="flex items-baseline gap-4">
+          <span className="text-24 font-700 leading-[38.4px] text-grey-900">
+            1,128
+          </span>
+          <span className="text-14 font-400 leading-[22.4px] text-grey-600-sub">
+            명
+          </span>
+        </div>
       </div>
-    </div>
-  );
+    );
 };
