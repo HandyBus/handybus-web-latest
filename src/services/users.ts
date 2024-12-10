@@ -6,13 +6,14 @@ import {
 } from '@/types/client.types';
 import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { parseProgress } from '@/utils/parseProgress';
+import { CustomErrorType } from './custom-error';
 
 export const getUser = async () => {
-  const res = await authInstance.get('/user-management/users/me');
-  const data: UserType = res.data?.user;
-  return data;
+  const res = await authInstance.get<{ user: UserType }>(
+    '/user-management/users/me',
+  );
+  return res.user;
 };
 
 export type OnboardingProgress =
@@ -21,8 +22,10 @@ export type OnboardingProgress =
   | 'ONBOARDING_COMPLETE';
 
 export const getProgress = async (): Promise<OnboardingProgress> => {
-  const res = await authInstance.get('/user-management/users/me');
-  return parseProgress(res.data?.user.progresses);
+  const res = await authInstance.get<{ user: UserType }>(
+    '/user-management/users/me',
+  );
+  return parseProgress(res.user.progresses);
 };
 
 const putUser = async (body: {
@@ -37,9 +40,11 @@ const putUser = async (body: {
   isAgreedServiceTerms?: boolean;
   isAgreedPersonalInfo?: boolean;
 }) => {
-  const res = await authInstance.put('/user-management/users/me', body);
-  const data: UserType = res.data?.user;
-  return data;
+  const res = await authInstance.put<{ user: UserType }>(
+    '/user-management/users/me',
+    body,
+  );
+  return res.user;
 };
 
 export const usePutNickname = ({
@@ -80,7 +85,7 @@ export const usePutUser = ({
   onSettled,
 }: {
   onSuccess?: () => void;
-  onError?: (e: AxiosError) => void;
+  onError?: (e: CustomErrorType) => void;
   onSettled?: () => void;
 }) => {
   return useMutation({
@@ -92,9 +97,10 @@ export const usePutUser = ({
 };
 
 export const getUserDashboard = async () => {
-  const res = await authInstance.get('/user-management/users/me/dashboard');
-  const data: UserDashboardType = res.data?.userDashboard;
-  return data;
+  const res = await authInstance.get<{ userDashboard: UserDashboardType }>(
+    '/user-management/users/me/dashboard',
+  );
+  return res.userDashboard;
 };
 
 export const useGetUserDashboard = () => {

@@ -1,57 +1,138 @@
-import {
-  ACCESS_TOKEN,
-  ACCESS_TOKEN_EXPIRES_AT,
-  REFRESH_TOKEN,
-  REFRESH_TOKEN_EXPIRES_AT,
-} from '@/constants/token';
-import { SESSION } from '@/utils/handleSession';
-import axios from 'axios';
-import { cookies } from 'next/headers';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-const DOMAIN_URL = process.env.NEXT_PUBLIC_DOMAIN_URL;
+import {
+  getAccessToken,
+  setAccessToken,
+  setRefreshToken,
+  updateToken,
+} from '@/utils/handleToken';
+import { CustomError } from './custom-error';
+
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+type ApiResponse<T> = {
+  ok: boolean;
+  statusCode: number;
+  error?: {
+    message: string;
+    stack: string[];
+  };
+} & T;
+
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const instance = axios.create({
-  baseURL: BASE_URL,
-  timeout: 20000,
-});
+class Instance {
+  constructor(private readonly baseUrl: string = BASE_URL ?? '') {}
 
-export const authInstance = axios.create({
-  baseURL: new URL('api', DOMAIN_URL).toString(),
-  timeout: 20000,
-  withCredentials: true,
-});
-
-authInstance.interceptors.request.use(async (req) => {
-  const isServer = typeof window === 'undefined';
-  if (isServer) {
-    const { cookies } = await import('next/headers');
-    const cookieStore = cookies();
-
-    const cookieData = {
-      [REFRESH_TOKEN]: getCookieValue(cookieStore, REFRESH_TOKEN),
-      [REFRESH_TOKEN_EXPIRES_AT]: getCookieValue(
-        cookieStore,
-        REFRESH_TOKEN_EXPIRES_AT,
-      ),
-      [ACCESS_TOKEN]: getCookieValue(cookieStore, ACCESS_TOKEN),
-      [ACCESS_TOKEN_EXPIRES_AT]: getCookieValue(
-        cookieStore,
-        ACCESS_TOKEN_EXPIRES_AT,
-      ),
-      [SESSION]: getCookieValue(cookieStore, SESSION),
+  async fetchWithConfig<T>(
+    url: string,
+    method: HttpMethod,
+    body?: any,
+    options: RequestInit = {},
+  ) {
+    const config: RequestInit = {
+      method,
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers,
+      },
+      ...(body && { body: JSON.stringify(body) }),
     };
 
-    req.headers.Cookie = createCookieString(cookieData);
+    const res = await fetch(new URL(url, this.baseUrl).toString(), config);
+    const data = (await res.json()) as ApiResponse<T>;
+
+    if (!data.ok) {
+      throw new CustomError(
+        data.statusCode,
+        data.error?.message || '알 수 없는 오류',
+      );
+    }
+
+    return data;
   }
 
-  return req;
-});
+  async get<T>(url: string, options?: RequestInit) {
+    return this.fetchWithConfig<T>(url, 'GET', undefined, options);
+  }
+  async delete<T>(url: string, options?: RequestInit) {
+    return await this.fetchWithConfig<T>(url, 'DELETE', undefined, options);
+  }
+  async post<T>(url: string, body: any, options?: RequestInit) {
+    return await this.fetchWithConfig<T>(url, 'POST', body, options);
+  }
+  async put<T>(url: string, body: any, options?: RequestInit) {
+    return await this.fetchWithConfig<T>(url, 'PUT', body, options);
+  }
+  async patch<T>(url: string, body: any, options?: RequestInit) {
+    return await this.fetchWithConfig<T>(url, 'PATCH', body, options);
+  }
+}
 
-const getCookieValue = (cookieStore: ReturnType<typeof cookies>, key: string) =>
-  cookieStore.get(key)?.value ?? '';
+export const instance = new Instance();
 
-const createCookieString = (cookieData: Record<string, string>) =>
-  Object.entries(cookieData)
-    .map(([key, value]) => `${key}=${value}`)
-    .join('; ');
+class AuthInstance {
+  async authFetchWithConfig<T>(
+    url: string,
+    method: HttpMethod,
+    body?: unknown,
+    options: RequestInit = {},
+  ) {
+    const accessToken = await getAccessToken();
+    const authOptions = {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ...options.headers,
+      },
+    };
+
+    try {
+      return await instance.fetchWithConfig<T>(url, method, body, authOptions);
+    } catch (e) {
+      const error = e as CustomError;
+      const isServer = typeof window === 'undefined';
+      if (error.statusCode === 401 && !isServer) {
+        try {
+          const tokens = await updateToken();
+          await Promise.all([
+            setAccessToken(tokens.accessToken, tokens.accessTokenExpiresAt),
+            setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
+          ]);
+          return await instance.fetchWithConfig<T>(url, method, body, {
+            ...authOptions,
+            headers: {
+              ...authOptions.headers,
+              Authorization: `Bearer ${tokens.accessToken}`,
+            },
+          });
+        } catch (e) {
+          const error = e as CustomError;
+          console.error('로그인 시간 만료: ', error.message);
+        }
+      }
+      throw error;
+    }
+  }
+
+  async get<T>(url: string, options?: RequestInit) {
+    return this.authFetchWithConfig<T>(url, 'GET', undefined, options);
+  }
+  async delete<T>(url: string, options?: RequestInit) {
+    return this.authFetchWithConfig<T>(url, 'DELETE', undefined, options);
+  }
+
+  async post<T>(url: string, body: any, options?: RequestInit) {
+    return this.authFetchWithConfig<T>(url, 'POST', body, options);
+  }
+  async put<T>(url: string, body: any, options?: RequestInit) {
+    return this.authFetchWithConfig<T>(url, 'PUT', body, options);
+  }
+
+  async patch<T>(url: string, body: any, options?: RequestInit) {
+    return this.authFetchWithConfig<T>(url, 'PATCH', body, options);
+  }
+}
+
+export const authInstance = new AuthInstance();
