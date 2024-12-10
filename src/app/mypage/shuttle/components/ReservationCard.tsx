@@ -100,6 +100,7 @@ const ReservationCard = ({
             {reservation.payment.paymentAmount.toLocaleString()}{' '}
             <span className="text-12">원</span>
           </span>
+          {/* TODO: 핸디 신청 상태 & 환불 신청 상태를 tag로 보여주기 */}
         </div>
       </div>
       <div className="flex gap-8">

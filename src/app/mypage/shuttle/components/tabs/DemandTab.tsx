@@ -1,23 +1,45 @@
+'use client';
+
 import { ReactNode } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
 import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
+import { ID_TO_REGION } from '@/constants/regions';
+import { getRoutes } from '@/services/shuttleOperation';
 
 interface Props {
   demands: ShuttleDemandType[];
 }
 
 const DemandTab = ({ demands }: Props) => {
+  const reservationOngoingDemands = demands.filter(async (demand) => {
+    if (demand.status !== 'SHUTTLE_ASSIGNED') {
+      return false;
+    }
+    const region = ID_TO_REGION[demand.regionID];
+    const routes = await getRoutes(
+      demand.shuttle.id,
+      demand.dailyShuttleID,
+      region,
+    );
+    if (routes.length === 0) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <ul>
       <ReservationOngoingWrapper>
         <div />
-        {/* <ShuttleCard
-          id={1}
-          data={MOCK_SHUTTLE_DATA}
-          buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-          buttonHref="/shuttle-detail"
-        /> */}
+        {reservationOngoingDemands.map((demand) => (
+          <DemandCard
+            key={demand.id}
+            demand={demand}
+            buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
+            buttonHref={`/shuttle-detail/${demand.shuttle.id}`}
+          />
+        ))}
       </ReservationOngoingWrapper>
       {demands.map((demand) => (
         <DemandCard
