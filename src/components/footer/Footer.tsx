@@ -11,6 +11,7 @@ const Footer = () => {
         상호명: 핸디버스 <br />
         대표자명: 정지용 <br />
         사업자등록번호: 522-59-00696 <br />
+        통신판매업신고번호: 2024-서울강북-0849 <br />
         주소: 서울특별시 강북구 도봉로76가길 55, 지하 1층 B-126호 (미아동,
         성신여자대학교운정그린캠퍼스)
       </div>
@@ -29,6 +30,14 @@ const Footer = () => {
         <button>이용약관</button>
         <span className="font-400"> | </span>
         <button>개인정보처리방침</button>
+        <span className="font-400"> | </span>
+        <a
+          href="http://pf.kakao.com/_AxncxhG"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          카카오톡 문의하기
+        </a>
       </div>
     </footer>
   );
