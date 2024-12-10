@@ -1,9 +1,13 @@
 import { ShuttleRoute } from '@/types/shuttle.types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ShuttleRouteView = ({ shuttleRoute }: { shuttleRoute: ShuttleRoute }) => {
   return (
-    <div className="flex flex-row gap-16 px-16 py-12">
+    <Link
+      href={`/shuttle/${shuttleRoute.shuttleRouteID}`}
+      className="flex flex-row gap-16 px-16 py-12"
+    >
       <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-grey-50">
         <Image
           className="object-cover"
@@ -30,7 +34,7 @@ const ShuttleRouteView = ({ shuttleRoute }: { shuttleRoute: ShuttleRoute }) => {
           잔여석 <span className="text-primary-main">17석</span> / {28}석
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
