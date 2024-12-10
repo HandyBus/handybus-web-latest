@@ -9,7 +9,7 @@ const BackButton = () => {
     <nav>
       <button
         aria-label="route back"
-        onClick={() => router.back()}
+        onClick={() => router.push('/')}
         className="relative left-12 top-[53px] z-10"
       >
         <ChveronLeftIcon
