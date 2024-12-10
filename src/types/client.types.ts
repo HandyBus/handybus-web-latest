@@ -101,13 +101,17 @@ export type HandyStatusType =
   | 'DECLINED'
   | 'ACCEPTED';
 
+export type TripType = 'TO_DESTINATION' | 'FROM_DESTINATION' | 'ROUND_TRIP';
+
 export interface ShuttleDemandType {
   id: number;
   shuttle: ShuttleType;
-  type: 'TO_DESTINATION' | 'FROM_DESTINATION' | 'ROUND_TRIP';
+  type: TripType;
   status: ShuttleDemandStatusType;
   passengerCount: number;
-  region: RegionType;
+  regionID: number;
+  dailyShuttleID: number;
+  createdAt: string;
 }
 
 type BaseReservationType = {
@@ -117,6 +121,8 @@ type BaseReservationType = {
   cancelStatus: CancelStatusType;
   handyStatus: HandyStatusType;
   payment: PaymentType;
+  createdAt: string;
+  type: TripType;
 };
 
 type ReservationWithReview = BaseReservationType & {
@@ -137,6 +143,7 @@ export interface ShuttleType {
   date: string;
   image: string;
   destination: DestinationType;
+  route?: RouteType;
 }
 
 export type ShuttleWithRouteType = ShuttleType & { route: RouteType };

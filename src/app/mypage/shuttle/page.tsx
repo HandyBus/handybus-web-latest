@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import CurrentTab from './components/tabs/CurrentTab';
 import DemandTab from './components/tabs/DemandTab';
 import PastTab from './components/tabs/PastTab';
+import { useGetUserDashboard } from '@/services/users';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -17,15 +18,22 @@ interface Props {
 
 const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
+  const { data: userDashboard } = useGetUserDashboard();
 
   const renderTab = () => {
     switch (searchParams.type) {
       case 'current':
-        return <CurrentTab />;
+        return (
+          <CurrentTab
+            reservations={userDashboard?.reservations.current ?? []}
+          />
+        );
       case 'demand':
-        return <DemandTab />;
+        return <DemandTab demands={userDashboard?.shuttleDemands ?? []} />;
       case 'past':
-        return <PastTab />;
+        return (
+          <PastTab reservations={userDashboard?.reservations.past ?? []} />
+        );
     }
   };
 

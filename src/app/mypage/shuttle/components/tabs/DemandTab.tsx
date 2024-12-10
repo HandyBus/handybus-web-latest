@@ -1,33 +1,34 @@
 import { ReactNode } from 'react';
-import ShuttleCard from '../ShuttleCard';
-import { MOCK_SHUTTLE_DATA } from '../ShuttleCard';
 import SmallBusIcon from 'public/icons/bus-small.svg';
+import { ShuttleDemandType } from '@/types/client.types';
+import DemandCard from '../DemandCard';
 
-const DemandTab = () => {
+interface Props {
+  demands: ShuttleDemandType[];
+}
+
+const DemandTab = ({ demands }: Props) => {
   return (
     <ul>
       <ReservationOngoingWrapper>
-        <ShuttleCard
+        <div />
+        {/* <ShuttleCard
           id={1}
           data={MOCK_SHUTTLE_DATA}
           buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
           buttonHref="/shuttle-detail"
-        />
+        /> */}
       </ReservationOngoingWrapper>
-      <ShuttleCard
-        id={1}
-        data={MOCK_SHUTTLE_DATA}
-        subButtonText="예약 상세보기"
-        subButtonHref="/mypage/shuttle/1"
-      />
-      <ShuttleCard
-        id={1}
-        data={MOCK_SHUTTLE_DATA}
-        buttonText="후기 작성하기"
-        buttonHref="/mypage/reviews/write"
-        subButtonText="예약 상세보기"
-        subButtonHref="/mypage/shuttle/1/"
-      />
+      {demands.map((demand) => (
+        <DemandCard
+          key={demand.id}
+          demand={demand}
+          subButtonText="신청 취소"
+          subButtonOnClick={() => {
+            console.log('신청 취소');
+          }}
+        />
+      ))}
     </ul>
   );
 };
