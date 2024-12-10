@@ -21,7 +21,12 @@ const Settings = ({ couponCount, reviewCount }: Props) => {
         href="/mypage/reviews"
         description={`${reviewCount}건`}
       />
-      <ListButton title="로그아웃" href="/" hideArrow onClick={logout} />
+      <ListButton
+        title="로그아웃"
+        href="/"
+        hideArrow
+        onClick={() => logout()}
+      />
       <ListButton title="회원 탈퇴" href="/mypage/leave" />
     </section>
   );
