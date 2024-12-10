@@ -3,9 +3,10 @@ import { instance } from './config';
 import { ArtistType } from '@/types/client.types';
 
 const getArtists = async () => {
-  const res = await instance.get('/shuttle-operation/artists');
-  const data: ArtistType[] = res.data?.artists;
-  return data;
+  const res = await instance.get<{ artists: ArtistType[] }>(
+    '/shuttle-operation/artists',
+  );
+  return res.artists;
 };
 
 export const useGetArtists = () => {

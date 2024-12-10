@@ -21,6 +21,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { UserDashboardType } from '@/types/client.types';
 import { EditType } from '../page';
+import { CustomErrorType } from '@/services/custom-error';
 
 interface Props {
   type: EditType;
@@ -51,9 +52,8 @@ const EditForm = ({ type, userDashboard }: Props) => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       router.replace('/mypage/profile');
     },
-    onError: (e) => {
-      console.error(e);
-      if (e.status === 409) {
+    onError: (e: CustomErrorType) => {
+      if (e.statusCode === 409) {
         toast.error('이미 사용중인 닉네임입니다.');
         return;
       }
