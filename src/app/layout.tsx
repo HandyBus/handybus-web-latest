@@ -4,6 +4,7 @@ import '@/app/fonts/pretendard/font.css';
 import Provider from '@/components/Provider';
 import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
+import PortalContainer from '@/components/portal-container/PortalContainer';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -26,8 +27,7 @@ export default function RootLayout({
       <body>
         <Provider>
           {children}
-          <div id="bottom-bar-root" />
-          <div id="bottom-sheet" />
+          <PortalContainer />
           <ToastContainer />
         </Provider>
       </body>
