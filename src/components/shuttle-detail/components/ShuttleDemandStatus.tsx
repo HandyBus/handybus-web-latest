@@ -1,13 +1,5 @@
-export const SHUTTLE_DEMAND_STATUS_TYPE = {
-  DEMAND_SURVEY: 'demand-survey',
-  SELECT_SHUTTLE: 'select-shuttle',
-} as const;
-
-export type ShuttleDemandStatusType =
-  (typeof SHUTTLE_DEMAND_STATUS_TYPE)[keyof typeof SHUTTLE_DEMAND_STATUS_TYPE];
-
 interface Props {
-  type: ShuttleDemandStatusType;
+  type: 'DEMAND_SURVEY' | 'SELECT_SHUTTLE';
   shuttle_date: string;
   shuttle_location: string;
 }
@@ -17,50 +9,19 @@ const ShuttleDemandStatus = ({
   shuttle_location,
 }: Props) => {
   switch (type) {
-    case SHUTTLE_DEMAND_STATUS_TYPE.DEMAND_SURVEY:
+    case 'DEMAND_SURVEY':
       return (
         <DemandSurvey
           shuttle_date={shuttle_date}
           shuttle_location={shuttle_location}
         />
       );
-    case SHUTTLE_DEMAND_STATUS_TYPE.SELECT_SHUTTLE:
-      return (
-        <SelectShuttle
-          shuttle_date={shuttle_date}
-          shuttle_location={shuttle_location}
-        />
-      );
+    case 'SELECT_SHUTTLE':
+      return <SelectShuttle />;
   }
 };
 
 export default ShuttleDemandStatus;
-
-interface SelectShuttleProps {
-  shuttle_date: string;
-  shuttle_location: string;
-}
-const SelectShuttle = (
-  {
-    // shuttle_date,
-    // shuttle_location,
-  }: SelectShuttleProps,
-) => {
-  return (
-    <article className="px-16 py-24">
-      <header className="flex flex-col gap-4 py-16">
-        <h2 className="text-22 font-700 leading-[30.8px] text-grey-900">
-          셔틀 예상 가격
-        </h2>
-      </header>
-      <section className="flex flex-col gap-12">
-        <ShuttleCard type="셔틀예상가격" highlighted={true} />
-        <ShuttleCard type="셔틀예상가격" />
-        <ShuttleCard type="셔틀예상가격" />
-      </section>
-    </article>
-  );
-};
 
 interface DemandSurveyProps {
   shuttle_date: string;
@@ -84,9 +45,26 @@ const DemandSurvey = ({
         </p>
       </header>
       <section className="flex flex-col gap-12">
-        <ShuttleCard type="수요신청" highlighted={true} />
-        <ShuttleCard type="수요신청" />
-        <ShuttleCard type="수요신청" />
+        <ShuttleCard type="DEMAND_SURVEY" highlighted={true} />
+        <ShuttleCard type="DEMAND_SURVEY" />
+        <ShuttleCard type="DEMAND_SURVEY" />
+      </section>
+    </article>
+  );
+};
+
+const SelectShuttle = () => {
+  return (
+    <article className="px-16 py-24">
+      <header className="flex flex-col gap-4 py-16">
+        <h2 className="text-22 font-700 leading-[30.8px] text-grey-900">
+          셔틀 예상 가격
+        </h2>
+      </header>
+      <section className="flex flex-col gap-12">
+        <ShuttleCard type="PREDICT_PRICE" highlighted={true} />
+        <ShuttleCard type="PREDICT_PRICE" />
+        <ShuttleCard type="PREDICT_PRICE" />
       </section>
     </article>
   );
@@ -97,11 +75,11 @@ const ShuttleCard = ({
   highlighted = false,
   // price,
 }: {
-  type?: '셔틀예상가격' | '수요신청';
+  type?: 'PREDICT_PRICE' | 'DEMAND_SURVEY';
   highlighted?: boolean;
   price?: number;
 }) => {
-  if (type === '셔틀예상가격')
+  if (type === 'PREDICT_PRICE')
     return (
       <div
         className={`flex items-center justify-between rounded-xl px-16 py-20 ${
@@ -133,7 +111,7 @@ const ShuttleCard = ({
       </div>
     );
 
-  if (type === '수요신청')
+  if (type === 'DEMAND_SURVEY')
     return (
       <div
         className={`flex items-center justify-between rounded-xl px-16 py-20 ${
