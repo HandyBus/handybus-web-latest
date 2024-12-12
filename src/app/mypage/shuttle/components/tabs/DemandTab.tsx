@@ -46,7 +46,9 @@ const DemandTab = ({ demands }: Props) => {
         <DemandCard
           key={demand.id}
           demand={demand}
-          subButtonText="신청 취소"
+          subButtonText={
+            demand.status === 'OPEN' ? '신청 취소' : '수요조사 확인 종료'
+          }
           subButtonOnClick={() => {
             deleteDemand({
               shuttleID: demand.shuttle.id,
@@ -54,6 +56,7 @@ const DemandTab = ({ demands }: Props) => {
               ID: demand.id,
             });
           }}
+          subButtonDisabled={demand.status !== 'OPEN'}
         />
       ))}
     </ul>
