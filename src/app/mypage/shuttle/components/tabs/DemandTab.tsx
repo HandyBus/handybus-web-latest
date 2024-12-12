@@ -5,7 +5,7 @@ import SmallBusIcon from 'public/icons/bus-small.svg';
 import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
 import { ID_TO_REGION } from '@/constants/regions';
-import { getRoutes } from '@/services/shuttleOperation';
+import { getRoutes, useDeleteDemand } from '@/services/shuttleOperation';
 
 interface Props {
   demands: ShuttleDemandType[];
@@ -28,10 +28,11 @@ const DemandTab = ({ demands }: Props) => {
     return true;
   });
 
+  const { mutate: deleteDemand } = useDeleteDemand();
+
   return (
     <ul>
       <ReservationOngoingWrapper>
-        <div />
         {reservationOngoingDemands.map((demand) => (
           <DemandCard
             key={demand.id}
@@ -47,7 +48,11 @@ const DemandTab = ({ demands }: Props) => {
           demand={demand}
           subButtonText="신청 취소"
           subButtonOnClick={() => {
-            console.log('신청 취소');
+            deleteDemand({
+              shuttleID: demand.shuttle.id,
+              dailyShuttleID: demand.dailyShuttleID,
+              ID: demand.id,
+            });
           }}
         />
       ))}

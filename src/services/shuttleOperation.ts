@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { instance } from './config';
 import { ArtistType, RouteStatusType, RouteType } from '@/types/client.types';
+import { toast } from 'react-toastify';
 
 const getArtists = async () => {
   const res = await instance.get('/shuttle-operation/artists');
@@ -41,4 +42,32 @@ export const getRoutes = async (
   );
   const data: RouteType[] = res.data?.shuttleRouteDetails;
   return data;
+};
+
+export const deleteDemand = async ({
+  shuttleID,
+  dailyShuttleID,
+  ID,
+}: {
+  shuttleID: number;
+  dailyShuttleID: number;
+  ID: number;
+}) => {
+  return await instance.delete(
+    `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/demands/${ID}`,
+  );
+};
+
+export const useDeleteDemand = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteDemand,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('수요조사를 취소했습니다.');
+    },
+    onError: () => {
+      toast.error('수요조사 취소에 실패했습니다.');
+    },
+  });
 };
