@@ -2,6 +2,7 @@
 
 import { ShuttleDemandStatsCount } from '@/types/shuttle.types';
 import { formatDate } from '../shuttleDetailPage.utils';
+import LoadingSpinner from './LoadingSpinner';
 import { useGetShuttleDemandStats } from '@/services/shuttleOperation';
 
 interface Props {
@@ -23,13 +24,14 @@ const ShuttleDemandStatus = ({
   destination,
   regionId,
 }: Props) => {
-  const { data: demandStatsData } = useGetShuttleDemandStats(
+  const { data: demandStatsData, isLoading } = useGetShuttleDemandStats(
     shuttleId,
     dailyShuttle.id,
     regionId,
   );
 
   if (!demandStatsData) return;
+  if (isLoading) return <LoadingSpinner />;
   switch (type) {
     case 'DEMAND_SURVEY':
       return (
