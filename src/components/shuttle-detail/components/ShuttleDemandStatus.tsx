@@ -1,12 +1,8 @@
 'use client';
 
-import { instance } from '@/services/config';
-import {
-  ShuttleDemandStats,
-  ShuttleDemandStatsCount,
-} from '@/types/shuttle.types';
-import { useQuery } from '@tanstack/react-query';
+import { ShuttleDemandStatsCount } from '@/types/shuttle.types';
 import { formatDate } from '../shuttleDetailPage.utils';
+import { useGetShuttleDemandStats } from '@/services/shuttleOperation';
 
 interface Props {
   type: 'DEMAND_SURVEY' | 'SELECT_SHUTTLE';
@@ -27,24 +23,11 @@ const ShuttleDemandStatus = ({
   destination,
   regionId,
 }: Props) => {
-  const fetchShuttleDemandCount = async (
-    shuttleId: number,
-    dailyShuttleId: number,
-    regionId: number | undefined,
-  ) => {
-    const url = `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
-    const queryUrl = regionId ? `${url}?regionID=${regionId}` : url;
-    const res = await instance.get(queryUrl);
-    return res.data;
-  };
-
-  const { data: demandStatsData } = useQuery<ShuttleDemandStats>({
-    queryKey: ['demandStatsData', shuttleId, dailyShuttle.id, regionId],
-    queryFn: async () => {
-      return fetchShuttleDemandCount(shuttleId, dailyShuttle.id, regionId);
-    },
-    enabled: Boolean(shuttleId && dailyShuttle.id),
-  });
+  const { data: demandStatsData } = useGetShuttleDemandStats(
+    shuttleId,
+    dailyShuttle.id,
+    regionId,
+  );
 
   if (!demandStatsData) return;
   switch (type) {
