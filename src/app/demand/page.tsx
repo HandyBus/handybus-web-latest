@@ -35,7 +35,9 @@ const Page = async ({ searchParams }: Props) => {
           {sortedData.length === 0 ? (
             <Empty />
           ) : (
-            sortedData?.map((v) => <ShuttleDetail key={v.id} shuttle={v} />)
+            sortedData?.map((v) => (
+              <ShuttleDetail key={v.shuttleID} shuttle={v} />
+            ))
           )}
         </OpenShuttleDetails>
       </div>

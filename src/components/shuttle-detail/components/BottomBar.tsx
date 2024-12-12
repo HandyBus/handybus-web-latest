@@ -39,6 +39,7 @@ interface Props {
   handlePrevStep?: () => void;
   onSubmit?: () => void;
   type?: BottomBarType;
+  message?: string;
 }
 const BottomBar = ({
   variant = 'primary',
@@ -47,6 +48,7 @@ const BottomBar = ({
   handlePrevStep,
   onSubmit,
   type,
+  message,
 }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
   const [mounted, setMounted] = useState(false);
@@ -63,7 +65,7 @@ const BottomBar = ({
       case 'DEMAND':
         return (
           <BottomBarContents
-            message="수요 신청하기"
+            message={message || '수요 신청하기'}
             openBottomSheet={openBottomSheet}
             variant={variant}
             disabled={disabled}
