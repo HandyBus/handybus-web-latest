@@ -20,8 +20,8 @@ export default function WithFooterLayout({
       <Header />
       <main className="w-full flex-grow pb-12">
         {top}
-        {demand}
         {shuttle}
+        {demand}
         {bot}
       </main>
       <Footer />

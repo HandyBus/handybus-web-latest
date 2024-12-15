@@ -4,7 +4,7 @@ import { RefObject } from 'react';
 
 interface Props {
   bottomSheetRef: (node: HTMLDivElement) => void;
-  contentRef: RefObject<HTMLDivElement>;
+  contentRef: RefObject<HTMLDivElement> | undefined;
   onAccept: () => void;
   closeBottomSheet: () => void;
 }
