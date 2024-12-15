@@ -1,8 +1,7 @@
-import BannerImage from '@/app/demand/[Id]/write/sections/BannerImage';
+import BannerImage from '@/app/demand/[id]/write/sections/BannerImage';
 import ProgressBar from '@/components/progress-bar/ProgressBar';
-import BottomBar, {
-  BottomBarType,
-} from '@/components/shuttle-detail/components/BottomBar';
+import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
+import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.type';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
 
 interface StepLayoutProps {
