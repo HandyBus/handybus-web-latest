@@ -4,12 +4,11 @@ import { Control, Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useEffect } from 'react';
 import { BIG_REGIONS, SMALL_REGIONS } from '@/constants/regions';
 import Select from '@/components/select/Select';
-import { BottomBarType } from './BottomBar';
 import { ShuttleFormValues } from './ShuttleForm';
 
 interface Props {
   control: Control<ShuttleFormValues>;
-  type: BottomBarType;
+  type: 'RESERVATION' | 'DEMAND';
 }
 const ShuttleSelector = ({ control, type }: Props) => {
   const { setValue } = useFormContext<ShuttleFormValues>();

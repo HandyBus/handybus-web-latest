@@ -2,9 +2,8 @@
 
 import { FormProvider, useForm } from 'react-hook-form';
 import ShuttleSelector from './ShuttleSelector';
-import BottomBar, { BottomBarType } from './BottomBar';
 import { useRouter } from 'next/navigation';
-
+import BottomBar from '../bottom-bar/BottomBar';
 export interface ShuttleFormValues {
   date: string;
   bigLocation: string;
@@ -14,7 +13,7 @@ export interface ShuttleFormValues {
 
 interface Props {
   shuttleId: string;
-  type: BottomBarType;
+  type: 'DEMAND' | 'RESERVATION';
 }
 
 const ShuttleForm = ({ shuttleId, type }: Props) => {
