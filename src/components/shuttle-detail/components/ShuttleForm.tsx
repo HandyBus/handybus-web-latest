@@ -60,12 +60,12 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
     return REGION_TO_ID[bigLocation][smallLocation];
   }, [bigLocation, smallLocation]);
 
-  const onSubmit = (data: ShuttleFormValues) => {
+  const onSubmit = () => {
     const queryParams = new URLSearchParams({
-      date: data.dailyShuttle.id.toString(),
-      bigLocation: data.bigLocation,
-      smallLocation: data.smallLocation,
-      route: data.route,
+      dailyShuttleID: dailyShuttle.id.toString(),
+      bigLocation: bigLocation,
+      smallLocation: smallLocation,
+      regionID: getRegionId()?.toString() ?? '',
     });
 
     if (type === 'DEMAND')
@@ -81,26 +81,36 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
     if (type === 'DEMAND' && shuttleStatus === 'OPEN') return '수요 신청하기';
     if (type === 'DEMAND' && shuttleStatus === 'CLOSED')
       return '수요 신청이 마감되었어요';
-    // NOTES: 예약 버튼은 따로 처리 필요
+    // NOTES: needs to add reservation message
   };
 
   const variant판별기 = (
     shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
     type: 'DEMAND' | 'RESERVATION',
-  ): 'primary' | 'secondary' | 'alert' | 'modalSecondary' | undefined => {
-    if (type === 'DEMAND' && shuttleStatus === 'OPEN' && !getRegionId())
+  ): 'primary' | 'secondary' | undefined => {
+    if (
+      type === 'DEMAND' &&
+      shuttleStatus === 'OPEN' &&
+      (!getRegionId() || dailyShuttle.id) === 0
+    )
       return 'secondary';
     if (type === 'DEMAND' && shuttleStatus === 'OPEN') return 'primary';
     if (type === 'DEMAND' && shuttleStatus === 'CLOSED') return 'secondary';
+    // NOTES: needs to add reservation button variant
   };
 
   const disabled판별기 = (
     shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
     type: 'DEMAND' | 'RESERVATION',
   ): boolean => {
-    if (type === 'DEMAND' && shuttleStatus === 'OPEN' && !getRegionId())
+    if (
+      type === 'DEMAND' &&
+      shuttleStatus === 'OPEN' &&
+      (!getRegionId() || dailyShuttle.id === 0)
+    )
       return true;
     if (type === 'DEMAND' && shuttleStatus === 'CLOSED') return true;
+    // NOTES: needs to add reservation button disabled
     return false;
   };
 

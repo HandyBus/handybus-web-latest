@@ -39,9 +39,12 @@ const ShuttleSelector = ({ control, type, data }: Props) => {
           name="dailyShuttle"
           render={({ field }) => (
             <Select
-              options={data?.dailyShuttles.map((v: DailyShuttleDetailProps) =>
-                formatDate(v.date),
-              )}
+              options={data?.dailyShuttles
+                .sort(
+                  (a, b) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime(),
+                )
+                .map((v: DailyShuttleDetailProps) => formatDate(v.date))}
               value={formatDate(field.value.date) || undefined}
               setValue={(selectedDate) => {
                 const selectedShuttle = data?.dailyShuttles.find(

@@ -114,3 +114,16 @@ export interface ShuttleDemandStats {
   statusCode: number;
   count: ShuttleDemandStatsCount;
 }
+
+export interface RegionHubProps {
+  ok: boolean;
+  statusCode: number;
+  regionHubs: {
+    ID: number;
+    regionID: number;
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+  }[];
+}

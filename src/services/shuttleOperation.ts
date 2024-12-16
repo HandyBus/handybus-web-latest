@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { instance } from './config';
+import { authInstance, instance } from './config';
 import { ArtistType } from '@/types/client.types';
 import { ShuttleDemandStats } from '@/types/shuttle.types';
 
@@ -39,5 +39,17 @@ export const useGetShuttleDemandStats = (
     queryKey: ['demandStatsData', shuttleId, dailyShuttleId, regionId],
     queryFn: () => fetchShuttleDemandCount(shuttleId, dailyShuttleId, regionId),
     enabled: Boolean(shuttleId && dailyShuttleId),
+  });
+};
+
+const getRegionHubs = async (regionId: number) => {
+  const res = await authInstance.get(`/location/regions/${regionId}/hubs`);
+  return res.data;
+};
+
+export const useGetRegionHubs = (regionId: number) => {
+  return useQuery({
+    queryKey: ['regionHubs', regionId],
+    queryFn: () => getRegionHubs(regionId),
   });
 };
