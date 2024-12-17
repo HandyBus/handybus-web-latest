@@ -7,11 +7,13 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import ShareIcon from 'public/icons/share.svg';
 import KakaoIcon from 'public/icons/kakao-colored.svg';
 import TwitterIcon from 'public/icons/twitter-colored.svg';
-import InstagramIcon from 'public/icons/instagram-colored.svg';
+// import InstagramIcon from 'public/icons/instagram-colored.svg';
 import LinkIcon from 'public/icons/link.svg';
 import { RefObject, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
+import Script from 'next/script';
+import { toast } from 'react-toastify';
 
 // export const BOTTOM_BAR_TYPE = {
 //   DEMAND: 'DEMAND',
@@ -40,6 +42,7 @@ interface Props {
   onSubmit?: () => void;
   type?: BottomBarType;
   message?: string;
+  shuttleName?: string;
 }
 const BottomBar = ({
   variant = 'primary',
@@ -49,8 +52,10 @@ const BottomBar = ({
   onSubmit,
   type,
   message,
+  shuttleName,
 }: Props) => {
-  const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
+  const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
+    useBottomSheet();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -111,7 +116,12 @@ const BottomBar = ({
   const bottomBarContent = (
     <>
       {content}
-      <ShareSheet bottomSheetRef={bottomSheetRef} contentRef={contentRef} />
+      <ShareSheet
+        bottomSheetRef={bottomSheetRef}
+        contentRef={contentRef}
+        closeBottomSheet={closeBottomSheet}
+        shuttleName={shuttleName}
+      />
     </>
   );
 
@@ -291,47 +301,137 @@ interface ShareSheetProps {
     bottomSheetElement: HTMLDivElement,
   ) => (() => void) | undefined;
   contentRef: RefObject<HTMLDivElement>;
+  closeBottomSheet: () => void;
+  shuttleName?: string;
 }
-const ShareSheet = ({ bottomSheetRef, contentRef }: ShareSheetProps) => {
+const ShareSheet = ({
+  bottomSheetRef,
+  contentRef,
+  closeBottomSheet,
+  shuttleName,
+}: ShareSheetProps) => {
+  const currentUrl = window.location.href;
+
+  const shareToTwitter = () => {
+    const text = encodeURIComponent(currentUrl);
+    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+    closeBottomSheet();
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      toast.success('링크가 복사되었습니다.');
+    } catch {
+      toast.error('링크 복사에 실패했습니다.');
+    } finally {
+      closeBottomSheet();
+    }
+  };
+
+  const initializeKakao = () => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
+    }
+  };
+
+  const shareToKakao = () => {
+    if (!window.Kakao) {
+      alert('카카오톡 공유하기를 사용할 수 없습니다.');
+      return;
+    }
+
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '핸디버스',
+        description: `${shuttleName}까지 내 차 없이 편리하게 이동하기!`,
+        imageUrl:
+          'https://pbs.twimg.com/profile_banners/1675508520031252480/1711978803/1500x500', // 공유할 이미지 URL
+        link: {
+          mobileWebUrl: currentUrl,
+          webUrl: currentUrl,
+        },
+      },
+      buttons: [
+        {
+          title: '자세히 보기',
+          link: {
+            mobileWebUrl: currentUrl,
+            webUrl: currentUrl,
+          },
+        },
+      ],
+    });
+
+    closeBottomSheet();
+  };
+
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      title="공유하기"
-      description="친구들과 함께 핸디버스를 타요"
-    >
-      <div
-        ref={contentRef}
-        className="overflow-y-hidden text-16 font-400 leading-[24px] text-grey-800"
+    <>
+      <BottomSheet
+        ref={bottomSheetRef}
+        title="공유하기"
+        description="친구들과 함께 핸디버스를 타요"
       >
-        <button type="button" className="flex items-center gap-16 py-16">
-          <KakaoIcon viewBox="0 0 24 24 " width={24} height={24} />
-          <p>
-            <span className="text-16 font-500 leading-[25.6px]">카카오톡</span>
-            으로 공유하기
-          </p>
-        </button>
-        <button type="button" className="flex items-center gap-16 py-16">
-          <TwitterIcon viewBox="0 0 24 24" width={24} height={24} />
-          <p>
-            <span className="text-16 font-500 leading-[25.6px]">트위터</span>로
-            공유하기
-          </p>
-        </button>
-        <button type="button" className="flex items-center gap-16 py-16">
-          <InstagramIcon viewBox="0 0 24 24" width={24} height={24} />
-          <p>
-            <span className="text-16 font-500 leading-[25.6px]">
-              인스타그램
-            </span>
-            으로 공유하기
-          </p>
-        </button>
-        <button type="button" className="flex items-center gap-16 py-16">
-          <LinkIcon viewBox="0 0 24 24" width={24} height={24} />
-          <p>링크 복사하기</p>
-        </button>
-        <div className="h-[21px]" />
-      </div>
-    </BottomSheet>
+        <div
+          ref={contentRef}
+          className="overflow-y-hidden text-16 font-400 leading-[24px] text-grey-800"
+        >
+          <button
+            type="button"
+            className="flex items-center gap-16 py-16"
+            onClick={shareToKakao}
+          >
+            <KakaoIcon viewBox="0 0 24 24 " width={24} height={24} />
+            <p>
+              <span className="text-16 font-500 leading-[25.6px]">
+                카카오톡
+              </span>
+              으로 공유하기
+            </p>
+          </button>
+          <button
+            type="button"
+            className="flex items-center gap-16 py-16"
+            onClick={shareToTwitter}
+          >
+            <TwitterIcon viewBox="0 0 24 24" width={24} height={24} />
+            <p>
+              <span className="text-16 font-500 leading-[25.6px]">트위터</span>
+              로 공유하기
+            </p>
+          </button>
+          {/* <button
+            type="button"
+            className="flex items-center gap-16 py-16"
+            onClick={shareToInstagram}
+          >
+            <InstagramIcon viewBox="0 0 24 24" width={24} height={24} />
+            <p>
+              <span className="text-16 font-500 leading-[25.6px]">
+                인스타그램
+              </span>
+              으로 공유하기
+            </p>
+          </button> */}
+          <button
+            type="button"
+            className="flex items-center gap-16 py-16"
+            onClick={copyToClipboard}
+          >
+            <LinkIcon viewBox="0 0 24 24" width={24} height={24} />
+            <p>링크 복사하기</p>
+          </button>
+          <div className="h-[21px]" />
+        </div>
+      </BottomSheet>
+      <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
+        integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8"
+        crossOrigin="anonymous"
+        onLoad={initializeKakao}
+      />
+    </>
   );
 };

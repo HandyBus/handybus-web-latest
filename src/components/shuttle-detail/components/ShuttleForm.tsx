@@ -141,6 +141,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
           message={message판별기(data.status, type)}
           variant={variant판별기(data.status, type)}
           disabled={disabled판별기(data.status, type)}
+          shuttleName={data.name}
         />
       </form>
     </FormProvider>
