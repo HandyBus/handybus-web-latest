@@ -3,8 +3,8 @@ import Button from '@/components/buttons/button/Button';
 import { RefObject } from 'react';
 
 interface Props {
-  bottomSheetRef: (node: HTMLDivElement) => void;
-  contentRef: RefObject<HTMLDivElement>;
+  bottomSheetRef: ((node: HTMLDivElement) => void) | undefined;
+  contentRef: RefObject<HTMLDivElement> | undefined;
   onAccept: () => void;
   closeBottomSheet: () => void;
 }

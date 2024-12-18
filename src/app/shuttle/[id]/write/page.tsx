@@ -16,7 +16,7 @@ import PassengerInfo from './sections/PassengerInfo';
 import ReservationShuttleInfo from './sections/ReservationShuttleInfo';
 import PassengerForm from './sections/PassengerForm';
 import StepLayout from './sections/StepLayout';
-import PassengerCount from '@/components/shuttle-detail/utils/PassengerCount';
+import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
 
 interface PassengerInfo {
   name: string;

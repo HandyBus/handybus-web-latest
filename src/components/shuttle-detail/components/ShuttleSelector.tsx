@@ -4,7 +4,6 @@ import { Control, Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useEffect } from 'react';
 import { BIG_REGIONS, SMALL_REGIONS } from '@/constants/regions';
 import Select from '@/components/select/Select';
-import { BottomBarType } from './BottomBar';
 import { ShuttleFormValues } from './ShuttleForm';
 import { EventDetailProps } from '@/types/event.types';
 import { DailyShuttleDetailProps } from '@/types/shuttle.types';
@@ -12,7 +11,7 @@ import { formatDate } from '../shuttleDetailPage.utils';
 
 interface Props {
   control: Control<ShuttleFormValues>;
-  type: BottomBarType;
+  type: 'RESERVATION' | 'DEMAND';
   data: EventDetailProps;
 }
 const ShuttleSelector = ({ control, type, data }: Props) => {

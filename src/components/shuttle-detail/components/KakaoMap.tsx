@@ -12,14 +12,6 @@ declare global {
     kakao: {
       maps: KakaoMapsAPI;
     };
-    Kakao: {
-      init: (key: string | undefined) => void;
-      isInitialized: () => boolean;
-      Share: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        sendDefault: (settings: any) => void;
-      };
-    };
   }
 }
 

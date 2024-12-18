@@ -2,7 +2,7 @@
 
 import { FormProvider, useForm } from 'react-hook-form';
 import ShuttleSelector from './ShuttleSelector';
-import BottomBar from './BottomBar';
+import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import { useRouter } from 'next/navigation';
 import ShuttleDemandStatus from './ShuttleDemandStatus';
 import { EventDetailProps } from '@/types/event.types';

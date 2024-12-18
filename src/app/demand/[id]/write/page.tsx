@@ -8,7 +8,7 @@ const DemandWrite = async ({
   params,
   searchParams,
 }: {
-  params: { Id: string };
+  params: { id: string };
   searchParams: {
     dailyShuttleID?: string;
     bigLocation?: string;
@@ -17,7 +17,7 @@ const DemandWrite = async ({
   };
 }) => {
   const data = await getOpenDemandings();
-  const demandData = data.find((v) => v.shuttleID === Number(params.Id));
+  const demandData = data.find((v) => v.shuttleID === Number(params.id));
 
   if (!demandData) return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>; // NOTE: need to add error page
   return (

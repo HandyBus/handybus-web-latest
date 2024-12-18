@@ -84,7 +84,7 @@ const DemandSurvey = ({
       </header>
       <section className="flex flex-col gap-12">
         <ShuttleCard
-          type="수요신청"
+          type="DEMAND_SURVEY"
           tripType="왕복"
           highlighted={true}
           count={demand_data.roundTripCount}
@@ -92,14 +92,14 @@ const DemandSurvey = ({
           destination={destination}
         />
         <ShuttleCard
-          type="수요신청"
+          type="DEMAND_SURVEY"
           tripType="콘서트행"
           count={demand_data.fromDestinationCount}
           shuttleLocation={shuttle_location}
           destination={destination}
         />
         <ShuttleCard
-          type="수요신청"
+          type="DEMAND_SURVEY"
           tripType="귀가행"
           count={demand_data.toDestinationCount}
           shuttleLocation={shuttle_location}
@@ -129,12 +129,12 @@ const SelectShuttle = ({
       </header>
       <section className="flex flex-col gap-12">
         <ShuttleCard
-          type="셔틀예상가격"
+          type="PREDICT_PRICE"
           highlighted={true}
           destination={destination}
         />
-        <ShuttleCard type="셔틀예상가격" destination={destination} />
-        <ShuttleCard type="셔틀예상가격" destination={destination} />
+        <ShuttleCard type="PREDICT_PRICE" destination={destination} />
+        <ShuttleCard type="PREDICT_PRICE" destination={destination} />
       </section>
     </article>
   );
@@ -147,7 +147,7 @@ const ShuttleCard = ({
   shuttleLocation,
   destination,
 }: {
-  type?: '셔틀예상가격' | '수요신청';
+  type?: 'PREDICT_PRICE' | 'DEMAND_SURVEY';
   tripType?: '왕복' | '콘서트행' | '귀가행';
   highlighted?: boolean;
   count?: number;
@@ -165,7 +165,7 @@ const ShuttleCard = ({
     if (tripType === '귀가행') return `${destination} → ${shuttleLocation}`;
   };
 
-  if (type === '셔틀예상가격')
+  if (type === 'PREDICT_PRICE')
     return (
       <div
         className={`flex items-center justify-between rounded-xl px-16 py-20 ${
@@ -197,7 +197,7 @@ const ShuttleCard = ({
       </div>
     );
 
-  if (type === '수요신청')
+  if (type === 'DEMAND_SURVEY')
     return (
       <div
         className={`flex items-center justify-between rounded-xl px-16 py-20 ${

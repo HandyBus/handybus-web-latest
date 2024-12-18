@@ -2,10 +2,7 @@
 
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useCallback } from 'react';
-import BottomBar from '@/components/shuttle-detail/components/BottomBar';
-import RouteInfo from './RouteInfo';
-import JourneyLocationPicker from './JourneyLocationPicker';
-import PassengerCount from '@/components/shuttle-detail/utils/PassengerCount';
+
 import { EventDetailProps } from '@/types/event.types';
 import { authInstance } from '@/services/config';
 import { RegionHubProps } from '@/types/shuttle.types';
@@ -14,6 +11,10 @@ import LoadingSpinner from '@/components/shuttle-detail/components/LoadingSpinne
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { DemandRequestFormValues, SubmitData } from './writeForm.type';
+import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
+import RouteInfo from './RouteInfo';
+import JourneyLocationPicker from './JourneyLocationPicker';
+import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 
 const WriteForm = ({
   demandData,
