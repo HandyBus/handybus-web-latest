@@ -35,3 +35,10 @@ export type SubmitData = {
     | { customHub: string | undefined | null }
     | undefined;
 };
+
+export interface DemandWriteSearchParams {
+  dailyShuttleID?: string;
+  bigLocation?: string;
+  smallLocation?: string;
+  regionID?: string;
+}

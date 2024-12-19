@@ -1,6 +1,6 @@
 'use client';
 
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider } from 'react-hook-form';
 import { useCallback } from 'react';
 import { EventDetailProps } from '@/types/event.types';
 import { authInstance } from '@/services/config';
@@ -9,46 +9,28 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/shuttle-detail/components/LoadingSpinner';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { DemandRequestFormValues, SubmitData } from './writeForm.type';
+import { SubmitData, DemandWriteSearchParams } from './writeForm.type';
 import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
 import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
+import { useShuttleFormValidation } from './useValidation';
+import { useShuttleDemandForm } from './useShuttleDemandForm';
+import { createStopData } from './writeForm.util';
 
-const WriteForm = ({
-  demandData,
-  searchParams,
-}: {
+interface WriteFormProps {
   demandData: EventDetailProps;
-  searchParams: {
-    dailyShuttleID?: string;
-    bigLocation?: string;
-    smallLocation?: string;
-    regionID?: string;
-  };
-}) => {
-  const defaultValues: DemandRequestFormValues = {
-    dailyShuttle: {
-      id: Number(searchParams.dailyShuttleID),
-      date:
-        demandData.dailyShuttles.find(
-          (shuttle) => shuttle.id === Number(searchParams.dailyShuttleID),
-        )?.date || demandData.dailyShuttles[0].date,
-    },
-    bigLocation: searchParams.bigLocation || '',
-    smallLocation: searchParams.smallLocation || '',
-    regionID: searchParams.regionID || '',
-    routeType: '',
-    passengerCount: 1,
-  };
-  const methods = useForm<DemandRequestFormValues>({
-    defaultValues,
-    mode: 'onChange',
-  });
+  searchParams: DemandWriteSearchParams;
+}
 
+const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
+  const { methods, formValues, regionId } = useShuttleDemandForm(
+    searchParams,
+    demandData,
+  );
+  const { determineVariant, determineDisabled } =
+    useShuttleFormValidation(formValues);
   const router = useRouter();
-  const regionId = methods.watch('regionID');
-  const formValues = methods.watch();
 
   const getRegionHubs = async () => {
     try {
@@ -109,26 +91,15 @@ const WriteForm = ({
           ? 'FROM_DESTINATION'
           : 'ROUND_TRIP';
 
-    const pickup = formValues.destinationStop?.isCustom
-      ? {
-          customHub: formValues.destinationStop?.customHub,
-        }
-      : {
-          hubID: formValues.destinationStop?.hubId,
-        };
-    const dropoff = formValues.returnStop?.isCustom
-      ? {
-          customHub: formValues.returnStop?.customHub,
-        }
-      : {
-          hubID: formValues.returnStop?.hubId,
-        };
+    const { pickup, dropoff } = createStopData(formValues);
+
     const routeTypeToData = {
       콘서트행: { pickup },
       귀가행: { dropoff },
       왕복행: { pickup, dropoff },
       '': {},
     };
+
     const submitData = {
       regionID: formValues.regionID,
       type: translatedRouteType,
@@ -137,50 +108,6 @@ const WriteForm = ({
     };
     await postDemand(submitData, dailyShuttleID, shuttleID);
   }, [formValues]);
-
-  const isStopValidForRoute = useCallback((): boolean => {
-    const to_destination = formValues.destinationStop?.isCustom
-      ? formValues.destinationStop?.customHub
-      : formValues.destinationStop?.hubId;
-    const from_destination = formValues.returnStop?.isCustom
-      ? formValues.returnStop?.customHub
-      : formValues.returnStop?.hubId;
-
-    if (formValues.routeType === '콘서트행') return !!to_destination;
-    if (formValues.routeType === '귀가행') return !!from_destination;
-    if (formValues.routeType === '왕복행')
-      return !!to_destination && !!from_destination;
-    return false;
-  }, [formValues]);
-
-  const determineVariant = useCallback((): 'primary' | 'secondary' => {
-    if (
-      formValues.dailyShuttle.id !== 0 &&
-      formValues.bigLocation &&
-      formValues.smallLocation &&
-      formValues.regionID &&
-      formValues.passengerCount &&
-      isStopValidForRoute()
-    )
-      return 'primary';
-    return 'secondary';
-  }, [formValues, isStopValidForRoute]);
-
-  const determineDisabled = useCallback((): boolean => {
-    const disabled = true;
-    const abled = false;
-    if (
-      formValues.dailyShuttle.id !== 0 &&
-      formValues.bigLocation &&
-      formValues.smallLocation &&
-      formValues.regionID &&
-      formValues.routeType &&
-      formValues.passengerCount &&
-      isStopValidForRoute()
-    )
-      return abled;
-    return disabled;
-  }, [formValues, isStopValidForRoute]);
 
   if (error) return <div>error occured!</div>;
   if (isLoading) return <LoadingSpinner />;
