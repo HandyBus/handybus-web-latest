@@ -14,6 +14,7 @@ interface Props {
 }
 
 const ShuttleRouteVisualizer = ({ object, section }: Props) => {
+  debugger;
   return (
     <section className="flex flex-col gap-16 px-16 py-24">
       <header>
@@ -164,8 +165,8 @@ const ShuttleRouteTimeLocation = ({
   isBlurred: boolean;
 }) => {
   return (
-    <div className="flex items-center gap-16">
-      <p className="text-12 font-400 leading-[19.2px] text-grey-600-sub">
+    <div className="flex gap-16">
+      <p className="text-16 font-400 leading-[24px] text-grey-900">
         {dayjs(object.time).format('HH:mm')}
       </p>
       <p

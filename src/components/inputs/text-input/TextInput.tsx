@@ -10,21 +10,17 @@ import {
 import DeleteIcon from 'public/icons/delete.svg';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
-  children?: ReactNode;
+  children: ReactNode;
   setValue: (name: FieldPath<T>, value: string) => void;
   placeholder?: string;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
-  version?: 'default' | 'shuttle';
-  value?: string;
 }
 
 const TextInput = <T extends FieldValues>({
   children,
-  value,
   setValue,
   placeholder,
   onKeyDown,
-  version = 'default',
   ...controls
 }: Props<T>) => {
   const { field, fieldState } = useController({
@@ -36,45 +32,32 @@ const TextInput = <T extends FieldValues>({
   };
 
   return (
-    <div
-      className={`relative flex w-full flex-col ${
-        version === 'shuttle' ? 'gap-0' : 'gap-8'
-      }`}
-    >
-      {children && (
-        <label
-          htmlFor={field.name}
-          className={`block text-16 font-500 text-grey-600-sub ${
-            version === 'shuttle' ? 'h-auto' : 'h-[26px]'
-          }`}
-        >
-          {children}
-        </label>
-      )}
+    <div className="relative flex w-full flex-col gap-8">
+      <label
+        htmlFor={field.name}
+        className="block h-[26px] text-16 font-500 text-grey-600-sub"
+      >
+        {children}
+      </label>
       <input
         id={field.name}
         placeholder={placeholder}
         onKeyDown={onKeyDown}
         {...field}
-        value={value}
         className={`h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
       />
       {field.value && (
         <button
           type="button"
           onClick={handleResetValue}
-          className={`absolute right-12 ${
-            version === 'shuttle' ? 'top-32' : 'top-48'
-          }`}
+          className="absolute right-12 top-48"
         >
           <DeleteIcon />
         </button>
       )}
-      {fieldState?.error?.message && (
-        <p className="h-[20px] text-12 font-400 text-red-500">
-          {fieldState?.error?.message}
-        </p>
-      )}
+      <p className="h-[20px] text-12 font-400 text-red-500">
+        {fieldState?.error?.message}
+      </p>
     </div>
   );
 };

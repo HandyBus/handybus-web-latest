@@ -12,7 +12,6 @@ interface Props<T> {
   placeholder?: string;
   disabled?: boolean;
   bottomSheetTitle?: string;
-  isUnderLined?: boolean;
 }
 
 const Select = <T extends string>({
@@ -22,7 +21,6 @@ const Select = <T extends string>({
   placeholder,
   disabled,
   bottomSheetTitle,
-  isUnderLined,
 }: Props<T>) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
@@ -33,7 +31,7 @@ const Select = <T extends string>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`relative w-full p-12 pr-32 text-left ${value ? 'text-grey-800' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
+        className={`relative w-full p-12 pr-32 text-left ${value ? 'text-grey-800' : 'text-grey-300'}`}
       >
         {value || placeholder}
         <div className="absolute right-12 top-16">
