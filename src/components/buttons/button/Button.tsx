@@ -3,23 +3,11 @@ import Spinner from 'public/icons/spinner.svg';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   loading?: boolean;
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'alert'
-    | 'modalSecondary'
-    | 'handyCancel';
+  variant?: 'primary' | 'secondary' | 'alert' | 'modalSecondary';
   type?: 'button' | 'submit' | 'reset';
-  className?: string;
 }
 
-const Button = ({
-  children,
-  variant = 'primary',
-  loading,
-  className,
-  ...rest
-}: Props) => {
+const Button = ({ children, variant = 'primary', loading, ...rest }: Props) => {
   const disabled = rest.disabled || loading;
 
   const variantClasses: { [key: string]: string } = {
@@ -28,7 +16,6 @@ const Button = ({
     alert: 'bg-red-500 text-14 leading-[22.4px] text-white active:bg-[#EF5350]',
     modalSecondary:
       'bg-grey-50 text-14 font-500 leading-[22.4px] text-grey-700 active:bg-grey-100',
-    handyCancel: 'bg-grey-700 text-white active:bg-grey-500',
   };
 
   const buttonClass = `
@@ -38,11 +25,7 @@ const Button = ({
   `;
 
   return (
-    <button
-      disabled={disabled}
-      className={`${buttonClass} ${className}`}
-      {...rest}
-    >
+    <button disabled={disabled} className={buttonClass} {...rest}>
       {loading ? (
         <>
           <span className="mr-4 animate-spin">
