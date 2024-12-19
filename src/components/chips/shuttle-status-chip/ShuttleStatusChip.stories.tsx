@@ -13,24 +13,30 @@ type Story = StoryObj<typeof ShuttleStatusChip>;
 
 export const DemandSurvey: Story = {
   args: {
-    status: 'demand-survey',
+    status: 'DEMAND_SURVEY',
+  },
+};
+
+export const DemandClosed: Story = {
+  args: {
+    status: 'SURVEY_CLOSED',
   },
 };
 
 export const Pending: Story = {
   args: {
-    status: 'pending',
+    status: 'PENDING',
   },
 };
 
-export const Closed: Story = {
+export const ReservationClosed: Story = {
   args: {
-    status: 'closed',
+    status: 'RESERVATION_CLOSED',
   },
 };
 
 export const Ended: Story = {
   args: {
-    status: 'ended',
+    status: 'ENDED',
   },
 };
