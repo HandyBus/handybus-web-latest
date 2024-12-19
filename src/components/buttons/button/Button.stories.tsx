@@ -30,3 +30,10 @@ export const Loading: Story = {
     children: 'Loading',
   },
 };
+
+export const HandyCancel: Story = {
+  args: {
+    children: '취소하기',
+    variant: 'handyCancel',
+  },
+};
