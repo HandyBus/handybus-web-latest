@@ -2,7 +2,6 @@
 
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useCallback } from 'react';
-
 import { EventDetailProps } from '@/types/event.types';
 import { authInstance } from '@/services/config';
 import { RegionHubProps } from '@/types/shuttle.types';
@@ -90,7 +89,6 @@ const WriteForm = ({
         return res.data;
       }
       if (res.data.statusCode === 409) {
-        // NOTES: 백엔드에서 res.status 200과 함께 res.data.statusCode 409 를 동시에 전달해주고 있음 논의 필요
         toast.error('해당 일자와 경로의 수요조사를 이미 신청완료했어요.');
         return res.data;
       }
@@ -140,33 +138,35 @@ const WriteForm = ({
     await postDemand(submitData, dailyShuttleID, shuttleID);
   }, [formValues]);
 
-  const routeType에따른Stop유무판별기 = useCallback(() => {
-    const 콘서트행 = formValues.destinationStop?.isCustom
+  const isStopValidForRoute = useCallback((): boolean => {
+    const to_destination = formValues.destinationStop?.isCustom
       ? formValues.destinationStop?.customHub
       : formValues.destinationStop?.hubId;
-    const 귀가행 = formValues.returnStop?.isCustom
+    const from_destination = formValues.returnStop?.isCustom
       ? formValues.returnStop?.customHub
       : formValues.returnStop?.hubId;
 
-    if (formValues.routeType === '콘서트행') return !!콘서트행;
-    if (formValues.routeType === '귀가행') return !!귀가행;
-    if (formValues.routeType === '왕복행') return !!콘서트행 && !!귀가행;
+    if (formValues.routeType === '콘서트행') return !!to_destination;
+    if (formValues.routeType === '귀가행') return !!from_destination;
+    if (formValues.routeType === '왕복행')
+      return !!to_destination && !!from_destination;
+    return false;
   }, [formValues]);
 
-  const variant판별기 = useCallback(() => {
+  const determineVariant = useCallback((): 'primary' | 'secondary' => {
     if (
       formValues.dailyShuttle.id !== 0 &&
       formValues.bigLocation &&
       formValues.smallLocation &&
       formValues.regionID &&
       formValues.passengerCount &&
-      routeType에따른Stop유무판별기()
+      isStopValidForRoute()
     )
       return 'primary';
     return 'secondary';
-  }, [formValues, routeType에따른Stop유무판별기]);
+  }, [formValues, isStopValidForRoute]);
 
-  const disabled판별기 = useCallback(() => {
+  const determineDisabled = useCallback((): boolean => {
     const disabled = true;
     const abled = false;
     if (
@@ -176,11 +176,11 @@ const WriteForm = ({
       formValues.regionID &&
       formValues.routeType &&
       formValues.passengerCount &&
-      routeType에따른Stop유무판별기()
+      isStopValidForRoute()
     )
       return abled;
     return disabled;
-  }, [formValues, routeType에따른Stop유무판별기]);
+  }, [formValues, isStopValidForRoute]);
 
   if (error) return <div>error occured!</div>;
   if (isLoading) return <LoadingSpinner />;
@@ -204,8 +204,8 @@ const WriteForm = ({
       <BottomBar
         type={'DEMAND_WRITE'}
         onSubmit={methods.handleSubmit(onSubmit)}
-        disabled={disabled판별기()}
-        variant={variant판별기()}
+        disabled={determineDisabled()}
+        variant={determineVariant()}
       />
     </FormProvider>
   );
