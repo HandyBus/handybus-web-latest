@@ -9,7 +9,6 @@ import { REGION_TO_ID } from '@/constants/regions';
 import { toast } from 'react-toastify';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { useRouter } from 'next/navigation';
-import { setSession } from '@/utils/handleSession';
 import { FORM_DEFAULT_VALUES } from '@/components/onboarding-contents/formValidation.constants';
 import AgreementStep from './steps/AgreementStep';
 import PhoneNumberStep from './steps/PhoneNumberStep';
@@ -39,7 +38,6 @@ const OnboardingFunnel = ({ progress }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
-      setSession();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
       setIsSubmitting(false);

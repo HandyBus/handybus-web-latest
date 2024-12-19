@@ -3,10 +3,10 @@ import type { Region } from '@/hooks/useRegion';
 import { instance } from '@/services/config';
 
 export const fetchAllShuttles = async () => {
-  const response = await instance.get(
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
     '/shuttle-operation/shuttles/all/dates/all/routes',
   );
-  return response.data.shuttleRouteDetails as ShuttleRoute[];
+  return res.shuttleRouteDetails;
 };
 
 export const fetchRelatedShuttles = async (region: Region) => {
@@ -14,10 +14,13 @@ export const fetchRelatedShuttles = async (region: Region) => {
     return [];
   }
 
-  const response = await instance.get(
-    '/shuttle-operation/shuttles/all/dates/all/routes',
-    { params: { ...region } },
+  const params = new URLSearchParams({
+    bigRegion: region.bigRegion,
+    ...(region.smallRegion && { smallRegion: region.smallRegion }),
+  }).toString();
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
+    `/shuttle-operation/shuttles/all/dates/all/routes?${params}`,
   );
 
-  return response.data.shuttleRouteDetails as ShuttleRoute[];
+  return res.shuttleRouteDetails;
 };
