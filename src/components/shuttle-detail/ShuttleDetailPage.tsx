@@ -1,5 +1,4 @@
 import Footer from '@/components/footer/Footer';
-import ShuttleDemandStatus from './components/ShuttleDemandStatus';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import { SECTION } from '@/types/shuttle.types';
 import KakaoMap from './components/KakaoMap';
@@ -11,52 +10,46 @@ import NoticeSection, {
 } from '@/components/notice-section/NoticeSection';
 import ShuttleForm from './components/ShuttleForm';
 import Spacer from './components/Spacer';
-
-const title = 'ATEEZ 2024 FANMEETING 〈ATINY’S VOYAGE FROM A TO Z〉';
-const artist = 'ATEEZ';
-const date = '2024. 07. 06. (토) ~ 2024. 07. 07. (일)';
-const location = '경상남도체육관';
-// const shuttleStatus = 'demand-survey';
-const shuttleStatus = 'pending';
-const shuttle_location = '충청북도 청주시';
-const shuttle_date = '2024년 7월 6일 (토)';
+import { EventDetailProps } from '@/types/event.types';
+import { dateFormatter } from './shuttleDetailPage.utils';
+import { shuttleStateConverter } from './shuttleDetailPage.utils';
 
 interface Props {
-  shuttleId: string;
-  type: 'RESERVATION' | 'DEMAND';
+  type: 'DEMAND' | 'RESERVATION';
+  data: EventDetailProps;
 }
-const ShuttleDetailPage = ({ shuttleId, type }: Props) => {
+const ShuttleDetailPage = async ({ type, data }: Props) => {
+  if (data?.status === 'INACTIVE') return <div>404 Page Not Found</div>; // NOTE: need to add 404 page
+
   return (
     <main className="overflow-y-hidden">
       <BackButton />
-      <ShuttleImage />
+      <ShuttleImage image={data.image} />
       <ShuttleInfo
-        shuttleStatus={shuttleStatus}
-        title={title}
-        artist={artist}
-        date={date}
-        location={location}
+        shuttleStatus={shuttleStateConverter(data.status, type)}
+        title={data.name}
+        artist={data.participants.map((v) => v.name).join(', ')}
+        date={dateFormatter(data)}
+        location={data.destination.name}
       />
       <KakaoMap
-        placeName="잠실실내체육관"
-        latitude={37.5162}
-        longitude={127.0759}
+        placeName={data.destination.name}
+        latitude={data.destination.latitude}
+        longitude={data.destination.longitude}
       />
-      <ShuttleForm shuttleId={shuttleId} type={type} />
+      <ShuttleForm
+        shuttleId={data.shuttleID}
+        type={type}
+        data={data}
+        shuttleStatus={shuttleStateConverter(data.status, type)}
+      />
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
       {type === 'RESERVATION' && (
-        <ShuttleRouteVisualizer
-          object={ROUTE_OBJECT}
-          section={SECTION.SHUTTLE_DETAIL}
-        />
-      )}
-      <ShuttleDemandStatus
-        type={type === 'DEMAND' ? 'DEMAND_SURVEY' : 'SELECT_SHUTTLE'}
-        shuttle_date={shuttle_date}
-        shuttle_location={shuttle_location}
-      />
-      {type === 'RESERVATION' && (
         <>
+          <ShuttleRouteVisualizer
+            object={ROUTE_OBJECT}
+            section={SECTION.SHUTTLE_DETAIL}
+          />
           <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
           <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
         </>
