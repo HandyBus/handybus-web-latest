@@ -4,10 +4,7 @@ import BannerImage from './sections/BannerImage';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
 import { getOpenDemandings } from '../../utils/fetch.util';
 
-const DemandWrite = async ({
-  params,
-  searchParams,
-}: {
+interface Props {
   params: { id: string };
   searchParams: {
     dailyShuttleID?: string;
@@ -15,7 +12,9 @@ const DemandWrite = async ({
     smallLocation?: string;
     regionID?: string;
   };
-}) => {
+}
+
+const DemandWrite = async ({ params, searchParams }: Props) => {
   const data = await getOpenDemandings();
   const demandData = data.find((v) => v.shuttleID === Number(params.id));
 
