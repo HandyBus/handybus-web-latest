@@ -63,7 +63,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       }
     } catch (e) {
       console.error(e);
-      router.push('/login');
+      // router.push('/login');
     }
   };
 
@@ -73,6 +73,16 @@ const OAuth = ({ params, searchParams }: Props) => {
     }
     isInitiated.current = true;
     handleOAuth();
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   return (
