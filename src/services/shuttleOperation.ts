@@ -40,6 +40,8 @@ export const useGetShuttleDemandStatus = (
     queryKey: ['demandStatsData', shuttleId, dailyShuttleId, regionId],
     queryFn: () => getShuttleDemandStatus(shuttleId, dailyShuttleId, regionId),
     enabled: Boolean(shuttleId && dailyShuttleId),
+  });
+};
 
 export const getRoutes = async (
   shuttleID: number,
