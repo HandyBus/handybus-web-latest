@@ -41,8 +41,20 @@ class Instance {
     };
 
     const res = await fetch(new URL(url, this.baseUrl).toString(), config);
-    const data = (await res.json()) as ApiResponse<T>;
 
+    // response가 없는 경우
+    if (res.statusText === 'No Content') {
+      if (res.status >= 400) {
+        throw new CustomError(res.status, 'No Content');
+      }
+      return {
+        ok: true,
+        statusCode: res.status,
+      } as ApiResponse<T>;
+    }
+
+    // response가 있는 경우
+    const data = (await res.json()) as ApiResponse<T>;
     if (!data.ok) {
       throw new CustomError(
         data.statusCode,
