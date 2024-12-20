@@ -1,11 +1,12 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
 import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
 import { ID_TO_REGION } from '@/constants/regions';
 import { getRoutes, useDeleteDemand } from '@/services/shuttleOperation';
+import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 
 interface Props {
   demands: ShuttleDemandType[];
@@ -29,37 +30,64 @@ const DemandTab = ({ demands }: Props) => {
   });
 
   const { mutate: deleteDemand } = useDeleteDemand();
+  const [isOpen, setIsOpen] = useState(false);
+  const [demand, setDemand] = useState<ShuttleDemandType | null>(null);
 
   return (
-    <ul>
-      <ReservationOngoingWrapper>
-        {reservationOngoingDemands.map((demand) => (
+    <>
+      <ul>
+        <ReservationOngoingWrapper>
+          {reservationOngoingDemands.map((demand) => (
+            <DemandCard
+              key={demand.id}
+              demand={demand}
+              buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
+              buttonHref={`/shuttle-detail/${demand.shuttle.id}`}
+            />
+          ))}
+        </ReservationOngoingWrapper>
+        {demands.map((demand) => (
           <DemandCard
             key={demand.id}
             demand={demand}
-            buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-            buttonHref={`/shuttle-detail/${demand.shuttle.id}`}
+            subButtonText={
+              demand.status === 'OPEN' ? '신청 취소' : '수요조사 확인 종료'
+            }
+            subButtonOnClick={(e) => {
+              e.preventDefault();
+              setDemand(demand);
+              setIsOpen(true);
+            }}
+            subButtonDisabled={demand.status !== 'OPEN'}
           />
         ))}
-      </ReservationOngoingWrapper>
-      {demands.map((demand) => (
-        <DemandCard
-          key={demand.id}
-          demand={demand}
-          subButtonText={
-            demand.status === 'OPEN' ? '신청 취소' : '수요조사 확인 종료'
+      </ul>
+      <ConfirmModal
+        title="정말 수요조사를 취소하시겠습니까?"
+        buttonLabels={{
+          back: '돌아가기',
+          confirm: '수요조사 취소하기',
+        }}
+        isOpen={isOpen}
+        onConfirm={() => {
+          if (!demand) {
+            setIsOpen(false);
+            return;
           }
-          subButtonOnClick={() => {
-            deleteDemand({
-              shuttleID: demand.shuttle.id,
-              dailyShuttleID: demand.dailyShuttleID,
-              ID: demand.id,
-            });
-          }}
-          subButtonDisabled={demand.status !== 'OPEN'}
-        />
-      ))}
-    </ul>
+          deleteDemand({
+            shuttleID: demand.shuttle.id,
+            dailyShuttleID: demand.dailyShuttleID,
+            ID: demand.id,
+          });
+          setDemand(null);
+          setIsOpen(false);
+        }}
+        onClosed={() => {
+          setDemand(null);
+          setIsOpen(false);
+        }}
+      />
+    </>
   );
 };
 

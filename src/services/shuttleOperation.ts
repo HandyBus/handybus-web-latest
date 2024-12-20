@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { instance } from './config';
+import { authInstance, instance } from './config';
 import { ShuttleDemandStatus } from '@/types/shuttle.types';
 import { ArtistType, RouteStatusType, RouteType } from '@/types/client.types';
 import { toast } from 'react-toastify';
@@ -72,7 +72,7 @@ export const deleteDemand = async ({
   dailyShuttleID: number;
   ID: number;
 }) => {
-  return await instance.delete(
+  return await authInstance.delete(
     `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/demands/${ID}`,
   );
 };

@@ -5,7 +5,7 @@ import { ShuttleDemandType } from '@/types/client.types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MouseEvent } from 'react';
+import { MouseEvent, MouseEventHandler } from 'react';
 import {
   DEMAND_STATUS_TEXT,
   STATUS_STYLE,
@@ -21,7 +21,7 @@ interface Props {
   subButtonText?: string;
   subButtonHref?: string;
   subButtonDisabled?: boolean;
-  subButtonOnClick?: () => void;
+  subButtonOnClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const DemandCard = ({
@@ -66,7 +66,7 @@ const DemandCard = ({
 
   return (
     <Link
-      href={`/shuttle-detail/${demand.shuttle.id}`}
+      href={`/demand/${demand.shuttle.id}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">
