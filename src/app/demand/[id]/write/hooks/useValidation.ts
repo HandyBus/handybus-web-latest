@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { DemandRequestFormValues } from './writeForm.type';
+import { DemandRequestFormValues } from '../components/writeForm.type';
 
 export const useShuttleFormValidation = (
   formValues: DemandRequestFormValues,

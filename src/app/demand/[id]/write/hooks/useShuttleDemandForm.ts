@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import {
   DemandRequestFormValues,
   DemandWriteSearchParams,
-} from './writeForm.type';
+} from '../components/writeForm.type';
 import { EventDetailProps } from '@/types/event.types';
-import { getDefaultValues } from './writeForm.util';
+import { getDefaultValues } from '../components/writeForm.util';
 
 export const useShuttleDemandForm = (
   searchParams: DemandWriteSearchParams,

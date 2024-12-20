@@ -1,6 +1,6 @@
 import AppBar from '@/components/app-bar/AppBar';
-import WriteForm from './sections/WriteForm';
-import BannerImage from './sections/BannerImage';
+import WriteForm from './components/WriteForm';
+import BannerImage from './components/BannerImage';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
 import { getOpenDemandings } from '../../utils/fetch.util';
 
