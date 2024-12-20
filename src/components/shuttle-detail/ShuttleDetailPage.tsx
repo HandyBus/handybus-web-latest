@@ -22,7 +22,7 @@ const ShuttleDetailPage = async ({ type, data }: Props) => {
   if (data?.status === 'INACTIVE') return <div>404 Page Not Found</div>; // NOTE: need to add 404 page
 
   return (
-    <main className="overflow-y-hidden">
+    <main className="relative overflow-y-hidden">
       <BackButton />
       <ShuttleImage image={data.image} />
       <ShuttleInfo
