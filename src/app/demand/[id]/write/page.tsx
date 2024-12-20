@@ -1,20 +1,31 @@
-'use client';
-
 import AppBar from '@/components/app-bar/AppBar';
-import { useRouter } from 'next/navigation';
 import WriteForm from './sections/WriteForm';
 import BannerImage from './sections/BannerImage';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
+import { getOpenDemandings } from '../../utils/fetch.util';
 
-const DemandWrite = () => {
-  const { back } = useRouter();
+const DemandWrite = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: {
+    dailyShuttleID?: string;
+    bigLocation?: string;
+    smallLocation?: string;
+    regionID?: string;
+  };
+}) => {
+  const data = await getOpenDemandings();
+  const demandData = data.find((v) => v.shuttleID === Number(params.id));
 
+  if (!demandData) return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>; // NOTE: need to add error page
   return (
     <>
-      <AppBar handleBack={back}>수요 신청하기</AppBar>
+      <AppBar>수요 신청하기</AppBar>
       <main>
-        <BannerImage />
-        <WriteForm />
+        <BannerImage demandData={demandData} />
+        <WriteForm demandData={demandData} searchParams={searchParams} />
         <Spacer />
       </main>
     </>

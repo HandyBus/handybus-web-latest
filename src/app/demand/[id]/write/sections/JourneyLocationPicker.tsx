@@ -1,18 +1,38 @@
+'use client';
+
 import TextInput from '@/components/inputs/text-input/TextInput';
 import Select from '@/components/select/Select';
+import { RegionHubProps } from '@/types/shuttle.types';
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
-const JourneyLocationPicker = ({ routeType }: { routeType: string }) => {
-  const { control, watch } = useFormContext();
+const JourneyLocationPicker = ({
+  routeType,
+  regionHubsData,
+}: {
+  routeType: string;
+  regionHubsData: RegionHubProps | undefined;
+}) => {
+  const { control, setValue } = useFormContext();
+  const [isDestinationCustom, setIsDestinationCustom] = useState(false);
+  const [isReturnCustom, setIsReturnCustom] = useState(false);
 
   const renderLocationPicker = (
     type: string,
-    selectFieldName: string,
-    customFieldName: string,
+    fieldName: 'destinationStop' | 'returnStop',
     label: string,
+    isCustom: boolean,
+    setIsCustom: (value: boolean) => void,
   ) => {
-    const selectedValue = watch(selectFieldName);
+    const options = [
+      ...(regionHubsData?.regionHubs?.map((hub) => ({
+        name: hub.name,
+        hubId: hub.ID,
+        isCustom: false,
+      })) ?? []),
+      { name: '기타 (직접 입력)', id: null, isCustom: true, customHub: null },
+    ];
 
     return (
       <div
@@ -25,21 +45,22 @@ const JourneyLocationPicker = ({ routeType }: { routeType: string }) => {
         </h3>
         <div className="flex flex-col gap-8">
           <Controller
-            name={selectFieldName}
+            name={`${fieldName}`}
             control={control}
             render={({ field }) => (
               <Select
-                options={[
-                  '청주터미널',
-                  '청주역',
-                  '청주공항',
-                  '기타 (직접 입력)',
-                ]}
-                value={field.value}
+                options={options.map((option) => option.name)}
+                value={field.value?.name ?? ''}
                 setValue={(value) => {
-                  field.onChange(value);
-                  if (value !== '기타 (직접 입력)') {
-                    field.onChange(value);
+                  const selectedOption = options.find(
+                    (option) => option.name === value,
+                  );
+                  if (value === '기타 (직접 입력)') {
+                    field.onChange(selectedOption);
+                    setIsCustom(true);
+                  } else {
+                    field.onChange(selectedOption);
+                    setIsCustom(false);
                   }
                 }}
                 isUnderLined={true}
@@ -48,18 +69,14 @@ const JourneyLocationPicker = ({ routeType }: { routeType: string }) => {
             )}
           />
 
-          {selectedValue === '기타 (직접 입력)' && (
-            <Controller
-              name={customFieldName}
+          {isCustom && (
+            <TextInput
+              name={`${fieldName}.customHub`}
               control={control}
-              render={({ field }) => (
-                <TextInput
-                  name={customFieldName}
-                  setValue={field.onChange}
-                  value={field.value}
-                  placeholder={`희망 ${type} 장소를 입력해주세요`}
-                />
-              )}
+              setValue={(value) => {
+                setValue(`${fieldName}.customHub`, value);
+              }}
+              placeholder={`희망 ${type} 장소를 입력해주세요`}
             />
           )}
         </div>
@@ -78,16 +95,18 @@ const JourneyLocationPicker = ({ routeType }: { routeType: string }) => {
       {(routeType === '왕복행' || routeType === '콘서트행') &&
         renderLocationPicker(
           '하차',
-          'concertDisembarkationSelect',
-          'concertDisembarkationCustom',
+          'destinationStop',
           '희망 하차 장소 (콘서트행)',
+          isDestinationCustom,
+          setIsDestinationCustom,
         )}
       {(routeType === '왕복행' || routeType === '귀가행') &&
         renderLocationPicker(
           '하차',
-          'homeDisembarkationSelect',
-          'homeDisembarkationCustom',
+          'returnStop',
           '희망 하차 장소 (귀가행)',
+          isReturnCustom,
+          setIsReturnCustom,
         )}
     </section>
   );
