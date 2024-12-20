@@ -18,6 +18,7 @@ import { useShuttleDemandForm } from '../hooks/useShuttleDemandForm';
 import { useShuttleFormValidation } from '../hooks/useValidation';
 import RouteInfo from '../components/RouteInfo';
 import JourneyLocationPicker from '../components/JourneyLocationPicker';
+import { CustomError } from '@/services/custom-error';
 
 interface WriteFormProps {
   demandData: EventDetailProps;
@@ -35,13 +36,15 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
 
   const getRegionHubs = async () => {
     try {
-      const res = await authInstance.get(`/location/regions/${regionId}/hubs`);
-
-      if (res.data.statusCode === 401) {
+      const res = await authInstance.get<RegionHubProps>(
+        `/location/regions/${regionId}/hubs`,
+      );
+      return res;
+    } catch (e) {
+      const error = e as CustomError;
+      if (error.statusCode === 401) {
         router.push('/login');
       }
-      return res.data;
-    } catch (error) {
       console.error('Error fetching region hubs:', error);
       throw error;
     }
@@ -66,17 +69,16 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
         `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/demands`,
         submitData,
       );
-      if (res.data.statusCode === 201) {
-        await router.push(`/demand/${shuttleID}`);
-        toast.success('수요 신청에 성공했어요');
-        return res.data;
-      }
-      if (res.data.statusCode === 409) {
+
+      router.push(`/demand/${shuttleID}`);
+      toast.success('수요 신청에 성공했어요');
+      return res;
+    } catch (e) {
+      const error = e as CustomError;
+      if (error.statusCode === 409) {
         toast.error('해당 일자와 경로의 수요조사를 이미 신청완료했어요.');
-        return res.data;
+        return;
       }
-      throw new Error(res.data.error);
-    } catch (error) {
       console.error('수요조사를 제출하는데 실패했어요 \n', error);
       alert('수요조사를 제출하는데 실패했어요 \n' + error);
     }

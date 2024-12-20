@@ -7,7 +7,7 @@ import {
 import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
-import { CustomErrorType } from './custom-error';
+import { CustomError } from './custom-error';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
@@ -85,7 +85,7 @@ export const usePutUser = ({
   onSettled,
 }: {
   onSuccess?: () => void;
-  onError?: (e: CustomErrorType) => void;
+  onError?: (e: CustomError) => void;
   onSettled?: () => void;
 }) => {
   return useMutation({

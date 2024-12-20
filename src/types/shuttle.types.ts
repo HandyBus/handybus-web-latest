@@ -110,14 +110,10 @@ export interface ShuttleDemandStatusCount {
 }
 
 export interface ShuttleDemandStatus {
-  ok: boolean;
-  statusCode: number;
   count: ShuttleDemandStatusCount;
 }
 
 export interface RegionHubProps {
-  ok: boolean;
-  statusCode: number;
   regionHubs: {
     ID: number;
     regionID: number;
