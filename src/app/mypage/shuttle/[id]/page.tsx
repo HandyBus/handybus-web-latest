@@ -1,14 +1,13 @@
-import ShuttleCard, { MOCK_SHUTTLE_DATA } from '../components/ShuttleCard';
 import { ReactNode } from 'react';
 import Section from '../components/Section';
 import Button from '@/components/buttons/button/Button';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import AppBar from '@/components/app-bar/AppBar';
 import Link from 'next/link';
 import Divider from '../components/Divider';
 import RefundPolicy from '../components/RefundPolicy';
 import { SECTION } from '@/types/shuttle.types';
+import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 
 interface Props {
   params: {
@@ -18,12 +17,11 @@ interface Props {
 
 const ShuttleDetail = ({ params }: Props) => {
   const { id } = params;
-  console.log(id);
   return (
     <>
       <AppBar>예약 상세 보기</AppBar>
       <main className="grow">
-        <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} />
+        {/* <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} /> */}
         <Section title="당신은 핸디입니다~">TODO</Section>
         <Section title="예약 정보">
           <div className="flex flex-col gap-28">

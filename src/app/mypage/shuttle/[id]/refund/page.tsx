@@ -1,7 +1,6 @@
 'use client';
 
 import AppBar from '@/components/app-bar/AppBar';
-import ShuttleCard, { MOCK_SHUTTLE_DATA } from '../../components/ShuttleCard';
 import Section from '../../components/Section';
 import RefundPolicy from '../../components/RefundPolicy';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
@@ -19,7 +18,7 @@ const Refund = () => {
     <>
       <AppBar>환불 신청</AppBar>
       <main className="grow">
-        <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} />
+        {/* <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} /> */}
         <Section title="유의사항">
           <RefundPolicy />
         </Section>

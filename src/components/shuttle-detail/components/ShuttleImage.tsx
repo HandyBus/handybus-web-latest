@@ -1,10 +1,14 @@
 import Image from 'next/image';
 
-const ShuttleImage = () => {
+interface Props {
+  image: string;
+}
+
+const ShuttleImage = ({ image }: Props) => {
   return (
     <article className="relative">
       <Image
-        src="/images/concert-sample.png"
+        src={image || '/images/concert-sample.png'} // NOTES: need default image when image is not provided
         alt="shuttle-info-image"
         width={1080}
         height={720}

@@ -1,4 +1,4 @@
-name: PR Title Check
+name: PR Checker
 
 on:
   pull_request:
@@ -17,14 +17,11 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Build project
-        run: pnpm run build || exit 1
+        run: npm run build || exit 1
         env:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
           NEXT_PUBLIC_DOMAIN_URL: ${{ secrets.NEXT_PUBLIC_DOMAIN_URL }}
