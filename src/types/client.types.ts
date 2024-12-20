@@ -120,9 +120,24 @@ type BaseReservationType = {
   reservationStatus: ReservationStatusType;
   cancelStatus: CancelStatusType;
   handyStatus: HandyStatusType;
+  passengers: {
+    name: string;
+    phoneNumber: string;
+  }[];
   payment: PaymentType;
   createdAt: string;
   type: TripType;
+  shuttleBus?: {
+    shuttleBusID: number;
+    shuttleRouteID: number;
+    handyUserID?: number;
+    type: string;
+    name: string;
+    number: string;
+    phoneNumber: string;
+    openChatLink?: string;
+    capacity: number;
+  };
 };
 
 type ReservationWithReview = BaseReservationType & {
@@ -165,6 +180,7 @@ export interface DestinationType {
 
 export interface ImageType {
   imageUrl: string;
+  status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
 }

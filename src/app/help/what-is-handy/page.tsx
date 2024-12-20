@@ -6,7 +6,7 @@ import ToastyCheck from 'public/icons/toasty-check.svg';
 const AboutPage = () => {
   return (
     <>
-      <AppBar>핸디버스 소개</AppBar>
+      <AppBar>핸디란?</AppBar>
       <main className="w-full flex-grow pb-12">
         <Article titleSize="large" richTitle="핸디버스의 ‘핸디’란?">
           <p className="w-full flex-col gap-8 px-16 pt-12 text-16 font-500 text-grey-700">

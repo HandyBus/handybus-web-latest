@@ -74,7 +74,7 @@ const DemandCard = ({
         <span className={`font-600 ${statusStyle.text}`}>{status}</span>
         <span className="font-500 text-grey-500">{demand.createdAt} 신청</span>
       </div>
-      <div className="flex h-[110px] w-full gap-16">
+      <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
             src={demand.shuttle.image}
@@ -99,31 +99,33 @@ const DemandCard = ({
           </span>
         </div>
       </div>
-      <div className="flex gap-8">
-        {buttonText && buttonHref && (
-          <button
-            onClick={handleButtonClick(buttonHref)}
-            disabled={buttonDisabled}
-            type="button"
-            className="flex h-40 w-full items-center justify-center rounded-full bg-primary-main text-14 font-500 text-white active:bg-primary-700 disabled:bg-grey-50 disabled:text-grey-300"
-          >
-            {buttonText}
-          </button>
-        )}
-        {subButtonText && (
-          <button
-            onClick={
-              subButtonOnClick ||
-              (subButtonHref ? handleButtonClick(subButtonHref) : undefined)
-            }
-            disabled={subButtonDisabled}
-            type="button"
-            className="flex h-40 w-full items-center justify-center rounded-full bg-grey-50 text-14 font-500 text-grey-700 disabled:bg-grey-50 disabled:text-grey-300"
-          >
-            {subButtonText}
-          </button>
-        )}
-      </div>
+      {(buttonText || subButtonText) && (
+        <div className="flex gap-8">
+          {buttonText && buttonHref && (
+            <button
+              onClick={handleButtonClick(buttonHref)}
+              disabled={buttonDisabled}
+              type="button"
+              className="flex h-40 w-full items-center justify-center rounded-full bg-primary-main text-14 font-500 text-white active:bg-primary-700 disabled:bg-grey-50 disabled:text-grey-300"
+            >
+              {buttonText}
+            </button>
+          )}
+          {subButtonText && (
+            <button
+              onClick={
+                subButtonOnClick ||
+                (subButtonHref ? handleButtonClick(subButtonHref) : undefined)
+              }
+              disabled={subButtonDisabled}
+              type="button"
+              className="flex h-40 w-full items-center justify-center rounded-full bg-grey-50 text-14 font-500 text-grey-700 disabled:bg-grey-50 disabled:text-grey-300"
+            >
+              {subButtonText}
+            </button>
+          )}
+        </div>
+      )}
     </Link>
   );
 };
