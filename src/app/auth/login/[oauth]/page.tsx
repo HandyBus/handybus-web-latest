@@ -12,6 +12,7 @@ import { setCookie } from '@/utils/handleCookie';
 import { setSession } from '@/utils/handleSession';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { BeatLoader } from 'react-spinners';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' };
@@ -74,7 +75,11 @@ const OAuth = ({ params, searchParams }: Props) => {
     handleOAuth();
   }, []);
 
-  return <div />;
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <BeatLoader color="#9edbcc" />
+    </div>
+  );
 };
 
 export default OAuth;
