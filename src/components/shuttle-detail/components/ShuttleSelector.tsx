@@ -5,12 +5,16 @@ import { useEffect } from 'react';
 import { BIG_REGIONS, SMALL_REGIONS } from '@/constants/regions';
 import Select from '@/components/select/Select';
 import { ShuttleFormValues } from './ShuttleForm';
+import { EventDetailProps } from '@/types/event.types';
+import { DailyShuttleDetailProps } from '@/types/shuttle.types';
+import { formatDate } from '../shuttleDetailPage.utils';
 
 interface Props {
   control: Control<ShuttleFormValues>;
   type: 'RESERVATION' | 'DEMAND';
+  data: EventDetailProps;
 }
-const ShuttleSelector = ({ control, type }: Props) => {
+const ShuttleSelector = ({ control, type, data }: Props) => {
   const { setValue } = useFormContext<ShuttleFormValues>();
   const bigLocation = useWatch({
     control,
@@ -31,12 +35,22 @@ const ShuttleSelector = ({ control, type }: Props) => {
         <p>운행일을 선택해주세요</p>
         <Controller
           control={control}
-          name="date"
+          name="dailyShuttle"
           render={({ field }) => (
             <Select
-              options={['2024-01-01', '2024-01-02', '2024-01-03']}
-              value={field.value}
-              setValue={field.onChange}
+              options={data?.dailyShuttles
+                .sort(
+                  (a, b) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime(),
+                )
+                .map((v: DailyShuttleDetailProps) => formatDate(v.date))}
+              value={formatDate(field.value.date) || undefined}
+              setValue={(selectedDate) => {
+                const selectedShuttle = data?.dailyShuttles.find(
+                  (shuttle) => formatDate(shuttle.date) === selectedDate,
+                );
+                field.onChange(selectedShuttle);
+              }}
               placeholder="운행일"
             />
           )}

@@ -29,7 +29,7 @@ const SubPage = async () => {
   return (
     <div className="flex flex-col">
       {data.map((d) => (
-        <DemandView key={d.id} event={d} />
+        <DemandView key={d.shuttleID} event={d} />
       ))}
     </div>
   );

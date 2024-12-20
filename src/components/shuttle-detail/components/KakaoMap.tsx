@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useRef } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import Script from 'next/script';
 import LogoIcon from 'public/icons/logo-small.svg';
 import KakaoMapIcon from 'public/icons/kakaomap-logo.svg';
@@ -22,24 +22,44 @@ interface KakaoMapProps {
 }
 const KakaoMap = ({ placeName, latitude, longitude }: KakaoMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
-
-  const address = '서울특별시 송파구 올림픽로 240';
+  const [address, setAddress] = useState('');
 
   const initializeMap = () => {
-    if (window.kakao && mapRef.current) {
-      const options = {
-        center: new window.kakao.maps.LatLng(latitude, longitude),
-        level: 4,
-      };
-      const map = new window.kakao.maps.Map(mapRef.current, options);
-      map.setDraggable(false);
-      map.setZoomable(false);
+    try {
+      if (window.kakao && mapRef.current) {
+        const options = {
+          center: new window.kakao.maps.LatLng(latitude, longitude),
+          level: 4,
+        };
+        const map = new window.kakao.maps.Map(mapRef.current, options);
+        map.setDraggable(false);
+        map.setZoomable(false);
 
-      const markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
-      const marker = new window.kakao.maps.Marker({
-        position: markerPosition,
-      });
-      marker.setMap(map);
+        const markerPosition = new window.kakao.maps.LatLng(
+          latitude,
+          longitude,
+        );
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+        });
+        marker.setMap(map);
+      }
+      if (window.kakao.maps.services) {
+        const geocoder = new window.kakao.maps.services.Geocoder();
+
+        const coord = new window.kakao.maps.LatLng(latitude, longitude);
+        const callback = function (
+          result: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          status: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        ) {
+          if (status === window.kakao.maps.services.Status.OK) {
+            setAddress(result[0].address.address_name);
+          }
+        };
+        geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+      }
+    } catch (error) {
+      alert('지도를 불러오는 중 오류가 발생했습니다. \n' + error);
     }
   };
 
@@ -82,7 +102,7 @@ const KakaoMapContent = ({
       <Script
         id="kakao-maps-sdk"
         strategy="afterInteractive"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY}&autoload=false`}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY}&autoload=false&libraries=services`}
         onLoad={() => window.kakao.maps.load(initializeMap)}
       />
       <div className="absolute right-16 top-[-8px] flex items-center justify-end ">

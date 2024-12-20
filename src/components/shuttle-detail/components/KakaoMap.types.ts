@@ -38,4 +38,19 @@ export interface KakaoMapsAPI {
   LatLng: new (lat: number, lng: number) => KakaoLatLng;
   Map: new (container: HTMLElement, options: KakaoMapOptions) => KakaoMap;
   Marker: new (options: KakaoMarkerOptions) => KakaoMarker;
+  services: {
+    Status: {
+      OK: string;
+    };
+    Geocoder: new () => {
+      coord2Address: (
+        lat: number,
+        lng: number,
+        callback: (
+          result: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          status: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        ) => void,
+      ) => void;
+    };
+  };
 }

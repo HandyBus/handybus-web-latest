@@ -7,14 +7,17 @@ import BottomBarReservationRequest from './BottomBarReservationRequest';
 import { BottomBarType, BOTTOM_BAR_TYPE } from './BottomBar.type';
 import BottomBarContent from './BottomBarContent';
 import BottomBarPortal from './BottomBarPortal';
+import { useEffect, useState } from 'react';
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'alert' | 'modalSecondary';
+  variant?: 'primary' | 'secondary';
   disabled?: boolean;
   handleNextStep?: () => void;
   handlePrevStep?: () => void;
   onSubmit?: () => void;
   type?: BottomBarType;
+  message?: string;
+  shuttleName?: string;
 }
 const BottomBar = ({
   variant = 'primary',
@@ -23,15 +26,26 @@ const BottomBar = ({
   handlePrevStep,
   onSubmit,
   type,
+  message,
+  shuttleName,
 }: Props) => {
-  const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
+  const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
+    useBottomSheet();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  if (!mounted) return null;
 
   const content = (() => {
     switch (type) {
       case BOTTOM_BAR_TYPE.DEMAND:
         return (
           <BottomBarContent
-            message="수요 신청하기"
+            message={message || '수요 신청하기'}
             openBottomSheet={openBottomSheet}
             variant={variant}
             disabled={disabled}
@@ -42,6 +56,7 @@ const BottomBar = ({
         return (
           <BottomBarDemandRequest
             message="수요 신청하기"
+            variant={variant}
             disabled={disabled}
             onSubmit={onSubmit}
           />
@@ -76,7 +91,12 @@ const BottomBar = ({
   return (
     <BottomBarPortal>
       {content}
-      <ShareSheet bottomSheetRef={bottomSheetRef} contentRef={contentRef} />
+      <ShareSheet
+        bottomSheetRef={bottomSheetRef}
+        contentRef={contentRef}
+        closeBottomSheet={closeBottomSheet}
+        shuttleName={shuttleName}
+      />
     </BottomBarPortal>
   );
 };
