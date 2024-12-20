@@ -1,6 +1,6 @@
 'use client';
 
-import { ShuttleDemandStatsCount } from '@/types/shuttle.types';
+import { ShuttleDemandStatusCount } from '@/types/shuttle.types';
 import { formatDate } from '../shuttleDetailPage.utils';
 import LoadingSpinner from './LoadingSpinner';
 import { useGetShuttleDemandStats } from '@/services/shuttleOperation';
@@ -58,7 +58,7 @@ export default ShuttleDemandStatus;
 interface DemandSurveyProps {
   shuttle_date: string;
   shuttle_location: string;
-  demand_data: ShuttleDemandStatsCount;
+  demand_data: ShuttleDemandStatusCount;
   destination: string;
 }
 const DemandSurvey = ({

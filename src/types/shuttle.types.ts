@@ -103,16 +103,16 @@ export const SHUTTLE_DEMANDS_STATUS = {
 export type ShuttleDemandsStatusType =
   (typeof SHUTTLE_DEMANDS_STATUS)[keyof typeof SHUTTLE_DEMANDS_STATUS];
 
-export interface ShuttleDemandStatsCount {
+export interface ShuttleDemandStatusCount {
   fromDestinationCount: number;
   roundTripCount: number;
   toDestinationCount: number;
 }
 
-export interface ShuttleDemandStats {
+export interface ShuttleDemandStatus {
   ok: boolean;
   statusCode: number;
-  count: ShuttleDemandStatsCount;
+  count: ShuttleDemandStatusCount;
 }
 
 export interface RegionHubProps {

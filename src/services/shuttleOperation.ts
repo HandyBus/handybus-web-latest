@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { instance } from './config';
 import { ArtistType } from '@/types/client.types';
-import { ShuttleDemandStats } from '@/types/shuttle.types';
+import { ShuttleDemandStatus } from '@/types/shuttle.types';
 
 const getArtists = async () => {
   const res = await instance.get('/shuttle-operation/artists');
@@ -17,7 +17,7 @@ export const useGetArtists = () => {
   });
 };
 
-const fetchShuttleDemandCount = async (
+const getShuttleDemandStatus = async (
   shuttleId: number,
   dailyShuttleId: number,
   regionId: number | undefined,
@@ -35,9 +35,9 @@ export const useGetShuttleDemandStats = (
   dailyShuttleId: number,
   regionId: number | undefined,
 ) => {
-  return useQuery<ShuttleDemandStats>({
+  return useQuery<ShuttleDemandStatus>({
     queryKey: ['demandStatsData', shuttleId, dailyShuttleId, regionId],
-    queryFn: () => fetchShuttleDemandCount(shuttleId, dailyShuttleId, regionId),
+    queryFn: () => getShuttleDemandStatus(shuttleId, dailyShuttleId, regionId),
     enabled: Boolean(shuttleId && dailyShuttleId),
   });
 };

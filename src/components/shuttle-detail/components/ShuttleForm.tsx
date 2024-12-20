@@ -74,7 +74,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
       router.push(`/shuttle/${shuttleId}/write?${queryParams}`);
   };
 
-  const message판별기 = (
+  const determindMessage = (
     shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
     type: 'DEMAND' | 'RESERVATION',
   ): string | undefined => {
@@ -84,7 +84,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
     // NOTES: needs to add reservation message
   };
 
-  const variant판별기 = (
+  const determindVariant = (
     shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
     type: 'DEMAND' | 'RESERVATION',
   ): 'primary' | 'secondary' | undefined => {
@@ -99,7 +99,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
     // NOTES: needs to add reservation button variant
   };
 
-  const disabled판별기 = (
+  const determindDisabled = (
     shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
     type: 'DEMAND' | 'RESERVATION',
   ): boolean => {
@@ -138,9 +138,9 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
         <BottomBar
           onSubmit={methods.handleSubmit(onSubmit)}
           type={type}
-          message={message판별기(data.status, type)}
-          variant={variant판별기(data.status, type)}
-          disabled={disabled판별기(data.status, type)}
+          message={determindMessage(data.status, type)}
+          variant={determindVariant(data.status, type)}
+          disabled={determindDisabled(data.status, type)}
           shuttleName={data.name}
         />
       </form>
