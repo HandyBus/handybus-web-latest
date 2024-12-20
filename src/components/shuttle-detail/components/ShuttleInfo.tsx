@@ -1,7 +1,13 @@
 import ShuttleStatusChip from '@/components/chips/shuttle-status-chip/ShuttleStatusChip';
 
 interface Props {
-  shuttleStatus: 'demand-survey' | 'pending' | 'closed' | 'ended';
+  shuttleStatus:
+    | 'DEMAND_SURVEY'
+    | 'SURVEY_CLOSED'
+    | 'PENDING'
+    | 'RESERVATION_CLOSED'
+    | 'ENDED'
+    | undefined;
   title: string;
   artist: string;
   date: string;
