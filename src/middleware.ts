@@ -5,6 +5,7 @@ import { updateToken } from './utils/handleToken';
 import { ACCESS_TOKEN, OPTIONS, REFRESH_TOKEN } from './constants/token';
 import { cookies } from 'next/headers';
 
+// 로그인이 필요한 페이지들만 미들웨어 처리
 export const middleware = async (req: NextRequest) => {
   const cookieStore = cookies();
   const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
@@ -33,15 +34,13 @@ export const middleware = async (req: NextRequest) => {
     }
   }
 
-  // 인증 필요 페이지에 접근할 때 로그인 여부에 따라 리다이렉트
-  if (AuthRequiredPages.includes(req.nextUrl.pathname)) {
-    if (!refreshToken) {
-      return NextResponse.redirect(new URL('/login', req.url));
-    }
-    const progress = await getProgress();
-    if (progress !== 'ONBOARDING_COMPLETE') {
-      return NextResponse.redirect(new URL('/onboarding', req.url));
-    }
+  // 로그인 여부에 따라 리다이렉트
+  if (!refreshToken) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+  const progress = await getProgress();
+  if (progress !== 'ONBOARDING_COMPLETE') {
+    return NextResponse.redirect(new URL('/onboarding', req.url));
   }
 
   // 온보딩을 완료하고 온보딩 페이지 접근 시 마이페이지로 리다이렉트
@@ -55,8 +54,6 @@ export const middleware = async (req: NextRequest) => {
   return NextResponse.next();
 };
 
-export const AuthRequiredPages = ['/mypage'];
-
 export const config = {
-  matcher: ['/onboarding', '/mypage'],
+  matcher: ['/onboarding', '/mypage/:path*', '/demand/:path*/write'],
 };
