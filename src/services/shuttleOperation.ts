@@ -30,7 +30,7 @@ const getShuttleDemandStatus = async (
   return res.data;
 };
 
-export const useGetShuttleDemandStats = (
+export const useGetShuttleDemandStatus = (
   shuttleId: number,
   dailyShuttleId: number,
   regionId: number | undefined,

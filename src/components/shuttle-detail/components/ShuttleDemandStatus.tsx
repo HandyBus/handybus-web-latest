@@ -3,7 +3,7 @@
 import { ShuttleDemandStatusCount } from '@/types/shuttle.types';
 import { formatDate } from '../shuttleDetailPage.utils';
 import LoadingSpinner from './LoadingSpinner';
-import { useGetShuttleDemandStats } from '@/services/shuttleOperation';
+import { useGetShuttleDemandStatus } from '@/services/shuttleOperation';
 
 interface Props {
   type: 'DEMAND_SURVEY' | 'SELECT_SHUTTLE';
@@ -24,7 +24,7 @@ const ShuttleDemandStatus = ({
   destination,
   regionId,
 }: Props) => {
-  const { data: demandStatsData, isLoading } = useGetShuttleDemandStats(
+  const { data: demandStatsData, isLoading } = useGetShuttleDemandStatus(
     shuttleId,
     dailyShuttle.id,
     regionId,
