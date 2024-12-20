@@ -3,7 +3,9 @@
 import { ReactNode, useState } from 'react';
 import Section from '../components/Section';
 import Button from '@/components/buttons/button/Button';
-import NoticeSection from '@/components/notice-section/NoticeSection';
+import NoticeSection, {
+  CancellationAndRefundContent,
+} from '@/components/notice-section/NoticeSection';
 import AppBar from '@/components/app-bar/AppBar';
 import Link from 'next/link';
 import Divider from '../components/Divider';
@@ -43,7 +45,7 @@ const ShuttleDetail = ({ params }: Props) => {
             ___(닉네임) 님은 이번 셔틀의 핸디로 선정되셨습니다.
           </p>
           <Link
-            href={'/'}
+            href={`/mypage/shuttle/${id}/handy`}
             className="ml-auto mt-8 block w-fit rounded-full bg-grey-100 px-16 text-14 font-400 text-grey-600-sub"
           >
             핸디 가이드 보러가기
@@ -140,10 +142,10 @@ const ShuttleDetail = ({ params }: Props) => {
           </div>
           <div className="flex w-full gap-4 pb-24">
             <div>할인 금액</div>
-            <div className="grow text-right font-500">0원</div>
+            <div className="grow text-right">0원</div>
           </div>
           <div className="flex w-full gap-4">
-            <div className="text-18 font-500">최종 결제 금액</div>
+            <div className="text-18">최종 결제 금액</div>
             <div className="grow text-right text-22 font-600">104,000원</div>
           </div>
         </Section>
@@ -155,6 +157,31 @@ const ShuttleDetail = ({ params }: Props) => {
         </Section>
         <Divider />
         <NoticeSection type="term-and-condition" />
+        <Section title="취소 신청 정보">
+          <div className="flex flex-col gap-8">
+            <DetailRow title="신청 일시" content="2024-10-14 20:49:48" />
+            <DetailRow title="완료 일시" content="2024-10-14 20:49:48" />
+          </div>
+        </Section>
+        <Section title="환불 정보">
+          <div className="flex flex-col gap-8 text-grey-900">
+            <div className="flex w-full gap-4">
+              <div>결제 금액</div>
+              <div className="grow text-right">104,000원</div>
+            </div>
+            <div className="flex w-full gap-4">
+              <div>수수료</div>
+              <div className="grow text-right">-0원</div>
+            </div>
+            <div className="flex w-full gap-4 pt-24">
+              <div className="text-18">환불 금액</div>
+              <div className="grow text-right text-22 font-600">104,000원</div>
+            </div>
+          </div>
+        </Section>
+        <Section title="취소 및 환불 안내">
+          <CancellationAndRefundContent />
+        </Section>
       </main>
       <HandyRequestModal
         isOpen={isHandyRequestModalOpen}
