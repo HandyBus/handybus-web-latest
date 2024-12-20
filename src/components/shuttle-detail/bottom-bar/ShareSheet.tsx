@@ -8,7 +8,7 @@ import {
   SharePlatform,
 } from './BottomBar.constant';
 import Script from 'next/script';
-import { useShare } from './useShare';
+import { useShare } from '@/hooks/useShare';
 
 interface ShareSheetProps {
   bottomSheetRef: (
