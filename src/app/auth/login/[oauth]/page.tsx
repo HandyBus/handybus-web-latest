@@ -5,6 +5,7 @@ import { getProgress } from '@/services/users';
 import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { BeatLoader } from 'react-spinners';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' };
@@ -36,7 +37,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       }
     } catch (e) {
       console.error(e);
-      router.push('/login');
+      // router.push('/login');
     }
   };
 
@@ -48,7 +49,21 @@ const OAuth = ({ params, searchParams }: Props) => {
     handleOAuth();
   }, []);
 
-  return <div />;
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <BeatLoader color="#9edbcc" />
+    </div>
+  );
 };
 
 export default OAuth;
