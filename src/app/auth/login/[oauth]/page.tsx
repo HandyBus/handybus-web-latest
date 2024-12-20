@@ -1,15 +1,8 @@
 'use client';
 
-import {
-  ACCESS_TOKEN,
-  ACCESS_TOKEN_EXPIRES_AT,
-  REFRESH_TOKEN,
-  REFRESH_TOKEN_EXPIRES_AT,
-} from '@/constants/token';
 import { postLogin } from '@/services/auth';
 import { getProgress } from '@/services/users';
-import { setCookie } from '@/utils/handleCookie';
-import { setSession } from '@/utils/handleSession';
+import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -30,26 +23,8 @@ const OAuth = ({ params, searchParams }: Props) => {
       });
 
       await Promise.all([
-        setCookie(
-          REFRESH_TOKEN,
-          tokens.refreshToken,
-          new Date(tokens.refreshTokenExpiresAt),
-        ),
-        setCookie(
-          REFRESH_TOKEN_EXPIRES_AT,
-          tokens.refreshTokenExpiresAt,
-          new Date(tokens.refreshTokenExpiresAt),
-        ),
-        setCookie(
-          ACCESS_TOKEN,
-          tokens.accessToken,
-          new Date(tokens.accessTokenExpiresAt),
-        ),
-        setCookie(
-          ACCESS_TOKEN_EXPIRES_AT,
-          tokens.accessTokenExpiresAt,
-          new Date(tokens.accessTokenExpiresAt),
-        ),
+        setAccessToken(tokens.accessToken, tokens.accessTokenExpiresAt),
+        setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
       ]);
 
       const progress = await getProgress();
@@ -57,7 +32,6 @@ const OAuth = ({ params, searchParams }: Props) => {
       if (progress !== 'ONBOARDING_COMPLETE') {
         router.push('/onboarding');
       } else {
-        setSession();
         router.push('/');
       }
     } catch (e) {
