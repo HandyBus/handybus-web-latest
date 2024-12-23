@@ -7,9 +7,10 @@ export type RouteType = (typeof ROUTE_TYPE)[keyof typeof ROUTE_TYPE];
 
 export type ShuttleRouteObject = {
   time: string;
-  location: string;
-  is_pickup?: boolean;
-  is_dropoff?: boolean;
+  hubId: string;
+  hubName: string;
+  isPickup?: boolean;
+  isDropoff?: boolean;
 };
 
 export const SECTION = {
