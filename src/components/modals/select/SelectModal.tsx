@@ -5,7 +5,7 @@ import 'dayjs/locale/ko';
 import Button from '@/components/buttons/button/Button';
 
 interface RouteInfo {
-  id: number;
+  shuttleRouteId: number;
   placeInfo: string;
   onSelect: () => void;
 }
@@ -25,8 +25,8 @@ const SelectModal = ({
   scheduledData = '2024-08-24 10:00:00',
   hubPlaceInfo = '서울특별시 동대문구',
   shuttleBusRoutes = [
-    { id: 1, placeInfo: '노원 - DDP 노선', onSelect: () => {} },
-    { id: 2, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
+    { shuttleRouteId: 1, placeInfo: '노원 - DDP 노선', onSelect: () => {} },
+    { shuttleRouteId: 2, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
     // { id: 3, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
     // { id: 4, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
   ],
@@ -87,8 +87,8 @@ const SelectModalContent = ({
         {shuttleBusRoutes.length > 0
           ? shuttleBusRoutes.slice(0, 4).map((route) => (
               <SelectModalButton
-                id={route.id.toString()}
-                key={route.id.toString()}
+                id={route.shuttleRouteId.toString()}
+                key={route.shuttleRouteId.toString()}
                 onClick={route.onSelect}
               >
                 {route.placeInfo}
