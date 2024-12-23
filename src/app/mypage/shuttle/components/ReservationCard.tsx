@@ -5,11 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import {
-  RESERVATION_STATUS_TEXT,
-  TRIP_TEXT,
-} from '../constants/shuttle.constants';
-import { STATUS_STYLE, StatusType } from '../constants/shuttle.constants';
+import { RESERVATION_STATUS_TEXT, TRIP_TEXT } from '../shuttle.constants';
+import { getStatusStyle } from '../shuttle.utils';
 
 interface Props {
   reservation: ReservationType;
@@ -36,24 +33,6 @@ const ReservationCard = ({
       e.preventDefault();
       router.push(href);
     };
-
-  const getStatusStyle = (status: StatusType) => {
-    switch (status) {
-      case '수요 확인 중':
-      case '예약 모집 중':
-      case '배차 확정':
-        return STATUS_STYLE.fullGreen;
-      case '수요 신청 마감':
-      case '예약 모집 마감':
-        return STATUS_STYLE.emptyGreen;
-      case '운행 종료':
-      case '무산':
-        return STATUS_STYLE.darkGrey;
-      case '무산':
-      case '비활성':
-        return STATUS_STYLE.lightGrey;
-    }
-  };
 
   const status = RESERVATION_STATUS_TEXT[reservation.shuttle.route.status];
   const statusStyle = getStatusStyle(status);
