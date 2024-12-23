@@ -1,7 +1,7 @@
 import { DailyShuttleDetailProps } from './shuttle.types';
 
 export interface EventDetailProps {
-  shuttleID: number;
+  shuttleId: number;
   name: string;
   dailyShuttles: DailyShuttleDetailProps[];
   image: string;

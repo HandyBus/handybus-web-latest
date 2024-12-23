@@ -14,7 +14,7 @@ const Shuttle = async (
 ) => {
   const reservData: EventDetailProps = {
     // TODO: mock data
-    shuttleID: 0,
+    shuttleId: 0,
     name: '',
     dailyShuttles: [],
     image: '',

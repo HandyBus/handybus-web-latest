@@ -21,10 +21,10 @@ export const useShuttleFormValidation = (
 
   const determineVariant = useCallback((): 'primary' | 'secondary' => {
     if (
-      formValues.dailyShuttle.id !== 0 &&
+      formValues.dailyShuttle.dailyShuttleId !== 0 &&
       formValues.bigLocation &&
       formValues.smallLocation &&
-      formValues.regionID &&
+      formValues.regionId &&
       formValues.passengerCount &&
       isStopValidForRoute()
     )
@@ -36,10 +36,10 @@ export const useShuttleFormValidation = (
     const disabled = true;
     const abled = false;
     if (
-      formValues.dailyShuttle.id !== 0 &&
+      formValues.dailyShuttle.dailyShuttleId !== 0 &&
       formValues.bigLocation &&
       formValues.smallLocation &&
-      formValues.regionID &&
+      formValues.regionId &&
       formValues.routeType &&
       formValues.passengerCount &&
       isStopValidForRoute()

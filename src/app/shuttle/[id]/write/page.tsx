@@ -30,8 +30,8 @@ export interface ReservationFormData {
   passengerCount: number;
   passengers: PassengerInfo[];
   isHandy: boolean;
-  pickupHubID: string;
-  dropoffHubID: string;
+  pickupHubId: string;
+  dropoffHubId: string;
 }
 
 const ShuttleWrite = () => {
@@ -47,8 +47,8 @@ const ShuttleWrite = () => {
       passengerCount: 0,
       passengers: [],
       isHandy: false,
-      pickupHubID: '',
-      dropoffHubID: '',
+      pickupHubId: '',
+      dropoffHubId: '',
     },
   });
 

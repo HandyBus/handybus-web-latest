@@ -24,7 +24,7 @@ const getShuttleDemandStatus = async (
   regionId: number | undefined,
 ) => {
   const baseUrl = `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
-  const queryParams = regionId ? `?regionID=${regionId}` : '';
+  const queryParams = regionId ? `?regionId=${regionId}` : '';
   const queryUrl = `${baseUrl}${queryParams}`;
 
   const res = await instance.get<ShuttleDemandStatus>(queryUrl);
@@ -44,8 +44,8 @@ export const useGetShuttleDemandStatus = (
 };
 
 export const getRoutes = async (
-  shuttleID: number,
-  dailyShuttleID: number,
+  shuttleId: number,
+  dailyShuttleId: number,
   {
     bigRegion,
     smallRegion,
@@ -57,7 +57,7 @@ export const getRoutes = async (
   },
 ) => {
   const res = await instance.get<{ shuttleRouteDetails: RouteType[] }>(
-    `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
+    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
   );
   return res.shuttleRouteDetails;
 };

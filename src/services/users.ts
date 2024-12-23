@@ -33,9 +33,9 @@ const putUser = async (body: {
   phoneNumber?: string;
   gender?: GenderType;
   ageRange?: AgeType;
-  regionID?: number;
+  regionId?: number;
   profileImage?: string;
-  favoriteArtistsIDs?: number[];
+  favoriteArtistsIds?: number[];
   isAgreedMarketing?: boolean;
   isAgreedServiceTerms?: boolean;
   isAgreedPersonalInfo?: boolean;

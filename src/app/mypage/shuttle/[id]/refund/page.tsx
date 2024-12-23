@@ -23,7 +23,7 @@ const Refund = ({ params }: Props) => {
   const { id } = params;
   const { data, isLoading } = useGetUserDashboard();
   const reservation = data?.reservations.current.find(
-    (reservation) => reservation.id === Number(id),
+    (reservation) => reservation.reservationId === Number(id),
   );
 
   const router = useRouter();

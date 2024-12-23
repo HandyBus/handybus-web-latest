@@ -7,16 +7,16 @@ import { getOpenDemandings } from '../../utils/fetch.util';
 interface Props {
   params: { id: string };
   searchParams: {
-    dailyShuttleID?: string;
+    dailyShuttleId?: string;
     bigLocation?: string;
     smallLocation?: string;
-    regionID?: string;
+    regionId?: string;
   };
 }
 
 const DemandWrite = async ({ params, searchParams }: Props) => {
   const data = await getOpenDemandings();
-  const demandData = data.find((v) => v.shuttleID === Number(params.id));
+  const demandData = data.find((v) => v.shuttleId === Number(params.id));
 
   if (!demandData) return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>; // NOTE: need to add error page
   return (

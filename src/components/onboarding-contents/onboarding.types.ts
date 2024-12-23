@@ -9,6 +9,6 @@ export interface OnboardingFormValues {
   age: AgeType;
   bigRegion: BigRegionsType;
   smallRegion: string | undefined;
-  regionID: number;
+  regionId: number;
   favoriteArtists: ArtistType[];
 }

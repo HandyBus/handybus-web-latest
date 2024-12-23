@@ -12,7 +12,7 @@ const Profile = async () => {
   const profileImage = userDashboard?.profileImage ?? '';
   const gender = userDashboard?.gender === 'MALE' ? '남성' : '여성';
   const ageRange = userDashboard?.ageRange ?? '';
-  const region = ID_TO_REGION[userDashboard.regionID];
+  const region = ID_TO_REGION[userDashboard.regionId];
   const favoriteArtists =
     userDashboard?.favoriteArtists.map((artist) => artist.name).join(', ') ??
     '';

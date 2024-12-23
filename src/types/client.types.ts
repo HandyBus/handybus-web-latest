@@ -22,34 +22,34 @@ export type ProgressType =
   | 'PAYMENT_COMPLETE';
 
 export interface UserType {
-  ID: number;
+  userId: number;
   nickname: string;
   phoneNumber: string;
   gender: GenderType;
   ageRange: AgeType;
-  regionID: number;
+  regionId: number;
   profileImage: string;
-  favoriteArtistsIDS: number[];
+  favoriteArtistsIds: number[];
   progresses: {
-    id: number;
+    userProgressId: number;
     isCompleted: boolean;
     type: ProgressType;
   }[];
 }
 
 export interface ArtistType {
-  ID: number;
+  artistId: number;
   name: string;
 }
 
 export interface UserDashboardType {
-  id: number;
+  userId: number;
   nickname: string;
   profileImage: string;
   gender: GenderType;
   ageRange: AgeType;
   authChannel: AuthChannelType;
-  regionID: number;
+  regionId: number;
   reservations: {
     past: ReservationType[];
     current: ReservationType[];
@@ -104,18 +104,18 @@ export type HandyStatusType =
 export type TripType = 'TO_DESTINATION' | 'FROM_DESTINATION' | 'ROUND_TRIP';
 
 export interface ShuttleDemandType {
-  id: number;
+  shuttleDemandId: number;
   shuttle: ShuttleType;
   type: TripType;
   status: ShuttleDemandStatusType;
   passengerCount: number;
-  regionID: number;
-  dailyShuttleID: number;
+  regionId: number;
+  dailyShuttleId: number;
   createdAt: string;
 }
 
 type BaseReservationType = {
-  id: number;
+  reservationId: number;
   shuttle: ShuttleWithRouteType;
   reservationStatus: ReservationStatusType;
   cancelStatus: CancelStatusType;
@@ -128,9 +128,9 @@ type BaseReservationType = {
   createdAt: string;
   type: TripType;
   shuttleBus?: {
-    shuttleBusID: number;
-    shuttleRouteID: number;
-    handyUserID?: number;
+    shuttleBusId: number;
+    shuttleRouteId: number;
+    handyUserId?: number;
     type: string;
     name: string;
     number: string;
@@ -152,7 +152,7 @@ type ReservationWithoutReview = BaseReservationType & {
 export type ReservationType = ReservationWithReview | ReservationWithoutReview;
 
 export interface ShuttleType {
-  id: number;
+  shuttleId: number;
   name: string;
   status: ShuttleStatusType;
   date: string;
@@ -186,7 +186,7 @@ export interface ImageType {
 }
 
 export interface ReviewType {
-  id: number;
+  reviewId: number;
   shuttle: ShuttleType;
   rating: number;
   content: string;
@@ -203,7 +203,7 @@ export interface CouponType {
 export type AuthChannelType = 'NONE' | 'kakao' | 'naver';
 
 export interface RegionType {
-  id: number;
+  regionId: number;
   provinceFullName: BigRegionsType;
   provinceShortName: string;
   cityFullName: string;
@@ -218,14 +218,13 @@ export interface HubType {
 }
 
 export interface PaymentType {
-  id: number;
+  paymentId: number;
   principalAmount: number;
   paymentAmount: number;
   discountAmount: number;
   refundableAmount: number;
   refundRequests: {
-    ID: number;
-    paymentID: string;
+    paymentId: string;
     principalAmount: number;
     previousRefundableAmount: number;
     refundAmount: number;

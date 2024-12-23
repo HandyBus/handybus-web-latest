@@ -20,10 +20,10 @@ const DemandTab = ({ demands }: Props) => {
     if (demand.status !== 'SHUTTLE_ASSIGNED') {
       return false;
     }
-    const region = ID_TO_REGION[demand.regionID];
+    const region = ID_TO_REGION[demand.regionId];
     const routes = await getRoutes(
-      demand.shuttle.id,
-      demand.dailyShuttleID,
+      demand.shuttle.shuttleId,
+      demand.dailyShuttleId,
       region,
     );
     if (routes.length === 0) {
@@ -46,16 +46,16 @@ const DemandTab = ({ demands }: Props) => {
         <ReservationOngoingWrapper>
           {reservationOngoingDemands.map((demand) => (
             <DemandCard
-              key={demand.id}
+              key={demand.shuttleDemandId}
               demand={demand}
               buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-              buttonHref={`/shuttle-detail/${demand.shuttle.id}`}
+              buttonHref={`/shuttle-detail/${demand.shuttle.shuttleId}`}
             />
           ))}
         </ReservationOngoingWrapper>
         {demands.map((demand) => (
           <DemandCard
-            key={demand.id}
+            key={demand.shuttleDemandId}
             demand={demand}
             subButtonText={
               demand.status === 'OPEN' ? '신청 취소' : '수요조사 확인 종료'
@@ -82,9 +82,9 @@ const DemandTab = ({ demands }: Props) => {
             return;
           }
           deleteDemand({
-            shuttleID: demand.shuttle.id,
-            dailyShuttleID: demand.dailyShuttleID,
-            ID: demand.id,
+            shuttleId: demand.shuttle.shuttleId,
+            dailyShuttleId: demand.dailyShuttleId,
+            shuttleDemandId: demand.shuttleDemandId,
           });
           setDemand(null);
           setIsOpen(false);

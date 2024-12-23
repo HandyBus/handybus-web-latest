@@ -16,7 +16,7 @@ export const useShuttleDemandForm = (
   });
 
   const formValues = methods.watch();
-  const regionId = methods.watch('regionID');
+  const regionId = methods.watch('regionId');
 
   return {
     methods,

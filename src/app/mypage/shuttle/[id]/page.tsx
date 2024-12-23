@@ -25,7 +25,7 @@ const ShuttleDetail = ({ params }: Props) => {
   const router = useRouter();
   const { data, isLoading } = useGetUserDashboard();
   const reservation = data?.reservations.current.find(
-    (reservation) => reservation.id === Number(id),
+    (reservation) => reservation.reservationId === Number(id),
   );
 
   const isShuttleAssigned = !(

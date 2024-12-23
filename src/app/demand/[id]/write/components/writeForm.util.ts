@@ -9,15 +9,16 @@ export const getDefaultValues = (
   demandData: EventDetailProps,
 ): DemandRequestFormValues => ({
   dailyShuttle: {
-    id: Number(searchParams.dailyShuttleID),
+    dailyShuttleId: Number(searchParams.dailyShuttleId),
     date:
       demandData.dailyShuttles.find(
-        (shuttle) => shuttle.id === Number(searchParams.dailyShuttleID),
+        (shuttle) =>
+          shuttle.dailyShuttleId === Number(searchParams.dailyShuttleId),
       )?.date || demandData.dailyShuttles[0].date,
   },
   bigLocation: searchParams.bigLocation || '',
   smallLocation: searchParams.smallLocation || '',
-  regionID: searchParams.regionID || '',
+  regionId: searchParams.regionId || '',
   routeType: '',
   passengerCount: 1,
 });
@@ -28,7 +29,7 @@ export const createStopData = (formValues: DemandRequestFormValues) => {
       | DemandRequestFormValues['destinationStop']
       | DemandRequestFormValues['returnStop'],
   ) =>
-    stop?.isCustom ? { customHub: stop.customHub } : { hubID: stop?.hubId };
+    stop?.isCustom ? { customHub: stop.customHub } : { hubId: stop?.hubId };
 
   return {
     pickup: createStop(formValues.destinationStop),

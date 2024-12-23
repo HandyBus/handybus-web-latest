@@ -1,11 +1,11 @@
 export interface DemandRequestFormValues {
   dailyShuttle: {
-    id: number;
+    dailyShuttleId: number;
     date: string;
   };
   bigLocation: string;
   smallLocation: string;
-  regionID: string;
+  regionId: string;
   routeType: string;
   passengerCount: number;
   destinationStop?: {
@@ -23,22 +23,22 @@ export interface DemandRequestFormValues {
 }
 
 export type SubmitData = {
-  regionID: string | undefined;
+  regionId: string | undefined;
   type: string | undefined;
   passengerCount: number | undefined;
   pickup?:
-    | { hubID: number | undefined | null }
+    | { hubId: number | undefined | null }
     | { customHub: string | undefined | null }
     | undefined;
   dropoff?:
-    | { hubID: number | undefined | null }
+    | { hubId: number | undefined | null }
     | { customHub: string | undefined | null }
     | undefined;
 };
 
 export interface DemandWriteSearchParams {
-  dailyShuttleID?: string;
+  dailyShuttleId?: string;
   bigLocation?: string;
   smallLocation?: string;
-  regionID?: string;
+  regionId?: string;
 }

@@ -3,16 +3,16 @@ import { authInstance } from './config';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const deleteDemand = async ({
-  shuttleID,
-  dailyShuttleID,
-  ID,
+  shuttleId,
+  dailyShuttleId,
+  shuttleDemandId: Id,
 }: {
-  shuttleID: number;
-  dailyShuttleID: number;
-  ID: number;
+  shuttleId: number;
+  dailyShuttleId: number;
+  shuttleDemandId: number;
 }) => {
   return await authInstance.delete(
-    `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/demands/${ID}`,
+    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/${Id}`,
   );
 };
 
