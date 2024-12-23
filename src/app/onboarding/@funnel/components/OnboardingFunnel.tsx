@@ -52,7 +52,7 @@ const OnboardingFunnel = ({ progress }: Props) => {
   const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
     setIsSubmitting(true);
     const favoriteArtistsIDs = formData.favoriteArtists.map(
-      (artist) => artist.id,
+      (artist) => artist.ID,
     );
     const imageUrl = await getImageUrl({
       key: 'users/profiles',
@@ -67,7 +67,6 @@ const OnboardingFunnel = ({ progress }: Props) => {
     }
 
     const body = {
-      nickname: formData.nickname,
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
