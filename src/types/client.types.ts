@@ -38,7 +38,7 @@ export interface UserType {
 }
 
 export interface ArtistType {
-  id: number;
+  ID: number;
   name: string;
 }
 

@@ -39,7 +39,10 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/login', req.url));
   }
   const progress = await getProgress();
-  if (progress !== 'ONBOARDING_COMPLETE') {
+  if (
+    progress !== 'ONBOARDING_COMPLETE' &&
+    req.nextUrl.pathname !== '/onboarding'
+  ) {
     return NextResponse.redirect(new URL('/onboarding', req.url));
   }
 

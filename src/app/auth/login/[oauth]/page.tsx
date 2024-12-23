@@ -37,7 +37,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       }
     } catch (e) {
       console.error(e);
-      // router.push('/login');
+      router.push('/login');
     }
   };
 

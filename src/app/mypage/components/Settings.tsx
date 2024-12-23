@@ -1,6 +1,6 @@
 'use client';
 
-import { logout } from '@/utils/logout';
+import { revalidatePaths } from '@/utils/revalidatePath';
 import ListButton from './ListButton';
 
 interface Props {
@@ -9,6 +9,21 @@ interface Props {
 }
 
 const Settings = ({ couponCount, reviewCount }: Props) => {
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        redirect: 'follow',
+      });
+      revalidatePaths();
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
+    } catch (error) {
+      console.error('로그아웃 실패: ', error);
+    }
+  };
+
   return (
     <section>
       <ListButton
@@ -21,12 +36,7 @@ const Settings = ({ couponCount, reviewCount }: Props) => {
         href="/mypage/reviews"
         description={`${reviewCount}건`}
       />
-      <ListButton
-        title="로그아웃"
-        href="/"
-        hideArrow
-        onClick={() => logout()}
-      />
+      <ListButton title="로그아웃" hideArrow onClick={handleLogout} />
       <ListButton title="회원 탈퇴" href="/mypage/leave" />
     </section>
   );
