@@ -7,6 +7,8 @@ import DemandCard from '../DemandCard';
 import { ID_TO_REGION } from '@/constants/regions';
 import { getRoutes, useDeleteDemand } from '@/services/shuttleOperation';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
+import dynamic from 'next/dynamic';
+const EmptyView = dynamic(() => import('../EmptyView'));
 
 interface Props {
   demands: ShuttleDemandType[];
@@ -32,6 +34,10 @@ const DemandTab = ({ demands }: Props) => {
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
   const [demand, setDemand] = useState<ShuttleDemandType | null>(null);
+
+  if (demands.length === 0) {
+    return <EmptyView />;
+  }
 
   return (
     <>
