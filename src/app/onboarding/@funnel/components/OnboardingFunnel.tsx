@@ -67,7 +67,6 @@ const OnboardingFunnel = ({ progress }: Props) => {
     }
 
     const body = {
-      // nickname: formData.nickname,
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
