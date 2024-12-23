@@ -1,13 +1,20 @@
-import { ReactNode } from 'react';
+'use client';
+
+import { ReactNode, useState } from 'react';
 import Section from '../components/Section';
 import Button from '@/components/buttons/button/Button';
-import NoticeSection from '@/components/notice-section/NoticeSection';
+import NoticeSection, {
+  CancellationAndRefundContent,
+} from '@/components/notice-section/NoticeSection';
 import AppBar from '@/components/app-bar/AppBar';
 import Link from 'next/link';
 import Divider from '../components/Divider';
 import RefundPolicy from '../components/RefundPolicy';
 import { SECTION } from '@/types/shuttle.types';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
+import ReservationCard from '../components/ReservationCard';
+import { ReservationType } from '@/types/client.types';
+import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
 
 interface Props {
   params: {
@@ -17,12 +24,46 @@ interface Props {
 
 const ShuttleDetail = ({ params }: Props) => {
   const { id } = params;
+  const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
+  const handleHandyRequestConfirm = () => {
+    setIsHandyRequestModalOpen(false);
+  };
+  const handleHandyRequestClosed = () => {
+    setIsHandyRequestModalOpen(false);
+  };
   return (
     <>
       <AppBar>예약 상세 보기</AppBar>
       <main className="grow">
-        {/* <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} /> */}
-        <Section title="당신은 핸디입니다~">TODO</Section>
+        <ReservationCard reservation={MOCK_RESERVATION_DATA} />
+        <section className="m-16 rounded-[10px] bg-primary-50 p-16 text-14 font-400 text-grey-800">
+          현재 셔틀 정보, 기사님 정보, 핸디 정보 등을 결정하고 있어요. 확정되면
+          알림톡을 전송해드릴게요.
+        </section>
+        <Section title="당신은 핸디입니다">
+          <p className="pt-4 text-12 font-400 text-grey-500">
+            ___(닉네임) 님은 이번 셔틀의 핸디로 선정되셨습니다.
+          </p>
+          <Link
+            href={`/mypage/shuttle/${id}/handy`}
+            className="ml-auto mt-8 block w-fit rounded-full bg-grey-100 px-16 text-14 font-400 text-grey-600-sub"
+          >
+            핸디 가이드 보러가기
+          </Link>
+        </Section>
+        <Section title="셔틀 정보">
+          <div className="flex flex-col gap-8">
+            <DetailRow title="차량 종류" content="28인승 우등버스" />
+            <DetailRow title="배정 호차" content="2호차" />
+            <DetailRow title="차량 번호" content="충북76바 3029" />
+            <DetailRow
+              title="오픈채팅방 링크"
+              content="https://openchat.example.com"
+            />
+            <DetailRow title="핸디 정보" content="나핸디할래요" />
+            <DetailRow title="전화번호" content="010-1234-5678" />
+          </div>
+        </Section>
         <Section title="예약 정보">
           <div className="flex flex-col gap-28">
             <section className="flex flex-col gap-8">
@@ -51,8 +92,30 @@ const ShuttleDetail = ({ params }: Props) => {
               />
               <DetailRow title="탑승객 수" content="2명" />
             </section>
-            <Passenger index={1} name="홍길동" phoneNumber="010-1234-5678" />
+            <Passenger
+              index={1}
+              name="홍길동"
+              phoneNumber="010-1234-5678"
+              tagText="핸디 지원"
+            />
             <Passenger index={2} name="홍길동" phoneNumber="010-1234-5678" />
+            <div className="flex flex-col gap-8">
+              <button
+                onClick={() => setIsHandyRequestModalOpen(true)}
+                className="ml-auto block w-fit rounded-full bg-grey-100 px-16 text-14 font-400 text-grey-600-sub"
+              >
+                핸디 지원/취소하기
+              </button>
+              <p className="text-right text-12 font-400 text-grey-500">
+                핸디는 탑승객1(직접 신청자)만 지원이 가능합니다.{' '}
+                <Link
+                  href="/help/what-is-handy"
+                  className="text-right text-12 font-400 text-grey-500 underline"
+                >
+                  핸디 더 알아보기
+                </Link>
+              </p>
+            </div>
           </div>
         </Section>
         <Divider />
@@ -79,10 +142,10 @@ const ShuttleDetail = ({ params }: Props) => {
           </div>
           <div className="flex w-full gap-4 pb-24">
             <div>할인 금액</div>
-            <div className="grow text-right font-500">0원</div>
+            <div className="grow text-right">0원</div>
           </div>
           <div className="flex w-full gap-4">
-            <div className="text-18 font-500">최종 결제 금액</div>
+            <div className="text-18">최종 결제 금액</div>
             <div className="grow text-right text-22 font-600">104,000원</div>
           </div>
         </Section>
@@ -94,7 +157,38 @@ const ShuttleDetail = ({ params }: Props) => {
         </Section>
         <Divider />
         <NoticeSection type="term-and-condition" />
+        <Section title="취소 신청 정보">
+          <div className="flex flex-col gap-8">
+            <DetailRow title="신청 일시" content="2024-10-14 20:49:48" />
+            <DetailRow title="완료 일시" content="2024-10-14 20:49:48" />
+          </div>
+        </Section>
+        <Section title="환불 정보">
+          <div className="flex flex-col gap-8 text-grey-900">
+            <div className="flex w-full gap-4">
+              <div>결제 금액</div>
+              <div className="grow text-right">104,000원</div>
+            </div>
+            <div className="flex w-full gap-4">
+              <div>수수료</div>
+              <div className="grow text-right">-0원</div>
+            </div>
+            <div className="flex w-full gap-4 pt-24">
+              <div className="text-18">환불 금액</div>
+              <div className="grow text-right text-22 font-600">104,000원</div>
+            </div>
+          </div>
+        </Section>
+        <Section title="취소 및 환불 안내">
+          <CancellationAndRefundContent />
+        </Section>
       </main>
+      <HandyRequestModal
+        isOpen={isHandyRequestModalOpen}
+        onConfirm={handleHandyRequestConfirm}
+        onClosed={handleHandyRequestClosed}
+        buttonText="지원/취소하기"
+      />
     </>
   );
 };
@@ -119,14 +213,104 @@ interface PassengerProps {
   index: number;
   name: string;
   phoneNumber: string;
+  tagText?: string;
 }
 
-const Passenger = ({ index, name, phoneNumber }: PassengerProps) => {
+const Passenger = ({ index, name, phoneNumber, tagText }: PassengerProps) => {
   return (
     <section className="flex flex-col gap-8">
-      <h4 className="pb-4 text-18 font-500 text-grey-700">탑승객 {index}</h4>
+      <h4 className="flex items-center gap-8 pb-4 text-18 font-500 text-grey-700">
+        탑승객 {index}
+        {tagText && (
+          <div className="rounded-full border border-grey-100 px-8 text-12 font-400 text-grey-600-sub">
+            {tagText}
+          </div>
+        )}
+      </h4>
       <DetailRow title="이름" content={name} />
       <DetailRow title="전화번호" content={phoneNumber} />
     </section>
   );
+};
+
+const MOCK_RESERVATION_DATA: ReservationType = {
+  id: 0,
+  shuttle: {
+    id: 0,
+    name: 'string',
+    date: 'string',
+    image:
+      'https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/08/19/c5cd0937-06c6-4f4c-9f22-660c5ec8adfb.jpg',
+    status: 'OPEN',
+    destination: {
+      name: 'string',
+      longitude: 0,
+      latitude: 0,
+    },
+    route: {
+      name: 'string',
+      status: 'OPEN',
+      hubs: {
+        pickup: [
+          {
+            name: 'string',
+            sequence: 0,
+            arrivalTime: 'string',
+            selected: true,
+          },
+        ],
+        dropoff: [
+          {
+            name: 'string',
+            sequence: 0,
+            arrivalTime: 'string',
+            selected: true,
+          },
+        ],
+      },
+    },
+  },
+  hasReview: true,
+  review: {
+    id: 0,
+    rating: 0,
+    content: 'string',
+    images: [
+      {
+        imageUrl: 'https://example.com/image.jpg',
+        status: 'ACTIVE',
+        createdAt: 'string',
+        updatedAt: 'string',
+      },
+    ],
+    createdAt: 'string',
+  },
+  type: 'TO_DESTINATION',
+  reservationStatus: 'NOT_PAYMENT',
+  cancelStatus: 'NONE',
+  handyStatus: 'NOT_SUPPORTED',
+  passengers: [
+    {
+      name: 'string',
+      phoneNumber: 'string',
+    },
+  ],
+  payment: {
+    id: 0,
+    principalAmount: 0,
+    paymentAmount: 0,
+    discountAmount: 0,
+  },
+  shuttleBus: {
+    shuttleBusID: 1,
+    shuttleRouteID: 100,
+    handyUserID: 100,
+    type: 'SEATER_12',
+    name: '스타렉스',
+    number: '12가 3456',
+    phoneNumber: '010-1234-5678',
+    openChatLink: 'https://openchat.example.com',
+    capacity: 12,
+  },
+  createdAt: 'string',
 };

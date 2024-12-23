@@ -70,7 +70,7 @@ const ReservationCard = ({
           {reservation.createdAt} 예약
         </span>
       </div>
-      <div className="flex h-[110px] w-full gap-16">
+      <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
             src={reservation.shuttle.image}
@@ -100,31 +100,41 @@ const ReservationCard = ({
             {reservation.payment.paymentAmount.toLocaleString()}{' '}
             <span className="text-12">원</span>
           </span>
-          {/* TODO: 핸디 신청 상태 & 환불 신청 상태를 tag로 보여주기 */}
+          <div className="flex gap-8 pt-4">
+            {/* TODO: 핸디 신청 상태 & 환불 신청 상태를 tag로 보여주기 */}
+            <div className="rounded-full border border-grey-400 px-4 text-10 text-grey-500">
+              핸디 지원
+            </div>
+            <div className="rounded-full border border-grey-400 px-4 text-10 text-grey-500">
+              환불 진행 중
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex gap-8">
-        {buttonText && buttonHref && (
-          <button
-            onClick={handleButtonClick(buttonHref)}
-            disabled={buttonDisabled}
-            type="button"
-            className="flex h-40 w-full items-center justify-center rounded-full bg-primary-main text-14 font-500 text-white active:bg-primary-700 disabled:bg-grey-50 disabled:text-grey-300"
-          >
-            {buttonText}
-          </button>
-        )}
-        {subButtonText && subButtonHref && (
-          <button
-            onClick={handleButtonClick(subButtonHref)}
-            disabled={subButtonDisabled}
-            type="button"
-            className="flex h-40 w-full items-center justify-center rounded-full bg-grey-50 text-14 font-500 text-grey-700 disabled:bg-grey-50 disabled:text-grey-300"
-          >
-            {subButtonText}
-          </button>
-        )}
-      </div>
+      {(buttonText || subButtonText) && (
+        <div className="flex gap-8">
+          {buttonText && buttonHref && (
+            <button
+              onClick={handleButtonClick(buttonHref)}
+              disabled={buttonDisabled}
+              type="button"
+              className="flex h-40 w-full items-center justify-center rounded-full bg-primary-main text-14 font-500 text-white active:bg-primary-700 disabled:bg-grey-50 disabled:text-grey-300"
+            >
+              {buttonText}
+            </button>
+          )}
+          {subButtonText && subButtonHref && (
+            <button
+              onClick={handleButtonClick(subButtonHref)}
+              disabled={subButtonDisabled}
+              type="button"
+              className="flex h-40 w-full items-center justify-center rounded-full bg-grey-50 text-14 font-500 text-grey-700 disabled:bg-grey-50 disabled:text-grey-300"
+            >
+              {subButtonText}
+            </button>
+          )}
+        </div>
+      )}
     </Link>
   );
 };
