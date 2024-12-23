@@ -222,4 +222,18 @@ export interface PaymentType {
   principalAmount: number;
   paymentAmount: number;
   discountAmount: number;
+  refundableAmount: number;
+  refundRequests: {
+    ID: number;
+    paymentID: string;
+    principalAmount: number;
+    previousRefundableAmount: number;
+    refundAmount: number;
+    refundReason: string;
+    afterRefundableAmount: number;
+    refundAt: string;
+    failedReason: string;
+    status: 'REQUESTED' | 'COMPLETED' | 'FAILED';
+    createdAt: string;
+  }[];
 }

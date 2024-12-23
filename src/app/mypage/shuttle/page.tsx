@@ -18,7 +18,7 @@ interface Props {
 
 const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
-  const { data: userDashboard } = useGetUserDashboard();
+  const { data: userDashboard, isLoading } = useGetUserDashboard();
 
   const renderTab = () => {
     switch (searchParams.type) {
@@ -36,6 +36,10 @@ const Shuttle = ({ searchParams }: Props) => {
         );
     }
   };
+
+  if (isLoading) {
+    return <div className="h-[100dvh]" />;
+  }
 
   return (
     <>

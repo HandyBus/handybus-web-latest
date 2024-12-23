@@ -6,10 +6,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import {
+  CANCEL_STATUS_TEXT,
+  HANDY_STATUS_TEXT,
   RESERVATION_STATUS_TEXT,
   TRIP_TEXT,
-} from '../constants/shuttle.constants';
-import { STATUS_STYLE, StatusType } from '../constants/shuttle.constants';
+} from '../shuttle.constants';
+import { getStatusStyle } from '../shuttle.utils';
+import { parseDateString } from '@/utils/dateString';
 
 interface Props {
   reservation: ReservationType;
@@ -37,27 +40,11 @@ const ReservationCard = ({
       router.push(href);
     };
 
-  const getStatusStyle = (status: StatusType) => {
-    switch (status) {
-      case '수요 확인 중':
-      case '예약 모집 중':
-      case '배차 확정':
-        return STATUS_STYLE.fullGreen;
-      case '수요 신청 마감':
-      case '예약 모집 마감':
-        return STATUS_STYLE.emptyGreen;
-      case '운행 종료':
-      case '무산':
-        return STATUS_STYLE.darkGrey;
-      case '무산':
-      case '비활성':
-        return STATUS_STYLE.lightGrey;
-    }
-  };
-
+  const parsedDate = parseDateString(reservation.createdAt);
   const status = RESERVATION_STATUS_TEXT[reservation.shuttle.route.status];
   const statusStyle = getStatusStyle(status);
-
+  const handyStatus = HANDY_STATUS_TEXT[reservation.handyStatus];
+  const cancelStatus = CANCEL_STATUS_TEXT[reservation.cancelStatus];
   return (
     <Link
       href={`/shuttle-detail/${reservation.id}`}
@@ -66,9 +53,7 @@ const ReservationCard = ({
       <div className="flex items-center gap-8 text-12">
         <div className={`h-[10px] w-[10px] rounded-full ${statusStyle.dot}`} />
         <span className={`font-600 ${statusStyle.text}`}>{status}</span>
-        <span className="font-500 text-grey-500">
-          {reservation.createdAt} 예약
-        </span>
+        <span className="font-500 text-grey-500">{parsedDate} 예약</span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
@@ -93,21 +78,24 @@ const ReservationCard = ({
             <span>
               {reservation.shuttle.route.name} ({TRIP_TEXT[reservation.type]})
             </span>
-            {/* TODO: 승객 수 추가 */}
-            <span>{2}인</span>
+            <span>{reservation.passengers.length}인</span>
           </span>
           <span className="pt-4 text-14 font-500 text-grey-900">
-            {reservation.payment.paymentAmount.toLocaleString()}{' '}
+            {/* TODO: 결제 연동된 이후에 주석 해제 */}
+            {/* {reservation.payment.paymentAmount.toLocaleString()}{' '} */}
             <span className="text-12">원</span>
           </span>
           <div className="flex gap-8 pt-4">
-            {/* TODO: 핸디 신청 상태 & 환불 신청 상태를 tag로 보여주기 */}
-            <div className="rounded-full border border-grey-400 px-4 text-10 text-grey-500">
-              핸디 지원
-            </div>
-            <div className="rounded-full border border-grey-400 px-4 text-10 text-grey-500">
-              환불 진행 중
-            </div>
+            {handyStatus && (
+              <div className="rounded-full border border-grey-400 px-4 text-10 text-grey-500">
+                {handyStatus}
+              </div>
+            )}
+            {cancelStatus && (
+              <div className="rounded-full border border-grey-400 px-4 text-10 text-grey-500">
+                {cancelStatus}
+              </div>
+            )}
           </div>
         </div>
       </div>
