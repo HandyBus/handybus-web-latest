@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import Section from '../components/Section';
 import ReservationCard from '../../components/ReservationCard';
 import { useGetUserDashboard } from '@/services/users';
+// import { usePostRefund } from '@/services/reservation';
 
 interface Props {
   params: {
@@ -27,6 +28,8 @@ const Refund = ({ params }: Props) => {
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  // TODO: 결제 연동 후 주석 해제 및 모달에 함수 연결
+  // const { mutate: postRefund } = usePostRefund(reservation.payment.id, '');
 
   if (isLoading) {
     return <div className="h-[100dvh]" />;
