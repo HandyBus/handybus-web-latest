@@ -9,6 +9,7 @@ import { getRoutes } from '@/services/shuttleOperation';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import dynamic from 'next/dynamic';
 import { useDeleteDemand } from '@/services/demand';
+import { useQueries } from '@tanstack/react-query';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 interface Props {
@@ -16,21 +17,18 @@ interface Props {
 }
 
 const DemandTab = ({ demands }: Props) => {
-  const reservationOngoingDemands = demands.filter(async (demand) => {
-    if (demand.status !== 'SHUTTLE_ASSIGNED') {
-      return false;
-    }
-    const region = ID_TO_REGION[demand.regionId];
-    const routes = await getRoutes(
-      demand.shuttle.shuttleId,
-      demand.dailyShuttleId,
-      region,
-    );
-    if (routes.length === 0) {
-      return false;
-    }
-    return true;
+  const result = useQueries<Array<ShuttleDemandType | null>>({
+    queries: demands.map((demand) => ({
+      queryKey: ['reservationOngoingDemands', demand.shuttleDemandId],
+      queryFn: () => getReservationOngoingDemand(demand),
+    })),
   });
+
+  const reservationOngoingDemands = result.every((request) => request.isSuccess)
+    ? result
+        .filter((x) => x.data !== null)
+        .map((x) => x.data as ShuttleDemandType)
+    : null;
 
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +36,10 @@ const DemandTab = ({ demands }: Props) => {
 
   if (demands.length === 0) {
     return <EmptyView />;
+  }
+
+  if (reservationOngoingDemands === null) {
+    return null;
   }
 
   return (
@@ -121,4 +123,20 @@ const ReservationOngoingWrapper = ({
       <div className="mt-12 h-8 w-full bg-grey-50" />
     </>
   );
+};
+
+const getReservationOngoingDemand = async (demand: ShuttleDemandType) => {
+  if (demand.status !== 'SHUTTLE_ASSIGNED') {
+    return null;
+  }
+  const region = ID_TO_REGION[demand.regionId];
+  const routes = await getRoutes(
+    demand.shuttle.shuttleId,
+    demand.dailyShuttleId,
+    region,
+  );
+  if (routes.length === 0) {
+    return null;
+  }
+  return demand;
 };
