@@ -2,7 +2,6 @@
 
 import AppBar from '@/components/app-bar/AppBar';
 import ReservationCard from '../components/ReservationCard';
-import { ReservationType } from '@/types/client.types';
 import ReservationInfoSection from './components/sections/ReservationInfoSection';
 import HandySection from './components/sections/HandySection';
 import ShuttleInfoSection from './components/sections/ShuttleInfoSection';
@@ -111,101 +110,3 @@ const ShuttleDetail = ({ params }: Props) => {
 };
 
 export default ShuttleDetail;
-
-export const MOCK_RESERVATION_DATA: ReservationType = {
-  id: 0,
-  shuttle: {
-    id: 0,
-    name: 'string',
-    date: 'string',
-    image:
-      'https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/08/19/c5cd0937-06c6-4f4c-9f22-660c5ec8adfb.jpg',
-    status: 'OPEN',
-    destination: {
-      name: 'string',
-      longitude: 0,
-      latitude: 0,
-    },
-    route: {
-      name: 'string',
-      status: 'OPEN',
-      hubs: {
-        pickup: [
-          {
-            name: 'string',
-            sequence: 0,
-            arrivalTime: 'string',
-            selected: true,
-          },
-        ],
-        dropoff: [
-          {
-            name: 'string',
-            sequence: 0,
-            arrivalTime: 'string',
-            selected: true,
-          },
-        ],
-      },
-    },
-  },
-  hasReview: true,
-  review: {
-    id: 0,
-    rating: 0,
-    content: 'string',
-    images: [
-      {
-        imageUrl: 'https://example.com/image.jpg',
-        status: 'ACTIVE',
-        createdAt: 'string',
-        updatedAt: 'string',
-      },
-    ],
-    createdAt: 'string',
-  },
-  type: 'TO_DESTINATION',
-  reservationStatus: 'NOT_PAYMENT',
-  cancelStatus: 'CANCEL_COMPLETE',
-  handyStatus: 'ACCEPTED',
-  passengers: [
-    {
-      name: 'string',
-      phoneNumber: 'string',
-    },
-  ],
-  payment: {
-    id: 0,
-    principalAmount: 0,
-    paymentAmount: 0,
-    discountAmount: 0,
-    refundableAmount: 0,
-    refundRequests: [
-      {
-        ID: 1,
-        paymentID: '1',
-        principalAmount: 10000,
-        previousRefundableAmount: 10000,
-        refundAmount: 10000,
-        refundReason: '환불 사유',
-        afterRefundableAmount: 10000,
-        refundAt: '2024-01-01 00:00:00',
-        failedReason: '환불 실패 사유',
-        status: 'REQUESTED',
-        createdAt: '2024-01-01 00:00:00',
-      },
-    ],
-  },
-  shuttleBus: {
-    shuttleBusID: 1,
-    shuttleRouteID: 100,
-    handyUserID: 100,
-    type: 'SEATER_12',
-    name: '스타렉스',
-    number: '12가 3456',
-    phoneNumber: '010-1234-5678',
-    openChatLink: 'https://openchat.example.com',
-    capacity: 12,
-  },
-  createdAt: 'string',
-};
