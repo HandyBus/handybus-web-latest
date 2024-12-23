@@ -50,3 +50,16 @@ export const TRIP_TEXT = {
   FROM_DESTINATION: '귀가행',
   ROUND_TRIP: '왕복',
 } as const;
+
+export const HANDY_STATUS_TEXT = {
+  SUPPORTED: '핸디 지원',
+  ACCEPTED: '핸디',
+  DECLINED: '',
+  NOT_SUPPORTED: '',
+} as const;
+
+export const CANCEL_STATUS_TEXT = {
+  CANCEL_REQUEST: '환불 진행 중',
+  CANCEL_COMPLETE: '환불 완료',
+  NONE: '',
+} as const;

@@ -233,7 +233,7 @@ const Passenger = ({ index, name, phoneNumber, tagText }: PassengerProps) => {
   );
 };
 
-const MOCK_RESERVATION_DATA: ReservationType = {
+export const MOCK_RESERVATION_DATA: ReservationType = {
   id: 0,
   shuttle: {
     id: 0,
@@ -287,8 +287,8 @@ const MOCK_RESERVATION_DATA: ReservationType = {
   },
   type: 'TO_DESTINATION',
   reservationStatus: 'NOT_PAYMENT',
-  cancelStatus: 'NONE',
-  handyStatus: 'NOT_SUPPORTED',
+  cancelStatus: 'CANCEL_COMPLETE',
+  handyStatus: 'ACCEPTED',
   passengers: [
     {
       name: 'string',

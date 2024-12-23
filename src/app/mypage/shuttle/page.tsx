@@ -7,6 +7,7 @@ import CurrentTab from './components/tabs/CurrentTab';
 import DemandTab from './components/tabs/DemandTab';
 import PastTab from './components/tabs/PastTab';
 import { useGetUserDashboard } from '@/services/users';
+import { MOCK_RESERVATION_DATA } from './[id]/page';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -25,7 +26,8 @@ const Shuttle = ({ searchParams }: Props) => {
       case 'current':
         return (
           <CurrentTab
-            reservations={userDashboard?.reservations.current ?? []}
+            // reservations={userDashboard?.reservations.current ?? []}
+            reservations={[MOCK_RESERVATION_DATA, MOCK_RESERVATION_DATA]}
           />
         );
       case 'demand':
