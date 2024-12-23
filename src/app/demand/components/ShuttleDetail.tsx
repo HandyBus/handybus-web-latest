@@ -8,7 +8,7 @@ const ShuttleDetail = ({ shuttle }: { shuttle: EventDetailProps }) => {
   const dates = shuttle.dailyShuttles.map((v) => new Date(v.date));
 
   return (
-    <Link href={`/demand/${shuttle.shuttleID}`}>
+    <Link href={`/demand/${shuttle.shuttleId}`}>
       <div className="flex flex-row gap-16 px-16 py-12">
         <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-grey-50">
           <Image

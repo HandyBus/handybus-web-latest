@@ -29,7 +29,7 @@ interface Props {
 }
 
 const EditForm = ({ type, userDashboard }: Props) => {
-  const region = ID_TO_REGION[userDashboard.regionID];
+  const region = ID_TO_REGION[userDashboard.regionId];
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
@@ -70,7 +70,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
   ) => {
     setIsSubmitting(true);
     const favoriteArtistsIDs = formData.favoriteArtists.map(
-      (artist) => artist.ID,
+      (artist) => artist.artistId,
     );
     const imageUrl = await getImageUrl({
       key: 'users/profiles',

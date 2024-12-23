@@ -61,16 +61,16 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
 
   const postDemand = async (
     submitData: SubmitData,
-    dailyShuttleID: number,
-    shuttleID: number,
+    dailyShuttleId: number,
+    shuttleId: number,
   ) => {
     try {
       const res = await authInstance.post(
-        `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/demands`,
+        `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands`,
         submitData,
       );
 
-      router.push(`/demand/${shuttleID}`);
+      router.push(`/demand/${shuttleId}`);
       toast.success('수요 신청에 성공했어요');
       return res;
     } catch (e) {
@@ -85,8 +85,8 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
   };
 
   const onSubmit = useCallback(async () => {
-    const dailyShuttleID = formValues.dailyShuttle.id;
-    const shuttleID = demandData.shuttleID;
+    const dailyShuttleId = formValues.dailyShuttle.dailyShuttleId;
+    const shuttleId = demandData.shuttleId;
     const translatedRouteType =
       formValues.routeType === '콘서트행'
         ? 'TO_DESTINATION'
@@ -104,12 +104,12 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
     };
 
     const submitData = {
-      regionID: formValues.regionID,
+      regionId: formValues.regionId,
       type: translatedRouteType,
       passengerCount: formValues.passengerCount,
       ...routeTypeToData[formValues.routeType as keyof typeof routeTypeToData],
     };
-    await postDemand(submitData, dailyShuttleID, shuttleID);
+    await postDemand(submitData, dailyShuttleId, shuttleId);
   }, [formValues]);
 
   if (error) return <div>error occured!</div>;

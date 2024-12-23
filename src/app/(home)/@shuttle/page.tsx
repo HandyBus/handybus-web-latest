@@ -66,7 +66,7 @@ const getRegionAndShuttles = async (): Promise<{
 }> => {
   let userRegionID: number | undefined;
   try {
-    userRegionID = (await getUser()).regionID;
+    userRegionID = (await getUser()).regionId;
   } catch {
     userRegionID = undefined;
   }

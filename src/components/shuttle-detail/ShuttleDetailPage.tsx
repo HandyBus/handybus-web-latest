@@ -38,7 +38,7 @@ const ShuttleDetailPage = async ({ type, data }: Props) => {
         longitude={data.destination.longitude}
       />
       <ShuttleForm
-        shuttleId={data.shuttleID}
+        shuttleId={data.shuttleId}
         type={type}
         data={data}
         shuttleStatus={shuttleStateConverter(data.status, type)}

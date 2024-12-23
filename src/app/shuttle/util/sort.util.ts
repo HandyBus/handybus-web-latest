@@ -34,12 +34,14 @@ export const toSortedShuttles = (
       return filteredShuttles.toSorted(
         (a, b) =>
           new Date(
-            a.shuttle.dailyShuttles.find((v) => v.id === a.dailyShuttleID)
-              ?.date || '',
+            a.shuttle.dailyShuttles.find(
+              (v) => v.dailyShuttleId === a.dailyShuttleId,
+            )?.date || '',
           ).getTime() -
           new Date(
-            b.shuttle.dailyShuttles.find((v) => v.id === b.dailyShuttleID)
-              ?.date || '',
+            b.shuttle.dailyShuttles.find(
+              (v) => v.dailyShuttleId === b.dailyShuttleId,
+            )?.date || '',
           ).getTime(),
       );
     case '예약 마감이 임박한 순':

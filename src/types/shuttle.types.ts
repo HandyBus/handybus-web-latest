@@ -21,8 +21,8 @@ export const SECTION = {
 
 export type SectionType = (typeof SECTION)[keyof typeof SECTION];
 export interface ShuttleRoute {
-  shuttleRouteID: number;
-  dailyShuttleID: number;
+  shuttleRouteId: number;
+  dailyShuttleId: number;
   shuttle: ShuttleRouteEvent;
   name: string;
   status: 'OPEN' | 'CLOSED' | 'CONFIRMED' | 'ENDED' | 'CANCELLED' | 'INACTIVE';
@@ -45,21 +45,21 @@ export interface Hub {
   pickup: {
     name: string;
     sequence: number;
-    regionID: number;
+    regionId: number;
     arrivalTime: string;
   }[];
 
   dropoff: {
     name: string;
     sequence: number;
-    regionID: number;
+    regionId: number;
     arrivalTime: string;
   }[];
 
   destination: {
     name: string;
     sequence: number;
-    regionID: number;
+    regionId: number;
     arrivalTime: string;
   };
 }
@@ -67,7 +67,7 @@ export interface Hub {
 export interface ShuttleRouteEvent {
   name: string;
   dailyShuttles: {
-    id: number;
+    dailyShuttleId: number;
     date: string;
     status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
   }[];
@@ -87,7 +87,7 @@ export interface ShuttleRouteEvent {
 }
 
 export interface DailyShuttleDetailProps {
-  id: number;
+  dailyShuttleId: number;
   date: string;
   status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
 }
@@ -116,8 +116,8 @@ export interface ShuttleDemandStatus {
 
 export interface RegionHubProps {
   regionHubs: {
-    ID: number;
-    regionID: number;
+    regionHubId: number;
+    regionId: number;
     name: string;
     address: string;
     latitude: number;

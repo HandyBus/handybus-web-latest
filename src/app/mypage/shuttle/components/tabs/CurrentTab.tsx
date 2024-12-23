@@ -16,10 +16,10 @@ const CurrentTab = ({ reservations }: Props) => {
     <ul>
       {reservations.map((reservation) => (
         <ReservationCard
-          key={reservation.id}
+          key={reservation.reservationId}
           reservation={reservation}
           subButtonText="예약 상세보기"
-          subButtonHref={`/mypage/shuttle/${reservation.id}`}
+          subButtonHref={`/mypage/shuttle/${reservation.reservationId}`}
         />
       ))}
     </ul>

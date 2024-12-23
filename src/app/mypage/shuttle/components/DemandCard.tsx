@@ -37,14 +37,14 @@ const DemandCard = ({
       router.push(href);
     };
 
-  const region = ID_TO_REGION[demand.regionID];
+  const region = ID_TO_REGION[demand.regionId];
   const routeText = `${region.bigRegion} ${region.smallRegion} (${TRIP_TEXT[demand.type]})`;
   const status = DEMAND_STATUS_TEXT[demand.status];
   const statusStyle = getStatusStyle(status);
 
   return (
     <Link
-      href={`/demand/${demand.shuttle.id}`}
+      href={`/demand/${demand.shuttle.shuttleId}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">

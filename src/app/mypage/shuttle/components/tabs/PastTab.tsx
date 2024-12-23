@@ -16,7 +16,7 @@ const PastTab = ({ reservations }: Props) => {
     <ul>
       {reservations.map((reservation) => (
         <ReservationCard
-          key={reservation.id}
+          key={reservation.reservationId}
           reservation={reservation}
           buttonText={
             reservation.hasReview ? '작성한 후기 보기' : '후기 작성하기'
@@ -25,10 +25,10 @@ const PastTab = ({ reservations }: Props) => {
           buttonHref={
             reservation.hasReview
               ? '/mypage/reviews'
-              : `/mypage/reviews/write/${reservation.id}`
+              : `/mypage/reviews/write/${reservation.reservationId}`
           }
           subButtonText="예약 상세보기"
-          subButtonHref={`/mypage/shuttle/${reservation.id}`}
+          subButtonHref={`/mypage/shuttle/${reservation.reservationId}`}
         />
       ))}
     </ul>

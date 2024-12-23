@@ -52,7 +52,7 @@ const OnboardingFunnel = ({ progress }: Props) => {
   const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
     setIsSubmitting(true);
     const favoriteArtistsIDs = formData.favoriteArtists.map(
-      (artist) => artist.ID,
+      (artist) => artist.artistId,
     );
     const imageUrl = await getImageUrl({
       key: 'users/profiles',

@@ -47,7 +47,7 @@ const ReservationCard = ({
   const cancelStatus = CANCEL_STATUS_TEXT[reservation.cancelStatus];
   return (
     <Link
-      href={`/shuttle-detail/${reservation.id}`}
+      href={`/shuttle-detail/${reservation.reservationId}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">

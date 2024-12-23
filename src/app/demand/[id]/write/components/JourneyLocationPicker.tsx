@@ -28,7 +28,7 @@ const JourneyLocationPicker = ({
     const options = [
       ...(regionHubsData?.regionHubs?.map((hub) => ({
         name: hub.name,
-        hubId: hub.ID,
+        hubId: hub.regionHubId,
         isCustom: false,
       })) ?? []),
       { name: '기타 (직접 입력)', id: null, isCustom: true, customHub: null },

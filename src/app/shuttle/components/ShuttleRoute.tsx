@@ -5,7 +5,7 @@ import Link from 'next/link';
 const ShuttleRouteView = ({ shuttleRoute }: { shuttleRoute: ShuttleRoute }) => {
   return (
     <Link
-      href={`/shuttle/${shuttleRoute.shuttleRouteID}`}
+      href={`/shuttle/${shuttleRoute.shuttleRouteId}`}
       className="flex flex-row gap-16 px-16 py-12"
     >
       <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-grey-50">
