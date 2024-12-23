@@ -6,8 +6,7 @@ import { SectionType } from '@/types/shuttle.types';
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form';
 import { RenderPoints } from './RoutePoint';
 import ShuttleRouteTimeLocation from './ShuttleRouteTimeLocation';
-import isShuttleRouteLocationBlurred from './isShuttleRouteLocationBlurred';
-
+import { isShuttleRouteLocationBlurred } from './shuttleRouteVisualizer.util';
 interface Props {
   section: SectionType;
   type: RouteType;

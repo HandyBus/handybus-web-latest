@@ -1,7 +1,7 @@
 import { ROUTE_TYPE, ShuttleRouteObject } from '@/types/shuttle.types';
 import { RouteType } from '@/types/shuttle.types';
 
-const isShuttleRouteLocationBlurred = ({
+export const isShuttleRouteLocationBlurred = ({
   object,
   type,
   index,
@@ -17,5 +17,3 @@ const isShuttleRouteLocationBlurred = ({
   if (type === ROUTE_TYPE.RETURN) return !(index === 0 || object.isDropoff);
   return false;
 };
-
-export default isShuttleRouteLocationBlurred;
