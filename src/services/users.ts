@@ -109,3 +109,7 @@ export const useGetUserDashboard = () => {
     queryFn: getUserDashboard,
   });
 };
+
+export const deleteUser = async () => {
+  return await authInstance.delete('/user-management/users/me');
+};
