@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 
 export interface ShuttleFormValues {
   dailyShuttle: {
-    id: number;
+    dailyShuttleId: number;
     date: string;
   };
   bigLocation: string;
@@ -38,7 +38,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
   const methods = useForm<ShuttleFormValues>({
     defaultValues: {
       dailyShuttle: {
-        id: 0,
+        dailyShuttleId: 0,
         date: '',
       },
       bigLocation: '',
@@ -62,7 +62,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
 
   const onSubmit = () => {
     const queryParams = new URLSearchParams({
-      dailyShuttleId: dailyShuttle.id.toString(),
+      dailyShuttleId: dailyShuttle.dailyShuttleId.toString(),
       bigLocation: bigLocation,
       smallLocation: smallLocation,
       regionId: getRegionId()?.toString() ?? '',
@@ -91,7 +91,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
     if (
       type === 'DEMAND' &&
       shuttleStatus === 'OPEN' &&
-      (!getRegionId() || dailyShuttle.id) === 0
+      (!getRegionId() || dailyShuttle.dailyShuttleId) === 0
     )
       return 'secondary';
     if (type === 'DEMAND' && shuttleStatus === 'OPEN') return 'primary';
@@ -106,7 +106,7 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
     if (
       type === 'DEMAND' &&
       shuttleStatus === 'OPEN' &&
-      (!getRegionId() || dailyShuttle.id === 0)
+      (!getRegionId() || dailyShuttle.dailyShuttleId === 0)
     )
       return true;
     if (type === 'DEMAND' && shuttleStatus === 'CLOSED') return true;
