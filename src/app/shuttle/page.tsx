@@ -102,15 +102,15 @@ const relatedRegionNames = (
   region: Region,
   relatedShuttles: ShuttleRoute[],
 ) => {
-  const regionIDs = relatedShuttles.flatMap((s) =>
+  const regionIds = relatedShuttles.flatMap((s) =>
     s.hubs.dropoff
       .map((d) => d.regionId)
       .concat(s.hubs.pickup.map((p) => p.regionId)),
   );
 
-  const uniqueRegionIDs = Array.from(new Set(regionIDs));
+  const uniqueRegionIds = Array.from(new Set(regionIds));
 
-  const regionNames = uniqueRegionIDs.map((id) => ID_TO_REGION[id].smallRegion);
+  const regionNames = uniqueRegionIds.map((id) => ID_TO_REGION[id].smallRegion);
   const rest = regionNames.length - 2;
 
   if (rest > 0) {

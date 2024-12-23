@@ -25,7 +25,7 @@ const ShuttleRouteTimeLocation = ({
   setValue,
 }: Props) => {
   const fieldName =
-    type === ROUTE_TYPE.DEPARTURE ? 'pickupHubID' : 'dropoffHubID';
+    type === ROUTE_TYPE.DEPARTURE ? 'pickupHubId' : 'dropoffHubId';
 
   return (
     <div className="flex w-full justify-between ">

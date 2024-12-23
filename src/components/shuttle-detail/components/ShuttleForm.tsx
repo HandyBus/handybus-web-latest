@@ -62,10 +62,10 @@ const ShuttleForm = ({ shuttleId, type, data }: Props) => {
 
   const onSubmit = () => {
     const queryParams = new URLSearchParams({
-      dailyShuttleID: dailyShuttle.id.toString(),
+      dailyShuttleId: dailyShuttle.id.toString(),
       bigLocation: bigLocation,
       smallLocation: smallLocation,
-      regionID: getRegionId()?.toString() ?? '',
+      regionId: getRegionId()?.toString() ?? '',
     });
 
     if (type === 'DEMAND')

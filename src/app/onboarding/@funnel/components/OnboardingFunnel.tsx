@@ -51,17 +51,17 @@ const OnboardingFunnel = ({ progress }: Props) => {
 
   const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
     setIsSubmitting(true);
-    const favoriteArtistsIDs = formData.favoriteArtists.map(
+    const favoriteArtistsIds = formData.favoriteArtists.map(
       (artist) => artist.artistId,
     );
     const imageUrl = await getImageUrl({
       key: 'users/profiles',
       file: formData.profileImage,
     });
-    const regionID =
+    const regionId =
       REGION_TO_ID[formData.bigRegion][formData.smallRegion ?? ''];
 
-    if (!regionID) {
+    if (!regionId) {
       toast.error('회원가입에 실패하였습니다.');
       return;
     }
@@ -71,8 +71,8 @@ const OnboardingFunnel = ({ progress }: Props) => {
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
       profileImage: imageUrl,
-      favoriteArtistsIDs,
-      regionID,
+      favoriteArtistsIds,
+      regionId,
     };
 
     putUser(body);

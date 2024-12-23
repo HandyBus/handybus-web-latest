@@ -11,7 +11,7 @@ import { useFormContext } from 'react-hook-form';
 
 /* ShuttleRouteVisualizer
  * useForm 과 연동되었습니다. controller로 감싸고 control 을 인자로 넘겨주시면 됩니다.
- * 필드는 pickupHubID, dropoffHubID 를 사용합니다.
+ * 필드는 pickupHubId, dropoffHubId 를 사용합니다.
  * 마이페이지-셔틀에서 필요한 보기전용 모드에서 선택모드로 변경하시려면 section 을 RESERVATION_DETAIL 로 설정해주세요.
  */
 interface Props {

@@ -224,8 +224,7 @@ export interface PaymentType {
   discountAmount: number;
   refundableAmount: number;
   refundRequests: {
-    ID: number;
-    paymentID: string;
+    paymentId: string;
     principalAmount: number;
     previousRefundableAmount: number;
     refundAmount: number;

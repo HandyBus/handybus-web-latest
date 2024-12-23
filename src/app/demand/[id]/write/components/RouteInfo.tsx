@@ -41,7 +41,7 @@ const RouteInfo = ({ demandData }: RouteInfoProps) => {
   useEffect(() => {
     const regionId = getRegionId();
     if (regionId) {
-      setValue('regionID', regionId);
+      setValue('regionId', regionId);
     }
   }, [getRegionId, setValue]);
 

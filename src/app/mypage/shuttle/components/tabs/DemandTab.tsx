@@ -82,9 +82,9 @@ const DemandTab = ({ demands }: Props) => {
             return;
           }
           deleteDemand({
-            shuttleID: demand.shuttle.shuttleId,
-            dailyShuttleID: demand.dailyShuttleId,
-            ID: demand.shuttleDemandId,
+            shuttleId: demand.shuttle.shuttleId,
+            dailyShuttleId: demand.dailyShuttleId,
+            shuttleDemandId: demand.shuttleDemandId,
           });
           setDemand(null);
           setIsOpen(false);

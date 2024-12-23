@@ -7,10 +7,10 @@ import { getOpenDemandings } from '../../utils/fetch.util';
 interface Props {
   params: { id: string };
   searchParams: {
-    dailyShuttleID?: string;
+    dailyShuttleId?: string;
     bigLocation?: string;
     smallLocation?: string;
-    regionID?: string;
+    regionId?: string;
   };
 }
 
