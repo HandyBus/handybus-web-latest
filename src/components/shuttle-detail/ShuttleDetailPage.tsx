@@ -63,42 +63,18 @@ const ShuttleDetailPage = async ({ type, data }: Props) => {
 export default ShuttleDetailPage;
 
 const ROUTE_OBJECT = [
-  {
-    time: '2024-03-20 14:30:00',
-    location: '청주터미널',
-    hubId: '1',
-    hubName: '청주터미널',
-  },
+  { time: '2024-03-20 14:30:00', location: '청주터미널' },
   {
     time: '2024-03-20 14:40:00',
     location: '청주대학교',
-    hubId: '2',
-    hubName: '청주대학교',
     is_pickup: true,
   },
-  {
-    time: '2024-03-20 14:50:00',
-    location: '장소3',
-    hubId: '3',
-    hubName: '장소3',
-  },
-  {
-    time: '2024-03-20 15:00:00',
-    location: '장소4',
-    hubId: '4',
-    hubName: '장소4',
-  },
+  { time: '2024-03-20 14:50:00', location: '장소3' },
+  { time: '2024-03-20 15:00:00', location: '장소4' },
   {
     time: '2024-03-20 15:10:00',
     location: '장소5',
-    hubId: '5',
-    hubName: '장소5',
     is_dropoff: true,
   },
-  {
-    time: '2024-03-20 15:20:00',
-    location: '장소6',
-    hubId: '6',
-    hubName: '장소6',
-  },
+  { time: '2024-03-20 15:20:00', location: '장소6' },
 ];

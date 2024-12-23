@@ -1,7 +1,7 @@
 'use client';
 
 import { SECTION } from '@/types/shuttle.types';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
 import NoticeSection, {
   NOTICE_TYPE,
@@ -30,8 +30,6 @@ export interface ReservationFormData {
   passengerCount: number;
   passengers: PassengerInfo[];
   isHandy: boolean;
-  pickupHubID: string;
-  dropoffHubID: string;
 }
 
 const ShuttleWrite = () => {
@@ -39,7 +37,7 @@ const ShuttleWrite = () => {
   const { Funnel, Step, handleNextStep, handlePrevStep } = useFunnel([
     1, 2, 3, 4,
   ]);
-  const methods = useForm<ReservationFormData>({
+  const { control, watch, setValue } = useForm<ReservationFormData>({
     defaultValues: {
       boardingDate: '',
       routeType: '',
@@ -47,22 +45,8 @@ const ShuttleWrite = () => {
       passengerCount: 0,
       passengers: [],
       isHandy: false,
-      pickupHubID: '',
-      dropoffHubID: '',
     },
   });
-
-  // const { control, watch, setValue } = useForm<ReservationFormData>({
-  //   defaultValues: {
-  //     boardingDate: '',
-  //     routeType: '',
-  //     tripType: '',
-  //     passengerCount: 0,
-  //     passengers: [],
-  //     isHandy: false,
-  //   },
-  // });
-  const { control, watch, setValue } = methods;
   const passengerCount = watch('passengerCount');
 
   const handlePassengerCountChange = (
@@ -76,84 +60,82 @@ const ShuttleWrite = () => {
 
   return (
     <main>
-      <FormProvider {...methods}>
-        <Funnel>
-          <Step name={1}>
-            <StepLayout
-              step={1}
-              handleNextStep={handleNextStep}
-              handlePrevStep={handlePrevStep}
-            >
-              <ReservationShuttleInfo control={control} />
-              {ready ? (
-                <>
-                  <div id="divider" className="my-16 h-[8px] bg-grey-50" />
-                  <ShuttleRouteVisualizer
-                    object={RouteMockData}
-                    section={SECTION.RESERVATION_DETAIL}
-                  />
-                  <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
-                  <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
-                </>
-              ) : null}
-            </StepLayout>
-          </Step>
-
-          <Step name={2}>
-            <StepLayout
-              step={2}
-              handleNextStep={handleNextStep}
-              handlePrevStep={handlePrevStep}
-            >
-              <PassengerCount
-                count={passengerCount}
-                setCount={handlePassengerCountChange}
-              />
-              {Array.from({ length: passengerCount }).map((_, index) => (
-                <PassengerForm
-                  key={index}
-                  index={index}
-                  control={control}
-                  setValue={setValue}
+      <Funnel>
+        <Step name={1}>
+          <StepLayout
+            step={1}
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          >
+            <ReservationShuttleInfo control={control} />
+            {ready ? (
+              <>
+                <div id="divider" className="my-16 h-[8px] bg-grey-50" />
+                <ShuttleRouteVisualizer
+                  object={RouteMockData}
+                  section={SECTION.MY_RESERVATION}
                 />
-              ))}
-            </StepLayout>
-          </Step>
+                <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
+                <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
+              </>
+            ) : null}
+          </StepLayout>
+        </Step>
 
-          <Step name={3}>
-            <StepLayout
-              step={3}
-              handleNextStep={handleNextStep}
-              handlePrevStep={handlePrevStep}
-            >
-              <ReservationInfo />
-              <Divider />
-              <PassengerInfo />
-              <Divider />
-              <ApplyHandy />
-              <Divider />
-              <TotalPriceInfo />
-              <Divider />
-              <TossPayment />
-            </StepLayout>
-          </Step>
+        <Step name={2}>
+          <StepLayout
+            step={2}
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          >
+            <PassengerCount
+              count={passengerCount}
+              setCount={handlePassengerCountChange}
+            />
+            {Array.from({ length: passengerCount }).map((_, index) => (
+              <PassengerForm
+                key={index}
+                index={index}
+                control={control}
+                setValue={setValue}
+              />
+            ))}
+          </StepLayout>
+        </Step>
 
-          <Step name={4}>
-            <StepLayout
-              step={4}
-              handleNextStep={handleNextStep}
-              handlePrevStep={handlePrevStep}
-            >
-              <ReservationCompleted />
-              <ReservationInfo />
-              <PassengerInfo />
-              <section className="px-16 pb-24 pt-32">
-                <PriceDetail />
-              </section>
-            </StepLayout>
-          </Step>
-        </Funnel>
-      </FormProvider>
+        <Step name={3}>
+          <StepLayout
+            step={3}
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          >
+            <ReservationInfo />
+            <Divider />
+            <PassengerInfo />
+            <Divider />
+            <ApplyHandy />
+            <Divider />
+            <TotalPriceInfo />
+            <Divider />
+            <TossPayment />
+          </StepLayout>
+        </Step>
+
+        <Step name={4}>
+          <StepLayout
+            step={4}
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          >
+            <ReservationCompleted />
+            <ReservationInfo />
+            <PassengerInfo />
+            <section className="px-16 pb-24 pt-32">
+              <PriceDetail />
+            </section>
+          </StepLayout>
+        </Step>
+      </Funnel>
     </main>
   );
 };
@@ -167,20 +149,18 @@ const TossPayment = () => {
 };
 
 const RouteMockData = [
-  { time: '2024-03-20 14:30:00', hubName: '청주터미널', hubId: '1' },
+  { time: '2024-03-20 14:30:00', location: '청주터미널' },
   {
     time: '2024-03-20 14:40:00',
-    hubName: '청주대학교',
-    hubId: '2',
-    isPickup: true,
+    location: '청주대학교',
+    is_pickup: true,
   },
-  { time: '2024-03-20 14:50:00', hubName: '장소3', hubId: '3' },
-  { time: '2024-03-20 15:00:00', hubName: '장소4', hubId: '4' },
+  { time: '2024-03-20 14:50:00', location: '장소3' },
+  { time: '2024-03-20 15:00:00', location: '장소4' },
   {
     time: '2024-03-20 15:10:00',
-    hubName: '장소5',
-    hubId: '5',
-    isDropoff: true,
+    location: '장소5',
+    is_dropoff: true,
   },
-  { time: '2024-03-20 15:20:00', hubName: '장소6', hubId: '6' },
+  { time: '2024-03-20 15:20:00', location: '장소6' },
 ];
