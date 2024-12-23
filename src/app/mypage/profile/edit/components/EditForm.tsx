@@ -70,7 +70,7 @@ const EditForm = ({ type, userDashboard }: Props) => {
   ) => {
     setIsSubmitting(true);
     const favoriteArtistsIDs = formData.favoriteArtists.map(
-      (artist) => artist.id,
+      (artist) => artist.ID,
     );
     const imageUrl = await getImageUrl({
       key: 'users/profiles',
