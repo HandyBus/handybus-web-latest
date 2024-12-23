@@ -12,6 +12,7 @@ import {
   TRIP_TEXT,
 } from '../shuttle.constants';
 import { getStatusStyle } from '../shuttle.utils';
+import { parseDateString } from '@/utils/dateString';
 
 interface Props {
   reservation: ReservationType;
@@ -39,6 +40,7 @@ const ReservationCard = ({
       router.push(href);
     };
 
+  const parsedDate = parseDateString(reservation.createdAt);
   const status = RESERVATION_STATUS_TEXT[reservation.shuttle.route.status];
   const statusStyle = getStatusStyle(status);
   const handyStatus = HANDY_STATUS_TEXT[reservation.handyStatus];
@@ -51,9 +53,7 @@ const ReservationCard = ({
       <div className="flex items-center gap-8 text-12">
         <div className={`h-[10px] w-[10px] rounded-full ${statusStyle.dot}`} />
         <span className={`font-600 ${statusStyle.text}`}>{status}</span>
-        <span className="font-500 text-grey-500">
-          {reservation.createdAt} 예약
-        </span>
+        <span className="font-500 text-grey-500">{parsedDate} 예약</span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
@@ -81,7 +81,8 @@ const ReservationCard = ({
             <span>{reservation.passengers.length}인</span>
           </span>
           <span className="pt-4 text-14 font-500 text-grey-900">
-            {reservation.payment.paymentAmount.toLocaleString()}{' '}
+            {/* TODO: 결제 연동된 이후에 주석 해제 */}
+            {/* {reservation.payment.paymentAmount.toLocaleString()}{' '} */}
             <span className="text-12">원</span>
           </span>
           <div className="flex gap-8 pt-4">

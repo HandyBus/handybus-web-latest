@@ -1,14 +1,14 @@
 'use client';
 
 import AppBar from '@/components/app-bar/AppBar';
-import Section from '../../components/Section';
-import RefundPolicy from '../../components/RefundPolicy';
+import RefundPolicy from '../components/RefundPolicy';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 import Button from '@/components/buttons/button/Button';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import Section from '../components/Section';
 
 const Refund = () => {
   const router = useRouter();
