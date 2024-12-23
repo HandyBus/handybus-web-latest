@@ -9,7 +9,7 @@ interface Props {
   type: 'DEMAND_SURVEY' | 'SELECT_SHUTTLE';
   shuttleId: number;
   dailyShuttle: {
-    id: number;
+    dailyShuttleId: number;
     date: string;
   };
   shuttle_location: string;
@@ -26,7 +26,7 @@ const ShuttleDemandStatus = ({
 }: Props) => {
   const { data: demandStatsData, isLoading } = useGetShuttleDemandStatus(
     shuttleId,
-    dailyShuttle.id,
+    dailyShuttle.dailyShuttleId,
     regionId,
   );
 
