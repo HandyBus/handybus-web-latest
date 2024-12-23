@@ -5,9 +5,10 @@ import SmallBusIcon from 'public/icons/bus-small.svg';
 import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
 import { ID_TO_REGION } from '@/constants/regions';
-import { getRoutes, useDeleteDemand } from '@/services/shuttleOperation';
+import { getRoutes } from '@/services/shuttleOperation';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import dynamic from 'next/dynamic';
+import { useDeleteDemand } from '@/services/demand';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 interface Props {

@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { authInstance, instance } from './config';
+import { useQuery } from '@tanstack/react-query';
+import { instance } from './config';
 import { ShuttleDemandStatus } from '@/types/shuttle.types';
 import { ArtistType, RouteStatusType, RouteType } from '@/types/client.types';
-import { toast } from 'react-toastify';
 
 const getArtists = async () => {
   const res = await instance.get<{ artists: ArtistType[] }>(
@@ -61,32 +60,4 @@ export const getRoutes = async (
     `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
   );
   return res.shuttleRouteDetails;
-};
-
-export const deleteDemand = async ({
-  shuttleID,
-  dailyShuttleID,
-  ID,
-}: {
-  shuttleID: number;
-  dailyShuttleID: number;
-  ID: number;
-}) => {
-  return await authInstance.delete(
-    `/shuttle-operation/shuttles/${shuttleID}/dates/${dailyShuttleID}/demands/${ID}`,
-  );
-};
-
-export const useDeleteDemand = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteDemand,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
-      toast.success('수요조사를 취소했습니다.');
-    },
-    onError: () => {
-      toast.error('수요조사 취소에 실패했습니다.');
-    },
-  });
 };

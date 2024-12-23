@@ -28,6 +28,7 @@ const ShuttleDetail = ({ params }: Props) => {
   const reservation = data?.reservations.current.find(
     (reservation) => reservation.id === Number(id),
   );
+
   const isShuttleAssigned = !(
     reservation?.shuttleBus === undefined && reservation?.shuttleBus === null
   );
@@ -37,7 +38,6 @@ const ShuttleDetail = ({ params }: Props) => {
   if (isLoading) {
     return <div className="h-[100dvh]" />;
   }
-
   if (!reservation) {
     router.replace('/mypage/shuttle?type=current');
     return <div className="h-[100dvh]" />;

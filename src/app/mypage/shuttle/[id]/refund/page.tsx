@@ -9,16 +9,38 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Section from '../components/Section';
+import ReservationCard from '../../components/ReservationCard';
+import { useGetUserDashboard } from '@/services/users';
 
-const Refund = () => {
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const Refund = ({ params }: Props) => {
+  const { id } = params;
+  const { data, isLoading } = useGetUserDashboard();
+  const reservation = data?.reservations.current.find(
+    (reservation) => reservation.id === Number(id),
+  );
+
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  if (isLoading) {
+    return <div className="h-[100dvh]" />;
+  }
+  if (!reservation) {
+    router.replace('/mypage/shuttle?type=current');
+    return <div className="h-[100dvh]" />;
+  }
 
   return (
     <>
       <AppBar>환불 신청</AppBar>
       <main className="grow">
-        {/* <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} /> */}
+        <ReservationCard reservation={reservation} />
         <Section title="유의사항">
           <RefundPolicy />
         </Section>
