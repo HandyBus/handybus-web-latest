@@ -39,8 +39,10 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
 
   const handleSelectArtist = (artist: ArtistType) =>
     setSelectedArtists((prev) =>
-      prev.find((selectedArtist) => selectedArtist.id === artist.id)
-        ? prev.filter((selectedArtist) => selectedArtist.id !== artist.id)
+      prev.find((selectedArtist) => selectedArtist.artistId === artist.artistId)
+        ? prev.filter(
+            (selectedArtist) => selectedArtist.artistId !== artist.artistId,
+          )
         : [...prev, artist],
     );
 
@@ -66,7 +68,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
           <div className="max-h-400 overflow-y-auto">
             {selectedArtists.map((artist) => (
               <div
-                key={artist.id}
+                key={artist.artistId}
                 className="flex items-center justify-between gap-16 px-32 py-12"
               >
                 <span className="line-clamp-1 text-16 font-400 text-grey-800">
@@ -105,15 +107,16 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
           <div className="grow overflow-y-auto pt-12">
             {filteredArtists.map((artist) => (
               <button
-                key={artist.id}
+                key={artist.artistId}
                 type="button"
                 onClick={() => handleSelectArtist(artist)}
                 className="line-clamp-1 flex h-56 w-full items-center gap-16 px-32"
               >
                 <CheckBox
                   isChecked={
-                    selectedArtists.find((el) => el.id === artist.id) !==
-                    undefined
+                    selectedArtists.find(
+                      (el) => el.artistId === artist.artistId,
+                    ) !== undefined
                   }
                   setIsChecked={() => handleSelectArtist(artist)}
                 />

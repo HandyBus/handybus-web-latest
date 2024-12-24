@@ -47,4 +47,18 @@ export const ddayString = (date: Date) => {
   return 'D-Day';
 };
 
+export const parseDateString = (date: string) => {
+  const parsedDate = new Date(date);
+  const formattedDate = parsedDate
+    .toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'short',
+    })
+    .replace(/\./g, '. ')
+    .replace(/\s*\((.*?)\)/, ' ($1)');
+  return formattedDate;
+};
+
 export default dateString;
