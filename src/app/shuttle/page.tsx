@@ -17,6 +17,17 @@ import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
 import ShuttleRouteView from './components/ShuttleRoute';
 import { toSortedShuttles } from './util/sort.util';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '지금 예약 모집 중인 셔틀',
+  openGraph: {
+    title: '지금 예약 모집 중인 셔틀',
+  },
+  twitter: {
+    title: '지금 예약 모집 중인 셔틀',
+  },
+};
 
 interface Props {
   searchParams: { [K in string]: string | string[] | undefined };

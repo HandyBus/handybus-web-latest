@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { instance } from './config';
 import { ShuttleDemandStatus } from '@/types/shuttle.types';
 import { ArtistType, RouteStatusType, RouteType } from '@/types/client.types';
+import { EventDetailProps } from '@/types/event.types';
 
 const getArtists = async () => {
   const res = await instance.get<{ artists: ArtistType[] }>(
@@ -60,4 +61,11 @@ export const getRoutes = async (
     `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
   );
   return res.shuttleRouteDetails;
+};
+
+export const getShuttle = async (id: number) => {
+  const res = await instance.get<{ shuttleDetail: EventDetailProps }>(
+    `/shuttle-operation/shuttles/${id}`,
+  );
+  return res.shuttleDetail;
 };

@@ -2,6 +2,11 @@ import AppBar from '@/components/app-bar/AppBar';
 import Article from '@/components/article/Article';
 import { PropsWithChildren } from 'react';
 import ToastyCheck from 'public/icons/toasty-check.svg';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '핸디란?',
+};
 
 const AboutPage = () => {
   return (
