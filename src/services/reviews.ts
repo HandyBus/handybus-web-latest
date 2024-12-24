@@ -63,7 +63,7 @@ const fakeReviews: ReviewType[] = MOCKING_REVIEWS.map((content, index) => ({
     artist: 'ATEEZ',
     posterImageUrl: ANY_IMAGE,
   },
-  reservationID: index,
+  reservationId: index,
   rating: (index % 4) + 1,
   content,
   images: Array.from(Array(index % 4)).map(() => ({

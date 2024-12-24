@@ -1,11 +1,14 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Article from '@/components/article/Article';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
-
 import FAQ from './components/FAQ';
 import HandyLogo from './icons/faq-handy-logo.svg';
-
 import { readFaqs } from './data';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'FAQ',
+};
 
 const FAQPage = async () => {
   const faqs = await readFaqs();

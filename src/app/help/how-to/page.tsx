@@ -3,6 +3,11 @@ import Image from 'next/image';
 import AppBar from '@/components/app-bar/AppBar';
 import Article from '@/components/article/Article';
 import HowTo from './images/how-to.png';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '서비스 이용 절차',
+};
 
 const HowToPage = () => {
   return (

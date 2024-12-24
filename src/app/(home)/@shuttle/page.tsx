@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { containsRegionID } from '@/app/shuttle/util/contain.util';
+import { containsRegionId } from '@/app/shuttle/util/contain.util';
 import {
   fetchAllShuttles,
   fetchRelatedShuttles,
@@ -64,26 +64,26 @@ const getRegionAndShuttles = async (): Promise<{
   related: boolean;
   shuttles: ShuttleRoute[];
 }> => {
-  let userRegionID: number | undefined;
+  let userRegionId: number | undefined;
   try {
-    userRegionID = (await getUser()).regionID;
+    userRegionId = (await getUser()).regionId;
   } catch {
-    userRegionID = undefined;
+    userRegionId = undefined;
   }
-  const userRegion = userRegionID ? ID_TO_REGION[userRegionID] : undefined;
+  const userRegion = userRegionId ? ID_TO_REGION[userRegionId] : undefined;
 
   const shuttles = await fetchAllShuttles();
 
-  if (userRegionID === undefined || userRegion === undefined) {
+  if (userRegionId === undefined || userRegion === undefined) {
     return { region: undefined, related: false, shuttles };
   }
 
   const regionShuttles = shuttles.filter((s) =>
-    containsRegionID(userRegionID, s),
+    containsRegionId(userRegionId, s),
   );
   if (regionShuttles.length > 0) {
     return {
-      region: ID_TO_REGION[userRegionID],
+      region: ID_TO_REGION[userRegionId],
       related: false,
       shuttles: regionShuttles,
     };
@@ -93,7 +93,7 @@ const getRegionAndShuttles = async (): Promise<{
 
   if (relatedShuttles.length > 0) {
     return {
-      region: ID_TO_REGION[userRegionID],
+      region: ID_TO_REGION[userRegionId],
       related: true,
       shuttles: relatedShuttles,
     };
