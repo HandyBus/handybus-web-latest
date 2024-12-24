@@ -38,23 +38,21 @@ const DemandTab = ({ demands }: Props) => {
     return <EmptyView />;
   }
 
-  if (reservationOngoingDemands === null) {
-    return null;
-  }
-
   return (
     <>
       <ul>
-        <ReservationOngoingWrapper>
-          {reservationOngoingDemands.map((demand) => (
-            <DemandCard
-              key={demand.shuttleDemandId}
-              demand={demand}
-              buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-              buttonHref={`/shuttle-detail/${demand.shuttle.shuttleId}`}
-            />
-          ))}
-        </ReservationOngoingWrapper>
+        {reservationOngoingDemands && reservationOngoingDemands.length > 0 && (
+          <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
+            {reservationOngoingDemands.map((demand) => (
+              <DemandCard
+                key={demand.shuttleDemandId}
+                demand={demand}
+                buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
+                buttonHref={`/shuttle-detail/${demand.shuttle.shuttleId}`}
+              />
+            ))}
+          </ReservationOngoingWrapper>
+        )}
         {demands.map((demand) => (
           <DemandCard
             key={demand.shuttleDemandId}
@@ -104,10 +102,12 @@ export default DemandTab;
 
 interface ReservationOngoingWrapperProps {
   children: ReactNode;
+  count: number;
 }
 
 const ReservationOngoingWrapper = ({
   children,
+  count,
 }: ReservationOngoingWrapperProps) => {
   return (
     <>
@@ -115,8 +115,8 @@ const ReservationOngoingWrapper = ({
         <SmallBusIcon />
         <span className="text-12 font-500 text-grey-600">
           수요신청 하신 셔틀 중{' '}
-          <span className="font-600 text-grey-800">1개</span>의 셔틀이 예약 진행
-          중입니다.
+          <span className="font-600 text-grey-800">{count}개</span>의 셔틀이
+          예약 진행 중입니다.
         </span>
       </div>
       {children}
