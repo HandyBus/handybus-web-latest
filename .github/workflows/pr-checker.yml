@@ -55,6 +55,7 @@ jobs:
             rename
             remove
             revert
+            release
           requireScope: false
           subjectPattern: ^[a-z가-힣].+$
           subjectPatternError: |
