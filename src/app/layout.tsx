@@ -44,9 +44,10 @@ export const metadata: Metadata = {
     follow: true,
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_CONSOLE_VERIFICATION,
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
     other: {
-      naver: process.env.NEXT_PUBLIC_NAVER_CONSOLE_VERIFICATION ?? '',
+      'naver-site-verification':
+        process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ?? '',
     },
   },
 };
