@@ -5,11 +5,6 @@ import Kakao from 'public/icons/kakao.svg';
 import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: '로그인',
-};
 
 const Login = () => {
   return (
