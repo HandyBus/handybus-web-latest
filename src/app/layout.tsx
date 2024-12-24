@@ -5,7 +5,7 @@ import Provider from '@/components/Provider';
 import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
 import PortalContainer from '@/components/portal-container/PortalContainer';
-import { DESCRIPTION, URL } from '@/constants/metadata';
+import { DESCRIPTION, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: TITLE,
     images: [
       {
-        url: URL + '/images/og-image.png',
+        url: OG_IMAGE_URL,
         width: 480,
         height: 360,
         alt: '콘서트, 공연, 행사 등 다양한 이동의 여정에서 핸디버스를 만나보세요!',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    images: [URL + '/images/og-image.png'],
+    images: [OG_IMAGE_URL],
   },
   robots: {
     index: true,
