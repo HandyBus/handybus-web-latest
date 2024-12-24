@@ -7,6 +7,7 @@ import ToastContainer from '@/components/toast-container/ToastContainer';
 import PortalContainer from '@/components/portal-container/PortalContainer';
 import { DESCRIPTION, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
+const JSON_LD = {
   '@context': URL,
   '@type': 'WebSite',
   name: TITLE,
@@ -64,6 +65,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+          }}
+        />
+      </head>
       <body>
         <Provider>
           {children}
@@ -72,7 +93,7 @@ export default function RootLayout({
         </Provider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
       </body>
     </html>
