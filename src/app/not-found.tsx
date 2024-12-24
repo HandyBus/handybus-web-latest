@@ -1,25 +1,8 @@
-'use client';
-
 import Footer from '@/components/footer/Footer';
-import { revalidatePaths } from '@/utils/revalidatePath';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const NotFound = () => {
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        redirect: 'follow',
-      });
-      revalidatePaths();
-      if (response.redirected) {
-        window.location.href = response.url;
-      }
-    } catch (error) {
-      console.error('로그아웃 실패: ', error);
-      window.location.href = '/';
-    }
-  };
   return (
     <div className="flex grow flex-col px-20 py-28">
       <h2 className="pb-[10px] text-26 font-700 text-grey-900">
@@ -36,12 +19,12 @@ export const NotFound = () => {
           className="aspect-auto object-cover"
         />
       </div>
-      <button
-        className="h-44 w-full rounded-full bg-grey-50 text-16 font-400 text-grey-700"
-        onClick={() => handleLogout()}
+      <Link
+        href="/"
+        className="flex h-44 w-full items-center justify-center rounded-full bg-grey-50 text-16 font-400 text-grey-700"
       >
         홈으로 돌아가기
-      </button>
+      </Link>
       <div className="grow" />
       <Footer />
     </div>
