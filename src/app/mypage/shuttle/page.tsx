@@ -20,8 +20,10 @@ const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
   const { data: userDashboard, isLoading } = useGetUserDashboard();
 
+  const currentTab = searchParams.type || 'current';
+
   const renderTab = () => {
-    switch (searchParams.type) {
+    switch (currentTab) {
       case 'current':
         return (
           <CurrentTab
@@ -52,7 +54,7 @@ const Shuttle = ({ searchParams }: Props) => {
               { label: '수요 신청 현황', value: 'demand' },
               { label: '지난 셔틀', value: 'past' },
             ]}
-            selected={searchParams.type}
+            selected={currentTab}
             onSelect={(value) => {
               router.replace(`/mypage/shuttle?type=${value}`);
             }}
