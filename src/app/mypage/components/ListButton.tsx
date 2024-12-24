@@ -5,7 +5,7 @@ import ArrowRight from 'public/icons/quill-chevron-right.svg';
 
 interface Props {
   title: string;
-  href?: string;
+  href: string;
   description?: string;
   onClick?: () => void;
   hideArrow?: boolean;
@@ -20,8 +20,13 @@ const ListButton = ({
   hideArrow = false,
   replace = false,
 }: Props) => {
-  const content = (
-    <>
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="flex h-56 w-full items-center gap-16 p-16"
+      replace={replace}
+    >
       <span className="grow text-left text-16 font-400 text-grey-800">
         {title}
       </span>
@@ -34,29 +39,7 @@ const ListButton = ({
           viewBox="0 0 21 20"
         />
       )}
-    </>
-  );
-
-  return (
-    <>
-      {href ? (
-        <Link
-          href={href}
-          onClick={onClick}
-          className="flex h-56 w-full items-center gap-16 p-16"
-          replace={replace}
-        >
-          {content}
-        </Link>
-      ) : (
-        <button
-          onClick={onClick}
-          className="flex h-56 w-full items-center gap-16 p-16"
-        >
-          {content}
-        </button>
-      )}
-    </>
+    </Link>
   );
 };
 

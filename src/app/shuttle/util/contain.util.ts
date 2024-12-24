@@ -1,19 +1,19 @@
 import type { ShuttleRoute } from '@/types/shuttle.types';
 
-export const containsRegionId = (regionId: number, shuttle: ShuttleRoute) => {
+export const containsRegionID = (regionID: number, shuttle: ShuttleRoute) => {
   return (
-    shuttle.hubs.dropoff.some((h) => h.regionId === regionId) ||
-    shuttle.hubs.pickup.some((h) => h.regionId === regionId)
+    shuttle.hubs.dropoff.some((h) => h.regionID === regionID) ||
+    shuttle.hubs.pickup.some((h) => h.regionID === regionID)
   );
 };
 
 // TODO super terrible time complexity, refactor someday
-export const containsRegionIds = (
-  regionIds: number[],
+export const containsRegionIDs = (
+  regionIDs: number[],
   shuttle: ShuttleRoute,
 ) => {
   return (
-    shuttle.hubs.dropoff.some((h) => regionIds.includes(h.regionId)) ||
-    shuttle.hubs.pickup.some((h) => regionIds.includes(h.regionId))
+    shuttle.hubs.dropoff.some((h) => regionIDs.includes(h.regionID)) ||
+    shuttle.hubs.pickup.some((h) => regionIDs.includes(h.regionID))
   );
 };

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Shuttle = ({ shuttle }: { shuttle: ShuttleRoute }) => {
   return (
-    <Link href={`/shuttle/${shuttle.shuttleRouteId}`}>
+    <Link href={`/shuttles/${shuttle.shuttleRouteID}`}>
       <div className="flex w-220 flex-col gap-8">
         <div className="relative h-280 w-220 overflow-hidden rounded-[12px] bg-grey-600">
           <Image
@@ -31,7 +31,7 @@ const Shuttle = ({ shuttle }: { shuttle: ShuttleRoute }) => {
               {dateString(
                 new Date(
                   shuttle.shuttle.dailyShuttles.find(
-                    (v) => v.dailyShuttleId === shuttle.dailyShuttleId,
+                    (v) => v.id === shuttle.dailyShuttleID,
                   )?.date || '',
                 ),
               )}{' '}

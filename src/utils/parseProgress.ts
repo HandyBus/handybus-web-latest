@@ -7,7 +7,7 @@ export type OnboardingProgress =
 
 export const parseProgress = (
   progresses: {
-    userProgressId: number;
+    id: number;
     isCompleted: boolean;
     type: ProgressType;
   }[],

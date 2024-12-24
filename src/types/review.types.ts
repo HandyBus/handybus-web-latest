@@ -17,7 +17,7 @@ export interface ReviewType {
     artist: string;
     posterImageUrl: string;
   };
-  reservationId: number;
+  reservationID: number;
   rating: number;
   content: string;
   images: {

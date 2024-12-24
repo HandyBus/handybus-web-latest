@@ -5,7 +5,8 @@ import dateString from '@/utils/dateString';
 
 const DemandView = ({ event }: { event: EventDetailProps }) => {
   return (
-    <Link href={`/demand/${event.shuttleId}`} className="px-16 py-12">
+    // TODO check href
+    <Link href={`/demand/${event.id}`} className="px-16 py-12">
       <article className="flex flex-row gap-16">
         <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-[8px] bg-grey-300">
           <Image

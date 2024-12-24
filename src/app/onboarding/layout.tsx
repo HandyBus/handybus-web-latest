@@ -1,9 +1,4 @@
-import { Metadata } from 'next';
 import { ReactNode } from 'react';
-
-export const metadata: Metadata = {
-  title: '온보딩',
-};
 interface Props {
   top: ReactNode;
   funnel: ReactNode;

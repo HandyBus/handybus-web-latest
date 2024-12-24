@@ -1,3787 +1,2065 @@
 {
   "regions": [
     {
-      "regionId": 1,
+      "ID": 1,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "강남구",
       "cityShortName": "강남",
-      "relatedRegionIds": [
-        1,
-        6,
-        7,
-        8,
-        25,
-        27
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [6, 7, 8, 25, 27]
     },
     {
-      "regionId": 4,
+      "ID": 4,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "종로구",
       "cityShortName": "종로",
-      "relatedRegionIds": [
-        4,
-        5,
-        6,
-        11,
-        16,
-        17
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [5, 6, 11, 16, 17]
     },
     {
-      "regionId": 5,
+      "ID": 5,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "중구",
       "cityShortName": "중",
-      "relatedRegionIds": [
-        4,
-        5,
-        6,
-        7,
-        9,
-        11,
-        16,
-        17
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [4, 6, 7, 9, 11, 16, 17]
     },
     {
-      "regionId": 6,
+      "ID": 6,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "용산구",
       "cityShortName": "용산",
-      "relatedRegionIds": [
-        1,
-        5,
-        6,
-        7,
-        17,
-        22,
-        23,
-        25
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [1, 5, 7, 17, 22, 23, 25]
     },
     {
-      "regionId": 7,
+      "ID": 7,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "성동구",
       "cityShortName": "성동",
-      "relatedRegionIds": [
-        1,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        11
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [1, 4, 5, 6, 8, 9, 11]
     },
     {
-      "regionId": 8,
+      "ID": 8,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "광진구",
       "cityShortName": "광진",
-      "relatedRegionIds": [
-        1,
-        7,
-        8,
-        9,
-        10,
-        27,
-        28,
-        113
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [1, 7, 9, 10, 27, 28, 113]
     },
     {
-      "regionId": 9,
+      "ID": 9,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "동대문구",
       "cityShortName": "동대문",
-      "relatedRegionIds": [
-        4,
-        5,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [4, 5, 7, 8, 10, 11]
     },
     {
-      "regionId": 10,
+      "ID": 10,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "중랑구",
       "cityShortName": "중랑",
-      "relatedRegionIds": [
-        9,
-        10,
-        11,
-        14,
-        113
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [9, 11, 14, 113]
     },
     {
-      "regionId": 11,
+      "ID": 11,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "성북구",
       "cityShortName": "성북",
-      "relatedRegionIds": [
-        4,
-        5,
-        7,
-        9,
-        11,
-        12
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [4, 5, 7, 9, 12]
     },
     {
-      "regionId": 12,
+      "ID": 12,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "강북구",
       "cityShortName": "강북",
-      "relatedRegionIds": [
-        11,
-        12,
-        13,
-        14
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [11, 13, 14]
     },
     {
-      "regionId": 13,
+      "ID": 13,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "도봉구",
       "cityShortName": "도봉",
-      "relatedRegionIds": [
-        12,
-        13,
-        14,
-        118
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [12, 14, 118]
     },
     {
-      "regionId": 14,
+      "ID": 14,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "노원구",
       "cityShortName": "노원",
-      "relatedRegionIds": [
-        11,
-        12,
-        13,
-        14,
-        114
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [11, 12, 13, 114]
     },
     {
-      "regionId": 15,
+      "ID": 15,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "은평구",
       "cityShortName": "은평",
-      "relatedRegionIds": [
-        4,
-        15,
-        16,
-        110
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [4, 16, 110]
     },
     {
-      "regionId": 16,
+      "ID": 16,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "서대문구",
       "cityShortName": "서대문",
-      "relatedRegionIds": [
-        4,
-        5,
-        15,
-        16,
-        17
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [4, 5, 15, 17]
     },
     {
-      "regionId": 17,
+      "ID": 17,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "마포구",
       "cityShortName": "마포",
-      "relatedRegionIds": [
-        15,
-        16,
-        17,
-        18,
-        22,
-        29,
-        110
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [15, 16, 18, 22, 29, 110]
     },
     {
-      "regionId": 18,
+      "ID": 18,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "양천구",
       "cityShortName": "양천",
-      "relatedRegionIds": [
-        18,
-        19,
-        20,
-        21,
-        22,
-        105,
-        106
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [19, 20, 21, 22, 105, 106]
     },
     {
-      "regionId": 19,
+      "ID": 19,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "강서구",
       "cityShortName": "강서",
-      "relatedRegionIds": [
-        17,
-        18,
-        19,
-        22,
-        105,
-        110
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [17, 18, 22, 105, 110]
     },
     {
-      "regionId": 20,
+      "ID": 20,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "구로구",
       "cityShortName": "구로",
-      "relatedRegionIds": [
-        18,
-        20,
-        21,
-        22,
-        23,
-        24,
-        106
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [18, 21, 22, 23, 24, 106]
     },
     {
-      "regionId": 21,
+      "ID": 21,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "금천구",
       "cityShortName": "금천",
-      "relatedRegionIds": [
-        20,
-        21,
-        22,
-        23,
-        24,
-        104,
-        106
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [20, 22, 23, 24, 104, 106]
     },
     {
-      "regionId": 22,
+      "ID": 22,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "영등포구",
       "cityShortName": "영등포",
-      "relatedRegionIds": [
-        17,
-        18,
-        19,
-        20,
-        22,
-        23
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [17, 18, 19, 20, 23]
     },
     {
-      "regionId": 23,
+      "ID": 23,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "동작구",
       "cityShortName": "동작",
-      "relatedRegionIds": [
-        6,
-        17,
-        22,
-        23,
-        24,
-        25
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [6, 17, 22, 24, 25]
     },
     {
-      "regionId": 24,
+      "ID": 24,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "관악구",
       "cityShortName": "관악",
-      "relatedRegionIds": [
-        21,
-        22,
-        23,
-        24,
-        25,
-        111
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [21, 22, 23, 25, 111]
     },
     {
-      "regionId": 25,
+      "ID": 25,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "서초구",
       "cityShortName": "서초",
-      "relatedRegionIds": [
-        1,
-        25,
-        111
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [1, 111]
     },
     {
-      "regionId": 27,
+      "ID": 27,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "송파구",
       "cityShortName": "송파",
-      "relatedRegionIds": [
-        1,
-        8,
-        27,
-        28,
-        119
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [1, 8, 28, 119]
     },
     {
-      "regionId": 28,
+      "ID": 28,
       "provinceFullName": "서울특별시",
       "provinceShortName": "서울",
       "cityFullName": "강동구",
       "cityShortName": "강동",
-      "relatedRegionIds": [
-        8,
-        27,
-        28,
-        113,
-        119
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [8, 27, 113, 119]
     },
     {
-      "regionId": 29,
+      "ID": 29,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "강서구",
       "cityShortName": "강서",
-      "relatedRegionIds": [
-        29,
-        36,
-        37,
-        261
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [36, 37, 261]
     },
     {
-      "regionId": 30,
+      "ID": 30,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "금정구",
       "cityShortName": "금정",
-      "relatedRegionIds": [
-        30,
-        31,
-        34,
-        36,
-        44
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [31, 34, 36, 44]
     },
     {
-      "regionId": 31,
+      "ID": 31,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "기장군",
       "cityShortName": "기장",
-      "relatedRegionIds": [
-        31
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 32,
+      "ID": 32,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "남구",
       "cityShortName": "남",
-      "relatedRegionIds": [
-        32,
-        33,
-        35,
-        40,
-        41
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [33, 35, 40, 41]
     },
     {
-      "regionId": 33,
+      "ID": 33,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "동구",
       "cityShortName": "동",
-      "relatedRegionIds": [
-        32,
-        33,
-        35,
-        37,
-        39,
-        42,
-        43
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [32, 35, 37, 39, 42, 43]
     },
     {
-      "regionId": 34,
+      "ID": 34,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "동래구",
       "cityShortName": "동래",
-      "relatedRegionIds": [
-        30,
-        34,
-        35,
-        40,
-        41,
-        44
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [30, 35, 40, 41, 44]
     },
     {
-      "regionId": 35,
+      "ID": 35,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "부산진구",
       "cityShortName": "부산진",
-      "relatedRegionIds": [
-        32,
-        33,
-        34,
-        35,
-        37,
-        40,
-        41
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [32, 33, 34, 37, 40, 41]
     },
     {
-      "regionId": 36,
+      "ID": 36,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "북구",
       "cityShortName": "북",
-      "relatedRegionIds": [
-        29,
-        35,
-        36,
-        37
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [29, 35, 37]
     },
     {
-      "regionId": 37,
+      "ID": 37,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "사상구",
       "cityShortName": "사상",
-      "relatedRegionIds": [
-        29,
-        33,
-        35,
-        37,
-        38,
-        39
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [29, 33, 35, 38, 39]
     },
     {
-      "regionId": 38,
+      "ID": 38,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "사하구",
       "cityShortName": "사하",
-      "relatedRegionIds": [
-        29,
-        37,
-        38,
-        39
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [29, 37, 39]
     },
     {
-      "regionId": 39,
+      "ID": 39,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "서구",
       "cityShortName": "서",
-      "relatedRegionIds": [
-        33,
-        37,
-        38,
-        39,
-        42,
-        43
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [33, 37, 38, 42, 43]
     },
     {
-      "regionId": 40,
+      "ID": 40,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "수영구",
       "cityShortName": "수영",
-      "relatedRegionIds": [
-        32,
-        35,
-        40,
-        41,
-        44
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [32, 35, 41, 44]
     },
     {
-      "regionId": 41,
+      "ID": 41,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "연제구",
       "cityShortName": "연제",
-      "relatedRegionIds": [
-        32,
-        34,
-        35,
-        40,
-        41,
-        44
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [32, 34, 35, 40, 44]
     },
     {
-      "regionId": 42,
+      "ID": 42,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "영도구",
       "cityShortName": "영도",
-      "relatedRegionIds": [
-        32,
-        33,
-        42,
-        43
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [32, 33, 43]
     },
     {
-      "regionId": 43,
+      "ID": 43,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "중구",
       "cityShortName": "중",
-      "relatedRegionIds": [
-        32,
-        33,
-        38,
-        39,
-        42,
-        43
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [32, 33, 38, 39, 42]
     },
     {
-      "regionId": 44,
+      "ID": 44,
       "provinceFullName": "부산광역시",
       "provinceShortName": "부산",
       "cityFullName": "해운대구",
       "cityShortName": "해운대",
-      "relatedRegionIds": [
-        40,
-        44
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [40]
     },
     {
-      "regionId": 45,
+      "ID": 45,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "남구",
       "cityShortName": "남",
-      "relatedRegionIds": [
-        45,
-        46,
-        48,
-        49,
-        50,
-        51,
-        52
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [46, 48, 49, 50, 51, 52]
     },
     {
-      "regionId": 46,
+      "ID": 46,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "달서구",
       "cityShortName": "달서",
-      "relatedRegionIds": [
-        45,
-        46,
-        47,
-        50
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [45, 47, 50]
     },
     {
-      "regionId": 47,
+      "ID": 47,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "달성군",
       "cityShortName": "달성",
-      "relatedRegionIds": [
-        47,
-        250
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [250]
     },
     {
-      "regionId": 48,
+      "ID": 48,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "동구",
       "cityShortName": "동",
-      "relatedRegionIds": [
-        48,
-        49,
-        51,
-        52
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [49, 51, 52]
     },
     {
-      "regionId": 49,
+      "ID": 49,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "북구",
       "cityShortName": "북",
-      "relatedRegionIds": [
-        45,
-        46,
-        48,
-        49,
-        50,
-        51,
-        52
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [45, 46, 48, 50, 51, 52]
     },
     {
-      "regionId": 50,
+      "ID": 50,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "서구",
       "cityShortName": "서",
-      "relatedRegionIds": [
-        45,
-        46,
-        49,
-        50,
-        52
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [45, 46, 49, 52]
     },
     {
-      "regionId": 51,
+      "ID": 51,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "수성구",
       "cityShortName": "수성",
-      "relatedRegionIds": [
-        45,
-        48,
-        49,
-        51,
-        52
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [45, 48, 49, 52]
     },
     {
-      "regionId": 52,
+      "ID": 52,
       "provinceFullName": "대구광역시",
       "provinceShortName": "대구",
       "cityFullName": "중구",
       "cityShortName": "중",
-      "relatedRegionIds": [
-        45,
-        46,
-        48,
-        49,
-        50,
-        51,
-        52
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [45, 46, 48, 49, 50, 51]
     },
     {
-      "regionId": 53,
+      "ID": 53,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "계양구",
       "cityShortName": "계양",
-      "relatedRegionIds": [
-        19,
-        53,
-        57,
-        58,
-        105
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [19, 57, 58, 105]
     },
     {
-      "regionId": 54,
+      "ID": 54,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "미추홀구",
       "cityShortName": "미추홀",
-      "relatedRegionIds": [
-        54,
-        55,
-        56,
-        57,
-        58,
-        59,
-        60
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [55, 56, 57, 58, 59, 60]
     },
     {
-      "regionId": 55,
+      "ID": 55,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "남동구",
       "cityShortName": "남동",
-      "relatedRegionIds": [
-        54,
-        55,
-        57,
-        59,
-        116
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [54, 57, 59, 116]
     },
     {
-      "regionId": 56,
+      "ID": 56,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "동구",
       "cityShortName": "동",
-      "relatedRegionIds": [
-        54,
-        56,
-        58,
-        60
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [54, 58, 60]
     },
     {
-      "regionId": 57,
+      "ID": 57,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "부평구",
       "cityShortName": "부평",
-      "relatedRegionIds": [
-        53,
-        55,
-        57,
-        58,
-        105
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [53, 55, 58, 105]
     },
     {
-      "regionId": 58,
+      "ID": 58,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "서구",
       "cityShortName": "서",
-      "relatedRegionIds": [
-        53,
-        57,
-        58
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [53, 57]
     },
     {
-      "regionId": 59,
+      "ID": 59,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "연수구",
       "cityShortName": "연수",
-      "relatedRegionIds": [
-        54,
-        55,
-        59
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [54, 55]
     },
     {
-      "regionId": 60,
+      "ID": 60,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "중구",
       "cityShortName": "중",
-      "relatedRegionIds": [
-        54,
-        56,
-        58,
-        60
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [54, 56, 58]
     },
     {
-      "regionId": 61,
+      "ID": 61,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "강화군",
       "cityShortName": "강화",
-      "relatedRegionIds": [
-        61,
-        122
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [122]
     },
     {
-      "regionId": 62,
+      "ID": 62,
       "provinceFullName": "인천광역시",
       "provinceShortName": "인천",
       "cityFullName": "옹진군",
       "cityShortName": "옹진",
-      "relatedRegionIds": [
-        54,
-        56,
-        59,
-        60,
-        62
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [54, 56, 59, 60]
     },
     {
-      "regionId": 63,
+      "ID": 63,
       "provinceFullName": "광주광역시",
       "provinceShortName": "광주",
       "cityFullName": "광산구",
       "cityShortName": "광산",
-      "relatedRegionIds": [
-        63,
-        67
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [67]
     },
     {
-      "regionId": 64,
+      "ID": 64,
       "provinceFullName": "광주광역시",
       "provinceShortName": "광주",
       "cityFullName": "남구",
       "cityShortName": "남",
-      "relatedRegionIds": [
-        64,
-        65,
-        66,
-        67
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [65, 66, 67]
     },
     {
-      "regionId": 65,
+      "ID": 65,
       "provinceFullName": "광주광역시",
       "provinceShortName": "광주",
       "cityFullName": "동구",
       "cityShortName": "동",
-      "relatedRegionIds": [
-        64,
-        65,
-        66,
-        67
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [64, 66, 67]
     },
     {
-      "regionId": 66,
+      "ID": 66,
       "provinceFullName": "광주광역시",
       "provinceShortName": "광주",
       "cityFullName": "북구",
       "cityShortName": "북",
-      "relatedRegionIds": [
-        64,
-        65,
-        66,
-        67
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [64, 65, 67]
     },
     {
-      "regionId": 67,
+      "ID": 67,
       "provinceFullName": "광주광역시",
       "provinceShortName": "광주",
       "cityFullName": "서구",
       "cityShortName": "서",
-      "relatedRegionIds": [
-        64,
-        65,
-        66,
-        67
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [64, 65, 66]
     },
     {
-      "regionId": 69,
+      "ID": 69,
       "provinceFullName": "대전광역시",
       "provinceShortName": "대전",
       "cityFullName": "대덕구",
       "cityShortName": "대덕",
-      "relatedRegionIds": [
-        69,
-        70,
-        71,
-        73
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [70, 71, 73]
     },
     {
-      "regionId": 70,
+      "ID": 70,
       "provinceFullName": "대전광역시",
       "provinceShortName": "대전",
       "cityFullName": "동구",
       "cityShortName": "동",
-      "relatedRegionIds": [
-        70,
-        73
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [73]
     },
     {
-      "regionId": 71,
+      "ID": 71,
       "provinceFullName": "대전광역시",
       "provinceShortName": "대전",
       "cityFullName": "서구",
       "cityShortName": "서",
-      "relatedRegionIds": [
-        69,
-        70,
-        71,
-        72,
-        73
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [69, 70, 72, 73]
     },
     {
-      "regionId": 72,
+      "ID": 72,
       "provinceFullName": "대전광역시",
       "provinceShortName": "대전",
       "cityFullName": "유성구",
       "cityShortName": "유성",
-      "relatedRegionIds": [
-        69,
-        71,
-        72
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [69, 71]
     },
     {
-      "regionId": 73,
+      "ID": 73,
       "provinceFullName": "대전광역시",
       "provinceShortName": "대전",
       "cityFullName": "중구",
       "cityShortName": "중",
-      "relatedRegionIds": [
-        69,
-        70,
-        71,
-        73
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [69, 70, 71]
     },
     {
-      "regionId": 74,
+      "ID": 74,
       "provinceFullName": "울산광역시",
       "provinceShortName": "울산",
       "cityFullName": "남구",
       "cityShortName": "남",
-      "relatedRegionIds": [
-        74,
-        76,
-        77
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [76, 77]
     },
     {
-      "regionId": 75,
+      "ID": 75,
       "provinceFullName": "울산광역시",
       "provinceShortName": "울산",
       "cityFullName": "동구",
       "cityShortName": "동",
-      "relatedRegionIds": [
-        74,
-        75,
-        76
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [74, 76]
     },
     {
-      "regionId": 76,
+      "ID": 76,
       "provinceFullName": "울산광역시",
       "provinceShortName": "울산",
       "cityFullName": "북구",
       "cityShortName": "북",
-      "relatedRegionIds": [
-        76,
-        77
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [77]
     },
     {
-      "regionId": 77,
+      "ID": 77,
       "provinceFullName": "울산광역시",
       "provinceShortName": "울산",
       "cityFullName": "중구",
       "cityShortName": "중",
-      "relatedRegionIds": [
-        74,
-        76,
-        77
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [74, 76]
     },
     {
-      "regionId": 78,
+      "ID": 78,
       "provinceFullName": "울산광역시",
       "provinceShortName": "울산",
       "cityFullName": "울주군",
       "cityShortName": "울주",
-      "relatedRegionIds": [
-        74,
-        78
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [74]
     },
     {
-      "regionId": 79,
+      "ID": 79,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "조치원읍",
       "cityShortName": "조치원",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 80,
+      "ID": 80,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "연기면",
       "cityShortName": "연기",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 81,
+      "ID": 81,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "연동면",
       "cityShortName": "연동",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 82,
+      "ID": 82,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "부강면",
       "cityShortName": "부강",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 83,
+      "ID": 83,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "금남면",
       "cityShortName": "금남",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 84,
+      "ID": 84,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "장군면",
       "cityShortName": "장군",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 85,
+      "ID": 85,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "연서면",
       "cityShortName": "연서",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 86,
+      "ID": 86,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "전의면",
       "cityShortName": "전의",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 87,
+      "ID": 87,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "전동면",
       "cityShortName": "전동",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 88,
+      "ID": 88,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "소정면",
       "cityShortName": "소정",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 89,
+      "ID": 89,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "한솔동",
       "cityShortName": "한솔",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 90,
+      "ID": 90,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "도담동",
       "cityShortName": "도담",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 91,
+      "ID": 91,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "아름동",
       "cityShortName": "아름",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 92, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 92,
+      "ID": 92,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "종촌동",
       "cityShortName": "종촌",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 93, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 93,
+      "ID": 93,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "고운동",
       "cityShortName": "고운",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 94, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 94,
+      "ID": 94,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "소담동",
       "cityShortName": "소담",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 95, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 95,
+      "ID": 95,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "보람동",
       "cityShortName": "보람",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 96,
+      "ID": 96,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "대평동",
       "cityShortName": "대평",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 97,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 97,
+      "ID": 97,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "반곡동",
       "cityShortName": "반곡",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
+        98, 99, 100, 101
+      ]
     },
     {
-      "regionId": 98,
+      "ID": 98,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "새롬동",
       "cityShortName": "새롬",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
+        97, 99, 100, 101
+      ]
     },
     {
-      "regionId": 99,
+      "ID": 99,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "다정동",
       "cityShortName": "다정",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
+        97, 98, 100, 101
+      ]
     },
     {
-      "regionId": 100,
+      "ID": 100,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "해밀동",
       "cityShortName": "해밀",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
+        97, 98, 99, 101
+      ]
     },
     {
-      "regionId": 101,
+      "ID": 101,
       "provinceFullName": "세종특별자치시",
       "provinceShortName": "세종",
       "cityFullName": "합강동",
       "cityShortName": "합강",
-      "relatedRegionIds": [
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [
+        79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
+        97, 98, 99, 100
+      ]
     },
     {
-      "regionId": 102,
+      "ID": 102,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "수원시",
       "cityShortName": "수원",
-      "relatedRegionIds": [
-        102
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 103,
+      "ID": 103,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "성남시",
       "cityShortName": "성남",
-      "relatedRegionIds": [
-        103
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 104,
+      "ID": 104,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "안양시",
       "cityShortName": "안양",
-      "relatedRegionIds": [
-        104
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 105,
+      "ID": 105,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "부천시",
       "cityShortName": "부천",
-      "relatedRegionIds": [
-        105
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 106,
+      "ID": 106,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "광명시",
       "cityShortName": "광명",
-      "relatedRegionIds": [
-        106
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 107,
+      "ID": 107,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "평택시",
       "cityShortName": "평택",
-      "relatedRegionIds": [
-        107
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 108,
+      "ID": 108,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "동두천시",
       "cityShortName": "동두천",
-      "relatedRegionIds": [
-        108
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 109,
+      "ID": 109,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "안산시",
       "cityShortName": "안산",
-      "relatedRegionIds": [
-        109
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 110,
+      "ID": 110,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "고양시",
       "cityShortName": "고양",
-      "relatedRegionIds": [
-        110
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 111,
+      "ID": 111,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "과천시",
       "cityShortName": "과천",
-      "relatedRegionIds": [
-        111
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 112,
+      "ID": 112,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "의왕시",
       "cityShortName": "의왕",
-      "relatedRegionIds": [
-        112
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 113,
+      "ID": 113,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "구리시",
       "cityShortName": "구리",
-      "relatedRegionIds": [
-        113
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 114,
+      "ID": 114,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "남양주시",
       "cityShortName": "남양주",
-      "relatedRegionIds": [
-        114
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 115,
+      "ID": 115,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "용인시",
       "cityShortName": "용인",
-      "relatedRegionIds": [
-        115
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 116,
+      "ID": 116,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "시흥시",
       "cityShortName": "시흥",
-      "relatedRegionIds": [
-        116
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 117,
+      "ID": 117,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "군포시",
       "cityShortName": "군포",
-      "relatedRegionIds": [
-        117
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 118,
+      "ID": 118,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "의정부시",
       "cityShortName": "의정부",
-      "relatedRegionIds": [
-        118
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 119,
+      "ID": 119,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "하남시",
       "cityShortName": "하남",
-      "relatedRegionIds": [
-        119
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 120,
+      "ID": 120,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "이천시",
       "cityShortName": "이천",
-      "relatedRegionIds": [
-        120
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 121,
+      "ID": 121,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "안성시",
       "cityShortName": "안성",
-      "relatedRegionIds": [
-        121
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 122,
+      "ID": 122,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "김포시",
       "cityShortName": "김포",
-      "relatedRegionIds": [
-        122
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 123,
+      "ID": 123,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "화성시",
       "cityShortName": "화성",
-      "relatedRegionIds": [
-        123
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 124,
+      "ID": 124,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "광주시",
       "cityShortName": "광주",
-      "relatedRegionIds": [
-        124
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 125,
+      "ID": 125,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "양주시",
       "cityShortName": "양주",
-      "relatedRegionIds": [
-        125
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 126,
+      "ID": 126,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "포천시",
       "cityShortName": "포천",
-      "relatedRegionIds": [
-        126
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 127,
+      "ID": 127,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "여주시",
       "cityShortName": "여주",
-      "relatedRegionIds": [
-        127
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 128,
+      "ID": 128,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "가평군",
       "cityShortName": "가평",
-      "relatedRegionIds": [
-        128
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 129,
+      "ID": 129,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "양평군",
       "cityShortName": "양평",
-      "relatedRegionIds": [
-        129
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 130,
+      "ID": 130,
       "provinceFullName": "경기도",
       "provinceShortName": "경기",
       "cityFullName": "연천군",
       "cityShortName": "연천",
-      "relatedRegionIds": [
-        130
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 131,
+      "ID": 131,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "춘천시",
       "cityShortName": "춘천",
-      "relatedRegionIds": [
-        131
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 132,
+      "ID": 132,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "원주시",
       "cityShortName": "원주",
-      "relatedRegionIds": [
-        132
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 133,
+      "ID": 133,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "강릉시",
       "cityShortName": "강릉",
-      "relatedRegionIds": [
-        133
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 134,
+      "ID": 134,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "동해시",
       "cityShortName": "동해",
-      "relatedRegionIds": [
-        134
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 135,
+      "ID": 135,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "태백시",
       "cityShortName": "태백",
-      "relatedRegionIds": [
-        135
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 136,
+      "ID": 136,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "속초시",
       "cityShortName": "속초",
-      "relatedRegionIds": [
-        136
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 137,
+      "ID": 137,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "삼척시",
       "cityShortName": "삼척",
-      "relatedRegionIds": [
-        137
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 138,
+      "ID": 138,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "홍천군",
       "cityShortName": "홍천",
-      "relatedRegionIds": [
-        138
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 139,
+      "ID": 139,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "횡성군",
       "cityShortName": "횡성",
-      "relatedRegionIds": [
-        139
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 140,
+      "ID": 140,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "영월군",
       "cityShortName": "영월",
-      "relatedRegionIds": [
-        140
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 141,
+      "ID": 141,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "평창군",
       "cityShortName": "평창",
-      "relatedRegionIds": [
-        141
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 142,
+      "ID": 142,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "정선군",
       "cityShortName": "정선",
-      "relatedRegionIds": [
-        142
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 143,
+      "ID": 143,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "철원군",
       "cityShortName": "철원",
-      "relatedRegionIds": [
-        143
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 144,
+      "ID": 144,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "화천군",
       "cityShortName": "화천",
-      "relatedRegionIds": [
-        144
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 145,
+      "ID": 145,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "양구군",
       "cityShortName": "양구",
-      "relatedRegionIds": [
-        145
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 146,
+      "ID": 146,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "인제군",
       "cityShortName": "인제",
-      "relatedRegionIds": [
-        146
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 147,
+      "ID": 147,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "고성군",
       "cityShortName": "고성",
-      "relatedRegionIds": [
-        147
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 148,
+      "ID": 148,
       "provinceFullName": "강원특별자치도",
       "provinceShortName": "강원",
       "cityFullName": "양양군",
       "cityShortName": "양양",
-      "relatedRegionIds": [
-        148
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 149,
+      "ID": 149,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "청주시",
       "cityShortName": "청주",
-      "relatedRegionIds": [
-        149
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 150,
+      "ID": 150,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "충주시",
       "cityShortName": "충주",
-      "relatedRegionIds": [
-        150
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 151,
+      "ID": 151,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "제천시",
       "cityShortName": "제천",
-      "relatedRegionIds": [
-        151
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 152,
+      "ID": 152,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "보은군",
       "cityShortName": "보은",
-      "relatedRegionIds": [
-        152
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 153,
+      "ID": 153,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "옥천군",
       "cityShortName": "옥천",
-      "relatedRegionIds": [
-        153
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 154,
+      "ID": 154,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "영동군",
       "cityShortName": "영동",
-      "relatedRegionIds": [
-        154
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 155,
+      "ID": 155,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "진천군",
       "cityShortName": "진천",
-      "relatedRegionIds": [
-        155
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 156,
+      "ID": 156,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "괴산군",
       "cityShortName": "괴산",
-      "relatedRegionIds": [
-        156
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 157,
+      "ID": 157,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "음성군",
       "cityShortName": "음성",
-      "relatedRegionIds": [
-        157
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 158,
+      "ID": 158,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "단양군",
       "cityShortName": "단양",
-      "relatedRegionIds": [
-        158
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 159,
+      "ID": 159,
       "provinceFullName": "충청북도",
       "provinceShortName": "충북",
       "cityFullName": "증평군",
       "cityShortName": "증평",
-      "relatedRegionIds": [
-        159
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 160,
+      "ID": 160,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "천안시",
       "cityShortName": "천안",
-      "relatedRegionIds": [
-        160,
-        163
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [163]
     },
     {
-      "regionId": 161,
+      "ID": 161,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "공주시",
       "cityShortName": "공주",
-      "relatedRegionIds": [
-        161
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 162,
+      "ID": 162,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "보령시",
       "cityShortName": "보령",
-      "relatedRegionIds": [
-        162
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 163,
+      "ID": 163,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "아산시",
       "cityShortName": "아산",
-      "relatedRegionIds": [
-        163
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 164,
+      "ID": 164,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "서산시",
       "cityShortName": "서산",
-      "relatedRegionIds": [
-        164
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 165,
+      "ID": 165,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "논산시",
       "cityShortName": "논산",
-      "relatedRegionIds": [
-        165
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 166,
+      "ID": 166,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "계룡시",
       "cityShortName": "계룡",
-      "relatedRegionIds": [
-        166
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 167,
+      "ID": 167,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "당진시",
       "cityShortName": "당진",
-      "relatedRegionIds": [
-        167
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 168,
+      "ID": 168,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "금산군",
       "cityShortName": "금산",
-      "relatedRegionIds": [
-        168
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 169,
+      "ID": 169,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "부여군",
       "cityShortName": "부여",
-      "relatedRegionIds": [
-        169
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 170,
+      "ID": 170,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "서천군",
       "cityShortName": "서천",
-      "relatedRegionIds": [
-        170
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 171,
+      "ID": 171,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "청양군",
       "cityShortName": "청양",
-      "relatedRegionIds": [
-        171
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 172,
+      "ID": 172,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "홍성군",
       "cityShortName": "홍성",
-      "relatedRegionIds": [
-        172
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 173,
+      "ID": 173,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "예산군",
       "cityShortName": "예산",
-      "relatedRegionIds": [
-        173
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 174,
+      "ID": 174,
       "provinceFullName": "충청남도",
       "provinceShortName": "충남",
       "cityFullName": "태안군",
       "cityShortName": "태안",
-      "relatedRegionIds": [
-        174
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 175,
+      "ID": 175,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "전주시",
       "cityShortName": "전주",
-      "relatedRegionIds": [
-        175
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 176,
+      "ID": 176,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "군산시",
       "cityShortName": "군산",
-      "relatedRegionIds": [
-        176
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 177,
+      "ID": 177,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "익산시",
       "cityShortName": "익산",
-      "relatedRegionIds": [
-        177
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 178,
+      "ID": 178,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "정읍시",
       "cityShortName": "정읍",
-      "relatedRegionIds": [
-        178
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 179,
+      "ID": 179,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "남원시",
       "cityShortName": "남원",
-      "relatedRegionIds": [
-        179
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 180,
+      "ID": 180,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "김제시",
       "cityShortName": "김제",
-      "relatedRegionIds": [
-        180
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 181,
+      "ID": 181,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "완주군",
       "cityShortName": "완주",
-      "relatedRegionIds": [
-        181
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 182,
+      "ID": 182,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "진안군",
       "cityShortName": "진안",
-      "relatedRegionIds": [
-        182
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 183,
+      "ID": 183,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "무주군",
       "cityShortName": "무주",
-      "relatedRegionIds": [
-        183
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 184,
+      "ID": 184,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "장수군",
       "cityShortName": "장수",
-      "relatedRegionIds": [
-        184
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 185,
+      "ID": 185,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "임실군",
       "cityShortName": "임실",
-      "relatedRegionIds": [
-        185
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 186,
+      "ID": 186,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "순창군",
       "cityShortName": "순창",
-      "relatedRegionIds": [
-        186
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 187,
+      "ID": 187,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "고창군",
       "cityShortName": "고창",
-      "relatedRegionIds": [
-        187
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 188,
+      "ID": 188,
       "provinceFullName": "전북특별자치도",
       "provinceShortName": "전북",
       "cityFullName": "부안군",
       "cityShortName": "부안",
-      "relatedRegionIds": [
-        188
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 189,
+      "ID": 189,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "목포시",
       "cityShortName": "목포",
-      "relatedRegionIds": [
-        189
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 190,
+      "ID": 190,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "여수시",
       "cityShortName": "여수",
-      "relatedRegionIds": [
-        190
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 191,
+      "ID": 191,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "순천시",
       "cityShortName": "순천",
-      "relatedRegionIds": [
-        191
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 192,
+      "ID": 192,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "나주시",
       "cityShortName": "나주",
-      "relatedRegionIds": [
-        192
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 193,
+      "ID": 193,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "광양시",
       "cityShortName": "광양",
-      "relatedRegionIds": [
-        193
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 194,
+      "ID": 194,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "담양군",
       "cityShortName": "담양",
-      "relatedRegionIds": [
-        194
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 195,
+      "ID": 195,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "곡성군",
       "cityShortName": "곡성",
-      "relatedRegionIds": [
-        195
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 196,
+      "ID": 196,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "구례군",
       "cityShortName": "구례",
-      "relatedRegionIds": [
-        196
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 197,
+      "ID": 197,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "고흥군",
       "cityShortName": "고흥",
-      "relatedRegionIds": [
-        197
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 198,
+      "ID": 198,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "보성군",
       "cityShortName": "보성",
-      "relatedRegionIds": [
-        198
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 199,
+      "ID": 199,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "화순군",
       "cityShortName": "화순",
-      "relatedRegionIds": [
-        199
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 200,
+      "ID": 200,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "장흥군",
       "cityShortName": "장흥",
-      "relatedRegionIds": [
-        200
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 201,
+      "ID": 201,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "강진군",
       "cityShortName": "강진",
-      "relatedRegionIds": [
-        201
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 202,
+      "ID": 202,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "해남군",
       "cityShortName": "해남",
-      "relatedRegionIds": [
-        202
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 203,
+      "ID": 203,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "영암군",
       "cityShortName": "영암",
-      "relatedRegionIds": [
-        203
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 204,
+      "ID": 204,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "무안군",
       "cityShortName": "무안",
-      "relatedRegionIds": [
-        204
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 205,
+      "ID": 205,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "함평군",
       "cityShortName": "함평",
-      "relatedRegionIds": [
-        205
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 206,
+      "ID": 206,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "영광군",
       "cityShortName": "영광",
-      "relatedRegionIds": [
-        206
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 207,
+      "ID": 207,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "장성군",
       "cityShortName": "장성",
-      "relatedRegionIds": [
-        207
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 208,
+      "ID": 208,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "완도군",
       "cityShortName": "완도",
-      "relatedRegionIds": [
-        208
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 209,
+      "ID": 209,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "진도군",
       "cityShortName": "진도",
-      "relatedRegionIds": [
-        209
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 210,
+      "ID": 210,
       "provinceFullName": "전라남도",
       "provinceShortName": "전남",
       "cityFullName": "신안군",
       "cityShortName": "신안",
-      "relatedRegionIds": [
-        210
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 234,
+      "ID": 234,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "포항시",
       "cityShortName": "포항",
-      "relatedRegionIds": [
-        234
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 235,
+      "ID": 235,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "경주시",
       "cityShortName": "경주",
-      "relatedRegionIds": [
-        235
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 236,
+      "ID": 236,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "김천시",
       "cityShortName": "김천",
-      "relatedRegionIds": [
-        236
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 237,
+      "ID": 237,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "안동시",
       "cityShortName": "안동",
-      "relatedRegionIds": [
-        237
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 238,
+      "ID": 238,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "구미시",
       "cityShortName": "구미",
-      "relatedRegionIds": [
-        238
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 239,
+      "ID": 239,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "영주시",
       "cityShortName": "영주",
-      "relatedRegionIds": [
-        239
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 240,
+      "ID": 240,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "영천시",
       "cityShortName": "영천",
-      "relatedRegionIds": [
-        240
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 241,
+      "ID": 241,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "상주시",
       "cityShortName": "상주",
-      "relatedRegionIds": [
-        241
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 242,
+      "ID": 242,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "문경시",
       "cityShortName": "문경",
-      "relatedRegionIds": [
-        242
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 243,
+      "ID": 243,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "경산시",
       "cityShortName": "경산",
-      "relatedRegionIds": [
-        243
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 244,
+      "ID": 244,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "군위군",
       "cityShortName": "군위",
-      "relatedRegionIds": [
-        244
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 245,
+      "ID": 245,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "의성군",
       "cityShortName": "의성",
-      "relatedRegionIds": [
-        245
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 246,
+      "ID": 246,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "청송군",
       "cityShortName": "청송",
-      "relatedRegionIds": [
-        246
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 247,
+      "ID": 247,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "영양군",
       "cityShortName": "영양",
-      "relatedRegionIds": [
-        247
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 248,
+      "ID": 248,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "영덕군",
       "cityShortName": "영덕",
-      "relatedRegionIds": [
-        248
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 249,
+      "ID": 249,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "청도군",
       "cityShortName": "청도",
-      "relatedRegionIds": [
-        249
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 250,
+      "ID": 250,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "고령군",
       "cityShortName": "고령",
-      "relatedRegionIds": [
-        250
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 251,
+      "ID": 251,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "성주군",
       "cityShortName": "성주",
-      "relatedRegionIds": [
-        251
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 252,
+      "ID": 252,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "칠곡군",
       "cityShortName": "칠곡",
-      "relatedRegionIds": [
-        252
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 253,
+      "ID": 253,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "예천군",
       "cityShortName": "예천",
-      "relatedRegionIds": [
-        253
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 254,
+      "ID": 254,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "봉화군",
       "cityShortName": "봉화",
-      "relatedRegionIds": [
-        254
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 255,
+      "ID": 255,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "울진군",
       "cityShortName": "울진",
-      "relatedRegionIds": [
-        255
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 256,
+      "ID": 256,
       "provinceFullName": "경상북도",
       "provinceShortName": "경북",
       "cityFullName": "울릉군",
       "cityShortName": "울릉",
-      "relatedRegionIds": [
-        256
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 257,
+      "ID": 257,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "창원시",
       "cityShortName": "창원",
-      "relatedRegionIds": [
-        257
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 258,
+      "ID": 258,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "진주시",
       "cityShortName": "진주",
-      "relatedRegionIds": [
-        258
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 259,
+      "ID": 259,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "통영시",
       "cityShortName": "통영",
-      "relatedRegionIds": [
-        259
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 260,
+      "ID": 260,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "사천시",
       "cityShortName": "사천",
-      "relatedRegionIds": [
-        260
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 261,
+      "ID": 261,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "김해시",
       "cityShortName": "김해",
-      "relatedRegionIds": [
-        261
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 262,
+      "ID": 262,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "밀양시",
       "cityShortName": "밀양",
-      "relatedRegionIds": [
-        262
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 263,
+      "ID": 263,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "거제시",
       "cityShortName": "거제",
-      "relatedRegionIds": [
-        263
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 264,
+      "ID": 264,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "양산시",
       "cityShortName": "양산",
-      "relatedRegionIds": [
-        264
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 265,
+      "ID": 265,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "의령군",
       "cityShortName": "의령",
-      "relatedRegionIds": [
-        265
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 266,
+      "ID": 266,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "함안군",
       "cityShortName": "함안",
-      "relatedRegionIds": [
-        266
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 267,
+      "ID": 267,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "창녕군",
       "cityShortName": "창녕",
-      "relatedRegionIds": [
-        267
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 268,
+      "ID": 268,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "고성군",
       "cityShortName": "고성",
-      "relatedRegionIds": [
-        268
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 269,
+      "ID": 269,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "남해군",
       "cityShortName": "남해",
-      "relatedRegionIds": [
-        269
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 270,
+      "ID": 270,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "하동군",
       "cityShortName": "하동",
-      "relatedRegionIds": [
-        270
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 271,
+      "ID": 271,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "산청군",
       "cityShortName": "산청",
-      "relatedRegionIds": [
-        271
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 272,
+      "ID": 272,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "함양군",
       "cityShortName": "함양",
-      "relatedRegionIds": [
-        272
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 273,
+      "ID": 273,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "거창군",
       "cityShortName": "거창",
-      "relatedRegionIds": [
-        273
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 274,
+      "ID": 274,
       "provinceFullName": "경상남도",
       "provinceShortName": "경남",
       "cityFullName": "합천군",
       "cityShortName": "합천",
-      "relatedRegionIds": [
-        274
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": []
     },
     {
-      "regionId": 275,
+      "ID": 275,
       "provinceFullName": "제주특별자치도",
       "provinceShortName": "제주",
       "cityFullName": "서귀포시",
       "cityShortName": "서귀포",
-      "relatedRegionIds": [
-        275,
-        276
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [276]
     },
     {
-      "regionId": 276,
+      "ID": 276,
       "provinceFullName": "제주특별자치도",
       "provinceShortName": "제주",
       "cityFullName": "제주시",
       "cityShortName": "제주",
-      "relatedRegionIds": [
-        275,
-        276
-      ],
-      "createdAt": "2024-11-08 00:00:00",
-      "updatedAt": "2024-11-08 00:00:00"
+      "relatedRegionIDs": [275]
     }
   ]
 }

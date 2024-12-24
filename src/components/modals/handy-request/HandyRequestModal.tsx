@@ -6,29 +6,16 @@ interface Props {
   onConfirm: () => void;
   isOpen: boolean;
   onClosed: () => void;
-  buttonText?: string;
-  subButtonText?: string;
 }
 
-const HandyRequestModal = ({
-  onConfirm,
-  isOpen,
-  onClosed,
-  buttonText,
-  subButtonText,
-}: Props) => {
+const HandyRequestModal = ({ onConfirm, isOpen, onClosed }: Props) => {
   return (
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
       styles="fixed top-50 left-50 z-[101] flex h-[393px] w-280 flex-col items-center justify-center gap-12 bg-white px-24 py-20 rounded-[20px]"
     >
-      <ModalContent
-        onConfirm={onConfirm}
-        onClosed={onClosed}
-        buttonText={buttonText}
-        subButtonText={subButtonText}
-      />
+      <ModalContent onConfirm={onConfirm} onClosed={onClosed} />
     </CustomModal>
   );
 };
@@ -38,16 +25,9 @@ export default HandyRequestModal;
 interface ModalContentProps {
   onConfirm: () => void;
   onClosed: () => void;
-  buttonText?: string;
-  subButtonText?: string;
 }
 
-const ModalContent = ({
-  onConfirm,
-  onClosed,
-  buttonText = '핸디 역할 알아보기',
-  subButtonText = '아니요, 괜찮아요',
-}: ModalContentProps) => {
+const ModalContent = ({ onConfirm, onClosed }: ModalContentProps) => {
   return (
     <>
       <Image
@@ -75,10 +55,10 @@ const ModalContent = ({
       </p>
       <div className="flex w-[100%] flex-col gap-8">
         <Button variant="primary" onClick={onConfirm}>
-          {buttonText}
+          핸디 역할 알아보기
         </Button>
         <Button variant="secondary" onClick={onClosed}>
-          {subButtonText}
+          아니요, 괜찮아요
         </Button>
       </div>
     </>

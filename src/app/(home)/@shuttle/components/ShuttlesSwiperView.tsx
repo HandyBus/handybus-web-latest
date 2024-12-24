@@ -32,7 +32,7 @@ const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRoute[] }) => {
         >
           {shuttles?.slice(0, 16).map((v) => (
             <SwiperSlide
-              key={v.shuttleRouteId}
+              key={v.shuttleRouteID}
               style={{ width: 'fit-content' }}
             >
               <div className="pr-[6px]">

@@ -21,7 +21,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { UserDashboardType } from '@/types/client.types';
 import { EditType } from '../page';
-import { CustomError } from '@/services/custom-error';
 
 interface Props {
   type: EditType;
@@ -29,7 +28,7 @@ interface Props {
 }
 
 const EditForm = ({ type, userDashboard }: Props) => {
-  const region = ID_TO_REGION[userDashboard.regionId];
+  const region = ID_TO_REGION[userDashboard.regionID];
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
@@ -52,8 +51,9 @@ const EditForm = ({ type, userDashboard }: Props) => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       router.replace('/mypage/profile');
     },
-    onError: (e: CustomError) => {
-      if (e.statusCode === 409) {
+    onError: (e) => {
+      console.error(e);
+      if (e.status === 409) {
         toast.error('이미 사용중인 닉네임입니다.');
         return;
       }
@@ -69,8 +69,8 @@ const EditForm = ({ type, userDashboard }: Props) => {
     formData,
   ) => {
     setIsSubmitting(true);
-    const favoriteArtistsIds = formData.favoriteArtists.map(
-      (artist) => artist.artistId,
+    const favoriteArtistsIDs = formData.favoriteArtists.map(
+      (artist) => artist.id,
     );
     const imageUrl = await getImageUrl({
       key: 'users/profiles',
@@ -84,8 +84,8 @@ const EditForm = ({ type, userDashboard }: Props) => {
       setIsSubmitting(false);
       return;
     }
-    const regionId = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
-    if (!regionId) {
+    const regionID = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
+    if (!regionID) {
       toast.error('프로필 수정에 실패하였습니다.');
       setIsSubmitting(false);
       return;
@@ -97,8 +97,8 @@ const EditForm = ({ type, userDashboard }: Props) => {
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
       profileImage: imageUrl ?? '',
-      favoriteArtistsIds,
-      regionId,
+      favoriteArtistsIDs,
+      regionID,
     };
 
     putUser(body);

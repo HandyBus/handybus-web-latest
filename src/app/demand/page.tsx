@@ -8,17 +8,6 @@ import { getOpenDemandings } from './utils/fetch.util';
 import ShuttleDetail from './components/ShuttleDetail';
 import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: '수요 확인 중인 셔틀',
-  openGraph: {
-    title: '수요 확인 중인 셔틀',
-  },
-  twitter: {
-    title: '수요 확인 중인 셔틀',
-  },
-};
 
 interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
@@ -46,9 +35,7 @@ const Page = async ({ searchParams }: Props) => {
           {sortedData.length === 0 ? (
             <Empty />
           ) : (
-            sortedData?.map((v) => (
-              <ShuttleDetail key={v.shuttleId} shuttle={v} />
-            ))
+            sortedData?.map((v) => <ShuttleDetail key={v.id} shuttle={v} />)
           )}
         </OpenShuttleDetails>
       </div>

@@ -1,74 +1,118 @@
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
-import { getProgress } from './services/users';
-import { updateToken } from './utils/handleToken';
-import { ACCESS_TOKEN, OPTIONS, REFRESH_TOKEN } from './constants/token';
-import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  ACCESS_TOKEN,
+  ACCESS_TOKEN_EXPIRES_AT,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_EXPIRES_AT,
+  TOKEN_KEYS,
+} from './constants/token';
+import { postRefreshToken } from './services/auth';
+import { SESSION } from './utils/handleSession';
+import { setResponseCookies } from './utils/handleCookie';
+import { parseProgress } from './utils/parseProgress';
+import { BASE_URL } from './services/config';
 
-// 로그인이 필요한 페이지들만 미들웨어 처리
 export const middleware = async (req: NextRequest) => {
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
-  const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
-
-  // 토큰 만료 시 토큰 재발급
-  if (refreshToken && !accessToken) {
-    return handleRefreshToken(req);
-  }
-
-  // 로그인 여부에 따라 리다이렉트
-  if (!refreshToken) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
-  try {
-    const progress = await getProgress();
-    if (
-      progress !== 'ONBOARDING_COMPLETE' &&
-      req.nextUrl.pathname !== '/onboarding'
-    ) {
-      return NextResponse.redirect(new URL('/onboarding', req.url));
+  // 로그인 상태에서 온보딩 접근 시 마이페이지로 리다이렉트
+  if (req.nextUrl.pathname === '/onboarding') {
+    const refreshToken = req.cookies.get(REFRESH_TOKEN)?.value;
+    if (refreshToken) {
+      return NextResponse.redirect(new URL('/mypage', req.url));
     }
-  } catch {
-    return handleRefreshToken(req);
   }
 
-  // 온보딩을 완료하고 온보딩 페이지 접근 시 마이페이지로 리다이렉트
-  if (req.nextUrl.pathname === '/onboarding' && refreshToken) {
+  // 인증 필요 페이지에 접근할 때 토큰 존재와 온보딩 완료 여부에 따라 리다이렉트
+  if (AuthRequiredPages.includes(req.nextUrl.pathname)) {
+    const refreshToken = req.cookies.get(REFRESH_TOKEN)?.value;
+    const accessToken = req.cookies.get(ACCESS_TOKEN)?.value;
+    if (!refreshToken) {
+      return clearTokensAndRedirect(req, '/login');
+    }
+    if (!accessToken) {
+      return handleTokenRefresh(req, refreshToken);
+    }
     try {
-      const progress = await getProgress();
-      if (progress === 'ONBOARDING_COMPLETE') {
-        return NextResponse.redirect(new URL('/mypage', req.url));
+      const progress = await getProgress(accessToken);
+      if (progress !== 'ONBOARDING_COMPLETE') {
+        return NextResponse.rewrite(new URL('/onboarding', req.url));
       }
-    } catch {
-      return handleRefreshToken(req);
+    } catch (e) {
+      console.error('Middleware Progress Fetch Error: ', e);
+      return clearTokensAndRedirect(req, '/login');
     }
   }
 
-  return NextResponse.next();
+  // 로그아웃 시 토큰 삭제 (RSC 요청 시 토큰 삭제 방지)
+  const response = NextResponse.next();
+  const isRSC = req.nextUrl.searchParams.has('_rsc');
+  if (!isRSC) {
+    const session = req.cookies.get(SESSION)?.value;
+    const parsedSession = session ? JSON.parse(session) : null;
+    if (!parsedSession) {
+      clearAllTokens(response);
+    }
+  }
+
+  return response;
 };
+
+export const AuthRequiredPages = ['/mypage'];
 
 export const config = {
-  matcher: ['/onboarding', '/mypage/:path*', '/demand/:path*/write'],
+  matcher: ['/api/:path*', '/', '/onboarding', '/mypage'],
 };
 
-const handleRefreshToken = async (req: NextRequest) => {
+const handleTokenRefresh = async (req: NextRequest, refreshToken: string) => {
   try {
+    const tokens = await postRefreshToken(refreshToken);
     const response = NextResponse.redirect(new URL(req.url));
-    const tokens = await updateToken();
-    response.cookies.set(ACCESS_TOKEN, tokens.accessToken, {
-      ...OPTIONS,
-      expires: new Date(tokens.accessTokenExpiresAt),
-    });
-    response.cookies.set(REFRESH_TOKEN, tokens.refreshToken, {
-      ...OPTIONS,
-      expires: new Date(tokens.refreshTokenExpiresAt),
-    });
+
+    setResponseCookies(
+      response,
+      REFRESH_TOKEN,
+      tokens.refreshToken,
+      new Date(tokens.refreshTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      ACCESS_TOKEN,
+      tokens.accessToken,
+      new Date(tokens.accessTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      REFRESH_TOKEN_EXPIRES_AT,
+      tokens.refreshTokenExpiresAt,
+      new Date(tokens.refreshTokenExpiresAt),
+    );
+    setResponseCookies(
+      response,
+      ACCESS_TOKEN_EXPIRES_AT,
+      tokens.accessTokenExpiresAt,
+      new Date(tokens.accessTokenExpiresAt),
+    );
+
     return response;
-  } catch (error) {
-    console.error('미들웨어 로그인 시간 만료: ', error);
-    const response = NextResponse.redirect(new URL('/login', req.url));
-    response.cookies.delete(ACCESS_TOKEN);
-    response.cookies.delete(REFRESH_TOKEN);
-    return response;
+  } catch (e) {
+    console.error('Middleware Token Refresh Error: ', e);
+    return clearTokensAndRedirect(req, '/login');
   }
+};
+
+const clearAllTokens = (response: NextResponse) => {
+  TOKEN_KEYS.forEach((key) => response.cookies.delete(key));
+};
+
+const clearTokensAndRedirect = (req: NextRequest, path: string) => {
+  const response = NextResponse.rewrite(new URL(path, req.url));
+  clearAllTokens(response);
+  return response;
+};
+
+const getProgress = async (accessToken: string) => {
+  const res = await fetch(new URL('/user-management/users/me', BASE_URL), {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const data = await res.json();
+  return parseProgress(data?.user?.progresses);
 };

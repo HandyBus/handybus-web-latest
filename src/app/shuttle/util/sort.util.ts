@@ -2,18 +2,18 @@ import type { ShuttleRoute } from '@/types/shuttle.types';
 import type { ShuttleSortType } from '../constants/params';
 import type { Region } from '@/hooks/useRegion';
 import { REGION_TO_ID } from '@/constants/regions';
-import { containsRegionId, containsRegionIds } from './contain.util';
+import { containsRegionID, containsRegionIDs } from './contain.util';
 
 const filterByRegion = (region: Region, shuttles: ShuttleRoute[]) => {
-  const regionId =
+  const regionID =
     region.bigRegion &&
     region.smallRegion &&
     REGION_TO_ID[region.bigRegion][region.smallRegion];
-  if (regionId) return shuttles.filter((s) => containsRegionId(regionId, s));
+  if (regionID) return shuttles.filter((s) => containsRegionID(regionID, s));
 
   if (region.bigRegion) {
-    const relatedRegionIds = Object.values(REGION_TO_ID[region.bigRegion]);
-    return shuttles.filter((s) => containsRegionIds(relatedRegionIds, s));
+    const relatedRegionIDs = Object.values(REGION_TO_ID[region.bigRegion]);
+    return shuttles.filter((s) => containsRegionIDs(relatedRegionIDs, s));
   }
   return shuttles;
 };
@@ -34,14 +34,12 @@ export const toSortedShuttles = (
       return filteredShuttles.toSorted(
         (a, b) =>
           new Date(
-            a.shuttle.dailyShuttles.find(
-              (v) => v.dailyShuttleId === a.dailyShuttleId,
-            )?.date || '',
+            a.shuttle.dailyShuttles.find((v) => v.id === a.dailyShuttleID)
+              ?.date || '',
           ).getTime() -
           new Date(
-            b.shuttle.dailyShuttles.find(
-              (v) => v.dailyShuttleId === b.dailyShuttleId,
-            )?.date || '',
+            b.shuttle.dailyShuttles.find((v) => v.id === b.dailyShuttleID)
+              ?.date || '',
           ).getTime(),
       );
     case '예약 마감이 임박한 순':

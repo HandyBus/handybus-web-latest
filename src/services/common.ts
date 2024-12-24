@@ -1,15 +1,18 @@
+import axios from 'axios';
 import { instance } from './config';
 
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
 
 const getPresignedUrl = async (key: KeyType, extension: ExtensionType) => {
-  const params = new URLSearchParams({ key, extension });
-  const res = await instance.get<{
+  const res = await instance.get('/common/image/presigned-url', {
+    params: { key, extension },
+  });
+  const data: {
     presignedUrl: string;
     cdnUrl: string;
-  }>(`/common/image/presigned-url?${params}`);
-  return res;
+  } = res.data;
+  return data;
 };
 
 const uploadImageToS3 = async (url: string, file: File) => {
@@ -17,13 +20,8 @@ const uploadImageToS3 = async (url: string, file: File) => {
   imageFormData.append('file', file);
   const buffer = await file.arrayBuffer();
 
-  await fetch(url, {
-    method: 'PUT',
-    body: file,
-    headers: {
-      'Content-Type': file.type,
-      'Content-Length': String(buffer.byteLength),
-    },
+  await axios.put(url, file, {
+    headers: { 'Content-Type': file.type, 'Content-Length': buffer.byteLength },
   });
 };
 

@@ -7,10 +7,9 @@ export type RouteType = (typeof ROUTE_TYPE)[keyof typeof ROUTE_TYPE];
 
 export type ShuttleRouteObject = {
   time: string;
-  hubId: string;
-  hubName: string;
-  isPickup?: boolean;
-  isDropoff?: boolean;
+  location: string;
+  is_pickup?: boolean;
+  is_dropoff?: boolean;
 };
 
 export const SECTION = {
@@ -21,8 +20,8 @@ export const SECTION = {
 
 export type SectionType = (typeof SECTION)[keyof typeof SECTION];
 export interface ShuttleRoute {
-  shuttleRouteId: number;
-  dailyShuttleId: number;
+  shuttleRouteID: number;
+  dailyShuttleID: number;
   shuttle: ShuttleRouteEvent;
   name: string;
   status: 'OPEN' | 'CLOSED' | 'CONFIRMED' | 'ENDED' | 'CANCELLED' | 'INACTIVE';
@@ -45,21 +44,21 @@ export interface Hub {
   pickup: {
     name: string;
     sequence: number;
-    regionId: number;
+    regionID: number;
     arrivalTime: string;
   }[];
 
   dropoff: {
     name: string;
     sequence: number;
-    regionId: number;
+    regionID: number;
     arrivalTime: string;
   }[];
 
   destination: {
     name: string;
     sequence: number;
-    regionId: number;
+    regionID: number;
     arrivalTime: string;
   };
 }
@@ -67,7 +66,7 @@ export interface Hub {
 export interface ShuttleRouteEvent {
   name: string;
   dailyShuttles: {
-    dailyShuttleId: number;
+    id: number;
     date: string;
     status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
   }[];
@@ -87,40 +86,7 @@ export interface ShuttleRouteEvent {
 }
 
 export interface DailyShuttleDetailProps {
-  dailyShuttleId: number;
+  id: number;
   date: string;
   status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
-}
-
-export const SHUTTLE_DEMANDS_STATUS = {
-  OPEN: 'OPEN', // 수요조사가 아직 모집 중인 상태
-  CLOSED: 'CLOSED', // 수요조사 모집 종료, 셔틀 미매핑 상태
-  SHUTTLE_ASSIGNED: 'SHUTTLE_ASSIGNED', // 수요조사 모집 종료, 셔틀 매핑 상태
-  ENDED: 'ENDED', // 콘서트가 끝나 셔틀 운행 종료
-  CANCELLED: 'CANCELLED', // 무산 상태
-  INACTIVE: 'INACTIVE', // 비활성 상태
-} as const;
-
-export type ShuttleDemandsStatusType =
-  (typeof SHUTTLE_DEMANDS_STATUS)[keyof typeof SHUTTLE_DEMANDS_STATUS];
-
-export interface ShuttleDemandStatusCount {
-  fromDestinationCount: number;
-  roundTripCount: number;
-  toDestinationCount: number;
-}
-
-export interface ShuttleDemandStatus {
-  count: ShuttleDemandStatusCount;
-}
-
-export interface RegionHubProps {
-  regionHubs: {
-    regionHubId: number;
-    regionId: number;
-    name: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-  }[];
 }

@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
+import { MOCK_SHUTTLE_DATA } from '@/app/mypage/shuttle/components/ShuttleCard';
+import ShuttleCard from '@/app/mypage/shuttle/components/ShuttleCard';
 
 const WriteReview = () => {
   const [rating, setRating] = useState(0);
@@ -50,7 +52,7 @@ const WriteReview = () => {
     <>
       <AppBar>후기 작성</AppBar>
       <form onSubmit={handleSubmit} className="relative grow">
-        {/* <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} /> */}
+        <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} />
         <section className="flex w-full flex-col gap-16 p-28">
           <h5>이번 셔틀의 만족도를 입력해주세요</h5>
           <div>

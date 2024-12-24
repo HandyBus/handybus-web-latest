@@ -17,17 +17,6 @@ import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
 import ShuttleRouteView from './components/ShuttleRoute';
 import { toSortedShuttles } from './util/sort.util';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: '지금 예약 모집 중인 셔틀',
-  openGraph: {
-    title: '지금 예약 모집 중인 셔틀',
-  },
-  twitter: {
-    title: '지금 예약 모집 중인 셔틀',
-  },
-};
 
 interface Props {
   searchParams: { [K in string]: string | string[] | undefined };
@@ -88,12 +77,12 @@ const Page = async ({ searchParams }: Props) => {
                 <Empty />
               ) : (
                 related.map((v) => (
-                  <ShuttleRouteView key={v.shuttleRouteId} shuttleRoute={v} />
+                  <ShuttleRouteView key={v.shuttleRouteID} shuttleRoute={v} />
                 ))
               )
             ) : (
               data.map((v) => (
-                <ShuttleRouteView key={v.shuttleRouteId} shuttleRoute={v} />
+                <ShuttleRouteView key={v.shuttleRouteID} shuttleRoute={v} />
               ))
             )}
           </div>
@@ -113,15 +102,15 @@ const relatedRegionNames = (
   region: Region,
   relatedShuttles: ShuttleRoute[],
 ) => {
-  const regionIds = relatedShuttles.flatMap((s) =>
+  const regionIDs = relatedShuttles.flatMap((s) =>
     s.hubs.dropoff
-      .map((d) => d.regionId)
-      .concat(s.hubs.pickup.map((p) => p.regionId)),
+      .map((d) => d.regionID)
+      .concat(s.hubs.pickup.map((p) => p.regionID)),
   );
 
-  const uniqueRegionIds = Array.from(new Set(regionIds));
+  const uniqueRegionIDs = Array.from(new Set(regionIDs));
 
-  const regionNames = uniqueRegionIds.map((id) => ID_TO_REGION[id].smallRegion);
+  const regionNames = uniqueRegionIDs.map((id) => ID_TO_REGION[id].smallRegion);
   const rest = regionNames.length - 2;
 
   if (rest > 0) {

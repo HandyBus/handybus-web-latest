@@ -4,45 +4,16 @@ import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
-import { deleteUser } from '@/services/users';
-import { revalidatePaths } from '@/utils/revalidatePath';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 
 const Leave = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleDeleteUser = async () => {
-    try {
-      await deleteUser();
-      await handleLogout();
-      toast.success('핸디버스를 이용해주셔서 감사합니다.');
-    } catch (e) {
-      console.error(e);
-      toast.error('탈퇴에 실패했습니다.');
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        redirect: 'follow',
-      });
-      revalidatePaths();
-      if (response.redirected) {
-        window.location.href = response.url;
-      }
-    } catch (error) {
-      console.error('로그아웃 실패: ', error);
-    }
-  };
-
   return (
-    <>
+    <div className="relative flex h-full w-full flex-col">
       <AppBar>탈퇴하기</AppBar>
-      <main className="relative w-full grow">
+      <main className="w-full grow">
         <section className="px-32 py-8 pt-28">
           <h2 className="pb-[6px] text-26 font-700 text-grey-900">
             핸디버스를 떠나신다니
@@ -62,7 +33,7 @@ const Leave = () => {
             복구할 수 없어요.
           </p>
         </section>
-        <div className="absolute bottom-0 flex w-full flex-col gap-8 px-32 pb-20">
+        <div className="absolute bottom-0 flex w-full flex-col gap-8 px-32 pb-8">
           <button
             className="flex w-fit items-center gap-8"
             onClick={() => setIsChecked((prev) => !prev)}
@@ -84,9 +55,9 @@ const Leave = () => {
         isOpen={isOpen}
         onClosed={() => setIsOpen(false)}
         buttonLabels={{ back: '안 떠날래요', confirm: '탈퇴하기' }}
-        onConfirm={handleDeleteUser}
+        onConfirm={() => {}}
       />
-    </>
+    </div>
   );
 };
 
