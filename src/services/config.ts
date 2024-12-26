@@ -32,6 +32,7 @@ class Instance {
   ) {
     const config: RequestInit = {
       method,
+      next: { revalidate: 3600 },
       ...options,
       headers: {
         'Content-Type': 'application/json',
