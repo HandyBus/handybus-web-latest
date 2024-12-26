@@ -19,7 +19,7 @@ import { useShuttleFormValidation } from '../hooks/useValidation';
 import RouteInfo from '../components/RouteInfo';
 import JourneyLocationPicker from '../components/JourneyLocationPicker';
 import { CustomError } from '@/services/custom-error';
-import revalidateUser from '@/app/actions/revalidateUser';
+import revalidateUser from '@/app/actions/revalidateUser.action';
 
 interface WriteFormProps {
   demandData: EventDetailProps;

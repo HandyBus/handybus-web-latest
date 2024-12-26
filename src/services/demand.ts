@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { authInstance } from './config';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import revalidateUser from '@/app/actions/revalidateUser';
+import revalidateUser from '@/app/actions/revalidateUser.action';
 
 const deleteDemand = async ({
   shuttleId,

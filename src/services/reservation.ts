@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { authInstance } from './config';
-import revalidateUser from '@/app/actions/revalidateUser';
+import revalidateUser from '@/app/actions/revalidateUser.action';
 
 const postRefund = async (paymentId: number, refundReason: string) => {
   await authInstance.post(`/billing/payments/${paymentId}/refunds`, {

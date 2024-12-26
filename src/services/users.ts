@@ -8,7 +8,7 @@ import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
 import { CustomError } from './custom-error';
-import revalidateUser from '@/app/actions/revalidateUser';
+import revalidateUser from '@/app/actions/revalidateUser.action';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
