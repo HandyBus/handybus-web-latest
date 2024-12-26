@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Select from '@/components/select/Select';
 import useStickyMenu from '@/hooks/useStickyMenu';
 import useRegion, { Region } from '@/hooks/useRegion';
+import { regionToString } from '@/utils/region.util';
 import { toSearchParams } from '@/utils/searchParams';
 
 import SelectRegionsWithChips from './SelectRegionsWithChips';
@@ -20,7 +21,7 @@ interface Props {
   region: Region;
   header:
     | { type: 'REGION'; length: number }
-    | { type: 'RELATED'; length: number; related: string };
+    | { type: 'ALTERNATIVE'; length: number; alternative: string };
   children: ReactNode;
 }
 
@@ -31,7 +32,7 @@ const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
 
   const handleClose = useCallback(() => {
     const postfix = toSearchParams({
-      ...region,
+      ...(region.bigRegion ? region : {}),
       sort: shuttleSortToSearchParam(sort),
     } as Record<string, string>).toString();
     route.replace(`/shuttle${postfix ? `?${postfix}` : ''}`);
@@ -71,8 +72,7 @@ const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
             {header.type === 'REGION' ? (
               <>
                 <span className="text-14 font-500 text-grey-500">
-                  {region.bigRegion === undefined ? '전국' : region.bigRegion}
-                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
+                  {regionToString(region)}
                 </span>
                 <span className="text-14 font-400 text-grey-500">
                   에서 예약 모집 중인 셔틀({header.length})
@@ -81,15 +81,12 @@ const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
             ) : (
               <>
                 <span className="text-14 font-500 text-grey-500">
-                  {region.bigRegion === undefined
-                    ? '전국'
-                    : String(region.bigRegion)}
-                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
+                  {regionToString(region)}
                 </span>
                 <span className="text-14 font-400 text-grey-500">
                   에서 예약 모집 중인 셔틀이 없어{' '}
                   <span className="text-14 font-600 text-grey-500">
-                    {header.related}
+                    {header.alternative}
                   </span>
                   의 결과를 대신 보여드려요.
                 </span>

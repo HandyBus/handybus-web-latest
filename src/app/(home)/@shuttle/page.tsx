@@ -2,11 +2,12 @@ import type { ReactNode } from 'react';
 import { containsRegionId } from '@/app/shuttle/util/contain.util';
 import {
   fetchAllShuttles,
-  fetchRelatedShuttles,
+  fetchIncludingRelatedShuttles,
 } from '@/app/shuttle/util/fetch.util';
 import { getUser } from '@/services/users';
 import Article from '@/components/article/Article';
 import { Region } from '@/hooks/useRegion';
+import { regionToString } from '@/utils/region.util';
 import { ID_TO_REGION } from '@/constants/regions';
 import { ShuttleRoute } from '@/types/shuttle.types';
 import ShuttlesSwiperView from './components/ShuttlesSwiperView';
@@ -24,6 +25,7 @@ const Page = async () => {
 export default Page;
 
 import LocationMarker from './icons/marker.svg';
+import { toSearchParams } from '@/utils/searchParams';
 interface BarProp {
   region: Region | undefined;
   children: ReactNode;
@@ -31,13 +33,12 @@ interface BarProp {
 }
 
 const Bar = ({ region, children, related }: BarProp) => {
-  const postfix = region
-    ? new URLSearchParams({ ...region } as Record<string, string>).toString()
-    : '';
+  const postfix = toSearchParams({
+    bigRegion: region?.bigRegion,
+    smallRegion: region?.smallRegion,
+  }).toString();
 
-  const location = region
-    ? `${region.bigRegion}${region.smallRegion === undefined ? '' : ` ${region.smallRegion}`}`
-    : '모든';
+  const location = region ? regionToString(region) : '모든';
 
   return (
     <Article
@@ -89,7 +90,7 @@ const getRegionAndShuttles = async (): Promise<{
     };
   }
 
-  const relatedShuttles = await fetchRelatedShuttles(userRegion);
+  const relatedShuttles = await fetchIncludingRelatedShuttles(userRegion);
 
   if (relatedShuttles.length > 0) {
     return {

@@ -1,7 +1,10 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
-import { fetchAllShuttles, fetchRelatedShuttles } from './util/fetch.util';
+import {
+  fetchAllShuttles,
+  fetchIncludingRelatedShuttles,
+} from './util/fetch.util';
 import getFirstSearchParam from '@/utils/getFirstSearchParam';
 import {
   shuttleSortSearhParamsFromString,
@@ -55,12 +58,13 @@ const Page = async ({ searchParams }: Props) => {
       ? ({ bigRegion, smallRegion } as Region)
       : { bigRegion: undefined, smallRegion: undefined };
 
-  const [shuttles, related] = await Promise.all([
+  const [allShuttles, related] = await Promise.all([
     fetchAllShuttles(),
-    fetchRelatedShuttles(region),
+    fetchIncludingRelatedShuttles(region),
   ]);
 
-  const data = toSortedShuttles(region, sortBy, shuttles);
+  const all = toSortedShuttles(sortBy, allShuttles);
+  const data = toSortedShuttles(sortBy, related);
 
   return (
     <>
@@ -70,24 +74,24 @@ const Page = async ({ searchParams }: Props) => {
           region={region}
           sort={sortBy}
           header={
-            data.length > 0 || !related || related.length === 0
+            data.length > 0 || !all || all.length === 0
               ? {
                   type: 'REGION',
                   length: data.length,
                 }
               : {
-                  type: 'RELATED',
-                  length: related.length,
-                  related: relatedRegionNames(region, related),
+                  type: 'ALTERNATIVE',
+                  length: all.length,
+                  alternative: '전국',
                 }
           }
         >
           <div>
             {data.length === 0 ? (
-              related.length === 0 ? (
+              all.length === 0 ? (
                 <Empty />
               ) : (
-                related.map((v) => (
+                all.map((v) => (
                   <ShuttleRouteView key={v.shuttleRouteId} shuttleRoute={v} />
                 ))
               )
@@ -105,27 +109,3 @@ const Page = async ({ searchParams }: Props) => {
 };
 
 export default Page;
-
-import { ID_TO_REGION } from '@/constants/regions';
-import type { ShuttleRoute } from '@/types/shuttle.types';
-
-const relatedRegionNames = (
-  region: Region,
-  relatedShuttles: ShuttleRoute[],
-) => {
-  const regionIds = relatedShuttles.flatMap((s) =>
-    s.hubs.dropoff
-      .map((d) => d.regionId)
-      .concat(s.hubs.pickup.map((p) => p.regionId)),
-  );
-
-  const uniqueRegionIds = Array.from(new Set(regionIds));
-
-  const regionNames = uniqueRegionIds.map((id) => ID_TO_REGION[id].smallRegion);
-  const rest = regionNames.length - 2;
-
-  if (rest > 0) {
-    return `${regionNames.slice(0, 2).join(', ')} 외 ${rest}개`;
-  }
-  return regionNames.slice(0, 2).join(', ');
-};

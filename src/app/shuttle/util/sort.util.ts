@@ -1,37 +1,17 @@
 import type { ShuttleRoute } from '@/types/shuttle.types';
 import type { ShuttleSortType } from '../constants/params';
-import type { Region } from '@/hooks/useRegion';
-import { REGION_TO_ID } from '@/constants/regions';
-import { containsRegionId, containsRegionIds } from './contain.util';
-
-const filterByRegion = (region: Region, shuttles: ShuttleRoute[]) => {
-  const regionId =
-    region.bigRegion &&
-    region.smallRegion &&
-    REGION_TO_ID[region.bigRegion][region.smallRegion];
-  if (regionId) return shuttles.filter((s) => containsRegionId(regionId, s));
-
-  if (region.bigRegion) {
-    const relatedRegionIds = Object.values(REGION_TO_ID[region.bigRegion]);
-    return shuttles.filter((s) => containsRegionIds(relatedRegionIds, s));
-  }
-  return shuttles;
-};
 
 export const toSortedShuttles = (
-  region: Region,
   sort: ShuttleSortType,
   shuttles: ShuttleRoute[],
 ) => {
-  const filteredShuttles = filterByRegion(region, shuttles);
-
   switch (sort) {
     case '콘서트 이름 가나다 순':
-      return filteredShuttles.toSorted((a, b) =>
+      return shuttles.toSorted((a, b) =>
         a.shuttle.name.localeCompare(b.shuttle.name),
       );
     case '셔틀 일자 빠른 순':
-      return filteredShuttles.toSorted(
+      return shuttles.toSorted(
         (a, b) =>
           new Date(
             a.shuttle.dailyShuttles.find(
@@ -45,20 +25,20 @@ export const toSortedShuttles = (
           ).getTime(),
       );
     case '예약 마감이 임박한 순':
-      return filteredShuttles.toSorted(
+      return shuttles.toSorted(
         (a, b) =>
           new Date(a.reservationDeadline).getTime() -
           new Date(b.reservationDeadline).getTime(),
       );
     case '예약한 인원이 많은 순':
-      return filteredShuttles.toSorted(
+      return shuttles.toSorted(
         (a, b) =>
           a.maxPassengerCount -
           a.remainingSeatCount -
           (b.maxPassengerCount - b.remainingSeatCount),
       );
     case '잔여석이 적게 남은 순':
-      return filteredShuttles.toSorted(
+      return shuttles.toSorted(
         (a, b) => a.remainingSeatCount - b.remainingSeatCount,
       );
   }
