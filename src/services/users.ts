@@ -8,10 +8,12 @@ import { authInstance } from './config';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
 import { CustomError } from './custom-error';
+import revalidateUser from '@/app/actions/revalidateUser';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
     '/user-management/users/me',
+    { next: { tags: ['user'] } },
   );
   return res.user;
 };
@@ -24,6 +26,7 @@ export type OnboardingProgress =
 export const getProgress = async (): Promise<OnboardingProgress> => {
   const res = await authInstance.get<{ user: UserType }>(
     '/user-management/users/me',
+    { next: { tags: ['user'] } },
   );
   return parseProgress(res.user.progresses);
 };
@@ -44,6 +47,7 @@ const putUser = async (body: {
     '/user-management/users/me',
     body,
   );
+  revalidateUser();
   return res.user;
 };
 
@@ -99,6 +103,7 @@ export const usePutUser = ({
 export const getUserDashboard = async () => {
   const res = await authInstance.get<{ userDashboard: UserDashboardType }>(
     '/user-management/users/me/dashboard',
+    { next: { tags: ['user'] } },
   );
   return res.userDashboard;
 };
@@ -111,5 +116,6 @@ export const useGetUserDashboard = () => {
 };
 
 export const deleteUser = async () => {
-  return await authInstance.delete('/user-management/users/me');
+  await authInstance.delete('/user-management/users/me');
+  revalidateUser();
 };
