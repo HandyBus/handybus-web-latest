@@ -8,6 +8,8 @@ import {
 } from '@/utils/handleToken';
 import { CustomError } from './custom-error';
 
+const FETCH_REVALIDATE_TIME = 60; // 1분
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 type ApiResponse<T> = {
@@ -32,7 +34,7 @@ class Instance {
   ) {
     const config: RequestInit = {
       method,
-      next: { revalidate: 3600 },
+      next: { revalidate: FETCH_REVALIDATE_TIME },
       ...options,
       headers: {
         'Content-Type': 'application/json',
