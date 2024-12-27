@@ -55,6 +55,7 @@ export type ShuttleRouteHubObject = {
 };
 
 export interface ShuttleRouteEvent {
+  shuttleId: number;
   name: string;
   dailyShuttles: {
     dailyShuttleId: number;

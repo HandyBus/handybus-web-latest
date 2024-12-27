@@ -3,7 +3,7 @@ import ShuttleRouteVisualizer from './ShuttleRouteVisualizer';
 import { SECTION } from '@/types/shuttle.types';
 import { useForm } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
-import { RouteMockData } from '@/app/shuttle/[id]/write/page';
+import { RouteMockData } from '@/components/shuttle-detail/ShuttleDetailPage';
 
 const ShuttleRouteVisualizerWrapper = (
   props: any, // eslint-disable-line @typescript-eslint/no-explicit-any

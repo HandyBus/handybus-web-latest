@@ -3,18 +3,14 @@ import { EventDetailProps } from '@/types/event.types';
 
 interface PageProps {
   params: {
-    id: string;
+    id: number;
   };
 }
 
-const Shuttle = async (
-  {
-    // params
-  }: PageProps,
-) => {
+const Shuttle = async ({ params }: PageProps) => {
   const reservData: EventDetailProps = {
     // TODO: mock data
-    shuttleId: 0,
+    shuttleId: params.id,
     name: '',
     dailyShuttles: [],
     image: '',
