@@ -34,9 +34,8 @@ export interface ShuttleRoute {
 }
 
 export interface Hub {
-  pickup: ShuttleRouteHubObject[];
-
-  dropoff: ShuttleRouteHubObject[];
+  toDestination: ShuttleRouteHubObject[];
+  fromDestination: ShuttleRouteHubObject[];
 
   destination: {
     name: string;

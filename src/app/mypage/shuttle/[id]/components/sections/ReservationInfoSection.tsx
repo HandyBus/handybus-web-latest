@@ -46,12 +46,13 @@ const ReservationInfoSection = ({
   };
 
   const tripText = TRIP_TEXT[trip];
-  const showPickup = trip === 'TO_DESTINATION' || trip === 'ROUND_TRIP';
-  const showDropoff = trip === 'FROM_DESTINATION' || trip === 'ROUND_TRIP';
-  const pickupPlace = shuttle.route.hubs.pickup.find(
+  const showToDestination = trip === 'TO_DESTINATION' || trip === 'ROUND_TRIP';
+  const showFromDestination =
+    trip === 'FROM_DESTINATION' || trip === 'ROUND_TRIP';
+  const toDestinationPlace = shuttle.route.hubs.toDestination.find(
     (hub) => hub.selected,
   )?.name;
-  const dropoffPlace = shuttle.route.hubs.dropoff.find(
+  const fromDestinationPlace = shuttle.route.hubs.fromDestination.find(
     (hub) => hub.selected,
   )?.name;
   const handyTagText = HANDY_STATUS_TEXT[handyStatus];
@@ -65,7 +66,7 @@ const ReservationInfoSection = ({
             <DetailRow title="탑승일" content={parsedDate} />
             <DetailRow title="노선 종류" content={shuttle.name} />
             <DetailRow title="왕복 여부" content={tripText} />
-            {showPickup && pickupPlace && (
+            {showToDestination && toDestinationPlace && (
               <DetailRow
                 title={
                   <>
@@ -74,10 +75,10 @@ const ReservationInfoSection = ({
                     <span className="text-14">(콘서트행)</span>
                   </>
                 }
-                content={pickupPlace}
+                content={toDestinationPlace}
               />
             )}
-            {showDropoff && dropoffPlace && (
+            {showFromDestination && fromDestinationPlace && (
               <DetailRow
                 title={
                   <>
@@ -86,7 +87,7 @@ const ReservationInfoSection = ({
                     <span className="text-14">(귀가행)</span>
                   </>
                 }
-                content={dropoffPlace}
+                content={fromDestinationPlace}
               />
             )}
             <DetailRow title="탑승객 수" content={`${passengers.length}명`} />

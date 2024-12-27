@@ -14,8 +14,8 @@ export const usePostRefund = (paymentId: number, refundReason: string) => {
 };
 
 interface UpdateReservationBody {
-  pickupHubId?: number;
-  dropoffHubId?: number;
+  toDestinationShuttleRouteHubId?: number;
+  fromDestinationShuttleRouteHubId?: number;
   isSupportingHandy?: boolean;
 }
 

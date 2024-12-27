@@ -9,13 +9,18 @@ import { useState } from 'react';
 import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 
+interface FormValues {
+  toDestinationHubId: number;
+  fromDestinationHubId: number;
+}
+
 interface Props {
   isShuttleAssigned: boolean;
   reservationId: number;
   tripType: TripType;
   hubs: {
-    pickup: HubType[];
-    dropoff: HubType[];
+    toDestination: HubType[];
+    fromDestination: HubType[];
   };
 }
 
@@ -25,12 +30,11 @@ const RouteSection = ({
   tripType,
   hubs,
 }: Props) => {
-  const methods = useForm<{
-    pickupHubId: number;
-    dropoffHubId: number;
-  }>();
-  const pickup = tripType === 'FROM_DESTINATION' ? [] : hubs.pickup;
-  const dropoff = tripType === 'TO_DESTINATION' ? [] : hubs.dropoff;
+  const methods = useForm<FormValues>();
+  const toDestination =
+    tripType === 'FROM_DESTINATION' ? [] : hubs.toDestination;
+  const fromDestination =
+    tripType === 'TO_DESTINATION' ? [] : hubs.fromDestination;
 
   const [isEdit, setIsEdit] = useState(false);
   const onError = () => {
@@ -42,12 +46,12 @@ const RouteSection = ({
     onError,
   );
 
-  const handleSubmit = (formData: {
-    pickupHubId: number;
-    dropoffHubId: number;
-  }) => {
+  const handleSubmit = (formData: FormValues) => {
     setIsEdit(false);
-    updateReservation(formData);
+    updateReservation({
+      toDestinationShuttleRouteHubId: formData.toDestinationHubId,
+      fromDestinationShuttleRouteHubId: formData.fromDestinationHubId,
+    });
   };
 
   return (
@@ -55,8 +59,8 @@ const RouteSection = ({
       <Divider />
       <form onSubmit={methods.handleSubmit(handleSubmit)}>
         <ShuttleRouteVisualizer
-          toDestinationObject={pickup}
-          fromDestinationObject={dropoff}
+          toDestinationObject={toDestination}
+          fromDestinationObject={fromDestination}
           section={isEdit ? SECTION.RESERVATION_DETAIL : SECTION.MY_RESERVATION}
         />
         {!isShuttleAssigned && (

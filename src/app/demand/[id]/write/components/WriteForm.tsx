@@ -94,12 +94,13 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
           ? 'FROM_DESTINATION'
           : 'ROUND_TRIP';
 
-    const { pickup, dropoff } = createStopData(formValues);
+    const { toDestinationRegionHub, fromDestinationRegionHub } =
+      createStopData(formValues);
 
     const routeTypeToData = {
-      콘서트행: { pickup },
-      귀가행: { dropoff },
-      왕복행: { pickup, dropoff },
+      콘서트행: { toDestinationRegionHub },
+      귀가행: { fromDestinationRegionHub },
+      왕복행: { toDestinationRegionHub, fromDestinationRegionHub },
       '': {},
     };
 
@@ -109,6 +110,7 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
       passengerCount: formValues.passengerCount,
       ...routeTypeToData[formValues.routeType as keyof typeof routeTypeToData],
     };
+
     await postDemand(submitData, dailyShuttleId, shuttleId);
   }, [formValues]);
 
