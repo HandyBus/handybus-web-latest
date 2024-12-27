@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import { SECTION } from '@/types/shuttle.types';
-import { RouteType, ShuttleRouteObject } from '@/types/shuttle.types';
+import { RouteType, ShuttleRouteHubObject } from '@/types/shuttle.types';
 import { Control, UseFormSetValue } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 import { SectionType } from '@/types/shuttle.types';
@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 
 interface Props {
   type: RouteType;
-  object: ShuttleRouteObject;
+  object: ShuttleRouteHubObject;
   isBlurred: boolean;
   section: SectionType;
   control?: Control<FieldValues> | null;
@@ -31,7 +31,7 @@ const ShuttleRouteTimeLocation = ({
     <div className="flex w-full justify-between ">
       <div className="flex items-center gap-16 ">
         <p className="text-12 font-400 leading-[19.2px] text-grey-600-sub">
-          {dayjs(object.time).format('HH:mm')}
+          {dayjs(object.arrivalTime).format('HH:mm')}
         </p>
         <p
           className={`text-16 font-400 leading-[24px] ${
@@ -40,7 +40,7 @@ const ShuttleRouteTimeLocation = ({
               : 'text-grey-900'
           }`}
         >
-          {object.hubName}
+          {object.name}
         </p>
       </div>
       {section === SECTION.RESERVATION_DETAIL && control && setValue && (
@@ -51,9 +51,11 @@ const ShuttleRouteTimeLocation = ({
             <input
               {...field}
               type="radio"
-              id={`${type}-${fieldName}-${object.hubId}`}
-              value={`${object.hubId}`}
-              checked={field.value === `${object.hubId}`}
+              id={`${type}-${fieldName}-${object.shuttleRouteHubId}`}
+              value={`${object.shuttleRouteHubId}`}
+              checked={
+                String(field.value) === String(`${object.shuttleRouteHubId}`)
+              }
               onChange={(e) => {
                 field.onChange(e);
                 setValue(fieldName, e.target.value);
