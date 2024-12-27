@@ -5,9 +5,11 @@ import Profile from './components/Profile';
 import Activity from './components/Activity';
 import Settings from './components/Settings';
 import { useGetUserDashboard } from '@/services/users';
+import Loading from '@/components/loading/Loading';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
 
 const MyPage = () => {
-  const { data: userDashboard } = useGetUserDashboard();
+  const { data: userDashboard, isLoading } = useGetUserDashboard();
 
   const nickname = userDashboard?.nickname ?? '';
   const profileImage = userDashboard?.profileImage ?? '';
@@ -20,15 +22,17 @@ const MyPage = () => {
   return (
     <>
       <AppBar>마이페이지</AppBar>
-      <main>
-        <Profile nickname={nickname} profileImage={profileImage} />
-        <Activity
-          reservationCount={reservationCount}
-          pastReservationCount={pastReservationCount}
-          shuttleDemandCount={shuttleDemandCount}
-        />
-        <Settings couponCount={couponCount} reviewCount={reviewCount} />
-      </main>
+      <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
+        <main>
+          <Profile nickname={nickname} profileImage={profileImage} />
+          <Activity
+            reservationCount={reservationCount}
+            pastReservationCount={pastReservationCount}
+            shuttleDemandCount={shuttleDemandCount}
+          />
+          <Settings couponCount={couponCount} reviewCount={reviewCount} />
+        </main>
+      </DeferredSuspense>
     </>
   );
 };
