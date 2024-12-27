@@ -11,6 +11,7 @@ import {
   TripType,
 } from '@/types/client.types';
 import { HANDY_STATUS_TEXT, TRIP_TEXT } from '../../../shuttle.constants';
+import { parseDateString } from '@/utils/dateString';
 
 interface Props {
   isExpandable?: boolean;
@@ -40,6 +41,10 @@ const ReservationInfoSection = ({
     setIsHandyRequestModalOpen(false);
   };
 
+  const parsePhoneNumber = (phoneNumber: string) => {
+    return '0' + phoneNumber.slice(3);
+  };
+
   const tripText = TRIP_TEXT[trip];
   const showPickup = trip === 'TO_DESTINATION' || trip === 'ROUND_TRIP';
   const showDropoff = trip === 'FROM_DESTINATION' || trip === 'ROUND_TRIP';
@@ -50,17 +55,14 @@ const ReservationInfoSection = ({
     (hub) => hub.selected,
   )?.name;
   const handyTagText = HANDY_STATUS_TEXT[handyStatus];
-
-  const parsePhoneNumber = (phoneNumber: string) => {
-    return '0' + phoneNumber.slice(3);
-  };
+  const parsedDate = parseDateString(shuttle.date);
 
   return (
     <>
       <Section title="예약 정보" isExpandable={isExpandable}>
         <div className="flex flex-col gap-28">
           <section className="flex flex-col gap-8">
-            <DetailRow title="탑승일" content={shuttle.date} />
+            <DetailRow title="탑승일" content={parsedDate} />
             <DetailRow title="노선 종류" content={shuttle.name} />
             <DetailRow title="왕복 여부" content={tripText} />
             {showPickup && pickupPlace && (

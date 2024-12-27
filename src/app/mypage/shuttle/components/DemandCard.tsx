@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent, MouseEventHandler } from 'react';
 import { DEMAND_STATUS_TEXT, TRIP_TEXT } from '../shuttle.constants';
 import { getStatusStyle } from '../shuttle.utils';
+import { parseDateString } from '@/utils/dateString';
 
 interface Props {
   demand: ShuttleDemandType;
@@ -37,6 +38,8 @@ const DemandCard = ({
       router.push(href);
     };
 
+  const parsedDemandDate = parseDateString(demand.createdAt);
+  const parsedShuttleDate = parseDateString(demand.shuttle.date);
   const region = ID_TO_REGION[demand.regionId];
   const routeText = `${region.bigRegion} ${region.smallRegion} (${TRIP_TEXT[demand.type]})`;
   const status = DEMAND_STATUS_TEXT[demand.status];
@@ -50,7 +53,7 @@ const DemandCard = ({
       <div className="flex items-center gap-8 text-12">
         <div className={`h-[10px] w-[10px] rounded-full ${statusStyle.dot}`} />
         <span className={`font-600 ${statusStyle.text}`}>{status}</span>
-        <span className="font-500 text-grey-500">{demand.createdAt} 신청</span>
+        <span className="font-500 text-grey-500">{parsedDemandDate} 신청</span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
@@ -69,7 +72,7 @@ const DemandCard = ({
             {demand.shuttle.destination.name}
           </span>
           <span className="text-12 font-400 text-grey-900">
-            {demand.shuttle.date} 셔틀
+            {parsedShuttleDate} 셔틀
           </span>
           <span className="flex gap-12 text-12 font-400 text-grey-500">
             <span>{routeText}</span>
