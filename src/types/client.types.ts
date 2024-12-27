@@ -167,8 +167,8 @@ export interface RouteType {
   name: string;
   status: RouteStatusType;
   hubs: {
-    pickup: HubType[];
-    dropoff: HubType[];
+    toDestination: HubType[];
+    fromDestination: HubType[];
   };
 }
 
@@ -211,6 +211,7 @@ export interface RegionType {
 }
 
 export interface HubType {
+  shuttleRouteHubId: number;
   name: string;
   sequence: number;
   arrivalTime: string;

@@ -39,8 +39,8 @@ export interface ReservationFormData {
   passengerCount: number;
   passengers: PassengerInfo[];
   isHandy: boolean;
-  pickupHubId: string;
-  dropoffHubId: string;
+  toDestinationShuttleRouteHubId: string;
+  fromDestinationShuttleRouteHubId: string;
 }
 
 export interface DailyShuttle {
@@ -69,8 +69,8 @@ const ShuttleWrite = ({ params }: Props) => {
       passengerCount: 0,
       passengers: [],
       isHandy: false,
-      pickupHubId: '',
-      dropoffHubId: '',
+      toDestinationShuttleRouteHubId: '',
+      fromDestinationShuttleRouteHubId: '',
     },
   });
 

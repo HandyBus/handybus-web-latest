@@ -49,6 +49,7 @@ export const updateToken = async () => {
   const refreshToken = await getRefreshToken();
   const res = await fetch(new URL('/auth/refresh', BASE_URL), {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },

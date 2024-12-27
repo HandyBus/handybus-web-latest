@@ -95,7 +95,7 @@ class AuthInstance {
     options: RequestInit = {},
   ) {
     const accessToken = await getAccessToken();
-    const authOptions = {
+    const authOptions: RequestInit = {
       ...options,
       headers: {
         Authorization: `Bearer ${accessToken}`,

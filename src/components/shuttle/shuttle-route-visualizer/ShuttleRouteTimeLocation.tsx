@@ -8,6 +8,7 @@ import { ROUTE_TYPE } from '@/types/shuttle.types';
 import dayjs from 'dayjs';
 
 interface Props {
+  isDestination: boolean;
   type: RouteType;
   object: ShuttleRouteHubObject;
   isBlurred: boolean;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const ShuttleRouteTimeLocation = ({
+  isDestination,
   type,
   object,
   isBlurred,
@@ -25,7 +27,9 @@ const ShuttleRouteTimeLocation = ({
   setValue,
 }: Props) => {
   const fieldName =
-    type === ROUTE_TYPE.DEPARTURE ? 'pickupHubId' : 'dropoffHubId';
+    type === ROUTE_TYPE.DEPARTURE
+      ? 'toDestinationHubId'
+      : 'fromDestinationHubId';
 
   return (
     <div className="flex w-full justify-between ">
@@ -43,28 +47,31 @@ const ShuttleRouteTimeLocation = ({
           {object.name}
         </p>
       </div>
-      {section === SECTION.RESERVATION_DETAIL && control && setValue && (
-        <Controller
-          control={control}
-          name={fieldName}
-          render={({ field }) => (
-            <input
-              {...field}
-              type="radio"
-              id={`${type}-${fieldName}-${object.shuttleRouteHubId}`}
-              value={`${object.shuttleRouteHubId}`}
-              checked={
-                String(field.value) === String(`${object.shuttleRouteHubId}`)
-              }
-              onChange={(e) => {
-                field.onChange(e);
-                setValue(fieldName, e.target.value);
-              }}
-              className="h-20 w-20 cursor-pointer accent-grey-800"
-            />
-          )}
-        />
-      )}
+      {section === SECTION.RESERVATION_DETAIL &&
+        control &&
+        setValue &&
+        !isDestination && (
+          <Controller
+            control={control}
+            name={fieldName}
+            render={({ field }) => (
+              <input
+                {...field}
+                type="radio"
+                id={`${type}-${fieldName}-${object.shuttleRouteHubId}`}
+                value={`${object.shuttleRouteHubId}`}
+                checked={
+                  String(field.value) === String(`${object.shuttleRouteHubId}`)
+                }
+                onChange={(e) => {
+                  field.onChange(e);
+                  setValue(fieldName, Number(e.target.value));
+                }}
+                className="h-20 w-20 cursor-pointer accent-grey-800"
+              />
+            )}
+          />
+        )}
     </div>
   );
 };
