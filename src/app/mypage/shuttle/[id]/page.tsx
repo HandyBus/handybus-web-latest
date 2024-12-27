@@ -28,9 +28,7 @@ const ShuttleDetail = ({ params }: Props) => {
     (reservation) => reservation.reservationId === Number(id),
   );
 
-  const isShuttleAssigned = !(
-    reservation?.shuttleBus === undefined && reservation?.shuttleBus === null
-  );
+  const isShuttleAssigned = Boolean(reservation?.shuttleBus);
   const isHandy = reservation?.handyStatus === 'ACCEPTED';
   const isCanceled = reservation?.cancelStatus === 'CANCEL_COMPLETE';
 
@@ -60,7 +58,7 @@ const ShuttleDetail = ({ params }: Props) => {
             {isHandy && (
               <HandySection id={id} name={reservation.passengers?.[0].name} />
             )}
-            {reservation.shuttleBus && (
+            {reservation?.shuttleBus && (
               <ShuttleInfoSection
                 name={reservation.shuttleBus.name}
                 busNumber={reservation.shuttleBus.number}
@@ -74,7 +72,12 @@ const ShuttleDetail = ({ params }: Props) => {
               handyStatus={reservation.handyStatus}
               isShuttleAssigned={isShuttleAssigned}
             />
-            <RouteSection />
+            <RouteSection
+              isShuttleAssigned={isShuttleAssigned}
+              reservationId={reservation.reservationId}
+              tripType={reservation.type}
+              hubs={reservation.shuttle.route.hubs}
+            />
             {/* TODO: 결제 연동된 이후에 주석 해제 */}
             {/* <PaymentInfoSection
               price={reservation.payment.principalAmount}

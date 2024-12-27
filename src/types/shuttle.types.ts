@@ -34,9 +34,8 @@ export interface ShuttleRoute {
 }
 
 export interface Hub {
-  pickup: ShuttleRouteHubObject[];
-
-  dropoff: ShuttleRouteHubObject[];
+  toDestination: ShuttleRouteHubObject[];
+  fromDestination: ShuttleRouteHubObject[];
 
   destination: {
     name: string;
@@ -50,7 +49,7 @@ export type ShuttleRouteHubObject = {
   shuttleRouteHubId: number;
   name: string;
   sequence: number;
-  regionId: number;
+  regionId?: number;
   arrivalTime: string;
   selected?: boolean;
 };

@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 
 /* ShuttleRouteVisualizer
  * useForm 과 연동되었습니다. controller 혹은 FormProvider 로 감싸고 control 을 인자로 넘겨주시면 됩니다.
- * 필드는 pickupHubId, dropoffHubId 를 사용합니다.
+ * 필드는 toDestinationHubId, fromDestinationHubId 를 사용합니다.
  * 마이페이지-셔틀에서 필요한 보기전용 모드에서 선택모드로 변경하시려면 section 을 RESERVATION_DETAIL 로 설정해주세요.
  *
  * 241227 업데이트
@@ -51,25 +51,18 @@ const ShuttleRouteVisualizer = ({
   useEffect(() => {
     if (setValue === (() => {})) return;
 
-    const defaultPickup = toDestinationObject?.find(
+    const defaultToDestination = toDestinationObject?.find(
       (route) => route.selected,
     )?.shuttleRouteHubId;
-    const defaultDropoff = fromDestinationObject?.find(
+    const defaultFromDestination = fromDestinationObject?.find(
       (route) => route.selected,
     )?.shuttleRouteHubId;
 
-    console.log(
-      'defaultPickup',
-      defaultPickup,
-      'defaultDropoff',
-      defaultDropoff,
-    );
-
-    if (defaultPickup) {
-      setValue('pickupHubId', defaultPickup);
+    if (defaultToDestination) {
+      setValue('toDestinationHubId', defaultToDestination);
     }
-    if (defaultDropoff) {
-      setValue('dropoffHubId', defaultDropoff);
+    if (defaultFromDestination) {
+      setValue('fromDestinationHubId', defaultFromDestination);
     }
   }, [toDestinationObject, fromDestinationObject, setValue]);
 

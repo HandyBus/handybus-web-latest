@@ -26,13 +26,13 @@ export type SubmitData = {
   regionId: string | undefined;
   type: string | undefined;
   passengerCount: number | undefined;
-  pickup?:
-    | { hubId: number | undefined | null }
-    | { customHub: string | undefined | null }
+  toDestinationRegionHub?:
+    | { regionHubId: number | undefined | null }
+    | { desiredRegionHub: string | undefined | null }
     | undefined;
-  dropoff?:
-    | { hubId: number | undefined | null }
-    | { customHub: string | undefined | null }
+  fromDestinationRegionHub?:
+    | { regionHubId: number | undefined | null }
+    | { desiredRegionHub: string | undefined | null }
     | undefined;
 };
 

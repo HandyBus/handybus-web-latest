@@ -29,10 +29,12 @@ export const createStopData = (formValues: DemandRequestFormValues) => {
       | DemandRequestFormValues['destinationStop']
       | DemandRequestFormValues['returnStop'],
   ) =>
-    stop?.isCustom ? { customHub: stop.customHub } : { hubId: stop?.hubId };
+    stop?.isCustom
+      ? { desiredRegionHub: stop.customHub }
+      : { regionHubId: stop?.hubId };
 
   return {
-    pickup: createStop(formValues.destinationStop),
-    dropoff: createStop(formValues.returnStop),
+    toDestinationRegionHub: createStop(formValues.destinationStop),
+    fromDestinationRegionHub: createStop(formValues.returnStop),
   };
 };
