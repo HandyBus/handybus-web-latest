@@ -5,14 +5,6 @@ export const ROUTE_TYPE = {
 
 export type RouteType = (typeof ROUTE_TYPE)[keyof typeof ROUTE_TYPE];
 
-export type ShuttleRouteObject = {
-  time: string;
-  hubId: string;
-  hubName: string;
-  isPickup?: boolean;
-  isDropoff?: boolean;
-};
-
 export const SECTION = {
   SHUTTLE_DETAIL: 'SHUTTLE-DETAIL',
   RESERVATION_DETAIL: 'RESERVATION-DETAIL',
@@ -42,19 +34,9 @@ export interface ShuttleRoute {
 }
 
 export interface Hub {
-  pickup: {
-    name: string;
-    sequence: number;
-    regionId: number;
-    arrivalTime: string;
-  }[];
+  pickup: ShuttleRouteHubObject[];
 
-  dropoff: {
-    name: string;
-    sequence: number;
-    regionId: number;
-    arrivalTime: string;
-  }[];
+  dropoff: ShuttleRouteHubObject[];
 
   destination: {
     name: string;
@@ -64,7 +46,17 @@ export interface Hub {
   };
 }
 
+export type ShuttleRouteHubObject = {
+  shuttleRouteHubId: number;
+  name: string;
+  sequence: number;
+  regionId: number;
+  arrivalTime: string;
+  selected?: boolean;
+};
+
 export interface ShuttleRouteEvent {
+  shuttleId: number;
   name: string;
   dailyShuttles: {
     dailyShuttleId: number;
