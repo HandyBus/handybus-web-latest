@@ -66,6 +66,7 @@ const ShuttleDetail = ({ params }: Props) => {
               />
             )}
             <ReservationInfoSection
+              reservationId={reservation.reservationId}
               trip={reservation.type}
               shuttle={reservation.shuttle}
               passengers={reservation.passengers}
@@ -98,6 +99,7 @@ const ShuttleDetail = ({ params }: Props) => {
             />
             <ReservationInfoSection
               isExpandable
+              reservationId={reservation.reservationId}
               trip={reservation.type}
               shuttle={reservation.shuttle}
               passengers={reservation.passengers}
