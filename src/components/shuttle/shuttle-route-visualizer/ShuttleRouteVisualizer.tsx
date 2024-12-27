@@ -68,7 +68,7 @@ const ShuttleRouteVisualizer = ({
 
   if (isLoading)
     return (
-      <div className="flex w-full items-center justify-center ">
+      <div className="flex h-[200px] w-full items-center justify-center">
         <SpinnerIcon
           className="animate-spin"
           viewBox="0 0 24 24"

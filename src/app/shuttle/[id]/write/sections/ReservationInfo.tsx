@@ -1,3 +1,9 @@
+// import { ShuttleRoute } from "@/types/shuttle.types";
+
+// interface Props {
+// shuttleRoute?: ShuttleRoute;
+// }
+
 const ReservationInfo = () => {
   return (
     <section className="flex flex-col gap-[16px] px-16 py-28">
