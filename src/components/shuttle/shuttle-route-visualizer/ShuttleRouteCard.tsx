@@ -64,6 +64,11 @@ const ShuttleRouteCard = ({
           {alignedObject.map((item, index) => (
             <li key={index}>
               <ShuttleRouteTimeLocation
+                isDestination={
+                  type === ROUTE_TYPE.RETURN
+                    ? index === 0
+                    : index === object.length - 1
+                }
                 type={type}
                 object={item}
                 section={section}

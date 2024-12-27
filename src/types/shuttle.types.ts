@@ -50,7 +50,7 @@ export type ShuttleRouteHubObject = {
   shuttleRouteHubId: number;
   name: string;
   sequence: number;
-  regionId: number;
+  regionId?: number;
   arrivalTime: string;
   selected?: boolean;
 };

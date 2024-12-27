@@ -211,6 +211,7 @@ export interface RegionType {
 }
 
 export interface HubType {
+  shuttleRouteHubId: number;
   name: string;
   sequence: number;
   arrivalTime: string;

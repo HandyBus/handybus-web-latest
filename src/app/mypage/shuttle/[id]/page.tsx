@@ -74,7 +74,12 @@ const ShuttleDetail = ({ params }: Props) => {
               handyStatus={reservation.handyStatus}
               isShuttleAssigned={isShuttleAssigned}
             />
-            <RouteSection />
+            <RouteSection
+              isShuttleAssigned={isShuttleAssigned}
+              reservationId={reservation.reservationId}
+              tripType={reservation.type}
+              hubs={reservation.shuttle.route.hubs}
+            />
             {/* TODO: 결제 연동된 이후에 주석 해제 */}
             {/* <PaymentInfoSection
               price={reservation.payment.principalAmount}

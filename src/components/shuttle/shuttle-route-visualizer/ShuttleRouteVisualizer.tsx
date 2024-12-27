@@ -58,13 +58,6 @@ const ShuttleRouteVisualizer = ({
       (route) => route.selected,
     )?.shuttleRouteHubId;
 
-    console.log(
-      'defaultPickup',
-      defaultPickup,
-      'defaultDropoff',
-      defaultDropoff,
-    );
-
     if (defaultPickup) {
       setValue('pickupHubId', defaultPickup);
     }
