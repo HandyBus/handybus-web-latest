@@ -1,6 +1,6 @@
 'use client';
 
-import { SECTION } from '@/types/shuttle.types';
+import { SECTION, ShuttleRouteHubObject } from '@/types/shuttle.types';
 import { FormProvider, useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
 import NoticeSection, {
@@ -89,7 +89,8 @@ const ShuttleWrite = () => {
                 <>
                   <div id="divider" className="my-16 h-[8px] bg-grey-50" />
                   <ShuttleRouteVisualizer
-                    object={RouteMockData}
+                    toDestinationObject={RouteMockData}
+                    type={'TO_DESTINATION'}
                     section={SECTION.RESERVATION_DETAIL}
                   />
                   <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
@@ -166,21 +167,48 @@ const TossPayment = () => {
   return <section className="h-[354px] bg-primary-400">TOSS PAYMENTS</section>;
 };
 
-const RouteMockData = [
-  { time: '2024-03-20 14:30:00', hubName: '청주터미널', hubId: '1' },
+export const RouteMockData: ShuttleRouteHubObject[] = [
   {
-    time: '2024-03-20 14:40:00',
-    hubName: '청주대학교',
-    hubId: '2',
-    isPickup: true,
+    arrivalTime: '2024-03-20 14:30:00',
+    name: '청주터미널',
+    shuttleRouteHubId: 1,
+    sequence: 1,
+    regionId: 1,
   },
-  { time: '2024-03-20 14:50:00', hubName: '장소3', hubId: '3' },
-  { time: '2024-03-20 15:00:00', hubName: '장소4', hubId: '4' },
   {
-    time: '2024-03-20 15:10:00',
-    hubName: '장소5',
-    hubId: '5',
-    isDropoff: true,
+    arrivalTime: '2024-03-20 14:40:00',
+    name: '청주대학교',
+    shuttleRouteHubId: 2,
+    sequence: 2,
+    regionId: 1,
   },
-  { time: '2024-03-20 15:20:00', hubName: '장소6', hubId: '6' },
+  {
+    arrivalTime: '2024-03-20 14:50:00',
+    name: '장소3',
+    shuttleRouteHubId: 3,
+    sequence: 3,
+    regionId: 1,
+    selected: true,
+  },
+  {
+    arrivalTime: '2024-03-20 15:00:00',
+    name: '장소4',
+    shuttleRouteHubId: 4,
+    sequence: 4,
+    regionId: 1,
+  },
+  {
+    arrivalTime: '2024-03-20 15:10:00',
+    name: '장소5',
+    shuttleRouteHubId: 5,
+    sequence: 5,
+    regionId: 1,
+  },
+  {
+    arrivalTime: '2024-03-20 15:20:00',
+    name: '장소6',
+    shuttleRouteHubId: 6,
+    sequence: 6,
+    regionId: 1,
+  },
 ];
