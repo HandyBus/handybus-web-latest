@@ -24,7 +24,7 @@ interface Props {
     phoneNumber: string;
   }[];
   handyStatus: HandyStatusType;
-  isShuttleAssigned: boolean;
+  isShuttleBusAssigned: boolean;
   isExpandable?: boolean;
 }
 
@@ -34,7 +34,7 @@ const ReservationInfoSection = ({
   shuttle,
   passengers,
   handyStatus,
-  isShuttleAssigned,
+  isShuttleBusAssigned,
   isExpandable = false,
 }: Props) => {
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
@@ -125,7 +125,7 @@ const ReservationInfoSection = ({
               tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
-          {!isShuttleAssigned && (
+          {!isShuttleBusAssigned && (
             <>
               <div className="flex flex-col gap-8">
                 <button
