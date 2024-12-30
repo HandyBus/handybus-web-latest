@@ -1,5 +1,9 @@
-import { DailyShuttleDetailProps } from '@/types/shuttle.types';
+import {
+  DailyShuttleDetailProps,
+  ShuttleRouteEvent,
+} from '@/types/shuttle.types';
 import { EventDetailProps } from '@/types/event.types';
+
 export const formatDate = (dateStr: string) => {
   if (!dateStr) return '';
   const date = new Date(dateStr);
@@ -14,10 +18,8 @@ export const formatDate = (dateStr: string) => {
     .replace('.', '')
     .replace('-(', ' (');
 };
-export const dateFormatter = (data: EventDetailProps) => {
-  // if (data.dailyShuttles.length === 1) {
-  //   return data.dailyShuttles[0].date;
-  // }
+
+export const dateFormatter = (data: EventDetailProps | ShuttleRouteEvent) => {
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date
