@@ -1,11 +1,15 @@
+'use client';
+
 import AppBar from '@/components/app-bar/AppBar';
 import Profile from './components/Profile';
 import Activity from './components/Activity';
 import Settings from './components/Settings';
-import { getUserDashboard } from '@/services/users';
+import { useGetUserDashboard } from '@/services/users';
+import Loading from '@/components/loading/Loading';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
 
-const MyPage = async () => {
-  const userDashboard = await getUserDashboard();
+const MyPage = () => {
+  const { data: userDashboard, isLoading } = useGetUserDashboard();
 
   const nickname = userDashboard?.nickname ?? '';
   const profileImage = userDashboard?.profileImage ?? '';
@@ -18,15 +22,17 @@ const MyPage = async () => {
   return (
     <>
       <AppBar>마이페이지</AppBar>
-      <main>
-        <Profile nickname={nickname} profileImage={profileImage} />
-        <Activity
-          reservationCount={reservationCount}
-          pastReservationCount={pastReservationCount}
-          shuttleDemandCount={shuttleDemandCount}
-        />
-        <Settings couponCount={couponCount} reviewCount={reviewCount} />
-      </main>
+      <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
+        <main>
+          <Profile nickname={nickname} profileImage={profileImage} />
+          <Activity
+            reservationCount={reservationCount}
+            pastReservationCount={pastReservationCount}
+            shuttleDemandCount={shuttleDemandCount}
+          />
+          <Settings couponCount={couponCount} reviewCount={reviewCount} />
+        </main>
+      </DeferredSuspense>
     </>
   );
 };

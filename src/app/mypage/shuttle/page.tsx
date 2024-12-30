@@ -7,6 +7,8 @@ import CurrentTab from './components/tabs/CurrentTab';
 import DemandTab from './components/tabs/DemandTab';
 import PastTab from './components/tabs/PastTab';
 import { useGetUserDashboard } from '@/services/users';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -39,14 +41,10 @@ const Shuttle = ({ searchParams }: Props) => {
     }
   };
 
-  if (isLoading) {
-    return <div className="h-[100dvh]" />;
-  }
-
   return (
     <>
       <AppBar>마이페이지</AppBar>
-      <main className="grow">
+      <main className="flex grow flex-col">
         <div className="px-16">
           <Tabs
             items={[
@@ -60,7 +58,12 @@ const Shuttle = ({ searchParams }: Props) => {
             }}
           />
         </div>
-        {renderTab()}
+        <DeferredSuspense
+          fallback={<Loading style="grow" />}
+          isLoading={isLoading}
+        >
+          {renderTab()}
+        </DeferredSuspense>
       </main>
     </>
   );
