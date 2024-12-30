@@ -12,9 +12,11 @@ import {
 } from '@/types/client.types';
 import { HANDY_STATUS_TEXT, TRIP_TEXT } from '../../../shuttle.constants';
 import { parseDateString } from '@/utils/dateString';
+import { usePostUpdateReservation } from '@/services/reservation';
+import { toast } from 'react-toastify';
 
 interface Props {
-  isExpandable?: boolean;
+  reservationId: number;
   trip: TripType;
   shuttle: ShuttleWithRouteType;
   passengers: {
@@ -22,19 +24,41 @@ interface Props {
     phoneNumber: string;
   }[];
   handyStatus: HandyStatusType;
-  isShuttleAssigned: boolean;
+  isShuttleBusAssigned: boolean;
+  isExpandable?: boolean;
 }
 
 const ReservationInfoSection = ({
-  isExpandable = false,
+  reservationId,
   trip,
   shuttle,
   passengers,
   handyStatus,
-  isShuttleAssigned,
+  isShuttleBusAssigned,
+  isExpandable = false,
 }: Props) => {
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
+
+  const onSuccess = () => {
+    if (handyStatus === 'NOT_SUPPORTED') {
+      toast.success('핸디에 지원해주셔서 감사합니다!');
+    } else {
+      toast.success('핸디 지원이 취소되었습니다.');
+    }
+  };
+  const onError = () => {
+    toast.error('핸디 지원/취소에 실패했습니다.');
+  };
+  const { mutate: updateReservation } = usePostUpdateReservation(
+    reservationId,
+    onSuccess,
+    onError,
+  );
+
   const handleHandyRequestConfirm = () => {
+    updateReservation({
+      isSupportingHandy: handyStatus === 'NOT_SUPPORTED' ? true : false,
+    });
     setIsHandyRequestModalOpen(false);
   };
   const handleHandyRequestClosed = () => {
@@ -101,7 +125,7 @@ const ReservationInfoSection = ({
               tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
-          {!isShuttleAssigned && (
+          {!isShuttleBusAssigned && (
             <>
               <div className="flex flex-col gap-8">
                 <button
