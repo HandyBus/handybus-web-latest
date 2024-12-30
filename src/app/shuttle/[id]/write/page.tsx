@@ -1,7 +1,11 @@
 'use client';
 
-import { SECTION } from '@/types/shuttle.types';
-import { FormProvider, useForm } from 'react-hook-form';
+import {
+  SECTION,
+  ShuttleRoute,
+  ShuttleRouteHubObject,
+} from '@/types/shuttle.types';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
 import NoticeSection, {
   NOTICE_TYPE,
@@ -12,68 +16,138 @@ import ApplyHandy from './sections/ApplyHandy';
 import TotalPriceInfo from './sections/TotalPriceInfo';
 import PriceDetail from './sections/PriceDetail';
 import ReservationInfo from './sections/ReservationInfo';
-import PassengerInfo from './sections/PassengerInfo';
 import ReservationShuttleInfo from './sections/ReservationShuttleInfo';
 import PassengerForm from './sections/PassengerForm';
 import StepLayout from './sections/StepLayout';
 import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
+import TossPayment from './sections/TossPayments';
+import { fetchAllShuttles } from '../../util/fetch.util';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import PassengerInfo from './sections/PassengerInfo';
 
-interface PassengerInfo {
+export interface PassengerInfoType {
   name: string;
-  phone: string;
+  phoneNumber: string;
 }
 
 export interface ReservationFormData {
-  boardingDate: string;
-  routeType: string;
-  tripType: string;
+  shuttleRoute: { label: string; value: number };
+  dailyShuttle: { label: string; value: number };
+  tripType: { label: string; value: string };
   passengerCount: number;
-  passengers: PassengerInfo[];
+  passengers: PassengerInfoType[];
   isHandy: boolean;
-  pickupHubId: string;
-  dropoffHubId: string;
+  toDestinationShuttleRouteHubId: string;
+  fromDestinationShuttleRouteHubId: string;
 }
 
-const ShuttleWrite = () => {
+export interface DailyShuttle {
+  dailyShuttleId: number;
+  date: string;
+  status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
+}
+
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const ShuttleWrite = ({ params }: Props) => {
   const ready = true; // TODO: need to apply API
   const { Funnel, Step, handleNextStep, handlePrevStep } = useFunnel([
     1, 2, 3, 4,
   ]);
   const methods = useForm<ReservationFormData>({
     defaultValues: {
-      boardingDate: '',
-      routeType: '',
-      tripType: '',
+      shuttleRoute: undefined,
+      dailyShuttle: undefined,
+      tripType: undefined,
       passengerCount: 0,
       passengers: [],
       isHandy: false,
-      pickupHubId: '',
-      dropoffHubId: '',
+      toDestinationShuttleRouteHubId: '',
+      fromDestinationShuttleRouteHubId: '',
     },
   });
 
-  // const { control, watch, setValue } = useForm<ReservationFormData>({
-  //   defaultValues: {
-  //     boardingDate: '',
-  //     routeType: '',
-  //     tripType: '',
-  //     passengerCount: 0,
-  //     passengers: [],
-  //     isHandy: false,
-  //   },
-  // });
   const { control, watch, setValue } = methods;
   const passengerCount = watch('passengerCount');
+  const tripType: { label: string; value: string } | undefined =
+    watch('tripType');
+  const watchDailyShuttle: { label: string; value: number } | undefined =
+    watch('dailyShuttle');
+  const watchShuttleRoute: { label: string; value: number } | undefined =
+    watch('shuttleRoute');
+  const watchPassengers: PassengerInfoType[] = watch('passengers');
+  const [shuttleData, setShuttleData] = useState<ShuttleRoute[]>([]);
+  const [dailyShuttleRouteArray, setDailyShuttleRouteArray] = useState<
+    ShuttleRoute[]
+  >([]);
+  const [dailyShuttleArray, setDailyShuttleArray] = useState<
+    DailyShuttle[] | undefined
+  >(undefined);
+  const [routeHubsToDestination, setRouteHubsToDestination] = useState<
+    ShuttleRouteHubObject[]
+  >([]);
+  const [routeHubsFromDestination, setRouteHubsFromDestination] = useState<
+    ShuttleRouteHubObject[]
+  >([]);
 
-  const handlePassengerCountChange = (
-    newCount: number | ((prev: number) => number),
-  ) => {
-    const count =
-      typeof newCount === 'function' ? newCount(passengerCount) : newCount;
-    setValue('passengerCount', count);
-    setValue('passengers', Array(count).fill({ name: '', phone: '' }));
-  };
+  const { data } = useQuery({
+    queryKey: ['shuttle', params.id],
+    queryFn: () => fetchAllShuttles(),
+  });
 
+  // ShuttleId 에 해당하는 DATA
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const shuttleData = data.filter(
+        (v) => v.shuttle.shuttleId === Number(params.id),
+      );
+      console.log('💵 shuttleData', shuttleData);
+      setShuttleData(shuttleData);
+      setDailyShuttleArray(shuttleData[0].shuttle.dailyShuttles);
+    }
+  }, [data, params.id]);
+
+  useEffect(() => {
+    console.log('✅ watchDailyShuttle', watchDailyShuttle);
+    if (watchDailyShuttle) {
+      const dailyShuttleRoutes = shuttleData.filter(
+        (v) => v.dailyShuttleId === watchDailyShuttle.value,
+      );
+      setDailyShuttleRouteArray(dailyShuttleRoutes);
+    }
+  }, [watchDailyShuttle]);
+
+  useEffect(() => {
+    if (watchShuttleRoute) {
+      console.log('✅ watchShuttleRoute', watchShuttleRoute);
+      const routeHubsToDestination =
+        shuttleData.find((v) => v.shuttleRouteId === watchShuttleRoute.value)
+          ?.hubs.toDestination ?? [];
+      const routeHubsFromDestination =
+        shuttleData.find((v) => v.shuttleRouteId === watchShuttleRoute.value)
+          ?.hubs.fromDestination ?? [];
+      console.log('✅ routeHubsToDestination', routeHubsToDestination);
+      console.log('✅ routeHubsFromDestination', routeHubsFromDestination);
+      setRouteHubsToDestination(routeHubsToDestination);
+      setRouteHubsFromDestination(routeHubsFromDestination);
+    }
+  }, [watchShuttleRoute]);
+
+  // const handlePassengerCountChange = (
+  //   newCount: number | ((prev: number) => number),
+  // ) => {
+  //   const count =
+  //     typeof newCount === 'function' ? newCount(passengerCount) : newCount;
+  //   setValue('passengerCount', count);
+  //   setValue('passengers', Array(count).fill({ name: '', phoneNumber: '' }));
+  // };
+
+  if (!data || !dailyShuttleArray || !dailyShuttleRouteArray) return null;
   return (
     <main>
       <FormProvider {...methods}>
@@ -84,18 +158,29 @@ const ShuttleWrite = () => {
               handleNextStep={handleNextStep}
               handlePrevStep={handlePrevStep}
             >
-              <ReservationShuttleInfo control={control} />
-              {ready ? (
+              <ReservationShuttleInfo
+                control={control}
+                dailyShuttleArray={dailyShuttleArray}
+                dailyShuttleRouteArray={dailyShuttleRouteArray}
+              />
+              {ready && (
                 <>
                   <div id="divider" className="my-16 h-[8px] bg-grey-50" />
                   <ShuttleRouteVisualizer
-                    object={RouteMockData}
+                    type={
+                      tripType?.value as
+                        | 'ROUND_TRIP'
+                        | 'TO_DESTINATION'
+                        | 'FROM_DESTINATION'
+                    }
+                    toDestinationObject={routeHubsToDestination}
+                    fromDestinationObject={routeHubsFromDestination}
                     section={SECTION.RESERVATION_DETAIL}
                   />
-                  <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
-                  <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
                 </>
-              ) : null}
+              )}
+              <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
+              <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
             </StepLayout>
           </Step>
 
@@ -105,9 +190,15 @@ const ShuttleWrite = () => {
               handleNextStep={handleNextStep}
               handlePrevStep={handlePrevStep}
             >
-              <PassengerCount
-                count={passengerCount}
-                setCount={handlePassengerCountChange}
+              <Controller
+                control={methods.control}
+                name="passengerCount"
+                render={({ field: { value, onChange } }) => (
+                  <PassengerCount
+                    count={value}
+                    setCount={(newValue) => onChange(newValue)}
+                  />
+                )}
               />
               {Array.from({ length: passengerCount }).map((_, index) => (
                 <PassengerForm
@@ -128,13 +219,28 @@ const ShuttleWrite = () => {
             >
               <ReservationInfo />
               <Divider />
-              <PassengerInfo />
+              <PassengerInfo passengers={watchPassengers} />
               <Divider />
               <ApplyHandy />
               <Divider />
               <TotalPriceInfo />
               <Divider />
-              <TossPayment />
+              <TossPayment
+                shuttleRouteId={watchShuttleRoute?.value}
+                type={
+                  tripType?.value as
+                    | 'ROUND_TRIP'
+                    | 'TO_DESTINATION'
+                    | 'FROM_DESTINATION'
+                }
+                toDestinationShuttleRouteHubId={
+                  routeHubsToDestination[0]?.shuttleRouteHubId
+                }
+                fromDestinationShuttleRouteHubId={
+                  routeHubsFromDestination[0]?.shuttleRouteHubId
+                }
+                passengers={watchPassengers}
+              />
             </StepLayout>
           </Step>
 
@@ -146,7 +252,7 @@ const ShuttleWrite = () => {
             >
               <ReservationCompleted />
               <ReservationInfo />
-              <PassengerInfo />
+              <PassengerInfo passengers={watchPassengers} />
               <section className="px-16 pb-24 pt-32">
                 <PriceDetail />
               </section>
@@ -161,26 +267,3 @@ const ShuttleWrite = () => {
 export default ShuttleWrite;
 
 const Divider = () => <div className="h-[8px] bg-grey-50" />;
-
-const TossPayment = () => {
-  return <section className="h-[354px] bg-primary-400">TOSS PAYMENTS</section>;
-};
-
-const RouteMockData = [
-  { time: '2024-03-20 14:30:00', hubName: '청주터미널', hubId: '1' },
-  {
-    time: '2024-03-20 14:40:00',
-    hubName: '청주대학교',
-    hubId: '2',
-    isPickup: true,
-  },
-  { time: '2024-03-20 14:50:00', hubName: '장소3', hubId: '3' },
-  { time: '2024-03-20 15:00:00', hubName: '장소4', hubId: '4' },
-  {
-    time: '2024-03-20 15:10:00',
-    hubName: '장소5',
-    hubId: '5',
-    isDropoff: true,
-  },
-  { time: '2024-03-20 15:20:00', hubName: '장소6', hubId: '6' },
-];

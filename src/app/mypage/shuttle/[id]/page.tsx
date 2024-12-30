@@ -30,9 +30,7 @@ const ShuttleDetail = ({ params }: Props) => {
     (reservation) => reservation.reservationId === Number(id),
   );
 
-  const isShuttleAssigned = !(
-    reservation?.shuttleBus === undefined && reservation?.shuttleBus === null
-  );
+  const isShuttleBusAssigned = Boolean(reservation?.shuttleBus);
   const isHandy = reservation?.handyStatus === 'ACCEPTED';
   const isCanceled = reservation?.cancelStatus === 'CANCEL_COMPLETE';
 
@@ -50,7 +48,7 @@ const ShuttleDetail = ({ params }: Props) => {
       >
         <main className="grow">
           <ReservationCard reservation={reservation} />
-          {!isShuttleAssigned && (
+          {!isShuttleBusAssigned && (
             <section className="m-16 rounded-[10px] bg-primary-50 p-16 text-14 font-400 text-grey-800">
               <p>
                 현재 셔틀 정보, 기사님 정보, 핸디 정보 등을 결정하고 있어요.
@@ -63,7 +61,7 @@ const ShuttleDetail = ({ params }: Props) => {
               {isHandy && (
                 <HandySection id={id} name={reservation.passengers?.[0].name} />
               )}
-              {reservation.shuttleBus && (
+              {reservation?.shuttleBus && (
                 <ShuttleInfoSection
                   name={reservation.shuttleBus.name}
                   busNumber={reservation.shuttleBus.number}
@@ -71,13 +69,19 @@ const ShuttleDetail = ({ params }: Props) => {
                 />
               )}
               <ReservationInfoSection
+                reservationId={reservation.reservationId}
                 trip={reservation.type}
                 shuttle={reservation.shuttle}
                 passengers={reservation.passengers}
                 handyStatus={reservation.handyStatus}
-                isShuttleAssigned={isShuttleAssigned}
+                isShuttleBusAssigned={isShuttleBusAssigned}
               />
-              <RouteSection />
+              <RouteSection
+                isShuttleBusAssigned={isShuttleBusAssigned}
+                reservationId={reservation.reservationId}
+                tripType={reservation.type}
+                hubs={reservation.shuttle.route.hubs}
+              />
               {/* TODO: 결제 연동된 이후에 주석 해제 */}
               {/* <PaymentInfoSection
               price={reservation.payment.principalAmount}
@@ -98,11 +102,12 @@ const ShuttleDetail = ({ params }: Props) => {
               />
               <ReservationInfoSection
                 isExpandable
+                reservationId={reservation.reservationId}
                 trip={reservation.type}
                 shuttle={reservation.shuttle}
                 passengers={reservation.passengers}
                 handyStatus={reservation.handyStatus}
-                isShuttleAssigned={isShuttleAssigned}
+                isShuttleBusAssigned={isShuttleBusAssigned}
               />
               <RefundGuideSection />
             </>

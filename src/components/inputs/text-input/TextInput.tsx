@@ -20,7 +20,6 @@ interface Props<T extends FieldValues> extends UseControllerProps<T> {
 
 const TextInput = <T extends FieldValues>({
   children,
-  value,
   setValue,
   placeholder,
   onKeyDown,
@@ -56,7 +55,6 @@ const TextInput = <T extends FieldValues>({
         placeholder={placeholder}
         onKeyDown={onKeyDown}
         {...field}
-        value={value}
         className={`h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
       />
       {field.value && (

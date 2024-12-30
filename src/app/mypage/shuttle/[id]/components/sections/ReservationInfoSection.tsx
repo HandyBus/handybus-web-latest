@@ -11,9 +11,12 @@ import {
   TripType,
 } from '@/types/client.types';
 import { HANDY_STATUS_TEXT, TRIP_TEXT } from '../../../shuttle.constants';
+import { parseDateString } from '@/utils/dateString';
+import { usePostUpdateReservation } from '@/services/reservation';
+import { toast } from 'react-toastify';
 
 interface Props {
-  isExpandable?: boolean;
+  reservationId: number;
   trip: TripType;
   shuttle: ShuttleWithRouteType;
   passengers: {
@@ -21,49 +24,73 @@ interface Props {
     phoneNumber: string;
   }[];
   handyStatus: HandyStatusType;
-  isShuttleAssigned: boolean;
+  isShuttleBusAssigned: boolean;
+  isExpandable?: boolean;
 }
 
 const ReservationInfoSection = ({
-  isExpandable = false,
+  reservationId,
   trip,
   shuttle,
   passengers,
   handyStatus,
-  isShuttleAssigned,
+  isShuttleBusAssigned,
+  isExpandable = false,
 }: Props) => {
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
+
+  const onSuccess = () => {
+    if (handyStatus === 'NOT_SUPPORTED') {
+      toast.success('핸디에 지원해주셔서 감사합니다!');
+    } else {
+      toast.success('핸디 지원이 취소되었습니다.');
+    }
+  };
+  const onError = () => {
+    toast.error('핸디 지원/취소에 실패했습니다.');
+  };
+  const { mutate: updateReservation } = usePostUpdateReservation(
+    reservationId,
+    onSuccess,
+    onError,
+  );
+
   const handleHandyRequestConfirm = () => {
+    updateReservation({
+      isSupportingHandy: handyStatus === 'NOT_SUPPORTED' ? true : false,
+    });
     setIsHandyRequestModalOpen(false);
   };
   const handleHandyRequestClosed = () => {
     setIsHandyRequestModalOpen(false);
   };
 
-  const tripText = TRIP_TEXT[trip];
-  const showPickup = trip === 'TO_DESTINATION' || trip === 'ROUND_TRIP';
-  const showDropoff = trip === 'FROM_DESTINATION' || trip === 'ROUND_TRIP';
-  const pickupPlace = shuttle.route.hubs.pickup.find(
-    (hub) => hub.selected,
-  )?.name;
-  const dropoffPlace = shuttle.route.hubs.dropoff.find(
-    (hub) => hub.selected,
-  )?.name;
-  const handyTagText = HANDY_STATUS_TEXT[handyStatus];
-
   const parsePhoneNumber = (phoneNumber: string) => {
     return '0' + phoneNumber.slice(3);
   };
+
+  const tripText = TRIP_TEXT[trip];
+  const showToDestination = trip === 'TO_DESTINATION' || trip === 'ROUND_TRIP';
+  const showFromDestination =
+    trip === 'FROM_DESTINATION' || trip === 'ROUND_TRIP';
+  const toDestinationPlace = shuttle.route.hubs.toDestination.find(
+    (hub) => hub.selected,
+  )?.name;
+  const fromDestinationPlace = shuttle.route.hubs.fromDestination.find(
+    (hub) => hub.selected,
+  )?.name;
+  const handyTagText = HANDY_STATUS_TEXT[handyStatus];
+  const parsedDate = parseDateString(shuttle.date);
 
   return (
     <>
       <Section title="예약 정보" isExpandable={isExpandable}>
         <div className="flex flex-col gap-28">
           <section className="flex flex-col gap-8">
-            <DetailRow title="탑승일" content={shuttle.date} />
+            <DetailRow title="탑승일" content={parsedDate} />
             <DetailRow title="노선 종류" content={shuttle.name} />
             <DetailRow title="왕복 여부" content={tripText} />
-            {showPickup && pickupPlace && (
+            {showToDestination && toDestinationPlace && (
               <DetailRow
                 title={
                   <>
@@ -72,10 +99,10 @@ const ReservationInfoSection = ({
                     <span className="text-14">(콘서트행)</span>
                   </>
                 }
-                content={pickupPlace}
+                content={toDestinationPlace}
               />
             )}
-            {showDropoff && dropoffPlace && (
+            {showFromDestination && fromDestinationPlace && (
               <DetailRow
                 title={
                   <>
@@ -84,7 +111,7 @@ const ReservationInfoSection = ({
                     <span className="text-14">(귀가행)</span>
                   </>
                 }
-                content={dropoffPlace}
+                content={fromDestinationPlace}
               />
             )}
             <DetailRow title="탑승객 수" content={`${passengers.length}명`} />
@@ -98,7 +125,7 @@ const ReservationInfoSection = ({
               tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
-          {!isShuttleAssigned && (
+          {!isShuttleBusAssigned && (
             <>
               <div className="flex flex-col gap-8">
                 <button
