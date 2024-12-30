@@ -15,16 +15,26 @@ export const displayRouteInfoForReservation = (
   tripType: '왕복' | '콘서트행' | '귀가행' | undefined,
   hubs?: Hub,
 ) => {
-  const startLocation = hubs?.toDestination.find((v) => v.sequence === 1);
-  const length = hubs?.toDestination?.length ?? 0;
-  const endLocation = hubs?.fromDestination.find(
-    (v) => v.sequence === length - 1,
+  const toDestinationLength = hubs?.toDestination?.length ?? 0;
+  const toDestinationStartLocation = hubs?.toDestination.find(
+    (v) => v.sequence === 1,
+  );
+  const toDestinationEndLocation = hubs?.toDestination.find(
+    (v) => v.sequence === toDestinationLength,
+  );
+
+  const fromDestinationLength = hubs?.fromDestination?.length ?? 0;
+  const fromDestinationStartLocation = hubs?.fromDestination.find(
+    (v) => v.sequence === 1,
+  );
+  const fromDestinationEndLocation = hubs?.fromDestination.find(
+    (v) => v.sequence === fromDestinationLength,
   );
 
   if (!hubs) return;
   if (tripType === '왕복') return '';
   if (tripType === '콘서트행')
-    return `${startLocation?.name} → ${endLocation?.name}`;
+    return `${toDestinationStartLocation?.name} → ${toDestinationEndLocation?.name}`;
   if (tripType === '귀가행')
-    return `${endLocation?.name} → ${startLocation?.name}`;
+    return `${fromDestinationEndLocation?.name} → ${fromDestinationStartLocation?.name}`;
 };
