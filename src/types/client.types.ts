@@ -45,6 +45,7 @@ export interface ArtistType {
 export interface UserDashboardType {
   userId: number;
   nickname: string;
+  phoneNumber: string;
   profileImage: string;
   gender: GenderType;
   ageRange: AgeType;

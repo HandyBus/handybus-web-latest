@@ -19,18 +19,22 @@ import ArtistStep from './steps/ArtistStep';
 
 interface Props {
   progress: OnboardingProgress;
+  initialPhoneNumber?: string;
 }
 
-const OnboardingFunnel = ({ progress }: Props) => {
+const OnboardingFunnel = ({ progress, initialPhoneNumber }: Props) => {
   const initialStep =
     progress === 'AGREEMENT_INCOMPLETE' ? '약관 동의' : '전화번호';
-  const { Funnel, Step, handleNextStep, handlePrevStep } = useFunnel(
+  const { Funnel, Step, handleNextStep, handlePrevStep, setStep } = useFunnel(
     ONBOARDING_STEPS,
     initialStep,
   );
 
   const methods = useForm<OnboardingFormValues>({
-    defaultValues: FORM_DEFAULT_VALUES,
+    defaultValues: {
+      ...FORM_DEFAULT_VALUES,
+      phoneNumber: initialPhoneNumber,
+    },
     mode: 'onBlur',
   });
 
@@ -67,6 +71,7 @@ const OnboardingFunnel = ({ progress }: Props) => {
     }
 
     const body = {
+      phoneNumber: formData.phoneNumber,
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
@@ -94,7 +99,11 @@ const OnboardingFunnel = ({ progress }: Props) => {
       >
         <Funnel>
           <Step name="약관 동의">
-            <AgreementStep handleNextStep={handleNextStep} />
+            <AgreementStep
+              handleNextStep={
+                initialPhoneNumber ? handleNextStep : () => setStep('전화번호')
+              }
+            />
           </Step>
           <Step name="전화번호">
             <PhoneNumberStep handleNextStep={handleNextStep} />
