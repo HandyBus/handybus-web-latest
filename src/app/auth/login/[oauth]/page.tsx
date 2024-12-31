@@ -1,11 +1,11 @@
 'use client';
 
+import Loading from '@/components/loading/Loading';
 import { postLogin } from '@/services/auth';
 import { getProgress } from '@/services/users';
 import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { BeatLoader } from 'react-spinners';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' };
@@ -59,11 +59,7 @@ const OAuth = ({ params, searchParams }: Props) => {
     };
   }, []);
 
-  return (
-    <div className="flex h-screen items-center justify-center">
-      <BeatLoader color="#9edbcc" />
-    </div>
-  );
+  return <Loading />;
 };
 
 export default OAuth;

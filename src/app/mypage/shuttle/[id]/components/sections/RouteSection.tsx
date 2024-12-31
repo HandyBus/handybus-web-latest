@@ -15,7 +15,7 @@ interface FormValues {
 }
 
 interface Props {
-  isShuttleAssigned: boolean;
+  isShuttleBusAssigned: boolean;
   reservationId: number;
   tripType: TripType;
   hubs: {
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const RouteSection = ({
-  isShuttleAssigned,
+  isShuttleBusAssigned,
   reservationId,
   tripType,
   hubs,
@@ -63,7 +63,7 @@ const RouteSection = ({
           fromDestinationObject={fromDestination}
           section={isEdit ? SECTION.RESERVATION_DETAIL : SECTION.MY_RESERVATION}
         />
-        {!isShuttleAssigned && (
+        {!isShuttleBusAssigned && (
           <div className="flex flex-col items-end gap-8 pb-24 pr-24">
             {isEdit ? (
               <div className="flex gap-8">
