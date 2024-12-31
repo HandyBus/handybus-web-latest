@@ -24,7 +24,14 @@ const Coupon = ({ coupon }: Props) => {
       {!usable && (
         <p className="pb-4 text-12 font-600 text-red-500">{unusableReason}</p>
       )}
-      <h4 className="text-22 font-600">{title} 할인</h4>
+      <h4 className="text-22 font-600">
+        {title} 할인{' '}
+        {coupon.discountType === 'RATE' && (
+          <span className="text-12 font-400 text-grey-500">
+            최대 {coupon.maxDiscountAmount.toLocaleString()}원 할인
+          </span>
+        )}
+      </h4>
       <p className="line-clamp-1 pb-4 pt-[2px] text-16 font-500 text-grey-800">
         {coupon.name}
       </p>
