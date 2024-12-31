@@ -7,13 +7,14 @@ const postCoupon = async (code: string) => {
   return await authInstance.post('/billing/coupons', { code });
 };
 
-export const usePostCoupon = () => {
+export const usePostCoupon = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postCoupon,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('쿠폰 등록이 완료되었습니다.');
+      onSuccess?.();
     },
     onError: (error: CustomError) => {
       if (error.statusCode === 404) {

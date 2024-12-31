@@ -29,7 +29,9 @@ const Coupon = ({ coupon }: Props) => {
         {coupon.name}
       </p>
       <p className="line-clamp-1 text-12 font-400 text-grey-500">
-        예약 당 최대 {coupon.maxApplicablePeople}인 적용
+        {coupon.maxApplicablePeople === 0
+          ? '모든 탑승객에게 적용 가능'
+          : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`}
       </p>
       <p className="text-12 font-400 text-grey-500">
         {coupon.validTo.replace(/-/g, '.')}까지 사용 가능

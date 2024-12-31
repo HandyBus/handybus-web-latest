@@ -7,7 +7,11 @@ import { useForm } from 'react-hook-form';
 
 const RegisterCoupon = () => {
   const { control, setValue, handleSubmit } = useForm<{ coupon: string }>();
-  const { mutate: postCoupon } = usePostCoupon();
+  const { mutate: postCoupon } = usePostCoupon({
+    onSuccess: () => {
+      setValue('coupon', '');
+    },
+  });
   const onSubmit = (data: { coupon: string }) => {
     postCoupon(data.coupon);
   };
