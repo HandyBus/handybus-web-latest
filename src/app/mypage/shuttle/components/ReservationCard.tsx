@@ -85,8 +85,7 @@ const ReservationCard = ({
             <span>{reservation.passengers.length}인</span>
           </span>
           <span className="pt-4 text-14 font-500 text-grey-900">
-            {/* TODO: 결제 연동된 이후에 주석 해제 */}
-            {/* {reservation.payment.paymentAmount.toLocaleString()}{' '} */}
+            {reservation.payment.paymentAmount.toLocaleString()}{' '}
             <span className="text-12">원</span>
           </span>
           <div className="flex gap-8 pt-4">
