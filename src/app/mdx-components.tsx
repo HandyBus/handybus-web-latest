@@ -10,12 +10,12 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </div>
     ),
     th: ({ children }) => (
-      <th className="border-gray-300 bg-gray-100 py-2 font-semibold border px-4 text-left">
+      <th className="whitespace-nowrap border border-grey-300 bg-grey-100 px-4 py-[2px] text-left font-400">
         {children}
       </th>
     ),
     td: ({ children }) => (
-      <td className="border-gray-300 py-2 border px-4">{children}</td>
+      <td className="py-2 border border-grey-300 px-4">{children}</td>
     ),
     ...components,
   };
