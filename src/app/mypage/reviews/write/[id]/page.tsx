@@ -9,8 +9,20 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
+import { useGetUserReservation, usePostUserReview } from '@/services/users';
+import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
+import Loading from '@/components/loading/Loading';
+import { getImageUrl } from '@/services/common';
 
-const WriteReview = () => {
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const WriteReview = ({ params }: Props) => {
+  const { data: reservation } = useGetUserReservation(Number(params.id));
+
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
   const [files, setFiles] = useState<File[]>([]);
@@ -37,21 +49,51 @@ const WriteReview = () => {
     setFiles((prev) => prev.filter((f) => f !== file));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const { mutate: postUserReview } = usePostUserReview();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (text.length < 20) {
       toast.error('20자 이상 작성해주세요.');
       return;
     }
-    console.log(rating, text, files);
+    if (!reservation) {
+      toast.error('잠시 후 다시 시도해주세요.');
+      return;
+    }
+
+    const imageUrls = await Promise.all(
+      files.map(async (file) => {
+        const imageUrl = await getImageUrl({
+          key: 'reviews',
+          file,
+        });
+        return imageUrl;
+      }),
+    );
+
+    postUserReview({
+      shuttleId: reservation.shuttle.shuttleId,
+      reservationId: reservation.reservationId,
+      rating,
+      content: text,
+      images: imageUrls
+        .filter((url) => url !== null && url !== undefined)
+        .map((url) => ({ imageUrl: url })),
+    });
   };
 
   return (
     <>
       <AppBar>후기 작성</AppBar>
       <form onSubmit={handleSubmit} className="relative grow">
-        {/* <ShuttleCard id={1} data={MOCK_SHUTTLE_DATA} /> */}
-        <section className="flex w-full flex-col gap-16 p-28">
+        {reservation ? (
+          <ReservationCard reservation={reservation} />
+        ) : (
+          <div className="flex h-192 grow items-center justify-center">
+            <Loading />
+          </div>
+        )}
+        <section className="flex w-full flex-col gap-16 p-28 pb-8">
           <h5>이번 셔틀의 만족도를 입력해주세요</h5>
           <div>
             <Rating size="large" value={rating} onChange={setRating} />
