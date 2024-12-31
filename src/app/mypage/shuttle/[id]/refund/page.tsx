@@ -7,11 +7,10 @@ import Button from '@/components/buttons/button/Button';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 import Section from '../components/Section';
 import ReservationCard from '../../components/ReservationCard';
 import { useGetUserDashboard } from '@/services/users';
-// import { usePostRefund } from '@/services/reservation';
+import { usePostRefund } from '@/services/reservation';
 
 interface Props {
   params: {
@@ -28,8 +27,10 @@ const Refund = ({ params }: Props) => {
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  // TODO: 결제 연동 후 주석 해제 및 모달에 함수 연결
-  // const { mutate: postRefund } = usePostRefund(reservation.payment.id, '');
+  const { mutate: postRefund } = usePostRefund(
+    reservation?.payment.paymentId ?? 0,
+    '자동 승인 환불 요청',
+  );
 
   if (isLoading) {
     return <div className="h-[100dvh]" />;
@@ -57,10 +58,7 @@ const Refund = ({ params }: Props) => {
       <ConfirmModal
         isOpen={isOpen}
         onClosed={() => setIsOpen(false)}
-        onConfirm={() => {
-          router.push('/mypage/shuttle?type=current');
-          toast.success('환불 신청이 완료되었습니다.');
-        }}
+        onConfirm={postRefund}
         title="정말 환불을 신청하시겠습니까?"
         buttonLabels={{ back: '취소하기', confirm: '환불 신청하기' }}
       />
