@@ -90,7 +90,8 @@ const TossPayment = ({
         throw new Error('TossPayments SDK가 로드되지 않았습니다.');
       }
 
-      const clientKey = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY;
+      // const clientKey = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY;
+      const clientKey = 'test_gck_DLJOpm5Qrld0vRJb02RPrPNdxbWn';
       if (!clientKey)
         throw new Error('TossPayments client key가 설정되지 않았습니다.');
 
