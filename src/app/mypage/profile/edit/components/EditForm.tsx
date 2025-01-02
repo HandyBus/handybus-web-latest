@@ -49,7 +49,7 @@ const EditForm = ({ type, userStats }: Props) => {
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
       router.replace('/mypage/profile');
     },
     onError: (e: CustomError) => {

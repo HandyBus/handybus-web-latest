@@ -52,29 +52,6 @@ export interface ArtistType {
   name: string;
 }
 
-export interface UserDashboardType {
-  userId: number;
-  nickname: string;
-  phoneNumber: string;
-  profileImage: string;
-  gender: GenderType;
-  ageRange: AgeType;
-  authChannel: AuthChannelType;
-  regionId: number;
-  reservations: {
-    past: ReservationType[];
-    current: ReservationType[];
-    hasReview: ReservationWithReview[];
-  };
-  socialInfo: {
-    uniqueId: string;
-    nickname: string;
-  };
-  favoriteArtists: ArtistType[];
-  shuttleDemands: ShuttleDemandType[];
-  coupons: IssuedCouponType[];
-}
-
 // --- 셔틀 및 노선 관련 타입 ---
 export type ShuttleDemandStatusType =
   | 'OPEN' // 수요조사가 아직 모집 중인 상태

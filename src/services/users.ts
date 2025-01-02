@@ -1,7 +1,6 @@
 import {
   AgeType,
   GenderType,
-  UserDashboardType,
   UserStatsType,
   UserType,
 } from '@/types/client.types';
@@ -98,21 +97,6 @@ export const usePutUser = ({
     onSuccess,
     onError,
     onSettled,
-  });
-};
-
-export const getUserDashboard = async () => {
-  const res = await authInstance.get<{ userDashboard: UserDashboardType }>(
-    '/user-management/users/me/dashboard',
-    { next: { tags: ['user'] } },
-  );
-  return res.userDashboard;
-};
-
-export const useGetUserDashboard = () => {
-  return useQuery({
-    queryKey: ['dashboard'],
-    queryFn: getUserDashboard,
   });
 };
 

@@ -9,8 +9,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Section from '../components/Section';
 import ReservationCard from '../../components/ReservationCard';
-import { useGetUserDashboard } from '@/services/users';
-import { usePostRefund } from '@/services/reservation';
+import { useGetUserReservation, usePostRefund } from '@/services/reservation';
+import Loading from '@/components/loading/Loading';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
 
 interface Props {
   params: {
@@ -20,10 +21,11 @@ interface Props {
 
 const Refund = ({ params }: Props) => {
   const { id } = params;
-  const { data, isLoading } = useGetUserDashboard();
-  const reservation = data?.reservations.current.find(
-    (reservation) => reservation.reservationId === Number(id),
-  );
+  const {
+    data: reservation,
+    isLoading,
+    isSuccess,
+  } = useGetUserReservation(Number(id));
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +34,7 @@ const Refund = ({ params }: Props) => {
     '자동 승인 환불 요청',
   );
 
-  if (isLoading) {
-    return <div className="h-[100dvh]" />;
-  }
-  if (!reservation) {
+  if (isSuccess && !reservation) {
     router.replace('/mypage/shuttle?type=current');
     return <div className="h-[100dvh]" />;
   }
@@ -43,18 +42,22 @@ const Refund = ({ params }: Props) => {
   return (
     <>
       <AppBar>환불 신청</AppBar>
-      <main className="grow">
-        <ReservationCard reservation={reservation} />
-        <Section title="유의사항">
-          <RefundPolicy />
-        </Section>
-        <Section title="취소 수수료">
-          <CancellationAndRefundContent />
-        </Section>
-        <div className="px-20 pb-12">
-          <Button onClick={() => setIsOpen(true)}>환불 신청하기</Button>
-        </div>
-      </main>
+      <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
+        {reservation && (
+          <main className="grow">
+            <ReservationCard reservation={reservation} />
+            <Section title="유의사항">
+              <RefundPolicy />
+            </Section>
+            <Section title="취소 수수료">
+              <CancellationAndRefundContent />
+            </Section>
+            <div className="px-20 pb-12">
+              <Button onClick={() => setIsOpen(true)}>환불 신청하기</Button>
+            </div>
+          </main>
+        )}
+      </DeferredSuspense>
       <ConfirmModal
         isOpen={isOpen}
         onClosed={() => setIsOpen(false)}
