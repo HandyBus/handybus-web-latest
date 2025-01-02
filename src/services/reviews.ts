@@ -65,8 +65,8 @@ export const usePostUserReview = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postUserReview,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
       toast.success('후기를 작성해주셔서 감사합니다!');
     },
     onError: () => {

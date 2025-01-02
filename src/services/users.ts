@@ -5,7 +5,7 @@ import {
   UserType,
 } from '@/types/client.types';
 import { authInstance } from './config';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
 import { CustomError } from './custom-error';
 import revalidateUser from '@/app/actions/revalidateUser.action';
@@ -59,9 +59,13 @@ export const usePutNickname = ({
   onSuccess?: () => void;
   onError?: () => void;
 }) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (nickname: string) => putUser({ nickname }),
-    onSuccess,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      onSuccess?.();
+    },
     onError,
   });
 };
@@ -93,9 +97,13 @@ export const usePutUser = ({
   onError?: (e: CustomError) => void;
   onSettled?: () => void;
 }) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: putUser,
-    onSuccess,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      onSuccess?.();
+    },
     onError,
     onSettled,
   });

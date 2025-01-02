@@ -17,7 +17,6 @@ import ArtistContent from '@/components/onboarding-contents/ArtistContent';
 import { toast } from 'react-toastify';
 import { getImageUrl } from '@/services/common';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { UserStatsType } from '@/types/client.types';
 import { EditType } from '../page';
@@ -44,12 +43,10 @@ const EditForm = ({ type, userStats }: Props) => {
   });
 
   const router = useRouter();
-  const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
-      queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
       router.replace('/mypage/profile');
     },
     onError: (e: CustomError) => {
