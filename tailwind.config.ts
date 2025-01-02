@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-
+import plugin from 'tailwindcss/plugin';
 const createPxEntries = (size: number) => {
   return {
     0: '0',
@@ -10,6 +10,21 @@ const createPxEntries = (size: number) => {
 };
 
 const PX_ENTRIES = createPxEntries(500);
+
+const hideScrollbar = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.scrollbar-hidden': {
+      /* Chrome, Safari, Opera */
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+      /* IE, Edge */
+      '-ms-overflow-style': 'none',
+      /* Firefox */
+      'scrollbar-width': 'none',
+    },
+  });
+});
 
 const config: Config = {
   content: [
@@ -108,6 +123,6 @@ const config: Config = {
       sans: ['Pretendard', 'Arial'],
     },
   },
-  plugins: [],
+  plugins: [hideScrollbar],
 };
 export default config;

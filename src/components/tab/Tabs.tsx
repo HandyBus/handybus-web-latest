@@ -13,7 +13,7 @@ const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
   const len = items.length;
 
   return (
-    <div className="flex w-full flex-row overflow-x-scroll">
+    <div className="flex w-full flex-row overflow-x-scroll scrollbar-hidden">
       {items.flatMap((v, i) => (
         <Fragment key={v.label}>
           <Tab
