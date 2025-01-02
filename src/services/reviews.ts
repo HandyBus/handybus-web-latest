@@ -4,12 +4,12 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { authInstance } from './config';
+import { authInstance, instance } from './config';
 import { ReviewType } from '@/types/client.types';
 import { toast } from 'react-toastify';
 
-const getReviews = async (page: number, limit: number) => {
-  const res = await authInstance.get<{
+export const getReviews = async (page: number, limit: number) => {
+  const res = await instance.get<{
     reviews: ReviewType[];
     totalCount: number;
     nextPage: number | null;
@@ -17,9 +17,9 @@ const getReviews = async (page: number, limit: number) => {
   return res;
 };
 
-const REVIEW_PER_PAGE = 10;
-
 export const useGetReviews = () => {
+  const REVIEW_PER_PAGE = 10;
+
   return useInfiniteQuery({
     queryKey: ['reviews'],
     queryFn: ({ pageParam }: { pageParam: number }) =>
