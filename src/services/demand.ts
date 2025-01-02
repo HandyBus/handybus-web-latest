@@ -42,8 +42,8 @@ export const useDeleteDemand = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteDemand,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'demands'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'demands'] });
       toast.success('수요조사를 취소했습니다.');
     },
     onError: () => {

@@ -84,8 +84,8 @@ export const usePostUpdateReservation = (
   return useMutation({
     mutationFn: (body: UpdateReservationBody) =>
       postUpdateReservation(reservationId, body),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ['user', 'reservations', reservationId],
       });
       onSuccess?.();

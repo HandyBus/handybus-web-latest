@@ -26,8 +26,8 @@ export const usePostCoupon = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postCoupon,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'coupons'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'coupons'] });
       toast.success('쿠폰 등록이 완료되었습니다.');
       onSuccess?.();
     },
