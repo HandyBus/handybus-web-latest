@@ -159,6 +159,8 @@ export interface ShuttleType {
 export type ShuttleWithRouteType = ShuttleType & { route: RouteType };
 
 export interface RouteType {
+  shuttleRouteId: number;
+  dailyShuttleId: number;
   name: string;
   status: RouteStatusType;
   hubs: {

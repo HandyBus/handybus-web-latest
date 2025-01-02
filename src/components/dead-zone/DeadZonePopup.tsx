@@ -1,10 +1,7 @@
-'use client';
-
+import Link from 'next/link';
 import LargeLogo from 'public/icons/logo-large.svg';
 
 const DeadZonePopup = () => {
-  const redirectToReview = () => {};
-
   return (
     <div className="fixed bottom-52 right-[calc(50%-500px)] z-[99] flex h-252 w-[210px] flex-col items-center rounded-[10px] bg-grey-50 px-16 py-20 max-[1000px]:hidden">
       <LargeLogo />
@@ -14,13 +11,12 @@ const DeadZonePopup = () => {
         살펴보세요.
       </div>
       <div className="w-full">
-        <button
-          onClick={redirectToReview}
-          type="button"
+        <Link
+          href="/help/reviews"
           className="text-left text-grey-500 underline underline-offset-[3px]"
         >
           후기 보러 가기
-        </button>
+        </Link>
       </div>
     </div>
   );
