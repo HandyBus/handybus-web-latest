@@ -8,6 +8,7 @@ import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { ID_TO_REGION } from '@/constants/regions';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { parsePhoneNumber } from '@/utils/common';
 
 const Profile = () => {
   const { data: userDashboard, isLoading } = useGetUserDashboard();
@@ -20,6 +21,7 @@ const Profile = () => {
   const favoriteArtists =
     userDashboard?.favoriteArtists.map((artist) => artist.name).join(', ') ??
     '';
+  const phoneNumber = parsePhoneNumber(userDashboard?.phoneNumber ?? '');
 
   return (
     <>
@@ -39,6 +41,7 @@ const Profile = () => {
               <span className="text-18 font-500 text-grey-900">{nickname}</span>
             </div>
             <ul className="flex flex-col gap-8 pt-16">
+              <ProfileItem title="전화번호" description={phoneNumber} />
               <ProfileItem title="성별" description={gender} />
               <ProfileItem title="연령대" description={ageRange} />
               <ProfileItem

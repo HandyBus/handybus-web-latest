@@ -1,5 +1,6 @@
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import Button from '@/components/buttons/button/Button';
+import PolicyViewer from '@/components/policy/PolicyViewer';
 import { RefObject } from 'react';
 
 interface Props {
@@ -18,24 +19,23 @@ const MarketingBottomSheet = ({
   return (
     <BottomSheet title="마케팅 활용/광고성 정보 수신 동의" ref={bottomSheetRef}>
       <div className="overflow-y-auto" ref={contentRef}>
-        본 약관은 (주)핸디버스(이하 “회사”라 합니다)이 운영하는 웹사이트
-        ‘핸디버스’ (handybus.co.kr) (이하 “웹사이트”라 합니다)에서 제공하는
-        온라인 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버몰과 이용자의
-        권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
-      </div>
-      <div className="flex gap-8 pb-16 pt-8">
-        <Button type="button" variant="secondary" onClick={closeBottomSheet}>
-          닫기
-        </Button>
-        <Button
-          type="button"
-          onClick={() => {
-            onAccept();
-            closeBottomSheet();
-          }}
-        >
-          동의하기
-        </Button>
+        <div>
+          <PolicyViewer type="마케팅활용동의" />
+        </div>
+        <div className="flex gap-8 pb-16 pt-8">
+          <Button type="button" variant="secondary" onClick={closeBottomSheet}>
+            닫기
+          </Button>
+          <Button
+            type="button"
+            onClick={() => {
+              onAccept();
+              closeBottomSheet();
+            }}
+          >
+            동의하기
+          </Button>
+        </div>
       </div>
     </BottomSheet>
   );

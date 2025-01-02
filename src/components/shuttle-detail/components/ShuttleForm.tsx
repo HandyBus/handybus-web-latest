@@ -3,144 +3,154 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import ShuttleSelector from './ShuttleSelector';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
-import { useRouter } from 'next/navigation';
-import ShuttleDemandStatus from './ShuttleDemandStatus';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ShuttleDemandStatus } from './ShuttleDemandStatus';
+import { ShuttlePriceStatus } from './ShuttleDemandStatus';
 import { EventDetailProps } from '@/types/event.types';
-import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
-import { useCallback } from 'react';
-
-export interface ShuttleFormValues {
-  dailyShuttle: {
-    dailyShuttleId: number;
-    date: string;
-  };
-  bigLocation: string;
-  smallLocation: string;
-  route: string;
-}
+import { useMemo } from 'react';
+import {
+  SECTION,
+  ShuttleRoute,
+  ShuttleRouteEvent,
+} from '@/types/shuttle.types';
+import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
+import { ShuttleFormValues } from './shuttleForm.type';
+import {
+  determineDisabled,
+  determineMessage,
+  determineVariant,
+  getRegionId,
+  locationFormatter,
+} from './shuttleForm.util';
 
 interface Props {
   shuttleId: number;
-  data: EventDetailProps;
+  data: EventDetailProps | ShuttleRouteEvent;
+  reservData?: ShuttleRoute[];
   type: 'DEMAND' | 'RESERVATION';
-  shuttleStatus:
-    | 'DEMAND_SURVEY'
-    | 'SURVEY_CLOSED'
-    | 'PENDING'
-    | 'RESERVATION_CLOSED'
-    | 'ENDED'
-    | undefined;
 }
 
-const ShuttleForm = ({ shuttleId, type, data }: Props) => {
+const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
   const methods = useForm<ShuttleFormValues>({
     defaultValues: {
       dailyShuttle: {
-        dailyShuttleId: 0,
-        date: '',
+        dailyShuttleId: Number(searchParams.get('dailyShuttleId')),
+        date:
+          data.dailyShuttles.find(
+            (v) =>
+              v.dailyShuttleId === Number(searchParams.get('dailyShuttleId')),
+          )?.date ?? '',
       },
       bigLocation: '',
       smallLocation: '',
-      route: '',
+      shuttleRoute: {
+        label:
+          reservData?.find(
+            (route) =>
+              route.shuttleRouteId ===
+              Number(searchParams.get('shuttleRouteId')),
+          )?.name ?? '',
+        value: Number(searchParams.get('shuttleRouteId')),
+      },
     },
   });
   const bigLocation = methods.watch('bigLocation');
   const smallLocation = methods.watch('smallLocation');
   const dailyShuttle = methods.watch('dailyShuttle');
-
-  const getRegionId = useCallback(() => {
-    if (
-      !REGION_TO_ID[bigLocation] ||
-      !REGION_TO_ID[bigLocation][smallLocation]
-    ) {
-      return undefined;
-    }
-    return REGION_TO_ID[bigLocation][smallLocation];
-  }, [bigLocation, smallLocation]);
+  const shuttleRoute = methods.watch('shuttleRoute');
+  const shuttleRouteId = useMemo(
+    () =>
+      Number(
+        reservData?.find((route) => route.name === shuttleRoute?.label)
+          ?.shuttleRouteId,
+      ),
+    [shuttleRoute, reservData],
+  );
 
   const onSubmit = () => {
-    const queryParams = new URLSearchParams({
-      dailyShuttleId: dailyShuttle.dailyShuttleId.toString(),
-      bigLocation: bigLocation,
-      smallLocation: smallLocation,
-      regionId: getRegionId()?.toString() ?? '',
-    });
-
-    if (type === 'DEMAND')
+    if (type === 'DEMAND') {
+      const queryParams = new URLSearchParams({
+        dailyShuttleId: dailyShuttle.dailyShuttleId?.toString() ?? '',
+        bigLocation: bigLocation,
+        smallLocation: smallLocation,
+        regionId: getRegionId(bigLocation, smallLocation)?.toString() ?? '',
+      });
       router.push(`/demand/${shuttleId}/write?${queryParams}`);
-    if (type === 'RESERVATION')
+    }
+    if (type === 'RESERVATION') {
+      const queryParams = new URLSearchParams({
+        dailyShuttleId: dailyShuttle.dailyShuttleId?.toString() ?? '',
+        shuttleRouteId: shuttleRouteId?.toString() ?? '',
+      });
       router.push(`/shuttle/${shuttleId}/write?${queryParams}`);
-  };
-
-  const determindMessage = (
-    shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
-    type: 'DEMAND' | 'RESERVATION',
-  ): string | undefined => {
-    if (type === 'DEMAND' && shuttleStatus === 'OPEN') return '수요 신청하기';
-    if (type === 'DEMAND' && shuttleStatus === 'CLOSED')
-      return '수요 신청이 마감되었어요';
-    // NOTES: needs to add reservation message
-  };
-
-  const determindVariant = (
-    shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
-    type: 'DEMAND' | 'RESERVATION',
-  ): 'primary' | 'secondary' | undefined => {
-    if (
-      type === 'DEMAND' &&
-      shuttleStatus === 'OPEN' &&
-      (!getRegionId() || dailyShuttle.dailyShuttleId) === 0
-    )
-      return 'secondary';
-    if (type === 'DEMAND' && shuttleStatus === 'OPEN') return 'primary';
-    if (type === 'DEMAND' && shuttleStatus === 'CLOSED') return 'secondary';
-    // NOTES: needs to add reservation button variant
-  };
-
-  const determindDisabled = (
-    shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
-    type: 'DEMAND' | 'RESERVATION',
-  ): boolean => {
-    if (
-      type === 'DEMAND' &&
-      shuttleStatus === 'OPEN' &&
-      (!getRegionId() || dailyShuttle.dailyShuttleId === 0)
-    )
-      return true;
-    if (type === 'DEMAND' && shuttleStatus === 'CLOSED') return true;
-    // NOTES: needs to add reservation button disabled
-    return false;
-  };
-
-  const locationFormatter = (regionId: number | undefined) => {
-    if (!regionId) return '';
-    return (
-      ID_TO_REGION[regionId].bigRegion +
-      ' ' +
-      ID_TO_REGION[regionId].smallRegion
-    );
+    }
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <ShuttleSelector control={methods.control} type={type} data={data} />
-        <ShuttleDemandStatus
-          type={type === 'DEMAND' ? 'DEMAND_SURVEY' : 'SELECT_SHUTTLE'}
-          shuttleId={shuttleId}
-          regionId={getRegionId()}
-          dailyShuttle={dailyShuttle}
-          shuttle_location={locationFormatter(getRegionId())}
-          destination={data.destination.name}
+        <ShuttleSelector
+          control={methods.control}
+          type={type}
+          data={data}
+          reservData={reservData}
         />
+        <div id="divider" className="my-16 h-[8px] bg-grey-50" />
+        {type === 'DEMAND' && (
+          <ShuttleDemandStatus
+            type={'DEMAND_SURVEY'}
+            shuttleId={shuttleId}
+            regionId={getRegionId(bigLocation, smallLocation)}
+            dailyShuttle={dailyShuttle}
+            shuttle_location={locationFormatter(
+              getRegionId(bigLocation, smallLocation),
+            )}
+            destination={data.destination.name}
+          />
+        )}
+        {type === 'RESERVATION' && (
+          <>
+            <ShuttleRouteVisualizer
+              toDestinationObject={
+                reservData?.find(
+                  (route) => route.shuttleRouteId === shuttleRouteId,
+                )?.hubs.toDestination
+              }
+              fromDestinationObject={
+                reservData?.find(
+                  (route) => route.shuttleRouteId === shuttleRouteId,
+                )?.hubs.fromDestination
+              }
+              section={SECTION.SHUTTLE_DETAIL}
+            />
+            <ShuttlePriceStatus
+              destination={data.destination.name}
+              reservData={reservData ?? []}
+              shuttleRouteId={shuttleRouteId}
+            />
+          </>
+        )}
         <BottomBar
           onSubmit={methods.handleSubmit(onSubmit)}
           type={type}
-          message={determindMessage(data.status, type)}
-          variant={determindVariant(data.status, type)}
-          disabled={determindDisabled(data.status, type)}
+          message={determineMessage(data.status, type)}
+          variant={determineVariant(
+            data.status,
+            type,
+            bigLocation,
+            smallLocation,
+            dailyShuttle,
+          )}
+          disabled={determineDisabled(
+            data.status,
+            type,
+            bigLocation,
+            smallLocation,
+            dailyShuttle,
+            shuttleRoute,
+          )}
           shuttleName={data.name}
         />
       </form>

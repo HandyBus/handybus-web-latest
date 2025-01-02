@@ -5,7 +5,7 @@ import ReservationCard from '../components/ReservationCard';
 import ReservationInfoSection from './components/sections/ReservationInfoSection';
 import HandySection from './components/sections/HandySection';
 import ShuttleInfoSection from './components/sections/ShuttleInfoSection';
-// import PaymentInfoSection from './components/sections/PaymentInfoSection';
+import PaymentInfoSection from './components/sections/PaymentInfoSection';
 import RefundSection from './components/sections/RefundSection';
 import TermsSection from './components/sections/TermsSection';
 import RefundInfoSection from './components/sections/RefundInfoSection';
@@ -82,13 +82,12 @@ const ShuttleDetail = ({ params }: Props) => {
                 tripType={reservation.type}
                 hubs={reservation.shuttle.route.hubs}
               />
-              {/* TODO: 결제 연동된 이후에 주석 해제 */}
-              {/* <PaymentInfoSection
-              price={reservation.payment.principalAmount}
-              discount={reservation.payment.discountAmount}
-              finalPrice={reservation.payment.paymentAmount}
-              passengerCount={reservation.passengers.length}
-            /> */}
+              <PaymentInfoSection
+                price={reservation.payment.principalAmount}
+                discount={reservation.payment.discountAmount}
+                finalPrice={reservation.payment.paymentAmount}
+                passengerCount={reservation.passengers.length}
+              />
               <RefundSection id={id} />
               <TermsSection />
             </>

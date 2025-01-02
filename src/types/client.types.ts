@@ -45,6 +45,7 @@ export interface ArtistType {
 export interface UserDashboardType {
   userId: number;
   nickname: string;
+  phoneNumber: string;
   profileImage: string;
   gender: GenderType;
   ageRange: AgeType;
@@ -61,7 +62,7 @@ export interface UserDashboardType {
   };
   favoriteArtists: ArtistType[];
   shuttleDemands: ShuttleDemandType[];
-  coupons: CouponType[];
+  coupons: IssuedCouponType[];
 }
 
 // --- 셔틀 및 노선 관련 타입 ---
@@ -194,10 +195,18 @@ export interface ReviewType {
   createdAt: string;
 }
 
-export interface CouponType {
-  id: number;
+export interface IssuedCouponType {
+  code: string;
+  discountAmount: number;
+  discountRate: number;
+  discountType: 'RATE' | 'AMOUNT';
+  issuedCouponId: number;
+  maxApplicablePeople: number;
+  maxDiscountAmount: number;
   name: string;
-  description: string;
+  status: 'BEFORE_USE' | 'USED' | 'EXPIRED' | 'RETRIEVED' | 'DELETED';
+  validFrom: string;
+  validTo: string;
 }
 
 export type AuthChannelType = 'NONE' | 'kakao' | 'naver';

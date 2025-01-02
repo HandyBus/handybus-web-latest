@@ -1,30 +1,58 @@
-import ShuttleDetailPage from '@/components/shuttle-detail/ShuttleDetailPage';
-import { EventDetailProps } from '@/types/event.types';
+import { fetchAllShuttles } from '../util/fetch.util';
+import { ShuttleRoute } from '@/types/shuttle.types';
+import Spacer from '@/components/shuttle-detail/components/Spacer';
+import { dateFormatter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
+import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
+import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
+import { shuttleStateConverter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
+import BackButton from '@/components/shuttle-detail/components/BackButton';
+import ShuttleInfo from '@/components/shuttle-detail/components/ShuttleInfo';
+import ShuttleForm from '@/components/shuttle-detail/components/ShuttleForm';
+import Footer from '@/components/footer/Footer';
+import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
+import NoticeSection from '@/components/notice-section/NoticeSection';
 
-interface PageProps {
+interface Props {
   params: {
     id: number;
   };
 }
 
-const Shuttle = async ({ params }: PageProps) => {
-  const reservData: EventDetailProps = {
-    // TODO: mock data
-    shuttleId: params.id,
-    name: '',
-    dailyShuttles: [],
-    image: '',
-    status: 'OPEN',
-    destination: {
-      name: '',
-      longitude: 0,
-      latitude: 0,
-    },
-    type: 'CONCERT',
-    participants: [],
-    totalDemandCount: 0,
-  };
-  return <ShuttleDetailPage type="RESERVATION" data={reservData} />;
+const Shuttle = async ({ params }: Props) => {
+  const data = await fetchAllShuttles();
+  const reservData: ShuttleRoute[] = data.filter(
+    (v) => v.shuttleId === Number(params.id),
+  );
+  const infoData = reservData[0]?.shuttle;
+
+  return (
+    <main className="relative overflow-y-hidden">
+      <BackButton />
+      <ShuttleImage image={infoData.image} />
+      <ShuttleInfo
+        shuttleStatus={shuttleStateConverter(infoData.status, 'RESERVATION')}
+        title={infoData.name}
+        artist={infoData.participants.map((v) => v.name).join(', ')}
+        date={dateFormatter(infoData)}
+        location={infoData.destination.name}
+      />
+      <KakaoMap
+        placeName={infoData.destination.name}
+        latitude={infoData.destination.latitude}
+        longitude={infoData.destination.longitude}
+      />
+      <ShuttleForm
+        shuttleId={infoData.shuttleId}
+        type={'RESERVATION'}
+        data={infoData}
+        reservData={reservData}
+      />
+      <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
+      <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
+      <Footer />
+      <Spacer />
+    </main>
+  );
 };
 
 export default Shuttle;

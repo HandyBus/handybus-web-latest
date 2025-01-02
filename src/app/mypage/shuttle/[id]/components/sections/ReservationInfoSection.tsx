@@ -14,6 +14,7 @@ import { HANDY_STATUS_TEXT, TRIP_TEXT } from '../../../shuttle.constants';
 import { parseDateString } from '@/utils/dateString';
 import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
+import { parsePhoneNumber } from '@/utils/common';
 
 interface Props {
   reservationId: number;
@@ -63,10 +64,6 @@ const ReservationInfoSection = ({
   };
   const handleHandyRequestClosed = () => {
     setIsHandyRequestModalOpen(false);
-  };
-
-  const parsePhoneNumber = (phoneNumber: string) => {
-    return '0' + phoneNumber.slice(3);
   };
 
   const tripText = TRIP_TEXT[trip];
