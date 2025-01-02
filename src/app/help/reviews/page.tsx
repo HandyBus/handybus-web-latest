@@ -1,12 +1,12 @@
 'use client';
 
-import DetailedReview from './components/DetailedReview';
+// import DetailedReview from './components/DetailedReview';
 import { useGetReviews } from '@/services/reviews';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import LoadingCircle from 'public/icons/loading-circle.svg';
 
 const ReviewPage = () => {
-  const { data, fetchNextPage, isFetching, hasNextPage } = useGetReviews();
+  const { fetchNextPage, isFetching, hasNextPage } = useGetReviews();
 
   const ref = useInfiniteScroll(fetchNextPage);
 
@@ -17,9 +17,9 @@ const ReviewPage = () => {
           총 후기 <span className="font-800 text-primary-main">1,350</span>개
         </div>
         <div className="flex flex-col gap-16">
-          {data.map((review, idx) => (
+          {/* {data.map((review, idx) => (
             <DetailedReview key={idx} review={review} />
-          ))}
+          ))} */}
         </div>
         {(isFetching || hasNextPage) && (
           <div ref={ref} className="flex flex-col items-center py-28">

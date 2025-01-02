@@ -139,7 +139,7 @@ export const useGetUserReservation = (reservationId: number) => {
 
 const getAllUserReview = async () => {
   const res = await authInstance.get<{ reviews: ReviewType[] }>(
-    `/user-management/users/me/reviews`,
+    '/user-management/users/me/reviews',
   );
   return res.reviews;
 };
@@ -148,6 +148,7 @@ export const useGetAllUserReview = () => {
   return useQuery({
     queryKey: ['user', 'review'],
     queryFn: getAllUserReview,
+    initialData: [],
   });
 };
 
