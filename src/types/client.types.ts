@@ -37,31 +37,19 @@ export interface UserType {
   }[];
 }
 
+export interface UserStatsType
+  extends Omit<UserType, 'favoriteArtistsIds' | 'progresses'> {
+  favoriteArtists: ArtistType[];
+  currentReservationCount: number;
+  pastReservationCount: number;
+  activeCouponCount: number;
+  reviewCount: number;
+  shuttleDemandCount: number;
+}
+
 export interface ArtistType {
   artistId: number;
   name: string;
-}
-
-export interface UserDashboardType {
-  userId: number;
-  nickname: string;
-  profileImage: string;
-  gender: GenderType;
-  ageRange: AgeType;
-  authChannel: AuthChannelType;
-  regionId: number;
-  reservations: {
-    past: ReservationType[];
-    current: ReservationType[];
-    hasReview: ReservationWithReview[];
-  };
-  socialInfo: {
-    uniqueId: string;
-    nickname: string;
-  };
-  favoriteArtists: ArtistType[];
-  shuttleDemands: ShuttleDemandType[];
-  coupons: CouponType[];
 }
 
 // --- 셔틀 및 노선 관련 타입 ---
@@ -216,6 +204,20 @@ export interface ImageType {
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IssuedCouponType {
+  code: string;
+  discountAmount: number;
+  discountRate: number;
+  discountType: 'RATE' | 'AMOUNT';
+  issuedCouponId: number;
+  maxApplicablePeople: number;
+  maxDiscountAmount: number;
+  name: string;
+  status: 'BEFORE_USE' | 'USED' | 'EXPIRED' | 'RETRIEVED' | 'DELETED';
+  validFrom: string;
+  validTo: string;
 }
 
 export type AuthChannelType = 'NONE' | 'kakao' | 'naver';

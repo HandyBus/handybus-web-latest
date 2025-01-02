@@ -13,6 +13,7 @@ export const SECTION = {
 
 export type SectionType = (typeof SECTION)[keyof typeof SECTION];
 export interface ShuttleRoute {
+  shuttleId: number;
   shuttleRouteId: number;
   dailyShuttleId: number;
   shuttle: ShuttleRouteEvent;

@@ -49,6 +49,7 @@ const BottomBar = ({
             openBottomSheet={openBottomSheet}
             variant={variant}
             disabled={disabled}
+            isCheckDemand={true}
             onSubmit={onSubmit}
           />
         );
@@ -64,12 +65,12 @@ const BottomBar = ({
       case BOTTOM_BAR_TYPE.RESERVATION:
         return (
           <BottomBarContent
-            message="셔틀 예약하러 가기"
+            message={message || '셔틀 예약하러 가기'}
             openBottomSheet={openBottomSheet}
             variant={variant}
             disabled={disabled}
             onSubmit={onSubmit}
-            doesHaveShareButton={false}
+            doesHaveShareButton={true}
           />
         );
       case BOTTOM_BAR_TYPE.RESERVATION_WRITE.STEP_1:

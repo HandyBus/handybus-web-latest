@@ -1,15 +1,42 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authInstance } from './config';
-import revalidateUser from '@/app/actions/revalidateUser.action';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { CustomError } from './custom-error';
+import { ReservationType } from '@/types/client.types';
+
+const getUserReservations = async (type: 'CURRENT' | 'PAST') => {
+  const res = await authInstance.get<{ reservations: ReservationType[] }>(
+    `/user-management/users/me/reservations?shuttleProgressStatus=${type}`,
+  );
+  return res.reservations;
+};
+
+export const useGetUserReservations = (type: 'CURRENT' | 'PAST') => {
+  return useQuery({
+    queryKey: ['user', 'reservations', type],
+    queryFn: () => getUserReservations(type),
+  });
+};
+
+const getUserReservation = async (reservationId: number) => {
+  const res = await authInstance.get<{ reservation: ReservationType }>(
+    `/user-management/users/me/reservations/${reservationId}`,
+  );
+  return res.reservation;
+};
+
+export const useGetUserReservation = (reservationId: number) => {
+  return useQuery({
+    queryKey: ['user', 'reservations', reservationId],
+    queryFn: () => getUserReservation(reservationId),
+  });
+};
 
 const postRefund = async (paymentId: number, refundReason: string) => {
   await authInstance.post(`/billing/payments/${paymentId}/refunds`, {
     refundReason,
   });
-  revalidateUser();
 };
 
 export const usePostRefund = (paymentId: number, refundReason: string) => {
@@ -59,7 +86,7 @@ export const usePostUpdateReservation = (
       postUpdateReservation(reservationId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['dashboard'],
+        queryKey: ['user', 'reservations', reservationId],
       });
       onSuccess?.();
     },

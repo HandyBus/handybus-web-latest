@@ -1,17 +1,14 @@
 import {
   AgeType,
   GenderType,
-  ReservationType,
-  ReviewType,
-  UserDashboardType,
+  UserStatsType,
   UserType,
 } from '@/types/client.types';
 import { authInstance } from './config';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
 import { CustomError } from './custom-error';
 import revalidateUser from '@/app/actions/revalidateUser.action';
-import { toast } from 'react-toastify';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
@@ -103,77 +100,22 @@ export const usePutUser = ({
   });
 };
 
-export const getUserDashboard = async () => {
-  const res = await authInstance.get<{ userDashboard: UserDashboardType }>(
-    '/user-management/users/me/dashboard',
-    { next: { tags: ['user'] } },
-  );
-  return res.userDashboard;
-};
-
-export const useGetUserDashboard = () => {
-  return useQuery({
-    queryKey: ['dashboard'],
-    queryFn: getUserDashboard,
-  });
-};
-
 export const deleteUser = async () => {
   await authInstance.delete('/user-management/users/me');
   revalidateUser();
 };
 
-const getUserReservation = async (reservationId: number) => {
-  const res = await authInstance.get<{ reservation: ReservationType }>(
-    `user-management/users/me/reservations/${reservationId}`,
+const getUserStats = async () => {
+  const res = await authInstance.get<{ userStats: UserStatsType }>(
+    '/user-management/users/me/stats',
+    { next: { tags: ['user'] } },
   );
-  return res.reservation;
+  return res.userStats;
 };
 
-export const useGetUserReservation = (reservationId: number) => {
+export const useGetUserStats = () => {
   return useQuery({
-    queryKey: ['user', 'reservation', reservationId],
-    queryFn: () => getUserReservation(reservationId),
-  });
-};
-
-const getAllUserReview = async () => {
-  const res = await authInstance.get<{ reviews: ReviewType[] }>(
-    '/user-management/users/me/reviews',
-  );
-  return res.reviews;
-};
-
-export const useGetAllUserReview = () => {
-  return useQuery({
-    queryKey: ['user', 'review'],
-    queryFn: getAllUserReview,
-    initialData: [],
-  });
-};
-
-const postUserReview = async (body: {
-  shuttleId: number;
-  reservationId: number;
-  rating: number;
-  content: string;
-  images: {
-    imageUrl: string;
-  }[];
-}) => {
-  return await authInstance.post('/shuttle-operation/reviews', body);
-};
-
-export const usePostUserReview = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: postUserReview,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
-      toast.success('후기를 작성해주셔서 감사합니다!');
-    },
-    onError: () => {
-      toast.error('후기 작성에 실패하였습니다.');
-    },
+    queryKey: ['user', 'stats'],
+    queryFn: getUserStats,
   });
 };

@@ -6,9 +6,6 @@ import { useRouter } from 'next/navigation';
 import CurrentTab from './components/tabs/CurrentTab';
 import DemandTab from './components/tabs/DemandTab';
 import PastTab from './components/tabs/PastTab';
-import { useGetUserDashboard } from '@/services/users';
-import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import Loading from '@/components/loading/Loading';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -20,24 +17,16 @@ interface Props {
 
 const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
-  const { data: userDashboard, isLoading } = useGetUserDashboard();
-
   const currentTab = searchParams.type || 'current';
 
   const renderTab = () => {
     switch (currentTab) {
       case 'current':
-        return (
-          <CurrentTab
-            reservations={userDashboard?.reservations.current ?? []}
-          />
-        );
+        return <CurrentTab />;
       case 'demand':
-        return <DemandTab demands={userDashboard?.shuttleDemands ?? []} />;
+        return <DemandTab />;
       case 'past':
-        return (
-          <PastTab reservations={userDashboard?.reservations.past ?? []} />
-        );
+        return <PastTab />;
     }
   };
 
@@ -58,12 +47,7 @@ const Shuttle = ({ searchParams }: Props) => {
             }}
           />
         </div>
-        <DeferredSuspense
-          fallback={<Loading style="grow" />}
-          isLoading={isLoading}
-        >
-          {renderTab()}
-        </DeferredSuspense>
+        {renderTab()}
       </main>
     </>
   );
