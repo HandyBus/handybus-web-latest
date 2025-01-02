@@ -1,9 +1,54 @@
 import { Meta, StoryObj } from '@storybook/react';
 import ShuttleRouteVisualizer from './ShuttleRouteVisualizer';
-import { SECTION } from '@/types/shuttle.types';
+import { SECTION, ShuttleRouteHubObject } from '@/types/shuttle.types';
 import { useForm } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
-import { RouteMockData } from '@/components/shuttle-detail/ShuttleDetailPage';
+
+const RouteMockData: ShuttleRouteHubObject[] = [
+  {
+    arrivalTime: '2024-03-20 14:30:00',
+    name: '청주터미널',
+    shuttleRouteHubId: 1,
+    sequence: 1,
+    regionId: 1,
+  },
+  {
+    arrivalTime: '2024-03-20 14:40:00',
+    name: '청주대학교',
+    shuttleRouteHubId: 2,
+    sequence: 2,
+    regionId: 1,
+  },
+  {
+    arrivalTime: '2024-03-20 14:50:00',
+    name: '장소3',
+    shuttleRouteHubId: 3,
+    sequence: 3,
+    regionId: 1,
+    selected: true,
+  },
+  {
+    arrivalTime: '2024-03-20 15:00:00',
+    name: '장소4',
+    shuttleRouteHubId: 4,
+    sequence: 4,
+    regionId: 1,
+  },
+  {
+    arrivalTime: '2024-03-20 15:10:00',
+    name: '장소5',
+    shuttleRouteHubId: 5,
+    sequence: 5,
+    regionId: 1,
+  },
+  {
+    arrivalTime: '2024-03-20 15:20:00',
+    name: '장소6',
+    shuttleRouteHubId: 6,
+    sequence: 6,
+    regionId: 1,
+  },
+];
 
 const ShuttleRouteVisualizerWrapper = (
   props: any, // eslint-disable-line @typescript-eslint/no-explicit-any
