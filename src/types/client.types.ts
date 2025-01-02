@@ -37,32 +37,19 @@ export interface UserType {
   }[];
 }
 
+export interface UserStatsType
+  extends Omit<UserType, 'favoriteArtistsIds' | 'progresses'> {
+  favoriteArtists: ArtistType[];
+  currentReservationCount: number;
+  pastReservationCount: number;
+  activeCouponCount: number;
+  reviewCount: number;
+  shuttleDemandCount: number;
+}
+
 export interface ArtistType {
   artistId: number;
   name: string;
-}
-
-export interface UserDashboardType {
-  userId: number;
-  nickname: string;
-  phoneNumber: string;
-  profileImage: string;
-  gender: GenderType;
-  ageRange: AgeType;
-  authChannel: AuthChannelType;
-  regionId: number;
-  reservations: {
-    past: ReservationType[];
-    current: ReservationType[];
-    hasReview: ReservationWithReview[];
-  };
-  socialInfo: {
-    uniqueId: string;
-    nickname: string;
-  };
-  favoriteArtists: ArtistType[];
-  shuttleDemands: ShuttleDemandType[];
-  coupons: IssuedCouponType[];
 }
 
 // --- 셔틀 및 노선 관련 타입 ---

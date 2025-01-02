@@ -4,46 +4,40 @@ import { ReactNode, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
 import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
-import { ID_TO_REGION } from '@/constants/regions';
-import { getRoutes } from '@/services/shuttleOperation';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import dynamic from 'next/dynamic';
-import { useDeleteDemand } from '@/services/demand';
-import { useQueries } from '@tanstack/react-query';
+import {
+  useDeleteDemand,
+  useGetReservationOngoingDemands,
+  useGetUserDemands,
+} from '@/services/demand';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
-interface Props {
-  demands: ShuttleDemandType[];
-}
-
-const DemandTab = ({ demands }: Props) => {
-  const result = useQueries<Array<ShuttleDemandType | null>>({
-    queries: demands.map((demand) => ({
-      queryKey: ['reservationOngoingDemands', demand.shuttleDemandId],
-      queryFn: () => getReservationOngoingDemand(demand),
-    })),
-  });
-
-  const reservationOngoingDemands = result.every((request) => request.isSuccess)
-    ? result
+const DemandTab = () => {
+  const { data: demands, isLoading } = useGetUserDemands();
+  const reservationOngoingDemands = useGetReservationOngoingDemands(
+    demands ?? [],
+  );
+  const parsedReservationOngoingDemands = reservationOngoingDemands.every(
+    (request) => request.isSuccess,
+  )
+    ? reservationOngoingDemands
         .filter((x) => x.data !== null)
         .map((x) => x.data as ShuttleDemandType)
-    : null;
+    : [];
 
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
   const [demand, setDemand] = useState<ShuttleDemandType | null>(null);
 
-  if (demands.length === 0) {
-    return <EmptyView />;
-  }
-
   return (
     <>
       <ul>
-        {reservationOngoingDemands && reservationOngoingDemands.length > 0 && (
+        {parsedReservationOngoingDemands.length > 0 && (
           <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
-            {reservationOngoingDemands.map((demand) => (
+            {parsedReservationOngoingDemands.map((demand) => (
               <DemandCard
                 key={demand.shuttleDemandId}
                 demand={demand}
@@ -53,22 +47,36 @@ const DemandTab = ({ demands }: Props) => {
             ))}
           </ReservationOngoingWrapper>
         )}
-        {demands.map((demand) => (
-          <DemandCard
-            key={demand.shuttleDemandId}
-            demand={demand}
-            subButtonText={
-              demand.status === 'OPEN' ? '신청 취소' : '수요조사 확인 종료'
-            }
-            subButtonOnClick={(e) => {
-              e.preventDefault();
-              setDemand(demand);
-              setIsOpen(true);
-            }}
-            subButtonDisabled={demand.status !== 'OPEN'}
-          />
-        ))}
       </ul>
+      <DeferredSuspense
+        fallback={<Loading style="grow" />}
+        isLoading={isLoading}
+      >
+        {demands &&
+          (demands.length === 0 ? (
+            <EmptyView />
+          ) : (
+            <ul>
+              {demands.map((demand) => (
+                <DemandCard
+                  key={demand.shuttleDemandId}
+                  demand={demand}
+                  subButtonText={
+                    demand.status === 'OPEN'
+                      ? '신청 취소'
+                      : '수요조사 확인 종료'
+                  }
+                  subButtonOnClick={(e) => {
+                    e.preventDefault();
+                    setDemand(demand);
+                    setIsOpen(true);
+                  }}
+                  subButtonDisabled={demand.status !== 'OPEN'}
+                />
+              ))}
+            </ul>
+          ))}
+      </DeferredSuspense>
       <ConfirmModal
         title="정말 수요조사를 취소하시겠습니까?"
         buttonLabels={{
@@ -123,20 +131,4 @@ const ReservationOngoingWrapper = ({
       <div className="mt-12 h-8 w-full bg-grey-50" />
     </>
   );
-};
-
-const getReservationOngoingDemand = async (demand: ShuttleDemandType) => {
-  if (demand.status !== 'SHUTTLE_ASSIGNED') {
-    return null;
-  }
-  const region = ID_TO_REGION[demand.regionId];
-  const routes = await getRoutes(
-    demand.shuttle.shuttleId,
-    demand.dailyShuttleId,
-    region,
-  );
-  if (routes.length === 0) {
-    return null;
-  }
-  return demand;
 };

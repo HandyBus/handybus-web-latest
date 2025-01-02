@@ -1,7 +1,7 @@
 import {
   AgeType,
   GenderType,
-  UserDashboardType,
+  UserStatsType,
   UserType,
 } from '@/types/client.types';
 import { authInstance } from './config';
@@ -100,22 +100,22 @@ export const usePutUser = ({
   });
 };
 
-export const getUserDashboard = async () => {
-  const res = await authInstance.get<{ userDashboard: UserDashboardType }>(
-    '/user-management/users/me/dashboard',
-    { next: { tags: ['user'] } },
-  );
-  return res.userDashboard;
-};
-
-export const useGetUserDashboard = () => {
-  return useQuery({
-    queryKey: ['dashboard'],
-    queryFn: getUserDashboard,
-  });
-};
-
 export const deleteUser = async () => {
   await authInstance.delete('/user-management/users/me');
   revalidateUser();
+};
+
+const getUserStats = async () => {
+  const res = await authInstance.get<{ userStats: UserStatsType }>(
+    '/user-management/users/me/stats',
+    { next: { tags: ['user'] } },
+  );
+  return res.userStats;
+};
+
+export const useGetUserStats = () => {
+  return useQuery({
+    queryKey: ['user', 'stats'],
+    queryFn: getUserStats,
+  });
 };

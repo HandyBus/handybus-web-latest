@@ -1,7 +1,28 @@
 import { toast } from 'react-toastify';
 import { authInstance } from './config';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import revalidateUser from '@/app/actions/revalidateUser.action';
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { ID_TO_REGION } from '@/constants/regions';
+import { getRoutes } from './shuttleOperation';
+import { ShuttleDemandType } from '@/types/client.types';
+
+const getUserDemands = async () => {
+  const res = await authInstance.get<{ shuttleDemands: ShuttleDemandType[] }>(
+    '/user-management/users/me/demands',
+  );
+  return res.shuttleDemands;
+};
+
+export const useGetUserDemands = () => {
+  return useQuery({
+    queryKey: ['user', 'demands'],
+    queryFn: getUserDemands,
+  });
+};
 
 const deleteDemand = async ({
   shuttleId,
@@ -15,7 +36,6 @@ const deleteDemand = async ({
   await authInstance.delete(
     `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/${Id}`,
   );
-  revalidateUser();
 };
 
 export const useDeleteDemand = () => {
@@ -23,7 +43,7 @@ export const useDeleteDemand = () => {
   return useMutation({
     mutationFn: deleteDemand,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'demands'] });
       toast.success('수요조사를 취소했습니다.');
     },
     onError: () => {
@@ -31,3 +51,33 @@ export const useDeleteDemand = () => {
     },
   });
 };
+
+const getReservationOngoingDemand = async (demand: ShuttleDemandType) => {
+  if (demand.status !== 'SHUTTLE_ASSIGNED') {
+    return null;
+  }
+  const region = ID_TO_REGION[demand.regionId];
+  const routes = await getRoutes(
+    demand.shuttle.shuttleId,
+    demand.dailyShuttleId,
+    region,
+  );
+  if (routes.length === 0) {
+    return null;
+  }
+  return demand;
+};
+
+export const useGetReservationOngoingDemands = (demands: ShuttleDemandType[]) =>
+  useQueries<Array<ShuttleDemandType | null>>({
+    queries: demands.map((demand) => ({
+      queryKey: [
+        'user',
+        'demands',
+        'reservationOngoing',
+        demand.shuttleDemandId,
+      ],
+      queryFn: () => getReservationOngoingDemand(demand),
+      enabled: !!demands,
+    })),
+  });

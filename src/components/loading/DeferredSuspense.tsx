@@ -28,7 +28,7 @@ const DeferredSuspense = ({ fallback, isLoading, children }: Props) => {
     return fallback;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 export default DeferredSuspense;
