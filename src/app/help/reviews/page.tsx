@@ -1,8 +1,8 @@
 'use client';
 
 import DetailedReview from './components/DetailedReview';
-import { useGetReviews } from '@/services/reviews';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useGetReviews } from '@/services/reviews';
 import LoadingCircle from 'public/icons/loading-circle.svg';
 
 const ReviewPage = () => {

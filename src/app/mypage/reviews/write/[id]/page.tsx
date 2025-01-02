@@ -9,10 +9,11 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
-import { useGetUserReservation, usePostUserReview } from '@/services/users';
 import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
 import Loading from '@/components/loading/Loading';
 import { getImageUrl } from '@/services/common';
+import { useGetUserReservation } from '@/services/reservation';
+import { usePostUserReview } from '@/services/reviews';
 
 interface Props {
   params: {

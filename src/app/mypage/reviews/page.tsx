@@ -3,13 +3,13 @@
 import AppBar from '@/components/app-bar/AppBar';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetAllUserReview } from '@/services/users';
 import Link from 'next/link';
 import ReviewIcon from 'public/icons/review.svg';
 import DetailedReview from '@/app/help/reviews/components/DetailedReview';
+import { useGetUserReviews } from '@/services/reviews';
 
 const Reviews = () => {
-  const { data: reviews, isFetching } = useGetAllUserReview();
+  const { data: reviews, isFetching } = useGetUserReviews();
   return (
     <>
       <AppBar>작성한 후기 조회</AppBar>
