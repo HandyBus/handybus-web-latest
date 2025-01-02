@@ -9,6 +9,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
 import { CustomError } from './custom-error';
 import revalidateUser from '@/app/actions/revalidateUser.action';
+import { setOnboardingToken } from '@/utils/handleToken';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
@@ -110,6 +111,10 @@ const getUserStats = async () => {
     '/user-management/users/me/stats',
     { next: { tags: ['user'] } },
   );
+  if (res.userStats.ageRange === '연령대 미지정') {
+    await setOnboardingToken();
+    throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
+  }
   return res.userStats;
 };
 

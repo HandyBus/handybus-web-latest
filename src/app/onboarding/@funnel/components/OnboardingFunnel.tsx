@@ -16,6 +16,7 @@ import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
+import { removeOnboardingToken } from '@/utils/handleToken';
 
 interface Props {
   progress: OnboardingProgress;
@@ -41,7 +42,8 @@ const OnboardingFunnel = ({ progress, initialPhoneNumber }: Props) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser, isSuccess } = usePutUser({
-    onSuccess: () => {
+    onSuccess: async () => {
+      await removeOnboardingToken();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
       setIsSubmitting(false);

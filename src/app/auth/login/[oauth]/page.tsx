@@ -3,7 +3,11 @@
 import Loading from '@/components/loading/Loading';
 import { postLogin } from '@/services/auth';
 import { getProgress } from '@/services/users';
-import { setAccessToken, setRefreshToken } from '@/utils/handleToken';
+import {
+  setAccessToken,
+  setOnboardingToken,
+  setRefreshToken,
+} from '@/utils/handleToken';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -31,6 +35,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       const progress = await getProgress();
 
       if (progress !== 'ONBOARDING_COMPLETE') {
+        await setOnboardingToken();
         router.push('/onboarding');
       } else {
         router.push('/');
