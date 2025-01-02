@@ -37,6 +37,16 @@ export interface UserType {
   }[];
 }
 
+export interface UserStatsType
+  extends Omit<UserType, 'favoriteArtistsIds' | 'progresses'> {
+  favoriteArtists: ArtistType[];
+  currentReservationCount: number;
+  pastReservationCount: number;
+  activeCouponCount: number;
+  reviewCount: number;
+  shuttleDemandCount: number;
+}
+
 export interface ArtistType {
   artistId: number;
   name: string;

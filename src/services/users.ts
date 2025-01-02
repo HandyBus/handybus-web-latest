@@ -2,6 +2,7 @@ import {
   AgeType,
   GenderType,
   UserDashboardType,
+  UserStatsType,
   UserType,
 } from '@/types/client.types';
 import { authInstance } from './config';
@@ -118,4 +119,19 @@ export const useGetUserDashboard = () => {
 export const deleteUser = async () => {
   await authInstance.delete('/user-management/users/me');
   revalidateUser();
+};
+
+const getUserStats = async () => {
+  const res = await authInstance.get<{ userStats: UserStatsType }>(
+    '/user-management/users/me/stats',
+    { next: { tags: ['user'] } },
+  );
+  return res.userStats;
+};
+
+export const useGetUserStats = () => {
+  return useQuery({
+    queryKey: ['user', 'stats'],
+    queryFn: getUserStats,
+  });
 };
