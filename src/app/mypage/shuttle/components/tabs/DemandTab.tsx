@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
 import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
@@ -28,6 +28,15 @@ const DemandTab = () => {
         .map((x) => x.data as ShuttleDemandType)
     : [];
 
+  const sortedDemands = useMemo(
+    () =>
+      demands?.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      ),
+    [demands],
+  );
+
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
   const [demand, setDemand] = useState<ShuttleDemandType | null>(null);
@@ -52,12 +61,12 @@ const DemandTab = () => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {demands &&
-          (demands.length === 0 ? (
+        {sortedDemands &&
+          (sortedDemands.length === 0 ? (
             <EmptyView />
           ) : (
             <ul>
-              {demands.map((demand) => (
+              {sortedDemands.map((demand) => (
                 <DemandCard
                   key={demand.shuttleDemandId}
                   demand={demand}

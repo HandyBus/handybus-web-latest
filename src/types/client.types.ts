@@ -130,7 +130,14 @@ type BaseReservationType = {
 
 type ReservationWithReview = BaseReservationType & {
   hasReview: true;
-  review: Omit<ReviewType, 'shuttle'>;
+  review: {
+    reviewId: number;
+    shuttle: ShuttleType;
+    rating: number;
+    content: string;
+    images: ImageType[];
+    createdAt: string;
+  };
 };
 
 type ReservationWithoutReview = BaseReservationType & {
@@ -160,6 +167,32 @@ export interface RouteType {
   };
 }
 
+export interface ReviewType {
+  reviewId: number;
+  rating: number;
+  content: string;
+  reviewStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  userNickname: string;
+  userProfileImage: string;
+  shuttleId: number;
+  shuttleName: string;
+  shuttleType: 'CONCERT' | 'FESTIVAL';
+  shuttleDestinationName: string;
+  shuttleEventName: string;
+  shuttleEventImageUrl: string;
+  shuttleEventArtists: ArtistType[] | null;
+  reviewImages: ImageType[];
+}
+
+export interface CouponType {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface DestinationType {
   name: string;
   longitude: number;
@@ -171,15 +204,6 @@ export interface ImageType {
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
-}
-
-export interface ReviewType {
-  reviewId: number;
-  shuttle: ShuttleType;
-  rating: number;
-  content: string;
-  images: ImageType[];
-  createdAt: string;
 }
 
 export interface IssuedCouponType {

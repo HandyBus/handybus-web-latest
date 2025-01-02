@@ -3,26 +3,34 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservations } from '@/services/reservation';
+import { useMemo } from 'react';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const PastTab = () => {
   const { data: reservations, isLoading } = useGetUserReservations('PAST');
+  const sortedReservations = useMemo(
+    () =>
+      reservations?.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      ),
+    [reservations],
+  );
 
   return (
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
-      {reservations &&
-        (reservations.length === 0 ? (
+      {sortedReservations &&
+        (sortedReservations.length === 0 ? (
           <EmptyView />
         ) : (
           <ul>
-            {reservations.map((reservation) => (
+            {sortedReservations.map((reservation) => (
               <ReservationCard
                 key={reservation.reservationId}
                 reservation={reservation}
                 buttonText={
                   reservation.hasReview ? '작성한 후기 보기' : '후기 작성하기'
                 }
-                // TODO: 후기 작성 및 조회 href 변경
                 buttonHref={
                   reservation.hasReview
                     ? '/mypage/reviews'
