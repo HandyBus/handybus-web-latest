@@ -17,39 +17,36 @@ import ArtistContent from '@/components/onboarding-contents/ArtistContent';
 import { toast } from 'react-toastify';
 import { getImageUrl } from '@/services/common';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
-import { UserDashboardType } from '@/types/client.types';
+import { UserStatsType } from '@/types/client.types';
 import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
 
 interface Props {
   type: EditType;
-  userDashboard: UserDashboardType;
+  userStats: UserStatsType;
 }
 
-const EditForm = ({ type, userDashboard }: Props) => {
-  const region = ID_TO_REGION[userDashboard.regionId];
+const EditForm = ({ type, userStats }: Props) => {
+  const region = ID_TO_REGION[userStats.regionId];
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
-      nickname: userDashboard.nickname,
-      gender: userDashboard.gender === 'MALE' ? '남성' : '여성',
-      age: userDashboard.ageRange,
+      nickname: userStats.nickname,
+      gender: userStats.gender === 'MALE' ? '남성' : '여성',
+      age: userStats.ageRange,
       bigRegion: region.bigRegion,
       smallRegion: region.smallRegion,
-      favoriteArtists: userDashboard.favoriteArtists,
+      favoriteArtists: userStats.favoriteArtists,
     },
     mode: 'onBlur',
   });
 
   const router = useRouter();
-  const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
       toast.success('프로필을 수정하였습니다.');
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       router.replace('/mypage/profile');
     },
     onError: (e: CustomError) => {
@@ -107,18 +104,14 @@ const EditForm = ({ type, userDashboard }: Props) => {
   const renderStep = () => {
     switch (type) {
       case 'profile':
-        return (
-          <ProfileInfoContent initialImageSrc={userDashboard.profileImage} />
-        );
+        return <ProfileInfoContent initialImageSrc={userStats.profileImage} />;
       case 'personal-info':
         return <PersonalInfoContent />;
       case 'region':
         return <ResidenceContent />;
       case 'artist':
         return (
-          <ArtistContent
-            initialSelectedArtists={userDashboard.favoriteArtists}
-          />
+          <ArtistContent initialSelectedArtists={userStats.favoriteArtists} />
         );
     }
   };

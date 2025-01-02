@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetUserDashboard } from '@/services/users';
+import { useGetUserStats } from '@/services/users';
 import EditForm from './components/EditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
@@ -12,10 +12,10 @@ interface Props {
 }
 
 const Edit = ({ searchParams }: Props) => {
-  const { data: userDashboard, isLoading } = useGetUserDashboard();
+  const { data: userStats, isLoading } = useGetUserStats();
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      <EditForm type={searchParams.type} userDashboard={userDashboard!} />
+      <EditForm type={searchParams.type} userStats={userStats!} />
     </DeferredSuspense>
   );
 };

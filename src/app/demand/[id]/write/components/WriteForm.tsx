@@ -19,7 +19,6 @@ import { useShuttleFormValidation } from '../hooks/useValidation';
 import RouteInfo from '../components/RouteInfo';
 import JourneyLocationPicker from '../components/JourneyLocationPicker';
 import { CustomError } from '@/services/custom-error';
-import revalidateUser from '@/app/actions/revalidateUser.action';
 
 interface WriteFormProps {
   demandData: EventDetailProps;
@@ -73,7 +72,6 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
 
       router.push(`/demand/${shuttleId}`);
       toast.success('수요 신청에 성공했어요');
-      revalidateUser();
       return res;
     } catch (e) {
       const error = e as CustomError;

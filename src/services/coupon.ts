@@ -1,7 +1,22 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authInstance } from './config';
 import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
+import { IssuedCouponType } from '@/types/client.types';
+
+const getUserCoupons = async () => {
+  const res = await authInstance.get<{ issuedCoupons: IssuedCouponType[] }>(
+    '/user-management/users/me/coupons',
+  );
+  return res.issuedCoupons;
+};
+
+export const useGetUserCoupons = () => {
+  return useQuery({
+    queryKey: ['user', 'coupons'],
+    queryFn: getUserCoupons,
+  });
+};
 
 const postCoupon = async (code: string) => {
   return await authInstance.post('/billing/coupons', { code });
@@ -17,10 +32,13 @@ export const usePostCoupon = ({
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postCoupon,
-    onSuccess: () => {
+    onSuccess: async () => {
       if (!isReservationInProgress)
-        queryClient.invalidateQueries({ queryKey: ['dashboard'] });
-      else queryClient.invalidateQueries({ queryKey: ['reservationCoupon'] }); //
+        await queryClient.invalidateQueries({ queryKey: ['user', 'coupons'] });
+      else
+        await queryClient.invalidateQueries({
+          queryKey: ['reservationCoupon'],
+        });
       toast.success('쿠폰 등록이 완료되었습니다.');
       onSuccess?.();
     },

@@ -37,32 +37,19 @@ export interface UserType {
   }[];
 }
 
+export interface UserStatsType
+  extends Omit<UserType, 'favoriteArtistsIds' | 'progresses'> {
+  favoriteArtists: ArtistType[];
+  currentReservationCount: number;
+  pastReservationCount: number;
+  activeCouponCount: number;
+  reviewCount: number;
+  shuttleDemandCount: number;
+}
+
 export interface ArtistType {
   artistId: number;
   name: string;
-}
-
-export interface UserDashboardType {
-  userId: number;
-  nickname: string;
-  phoneNumber: string;
-  profileImage: string;
-  gender: GenderType;
-  ageRange: AgeType;
-  authChannel: AuthChannelType;
-  regionId: number;
-  reservations: {
-    past: ReservationType[];
-    current: ReservationType[];
-    hasReview: ReservationWithReview[];
-  };
-  socialInfo: {
-    uniqueId: string;
-    nickname: string;
-  };
-  favoriteArtists: ArtistType[];
-  shuttleDemands: ShuttleDemandType[];
-  coupons: IssuedCouponType[];
 }
 
 // --- 셔틀 및 노선 관련 타입 ---
@@ -143,7 +130,14 @@ type BaseReservationType = {
 
 type ReservationWithReview = BaseReservationType & {
   hasReview: true;
-  review: Omit<ReviewType, 'shuttle'>;
+  review: {
+    reviewId: number;
+    shuttle: ShuttleType;
+    rating: number;
+    content: string;
+    images: ImageType[];
+    createdAt: string;
+  };
 };
 
 type ReservationWithoutReview = BaseReservationType & {
@@ -165,12 +159,40 @@ export interface ShuttleType {
 export type ShuttleWithRouteType = ShuttleType & { route: RouteType };
 
 export interface RouteType {
+  shuttleRouteId: number;
+  dailyShuttleId: number;
   name: string;
   status: RouteStatusType;
   hubs: {
     toDestination: HubType[];
     fromDestination: HubType[];
   };
+}
+
+export interface ReviewType {
+  reviewId: number;
+  rating: number;
+  content: string;
+  reviewStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  userNickname: string;
+  userProfileImage: string;
+  shuttleId: number;
+  shuttleName: string;
+  shuttleType: 'CONCERT' | 'FESTIVAL';
+  shuttleDestinationName: string;
+  shuttleEventName: string;
+  shuttleEventImageUrl: string;
+  shuttleEventArtists: ArtistType[] | null;
+  reviewImages: ImageType[];
+}
+
+export interface CouponType {
+  id: number;
+  name: string;
+  description: string;
 }
 
 export interface DestinationType {
@@ -184,15 +206,6 @@ export interface ImageType {
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
-}
-
-export interface ReviewType {
-  reviewId: number;
-  shuttle: ShuttleType;
-  rating: number;
-  content: string;
-  images: ImageType[];
-  createdAt: string;
 }
 
 export interface IssuedCouponType {

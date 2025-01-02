@@ -1,14 +1,15 @@
 import {
   AgeType,
   GenderType,
-  UserDashboardType,
+  UserStatsType,
   UserType,
 } from '@/types/client.types';
 import { authInstance } from './config';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { parseProgress } from '@/utils/parseProgress';
 import { CustomError } from './custom-error';
 import revalidateUser from '@/app/actions/revalidateUser.action';
+import { setOnboardingToken } from '@/utils/handleToken';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
@@ -58,9 +59,13 @@ export const usePutNickname = ({
   onSuccess?: () => void;
   onError?: () => void;
 }) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (nickname: string) => putUser({ nickname }),
-    onSuccess,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      onSuccess?.();
+    },
     onError,
   });
 };
@@ -92,30 +97,38 @@ export const usePutUser = ({
   onError?: (e: CustomError) => void;
   onSettled?: () => void;
 }) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: putUser,
-    onSuccess,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      onSuccess?.();
+    },
     onError,
     onSettled,
-  });
-};
-
-export const getUserDashboard = async () => {
-  const res = await authInstance.get<{ userDashboard: UserDashboardType }>(
-    '/user-management/users/me/dashboard',
-    { next: { tags: ['user'] } },
-  );
-  return res.userDashboard;
-};
-
-export const useGetUserDashboard = () => {
-  return useQuery({
-    queryKey: ['dashboard'],
-    queryFn: getUserDashboard,
   });
 };
 
 export const deleteUser = async () => {
   await authInstance.delete('/user-management/users/me');
   revalidateUser();
+};
+
+const getUserStats = async () => {
+  const res = await authInstance.get<{ userStats: UserStatsType }>(
+    '/user-management/users/me/stats',
+    { next: { tags: ['user'] } },
+  );
+  if (res.userStats.ageRange === '연령대 미지정') {
+    await setOnboardingToken();
+    throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
+  }
+  return res.userStats;
+};
+
+export const useGetUserStats = () => {
+  return useQuery({
+    queryKey: ['user', 'stats'],
+    queryFn: getUserStats,
+  });
 };
