@@ -47,7 +47,12 @@ const Profile = () => {
                   title="거주 지역"
                   description={`${region.bigRegion ?? ''} ${region.smallRegion ?? ''}`}
                 />
-                <ProfileItem title="최애 가수" description={favoriteArtists} />
+                {favoriteArtists && (
+                  <ProfileItem
+                    title="최애 가수"
+                    description={favoriteArtists}
+                  />
+                )}
               </ul>
             </section>
             <div className="h-16 w-full bg-grey-50" />
