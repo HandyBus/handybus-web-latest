@@ -2,6 +2,7 @@ import LogoIcon from 'public/icons/logo.svg';
 import TwitterIcon from 'public/icons/twitter.svg';
 import InstagramIcon from 'public/icons/instagram.svg';
 import NaverBlogIcon from 'public/icons/naver-blog.svg';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -27,9 +28,7 @@ const Footer = () => {
         </button>
       </div>
       <div className="text-12 font-600 text-grey-500">
-        <button>이용약관</button>
-        <span className="font-400"> | </span>
-        <button>개인정보처리방침</button>
+        <Link href="/policy">이용약관</Link>
         <span className="font-400"> | </span>
         <a
           href="http://pf.kakao.com/_AxncxhG"
