@@ -23,7 +23,11 @@ const Reviews = () => {
               <NoReview />
             ) : (
               reviews.map((review) => (
-                <DetailedReview key={review.reviewId} review={review} />
+                <DetailedReview
+                  key={review.reviewId}
+                  review={review}
+                  showCreatedAt
+                />
               ))
             )}
           </ul>

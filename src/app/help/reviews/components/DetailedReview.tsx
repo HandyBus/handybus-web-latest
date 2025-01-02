@@ -6,27 +6,44 @@ import Rating from '@/components/rating/Rating';
 import { ArtistType, ImageType, ReviewType } from '@/types/client.types';
 import ArtistIcon from '../icons/artist.svg';
 import LocateIcon from '../icons/locate.svg';
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
+import { parseDateString } from '@/utils/dateString';
 
 interface Props {
   review: ReviewType;
+  showUser?: boolean;
+  showCreatedAt?: boolean;
 }
 
-const DetailedReview = ({ review }: Props) => {
+const DetailedReview = ({
+  review,
+  showUser = false,
+  showCreatedAt = false,
+}: Props) => {
   return (
     <article className="flex flex-col rounded-[16px] bg-grey-50 p-16 px-28 py-28">
       <ContentArea rating={review.rating} content={review.content} />
       <div className="flex flex-col gap-12 pb-12 pt-16">
         <ImagesArea images={review.reviewImages} />
-        <UserTag
-          nickname={review.userNickname}
-          profileImageUrl={review.userProfileImage}
-        />
+        <div className="flex">
+          {showUser && (
+            <UserTag
+              nickname={review.userNickname}
+              profileImageUrl={review.userProfileImage}
+            />
+          )}
+          {showCreatedAt && (
+            <span className="ml-auto block text-12 font-500 text-grey-400">
+              {parseDateString(review.createdAt)} 작성
+            </span>
+          )}
+        </div>
       </div>
       <div className="flex flex-col gap-8 border-t-[1.5px] border-t-grey-100 pt-8">
         <span className="text-14 font-600 text-grey-700">다녀온 콘서트</span>
         <EventTag
           title={review.shuttleEventName}
-          artists={review.shuttleEventArtists}
+          artists={review.shuttleEventArtists ?? []}
           destination={review.shuttleDestinationName}
           posterImageUrl={review.shuttleEventImageUrl}
         />
@@ -125,11 +142,11 @@ interface UserTagProps {
 }
 
 const UserTag = ({ nickname, profileImageUrl }: UserTagProps) => (
-  <div className="flex flex-row items-center justify-start gap-[6px]">
-    <div className="relative h-[16.5px] w-[16.5px] overflow-hidden rounded-full bg-red-200">
+  <div className="flex items-center gap-[6px]">
+    <div className="relative h-[16.5px] w-[16.5px] overflow-hidden rounded-full">
       <Image
         className="object-cover"
-        src={profileImageUrl}
+        src={profileImageUrl || DEFAULT_PROFILE_IMAGE}
         alt={`${nickname}의 프로필 이미지`}
         fill
       />
@@ -161,12 +178,14 @@ const EventTag = ({
     <div className="absolute left-0 top-0 flex h-full w-full flex-col items-start justify-between bg-black bg-opacity-50 p-12">
       <div className="line-clamp-2 text-14 font-700 text-white">{title}</div>
       <div className="flex flex-row flex-nowrap gap-12">
-        <div className="flex flex-row items-center justify-start gap-4">
-          <ArtistIcon />
-          <span className="line-clamp-1 text-10 font-400 text-grey-200 ">
-            {artists.map((artist) => artist.name).join(', ')}
-          </span>
-        </div>
+        {artists.length !== 0 && (
+          <div className="flex flex-row items-center justify-start gap-4">
+            <ArtistIcon />
+            <span className="line-clamp-1 text-10 font-400 text-grey-200 ">
+              {artists.map((artist) => artist.name).join(', ')}
+            </span>
+          </div>
+        )}
         <div className="flex flex-row items-center justify-start gap-4">
           <LocateIcon />
           <span className="line-clamp-1 text-10 font-400 text-grey-200 ">

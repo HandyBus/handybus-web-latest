@@ -195,7 +195,7 @@ export interface ReviewType {
   shuttleDestinationName: string;
   shuttleEventName: string;
   shuttleEventImageUrl: string;
-  shuttleEventArtists: ArtistType[];
+  shuttleEventArtists: ArtistType[] | null;
   reviewImages: ImageType[];
 }
 
