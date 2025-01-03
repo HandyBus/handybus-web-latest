@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
-import { instance } from './config';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { authInstance, instance } from './config';
 import { ShuttleDemandStatus } from '@/types/shuttle.types';
 import { ArtistType, RouteStatusType, RouteType } from '@/types/client.types';
 import { EventDetailProps } from '@/types/event.types';
+import { CustomError } from './custom-error';
 
 const getArtists = async () => {
   const res = await instance.get<{ artists: ArtistType[] }>(
@@ -68,4 +69,64 @@ export const getShuttle = async (id: number) => {
     `/shuttle-operation/shuttles/${id}`,
   );
   return res.shuttleDetail;
+};
+
+const putShuttleBus = async ({
+  shuttleId,
+  dailyShuttleId,
+  shuttleRouteId,
+  shuttleBusId,
+  openChatLink,
+}: {
+  shuttleId: number;
+  dailyShuttleId: number;
+  shuttleRouteId: number;
+  shuttleBusId: number;
+  openChatLink: string;
+}) => {
+  await authInstance.put(
+    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
+    { openChatLink },
+  );
+};
+
+export const usePutShuttleBus = ({
+  shuttleId,
+  dailyShuttleId,
+  shuttleRouteId,
+  shuttleBusId,
+  reservationId,
+  onSuccess,
+  onError,
+}: {
+  shuttleId?: number;
+  dailyShuttleId?: number;
+  shuttleRouteId?: number;
+  shuttleBusId?: number;
+  reservationId?: number;
+  onSuccess?: () => void;
+  onError?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (openChatLink: string) => {
+      if (!shuttleId || !dailyShuttleId || !shuttleRouteId || !shuttleBusId) {
+        throw new CustomError(400, '셔틀 정보를 입력받지 못했습니다.');
+      }
+      return putShuttleBus({
+        shuttleId,
+        dailyShuttleId,
+        shuttleRouteId,
+        shuttleBusId,
+        openChatLink,
+      });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['user', 'reservations', reservationId],
+      });
+      onSuccess?.();
+    },
+    onError,
+  });
 };
