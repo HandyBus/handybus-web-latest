@@ -70,43 +70,39 @@ export const CancellationAndRefundContent = () => {
         </li>
       </ul>
 
-      <section className="overflow-hidden rounded-[10px] border border-[#828282]">
+      <section className="overflow-hidden rounded-[5px] border border-grey-300 text-grey-500">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-[#E5E5E5] text-left">
-              <th className="border-b border-r border-[#828282] p-12">
+            <tr className="bg-grey-100 text-left text-grey-700">
+              <th className="border-b border-r border-grey-300 p-12">
                 환불 신청 시점
               </th>
-              <th className="border-b border-[#828282] p-12 text-left">
+              <th className="border-b border-grey-300 p-12 text-left">
                 수수료
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border-b border-r border-[#828282] p-12">
+              <td className="border-b border-r border-grey-300 p-12">
                 ~ 탑승 D-8 23:59
               </td>
-              <td className="border-b border-[#828282] p-12">수수료 없음</td>
+              <td className="border-b border-grey-300 p-12">수수료 없음</td>
             </tr>
             <tr>
-              <td className="border-b border-r border-[#828282] p-12">
+              <td className="border-b border-r border-grey-300 p-12">
                 ~ 탑승 D-7 23:59
               </td>
-              <td className="border-b border-[#828282] p-12">
-                결제 금액의 25%
-              </td>
+              <td className="border-b border-grey-300 p-12">결제 금액의 25%</td>
             </tr>
             <tr>
-              <td className="border-b border-r border-[#828282] p-12">
+              <td className="border-b border-r border-grey-300 p-12">
                 ~ 탑승 D-6 23:59
               </td>
-              <td className="border-b border-[#828282] p-12">
-                결제 금액의 50%
-              </td>
+              <td className="border-b border-grey-300 p-12">결제 금액의 50%</td>
             </tr>
             <tr>
-              <td className="border-r border-[#828282] p-12">
+              <td className="border-r border-grey-300 p-12">
                 탑승 D-5 00:00 ~
               </td>
               <td className="p-12">취소 / 환불 불가</td>
@@ -125,8 +121,8 @@ export const TermAndConditionContent = () => {
         <h3 className="font-700">문의</h3>
         <ul className="list-disc pl-16">
           <li>
-            핸디버스는 본 셔틀 노선의 판매 중개자로, 직접 제공자는
-            &quot;_&quot;에 있습니다.
+            핸디버스는 본 셔틀 노선의 판매 중개자로, 직접 제공자는 각 운송업체에
+            있습니다.
           </li>
         </ul>
       </section>

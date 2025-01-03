@@ -1,4 +1,5 @@
 import { BigRegionsType } from '@/constants/regions';
+import { ShuttleBusType } from '@/constants/shuttleBus';
 
 //  --- 유저 관련 타입 ---
 export type AgeType =
@@ -37,31 +38,19 @@ export interface UserType {
   }[];
 }
 
+export interface UserStatsType
+  extends Omit<UserType, 'favoriteArtistsIds' | 'progresses'> {
+  favoriteArtists: ArtistType[];
+  currentReservationCount: number;
+  pastReservationCount: number;
+  activeCouponCount: number;
+  reviewCount: number;
+  shuttleDemandCount: number;
+}
+
 export interface ArtistType {
   artistId: number;
   name: string;
-}
-
-export interface UserDashboardType {
-  userId: number;
-  nickname: string;
-  profileImage: string;
-  gender: GenderType;
-  ageRange: AgeType;
-  authChannel: AuthChannelType;
-  regionId: number;
-  reservations: {
-    past: ReservationType[];
-    current: ReservationType[];
-    hasReview: ReservationWithReview[];
-  };
-  socialInfo: {
-    uniqueId: string;
-    nickname: string;
-  };
-  favoriteArtists: ArtistType[];
-  shuttleDemands: ShuttleDemandType[];
-  coupons: CouponType[];
 }
 
 // --- 셔틀 및 노선 관련 타입 ---
@@ -131,7 +120,7 @@ type BaseReservationType = {
     shuttleBusId: number;
     shuttleRouteId: number;
     handyUserId?: number;
-    type: string;
+    type: ShuttleBusType;
     name: string;
     number: string;
     phoneNumber: string;
@@ -142,7 +131,14 @@ type BaseReservationType = {
 
 type ReservationWithReview = BaseReservationType & {
   hasReview: true;
-  review: Omit<ReviewType, 'shuttle'>;
+  review: {
+    reviewId: number;
+    shuttle: ShuttleType;
+    rating: number;
+    content: string;
+    images: ImageType[];
+    createdAt: string;
+  };
 };
 
 type ReservationWithoutReview = BaseReservationType & {
@@ -164,12 +160,40 @@ export interface ShuttleType {
 export type ShuttleWithRouteType = ShuttleType & { route: RouteType };
 
 export interface RouteType {
+  shuttleRouteId: number;
+  dailyShuttleId: number;
   name: string;
   status: RouteStatusType;
   hubs: {
-    pickup: HubType[];
-    dropoff: HubType[];
+    toDestination: HubType[];
+    fromDestination: HubType[];
   };
+}
+
+export interface ReviewType {
+  reviewId: number;
+  rating: number;
+  content: string;
+  reviewStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  userNickname: string;
+  userProfileImage: string;
+  shuttleId: number;
+  shuttleName: string;
+  shuttleType: 'CONCERT' | 'FESTIVAL';
+  shuttleDestinationName: string;
+  shuttleEventName: string;
+  shuttleEventImageUrl: string;
+  shuttleEventArtists: ArtistType[] | null;
+  reviewImages: ImageType[];
+}
+
+export interface CouponType {
+  id: number;
+  name: string;
+  description: string;
 }
 
 export interface DestinationType {
@@ -185,19 +209,18 @@ export interface ImageType {
   updatedAt: string;
 }
 
-export interface ReviewType {
-  reviewId: number;
-  shuttle: ShuttleType;
-  rating: number;
-  content: string;
-  images: ImageType[];
-  createdAt: string;
-}
-
-export interface CouponType {
-  id: number;
+export interface IssuedCouponType {
+  code: string;
+  discountAmount: number;
+  discountRate: number;
+  discountType: 'RATE' | 'AMOUNT';
+  issuedCouponId: number;
+  maxApplicablePeople: number;
+  maxDiscountAmount: number;
   name: string;
-  description: string;
+  status: 'BEFORE_USE' | 'USED' | 'EXPIRED' | 'RETRIEVED' | 'DELETED';
+  validFrom: string;
+  validTo: string;
 }
 
 export type AuthChannelType = 'NONE' | 'kakao' | 'naver';
@@ -211,6 +234,7 @@ export interface RegionType {
 }
 
 export interface HubType {
+  shuttleRouteHubId: number;
   name: string;
   sequence: number;
   arrivalTime: string;

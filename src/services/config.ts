@@ -7,6 +7,9 @@ import {
   updateToken,
 } from '@/utils/handleToken';
 import { CustomError } from './custom-error';
+import logout from '@/app/actions/logout.action';
+
+const FETCH_REVALIDATE_TIME = 60; // 1분
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -32,6 +35,7 @@ class Instance {
   ) {
     const config: RequestInit = {
       method,
+      next: { revalidate: FETCH_REVALIDATE_TIME },
       ...options,
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +96,7 @@ class AuthInstance {
     options: RequestInit = {},
   ) {
     const accessToken = await getAccessToken();
-    const authOptions = {
+    const authOptions: RequestInit = {
       ...options,
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -122,6 +126,7 @@ class AuthInstance {
         } catch (e) {
           const error = e as CustomError;
           console.error('로그인 시간 만료: ', error.message);
+          logout();
         }
       }
       throw error;

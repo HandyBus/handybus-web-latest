@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Select from '@/components/select/Select';
 import useStickyMenu from '@/hooks/useStickyMenu';
 import useRegion, { Region } from '@/hooks/useRegion';
+import { regionToString } from '@/utils/region.util';
 import { toSearchParams } from '@/utils/searchParams';
 
 import SelectRegionsWithChips from './SelectRegionsWithChips';
@@ -18,20 +19,18 @@ import {
 interface Props {
   sort: ShuttleSortType;
   region: Region;
-  header:
-    | { type: 'REGION'; length: number }
-    | { type: 'RELATED'; length: number; related: string };
+  length: number;
   children: ReactNode;
 }
 
-const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
+const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
   const route = useRouter();
   const [region, setRegion] = useRegion(initialRegion);
   const { ref: navRef, safeArea, show: showBar } = useStickyMenu();
 
   const handleClose = useCallback(() => {
     const postfix = toSearchParams({
-      ...region,
+      ...(region.bigRegion ? region : {}),
       sort: shuttleSortToSearchParam(sort),
     } as Record<string, string>).toString();
     route.replace(`/shuttle${postfix ? `?${postfix}` : ''}`);
@@ -68,33 +67,12 @@ const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
         <div className={safeArea}>
           <div className="h-8 w-full bg-grey-50" />
           <div className="px-16 py-12">
-            {header.type === 'REGION' ? (
-              <>
-                <span className="text-14 font-500 text-grey-500">
-                  {region.bigRegion === undefined ? '전국' : region.bigRegion}
-                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
-                </span>
-                <span className="text-14 font-400 text-grey-500">
-                  에서 예약 모집 중인 셔틀({header.length})
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="text-14 font-500 text-grey-500">
-                  {region.bigRegion === undefined
-                    ? '전국'
-                    : String(region.bigRegion)}
-                  {region.smallRegion ? ` ${region.smallRegion}` : ''}
-                </span>
-                <span className="text-14 font-400 text-grey-500">
-                  에서 예약 모집 중인 셔틀이 없어{' '}
-                  <span className="text-14 font-600 text-grey-500">
-                    {header.related}
-                  </span>
-                  의 결과를 대신 보여드려요.
-                </span>
-              </>
-            )}
+            <span className="text-14 font-500 text-grey-500">
+              {regionToString(region)}
+            </span>
+            <span className="text-14 font-400 text-grey-500">
+              에서 예약 모집 중인 셔틀({length})
+            </span>
           </div>
         </div>
       </div>

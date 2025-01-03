@@ -1,25 +1,42 @@
 'use client';
 
 import { Control, Controller, useFormContext, useWatch } from 'react-hook-form';
-import { useEffect } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { BIG_REGIONS, SMALL_REGIONS } from '@/constants/regions';
 import Select from '@/components/select/Select';
-import { ShuttleFormValues } from './ShuttleForm';
 import { EventDetailProps } from '@/types/event.types';
-import { DailyShuttleDetailProps } from '@/types/shuttle.types';
+import {
+  DailyShuttleDetailProps,
+  ShuttleRoute,
+  ShuttleRouteEvent,
+} from '@/types/shuttle.types';
 import { formatDate } from '../shuttleDetailPage.utils';
+import SelectLabeled from '@/components/select-labeled/SelectLabeled';
+import { ShuttleFormValues } from './shuttleForm.type';
 
 interface Props {
   control: Control<ShuttleFormValues>;
   type: 'RESERVATION' | 'DEMAND';
-  data: EventDetailProps;
+  data: EventDetailProps | ShuttleRouteEvent;
+  reservData?: ShuttleRoute[];
 }
-const ShuttleSelector = ({ control, type, data }: Props) => {
-  const { setValue } = useFormContext<ShuttleFormValues>();
+const ShuttleSelector = ({ control, type, data, reservData }: Props) => {
+  const { setValue, watch } = useFormContext<ShuttleFormValues>();
   const bigLocation = useWatch({
     control,
     name: 'bigLocation',
   });
+  const watchDailyShuttle = watch('dailyShuttle');
+  const shuttleRouteOptions = useMemo(
+    () =>
+      reservData
+        ?.filter((v) => v.dailyShuttleId === watchDailyShuttle.dailyShuttleId)
+        .map((route) => ({
+          label: route.name,
+          value: route.shuttleRouteId,
+        })) ?? [],
+    [watchDailyShuttle.dailyShuttleId, reservData],
+  );
 
   useEffect(() => {
     if (!bigLocation) {
@@ -38,12 +55,9 @@ const ShuttleSelector = ({ control, type, data }: Props) => {
           name="dailyShuttle"
           render={({ field }) => (
             <Select
-              options={data?.dailyShuttles
-                .sort(
-                  (a, b) =>
-                    new Date(a.date).getTime() - new Date(b.date).getTime(),
-                )
-                .map((v: DailyShuttleDetailProps) => formatDate(v.date))}
+              options={sortDailyShuttles(data?.dailyShuttles).map((v) =>
+                formatDate(v.date),
+              )}
               value={formatDate(field.value.date) || undefined}
               setValue={(selectedDate) => {
                 const selectedShuttle = data?.dailyShuttles.find(
@@ -58,52 +72,13 @@ const ShuttleSelector = ({ control, type, data }: Props) => {
       </div>
       <div className="flex flex-col gap-16 p-16">
         {type === 'DEMAND' && (
-          <>
-            <p>지역을 선택해주세요</p>
-            <Controller
-              control={control}
-              name="bigLocation"
-              render={({ field }) => (
-                <Select
-                  options={BIG_REGIONS}
-                  value={field.value}
-                  setValue={field.onChange}
-                  placeholder="광역시/도"
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="smallLocation"
-              render={({ field }) => (
-                <Select
-                  options={
-                    SMALL_REGIONS[bigLocation as keyof typeof SMALL_REGIONS]
-                  }
-                  value={field.value}
-                  setValue={field.onChange}
-                  placeholder="시/군/구"
-                />
-              )}
-            />
-          </>
+          <DemandLocationSelector control={control} bigLocation={bigLocation} />
         )}
         {type === 'RESERVATION' && (
-          <>
-            <p>노선 종류를 선택해주세요</p>
-            <Controller
-              control={control}
-              name="route"
-              render={({ field }) => (
-                <Select
-                  options={['청주-천안', '청주-대전', '청주-대구']}
-                  value={field.value}
-                  setValue={field.onChange}
-                  placeholder="노선 종류"
-                />
-              )}
-            />
-          </>
+          <ReservationRouteSelector
+            control={control}
+            options={shuttleRouteOptions}
+          />
         )}
       </div>
     </div>
@@ -111,3 +86,72 @@ const ShuttleSelector = ({ control, type, data }: Props) => {
 };
 
 export default ShuttleSelector;
+
+interface DemandLocationSelectorProps {
+  control: Control<ShuttleFormValues>;
+  bigLocation: string;
+}
+const DemandLocationSelector = memo(
+  ({ control, bigLocation }: DemandLocationSelectorProps) => (
+    <>
+      <p>지역을 선택해주세요</p>
+      <Controller
+        control={control}
+        name="bigLocation"
+        render={({ field }) => (
+          <Select
+            options={BIG_REGIONS}
+            value={field.value}
+            setValue={field.onChange}
+            placeholder="광역시/도"
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="smallLocation"
+        render={({ field }) => (
+          <Select
+            options={SMALL_REGIONS[bigLocation as keyof typeof SMALL_REGIONS]}
+            value={field.value}
+            setValue={field.onChange}
+            placeholder="시/군/구"
+          />
+        )}
+      />
+    </>
+  ),
+);
+
+DemandLocationSelector.displayName = 'DemandLocationSelector';
+
+interface ReservationRouteSelectorProps {
+  control: Control<ShuttleFormValues>;
+  options: { label: string; value: number }[];
+}
+const ReservationRouteSelector = memo(
+  ({ control, options }: ReservationRouteSelectorProps) => (
+    <>
+      <p>노선 종류를 선택해주세요</p>
+      <Controller
+        control={control}
+        name="shuttleRoute"
+        render={({ field }) => (
+          <SelectLabeled
+            options={options}
+            value={field.value}
+            setValue={field.onChange}
+            placeholder="노선 종류"
+          />
+        )}
+      />
+    </>
+  ),
+);
+
+ReservationRouteSelector.displayName = 'ReservationRouteSelector';
+
+const sortDailyShuttles = (shuttles: DailyShuttleDetailProps[]) =>
+  shuttles.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );

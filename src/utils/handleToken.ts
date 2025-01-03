@@ -1,7 +1,11 @@
 'use server';
 
-import { OPTIONS, REFRESH_TOKEN } from '@/constants/token';
-import { ACCESS_TOKEN } from '@/constants/token';
+import {
+  ACCESS_TOKEN,
+  ONBOARDING_TOKEN,
+  OPTIONS,
+  REFRESH_TOKEN,
+} from '@/constants/token';
 import { TokenType } from '@/services/auth';
 import { cookies } from 'next/headers';
 
@@ -49,6 +53,7 @@ export const updateToken = async () => {
   const refreshToken = await getRefreshToken();
   const res = await fetch(new URL('/auth/refresh', BASE_URL), {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
@@ -59,4 +64,12 @@ export const updateToken = async () => {
   }
 
   return data as TokenType;
+};
+
+export const setOnboardingToken = async () => {
+  cookies().set(ONBOARDING_TOKEN, 'true', OPTIONS);
+};
+
+export const removeOnboardingToken = async () => {
+  cookies().delete(ONBOARDING_TOKEN);
 };

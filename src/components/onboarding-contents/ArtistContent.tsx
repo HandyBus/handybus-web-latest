@@ -101,7 +101,10 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
           <SearchInput
             value={searchValue}
             setValue={setSearchValue}
-            handleBack={() => setIsListOpen(false)}
+            handleBack={() => {
+              setIsListOpen(false);
+              setSearchValue('');
+            }}
             placeholder="가수 이름으로 검색"
           />
           <div className="grow overflow-y-auto pt-12">

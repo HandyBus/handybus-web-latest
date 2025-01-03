@@ -1,7 +1,7 @@
 import { SECTION } from '@/types/shuttle.types';
 import { RouteType, ROUTE_TYPE } from '@/types/shuttle.types';
 import dayjs from 'dayjs';
-import { ShuttleRouteObject } from '@/types/shuttle.types';
+import { ShuttleRouteHubObject } from '@/types/shuttle.types';
 import { SectionType } from '@/types/shuttle.types';
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form';
 import { RenderPoints } from './RoutePoint';
@@ -10,7 +10,7 @@ import { isShuttleRouteLocationBlurred } from './shuttleRouteVisualizer.util';
 interface Props {
   section: SectionType;
   type: RouteType;
-  object: ShuttleRouteObject[];
+  object: ShuttleRouteHubObject[];
   control: Control<FieldValues> | null;
   setValue: UseFormSetValue<FieldValues> | null;
 }
@@ -22,10 +22,11 @@ const ShuttleRouteCard = ({
   control,
   setValue,
 }: Props) => {
-  const shuttleTime = dayjs(object[object.length - 1]?.time).diff(
-    dayjs(object[0]?.time),
+  const shuttleTime = dayjs(object[object.length - 1]?.arrivalTime).diff(
+    dayjs(object[0]?.arrivalTime),
     'minutes',
   );
+  const alignedObject = object.sort((a, b) => a.sequence - b.sequence);
 
   return (
     <article
@@ -56,13 +57,18 @@ const ShuttleRouteCard = ({
             className={`absolute h-[calc(100%-12px)] w-[2px] bg-${type === ROUTE_TYPE.DEPARTURE ? 'primary-main' : 'grey-500'} `}
           />
           <ol className="relative flex h-full flex-col items-center justify-between ">
-            <RenderPoints object={object} type={type} />
+            <RenderPoints object={alignedObject} type={type} />
           </ol>
         </div>
         <ul className="flex w-full flex-col gap-16">
-          {object.map((item, index) => (
+          {alignedObject.map((item, index) => (
             <li key={index}>
               <ShuttleRouteTimeLocation
+                isDestination={
+                  type === ROUTE_TYPE.RETURN
+                    ? index === 0
+                    : index === object.length - 1
+                }
                 type={type}
                 object={item}
                 section={section}
@@ -92,8 +98,8 @@ const ShuttleRouteCard = ({
       ) : (
         <p className="text-12 font-500 leading-[19.2px] text-grey-500">
           {type === ROUTE_TYPE.DEPARTURE
-            ? object[0]?.hubName
-            : object[object.length - 1]?.hubName}
+            ? alignedObject[0]?.name
+            : alignedObject[alignedObject.length - 1]?.name}
           {type === ROUTE_TYPE.DEPARTURE ? '까지 ' : '부터 '}
           <span className="font-600">약 {shuttleTime}분</span> 소요
         </p>

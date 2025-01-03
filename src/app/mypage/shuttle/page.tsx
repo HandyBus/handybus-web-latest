@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import CurrentTab from './components/tabs/CurrentTab';
 import DemandTab from './components/tabs/DemandTab';
 import PastTab from './components/tabs/PastTab';
-import { useGetUserDashboard } from '@/services/users';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -18,35 +17,23 @@ interface Props {
 
 const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
-  const { data: userDashboard, isLoading } = useGetUserDashboard();
-
   const currentTab = searchParams.type || 'current';
 
   const renderTab = () => {
     switch (currentTab) {
       case 'current':
-        return (
-          <CurrentTab
-            reservations={userDashboard?.reservations.current ?? []}
-          />
-        );
+        return <CurrentTab />;
       case 'demand':
-        return <DemandTab demands={userDashboard?.shuttleDemands ?? []} />;
+        return <DemandTab />;
       case 'past':
-        return (
-          <PastTab reservations={userDashboard?.reservations.past ?? []} />
-        );
+        return <PastTab />;
     }
   };
-
-  if (isLoading) {
-    return <div className="h-[100dvh]" />;
-  }
 
   return (
     <>
       <AppBar>마이페이지</AppBar>
-      <main className="grow">
+      <main className="flex grow flex-col">
         <div className="px-16">
           <Tabs
             items={[

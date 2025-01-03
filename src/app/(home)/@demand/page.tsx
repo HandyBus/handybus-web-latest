@@ -7,7 +7,7 @@ import { getOpenDemandings } from '@/app/demand/utils/fetch.util';
 
 // TODO check urn : /demand-survey
 const Page = () => (
-  <Article richTitle="수요 확인 중인 셔틀" showMore="/demand">
+  <Article richTitle="수요 확인 중인 행사" showMore="/demand">
     <SubPage />
     <div className="w-full p-16">
       <RedirectButton description="찾고 있는 셔틀이 없나요?" href="/TODO">

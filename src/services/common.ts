@@ -8,7 +8,7 @@ const getPresignedUrl = async (key: KeyType, extension: ExtensionType) => {
   const res = await instance.get<{
     presignedUrl: string;
     cdnUrl: string;
-  }>(`/common/image/presigned-url?${params}`);
+  }>(`/common/image/presigned-url?${params}`, { cache: 'no-store' });
   return res;
 };
 
@@ -19,6 +19,7 @@ const uploadImageToS3 = async (url: string, file: File) => {
 
   await fetch(url, {
     method: 'PUT',
+    cache: 'no-store',
     body: file,
     headers: {
       'Content-Type': file.type,
