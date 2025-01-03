@@ -58,7 +58,10 @@ const CouponList = ({ coupons }: Props) => {
           onClick={() => setShowUnusableCoupons((prev) => !prev)}
           className="flex items-center gap-4 text-12"
         >
-          <CheckBox isChecked={showUnusableCoupons} />
+          <CheckBox
+            isChecked={showUnusableCoupons}
+            setIsChecked={setShowUnusableCoupons}
+          />
           사용 불가능한 쿠폰 포함
         </button>
       </div>
