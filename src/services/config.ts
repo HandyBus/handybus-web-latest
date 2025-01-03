@@ -7,6 +7,7 @@ import {
   updateToken,
 } from '@/utils/handleToken';
 import { CustomError } from './custom-error';
+import logout from '@/app/actions/logout.action';
 
 const FETCH_REVALIDATE_TIME = 60; // 1분
 
@@ -125,6 +126,7 @@ class AuthInstance {
         } catch (e) {
           const error = e as CustomError;
           console.error('로그인 시간 만료: ', error.message);
+          logout();
         }
       }
       throw error;

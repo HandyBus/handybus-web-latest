@@ -35,7 +35,12 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ['/onboarding', '/mypage/:path*', '/demand/:path*/write'],
+  matcher: [
+    '/onboarding',
+    '/mypage/:path*',
+    '/demand/:path*/write',
+    '/shuttle/:path*/write',
+  ],
 };
 
 const handleRefreshToken = async (req: NextRequest) => {
