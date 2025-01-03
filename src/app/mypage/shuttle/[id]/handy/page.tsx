@@ -3,6 +3,7 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import TextInput from '@/components/inputs/text-input/TextInput';
+import { CustomError } from '@/services/custom-error';
 import { useGetUserReservation } from '@/services/reservation';
 import { usePutShuttleBus } from '@/services/shuttleOperation';
 import Link from 'next/link';
@@ -34,8 +35,12 @@ const Handy = ({ params }: Props) => {
       toast.success('오픈채팅방 링크가 제출되었습니다.');
       router.push(`/mypage/shuttle/${id}`);
     },
-    onError: () => {
-      toast.error('오픈채팅방 링크 제출에 실패했습니다.');
+    onError: (error: CustomError) => {
+      if (error.statusCode === 400) {
+        toast.error('오픈채팅방 링크가 올바르지 않습니다.');
+      } else {
+        toast.error('오픈채팅방 링크 제출에 실패했습니다.');
+      }
     },
   });
 
