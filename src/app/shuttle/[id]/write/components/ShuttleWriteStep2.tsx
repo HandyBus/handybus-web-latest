@@ -7,6 +7,7 @@ import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
 import { ReservationFormData } from '../page';
 import { ShuttleRoute } from '@/types/shuttle.types';
+import { toast } from 'react-toastify';
 
 interface Props {
   handleNextStep: () => void;
@@ -18,16 +19,28 @@ const ShuttleWriteStep2 = ({
   handlePrevStep,
   currentShuttleData,
 }: Props) => {
-  const {
-    control,
-    setValue,
-    watch,
-    // getValues,
-    // trigger,
-    // formState: { errors },
-  } = useFormContext<ReservationFormData>();
+  const { control, setValue, watch, trigger } =
+    useFormContext<ReservationFormData>();
   const passengerCount = watch('passengerCount');
 
+  const onHandleClickNext = async () => {
+    console.log('💵 (CLIENT) onHandleClickNext');
+
+    const isValid = await trigger('passengers')
+      .then((res) => {
+        console.log('💵 (CLIENT) isValid', res);
+        return res;
+      })
+      .catch((err) => {
+        console.log('💵 (CLIENT) err', err);
+        toast.error('탑승객 정보를 확인해주세요');
+        return false;
+      });
+
+    if (passengerCount > 0 && isValid) {
+      handleNextStep();
+    }
+  };
   if (!currentShuttleData) return;
   return (
     <>
@@ -53,9 +66,8 @@ const ShuttleWriteStep2 = ({
         ))}
       <BottomBar
         type={`RESERVATION_WRITE_2` as BottomBarType}
-        handleNextStep={handleNextStep}
+        handleNextStep={onHandleClickNext}
         handlePrevStep={handlePrevStep}
-        // disabled={!isValid}
         currentShuttleData={currentShuttleData}
       />
     </>
