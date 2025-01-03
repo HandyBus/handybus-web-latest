@@ -18,9 +18,9 @@ const Page = async () => {
   const location = promoted ? (
     <p>
       <LocationMarker width="14" height="14" />
-      <b>{userRegion ? regionToString(userRegion) : '모든'}</b> 지역에 예약 모집
-      중인 셔틀이 없어 <b>{region ? regionToString(region) : '모든'}</b> 지역의
-      셔틀을 보여드려요.
+      <b>{userRegion ? regionToString(userRegion) : '모든'}</b> 지역에 셔틀이
+      없어 <b>{region ? regionToString(region) : '모든'}</b> 지역의 셔틀을
+      보여드려요.
     </p>
   ) : (
     <p>
