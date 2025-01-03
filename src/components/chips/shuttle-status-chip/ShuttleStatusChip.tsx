@@ -5,6 +5,7 @@ interface Props {
     | 'PENDING'
     | 'RESERVATION_CLOSED'
     | 'ENDED'
+    | 'CONFIRMED'
     | undefined;
 }
 
@@ -29,6 +30,7 @@ const ShuttleStatusChip = ({ status }: Props) => {
         </div>
       );
     case 'RESERVATION_CLOSED':
+    case 'CONFIRMED':
       return (
         <div className="w-fit whitespace-nowrap rounded-full bg-black px-[14px] py-[3px] text-white">
           예약 마감
