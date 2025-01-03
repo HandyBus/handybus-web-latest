@@ -4,13 +4,14 @@ import { authInstance } from '@/services/config';
 import Script from 'next/script';
 import { PassengerInfoType } from '../page';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.type';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import { toast } from 'react-toastify';
 import { finalPrice } from './priceDetail.util';
 import { useFormContext } from 'react-hook-form';
 import { ShuttleRoute } from '@/types/shuttle.types';
+import { IssuedCouponType } from '@/types/client.types';
 
 declare global {
   interface Window {
@@ -45,6 +46,7 @@ interface Props {
   passengers: PassengerInfoType[];
   isSupportingHandy?: boolean;
   handleNextStep: () => void;
+  handlePrevStep: () => void;
   shuttleData: ShuttleRoute[];
 }
 
@@ -56,11 +58,12 @@ const TossPayment = ({
   passengers,
   isSupportingHandy = false,
   handleNextStep,
+  handlePrevStep,
   shuttleData,
 }: Props) => {
   const router = useRouter();
-  const { getValues } = useFormContext();
-  const selectedCoupon = getValues('selectedCoupon');
+  const { getValues, watch } = useFormContext();
+  const selectedCoupon: IssuedCouponType = watch('selectedCoupon');
   const watchShuttleRoute = getValues('shuttleRoute');
   const tripType = getValues('tripType');
   const passengerCount = getValues('passengerCount');
@@ -75,16 +78,43 @@ const TossPayment = ({
     }
   }, [loaded]);
 
-  if (!currentShuttleData || !tripType) return;
-  const requestPrice = finalPrice({
-    currentShuttleData,
-    tripType,
-    passengerCount,
-    selectedCoupon,
-  });
-  if (!requestPrice) return;
+  const requestPrice =
+    currentShuttleData && tripType
+      ? finalPrice({
+          currentShuttleData,
+          tripType,
+          passengerCount,
+          selectedCoupon,
+        })
+      : undefined;
 
-  const initializeTossPayments = async () => {
+  const billingReservationData = useMemo(() => {
+    return {
+      shuttleRouteId,
+      type,
+      ...(type === 'TO_DESTINATION' && {
+        toDestinationShuttleRouteHubId,
+      }),
+      ...(type === 'FROM_DESTINATION' && {
+        fromDestinationShuttleRouteHubId,
+      }),
+      ...(selectedCoupon && {
+        issuedCouponId: selectedCoupon.issuedCouponId,
+      }),
+      isSupportingHandy,
+      passengers,
+    };
+  }, [
+    shuttleRouteId,
+    type,
+    toDestinationShuttleRouteHubId,
+    fromDestinationShuttleRouteHubId,
+    selectedCoupon,
+    isSupportingHandy,
+    passengers,
+  ]);
+
+  const initializeTossPayments = useCallback(async () => {
     try {
       if (typeof window.TossPayments === 'undefined') {
         throw new Error('TossPayments SDK가 로드되지 않았습니다.');
@@ -98,27 +128,21 @@ const TossPayment = ({
       const tossPayments = new window.TossPayments(clientKey);
 
       const prepareBillingResponse: BillingReservations = await authInstance
-        .post<{ reservation: BillingReservations }>(`/billing/reservations`, {
-          shuttleRouteId,
-          type,
-          ...(type === 'TO_DESTINATION' && {
-            toDestinationShuttleRouteHubId,
-          }),
-          ...(type === 'FROM_DESTINATION' && {
-            fromDestinationShuttleRouteHubId,
-          }),
-          ...(selectedCoupon?.issuedCouponId && {
-            issuedCouponId: selectedCoupon.issuedCouponId,
-          }),
-          isSupportingHandy,
-          passengers,
-        })
+        .post<{ reservation: BillingReservations }>(
+          `/billing/reservations`,
+          billingReservationData,
+        )
         .then((res) => {
           console.log('💵 (API SERVER) prepareBillingResponse', res);
+
           return res.reservation;
         })
         .catch((error) => {
           console.log('💵 (API SERVER) prepareBillingResponse 실패', error);
+          console.log(
+            '💵 (API SERVER, billingReservationData)',
+            billingReservationData,
+          );
           toast.error('결제 요청 실패, 처음부터 다시 시작해 주세요.');
           throw new Error('결제 생성 및 준비 실패');
         });
@@ -131,6 +155,7 @@ const TossPayment = ({
       });
 
       // 결제 금액 설정
+      if (!requestPrice) throw new Error('requestPrice is undefined');
       widgets.setAmount({
         value: requestPrice,
         currency: 'KRW',
@@ -181,7 +206,7 @@ const TossPayment = ({
           .catch((error) => {
             console.log('💵(TOSSPAYMENTS) 결제 요청 실패', error);
             toast.error('결제 요청 실패, 처음부터 다시 시작해 주세요.');
-            router.refresh();
+            handlePrevStep();
           });
       });
     } catch (error) {
@@ -190,7 +215,7 @@ const TossPayment = ({
       }
       console.error('토스 결제 초기화 실패:', error);
     }
-  };
+  }, [billingReservationData]);
 
   return (
     <>
