@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { containsRegionId } from '@/app/shuttle/util/contain.util';
 import {
   fetchAllShuttles,
   fetchIncludingRelatedShuttles,
@@ -15,8 +14,15 @@ import ShuttlesSwiperView from './components/ShuttlesSwiperView';
 const Page = async () => {
   const { region, shuttles, related } = await getRegionAndShuttles();
 
+  const location = region ? regionToString(region) : '모든';
+
+  const postfix = toSearchParams({
+    bigRegion: region?.bigRegion,
+    smallRegion: region?.smallRegion,
+  }).toString();
+
   return (
-    <Bar region={region} related={related}>
+    <Bar regionString={location} related={related} postfix={postfix}>
       <ShuttlesSwiperView shuttles={shuttles} />
     </Bar>
   );
@@ -27,19 +33,13 @@ export default Page;
 import LocationMarker from './icons/marker.svg';
 import { toSearchParams } from '@/utils/searchParams';
 interface BarProp {
-  region: Region | undefined;
+  postfix: string;
+  regionString: string;
   children: ReactNode;
   related: boolean;
 }
 
-const Bar = ({ region, children, related }: BarProp) => {
-  const postfix = toSearchParams({
-    bigRegion: region?.bigRegion,
-    smallRegion: region?.smallRegion,
-  }).toString();
-
-  const location = region ? regionToString(region) : '모든';
-
+const Bar = ({ regionString, children, related, postfix }: BarProp) => {
   return (
     <Article
       richTitle={`지금 예약 모집 중인 셔틀`}
@@ -50,7 +50,7 @@ const Bar = ({ region, children, related }: BarProp) => {
           <LocationMarker width="14" height="14" />
         </span>
         <span>
-          <span className="font-600 text-primary-700">{location}</span>{' '}
+          <span className="font-600 text-primary-700">{regionString}</span>{' '}
           {related ? '인접 ' : ''}
           지역의 셔틀입니다.
         </span>
@@ -79,9 +79,8 @@ const getRegionAndShuttles = async (): Promise<{
     return { region: undefined, related: false, shuttles };
   }
 
-  const regionShuttles = shuttles.filter((s) =>
-    containsRegionId(userRegionId, s),
-  );
+  const regionShuttles = await fetchIncludingRelatedShuttles(userRegion);
+
   if (regionShuttles.length > 0) {
     return {
       region: ID_TO_REGION[userRegionId],
@@ -90,13 +89,19 @@ const getRegionAndShuttles = async (): Promise<{
     };
   }
 
-  const relatedShuttles = await fetchIncludingRelatedShuttles(userRegion);
+  const provinenceShuttles = await fetchIncludingRelatedShuttles({
+    bigRegion: userRegion.bigRegion,
+    smallRegion: undefined,
+  });
 
-  if (relatedShuttles.length > 0) {
+  if (provinenceShuttles.length > 0) {
     return {
-      region: ID_TO_REGION[userRegionId],
+      region: {
+        bigRegion: userRegion.bigRegion,
+        smallRegion: undefined,
+      },
       related: true,
-      shuttles: relatedShuttles,
+      shuttles: provinenceShuttles,
     };
   }
 
