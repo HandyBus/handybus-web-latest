@@ -7,9 +7,10 @@ import BottomBarReservationRequest from './BottomBarReservationRequest';
 import { BottomBarType, BOTTOM_BAR_TYPE } from './BottomBar.type';
 import BottomBarContent from './BottomBarContent';
 import BottomBarPortal from './BottomBarPortal';
-import { useEffect, useState } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { ShuttleRoute } from '@/types/shuttle.types';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
   handleNextStep?: () => void;
@@ -18,6 +19,7 @@ interface Props {
   type?: BottomBarType;
   message?: string;
   shuttleName?: string;
+  currentShuttleData?: ShuttleRoute;
 }
 const BottomBar = ({
   variant = 'primary',
@@ -28,6 +30,8 @@ const BottomBar = ({
   type,
   message,
   shuttleName,
+  currentShuttleData,
+  ...rest
 }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
@@ -82,6 +86,9 @@ const BottomBar = ({
             type={type}
             handleNextStep={handleNextStep}
             handlePrevStep={handlePrevStep}
+            disabled={disabled}
+            currentShuttleData={currentShuttleData}
+            {...rest}
           />
         );
       default:

@@ -58,11 +58,7 @@ export type ShuttleRouteHubObject = {
 export interface ShuttleRouteEvent {
   shuttleId: number;
   name: string;
-  dailyShuttles: {
-    dailyShuttleId: number;
-    date: string;
-    status: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE';
-  }[];
+  dailyShuttles: DailyShuttleDetailProps[];
   image: string;
   status: 'OPEN' | 'ENDED' | 'INACTIVE';
   destination: {

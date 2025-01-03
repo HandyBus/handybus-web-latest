@@ -25,7 +25,7 @@ const Demand = async ({ params }: { params: { id: string } }) => {
         shuttleStatus={shuttleStateConverter(demandData.status, 'DEMAND')}
         title={demandData.name}
         artist={demandData.participants.map((v) => v.name).join(', ')}
-        date={dateFormatter(demandData)}
+        date={dateFormatter(demandData.dailyShuttles)}
         location={demandData.destination.name}
       />
       <KakaoMap

@@ -22,12 +22,23 @@ const postCoupon = async (code: string) => {
   return await authInstance.post('/billing/coupons', { code });
 };
 
-export const usePostCoupon = ({ onSuccess }: { onSuccess?: () => void }) => {
+export const usePostCoupon = ({
+  isReservationInProgress,
+  onSuccess,
+}: {
+  isReservationInProgress?: boolean;
+  onSuccess?: () => void;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postCoupon,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['user', 'coupons'] });
+      if (!isReservationInProgress)
+        await queryClient.invalidateQueries({ queryKey: ['user', 'coupons'] });
+      else
+        await queryClient.invalidateQueries({
+          queryKey: ['reservationCoupon'],
+        });
       toast.success('쿠폰 등록이 완료되었습니다.');
       onSuccess?.();
     },

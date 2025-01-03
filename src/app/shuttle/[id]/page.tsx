@@ -33,7 +33,7 @@ const Shuttle = async ({ params }: Props) => {
         shuttleStatus={shuttleStateConverter(infoData.status, 'RESERVATION')}
         title={infoData.name}
         artist={infoData.participants.map((v) => v.name).join(', ')}
-        date={dateFormatter(infoData)}
+        date={dateFormatter(infoData.dailyShuttles)}
         location={infoData.destination.name}
       />
       <KakaoMap
