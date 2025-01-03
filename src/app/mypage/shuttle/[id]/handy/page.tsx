@@ -3,15 +3,56 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import TextInput from '@/components/inputs/text-input/TextInput';
+import { CustomError } from '@/services/custom-error';
+import { useGetUserReservation } from '@/services/reservation';
+import { usePutShuttleBus } from '@/services/shuttleOperation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
-const Handy = () => {
-  const { control, setValue } = useForm({
-    defaultValues: {
-      link: '',
+interface FormValues {
+  openChatLink: string;
+}
+
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const Handy = ({ params }: Props) => {
+  const { id } = params;
+  const router = useRouter();
+  const { data: reservation } = useGetUserReservation(Number(id));
+  const { mutate: putShuttleBus } = usePutShuttleBus({
+    shuttleId: reservation?.shuttle.shuttleId,
+    dailyShuttleId: reservation?.shuttle.route.dailyShuttleId,
+    shuttleRouteId: reservation?.shuttle.route.shuttleRouteId,
+    shuttleBusId: reservation?.shuttleBus?.shuttleBusId,
+    reservationId: Number(id),
+    onSuccess: () => {
+      toast.success('오픈채팅방 링크가 제출되었습니다.');
+      router.push(`/mypage/shuttle/${id}`);
+    },
+    onError: (error: CustomError) => {
+      if (error.statusCode === 400) {
+        toast.error('오픈채팅방 링크가 올바르지 않습니다.');
+      } else {
+        toast.error('오픈채팅방 링크 제출에 실패했습니다.');
+      }
     },
   });
+
+  const { control, setValue, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      openChatLink: '',
+    },
+  });
+
+  const onSubmit = (data: FormValues) => {
+    putShuttleBus(data.openChatLink);
+  };
 
   return (
     <>
@@ -46,9 +87,12 @@ const Handy = () => {
             <br />
             자세한 개설 방법은 ‘핸디 가이드 보러가기’에서 확인하실 수 있어요.
           </p>
-          <form className="flex flex-col gap-12">
+          <form
+            className="flex flex-col gap-12"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <TextInput
-              name="link"
+              name="openChatLink"
               control={control}
               setValue={setValue}
               placeholder="오픈채팅방 링크를 입력해주세요"

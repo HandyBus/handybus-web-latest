@@ -1,4 +1,5 @@
 import { BigRegionsType } from '@/constants/regions';
+import { ShuttleBusType } from '@/constants/shuttleBus';
 
 //  --- 유저 관련 타입 ---
 export type AgeType =
@@ -119,7 +120,7 @@ type BaseReservationType = {
     shuttleBusId: number;
     shuttleRouteId: number;
     handyUserId?: number;
-    type: string;
+    type: ShuttleBusType;
     name: string;
     number: string;
     phoneNumber: string;
