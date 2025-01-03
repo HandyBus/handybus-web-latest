@@ -192,15 +192,22 @@ const TossPayment = ({
                 res.orderId,
                 res.paymentKey,
               );
-              const apiResponse = authInstance.post(
-                `/billing/payments/${res.orderId}`,
-                {
+              // const apiResponse = authInstance
+              authInstance
+                .post(`/billing/payments/${res.orderId}`, {
                   paymentKey: res.paymentKey,
                   pgType: 'TOSS',
-                },
-              );
-              console.log('💵(API SERVER) 결제 승인 API 요청', apiResponse);
-              handleNextStep();
+                })
+                .then((res) => {
+                  console.log('💵(API SERVER) 결제 승인 API 요청', res);
+                  handleNextStep();
+                  return res;
+                })
+                .catch((error) => {
+                  console.log('💵(API SERVER) 결제 승인 API 요청 실패', error);
+                  toast.error('결제 승인 실패, 처음부터 다시 시작해 주세요.');
+                  handlePrevStep();
+                });
             },
           )
           .catch((error) => {
