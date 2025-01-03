@@ -53,10 +53,11 @@ export const metadata: Metadata = {
 };
 
 const JSON_LD = {
-  '@context': URL,
+  '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: TITLE,
   description: DESCRIPTION,
+  url: URL,
 };
 
 export default function RootLayout({
@@ -85,6 +86,10 @@ export default function RootLayout({
           `,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
       </head>
       <body>
         <Provider>
@@ -92,10 +97,6 @@ export default function RootLayout({
           <PortalContainer />
           <ToastContainer />
         </Provider>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
-        />
       </body>
     </html>
   );
