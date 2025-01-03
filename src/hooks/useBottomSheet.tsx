@@ -1,13 +1,15 @@
 import { MutableRefObject, useCallback, useRef } from 'react';
 
 interface Metrics {
+  transformDuration: string;
   initTouchPosition: number | null;
   initTransformValue: number;
   isContentAreaTouched: boolean;
   closingY: number;
 }
 
-const TRANSFORM_DURATION = '200ms';
+const TRANSFORM_DURATION = { short: '200ms', long: '290ms' };
+const LONG_BOTTOM_SHEET_HEIGHT = 500;
 
 const useBottomSheet = () => {
   const bottomSheetRef = useCallback((bottomSheetElement: HTMLDivElement) => {
@@ -74,6 +76,7 @@ const useBottomSheet = () => {
   const backdrop: MutableRefObject<HTMLElement | null> = useRef(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const metrics = useRef<Metrics>({
+    transformDuration: TRANSFORM_DURATION.short,
     initTouchPosition: null,
     initTransformValue: 0,
     isContentAreaTouched: false,
@@ -92,13 +95,20 @@ const useBottomSheet = () => {
     backdropElement.style.display = 'flex';
 
     const bottomSheetHeight = bottomSheetElement.clientHeight;
+    if (bottomSheetHeight > LONG_BOTTOM_SHEET_HEIGHT) {
+      metrics.current.transformDuration = TRANSFORM_DURATION.long;
+    } else {
+      metrics.current.transformDuration = TRANSFORM_DURATION.short;
+    }
+
     bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
     metrics.current.closingY = bottomSheetHeight / 2;
 
     setTimeout(() => {
-      bottomSheetElement.style.transitionDuration = TRANSFORM_DURATION;
+      bottomSheetElement.style.transitionDuration =
+        metrics.current.transformDuration;
       bottomSheetElement.style.transform = `translateY(0px)`;
-    }, 10);
+    }, 0);
   };
 
   const closeBottomSheet = () => {
@@ -108,13 +118,14 @@ const useBottomSheet = () => {
       return;
     }
     const bottomSheetHeight = bottomSheetElement.clientHeight;
-    bottomSheetElement.style.transitionDuration = TRANSFORM_DURATION;
+    bottomSheetElement.style.transitionDuration =
+      metrics.current.transformDuration;
     bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
 
     setTimeout(() => {
       bottomSheetElement.style.display = 'none';
       backdropElement.style.display = 'none';
-    }, 150);
+    }, 130);
   };
 
   // 바텀시트 드래그
@@ -164,7 +175,8 @@ const useBottomSheet = () => {
         .replace('translateY(', '')
         .replace('px)', '') || 0,
     );
-    bottomSheetElement.style.transitionDuration = TRANSFORM_DURATION;
+    bottomSheetElement.style.transitionDuration =
+      metrics.current.transformDuration;
 
     if (finalTransformValue < closingY) {
       bottomSheetElement.style.transform = `translateY(0px)`;

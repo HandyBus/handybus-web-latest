@@ -1,10 +1,7 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
-import {
-  fetchAllShuttles,
-  fetchIncludingRelatedShuttles,
-} from './util/fetch.util';
+import { fetchIncludingRelatedShuttles } from './util/fetch.util';
 import getFirstSearchParam from '@/utils/getFirstSearchParam';
 import {
   shuttleSortSearhParamsFromString,
@@ -58,43 +55,18 @@ const Page = async ({ searchParams }: Props) => {
       ? ({ bigRegion, smallRegion } as Region)
       : { bigRegion: undefined, smallRegion: undefined };
 
-  const [allShuttles, related] = await Promise.all([
-    fetchAllShuttles(),
-    fetchIncludingRelatedShuttles(region),
-  ]);
+  const related = await fetchIncludingRelatedShuttles(region);
 
-  const all = toSortedShuttles(sortBy, allShuttles);
   const data = toSortedShuttles(sortBy, related);
 
   return (
     <>
       <AppBar>지금 예약 모집 중인 셔틀</AppBar>
       <div className="flex w-full flex-col items-center">
-        <SubPage
-          region={region}
-          sort={sortBy}
-          header={
-            data.length > 0 || !all || all.length === 0
-              ? {
-                  type: 'REGION',
-                  length: data.length,
-                }
-              : {
-                  type: 'ALTERNATIVE',
-                  length: all.length,
-                  alternative: '전국',
-                }
-          }
-        >
+        <SubPage region={region} sort={sortBy} length={data.length}>
           <div>
             {data.length === 0 ? (
-              all.length === 0 ? (
-                <Empty />
-              ) : (
-                all.map((v) => (
-                  <ShuttleRouteView key={v.shuttleRouteId} shuttleRoute={v} />
-                ))
-              )
+              <Empty />
             ) : (
               data.map((v) => (
                 <ShuttleRouteView key={v.shuttleRouteId} shuttleRoute={v} />
