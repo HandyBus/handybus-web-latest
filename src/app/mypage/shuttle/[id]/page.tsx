@@ -60,7 +60,7 @@ const ShuttleDetail = ({ params }: Props) => {
             )}
             {!isCanceled ? (
               <>
-                {isHandy && (
+                {isShuttleBusAssigned && isHandy && (
                   <HandySection
                     id={id}
                     name={reservation.passengers?.[0].name}
