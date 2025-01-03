@@ -12,7 +12,14 @@ export const getRegionId = (
 };
 
 export const determineMessage = (
-  shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
+  shuttleStatus:
+    | 'OPEN'
+    | 'CLOSED'
+    | 'ENDED'
+    | 'INACTIVE'
+    | 'CONFIRMED'
+    | 'CANCELLED'
+    | undefined,
   type: 'DEMAND' | 'RESERVATION',
 ): string | undefined => {
   if (type === 'DEMAND' && shuttleStatus === 'OPEN') return '수요 신청하기';
@@ -29,7 +36,14 @@ export const determineMessage = (
 };
 
 export const determineVariant = (
-  shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
+  shuttleStatus:
+    | 'OPEN'
+    | 'CLOSED'
+    | 'ENDED'
+    | 'INACTIVE'
+    | 'CONFIRMED'
+    | 'CANCELLED'
+    | undefined,
   type: 'DEMAND' | 'RESERVATION',
   bigLocation: string,
   smallLocation: string,
@@ -52,7 +66,14 @@ export const determineVariant = (
 };
 
 export const determineDisabled = (
-  shuttleStatus: 'OPEN' | 'CLOSED' | 'ENDED' | 'INACTIVE',
+  shuttleStatus:
+    | 'OPEN'
+    | 'CLOSED'
+    | 'ENDED'
+    | 'INACTIVE'
+    | 'CONFIRMED'
+    | 'CANCELLED'
+    | undefined,
   type: 'DEMAND' | 'RESERVATION',
   bigLocation: string,
   smallLocation: string,
@@ -69,15 +90,12 @@ export const determineDisabled = (
   if (type === 'DEMAND' && shuttleStatus === 'CLOSED') return true;
   if (
     type === 'RESERVATION' &&
-    shuttleStatus === 'OPEN' &&
-    (!shuttleRoute || dailyShuttle.dailyShuttleId === 0)
-  ) {
-    return true;
-  }
-  if (type === 'RESERVATION' && shuttleStatus === 'CLOSED') return true;
-  if (type === 'RESERVATION' && shuttleStatus === 'ENDED') return true;
-  if (type === 'RESERVATION' && shuttleStatus === 'INACTIVE') return true;
-  return false;
+    dailyShuttle.dailyShuttleId !== 0 &&
+    shuttleRoute?.value &&
+    shuttleStatus === 'OPEN'
+  )
+    return false;
+  return true;
 };
 
 export const locationFormatter = (regionId: number | undefined) => {

@@ -4,9 +4,8 @@ import Spacer from '@/components/shuttle-detail/components/Spacer';
 import { dateFormatter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
 import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
-import { shuttleStateConverter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import BackButton from '@/components/shuttle-detail/components/BackButton';
-import ShuttleInfo from '@/components/shuttle-detail/components/ShuttleInfo';
+import { ShuttleInfoReservation } from '@/components/shuttle-detail/components/ShuttleInfo';
 import ShuttleForm from '@/components/shuttle-detail/components/ShuttleForm';
 import Footer from '@/components/footer/Footer';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
@@ -29,8 +28,8 @@ const Shuttle = async ({ params }: Props) => {
     <main className="relative overflow-y-hidden">
       <BackButton />
       <ShuttleImage image={infoData.image} />
-      <ShuttleInfo
-        shuttleStatus={shuttleStateConverter(infoData.status, 'RESERVATION')}
+      <ShuttleInfoReservation
+        shuttleData={reservData}
         title={infoData.name}
         artist={infoData.participants.map((v) => v.name).join(', ')}
         date={dateFormatter(infoData.dailyShuttles)}
