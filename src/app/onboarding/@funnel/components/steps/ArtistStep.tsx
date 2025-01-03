@@ -2,6 +2,7 @@
 
 import ArtistContent from '@/components/onboarding-contents/ArtistContent';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
+import { useFormContext } from 'react-hook-form';
 
 interface Props {
   handlePrevStep: () => void;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const ArtistStep = ({ handlePrevStep, isLoading }: Props) => {
+  const { getValues } = useFormContext();
+  const initialSelectedArtists = getValues('favoriteArtists');
   return (
     <OnboardingFrame
       handlePrevStep={handlePrevStep}
@@ -18,7 +21,7 @@ const ArtistStep = ({ handlePrevStep, isLoading }: Props) => {
       buttonType="submit"
       buttonText="핸디버스 만나러 가기"
     >
-      <ArtistContent />
+      <ArtistContent initialSelectedArtists={initialSelectedArtists} />
     </OnboardingFrame>
   );
 };
