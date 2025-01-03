@@ -133,6 +133,7 @@ const CouponSheet = ({
                 key={index}
                 onClick={() => {
                   setValue('selectedCoupon', coupon);
+                  console.log('쿠폰선택함,', coupon);
                 }}
               >
                 <Coupon

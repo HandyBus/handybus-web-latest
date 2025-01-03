@@ -1,34 +1,17 @@
 'use client';
 
-import {
-  SECTION,
-  ShuttleRoute,
-  ShuttleRouteHubObject,
-} from '@/types/shuttle.types';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { ShuttleRoute, ShuttleRouteHubObject } from '@/types/shuttle.types';
+import { FormProvider, useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
-import NoticeSection, {
-  NOTICE_TYPE,
-} from '@/components/notice-section/NoticeSection';
-import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
-import ReservationCompleted from './sections/ReservationCompleted';
-import ApplyHandy from './sections/ApplyHandy';
-import TotalPriceInfo from './sections/TotalPriceInfo';
-import PriceDetail from './sections/PriceDetail';
-import ReservationInfo from './sections/ReservationInfo';
-import ReservationShuttleInfo from './sections/ReservationShuttleInfo';
-import PassengerForm from './sections/PassengerForm';
-import StepLayout from './sections/StepLayout';
-import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
-import TossPayment from './sections/TossPayments';
 import { fetchAllShuttles } from '../../util/fetch.util';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
-import PassengerInfo from './sections/PassengerInfo';
+import { useEffect, useState } from 'react';
 import { IssuedCouponType } from '@/types/client.types';
-import BannerImage from '@/app/demand/[id]/write/components/BannerImage';
-import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
-import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.type';
+import ShuttleWriteStep2 from './components/ShuttleWriteStep2';
+import ShuttleWriteStep1 from './components/ShuttleWriteStep1';
+import ShuttleWriteStep3 from './components/ShuttleWriteStep3';
+import ShuttleWriteStep4 from './components/ShuttleWriteStep4';
+import StepLayout from './sections/StepLayout';
 
 export interface PassengerInfoType {
   name: string;
@@ -70,7 +53,7 @@ const ShuttleWrite = ({ params }: Props) => {
       shuttleRoute: undefined,
       dailyShuttle: undefined,
       tripType: undefined,
-      passengerCount: 0,
+      passengerCount: 1,
       passengers: [],
       isHandy: false,
       toDestinationHubId: '',
@@ -79,26 +62,14 @@ const ShuttleWrite = ({ params }: Props) => {
       finalPrice: 0,
       postCoupon: '',
     },
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
-  const {
-    control,
-    watch,
-    setValue,
-    formState: { errors },
-  } = methods;
-  const passengerCount = watch('passengerCount');
-  const tripType: { label: string; value: string } | undefined =
-    watch('tripType');
+  const { watch } = methods;
   const watchDailyShuttle: { label: string; value: number } | undefined =
     watch('dailyShuttle');
   const watchShuttleRoute: { label: string; value: number } | undefined =
     watch('shuttleRoute');
-  const watchPassengers: PassengerInfoType[] = watch('passengers');
-  const watchCoupon = watch('selectedCoupon');
-  const pickupHub = watch('toDestinationHubId');
-  const dropoffHub = watch('fromDestinationHubId');
   const [shuttleData, setShuttleData] = useState<ShuttleRoute[]>([]);
   const [dailyShuttleRouteArray, setDailyShuttleRouteArray] = useState<
     ShuttleRoute[]
@@ -115,6 +86,7 @@ const ShuttleWrite = ({ params }: Props) => {
   const [currentShuttleData, setCurrentShuttleData] = useState<
     ShuttleRoute | undefined
   >(undefined);
+
   const { data } = useQuery({
     queryKey: ['shuttle', params.id],
     queryFn: () => fetchAllShuttles(),
@@ -156,103 +128,29 @@ const ShuttleWrite = ({ params }: Props) => {
     }
   }, [watchShuttleRoute]);
 
-  // const handlePassengerCountChange = (
-  //   newCount: number | ((prev: number) => number),
-  // ) => {
-  //   const count =
-  //     typeof newCount === 'function' ? newCount(passengerCount) : newCount;
-  //   setValue('passengerCount', count);
-  //   setValue('passengers', Array(count).fill({ name: '', phoneNumber: '' }));
-  // };
-
-  const determineStep1 = useCallback(() => {
-    let isSelectedHubs: boolean = false;
-    if (tripType?.value === 'ROUND_TRIP')
-      isSelectedHubs = Boolean(pickupHub && dropoffHub);
-    if (tripType?.value === 'TO_DESTINATION')
-      isSelectedHubs = Boolean(pickupHub);
-    if (tripType?.value === 'FROM_DESTINATION')
-      isSelectedHubs = Boolean(dropoffHub);
-
-    if (watchDailyShuttle && watchShuttleRoute && tripType && isSelectedHubs)
-      return false;
-    return true;
-  }, [watchDailyShuttle, watchShuttleRoute, tripType, pickupHub, dropoffHub]);
-
-  const determineStep2 = useCallback(() => {
-    if (
-      passengerCount > 0 &&
-      watchPassengers?.length > 0 &&
-      watchPassengers.every(
-        (passenger) =>
-          passenger?.name?.trim() && passenger?.phoneNumber?.trim(),
-      ) &&
-      !errors.passengers
-    )
-      return false;
-    return true;
-  }, [passengerCount, watchPassengers, errors]);
-
-  if (!data || !dailyShuttleArray || !dailyShuttleRouteArray) return null;
+  if (!data || !dailyShuttleArray || !dailyShuttleRouteArray) return;
   return (
     <main>
       <FormProvider {...methods}>
         <Funnel>
           <Step name={1}>
             <StepLayout step={1} shuttleInfoData={shuttleData[0].shuttle}>
-              <ReservationShuttleInfo
-                control={control}
-                dailyShuttleArray={dailyShuttleArray}
-                dailyShuttleRouteArray={dailyShuttleRouteArray}
-              />
-              <div id="divider" className="my-16 h-[8px] bg-grey-50" />
-              <ShuttleRouteVisualizer
-                type={
-                  tripType?.value as
-                    | 'ROUND_TRIP'
-                    | 'TO_DESTINATION'
-                    | 'FROM_DESTINATION'
-                }
-                toDestinationObject={routeHubsToDestination}
-                fromDestinationObject={routeHubsFromDestination}
-                section={SECTION.RESERVATION_DETAIL}
-              />
-              <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
-              <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
-              <BottomBar
-                type={`RESERVATION_WRITE_1` as BottomBarType}
+              <ShuttleWriteStep1
                 handleNextStep={handleNextStep}
                 handlePrevStep={handlePrevStep}
-                disabled={determineStep1()}
+                dailyShuttleArray={dailyShuttleArray}
+                dailyShuttleRouteArray={dailyShuttleRouteArray}
+                routeHubsToDestination={routeHubsToDestination}
+                routeHubsFromDestination={routeHubsFromDestination}
               />
             </StepLayout>
           </Step>
 
           <Step name={2}>
             <StepLayout step={2} shuttleInfoData={shuttleData[0].shuttle}>
-              <Controller
-                control={methods.control}
-                name="passengerCount"
-                render={({ field: { value, onChange } }) => (
-                  <PassengerCount
-                    count={value}
-                    setCount={(newValue) => onChange(newValue)}
-                  />
-                )}
-              />
-              {Array.from({ length: passengerCount }).map((_, index) => (
-                <PassengerForm
-                  key={index}
-                  index={index}
-                  control={control}
-                  setValue={setValue}
-                />
-              ))}
-              <BottomBar
-                type={`RESERVATION_WRITE_2` as BottomBarType}
+              <ShuttleWriteStep2
                 handleNextStep={handleNextStep}
                 handlePrevStep={handlePrevStep}
-                disabled={determineStep2()}
                 currentShuttleData={currentShuttleData}
               />
             </StepLayout>
@@ -260,26 +158,9 @@ const ShuttleWrite = ({ params }: Props) => {
 
           <Step name={3}>
             <StepLayout step={3} shuttleInfoData={shuttleData[0].shuttle}>
-              <ReservationInfo shuttleData={shuttleData} />
-              <Divider />
-              <PassengerInfo passengers={watchPassengers} />
-              <Divider />
-              <ApplyHandy />
-              <Divider />
-              <TotalPriceInfo shuttleData={shuttleData} />
-              <Divider />
-              <TossPayment
-                shuttleRouteId={watchShuttleRoute?.value}
-                type={
-                  tripType?.value as
-                    | 'ROUND_TRIP'
-                    | 'TO_DESTINATION'
-                    | 'FROM_DESTINATION'
-                }
-                toDestinationShuttleRouteHubId={pickupHub}
-                fromDestinationShuttleRouteHubId={dropoffHub}
-                passengers={watchPassengers}
+              <ShuttleWriteStep3
                 handleNextStep={handleNextStep}
+                handlePrevStep={handlePrevStep}
                 shuttleData={shuttleData}
               />
             </StepLayout>
@@ -287,17 +168,7 @@ const ShuttleWrite = ({ params }: Props) => {
 
           <Step name={4}>
             <StepLayout step={4} shuttleInfoData={shuttleData[0].shuttle}>
-              <ReservationCompleted />
-              <BannerImage demandData={shuttleData[0].shuttle} />
-              <ReservationInfo shuttleData={shuttleData} />
-              <PassengerInfo passengers={watchPassengers} />
-              <section className="px-16 pb-24 pt-32">
-                <PriceDetail
-                  SelectedCoupon={watchCoupon}
-                  shuttleData={shuttleData}
-                />
-              </section>
-              <BottomBar type={`RESERVATION_WRITE_4` as BottomBarType} />
+              <ShuttleWriteStep4 shuttleData={shuttleData} />
             </StepLayout>
           </Step>
         </Funnel>
@@ -307,5 +178,3 @@ const ShuttleWrite = ({ params }: Props) => {
 };
 
 export default ShuttleWrite;
-
-const Divider = () => <div className="h-[8px] bg-grey-50" />;
