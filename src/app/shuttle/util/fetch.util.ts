@@ -1,6 +1,7 @@
 import type { ShuttleRoute } from '@/types/shuttle.types';
 import type { Region } from '@/hooks/useRegion';
 import { instance } from '@/services/config';
+import { toSearchParams } from '@/utils/searchParams';
 
 export const fetchAllShuttles = async () => {
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
@@ -10,12 +11,12 @@ export const fetchAllShuttles = async () => {
 };
 
 export const fetchIncludingRelatedShuttles = async (region: Region) => {
-  if (region.bigRegion === undefined || region.smallRegion === undefined) {
+  if (region.bigRegion === undefined) {
     return fetchAllShuttles();
   }
-  const params = new URLSearchParams({
+  const params = toSearchParams({
     provinceFullName: region.bigRegion,
-    ...(region.smallRegion && { cityFullName: region.smallRegion }),
+    cityFullName: region.smallRegion,
   }).toString();
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
     `/shuttle-operation/shuttles/all/dates/all/routes?${params}`,
