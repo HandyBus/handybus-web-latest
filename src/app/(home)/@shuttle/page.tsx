@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import {
   fetchAllShuttles,
   fetchIncludingRelatedShuttles,
@@ -12,17 +12,29 @@ import { ShuttleRoute } from '@/types/shuttle.types';
 import ShuttlesSwiperView from './components/ShuttlesSwiperView';
 
 const Page = async () => {
-  const { region, shuttles, related } = await getRegionAndShuttles();
+  const { region, shuttles, promoted, userRegion } =
+    await getRegionAndShuttles();
 
-  const location = region ? regionToString(region) : '모든';
-
+  const location = promoted ? (
+    <p>
+      <LocationMarker width="14" height="14" />
+      <b>{userRegion ? regionToString(userRegion) : '모든'}</b> 지역에 예약 모집
+      중인 셔틀이 없어 <b>{region ? regionToString(region) : '모든'}</b> 지역의
+      셔틀을 보여드려요.
+    </p>
+  ) : (
+    <p>
+      <LocationMarker width="14" height="14" />
+      <b>{region ? regionToString(region) : '모든'}</b> 지역의 셔틀입니다.
+    </p>
+  );
   const postfix = toSearchParams({
     bigRegion: region?.bigRegion,
     smallRegion: region?.smallRegion,
   }).toString();
 
   return (
-    <Bar regionString={location} related={related} postfix={postfix}>
+    <Bar regionString={location} postfix={postfix}>
       <ShuttlesSwiperView shuttles={shuttles} />
     </Bar>
   );
@@ -34,25 +46,19 @@ import LocationMarker from './icons/marker.svg';
 import { toSearchParams } from '@/utils/searchParams';
 interface BarProp {
   postfix: string;
-  regionString: string;
+  regionString: ReactElement<HTMLParagraphElement>;
   children: ReactNode;
-  related: boolean;
 }
 
-const Bar = ({ regionString, children, related, postfix }: BarProp) => {
+const Bar = ({ regionString, children, postfix }: BarProp) => {
   return (
     <Article
       richTitle={`지금 예약 모집 중인 셔틀`}
       showMore={postfix === '' ? '/shuttle' : `/shuttle?${postfix}`}
     >
       <div className="flex flex-row items-center gap-[2px] px-16 text-14 font-500 text-grey-600-sub">
-        <span className="text-primary-700">
-          <LocationMarker width="14" height="14" />
-        </span>
-        <span>
-          <span className="font-600 text-primary-700">{regionString}</span>{' '}
-          {related ? '인접 ' : ''}
-          지역의 셔틀입니다.
+        <span className="[&>p>b]:font-600 [&>p>b]:text-primary-700 [&>p>svg]:inline [&>p>svg]:text-primary-700">
+          {regionString}
         </span>
       </div>
       {children}
@@ -62,8 +68,9 @@ const Bar = ({ regionString, children, related, postfix }: BarProp) => {
 
 const getRegionAndShuttles = async (): Promise<{
   region: Region | undefined;
-  related: boolean;
+  promoted: boolean;
   shuttles: ShuttleRoute[];
+  userRegion: Region | undefined;
 }> => {
   let userRegionId: number | undefined;
   try {
@@ -76,7 +83,7 @@ const getRegionAndShuttles = async (): Promise<{
   const shuttles = await fetchAllShuttles();
 
   if (userRegionId === undefined || userRegion === undefined) {
-    return { region: undefined, related: false, shuttles };
+    return { region: undefined, promoted: false, shuttles, userRegion };
   }
 
   const regionShuttles = await fetchIncludingRelatedShuttles(userRegion);
@@ -84,8 +91,9 @@ const getRegionAndShuttles = async (): Promise<{
   if (regionShuttles.length > 0) {
     return {
       region: ID_TO_REGION[userRegionId],
-      related: false,
+      promoted: false,
       shuttles: regionShuttles,
+      userRegion,
     };
   }
 
@@ -100,10 +108,11 @@ const getRegionAndShuttles = async (): Promise<{
         bigRegion: userRegion.bigRegion,
         smallRegion: undefined,
       },
-      related: true,
+      promoted: true,
       shuttles: provinenceShuttles,
+      userRegion,
     };
   }
 
-  return { region: undefined, related: false, shuttles };
+  return { region: undefined, promoted: true, shuttles, userRegion };
 };
