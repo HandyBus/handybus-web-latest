@@ -12,6 +12,7 @@ import { finalPrice } from './priceDetail.util';
 import { useFormContext } from 'react-hook-form';
 import { ShuttleRoute } from '@/types/shuttle.types';
 import { IssuedCouponType } from '@/types/client.types';
+import { getUser } from '@/services/users';
 
 declare global {
   interface Window {
@@ -71,13 +72,32 @@ const TossPayment = ({
     (v) => v.shuttleRouteId === watchShuttleRoute?.value,
   );
   const [loaded, setLoaded] = useState(false);
+  const [userId, setUserId] = useState<number>();
 
   useEffect(() => {
-    if (loaded) {
+    (async () => {
+      try {
+        const res = await getUser();
+        console.log('💵 (CLIENT) userData', res);
+        setUserId(res.userId);
+      } catch (error) {
+        console.error('사용자 정보 로딩 실패:', error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (loaded && userId) {
       initializeTossPayments();
     }
-  }, [loaded]);
+  }, [loaded, userId]);
 
+  // console.log('finalPrice()', finalPrice({
+  //   currentShuttleData,
+  //   tripType,
+  //   passengerCount,
+  //   selectedCoupon,
+  // }));
   const requestPrice =
     currentShuttleData && tripType
       ? finalPrice({
@@ -92,10 +112,10 @@ const TossPayment = ({
     return {
       shuttleRouteId,
       type,
-      ...(type === 'TO_DESTINATION' && {
+      ...((type === 'ROUND_TRIP' || type === 'TO_DESTINATION') && {
         toDestinationShuttleRouteHubId,
       }),
-      ...(type === 'FROM_DESTINATION' && {
+      ...((type === 'ROUND_TRIP' || type === 'FROM_DESTINATION') && {
         fromDestinationShuttleRouteHubId,
       }),
       ...(selectedCoupon && {
@@ -127,27 +147,10 @@ const TossPayment = ({
 
       const tossPayments = new window.TossPayments(clientKey);
 
-      const prepareBillingResponse: BillingReservations = await authInstance
-        .post<{ reservation: BillingReservations }>(
-          `/billing/reservations`,
-          billingReservationData,
-        )
-        .then((res) => {
-          console.log('💵 (API SERVER) prepareBillingResponse', res);
-
-          return res.reservation;
-        })
-        .catch((error) => {
-          console.log('💵 (API SERVER) prepareBillingResponse 실패', error);
-          console.log(
-            '💵 (API SERVER, billingReservationData)',
-            billingReservationData,
-          );
-          toast.error('결제 요청 실패, 처음부터 다시 시작해 주세요.');
-          throw new Error('결제 생성 및 준비 실패');
-        });
-
-      const customerKey = generateCustomerKey(prepareBillingResponse.userId);
+      console.log('💵 현재 userId:', userId, typeof userId);
+      if (typeof userId !== 'number')
+        throw new Error('유저 정보를 불러오는데 실패했습니다.');
+      const customerKey = await generateCustomerKey(userId);
       console.log('💵(TOSSPAYMENTS) customerKey', customerKey);
 
       const widgets = tossPayments.widgets({
@@ -175,6 +178,25 @@ const TossPayment = ({
 
       const button = document.getElementById('payment-button');
       button?.addEventListener('click', async function () {
+        const prepareBillingResponse: BillingReservations = await authInstance
+          .post<{ reservation: BillingReservations }>(
+            `/billing/reservations`,
+            billingReservationData,
+          )
+          .then((res) => {
+            console.log('💵 (API SERVER) prepareBillingResponse', res);
+            return res.reservation;
+          })
+          .catch((error) => {
+            console.log('💵 (API SERVER) prepareBillingResponse 실패', error);
+            console.log(
+              '💵 (API SERVER, billingReservationData)',
+              billingReservationData,
+            );
+            toast.error('결제 요청 실패, 처음부터 다시 시작해 주세요.');
+            throw new Error('결제 생성 및 준비 실패');
+          });
+
         await widgets
           .requestPayment({
             orderId: prepareBillingResponse.paymentId,
@@ -222,7 +244,7 @@ const TossPayment = ({
       }
       console.error('토스 결제 초기화 실패:', error);
     }
-  }, [billingReservationData]);
+  }, [billingReservationData, userId]);
 
   return (
     <>
@@ -266,6 +288,21 @@ export interface BillingReservations {
   createdAt: string;
 }
 
-const generateCustomerKey = (userId: number): string => {
-  return `USER_${userId}_${crypto.randomUUID()}`;
+const generateCustomerKey = async (userId: number): Promise<string> => {
+  const rawData = `HANDYBUS_USER_${userId}_TOSS_PAYMENTS_KEY`;
+  const encoder = new TextEncoder();
+  const data = encoder.encode(rawData);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  const base64Hash = btoa(
+    hashArray.map((b) => String.fromCharCode(b)).join(''),
+  );
+  console.log(
+    'generateCustomerKey',
+    `USER_${userId}_${base64Hash.slice(0, 40).replace(/[^A-Za-z0-9\-_=.@]/g, '_')}`,
+  );
+  return `USER_${userId}_${base64Hash
+    .slice(0, 40)
+    .replace(/[^A-Za-z0-9\-_=.@]/g, '_')}`;
 };
