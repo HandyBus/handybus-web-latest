@@ -98,6 +98,13 @@ const TossPayment = ({
   //   passengerCount,
   //   selectedCoupon,
   // }));
+  console.log(
+    'finalPrice(currentShuttleData, tripType, passengerCount, selectedCoupon)',
+    currentShuttleData,
+    tripType,
+    passengerCount,
+    selectedCoupon,
+  );
   const requestPrice =
     currentShuttleData && tripType
       ? finalPrice({
