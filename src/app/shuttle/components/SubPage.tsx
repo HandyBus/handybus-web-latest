@@ -19,13 +19,11 @@ import {
 interface Props {
   sort: ShuttleSortType;
   region: Region;
-  header:
-    | { type: 'REGION'; length: number }
-    | { type: 'ALTERNATIVE'; length: number; alternative: string };
+  length: number;
   children: ReactNode;
 }
 
-const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
+const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
   const route = useRouter();
   const [region, setRegion] = useRegion(initialRegion);
   const { ref: navRef, safeArea, show: showBar } = useStickyMenu();
@@ -69,29 +67,12 @@ const SubPage = ({ region: initialRegion, sort, header, children }: Props) => {
         <div className={safeArea}>
           <div className="h-8 w-full bg-grey-50" />
           <div className="px-16 py-12">
-            {header.type === 'REGION' ? (
-              <>
-                <span className="text-14 font-500 text-grey-500">
-                  {regionToString(region)}
-                </span>
-                <span className="text-14 font-400 text-grey-500">
-                  에서 예약 모집 중인 셔틀({header.length})
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="text-14 font-500 text-grey-500">
-                  {regionToString(region)}
-                </span>
-                <span className="text-14 font-400 text-grey-500">
-                  에서 예약 모집 중인 셔틀이 없어{' '}
-                  <span className="text-14 font-600 text-grey-500">
-                    {header.alternative}
-                  </span>
-                  의 결과를 대신 보여드려요.
-                </span>
-              </>
-            )}
+            <span className="text-14 font-500 text-grey-500">
+              {regionToString(region)}
+            </span>
+            <span className="text-14 font-400 text-grey-500">
+              에서 예약 모집 중인 셔틀({length})
+            </span>
           </div>
         </div>
       </div>
