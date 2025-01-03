@@ -68,6 +68,7 @@ const ShuttleDetail = ({ params }: Props) => {
                 )}
                 {reservation.shuttleBus && (
                   <ShuttleInfoSection
+                    type={reservation.shuttleBus.type}
                     name={reservation.shuttleBus.name}
                     busNumber={reservation.shuttleBus.number}
                     openChatLink={reservation.shuttleBus.openChatLink}

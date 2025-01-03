@@ -105,7 +105,7 @@ export const usePutShuttleBus = ({
   shuttleBusId?: number;
   reservationId?: number;
   onSuccess?: () => void;
-  onError?: () => void;
+  onError?: (error: CustomError) => void;
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
