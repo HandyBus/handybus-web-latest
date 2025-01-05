@@ -10,7 +10,10 @@ const Page = () => (
   <Article richTitle="수요 확인 중인 행사" showMore="/demand">
     <SubPage />
     <div className="w-full p-16">
-      <RedirectButton description="찾고 있는 셔틀이 없나요?" href="/TODO">
+      <RedirectButton
+        description="찾고 있는 셔틀이 없나요?"
+        href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL}
+      >
         원하는 셔틀 요청하기
       </RedirectButton>
     </div>
