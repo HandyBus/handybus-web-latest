@@ -28,7 +28,7 @@ const ShuttleWriteStep3 = ({
     <>
       <ReservationInfo shuttleData={shuttleData} />
       <Divider />
-      <PassengerInfo passengers={watchPassengers} />
+      <PassengerInfo />
       <Divider />
       <ApplyHandy />
       <Divider />

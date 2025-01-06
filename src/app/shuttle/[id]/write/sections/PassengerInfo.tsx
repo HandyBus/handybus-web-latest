@@ -1,13 +1,14 @@
-import { PassengerInfoType } from '../page';
+import { useFormContext } from 'react-hook-form';
+import { ReservationFormData } from '../page';
 
-interface Props {
-  passengers: PassengerInfoType[];
-}
+const PassengerInfo = () => {
+  const { getValues } = useFormContext<ReservationFormData>();
+  const passengers = getValues('passengers');
+  const passengerCount = getValues('passengerCount');
 
-const PassengerInfo = ({ passengers }: Props) => {
   return (
     <section className="flex flex-col gap-[32px] px-12 py-32">
-      {Array.from({ length: passengers.length }).map((_, index) => (
+      {Array.from({ length: passengerCount }).map((_, index) => (
         <div key={index} className="flex flex-col gap-[16px]">
           <h3 className="text-18 font-500 leading-[25.2px] text-grey-700">
             탑승객 {index + 1}

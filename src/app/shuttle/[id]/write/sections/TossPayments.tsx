@@ -116,7 +116,7 @@ const TossPayment = ({
         issuedCouponId: selectedCoupon.issuedCouponId,
       }),
       isSupportingHandy,
-      passengers,
+      passengers: passengers.slice(0, passengerCount),
     };
   }, [
     shuttleRouteId,
