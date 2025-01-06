@@ -7,7 +7,7 @@ interface Props {
   shuttle: ShuttleType;
 }
 
-const ShuttleDetail = ({ shuttle }: Props) => {
+const DemandCard = ({ shuttle }: Props) => {
   const dates = shuttle.dailyShuttles.map((v) => new Date(v.date));
 
   return (
@@ -17,7 +17,7 @@ const ShuttleDetail = ({ shuttle }: Props) => {
           <Image
             className="object-cover"
             src={shuttle.image}
-            alt={`콘서트 ${shuttle.name}의 포스터`}
+            alt={`${shuttle.name}의 포스터`}
             fill
           />
         </div>
@@ -42,4 +42,4 @@ const ShuttleDetail = ({ shuttle }: Props) => {
   );
 };
 
-export default ShuttleDetail;
+export default DemandCard;

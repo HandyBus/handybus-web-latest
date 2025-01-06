@@ -1,15 +1,28 @@
 'use client';
 
-import RouteStatusChip from '@/components/chips/shuttle-status-chip/RouteStatusChip';
-import { RouteStatusType, ShuttleType } from '@/types/shuttle.types';
+import RouteStatusChip from '@/components/chips/route-status-chip/RouteStatusChip';
+import ShuttleStatusChip from '@/components/chips/shuttle-status-chip/ShuttleStatusChip';
+import {
+  RouteStatusType,
+  ShuttleStatusType,
+  ShuttleType,
+} from '@/types/shuttle.types';
 import { parseDateString } from '@/utils/dateString';
 
-interface Props {
+type Props = {
   shuttle: ShuttleType;
-  status: RouteStatusType;
-}
+} & (
+  | {
+      type: 'ROUTE';
+      status: RouteStatusType;
+    }
+  | {
+      type: 'SHUTTLE';
+      status: ShuttleStatusType;
+    }
+);
 
-export const ShuttleInfo = ({ shuttle, status }: Props) => {
+export const ShuttleInfo = ({ shuttle, status, type }: Props) => {
   const minDate = shuttle.dailyShuttles.reduce((min, curr) => {
     return min.date < curr.date ? min : curr;
   });
@@ -17,15 +30,18 @@ export const ShuttleInfo = ({ shuttle, status }: Props) => {
     return max.date > curr.date ? max : curr;
   });
   const parsedDateString =
-    parseDateString(minDate.date) + ' ~ ' + parseDateString(maxDate.date);
+    shuttle.dailyShuttles.length > 1
+      ? parseDateString(minDate.date) + ' ~ ' + parseDateString(maxDate.date)
+      : parseDateString(minDate.date);
 
   return (
     <article className="px-16 py-24">
-      <RouteStatusChip status={status} />
+      {type === 'ROUTE' && <RouteStatusChip status={status} />}
+      {type === 'SHUTTLE' && <ShuttleStatusChip status={status} />}
       <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-900">
         {shuttle.name}
       </h1>
-      <dl className="info-list">
+      <dl className="flex flex-col gap-8">
         <Badge
           label="아티스트"
           value={shuttle.participants.map((v) => v.name).join(', ')}

@@ -1,39 +1,30 @@
-import { getOpenDemandings } from '../utils/fetch.util';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
 import Footer from '@/components/footer/Footer';
 import { ShuttleInfo } from '@/components/shuttle-detail/components/ShuttleInfo';
 import BackButton from '@/components/shuttle-detail/components/BackButton';
 import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
 import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
-import ShuttleForm from '@/components/shuttle-detail/components/ShuttleForm';
+import { getShuttle } from '@/services/shuttleOperation';
+import DemandForm from './components/DemandForm';
 
 interface Props {
   params: { id: string };
 }
 
 const Demand = async ({ params }: Props) => {
-  const data = await getOpenDemandings();
-  const demandData = data.find((v) => v.shuttleId === Number(params.id));
-
-  if (!demandData) {
-    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>; // NOTE: need to add error page
-  }
+  const shuttle = await getShuttle(Number(params.id));
 
   return (
     <main className="relative overflow-y-hidden">
       <BackButton />
-      <ShuttleImage image={demandData.image} />
-      <ShuttleInfo shuttle={demandData} status={demandData.status} />
+      <ShuttleImage image={shuttle.image} />
+      <ShuttleInfo shuttle={shuttle} status={shuttle.status} type="SHUTTLE" />
       <KakaoMap
-        placeName={demandData.destination.name}
-        latitude={demandData.destination.latitude}
-        longitude={demandData.destination.longitude}
+        placeName={shuttle.destination.name}
+        latitude={shuttle.destination.latitude}
+        longitude={shuttle.destination.longitude}
       />
-      <ShuttleForm
-        shuttleId={demandData.shuttleId}
-        type="DEMAND"
-        data={demandData}
-      />
+      <DemandForm shuttle={shuttle} />
       <Footer />
       <Spacer />
     </main>

@@ -2,8 +2,8 @@ import Article from '@/components/article/Article';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
+import { getShuttles } from '@/services/shuttleOperation';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
-import { getOpenDemandings } from '@/app/demand/utils/fetch.util';
 
 // TODO check urn : /demand-survey
 const Page = () => (
@@ -23,7 +23,7 @@ const Page = () => (
 export default Page;
 
 const SubPage = async () => {
-  const data = await getOpenDemandings();
+  const data = await getShuttles('OPEN');
 
   if (data.length === 0) {
     return <Empty />;

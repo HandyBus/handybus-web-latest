@@ -4,12 +4,12 @@ import { ShuttleRouteType } from '@/types/shuttle.types';
 import { HubsType } from '@/types/hub.type';
 import { formatDate } from '../shuttleDetailPage.utils';
 import LoadingSpinner from './LoadingSpinner';
-import { useGetShuttleDemandStatus } from '@/services/shuttleOperation';
 import { useMemo } from 'react';
 import {
   displayRouteInfo,
   displayRouteInfoForReservation,
 } from './shuttleDemandStatus.util';
+import { useGetShuttleDemandStats } from '@/services/shuttleOperation';
 
 interface Props {
   type: 'DEMAND_SURVEY' | 'SELECT_SHUTTLE';
@@ -18,33 +18,33 @@ interface Props {
     dailyShuttleId: number;
     date: string;
   };
-  shuttle_location: string;
+  shuttleLocation: string;
   destination: string;
   regionId: number | undefined;
 }
-export const ShuttleDemandStatus = ({
+export const ShuttleDemandStats = ({
   type,
   shuttleId,
   dailyShuttle,
-  shuttle_location,
+  shuttleLocation,
   destination,
   regionId,
 }: Props) => {
-  const { data: demandStatsData, isLoading } = useGetShuttleDemandStatus(
+  const { data: demandStats, isLoading } = useGetShuttleDemandStats(
     shuttleId,
     dailyShuttle.dailyShuttleId,
     regionId,
   );
 
-  if (!demandStatsData) return;
+  if (!demandStats) return;
   if (isLoading) return <LoadingSpinner />;
   switch (type) {
     case 'DEMAND_SURVEY':
       return (
         <DemandSurvey
           shuttle_date={dailyShuttle.date}
-          shuttle_location={shuttle_location}
-          demand_data={demandStatsData.count}
+          shuttleLocation={shuttleLocation}
+          demand_data={demandStats.count}
           destination={destination}
         />
       );
@@ -53,7 +53,7 @@ export const ShuttleDemandStatus = ({
 
 interface DemandSurveyProps {
   shuttle_date: string;
-  shuttle_location: string;
+  shuttleLocation: string;
   demand_data: {
     fromDestinationCount: number;
     roundTripCount: number;
@@ -63,7 +63,7 @@ interface DemandSurveyProps {
 }
 const DemandSurvey = ({
   shuttle_date,
-  shuttle_location,
+  shuttleLocation,
   demand_data,
   destination,
 }: DemandSurveyProps) => {
@@ -76,9 +76,9 @@ const DemandSurvey = ({
         <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-grey-500">
           이번 콘서트를 위해{' '}
           <span className="text-grey-700">{formatDate(shuttle_date)}</span>
-          {shuttle_location ? '에 ' : ' '}
-          <span className="text-grey-700">{shuttle_location}</span>
-          {shuttle_location ? '를 지나는 ' : ''}
+          {shuttleLocation ? '에 ' : ' '}
+          <span className="text-grey-700">{shuttleLocation}</span>
+          {shuttleLocation ? '를 지나는 ' : ''}
           셔틀에 대한 수요 신청 현황을 보여드려요.
         </p>
       </header>
@@ -88,21 +88,21 @@ const DemandSurvey = ({
           tripType="왕복"
           highlighted={true}
           count={demand_data.roundTripCount}
-          shuttleLocation={shuttle_location}
+          shuttleLocation={shuttleLocation}
           destination={destination}
         />
         <ShuttleCard
           type="DEMAND_SURVEY"
           tripType="콘서트행"
           count={demand_data.fromDestinationCount}
-          shuttleLocation={shuttle_location}
+          shuttleLocation={shuttleLocation}
           destination={destination}
         />
         <ShuttleCard
           type="DEMAND_SURVEY"
           tripType="귀가행"
           count={demand_data.toDestinationCount}
-          shuttleLocation={shuttle_location}
+          shuttleLocation={shuttleLocation}
           destination={destination}
         />
       </section>

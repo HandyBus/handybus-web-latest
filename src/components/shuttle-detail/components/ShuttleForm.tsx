@@ -4,8 +4,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import ShuttleSelector from './ShuttleSelector';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ShuttleDemandStatus } from './ShuttleDemandStatus';
-import { ShuttlePriceStatus } from './ShuttleDemandStatus';
+import { ShuttleDemandStats } from './ShuttleDemandStats';
+import { ShuttlePriceStatus } from './ShuttleDemandStats';
 import { useMemo } from 'react';
 import { SECTION, ShuttleRouteType, ShuttleType } from '@/types/shuttle.types';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
@@ -19,12 +19,12 @@ import {
 
 interface Props {
   shuttleId: number;
-  data: ShuttleType;
-  reservData?: ShuttleRouteType[];
+  shuttle: ShuttleType;
+  routes?: ShuttleRouteType[];
   type: 'DEMAND' | 'RESERVATION';
 }
 
-const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
+const ShuttleForm = ({ shuttleId, type, shuttle, routes }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const methods = useForm<ShuttleFormValues>({
@@ -32,7 +32,7 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
       dailyShuttle: {
         dailyShuttleId: Number(searchParams.get('dailyShuttleId')),
         date:
-          data.dailyShuttles.find(
+          shuttle.dailyShuttles.find(
             (v) =>
               v.dailyShuttleId === Number(searchParams.get('dailyShuttleId')),
           )?.date ?? '',
@@ -41,7 +41,7 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
       smallLocation: '',
       shuttleRoute: {
         label:
-          reservData?.find(
+          routes?.find(
             (route) =>
               route.shuttleRouteId ===
               Number(searchParams.get('shuttleRouteId')),
@@ -56,12 +56,12 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
   const shuttleRoute = methods.watch('shuttleRoute');
 
   const { shuttleRouteSelected, shuttleRouteId } = useMemo(() => {
-    const shuttleRouteSelected = reservData?.find(
+    const shuttleRouteSelected = routes?.find(
       (route) => route.name === shuttleRoute?.label,
     );
     const shuttleRouteId = shuttleRouteSelected?.shuttleRouteId;
     return { shuttleRouteSelected, shuttleRouteId };
-  }, [shuttleRoute, reservData]);
+  }, [shuttleRoute, routes]);
 
   const onSubmit = () => {
     if (type === 'DEMAND') {
@@ -88,40 +88,38 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
         <ShuttleSelector
           control={methods.control}
           type={type}
-          data={data}
-          reservData={reservData}
+          data={shuttle}
+          reservData={routes}
         />
         <div id="divider" className="my-16 h-[8px] bg-grey-50" />
         {type === 'DEMAND' && (
-          <ShuttleDemandStatus
+          <ShuttleDemandStats
             type={'DEMAND_SURVEY'}
             shuttleId={shuttleId}
             regionId={getRegionId(bigLocation, smallLocation)}
             dailyShuttle={dailyShuttle}
-            shuttle_location={locationFormatter(
+            shuttleLocation={locationFormatter(
               getRegionId(bigLocation, smallLocation),
             )}
-            destination={data.destination.name}
+            destination={shuttle.destination.name}
           />
         )}
         {type === 'RESERVATION' && (
           <>
             <ShuttleRouteVisualizer
               toDestinationObject={
-                reservData?.find(
-                  (route) => route.shuttleRouteId === shuttleRouteId,
-                )?.hubs.toDestination
+                routes?.find((route) => route.shuttleRouteId === shuttleRouteId)
+                  ?.hubs.toDestination
               }
               fromDestinationObject={
-                reservData?.find(
-                  (route) => route.shuttleRouteId === shuttleRouteId,
-                )?.hubs.fromDestination
+                routes?.find((route) => route.shuttleRouteId === shuttleRouteId)
+                  ?.hubs.fromDestination
               }
               section={SECTION.SHUTTLE_DETAIL}
             />
             <ShuttlePriceStatus
-              destination={data.destination.name}
-              reservData={reservData ?? []}
+              destination={shuttle.destination.name}
+              reservData={routes ?? []}
               shuttleRouteId={shuttleRouteId}
             />
           </>
@@ -138,7 +136,7 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
             dailyShuttle,
             shuttleRoute,
           )}
-          shuttleName={data.name}
+          shuttleName={shuttle.name}
         />
       </form>
     </FormProvider>

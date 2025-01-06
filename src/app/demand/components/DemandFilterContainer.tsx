@@ -7,15 +7,13 @@ import useStickyMenu from '@/hooks/useStickyMenu';
 import { type DemandSortType, DEMAND_SORT } from '@/constants/demand';
 import { toDemandSortSearchParams } from '../utils/param.util';
 
-const OpenShuttleDetails = ({
-  length,
-  sort,
-  children,
-}: {
+interface Props {
   length: number;
   sort: DemandSortType;
   children: ReactNode;
-}) => {
+}
+
+const DemandFilterContainer = ({ length, sort, children }: Props) => {
   const route = useRouter();
   const { ref: navRef, safeArea } = useStickyMenu();
 
@@ -47,4 +45,4 @@ const OpenShuttleDetails = ({
   );
 };
 
-export default OpenShuttleDetails;
+export default DemandFilterContainer;

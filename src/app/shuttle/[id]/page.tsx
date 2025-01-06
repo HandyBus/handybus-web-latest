@@ -35,7 +35,7 @@ const Shuttle = async ({ params, searchParams }: Props) => {
     <main className="relative overflow-y-hidden">
       <BackButton />
       <ShuttleImage image={route.shuttle.image} />
-      <ShuttleInfo shuttle={route.shuttle} status={route.status} />
+      <ShuttleInfo shuttle={route.shuttle} status={route.status} type="ROUTE" />
       <KakaoMap
         placeName={route.shuttle.destination.name}
         latitude={route.shuttle.destination.latitude}
@@ -44,8 +44,8 @@ const Shuttle = async ({ params, searchParams }: Props) => {
       <ShuttleForm
         shuttleId={route.shuttle.shuttleId}
         type={'RESERVATION'}
-        data={route.shuttle}
-        reservData={routes}
+        shuttle={route.shuttle}
+        routes={routes}
       />
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
       <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />

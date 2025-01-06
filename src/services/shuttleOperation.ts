@@ -3,6 +3,7 @@ import { authInstance, instance } from './config';
 import {
   RouteStatusType,
   ShuttleRouteType,
+  ShuttleStatusType,
   ShuttleWithDemandCountType,
 } from '@/types/shuttle.types';
 import { ArtistType } from '@/types/client.types';
@@ -21,6 +22,13 @@ export const useGetArtists = () => {
     queryFn: getArtists,
     initialData: [],
   });
+};
+
+export const getShuttles = async (status?: ShuttleStatusType) => {
+  const res = await instance.get<{
+    shuttleDetails: ShuttleWithDemandCountType[];
+  }>(`/shuttle-operation/shuttles?status=${status}`);
+  return res.shuttleDetails;
 };
 
 export const getShuttle = async (id: number) => {
@@ -124,14 +132,14 @@ export const usePutShuttleBus = ({
   });
 };
 
-const getShuttleDemandStatus = async (
+const getShuttleDemandStats = async (
   shuttleId: number,
   dailyShuttleId: number,
-  regionId: number | undefined,
+  regionId?: number,
 ) => {
   const baseUrl = `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
   const queryParams = regionId ? `?regionId=${regionId}` : '';
-  const queryUrl = `${baseUrl}${queryParams}`;
+  const url = `${baseUrl}${queryParams}`;
 
   const res = await instance.get<{
     count: {
@@ -139,24 +147,17 @@ const getShuttleDemandStatus = async (
       roundTripCount: number;
       toDestinationCount: number;
     };
-  }>(queryUrl);
+  }>(url);
   return res;
 };
 
-export const useGetShuttleDemandStatus = (
+export const useGetShuttleDemandStats = (
   shuttleId: number,
   dailyShuttleId: number,
-  regionId: number | undefined,
-) => {
-  return useQuery<{
-    count: {
-      fromDestinationCount: number;
-      roundTripCount: number;
-      toDestinationCount: number;
-    };
-  }>({
-    queryKey: ['demandStatsData', shuttleId, dailyShuttleId, regionId],
-    queryFn: () => getShuttleDemandStatus(shuttleId, dailyShuttleId, regionId),
+  regionId?: number,
+) =>
+  useQuery({
+    queryKey: ['demandStats', shuttleId, dailyShuttleId, regionId],
+    queryFn: () => getShuttleDemandStats(shuttleId, dailyShuttleId, regionId),
     enabled: Boolean(shuttleId && dailyShuttleId),
   });
-};
