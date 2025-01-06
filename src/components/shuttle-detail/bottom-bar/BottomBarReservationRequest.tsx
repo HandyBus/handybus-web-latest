@@ -91,7 +91,7 @@ const BottomBarReservationRequest = ({
                 tripType,
                 passengerCount,
                 selectedCoupon,
-              })}
+              })?.toLocaleString()}
               원 결제하기
             </Button>
           </div>
