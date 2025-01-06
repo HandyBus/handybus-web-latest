@@ -26,7 +26,7 @@ const StepLayout = ({
           <>{children}</>
         ) : (
           <>
-            <BannerImage demandData={shuttleInfoData} />
+            <BannerImage shuttle={shuttleInfoData} />
             {children}
           </>
         )}

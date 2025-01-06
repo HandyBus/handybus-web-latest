@@ -8,10 +8,10 @@ import { ShuttleType } from '@/types/shuttle.types';
 
 export const useShuttleDemandForm = (
   searchParams: DemandWriteSearchParams,
-  demandData: ShuttleType,
+  shuttle: ShuttleType,
 ) => {
   const methods = useForm<DemandRequestFormValues>({
-    defaultValues: getDefaultValues(searchParams, demandData),
+    defaultValues: getDefaultValues(searchParams, shuttle),
     mode: 'onChange',
   });
 

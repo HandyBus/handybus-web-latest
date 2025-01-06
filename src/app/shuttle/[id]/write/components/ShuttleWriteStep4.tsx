@@ -22,7 +22,7 @@ const ShuttleWriteStep4 = ({ shuttleData }: Props) => {
   return (
     <>
       <ReservationCompleted />
-      <BannerImage demandData={shuttleData[0].shuttle} />
+      <BannerImage shuttle={shuttleData[0].shuttle} />
       <ReservationInfo shuttleData={shuttleData} />
       <PassengerInfo passengers={watchPassengers} />
       <section className="px-16 pb-24 pt-32">

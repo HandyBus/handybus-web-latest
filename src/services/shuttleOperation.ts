@@ -38,6 +38,13 @@ export const getShuttle = async (id: number) => {
   return res.shuttleDetail;
 };
 
+export const useGetShuttle = (id: number) => {
+  return useQuery({
+    queryKey: ['shuttle', id],
+    queryFn: () => getShuttle(id),
+  });
+};
+
 export const getRoutes = async (
   shuttleId: number,
   dailyShuttleId: number,

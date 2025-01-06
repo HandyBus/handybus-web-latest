@@ -6,15 +6,15 @@ import {
 
 export const getDefaultValues = (
   searchParams: DemandWriteSearchParams,
-  demandData: ShuttleType,
+  shuttle: ShuttleType,
 ): DemandRequestFormValues => ({
   dailyShuttle: {
     dailyShuttleId: Number(searchParams.dailyShuttleId),
     date:
-      demandData.dailyShuttles.find(
+      shuttle.dailyShuttles.find(
         (shuttle) =>
           shuttle.dailyShuttleId === Number(searchParams.dailyShuttleId),
-      )?.date || demandData.dailyShuttles[0].date,
+      )?.date || shuttle.dailyShuttles[0].date,
   },
   bigLocation: searchParams.bigLocation || '',
   smallLocation: searchParams.smallLocation || '',
