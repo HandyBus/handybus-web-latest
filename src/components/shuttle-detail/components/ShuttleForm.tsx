@@ -6,13 +6,8 @@ import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ShuttleDemandStatus } from './ShuttleDemandStatus';
 import { ShuttlePriceStatus } from './ShuttleDemandStatus';
-import { EventDetailProps } from '@/types/event.types';
 import { useMemo } from 'react';
-import {
-  SECTION,
-  ShuttleRoute,
-  ShuttleRouteEvent,
-} from '@/types/shuttle.types';
+import { SECTION, ShuttleRouteType, ShuttleType } from '@/types/shuttle.types';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import { ShuttleFormValues } from './shuttleForm.type';
 import {
@@ -24,8 +19,8 @@ import {
 
 interface Props {
   shuttleId: number;
-  data: EventDetailProps | ShuttleRouteEvent;
-  reservData?: ShuttleRoute[];
+  data: ShuttleType;
+  reservData?: ShuttleRouteType[];
   type: 'DEMAND' | 'RESERVATION';
 }
 

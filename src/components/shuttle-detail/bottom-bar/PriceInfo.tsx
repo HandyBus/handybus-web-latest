@@ -1,8 +1,8 @@
 import { totalPrice } from '@/app/shuttle/[id]/write/sections/priceDetail.util';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 
 interface Props {
-  currentShuttleData: ShuttleRoute;
+  currentShuttleData: ShuttleRouteType;
   tripType: { value: string; label: string };
   passengerCount: number;
 }

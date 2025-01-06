@@ -1,9 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { EventDetailProps } from '@/types/event.types';
 import dateString from '@/utils/dateString';
+import { ShuttleType } from '@/types/shuttle.types';
 
-const DemandView = ({ event }: { event: EventDetailProps }) => {
+interface Props {
+  event: ShuttleType;
+}
+
+const DemandView = ({ event }: Props) => {
   return (
     <Link href={`/demand/${event.shuttleId}`} className="px-16 py-12">
       <article className="flex flex-row gap-16">

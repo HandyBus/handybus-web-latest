@@ -2,9 +2,7 @@
 
 import { Controller, FormProvider } from 'react-hook-form';
 import { useCallback } from 'react';
-import { EventDetailProps } from '@/types/event.types';
 import { authInstance } from '@/services/config';
-import { RegionHubProps } from '@/types/shuttle.types';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/shuttle-detail/components/LoadingSpinner';
 import { toast } from 'react-toastify';
@@ -12,16 +10,17 @@ import { useRouter } from 'next/navigation';
 import { SubmitData, DemandWriteSearchParams } from './writeForm.type';
 import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
-
 import { createStopData } from './writeForm.util';
 import { useShuttleDemandForm } from '../hooks/useShuttleDemandForm';
 import { useShuttleFormValidation } from '../hooks/useValidation';
 import RouteInfo from '../components/RouteInfo';
 import JourneyLocationPicker from '../components/JourneyLocationPicker';
 import { CustomError } from '@/services/custom-error';
+import { RegionHubType } from '@/types/hub.type';
+import { ShuttleType } from '@/types/shuttle.types';
 
 interface WriteFormProps {
-  demandData: EventDetailProps;
+  demandData: ShuttleType;
   searchParams: DemandWriteSearchParams;
 }
 
@@ -36,7 +35,7 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
 
   const getRegionHubs = async () => {
     try {
-      const res = await authInstance.get<RegionHubProps>(
+      const res = await authInstance.get<{ regionHubs: RegionHubType[] }>(
         `/location/regions/${regionId}/hubs`,
       );
       return res;
@@ -54,7 +53,7 @@ const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
     data: regionHubsData,
     error,
     isLoading,
-  } = useQuery<RegionHubProps>({
+  } = useQuery<{ regionHubs: RegionHubType[] }>({
     queryKey: ['regionHubs', regionId],
     queryFn: () => getRegionHubs(),
   });

@@ -1,10 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
 import ShuttleRouteVisualizer from './ShuttleRouteVisualizer';
-import { SECTION, ShuttleRouteHubObject } from '@/types/shuttle.types';
+import { SECTION } from '@/types/shuttle.types';
+import { HubType } from '@/types/hub.type';
 import { useForm } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
 
-const RouteMockData: ShuttleRouteHubObject[] = [
+const RouteMockData: HubType[] = [
   {
     arrivalTime: '2024-03-20 14:30:00',
     name: '청주터미널',

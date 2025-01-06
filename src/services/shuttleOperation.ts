@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authInstance, instance } from './config';
-import { ShuttleDemandStatus } from '@/types/shuttle.types';
-import { ArtistType, RouteStatusType, RouteType } from '@/types/client.types';
-import { EventDetailProps } from '@/types/event.types';
+import {
+  RouteStatusType,
+  ShuttleRouteType,
+  ShuttleWithDemandCountType,
+} from '@/types/shuttle.types';
+import { ArtistType } from '@/types/client.types';
 import { CustomError } from './custom-error';
 
 const getArtists = async () => {
@@ -20,29 +23,11 @@ export const useGetArtists = () => {
   });
 };
 
-const getShuttleDemandStatus = async (
-  shuttleId: number,
-  dailyShuttleId: number,
-  regionId: number | undefined,
-) => {
-  const baseUrl = `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
-  const queryParams = regionId ? `?regionId=${regionId}` : '';
-  const queryUrl = `${baseUrl}${queryParams}`;
-
-  const res = await instance.get<ShuttleDemandStatus>(queryUrl);
-  return res;
-};
-
-export const useGetShuttleDemandStatus = (
-  shuttleId: number,
-  dailyShuttleId: number,
-  regionId: number | undefined,
-) => {
-  return useQuery<ShuttleDemandStatus>({
-    queryKey: ['demandStatsData', shuttleId, dailyShuttleId, regionId],
-    queryFn: () => getShuttleDemandStatus(shuttleId, dailyShuttleId, regionId),
-    enabled: Boolean(shuttleId && dailyShuttleId),
-  });
+export const getShuttle = async (id: number) => {
+  const res = await instance.get<{ shuttleDetail: ShuttleWithDemandCountType }>(
+    `/shuttle-operation/shuttles/${id}`,
+  );
+  return res.shuttleDetail;
 };
 
 export const getRoutes = async (
@@ -56,19 +41,27 @@ export const getRoutes = async (
     bigRegion?: string;
     smallRegion?: string;
     status?: RouteStatusType;
-  },
+  } = {},
 ) => {
-  const res = await instance.get<{ shuttleRouteDetails: RouteType[] }>(
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
     `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
   );
   return res.shuttleRouteDetails;
 };
 
-export const getShuttle = async (id: number) => {
-  const res = await instance.get<{ shuttleDetail: EventDetailProps }>(
-    `/shuttle-operation/shuttles/${id}`,
+export const getRoute = async ({
+  shuttleId,
+  dailyShuttleId,
+  shuttleRouteId,
+}: {
+  shuttleId: number;
+  dailyShuttleId: number;
+  shuttleRouteId: number;
+}) => {
+  const res = await instance.get<{ shuttleRouteDetail: ShuttleRouteType }>(
+    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes/${shuttleRouteId}`,
   );
-  return res.shuttleDetail;
+  return res.shuttleRouteDetail;
 };
 
 const putShuttleBus = async ({
@@ -128,5 +121,42 @@ export const usePutShuttleBus = ({
       onSuccess?.();
     },
     onError,
+  });
+};
+
+const getShuttleDemandStatus = async (
+  shuttleId: number,
+  dailyShuttleId: number,
+  regionId: number | undefined,
+) => {
+  const baseUrl = `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
+  const queryParams = regionId ? `?regionId=${regionId}` : '';
+  const queryUrl = `${baseUrl}${queryParams}`;
+
+  const res = await instance.get<{
+    count: {
+      fromDestinationCount: number;
+      roundTripCount: number;
+      toDestinationCount: number;
+    };
+  }>(queryUrl);
+  return res;
+};
+
+export const useGetShuttleDemandStatus = (
+  shuttleId: number,
+  dailyShuttleId: number,
+  regionId: number | undefined,
+) => {
+  return useQuery<{
+    count: {
+      fromDestinationCount: number;
+      roundTripCount: number;
+      toDestinationCount: number;
+    };
+  }>({
+    queryKey: ['demandStatsData', shuttleId, dailyShuttleId, regionId],
+    queryFn: () => getShuttleDemandStatus(shuttleId, dailyShuttleId, regionId),
+    enabled: Boolean(shuttleId && dailyShuttleId),
   });
 };

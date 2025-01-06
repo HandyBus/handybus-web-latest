@@ -4,11 +4,10 @@ import { Control, Controller, useFormContext, useWatch } from 'react-hook-form';
 import { memo, useEffect, useMemo } from 'react';
 import { BIG_REGIONS, SMALL_REGIONS } from '@/constants/regions';
 import Select from '@/components/select/Select';
-import { EventDetailProps } from '@/types/event.types';
 import {
-  DailyShuttleDetailProps,
-  ShuttleRoute,
-  ShuttleRouteEvent,
+  DailyShuttleType,
+  ShuttleRouteType,
+  ShuttleType,
 } from '@/types/shuttle.types';
 import { formatDate } from '../shuttleDetailPage.utils';
 import SelectLabeled from '@/components/select-labeled/SelectLabeled';
@@ -18,8 +17,8 @@ import { useRouter } from 'next/navigation';
 interface Props {
   control: Control<ShuttleFormValues>;
   type: 'RESERVATION' | 'DEMAND';
-  data: EventDetailProps | ShuttleRouteEvent;
-  reservData?: ShuttleRoute[];
+  data: ShuttleType;
+  reservData?: ShuttleRouteType[];
 }
 const ShuttleSelector = ({ control, type, data, reservData }: Props) => {
   const router = useRouter();
@@ -162,7 +161,7 @@ const ReservationRouteSelector = memo(
 
 ReservationRouteSelector.displayName = 'ReservationRouteSelector';
 
-const sortDailyShuttles = (shuttles: DailyShuttleDetailProps[]) =>
+const sortDailyShuttles = (shuttles: DailyShuttleType[]) =>
   shuttles.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );

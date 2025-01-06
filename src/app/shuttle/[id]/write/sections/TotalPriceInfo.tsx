@@ -17,10 +17,10 @@ import { useQuery } from '@tanstack/react-query';
 import { authInstance } from '@/services/config';
 import { IssuedCouponType } from '@/types/client.types';
 import Loading from '@/components/loading/Loading';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 
 interface props {
-  shuttleData: ShuttleRoute[];
+  shuttleData: ShuttleRouteType[];
 }
 
 const TotalPriceInfo = ({ shuttleData }: props) => {

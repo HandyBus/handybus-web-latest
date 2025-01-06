@@ -1,8 +1,8 @@
-import { ROUTE_TYPE, ShuttleRouteHubObject } from '@/types/shuttle.types';
+import { ROUTE_TYPE } from '@/types/shuttle.types';
 import { RouteType } from '@/types/shuttle.types';
-
+import { HubType } from '@/types/hub.type';
 interface Props {
-  object: ShuttleRouteHubObject[];
+  object: HubType[];
   type: RouteType;
 }
 

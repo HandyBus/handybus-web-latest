@@ -1,6 +1,7 @@
 import { Controller } from 'react-hook-form';
 import { SECTION } from '@/types/shuttle.types';
-import { RouteType, ShuttleRouteHubObject } from '@/types/shuttle.types';
+import { RouteType } from '@/types/shuttle.types';
+import { HubType } from '@/types/hub.type';
 import { Control, UseFormSetValue } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form';
 import { SectionType } from '@/types/shuttle.types';
@@ -10,7 +11,7 @@ import dayjs from 'dayjs';
 interface Props {
   isDestination: boolean;
   type: RouteType;
-  object: ShuttleRouteHubObject;
+  object: HubType;
   isBlurred: boolean;
   section: SectionType;
   control?: Control<FieldValues> | null;

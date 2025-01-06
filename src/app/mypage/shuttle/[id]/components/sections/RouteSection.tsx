@@ -2,9 +2,9 @@
 
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import Divider from '../Divider';
-import { SECTION } from '@/types/shuttle.types';
+import { SECTION, TripType } from '@/types/shuttle.types';
+import { HubWithSelectedType } from '@/types/hub.type';
 import { FormProvider, useForm } from 'react-hook-form';
-import { HubType, TripType } from '@/types/client.types';
 import { useState } from 'react';
 import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
@@ -19,8 +19,8 @@ interface Props {
   reservationId: number;
   tripType: TripType;
   hubs: {
-    toDestination: HubType[];
-    fromDestination: HubType[];
+    toDestination: HubWithSelectedType[];
+    fromDestination: HubWithSelectedType[];
   };
 }
 

@@ -1,81 +1,37 @@
 'use client';
 
-import ShuttleStatusChip from '@/components/chips/shuttle-status-chip/ShuttleStatusChip';
-import { ShuttleRoute } from '@/types/shuttle.types';
-import { useSearchParams } from 'next/navigation';
-import { shuttleStateConverter } from '../shuttleDetailPage.utils';
+import RouteStatusChip from '@/components/chips/shuttle-status-chip/RouteStatusChip';
+import { RouteStatusType, ShuttleType } from '@/types/shuttle.types';
+import { parseDateString } from '@/utils/dateString';
 
-interface ShuttleInfoReservationProps {
-  title: string;
-  artist: string;
-  date: string;
-  location: string;
-  shuttleData: ShuttleRoute[];
+interface Props {
+  shuttle: ShuttleType;
+  status: RouteStatusType;
 }
-export const ShuttleInfoReservation = ({
-  title,
-  artist,
-  date,
-  location,
-  shuttleData,
-}: ShuttleInfoReservationProps) => {
-  const queryParams = useSearchParams();
-  const shuttleRouteId = queryParams.get('shuttleRouteId');
-  const shuttleRouteStatus = shuttleData.find(
-    (v) => v.shuttleRouteId === Number(shuttleRouteId),
-  )?.status;
 
-  console.log('shuttleRouteStatus', shuttleRouteStatus);
+export const ShuttleInfo = ({ shuttle, status }: Props) => {
+  const minDate = shuttle.dailyShuttles.reduce((min, curr) => {
+    return min.date < curr.date ? min : curr;
+  });
+  const maxDate = shuttle.dailyShuttles.reduce((max, curr) => {
+    return max.date > curr.date ? max : curr;
+  });
+  const parsedDateString =
+    parseDateString(minDate.date) + ' ~ ' + parseDateString(maxDate.date);
 
   return (
     <article className="px-16 py-24">
-      {shuttleRouteStatus && (
-        <ShuttleStatusChip
-          status={shuttleStateConverter(shuttleRouteStatus, 'RESERVATION')}
+      <RouteStatusChip status={status} />
+      <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-900">
+        {shuttle.name}
+      </h1>
+      <dl className="info-list">
+        <Badge
+          label="아티스트"
+          value={shuttle.participants.map((v) => v.name).join(', ')}
         />
-      )}
-      <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-900">
-        {title}
-      </h1>
-      <dl className="info-list">
-        <Badge label="아티스트" value={artist} />
-        <Badge label="일자" value={date} />
-        <Badge label="장소" value={location} />
-      </dl>
-    </article>
-  );
-};
-
-interface ShuttleInfoProps {
-  shuttleStatus:
-    | 'DEMAND_SURVEY'
-    | 'SURVEY_CLOSED'
-    | 'PENDING'
-    | 'RESERVATION_CLOSED'
-    | 'ENDED'
-    | undefined;
-  title: string;
-  artist: string;
-  date: string;
-  location: string;
-}
-export const ShuttleInfo = ({
-  shuttleStatus,
-  title,
-  artist,
-  date,
-  location,
-}: ShuttleInfoProps) => {
-  return (
-    <article className="px-16 py-24">
-      <ShuttleStatusChip status={shuttleStatus} />
-      <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-900">
-        {title}
-      </h1>
-      <dl className="info-list">
-        <Badge label="아티스트" value={artist} />
-        <Badge label="일자" value={date} />
-        <Badge label="장소" value={location} />
+        <Badge label="일자" value={parsedDateString} />
+        <Badge label="장소" value={shuttle.destination.name} />
       </dl>
     </article>
   );

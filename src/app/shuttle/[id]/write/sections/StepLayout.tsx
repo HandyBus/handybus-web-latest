@@ -1,12 +1,12 @@
 import BannerImage from '@/app/demand/[id]/write/components/BannerImage';
 import ProgressBar from '@/components/progress-bar/ProgressBar';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
-import { ShuttleRouteEvent } from '@/types/shuttle.types';
+import { ShuttleType } from '@/types/shuttle.types';
 
 interface StepLayoutProps {
   step: number;
   children: React.ReactNode;
-  shuttleInfoData: ShuttleRouteEvent;
+  shuttleInfoData: ShuttleType;
   // handleNextStep: () => void;
   // handlePrevStep: () => void;
 }

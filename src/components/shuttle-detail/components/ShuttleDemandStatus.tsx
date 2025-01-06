@@ -1,10 +1,7 @@
 'use client';
 
-import {
-  Hub,
-  ShuttleDemandStatusCount,
-  ShuttleRoute,
-} from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
+import { HubsType } from '@/types/hub.type';
 import { formatDate } from '../shuttleDetailPage.utils';
 import LoadingSpinner from './LoadingSpinner';
 import { useGetShuttleDemandStatus } from '@/services/shuttleOperation';
@@ -57,7 +54,11 @@ export const ShuttleDemandStatus = ({
 interface DemandSurveyProps {
   shuttle_date: string;
   shuttle_location: string;
-  demand_data: ShuttleDemandStatusCount;
+  demand_data: {
+    fromDestinationCount: number;
+    roundTripCount: number;
+    toDestinationCount: number;
+  };
   destination: string;
 }
 const DemandSurvey = ({
@@ -111,7 +112,7 @@ const DemandSurvey = ({
 
 interface ShuttlePriceStatusProps {
   destination: string;
-  reservData: ShuttleRoute[] | [];
+  reservData: ShuttleRouteType[] | [];
   shuttleRouteId: number | undefined;
 }
 export const ShuttlePriceStatus = ({
@@ -194,7 +195,7 @@ const ShuttleCard = ({
   type?: 'PREDICT_PRICE' | 'DEMAND_SURVEY';
   tripType?: '왕복' | '콘서트행' | '귀가행';
   highlighted?: boolean;
-  hubs?: Hub;
+  hubs?: HubsType;
   count?: number;
   shuttleLocation?: string;
   price?: number;

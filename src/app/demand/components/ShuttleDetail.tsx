@@ -1,10 +1,13 @@
 import Link from 'next/link';
-import { EventDetailProps } from '@/types/event.types';
 import Image from 'next/image';
-
 import dateString from '@/utils/dateString';
+import { ShuttleType } from '@/types/shuttle.types';
 
-const ShuttleDetail = ({ shuttle }: { shuttle: EventDetailProps }) => {
+interface Props {
+  shuttle: ShuttleType;
+}
+
+const ShuttleDetail = ({ shuttle }: Props) => {
   const dates = shuttle.dailyShuttles.map((v) => new Date(v.date));
 
   return (

@@ -2,14 +2,16 @@ import { getOpenDemandings } from '../utils/fetch.util';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
 import Footer from '@/components/footer/Footer';
 import { ShuttleInfo } from '@/components/shuttle-detail/components/ShuttleInfo';
-import { dateFormatter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
-import { shuttleStateConverter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import BackButton from '@/components/shuttle-detail/components/BackButton';
 import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
 import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
 import ShuttleForm from '@/components/shuttle-detail/components/ShuttleForm';
 
-const Demand = async ({ params }: { params: { id: string } }) => {
+interface Props {
+  params: { id: string };
+}
+
+const Demand = async ({ params }: Props) => {
   const data = await getOpenDemandings();
   const demandData = data.find((v) => v.shuttleId === Number(params.id));
 
@@ -21,13 +23,7 @@ const Demand = async ({ params }: { params: { id: string } }) => {
     <main className="relative overflow-y-hidden">
       <BackButton />
       <ShuttleImage image={demandData.image} />
-      <ShuttleInfo
-        shuttleStatus={shuttleStateConverter(demandData.status, 'DEMAND')}
-        title={demandData.name}
-        artist={demandData.participants.map((v) => v.name).join(', ')}
-        date={dateFormatter(demandData.dailyShuttles)}
-        location={demandData.destination.name}
-      />
+      <ShuttleInfo shuttle={demandData} status={demandData.status} />
       <KakaoMap
         placeName={demandData.destination.name}
         latitude={demandData.destination.latitude}

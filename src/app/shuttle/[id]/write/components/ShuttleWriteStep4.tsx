@@ -8,10 +8,10 @@ import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.
 import PassengerInfo from '../sections/PassengerInfo';
 import { ReservationFormData } from '../page';
 import { useFormContext } from 'react-hook-form';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 
 interface Props {
-  shuttleData: ShuttleRoute[];
+  shuttleData: ShuttleRouteType[];
 }
 
 const ShuttleWriteStep4 = ({ shuttleData }: Props) => {

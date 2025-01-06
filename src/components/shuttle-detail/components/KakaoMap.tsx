@@ -15,12 +15,12 @@ declare global {
   }
 }
 
-interface KakaoMapProps {
+interface Props {
   placeName: string;
   latitude: number;
   longitude: number;
 }
-const KakaoMap = ({ placeName, latitude, longitude }: KakaoMapProps) => {
+const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [address, setAddress] = useState('');
 
@@ -77,7 +77,7 @@ const KakaoMap = ({ placeName, latitude, longitude }: KakaoMapProps) => {
 
 export default KakaoMap;
 
-interface KakaoMapContentProps extends KakaoMapProps {
+interface KakaoMapContentProps extends Props {
   initializeMap: () => void;
   mapRef: RefObject<HTMLDivElement>;
   address: string;

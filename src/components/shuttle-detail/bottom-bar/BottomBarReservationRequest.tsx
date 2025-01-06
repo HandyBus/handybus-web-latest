@@ -3,7 +3,7 @@ import Button from '@/components/buttons/button/Button';
 import PriceInfo from './PriceInfo';
 import { BottomBarType } from './BottomBar.type';
 import { HTMLAttributes } from 'react';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
 import { finalPrice } from '@/app/shuttle/[id]/write/sections/priceDetail.util';
 
@@ -12,7 +12,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   handleNextStep?: () => void;
   handlePrevStep?: () => void;
   disabled?: boolean;
-  currentShuttleData?: ShuttleRoute;
+  currentShuttleData?: ShuttleRouteType;
 }
 const BottomBarReservationRequest = ({
   type,

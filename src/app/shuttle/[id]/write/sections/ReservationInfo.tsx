@@ -1,9 +1,9 @@
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface Props {
-  shuttleData: ShuttleRoute[];
+  shuttleData: ShuttleRouteType[];
 }
 
 const ReservationInfo = ({ shuttleData }: Props) => {

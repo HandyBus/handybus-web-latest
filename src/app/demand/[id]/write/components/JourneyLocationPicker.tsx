@@ -2,7 +2,7 @@
 
 import TextInput from '@/components/inputs/text-input/TextInput';
 import Select from '@/components/select/Select';
-import { RegionHubProps } from '@/types/shuttle.types';
+import { RegionHubType } from '@/types/hub.type';
 import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -12,7 +12,7 @@ const JourneyLocationPicker = ({
   regionHubsData,
 }: {
   routeType: string;
-  regionHubsData: RegionHubProps | undefined;
+  regionHubsData: { regionHubs: RegionHubType[] } | undefined;
 }) => {
   const { control, setValue } = useFormContext();
   const [isDestinationCustom, setIsDestinationCustom] = useState(false);

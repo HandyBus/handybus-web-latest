@@ -8,7 +8,7 @@ import { BottomBarType, BOTTOM_BAR_TYPE } from './BottomBar.type';
 import BottomBarContent from './BottomBarContent';
 import BottomBarPortal from './BottomBarPortal';
 import { HTMLAttributes, useEffect, useState } from 'react';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
@@ -19,7 +19,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   type?: BottomBarType;
   message?: string;
   shuttleName?: string;
-  currentShuttleData?: ShuttleRoute;
+  currentShuttleData?: ShuttleRouteType;
 }
 const BottomBar = ({
   variant = 'primary',

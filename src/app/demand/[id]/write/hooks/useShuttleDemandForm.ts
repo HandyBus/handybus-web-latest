@@ -3,12 +3,12 @@ import {
   DemandRequestFormValues,
   DemandWriteSearchParams,
 } from '../components/writeForm.type';
-import { EventDetailProps } from '@/types/event.types';
 import { getDefaultValues } from '../components/writeForm.util';
+import { ShuttleType } from '@/types/shuttle.types';
 
 export const useShuttleDemandForm = (
   searchParams: DemandWriteSearchParams,
-  demandData: EventDetailProps,
+  demandData: ShuttleType,
 ) => {
   const methods = useForm<DemandRequestFormValues>({
     defaultValues: getDefaultValues(searchParams, demandData),

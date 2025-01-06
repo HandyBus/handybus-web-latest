@@ -1,7 +1,6 @@
 import type { DemandSortType } from '@/constants/demand';
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
-import { EventDetailProps } from '@/types/event.types';
 import OpenShuttleDetails from './components/OpenShuttleDetails';
 import { fromString, toDemandSort } from './utils/param.util';
 import { getOpenDemandings } from './utils/fetch.util';
@@ -9,6 +8,7 @@ import ShuttleDetail from './components/ShuttleDetail';
 import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
 import { Metadata } from 'next';
+import { ShuttleWithDemandCountType } from '@/types/shuttle.types';
 
 export const metadata: Metadata = {
   title: '수요 확인 중인 셔틀',
@@ -59,8 +59,11 @@ const Page = async ({ searchParams }: Props) => {
 
 export default Page;
 
-const toSorted = async (data: EventDetailProps[], sort: DemandSortType) => {
-  let newData: EventDetailProps[];
+const toSorted = async (
+  data: ShuttleWithDemandCountType[],
+  sort: DemandSortType,
+) => {
+  let newData: ShuttleWithDemandCountType[];
   switch (sort) {
     case '수요 신청한 인원이 많은 순':
       newData = data.toSorted(

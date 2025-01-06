@@ -4,12 +4,11 @@ import { Control, Controller, useFormContext } from 'react-hook-form';
 import Select from '@/components/select/Select';
 import { BIG_REGIONS, REGION_TO_ID, SMALL_REGIONS } from '@/constants/regions';
 import { useCallback, useEffect, useRef } from 'react';
-import { EventDetailProps } from '@/types/event.types';
-import { DailyShuttleDetailProps } from '@/types/shuttle.types';
+import { DailyShuttleType, ShuttleType } from '@/types/shuttle.types';
 import { formatDate } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 
 interface RouteInfoProps {
-  demandData: EventDetailProps;
+  demandData: ShuttleType;
 }
 
 const RouteInfo = ({ demandData }: RouteInfoProps) => {
@@ -63,7 +62,7 @@ const RouteInfo = ({ demandData }: RouteInfoProps) => {
 export default RouteInfo;
 interface DailyShuttleSelectProps {
   control: Control;
-  demandData: EventDetailProps;
+  demandData: ShuttleType;
   bigLocation?: string;
 }
 
@@ -81,7 +80,7 @@ const DailyShuttleSelect = ({
           .sort(
             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
           )
-          .map((v: DailyShuttleDetailProps) => formatDate(v.date))}
+          .map((v: DailyShuttleType) => formatDate(v.date))}
         value={formatDate(field.value.date) || undefined}
         setValue={(selectedDate) => {
           const selectedShuttle = demandData?.dailyShuttles.find(

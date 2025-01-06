@@ -1,14 +1,9 @@
 import Image from 'next/image';
 import GroupIcon from 'public/icons/group.svg';
 import BxIcon from 'public/icons/bx-map.svg';
-import { EventDetailProps } from '@/types/event.types';
-import { ShuttleRouteEvent } from '@/types/shuttle.types';
+import { ShuttleType } from '@/types/shuttle.types';
 
-const BannerImage = ({
-  demandData,
-}: {
-  demandData?: EventDetailProps | ShuttleRouteEvent;
-}) => {
+const BannerImage = ({ demandData }: { demandData?: ShuttleType }) => {
   return (
     <figure className="relative m-16 h-[150px] overflow-hidden rounded-[10px] p-20">
       <Image
