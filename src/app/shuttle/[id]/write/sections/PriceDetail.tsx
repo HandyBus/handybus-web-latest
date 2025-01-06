@@ -1,12 +1,7 @@
 import { IssuedCouponType } from '@/types/client.types';
 import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
-import {
-  discountAmount,
-  finalPrice,
-  totalPrice,
-  totalRegularPrice,
-} from './priceDetail.util';
+import { discountAmount, finalPrice, totalPrice } from './priceDetail.util';
 
 interface props {
   SelectedCoupon: IssuedCouponType;
@@ -38,16 +33,16 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
               passengerCount,
               currentShuttleData,
               tripType,
-            })}
+            })?.toLocaleString()}
             원
           </dd>
           <dd className="text-12 font-400 leading-[19.2px] text-grey-900">
             (
-            {totalRegularPrice({
+            {totalPrice({
               passengerCount: 1,
               currentShuttleData,
               tripType,
-            })}
+            })?.toLocaleString()}
             원 * {passengerCount}인)
           </dd>
         </div>
@@ -69,7 +64,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
                 currentShuttleData,
                 passengerCount,
                 tripType,
-              })}
+              })?.toLocaleString()}
               원
             </dd>
             {isDiscounted && (
@@ -90,7 +85,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
             currentShuttleData,
             passengerCount,
             tripType,
-          })}
+          })?.toLocaleString()}
           원
         </dd>
       </div>

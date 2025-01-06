@@ -1,3 +1,5 @@
+'use client';
+
 import { Control, Controller } from 'react-hook-form';
 import { DailyShuttle, ReservationFormData } from '../page';
 import { ShuttleRouteType } from '@/types/shuttle.types';

@@ -16,7 +16,6 @@ interface Props {
 
 const ShuttleWriteStep4 = ({ shuttleData }: Props) => {
   const { watch } = useFormContext<ReservationFormData>();
-  const watchPassengers = watch('passengers');
   const watchCoupon = watch('selectedCoupon');
 
   return (
@@ -24,7 +23,7 @@ const ShuttleWriteStep4 = ({ shuttleData }: Props) => {
       <ReservationCompleted />
       <BannerImage shuttle={shuttleData[0].shuttle} />
       <ReservationInfo shuttleData={shuttleData} />
-      <PassengerInfo passengers={watchPassengers} />
+      <PassengerInfo />
       <section className="px-16 pb-24 pt-32">
         <PriceDetail SelectedCoupon={watchCoupon} shuttleData={shuttleData} />
       </section>
