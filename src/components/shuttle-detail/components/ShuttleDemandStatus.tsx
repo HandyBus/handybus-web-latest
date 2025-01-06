@@ -231,7 +231,7 @@ const ShuttleCard = ({
             <span className="text-16 font-700 leading-[25.6px] text-red-600">
               {earlybirdPrice &&
                 price &&
-                Math.floor((earlybirdPrice / price) * 100)}
+                Math.floor(100 - (earlybirdPrice / price) * 100)}
               %
             </span>
             <span className="text-12 font-400 leading-[19.2px] text-grey-500 line-through">
