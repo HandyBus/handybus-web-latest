@@ -51,7 +51,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const updateToken = async () => {
   const refreshToken = await getRefreshToken();
-  const res = await fetch(new URL('/auth/refresh', BASE_URL), {
+  const res = await fetch(new URL('/v1/auth/refresh', BASE_URL), {
     method: 'POST',
     cache: 'no-store',
     headers: {

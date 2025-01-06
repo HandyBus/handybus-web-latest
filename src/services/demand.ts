@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 const getUserDemands = async () => {
   const res = await authInstance.get<{ shuttleDemands: ShuttleDemandType[] }>(
-    '/user-management/users/me/demands',
+    '/v1/user-management/users/me/demands',
   );
   return res.shuttleDemands;
 };
@@ -37,7 +37,7 @@ const deleteDemand = async ({
   shuttleDemandId: number;
 }) => {
   await authInstance.delete(
-    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/${Id}`,
+    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/${Id}`,
   );
 };
 
@@ -105,7 +105,7 @@ const postDemand = async (
   body: PostDemandBody,
 ) => {
   await authInstance.post(
-    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands`,
+    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands`,
     body,
   );
 };
