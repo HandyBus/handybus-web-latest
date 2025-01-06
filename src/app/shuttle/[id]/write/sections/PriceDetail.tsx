@@ -1,12 +1,7 @@
 import { IssuedCouponType } from '@/types/client.types';
 import { ShuttleRoute } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
-import {
-  discountAmount,
-  finalPrice,
-  totalPrice,
-  totalRegularPrice,
-} from './priceDetail.util';
+import { discountAmount, finalPrice, totalPrice } from './priceDetail.util';
 
 interface props {
   SelectedCoupon: IssuedCouponType;
@@ -43,7 +38,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
           </dd>
           <dd className="text-12 font-400 leading-[19.2px] text-grey-900">
             (
-            {totalRegularPrice({
+            {totalPrice({
               passengerCount: 1,
               currentShuttleData,
               tripType,
