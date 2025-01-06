@@ -12,6 +12,8 @@ import ShuttleWriteStep1 from './components/ShuttleWriteStep1';
 import ShuttleWriteStep3 from './components/ShuttleWriteStep3';
 import ShuttleWriteStep4 from './components/ShuttleWriteStep4';
 import StepLayout from './sections/StepLayout';
+import { useSearchParams } from 'next/navigation';
+import { formatDate } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 
 export interface PassengerInfoType {
   name: string;
@@ -45,6 +47,10 @@ interface Props {
 }
 
 const ShuttleWrite = ({ params }: Props) => {
+  const [isInitialMount, setIsInitialMount] = useState(true);
+  const searchParams = useSearchParams();
+  const dailyShuttleId = searchParams.get('dailyShuttleId');
+  const shuttleRouteId = searchParams.get('shuttleRouteId');
   const { Funnel, Step, handleNextStep, handlePrevStep } = useFunnel([
     1, 2, 3, 4,
   ]);
@@ -65,7 +71,7 @@ const ShuttleWrite = ({ params }: Props) => {
     mode: 'onBlur',
   });
 
-  const { watch } = methods;
+  const { watch, setValue } = methods;
   const watchDailyShuttle: { label: string; value: number } | undefined =
     watch('dailyShuttle');
   const watchShuttleRoute: { label: string; value: number } | undefined =
@@ -127,6 +133,27 @@ const ShuttleWrite = ({ params }: Props) => {
       );
     }
   }, [watchShuttleRoute]);
+
+  useEffect(() => {
+    if (!isInitialMount || !shuttleData || !shuttleData.length) return;
+    if (dailyShuttleId)
+      setValue('dailyShuttle', {
+        label: formatDate(
+          shuttleData[0].shuttle.dailyShuttles?.find(
+            (v) => v.dailyShuttleId === Number(dailyShuttleId),
+          )?.date ?? '',
+        ),
+        value: Number(dailyShuttleId),
+      });
+    if (shuttleRouteId)
+      setValue('shuttleRoute', {
+        label:
+          shuttleData.find((v) => v.shuttleRouteId === Number(shuttleRouteId))
+            ?.name ?? '',
+        value: Number(shuttleRouteId),
+      });
+    setIsInitialMount(false);
+  }, [shuttleData]);
 
   if (!data || !dailyShuttleArray || !dailyShuttleRouteArray) return;
   return (
