@@ -38,7 +38,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
               passengerCount,
               currentShuttleData,
               tripType,
-            })}
+            })?.toLocaleString()}
             원
           </dd>
           <dd className="text-12 font-400 leading-[19.2px] text-grey-900">
@@ -47,7 +47,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
               passengerCount: 1,
               currentShuttleData,
               tripType,
-            })}
+            })?.toLocaleString()}
             원 * {passengerCount}인)
           </dd>
         </div>
@@ -69,7 +69,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
                 currentShuttleData,
                 passengerCount,
                 tripType,
-              })}
+              })?.toLocaleString()}
               원
             </dd>
             {isDiscounted && (
@@ -90,7 +90,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
             currentShuttleData,
             passengerCount,
             tripType,
-          })}
+          })?.toLocaleString()}
           원
         </dd>
       </div>
