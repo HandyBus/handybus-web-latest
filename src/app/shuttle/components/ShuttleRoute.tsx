@@ -1,4 +1,5 @@
 import { ShuttleRouteType } from '@/types/shuttle.types';
+import { parseDateString } from '@/utils/dateString';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -7,6 +8,15 @@ const ShuttleRouteView = ({
 }: {
   shuttleRoute: ShuttleRouteType;
 }) => {
+  const dailyShuttle = shuttleRoute.shuttle.dailyShuttles.find(
+    (d) => d.dailyShuttleId === shuttleRoute.dailyShuttleId,
+  );
+
+  if (!dailyShuttle) {
+    console.error('dailyShuttle not found', shuttleRoute.dailyShuttleId);
+    return null;
+  }
+
   return (
     <Link
       href={`/shuttle/${shuttleRoute.shuttleId}?dailyShuttleId=${shuttleRoute.dailyShuttleId}&shuttleRouteId=${shuttleRoute.shuttleRouteId}`}
@@ -29,13 +39,12 @@ const ShuttleRouteView = ({
             {shuttleRoute.shuttle.destination.name}
           </div>
           <div className="line-clamp-1 text-grey-900">
-            {}
-            2024. 08. 26. (월) 셔틀
+            {parseDateString(dailyShuttle.date)} 셔틀
           </div>
           <div className="line-clamp-1 text-grey-500">{shuttleRoute.name}</div>
         </div>
         <div className="line-clamp-1 text-14 font-500 text-grey-900">
-          잔여석 <span className="text-primary-main">17석</span> / {28}석
+          <SeatString shuttle={shuttleRoute} />
         </div>
       </div>
     </Link>
@@ -43,3 +52,28 @@ const ShuttleRouteView = ({
 };
 
 export default ShuttleRouteView;
+
+const SeatString = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
+  let prefix: string;
+
+  switch (shuttle.remainingSeatType) {
+    case 'FROM_DESTINATION':
+      prefix = `콘서트행 잔여석`;
+      break;
+    case 'TO_DESTINATION':
+      // TODO check if this term is correct
+      prefix = `귀가행 잔여석`;
+      break;
+    case 'ROUND_TRIP':
+      prefix = `잔여석`;
+      break;
+  }
+
+  return (
+    <>
+      {prefix}{' '}
+      <span className="text-primary-main">{shuttle.remainingSeatCount}석</span>{' '}
+      / {shuttle.maxPassengerCount}석
+    </>
+  );
+};
