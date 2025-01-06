@@ -174,7 +174,7 @@ const TossPayment = ({
       button?.addEventListener('click', async function () {
         const prepareBillingResponse: BillingReservations = await authInstance
           .post<{ reservation: BillingReservations }>(
-            `/billing/reservations`,
+            `/v1/billing/reservations`,
             billingReservationData,
           )
           .then((res) => {

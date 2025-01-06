@@ -13,7 +13,7 @@ import { setOnboardingToken } from '@/utils/handleToken';
 
 export const getUser = async () => {
   const res = await authInstance.get<{ user: UserType }>(
-    '/user-management/users/me',
+    '/v1/user-management/users/me',
     { next: { tags: ['user'] } },
   );
   return res.user;
@@ -26,7 +26,7 @@ export type OnboardingProgress =
 
 export const getProgress = async (): Promise<OnboardingProgress> => {
   const res = await authInstance.get<{ user: UserType }>(
-    '/user-management/users/me',
+    '/v1/user-management/users/me',
     { next: { tags: ['user'] } },
   );
   return parseProgress(res.user.progresses);
@@ -45,7 +45,7 @@ const putUser = async (body: {
   isAgreedPersonalInfo?: boolean;
 }) => {
   const res = await authInstance.put<{ user: UserType }>(
-    '/user-management/users/me',
+    '/v1/user-management/users/me',
     body,
   );
   revalidateUser();
@@ -110,13 +110,13 @@ export const usePutUser = ({
 };
 
 export const deleteUser = async () => {
-  await authInstance.delete('/user-management/users/me');
+  await authInstance.delete('/v1/user-management/users/me');
   revalidateUser();
 };
 
 const getUserStats = async () => {
   const res = await authInstance.get<{ userStats: UserStatsType }>(
-    '/user-management/users/me/stats',
+    '/v1/user-management/users/me/stats',
     { next: { tags: ['user'] } },
   );
   if (res.userStats.ageRange === '연령대 미지정') {

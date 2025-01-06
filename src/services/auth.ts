@@ -27,6 +27,6 @@ export const postLogin = async (
           }
         : undefined,
   };
-  const res = await instance.post<TokenType>('/auth/login', body);
+  const res = await instance.post<TokenType>('/v1/auth/login', body);
   return res;
 };

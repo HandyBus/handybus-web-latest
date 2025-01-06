@@ -7,7 +7,7 @@ const getHubsByRegionId = async (regionId?: number | null) => {
     return [];
   }
   const res = await authInstance.get<{ regionHubs: RegionHubType[] }>(
-    `/location/regions/${regionId}/hubs`,
+    `/v1/location/regions/${regionId}/hubs`,
   );
   return res.regionHubs;
 };

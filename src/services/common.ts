@@ -8,7 +8,7 @@ const getPresignedUrl = async (key: KeyType, extension: ExtensionType) => {
   const res = await instance.get<{
     presignedUrl: string;
     cdnUrl: string;
-  }>(`/common/image/presigned-url?${params}`, { cache: 'no-store' });
+  }>(`/v1/common/image/presigned-url?${params}`, { cache: 'no-store' });
   return res;
 };
 

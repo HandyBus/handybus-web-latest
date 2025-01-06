@@ -41,7 +41,7 @@ const TotalPriceInfo = ({ shuttleData }: props) => {
 
   const getMyCoupons = async () => {
     const res = await authInstance.get<{ issuedCoupons: IssuedCouponType[] }>(
-      '/user-management/users/me/coupons?status=BEFORE_USE',
+      '/v1/user-management/users/me/coupons?status=BEFORE_USE',
     );
     return res.issuedCoupons;
   };

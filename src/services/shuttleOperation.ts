@@ -11,7 +11,7 @@ import { CustomError } from './custom-error';
 
 const getArtists = async () => {
   const res = await instance.get<{ artists: ArtistType[] }>(
-    '/shuttle-operation/artists',
+    '/v1/shuttle-operation/artists',
   );
   return res.artists;
 };
@@ -27,13 +27,13 @@ export const useGetArtists = () => {
 export const getShuttles = async (status?: ShuttleStatusType) => {
   const res = await instance.get<{
     shuttleDetails: ShuttleWithDemandCountType[];
-  }>(`/shuttle-operation/shuttles?status=${status}`);
+  }>(`/v1/shuttle-operation/shuttles?status=${status}`);
   return res.shuttleDetails;
 };
 
 export const getShuttle = async (id: number) => {
   const res = await instance.get<{ shuttleDetail: ShuttleWithDemandCountType }>(
-    `/shuttle-operation/shuttles/${id}`,
+    `/v1/shuttle-operation/shuttles/${id}`,
   );
   return res.shuttleDetail;
 };
@@ -59,7 +59,7 @@ export const getRoutes = async (
   } = {},
 ) => {
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
-    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
+    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
   );
   return res.shuttleRouteDetails;
 };
@@ -74,7 +74,7 @@ export const getRoute = async ({
   shuttleRouteId: number;
 }) => {
   const res = await instance.get<{ shuttleRouteDetail: ShuttleRouteType }>(
-    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes/${shuttleRouteId}`,
+    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes/${shuttleRouteId}`,
   );
   return res.shuttleRouteDetail;
 };
@@ -93,7 +93,7 @@ const putShuttleBus = async ({
   openChatLink: string;
 }) => {
   await authInstance.put(
-    `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
+    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
     { openChatLink },
   );
 };
@@ -144,7 +144,7 @@ const getShuttleDemandStats = async (
   dailyShuttleId: number,
   regionId?: number,
 ) => {
-  const baseUrl = `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
+  const baseUrl = `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands/all/stats`;
   const queryParams = regionId ? `?regionId=${regionId}` : '';
   const url = `${baseUrl}${queryParams}`;
 

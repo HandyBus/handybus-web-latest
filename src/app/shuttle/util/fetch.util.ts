@@ -5,14 +5,14 @@ import { toSearchParams } from '@/utils/searchParams';
 
 export const fetchAllShuttles = async () => {
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
-    '/shuttle-operation/shuttles/all/dates/all/routes',
+    '/v1/shuttle-operation/shuttles/all/dates/all/routes',
   );
   return res.shuttleRouteDetails;
 };
 
 export const fetchAllOpenShuttles = async () => {
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
-    '/shuttle-operation/shuttles/all/dates/all/routes?status=OPEN',
+    '/v1/shuttle-operation/shuttles/all/dates/all/routes?status=OPEN',
   );
   return res.shuttleRouteDetails;
 };
@@ -27,7 +27,7 @@ export const fetchIncludingRelatedOpenShuttles = async (region: Region) => {
     cityFullName: region.smallRegion,
   }).toString();
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
-    `/shuttle-operation/shuttles/all/dates/all/routes?${params}`,
+    `/v1/shuttle-operation/shuttles/all/dates/all/routes?${params}`,
   );
   return res.shuttleRouteDetails;
 };
