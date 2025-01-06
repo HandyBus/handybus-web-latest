@@ -3,7 +3,7 @@
 import { ShuttleRoute, ShuttleRouteHubObject } from '@/types/shuttle.types';
 import { FormProvider, useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
-import { fetchAllShuttles } from '../../util/fetch.util';
+import { fetchAllOpenShuttles } from '../../util/fetch.util';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { IssuedCouponType } from '@/types/client.types';
@@ -95,7 +95,7 @@ const ShuttleWrite = ({ params }: Props) => {
 
   const { data } = useQuery({
     queryKey: ['shuttle', params.id],
-    queryFn: () => fetchAllShuttles(),
+    queryFn: () => fetchAllOpenShuttles(),
   });
 
   // ShuttleId 에 해당하는 DATA
