@@ -18,7 +18,6 @@ import { ShuttleFormValues } from './shuttleForm.type';
 import {
   determineDisabled,
   determineMessage,
-  determineVariant,
   getRegionId,
   locationFormatter,
 } from './shuttleForm.util';
@@ -60,14 +59,14 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
   const smallLocation = methods.watch('smallLocation');
   const dailyShuttle = methods.watch('dailyShuttle');
   const shuttleRoute = methods.watch('shuttleRoute');
-  const shuttleRouteId = useMemo(
-    () =>
-      Number(
-        reservData?.find((route) => route.name === shuttleRoute?.label)
-          ?.shuttleRouteId,
-      ),
-    [shuttleRoute, reservData],
-  );
+
+  const { shuttleRouteSelected, shuttleRouteId } = useMemo(() => {
+    const shuttleRouteSelected = reservData?.find(
+      (route) => route.name === shuttleRoute?.label,
+    );
+    const shuttleRouteId = shuttleRouteSelected?.shuttleRouteId;
+    return { shuttleRouteSelected, shuttleRouteId };
+  }, [shuttleRoute, reservData]);
 
   const onSubmit = () => {
     if (type === 'DEMAND') {
@@ -135,16 +134,9 @@ const ShuttleForm = ({ shuttleId, type, data, reservData }: Props) => {
         <BottomBar
           onSubmit={methods.handleSubmit(onSubmit)}
           type={type}
-          message={determineMessage(data.status, type)}
-          variant={determineVariant(
-            data.status,
-            type,
-            bigLocation,
-            smallLocation,
-            dailyShuttle,
-          )}
+          message={determineMessage(shuttleRouteSelected?.status, type)}
           disabled={determineDisabled(
-            data.status,
+            shuttleRouteSelected?.status,
             type,
             bigLocation,
             smallLocation,

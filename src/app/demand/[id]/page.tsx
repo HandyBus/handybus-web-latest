@@ -1,7 +1,7 @@
 import { getOpenDemandings } from '../utils/fetch.util';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
 import Footer from '@/components/footer/Footer';
-import ShuttleInfo from '@/components/shuttle-detail/components/ShuttleInfo';
+import { ShuttleInfo } from '@/components/shuttle-detail/components/ShuttleInfo';
 import { dateFormatter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import { shuttleStateConverter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import BackButton from '@/components/shuttle-detail/components/BackButton';
