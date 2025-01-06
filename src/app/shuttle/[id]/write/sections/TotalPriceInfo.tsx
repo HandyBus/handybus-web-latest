@@ -181,7 +181,7 @@ const Coupon = ({
       </div>
       <div>
         <p className="text-12 font-400 leading-[19.2px] text-grey-500">
-          예약 당 최대 1인 적용
+          예약 당 최대 {coupon.maxApplicablePeople}인 적용
         </p>
         <p className="text-12 font-400 leading-[19.2px] text-grey-500">
           {coupon.validTo}까지 사용 가능
@@ -207,7 +207,7 @@ const SelectedCoupon = ({ coupon }: { coupon: IssuedCouponType }) => {
       </div>
       <div>
         <p className="text-12 font-400 leading-[19.2px] text-grey-500">
-          예약 당 최대 1인 적용
+          예약 당 최대 {coupon.maxApplicablePeople}인 적용
         </p>
         <p className="text-12 font-400 leading-[19.2px] text-grey-500">
           {coupon.validTo}까지 사용 가능
