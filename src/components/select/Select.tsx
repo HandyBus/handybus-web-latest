@@ -9,16 +9,18 @@ interface Props<T> {
   options: readonly T[];
   value: T | undefined;
   setValue: (value: T) => void;
+  renderValue?: (value: T) => string;
   placeholder?: string;
   disabled?: boolean;
   bottomSheetTitle?: string;
   isUnderLined?: boolean;
 }
 
-const Select = <T extends string>({
+const Select = <T,>({
   options,
   value,
   setValue,
+  renderValue,
   placeholder,
   disabled,
   bottomSheetTitle,
@@ -35,7 +37,11 @@ const Select = <T extends string>({
         disabled={disabled}
         className={`relative w-full p-12 pr-32 text-left ${value ? 'text-grey-800' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
       >
-        {value || placeholder}
+        {value
+          ? renderValue
+            ? renderValue(value)
+            : String(value)
+          : placeholder}
         <div className="absolute right-12 top-16">
           {disabled ? <ChevronDisabledIcon /> : <ChevronEnabledIcon />}
         </div>
@@ -47,7 +53,7 @@ const Select = <T extends string>({
         >
           {options?.map((option) => (
             <button
-              key={option}
+              key={renderValue ? renderValue(option) : String(option)}
               className="py-16 text-left"
               type="button"
               onClick={() => {
@@ -55,7 +61,7 @@ const Select = <T extends string>({
                 closeBottomSheet();
               }}
             >
-              {option}
+              {renderValue ? renderValue(option) : String(option)}
             </button>
           ))}
         </div>

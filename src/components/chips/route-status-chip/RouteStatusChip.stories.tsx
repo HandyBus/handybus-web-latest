@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import RouteStatusChip from './ShuttleStatusChip';
+import RouteStatusChip from './RouteStatusChip';
 
 const meta: Meta<typeof RouteStatusChip> = {
   title: 'Components/chips/RouteStatusChip',
@@ -20,6 +20,12 @@ export const DemandSurvey: Story = {
 export const DemandClosed: Story = {
   args: {
     status: 'CLOSED',
+  },
+};
+
+export const Pending: Story = {
+  args: {
+    status: 'CONFIRMED',
   },
 };
 

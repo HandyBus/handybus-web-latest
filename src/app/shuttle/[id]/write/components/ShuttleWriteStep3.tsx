@@ -4,12 +4,12 @@ import ReservationInfo from '../sections/ReservationInfo';
 import TossPayment from '../sections/TossPayments';
 import TotalPriceInfo from '../sections/TotalPriceInfo';
 import { ReservationFormData } from '../page';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
-  shuttleData: ShuttleRoute[];
+  shuttleData: ShuttleRouteType[];
 }
 
 const ShuttleWriteStep3 = ({

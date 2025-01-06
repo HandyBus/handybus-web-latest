@@ -1,14 +1,14 @@
 'use client';
 import { useRef, useState } from 'react';
 import Shuttle from './Shuttle';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('@/app/shuttle/components/Empty'));
 
-const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRoute[] }) => {
+const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRouteType[] }) => {
   const [loading, setLoading] = useState(true);
   const swiper = useRef<SwiperRef>(null);
 

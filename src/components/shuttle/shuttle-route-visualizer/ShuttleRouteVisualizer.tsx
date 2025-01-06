@@ -1,11 +1,7 @@
 'use client';
 
-import {
-  ROUTE_TYPE,
-  SECTION,
-  SectionType,
-  ShuttleRouteHubObject,
-} from '@/types/shuttle.types';
+import { ROUTE_TYPE, SECTION, SectionType } from '@/types/shuttle.types';
+import { HubType } from '@/types/hub.type';
 import ShuttleRouteCard from './ShuttleRouteCard';
 import { useFormContext } from 'react-hook-form';
 import SpinnerIcon from '/public/icons/spinner.svg';
@@ -22,9 +18,9 @@ import { useEffect } from 'react';
  * { arrivalTime, name, shuttleRouteHubId, sequence, selected? }[] 형태로 넘겨주세요.
  */
 interface Props {
-  // object: ShuttleRouteHubObject[];
-  toDestinationObject?: ShuttleRouteHubObject[];
-  fromDestinationObject?: ShuttleRouteHubObject[];
+  // object: HubType[];
+  toDestinationObject?: HubType[];
+  fromDestinationObject?: HubType[];
   section: SectionType;
   isLoading?: boolean;
   type?: 'ROUND_TRIP' | 'TO_DESTINATION' | 'FROM_DESTINATION';

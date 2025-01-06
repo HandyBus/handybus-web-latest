@@ -36,7 +36,11 @@ interface CounterButtonProps {
 }
 
 const CounterButton = ({ onClick, children }: CounterButtonProps) => (
-  <button className="rounded-full bg-grey-50 p-12" onClick={onClick}>
+  <button
+    className="rounded-full bg-grey-50 p-12"
+    onClick={onClick}
+    type="button"
+  >
     {children}
   </button>
 );

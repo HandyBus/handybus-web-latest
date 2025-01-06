@@ -1,4 +1,4 @@
-import { Hub } from '@/types/shuttle.types';
+import { HubsType } from '@/types/hub.type';
 
 export const displayRouteInfo = (
   tripType: '왕복' | '콘서트행' | '귀가행' | undefined,
@@ -13,7 +13,7 @@ export const displayRouteInfo = (
 
 export const displayRouteInfoForReservation = (
   tripType: '왕복' | '콘서트행' | '귀가행' | undefined,
-  hubs?: Hub,
+  hubs?: HubsType,
 ) => {
   const toDestinationLength = hubs?.toDestination?.length ?? 0;
   const toDestinationStartLocation = hubs?.toDestination.find(

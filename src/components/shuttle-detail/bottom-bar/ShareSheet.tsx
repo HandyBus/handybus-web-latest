@@ -18,6 +18,7 @@ interface ShareSheetProps {
   closeBottomSheet: () => void;
   shuttleName?: string;
 }
+
 const ShareSheet = ({
   bottomSheetRef,
   contentRef,

@@ -1,50 +1,51 @@
-import { fetchAllShuttles } from '../util/fetch.util';
-import { ShuttleRoute } from '@/types/shuttle.types';
 import Spacer from '@/components/shuttle-detail/components/Spacer';
-import { dateFormatter } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
 import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
 import BackButton from '@/components/shuttle-detail/components/BackButton';
-import { ShuttleInfoReservation } from '@/components/shuttle-detail/components/ShuttleInfo';
 import ShuttleForm from '@/components/shuttle-detail/components/ShuttleForm';
 import Footer from '@/components/footer/Footer';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
 import NoticeSection from '@/components/notice-section/NoticeSection';
+import { getRoute, getRoutes } from '@/services/shuttleOperation';
+import { ShuttleInfo } from '@/components/shuttle-detail/components/ShuttleInfo';
 
 interface Props {
   params: {
-    id: number;
+    id: string;
+  };
+  searchParams: {
+    dailyShuttleId: string;
+    shuttleRouteId: string;
   };
 }
 
-const Shuttle = async ({ params }: Props) => {
-  const data = await fetchAllShuttles();
-  const reservData: ShuttleRoute[] = data.filter(
-    (v) => v.shuttleId === Number(params.id),
+const Shuttle = async ({ params, searchParams }: Props) => {
+  const route = await getRoute({
+    shuttleId: Number(params.id),
+    dailyShuttleId: Number(searchParams.dailyShuttleId),
+    shuttleRouteId: Number(searchParams.shuttleRouteId),
+  });
+
+  const routes = await getRoutes(
+    Number(params.id),
+    Number(searchParams.dailyShuttleId),
   );
-  const infoData = reservData[0]?.shuttle;
 
   return (
     <main className="relative overflow-y-hidden">
       <BackButton />
-      <ShuttleImage image={infoData.image} />
-      <ShuttleInfoReservation
-        shuttleData={reservData}
-        title={infoData.name}
-        artist={infoData.participants.map((v) => v.name).join(', ')}
-        date={dateFormatter(infoData.dailyShuttles)}
-        location={infoData.destination.name}
-      />
+      <ShuttleImage image={route.shuttle.image} />
+      <ShuttleInfo shuttle={route.shuttle} status={route.status} type="ROUTE" />
       <KakaoMap
-        placeName={infoData.destination.name}
-        latitude={infoData.destination.latitude}
-        longitude={infoData.destination.longitude}
+        placeName={route.shuttle.destination.name}
+        latitude={route.shuttle.destination.latitude}
+        longitude={route.shuttle.destination.longitude}
       />
       <ShuttleForm
-        shuttleId={infoData.shuttleId}
+        shuttleId={route.shuttle.shuttleId}
         type={'RESERVATION'}
-        data={infoData}
-        reservData={reservData}
+        shuttle={route.shuttle}
+        routes={routes}
       />
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
       <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />

@@ -15,9 +15,9 @@ import {
 import { Region } from '@/hooks/useRegion';
 import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
-import ShuttleRouteView from './components/ShuttleRoute';
 import { toSortedShuttles } from './util/sort.util';
 import { Metadata } from 'next';
+import ShuttleRouteView from './components/ShuttleRoute';
 
 export const metadata: Metadata = {
   title: '지금 예약 모집 중인 셔틀',

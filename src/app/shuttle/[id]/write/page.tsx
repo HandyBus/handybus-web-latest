@@ -1,6 +1,7 @@
 'use client';
 
-import { ShuttleRoute, ShuttleRouteHubObject } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
+import { HubType } from '@/types/hub.type';
 import { FormProvider, useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
 import { fetchAllOpenShuttles } from '../../util/fetch.util';
@@ -76,21 +77,21 @@ const ShuttleWrite = ({ params }: Props) => {
     watch('dailyShuttle');
   const watchShuttleRoute: { label: string; value: number } | undefined =
     watch('shuttleRoute');
-  const [shuttleData, setShuttleData] = useState<ShuttleRoute[]>([]);
+  const [shuttleData, setShuttleData] = useState<ShuttleRouteType[]>([]);
   const [dailyShuttleRouteArray, setDailyShuttleRouteArray] = useState<
-    ShuttleRoute[]
+    ShuttleRouteType[]
   >([]);
   const [dailyShuttleArray, setDailyShuttleArray] = useState<
     DailyShuttle[] | undefined
   >(undefined);
   const [routeHubsToDestination, setRouteHubsToDestination] = useState<
-    ShuttleRouteHubObject[]
+    HubType[]
   >([]);
   const [routeHubsFromDestination, setRouteHubsFromDestination] = useState<
-    ShuttleRouteHubObject[]
+    HubType[]
   >([]);
   const [currentShuttleData, setCurrentShuttleData] = useState<
-    ShuttleRoute | undefined
+    ShuttleRouteType | undefined
   >(undefined);
 
   const { data } = useQuery({

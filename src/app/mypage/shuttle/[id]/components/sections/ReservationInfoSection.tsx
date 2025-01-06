@@ -5,16 +5,13 @@ import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { useState } from 'react';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
-import {
-  HandyStatusType,
-  ShuttleWithRouteType,
-  TripType,
-} from '@/types/client.types';
+import { HandyStatusType, ShuttleWithRouteType } from '@/types/client.types';
 import { HANDY_STATUS_TEXT, TRIP_TEXT } from '../../../shuttle.constants';
 import { parseDateString } from '@/utils/dateString';
 import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber } from '@/utils/common';
+import { TripType } from '@/types/shuttle.types';
 
 interface Props {
   reservationId: number;

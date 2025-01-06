@@ -2,14 +2,14 @@
 
 import { Control, Controller } from 'react-hook-form';
 import { DailyShuttle, ReservationFormData } from '../page';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { formatDate } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import SelectLabeled from '@/components/select-labeled/SelectLabeled';
 
 interface ReservationShuttleInfoProps {
   control: Control<ReservationFormData>;
   dailyShuttleArray: DailyShuttle[];
-  dailyShuttleRouteArray: ShuttleRoute[];
+  dailyShuttleRouteArray: ShuttleRouteType[];
 }
 
 const ReservationShuttleInfo = ({

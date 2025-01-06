@@ -4,11 +4,8 @@ import NoticeSection from '@/components/notice-section/NoticeSection';
 import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import ReservationShuttleInfo from '../sections/ReservationShuttleInfo';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
-import {
-  SECTION,
-  ShuttleRoute,
-  ShuttleRouteHubObject,
-} from '@/types/shuttle.types';
+import { SECTION, ShuttleRouteType } from '@/types/shuttle.types';
+import { HubType } from '@/types/hub.type';
 import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.type';
 import { useFormContext } from 'react-hook-form';
 import { DailyShuttle, ReservationFormData } from '../page';
@@ -19,9 +16,9 @@ interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
   dailyShuttleArray: DailyShuttle[];
-  dailyShuttleRouteArray: ShuttleRoute[];
-  routeHubsToDestination: ShuttleRouteHubObject[];
-  routeHubsFromDestination: ShuttleRouteHubObject[];
+  dailyShuttleRouteArray: ShuttleRouteType[];
+  routeHubsToDestination: HubType[];
+  routeHubsFromDestination: HubType[];
 }
 
 const ShuttleWriteStep1 = ({

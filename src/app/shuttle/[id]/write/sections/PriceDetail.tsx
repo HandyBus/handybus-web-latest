@@ -1,11 +1,11 @@
 import { IssuedCouponType } from '@/types/client.types';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
 import { discountAmount, finalPrice, totalPrice } from './priceDetail.util';
 
 interface props {
   SelectedCoupon: IssuedCouponType;
-  shuttleData: ShuttleRoute[];
+  shuttleData: ShuttleRouteType[];
 }
 
 const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {

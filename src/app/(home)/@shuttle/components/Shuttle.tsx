@@ -1,9 +1,9 @@
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import dateString, { ddayString } from '@/utils/dateString';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Shuttle = ({ shuttle }: { shuttle: ShuttleRoute }) => {
+const Shuttle = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
   return (
     <Link
       href={`/shuttle/${shuttle.shuttleId}?dailyShuttleId=${shuttle.dailyShuttleId}&shuttleRouteId=${shuttle.shuttleRouteId}`}
@@ -49,7 +49,7 @@ const Shuttle = ({ shuttle }: { shuttle: ShuttleRoute }) => {
 
 export default Shuttle;
 
-const SeatString = ({ shuttle }: { shuttle: ShuttleRoute }) => {
+const SeatString = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
   let prefix: string;
   switch (shuttle.remainingSeatType) {
     case 'FROM_DESTINATION':

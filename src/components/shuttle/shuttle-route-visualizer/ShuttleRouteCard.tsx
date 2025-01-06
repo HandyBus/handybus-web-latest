@@ -1,7 +1,7 @@
 import { SECTION } from '@/types/shuttle.types';
 import { RouteType, ROUTE_TYPE } from '@/types/shuttle.types';
 import dayjs from 'dayjs';
-import { ShuttleRouteHubObject } from '@/types/shuttle.types';
+import { HubType } from '@/types/hub.type';
 import { SectionType } from '@/types/shuttle.types';
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form';
 import { RenderPoints } from './RoutePoint';
@@ -10,7 +10,7 @@ import { isShuttleRouteLocationBlurred } from './shuttleRouteVisualizer.util';
 interface Props {
   section: SectionType;
   type: RouteType;
-  object: ShuttleRouteHubObject[];
+  object: HubType[];
   control: Control<FieldValues> | null;
   setValue: UseFormSetValue<FieldValues> | null;
 }

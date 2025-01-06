@@ -10,7 +10,7 @@ import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import { toast } from 'react-toastify';
 import { finalPrice } from './priceDetail.util';
 import { useFormContext } from 'react-hook-form';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { IssuedCouponType } from '@/types/client.types';
 import { getUser } from '@/services/users';
 
@@ -48,7 +48,7 @@ interface Props {
   isSupportingHandy?: boolean;
   handleNextStep: () => void;
   handlePrevStep: () => void;
-  shuttleData: ShuttleRoute[];
+  shuttleData: ShuttleRouteType[];
 }
 
 const TossPayment = ({

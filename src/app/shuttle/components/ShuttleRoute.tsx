@@ -1,8 +1,12 @@
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const ShuttleRouteView = ({ shuttleRoute }: { shuttleRoute: ShuttleRoute }) => {
+const ShuttleRouteView = ({
+  shuttleRoute,
+}: {
+  shuttleRoute: ShuttleRouteType;
+}) => {
   return (
     <Link
       href={`/shuttle/${shuttleRoute.shuttleId}?dailyShuttleId=${shuttleRoute.dailyShuttleId}&shuttleRouteId=${shuttleRoute.shuttleRouteId}`}

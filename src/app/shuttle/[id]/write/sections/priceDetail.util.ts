@@ -1,8 +1,8 @@
 import { IssuedCouponType } from '@/types/client.types';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 
 interface totalPriceProps {
-  currentShuttleData: ShuttleRoute;
+  currentShuttleData: ShuttleRouteType;
   tripType: { label: string; value: string };
   passengerCount: number;
 }
@@ -33,7 +33,7 @@ export const totalRegularPrice = ({
     return currentShuttleData?.regularPriceFromDestination * passengerCount;
 };
 
-const isEarlyBridSeason = (currentShuttleData: ShuttleRoute) =>
+const isEarlyBridSeason = (currentShuttleData: ShuttleRouteType) =>
   currentShuttleData?.earlybirdDeadline &&
   new Date(currentShuttleData?.earlybirdDeadline) > new Date();
 
@@ -55,7 +55,7 @@ export const totalPrice = ({
 
 interface discountAmountProps {
   selectedCoupon: IssuedCouponType;
-  currentShuttleData: ShuttleRoute;
+  currentShuttleData: ShuttleRouteType;
   passengerCount: number;
   tripType: { label: string; value: string };
 }
@@ -98,7 +98,7 @@ export const discountAmount = ({
 };
 
 interface finalPriceProps {
-  currentShuttleData: ShuttleRoute;
+  currentShuttleData: ShuttleRouteType;
   tripType: { label: string; value: string };
   passengerCount: number;
   selectedCoupon: IssuedCouponType;

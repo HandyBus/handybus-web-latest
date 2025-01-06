@@ -1,4 +1,4 @@
-import { DailyShuttleDetailProps } from '@/types/shuttle.types';
+import { DailyShuttleType } from '@/types/shuttle.types';
 
 export const formatDate = (dateStr: string) => {
   if (!dateStr) return '';
@@ -15,9 +15,9 @@ export const formatDate = (dateStr: string) => {
     .replace('-(', ' (');
 };
 
-export const dateFormatter = (dailyShuttle: DailyShuttleDetailProps[]) => {
+export const dateFormatter = (dailyShuttle: DailyShuttleType[]) => {
   if (!dailyShuttle || dailyShuttle.length === 0) return '';
-  const dateArray = dailyShuttle.map((v: DailyShuttleDetailProps) => v.date);
+  const dateArray = dailyShuttle.map((v: DailyShuttleType) => v.date);
   return dateArray.length === 1
     ? formatDate(dateArray[0])
     : `${formatDate(dateArray[0])} ~ ${formatDate(dateArray[dateArray.length - 1])}`;

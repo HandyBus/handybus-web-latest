@@ -1,9 +1,9 @@
-import type { ShuttleRoute } from '@/types/shuttle.types';
+import type { ShuttleRouteType } from '@/types/shuttle.types';
 import type { ShuttleSortType } from '../constants/params';
 
 export const toSortedShuttles = (
   sort: ShuttleSortType,
-  shuttles: ShuttleRoute[],
+  shuttles: ShuttleRouteType[],
 ) => {
   switch (sort) {
     case '콘서트 이름 가나다 순':

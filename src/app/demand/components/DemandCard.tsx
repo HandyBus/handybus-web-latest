@@ -1,10 +1,13 @@
 import Link from 'next/link';
-import { EventDetailProps } from '@/types/event.types';
 import Image from 'next/image';
-
 import dateString from '@/utils/dateString';
+import { ShuttleType } from '@/types/shuttle.types';
 
-const ShuttleDetail = ({ shuttle }: { shuttle: EventDetailProps }) => {
+interface Props {
+  shuttle: ShuttleType;
+}
+
+const DemandCard = ({ shuttle }: Props) => {
   const dates = shuttle.dailyShuttles.map((v) => new Date(v.date));
 
   return (
@@ -14,7 +17,7 @@ const ShuttleDetail = ({ shuttle }: { shuttle: EventDetailProps }) => {
           <Image
             className="object-cover"
             src={shuttle.image}
-            alt={`콘서트 ${shuttle.name}의 포스터`}
+            alt={`${shuttle.name}의 포스터`}
             fill
           />
         </div>
@@ -39,4 +42,4 @@ const ShuttleDetail = ({ shuttle }: { shuttle: EventDetailProps }) => {
   );
 };
 
-export default ShuttleDetail;
+export default DemandCard;

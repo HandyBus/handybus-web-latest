@@ -1,17 +1,17 @@
-import type { ShuttleRoute } from '@/types/shuttle.types';
+import type { ShuttleRouteType } from '@/types/shuttle.types';
 import type { Region } from '@/hooks/useRegion';
 import { instance } from '@/services/config';
 import { toSearchParams } from '@/utils/searchParams';
 
 export const fetchAllShuttles = async () => {
-  const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
     '/shuttle-operation/shuttles/all/dates/all/routes',
   );
   return res.shuttleRouteDetails;
 };
 
 export const fetchAllOpenShuttles = async () => {
-  const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
     '/shuttle-operation/shuttles/all/dates/all/routes?status=OPEN',
   );
   return res.shuttleRouteDetails;
@@ -26,7 +26,7 @@ export const fetchIncludingRelatedOpenShuttles = async (region: Region) => {
     provinceFullName: region.bigRegion,
     cityFullName: region.smallRegion,
   }).toString();
-  const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
     `/shuttle-operation/shuttles/all/dates/all/routes?${params}`,
   );
   return res.shuttleRouteDetails;

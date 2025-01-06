@@ -8,7 +8,7 @@ import Article from '@/components/article/Article';
 import { Region } from '@/hooks/useRegion';
 import { regionToString } from '@/utils/region.util';
 import { ID_TO_REGION } from '@/constants/regions';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import ShuttlesSwiperView from './components/ShuttlesSwiperView';
 
 const Page = async () => {
@@ -69,7 +69,7 @@ const Bar = ({ regionString, children, postfix }: BarProp) => {
 const getRegionAndOpenShuttles = async (): Promise<{
   region: Region | undefined;
   promoted: boolean;
-  shuttles: ShuttleRoute[];
+  shuttles: ShuttleRouteType[];
   userRegion: Region | undefined;
 }> => {
   let userRegionId: number | undefined;

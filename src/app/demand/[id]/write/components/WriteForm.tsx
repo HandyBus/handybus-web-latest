@@ -1,144 +1,138 @@
 'use client';
 
-import { Controller, FormProvider } from 'react-hook-form';
-import { useCallback } from 'react';
-import { EventDetailProps } from '@/types/event.types';
-import { authInstance } from '@/services/config';
-import { RegionHubProps } from '@/types/shuttle.types';
-import { useQuery } from '@tanstack/react-query';
-import LoadingSpinner from '@/components/shuttle-detail/components/LoadingSpinner';
+import { DailyShuttleType, ShuttleType, TripType } from '@/types/shuttle.types';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import RouteInfo from './RouteInfo';
+import JourneyLocationPicker from './JourneyLocationPicker';
+import PassengerCount from './PassengerCount';
+import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import { SubmitData, DemandWriteSearchParams } from './writeForm.type';
-import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
-import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
+import { usePostDemand } from '@/services/demand';
 
-import { createStopData } from './writeForm.util';
-import { useShuttleDemandForm } from '../hooks/useShuttleDemandForm';
-import { useShuttleFormValidation } from '../hooks/useValidation';
-import RouteInfo from '../components/RouteInfo';
-import JourneyLocationPicker from '../components/JourneyLocationPicker';
-import { CustomError } from '@/services/custom-error';
-
-interface WriteFormProps {
-  demandData: EventDetailProps;
-  searchParams: DemandWriteSearchParams;
+export interface FormValues {
+  dailyShuttle: Omit<DailyShuttleType, 'status'>;
+  regionId: number | null;
+  passengerCount: number;
+  type: TripType;
+  toDestinationRegionHub?: {
+    name: string;
+    regionHubId?: number | null;
+  };
+  fromDestinationRegionHub?: {
+    name: string;
+    regionHubId?: number | null;
+  };
+  toDestinationDesiredRegionHub?: string;
+  fromDestinationDesiredRegionHub?: string;
 }
 
-const WriteForm = ({ demandData, searchParams }: WriteFormProps) => {
-  const { methods, formValues, regionId } = useShuttleDemandForm(
-    searchParams,
-    demandData,
-  );
-  const { determineVariant, determineDisabled } =
-    useShuttleFormValidation(formValues);
-  const router = useRouter();
+interface Props {
+  shuttle: ShuttleType;
+  dailyShuttleId: number;
+  regionId: number;
+}
 
-  const getRegionHubs = async () => {
-    try {
-      const res = await authInstance.get<RegionHubProps>(
-        `/location/regions/${regionId}/hubs`,
-      );
-      return res;
-    } catch (e) {
-      const error = e as CustomError;
-      if (error.statusCode === 401) {
-        router.push('/login');
-      }
-      console.error('Error fetching region hubs:', error);
-      throw error;
-    }
-  };
-
-  const {
-    data: regionHubsData,
-    error,
-    isLoading,
-  } = useQuery<RegionHubProps>({
-    queryKey: ['regionHubs', regionId],
-    queryFn: () => getRegionHubs(),
+const WriteForm = ({ shuttle, dailyShuttleId, regionId }: Props) => {
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      dailyShuttle: shuttle.dailyShuttles.find(
+        (dailyShuttle) => dailyShuttle.dailyShuttleId === dailyShuttleId,
+      ),
+      regionId,
+      passengerCount: 0,
+      type: undefined,
+      toDestinationRegionHub: undefined,
+      fromDestinationRegionHub: undefined,
+    },
   });
 
-  const postDemand = async (
-    submitData: SubmitData,
-    dailyShuttleId: number,
-    shuttleId: number,
-  ) => {
-    try {
-      const res = await authInstance.post(
-        `/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/demands`,
-        submitData,
-      );
+  const { mutate: postDemand } = usePostDemand(shuttle.shuttleId);
 
-      router.push(`/demand/${shuttleId}`);
-      toast.success('수요 신청에 성공했어요');
-      return res;
-    } catch (e) {
-      const error = e as CustomError;
-      if (error.statusCode === 409) {
-        toast.error('해당 일자와 경로의 수요조사를 이미 신청완료했어요.');
+  const handleSubmit = (formValues: FormValues) => {
+    if (!formValues.dailyShuttle) {
+      toast.error('운행일을 선택해주세요.');
+      return;
+    }
+    if (!formValues.regionId) {
+      toast.error('지역을 선택해주세요.');
+      return;
+    }
+    if (!formValues.type) {
+      toast.error('탑승 방향을 선택해주세요.');
+      return;
+    }
+    if (formValues.passengerCount === 0) {
+      toast.error('탑승객 수를 선택해주세요.');
+      return;
+    }
+    if (
+      formValues.type === 'ROUND_TRIP' ||
+      formValues.type === 'TO_DESTINATION'
+    ) {
+      if (
+        !formValues.toDestinationRegionHub ||
+        (!formValues.toDestinationRegionHub.regionHubId &&
+          !formValues.toDestinationDesiredRegionHub)
+      ) {
+        toast.error('탑승 장소를 선택해주세요.');
         return;
       }
-      console.error('수요조사를 제출하는데 실패했어요 \n', error);
-      alert('수요조사를 제출하는데 실패했어요 \n' + error);
     }
+    if (
+      formValues.type === 'ROUND_TRIP' ||
+      formValues.type === 'FROM_DESTINATION'
+    ) {
+      if (
+        !formValues.fromDestinationRegionHub ||
+        (!formValues.fromDestinationRegionHub.regionHubId &&
+          !formValues.fromDestinationDesiredRegionHub)
+      ) {
+        toast.error('하차 장소를 선택해주세요.');
+        return;
+      }
+    }
+
+    postDemand({
+      dailyShuttleId: formValues.dailyShuttle.dailyShuttleId,
+      regionId: formValues.regionId!,
+      type: formValues.type,
+      passengerCount: formValues.passengerCount,
+      toDestinationRegionHub: {
+        regionHubId:
+          formValues.toDestinationRegionHub?.regionHubId ?? undefined,
+        desiredRegionHub: formValues.toDestinationRegionHub
+          ? formValues.toDestinationDesiredRegionHub
+          : undefined,
+      },
+      fromDestinationRegionHub: {
+        regionHubId:
+          formValues.fromDestinationRegionHub?.regionHubId ?? undefined,
+        desiredRegionHub: formValues.fromDestinationDesiredRegionHub
+          ? formValues.fromDestinationDesiredRegionHub
+          : undefined,
+      },
+    });
   };
 
-  const onSubmit = useCallback(async () => {
-    const dailyShuttleId = formValues.dailyShuttle.dailyShuttleId;
-    const shuttleId = demandData.shuttleId;
-    const translatedRouteType =
-      formValues.routeType === '콘서트행'
-        ? 'TO_DESTINATION'
-        : formValues.routeType === '귀가행'
-          ? 'FROM_DESTINATION'
-          : 'ROUND_TRIP';
-
-    const { toDestinationRegionHub, fromDestinationRegionHub } =
-      createStopData(formValues);
-
-    const routeTypeToData = {
-      콘서트행: { toDestinationRegionHub },
-      귀가행: { fromDestinationRegionHub },
-      왕복행: { toDestinationRegionHub, fromDestinationRegionHub },
-      '': {},
-    };
-
-    const submitData = {
-      regionId: formValues.regionId,
-      type: translatedRouteType,
-      passengerCount: formValues.passengerCount,
-      ...routeTypeToData[formValues.routeType as keyof typeof routeTypeToData],
-    };
-
-    await postDemand(submitData, dailyShuttleId, shuttleId);
-  }, [formValues]);
-
-  if (error) return <div>error occured!</div>;
-  if (isLoading) return <LoadingSpinner />;
   return (
     <FormProvider {...methods}>
-      <RouteInfo demandData={demandData} />
-      <Controller
-        control={methods.control}
-        name="passengerCount"
-        render={({ field: { value, onChange } }) => (
-          <PassengerCount
-            count={value}
-            setCount={(newValue) => onChange(newValue)}
-          />
-        )}
-      />
-      <JourneyLocationPicker
-        routeType={methods.watch('routeType')}
-        regionHubsData={regionHubsData}
-      />
-      <BottomBar
-        type={'DEMAND_WRITE'}
-        onSubmit={methods.handleSubmit(onSubmit)}
-        disabled={determineDisabled()}
-        variant={determineVariant()}
-      />
+      <form onSubmit={methods.handleSubmit(handleSubmit)}>
+        <RouteInfo shuttle={shuttle} regionId={regionId} />
+        <Controller
+          control={methods.control}
+          name="passengerCount"
+          render={({ field: { value, onChange } }) => (
+            <PassengerCount
+              count={value}
+              setCount={(newValue) => onChange(newValue)}
+            />
+          )}
+        />
+        <JourneyLocationPicker />
+        <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white px-16 py-20">
+          <Button>수요조사 신청하기</Button>
+        </div>
+      </form>
     </FormProvider>
   );
 };

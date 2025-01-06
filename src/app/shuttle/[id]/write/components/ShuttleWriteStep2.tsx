@@ -6,13 +6,13 @@ import { Controller, useFormContext } from 'react-hook-form';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
 import { ReservationFormData } from '../page';
-import { ShuttleRoute } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { toast } from 'react-toastify';
 
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
-  currentShuttleData?: ShuttleRoute;
+  currentShuttleData?: ShuttleRouteType;
 }
 const ShuttleWriteStep2 = ({
   handleNextStep,
