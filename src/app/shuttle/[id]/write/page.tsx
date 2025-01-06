@@ -157,7 +157,7 @@ const ShuttleWrite = ({ params }: Props) => {
 
   if (!data || !dailyShuttleArray || !dailyShuttleRouteArray) return;
   return (
-    <main>
+    <main className="h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden">
       <FormProvider {...methods}>
         <Funnel>
           <Step name={1}>
