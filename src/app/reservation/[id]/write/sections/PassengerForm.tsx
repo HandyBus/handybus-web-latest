@@ -2,6 +2,10 @@ import { UseFormSetValue } from 'react-hook-form';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import { ReservationFormData } from '../page';
 import { Control } from 'react-hook-form';
+import {
+  ERROR_MESSAGES,
+  REG_EXP,
+} from '@/components/onboarding-contents/formValidation.constants';
 
 interface Props {
   index: number;
@@ -39,10 +43,10 @@ const PassengerForm = ({ index, control, setValue }: Props) => {
         placeholder="휴대전화번호를 입력해주세요 ('-' 제외)"
         rules={{
           pattern: {
-            value: /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/,
-            message: '휴대전화번호 형식이 올바르지 않습니다',
+            value: REG_EXP.phoneNumber,
+            message: ERROR_MESSAGES.phoneNumber.pattern,
           },
-          required: '휴대전화번호를 입력해주세요',
+          required: ERROR_MESSAGES.phoneNumber.required,
         }}
       >
         <h3 className="text-12 font-500 leading-[19.2px]">휴대전화번호</h3>
