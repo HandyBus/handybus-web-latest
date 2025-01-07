@@ -210,7 +210,7 @@ const TossPayment = ({
               );
               // const apiResponse = authInstance
               authInstance
-                .post(`/billing/payments/${res.orderId}`, {
+                .post(`/v1/billing/payments/${res.orderId}`, {
                   paymentKey: res.paymentKey,
                   pgType: 'TOSS',
                 })
