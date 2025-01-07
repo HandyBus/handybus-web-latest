@@ -2,16 +2,16 @@ import Spacer from '@/components/shuttle-detail/components/Spacer';
 import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
 import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
 import BackButton from '@/components/shuttle-detail/components/BackButton';
-import ShuttleForm from '@/components/shuttle-detail/components/ShuttleForm';
 import Footer from '@/components/footer/Footer';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { getRoute, getRoutes } from '@/services/shuttleOperation';
+import { getRoute } from '@/services/shuttleOperation';
 import { ShuttleInfo } from '@/components/shuttle-detail/components/ShuttleInfo';
+import ReservationForm from './components/ReservationForm';
 
 interface Props {
   params: {
-    id: string;
+    id: string; // shuttleId
   };
   searchParams: {
     dailyShuttleId: string;
@@ -19,17 +19,14 @@ interface Props {
   };
 }
 
-const Shuttle = async ({ params, searchParams }: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
+  const dailyShuttleId = Number(searchParams.dailyShuttleId);
+  const shuttleRouteId = Number(searchParams.shuttleRouteId);
   const route = await getRoute({
     shuttleId: Number(params.id),
-    dailyShuttleId: Number(searchParams.dailyShuttleId),
-    shuttleRouteId: Number(searchParams.shuttleRouteId),
+    dailyShuttleId,
+    shuttleRouteId,
   });
-
-  const routes = await getRoutes(
-    Number(params.id),
-    Number(searchParams.dailyShuttleId),
-  );
 
   return (
     <main className="relative overflow-y-hidden">
@@ -41,11 +38,10 @@ const Shuttle = async ({ params, searchParams }: Props) => {
         latitude={route.shuttle.destination.latitude}
         longitude={route.shuttle.destination.longitude}
       />
-      <ShuttleForm
-        shuttleId={route.shuttle.shuttleId}
-        type={'RESERVATION'}
+      <ReservationForm
         shuttle={route.shuttle}
-        routes={routes}
+        initialDailyShuttleId={dailyShuttleId}
+        initialRouteId={shuttleRouteId}
       />
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
       <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
@@ -55,4 +51,4 @@ const Shuttle = async ({ params, searchParams }: Props) => {
   );
 };
 
-export default Shuttle;
+export default Page;

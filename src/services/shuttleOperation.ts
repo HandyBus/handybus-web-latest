@@ -64,6 +64,34 @@ export const getRoutes = async (
   return res.shuttleRouteDetails;
 };
 
+export const useGetRoutes = (
+  shuttleId: number,
+  dailyShuttleId: number,
+  {
+    bigRegion,
+    smallRegion,
+    status = 'OPEN',
+  }: {
+    bigRegion?: string;
+    smallRegion?: string;
+    status?: RouteStatusType;
+  } = {},
+) => {
+  return useQuery({
+    queryKey: [
+      'routes',
+      shuttleId,
+      dailyShuttleId,
+      bigRegion,
+      smallRegion,
+      status,
+    ],
+    queryFn: () =>
+      getRoutes(shuttleId, dailyShuttleId, { bigRegion, smallRegion, status }),
+    enabled: Boolean(shuttleId && dailyShuttleId),
+  });
+};
+
 export const getRoute = async ({
   shuttleId,
   dailyShuttleId,

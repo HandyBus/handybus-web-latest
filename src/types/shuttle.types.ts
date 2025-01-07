@@ -1,22 +1,5 @@
 import { HubsType } from './hub.type';
 
-export const ROUTE_TYPE = {
-  DEPARTURE: 'departure',
-  RETURN: 'return',
-} as const;
-
-export type RouteType = (typeof ROUTE_TYPE)[keyof typeof ROUTE_TYPE];
-
-export const SECTION = {
-  SHUTTLE_DETAIL: 'SHUTTLE-DETAIL',
-  RESERVATION_DETAIL: 'RESERVATION-DETAIL',
-  MY_RESERVATION: 'MY-RESERVATION',
-} as const;
-
-export type SectionType = (typeof SECTION)[keyof typeof SECTION];
-
-// ----------------
-
 export type ShuttleStatusType =
   | 'OPEN' // 셔틀 열린 상태
   | 'CLOSED' // 셔틀의 모든 일자에 대한 수요조사 모집 종료 (dailyShuttle의 경우에는 해당 일자의 수요조사 모집 종료)
