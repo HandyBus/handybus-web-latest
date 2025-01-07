@@ -5,7 +5,7 @@ import { BottomBarType } from './BottomBar.type';
 import { HTMLAttributes } from 'react';
 import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
-import { finalPrice } from '@/app/shuttle/[id]/write/sections/priceDetail.util';
+import { finalPrice } from '@/app/reservation/[id]/write/sections/priceDetail.util';
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   type: BottomBarType;

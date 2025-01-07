@@ -78,7 +78,7 @@ const ShuttleForm = ({ shuttleId, type, shuttle, routes }: Props) => {
         dailyShuttleId: dailyShuttle.dailyShuttleId?.toString() ?? '',
         shuttleRouteId: shuttleRouteId?.toString() ?? '',
       });
-      router.push(`/shuttle/${shuttleId}/write?${queryParams}`);
+      router.push(`/reservation/${shuttleId}/write?${queryParams}`);
     }
   };
 

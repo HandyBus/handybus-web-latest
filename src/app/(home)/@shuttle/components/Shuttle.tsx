@@ -6,7 +6,7 @@ import Link from 'next/link';
 const Shuttle = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
   return (
     <Link
-      href={`/shuttle/${shuttle.shuttleId}?dailyShuttleId=${shuttle.dailyShuttleId}&shuttleRouteId=${shuttle.shuttleRouteId}`}
+      href={`/reservation/${shuttle.shuttleId}?dailyShuttleId=${shuttle.dailyShuttleId}&shuttleRouteId=${shuttle.shuttleRouteId}`}
     >
       <div className="flex w-220 flex-col gap-8">
         <div className="relative h-280 w-220 overflow-hidden rounded-[12px] bg-grey-600">

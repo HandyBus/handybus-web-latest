@@ -1,4 +1,4 @@
-import { totalPrice } from '@/app/shuttle/[id]/write/sections/priceDetail.util';
+import { totalPrice } from '@/app/reservation/[id]/write/sections/priceDetail.util';
 import { ShuttleRouteType } from '@/types/shuttle.types';
 
 interface Props {

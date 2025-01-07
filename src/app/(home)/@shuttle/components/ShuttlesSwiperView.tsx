@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import dynamic from 'next/dynamic';
-const Empty = dynamic(() => import('@/app/shuttle/components/Empty'));
+const Empty = dynamic(() => import('@/app/reservation/components/Empty'));
 
 const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRouteType[] }) => {
   const [loading, setLoading] = useState(true);

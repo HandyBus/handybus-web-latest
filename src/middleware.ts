@@ -39,7 +39,7 @@ export const config = {
     '/onboarding',
     '/mypage/:path*',
     '/demand/:path*/write',
-    '/shuttle/:path*/write',
+    '/reservation/:path*/write',
   ],
 };
 

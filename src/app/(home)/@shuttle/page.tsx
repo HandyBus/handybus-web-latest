@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import {
   fetchAllShuttles,
   fetchIncludingRelatedOpenShuttles,
-} from '@/app/shuttle/util/fetch.util';
+} from '@/app/reservation/util/fetch.util';
 import { getUser } from '@/services/users';
 import Article from '@/components/article/Article';
 import { Region } from '@/hooks/useRegion';
@@ -54,7 +54,7 @@ const Bar = ({ regionString, children, postfix }: BarProp) => {
   return (
     <Article
       richTitle={`지금 예약 모집 중인 셔틀`}
-      showMore={postfix === '' ? '/shuttle' : `/shuttle?${postfix}`}
+      showMore={postfix === '' ? '/reservation' : `/reservation?${postfix}`}
     >
       <div className="flex flex-row items-center gap-[2px] px-16 text-14 font-500 text-grey-600-sub">
         <span className="[&>p>b]:font-600 [&>p>b]:text-primary-700 [&>p>svg]:inline [&>p>svg]:text-primary-700">
