@@ -7,7 +7,6 @@ import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import PassengerCount from '@/components/shuttle-detail/components/PassengerCount';
 import { ReservationFormData } from '../page';
 import { ShuttleRouteType } from '@/types/shuttle.types';
-import { toast } from 'react-toastify';
 
 interface Props {
   handleNextStep: () => void;
@@ -24,23 +23,20 @@ const ShuttleWriteStep2 = ({
   const passengerCount = watch('passengerCount');
 
   const onHandleClickNext = async () => {
-    console.log('💵 (CLIENT) onHandleClickNext');
+    const validations = Array(passengerCount)
+      .fill(null)
+      .map((_, index) => [
+        trigger(`passengers.${index}.name`),
+        trigger(`passengers.${index}.phoneNumber`),
+      ])
+      .flat();
 
-    const isValid = await trigger('passengers')
-      .then((res) => {
-        console.log('💵 (CLIENT) isValid', res);
-        return res;
-      })
-      .catch((err) => {
-        console.log('💵 (CLIENT) err', err);
-        toast.error('탑승객 정보를 확인해주세요');
-        return false;
-      });
-
-    if (passengerCount > 0 && isValid) {
-      handleNextStep();
-    }
+    const results = await Promise.all(validations);
+    const isValid = results.every(Boolean);
+    if (!isValid) return;
+    handleNextStep();
   };
+
   if (!currentShuttleData) return;
   return (
     <>
