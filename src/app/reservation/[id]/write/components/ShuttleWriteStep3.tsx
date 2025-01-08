@@ -7,16 +7,10 @@ import { ReservationFormData } from '../page';
 import { ShuttleRouteType } from '@/types/shuttle.types';
 import { useFormContext } from 'react-hook-form';
 interface Props {
-  handleNextStep: () => void;
-  handlePrevStep: () => void;
   shuttleData: ShuttleRouteType[];
 }
 
-const ShuttleWriteStep3 = ({
-  handleNextStep,
-  handlePrevStep,
-  shuttleData,
-}: Props) => {
+const ShuttleWriteStep3 = ({ shuttleData }: Props) => {
   const { watch } = useFormContext<ReservationFormData>();
   const watchPassengers = watch('passengers');
   const watchShuttleRoute = watch('shuttleRoute');
@@ -45,8 +39,6 @@ const ShuttleWriteStep3 = ({
         toDestinationShuttleRouteHubId={pickupHub}
         fromDestinationShuttleRouteHubId={dropoffHub}
         passengers={watchPassengers}
-        handleNextStep={handleNextStep}
-        handlePrevStep={handlePrevStep}
         shuttleData={shuttleData}
       />
     </>

@@ -9,6 +9,9 @@ import BottomBarContent from './BottomBarContent';
 import BottomBarPortal from './BottomBarPortal';
 import { HTMLAttributes, useEffect, useState } from 'react';
 import { ShuttleRouteType } from '@/types/shuttle.types';
+import BottomBarCompleteReservation from './BottomBarCompleteReservation';
+import BottomBarFailReservation from './BottomBarFailReservation';
+import BottomBarConflictReservation from './BottomBarConflictReservation';
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
@@ -91,6 +94,12 @@ const BottomBar = ({
             {...rest}
           />
         );
+      case BOTTOM_BAR_TYPE.RESERVATION_WRITE.COMPLETED:
+        return <BottomBarCompleteReservation />;
+      case BOTTOM_BAR_TYPE.RESERVATION_WRITE.FAIL:
+        return <BottomBarFailReservation />;
+      case BOTTOM_BAR_TYPE.RESERVATION_WRITE.CONFLICT:
+        return <BottomBarConflictReservation />;
       default:
         return null;
     }
