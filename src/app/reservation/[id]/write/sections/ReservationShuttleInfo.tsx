@@ -3,8 +3,8 @@
 import { Control, Controller } from 'react-hook-form';
 import { DailyShuttle, ReservationFormData } from '../page';
 import { ShuttleRouteType } from '@/types/shuttle.types';
-import { formatDate } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import SelectLabeled from '@/components/select-labeled/SelectLabeled';
+import { parseDateString } from '@/utils/dateString';
 
 interface ReservationShuttleInfoProps {
   control: Control<ReservationFormData>;
@@ -34,7 +34,7 @@ const ReservationShuttleInfo = ({
                   new Date(a.date).getTime() - new Date(b.date).getTime(),
               )
               .map((v: DailyShuttle) => ({
-                label: formatDate(v.date),
+                label: parseDateString(v.date),
                 value: v.dailyShuttleId,
               }))}
             value={field.value}

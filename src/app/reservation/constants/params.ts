@@ -19,7 +19,7 @@ export const SHUTTLE_SORT_SEARCH_PARAMS = [
 export type ShuttleSortSearchParamsType =
   (typeof SHUTTLE_SORT_SEARCH_PARAMS)[number];
 
-export const shuttleSortSearhParamsFromString = (
+export const shuttleSortSearchParamsFromString = (
   s: string,
 ): ShuttleSortSearchParamsType => {
   switch (s) {

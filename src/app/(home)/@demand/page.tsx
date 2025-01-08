@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { getShuttles } from '@/services/shuttleOperation';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
-// TODO check urn : /demand-survey
 const Page = () => (
   <Article richTitle="수요 확인 중인 행사" showMore="/demand">
     <SubPage />
@@ -23,15 +22,18 @@ const Page = () => (
 export default Page;
 
 const SubPage = async () => {
-  const data = await getShuttles('OPEN');
+  const shuttles = await getShuttles('OPEN');
+  const sortedShuttles = shuttles
+    .slice(0, 5)
+    .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (data.length === 0) {
+  if (shuttles.length === 0) {
     return <Empty />;
   }
 
   return (
     <div className="flex flex-col">
-      {data.map((d) => (
+      {sortedShuttles.map((d) => (
         <DemandView key={d.shuttleId} event={d} />
       ))}
     </div>

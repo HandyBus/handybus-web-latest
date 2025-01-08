@@ -4,7 +4,6 @@ import { ShuttleRouteType } from '@/types/shuttle.types';
 import { HubType } from '@/types/hub.type';
 import { FormProvider, useForm } from 'react-hook-form';
 import useFunnel from '@/hooks/useFunnel';
-import { fetchAllOpenShuttles } from '../../util/fetch.util';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { IssuedCouponType } from '@/types/client.types';
@@ -14,7 +13,8 @@ import ShuttleWriteStep3 from './components/ShuttleWriteStep3';
 import ShuttleWriteStep4 from './components/ShuttleWriteStep4';
 import StepLayout from './sections/StepLayout';
 import { useSearchParams } from 'next/navigation';
-import { formatDate } from '@/components/shuttle-detail/shuttleDetailPage.utils';
+import { getAllRoutes } from '@/services/shuttleOperation';
+import { parseDateString } from '@/utils/dateString';
 
 export interface PassengerInfoType {
   name: string;
@@ -96,7 +96,7 @@ const ShuttleWrite = ({ params }: Props) => {
 
   const { data } = useQuery({
     queryKey: ['shuttle', params.id],
-    queryFn: () => fetchAllOpenShuttles(),
+    queryFn: () => getAllRoutes({ status: 'OPEN' }),
   });
 
   // ShuttleId 에 해당하는 DATA
@@ -139,7 +139,7 @@ const ShuttleWrite = ({ params }: Props) => {
     if (!isInitialMount || !shuttleData || !shuttleData.length) return;
     if (dailyShuttleId)
       setValue('dailyShuttle', {
-        label: formatDate(
+        label: parseDateString(
           shuttleData[0].shuttle.dailyShuttles?.find(
             (v) => v.dailyShuttleId === Number(dailyShuttleId),
           )?.date ?? '',

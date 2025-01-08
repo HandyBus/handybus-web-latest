@@ -6,9 +6,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, MouseEventHandler } from 'react';
-import { DEMAND_STATUS_TEXT, TRIP_TEXT } from '../shuttle.constants';
-import { getStatusStyle } from '../shuttle.utils';
+import { getStatusStyle } from '../status.utils';
 import { parseDateString } from '@/utils/dateString';
+import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
+import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 
 interface Props {
   demand: ShuttleDemandType;
@@ -41,8 +42,8 @@ const DemandCard = ({
   const parsedDemandDate = parseDateString(demand.createdAt);
   const parsedShuttleDate = parseDateString(demand.shuttle.date);
   const region = ID_TO_REGION[demand.regionId];
-  const routeText = `${region.bigRegion} ${region.smallRegion} (${TRIP_TEXT[demand.type]})`;
-  const status = DEMAND_STATUS_TEXT[demand.status];
+  const routeText = `${region.bigRegion} ${region.smallRegion} (${TRIP_STATUS_TO_STRING[demand.type]})`;
+  const status = DEMAND_STATUS_TO_STRING[demand.status];
   const statusStyle = getStatusStyle(status);
 
   return (
