@@ -1,13 +1,6 @@
 export interface HubsType {
   toDestination: HubType[];
   fromDestination: HubType[];
-
-  destination: {
-    name: string;
-    sequence: number;
-    regionId: number;
-    arrivalTime: string;
-  };
 }
 
 export interface HubType {

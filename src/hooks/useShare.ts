@@ -1,4 +1,5 @@
-import { usePathname } from 'next/navigation';
+'use client';
+
 import { toast } from 'react-toastify';
 
 declare global {
@@ -14,17 +15,18 @@ declare global {
   }
 }
 
-export const useShare = (
-  currentUrl: string,
-  closeBottomSheet: () => void,
-  shuttleName?: string,
-) => {
-  const pathname = usePathname();
+interface Props {
+  shuttleName: string;
+  closeBottomSheet?: () => void;
+}
+
+export const useShare = ({ shuttleName, closeBottomSheet }: Props) => {
+  const currentUrl = window.location.href;
 
   const shareToTwitter = () => {
     const text = encodeURIComponent(currentUrl);
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-    closeBottomSheet();
+    closeBottomSheet?.();
   };
 
   const copyToClipboard = async () => {
@@ -34,7 +36,7 @@ export const useShare = (
     } catch {
       toast.error('링크 복사에 실패했습니다.');
     } finally {
-      closeBottomSheet();
+      closeBottomSheet?.();
     }
   };
 
@@ -44,8 +46,8 @@ export const useShare = (
     }
   };
 
-  const shareToKakao = (name = shuttleName) => {
-    if (!window.Kakao || !name) {
+  const shareToKakao = () => {
+    if (!window.Kakao || !shuttleName) {
       alert('카카오톡 공유하기를 사용할 수 없습니다.');
       return;
     }
@@ -53,12 +55,12 @@ export const useShare = (
     window.Kakao.Share.sendCustom({
       templateId: 115434,
       templateArgs: {
-        shuttleName: name,
-        path: pathname,
+        name: shuttleName,
+        path: currentUrl,
       },
     });
 
-    closeBottomSheet();
+    closeBottomSheet?.();
   };
 
   return {

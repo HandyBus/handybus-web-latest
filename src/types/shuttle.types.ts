@@ -50,7 +50,7 @@ export interface ShuttleRouteType {
   shuttle: ShuttleType;
   name: string;
   status: RouteStatusType;
-  hasEarlyBird: boolean;
+  hasEarlybird: boolean;
   earlybirdDeadline: string;
   reservationDeadline: string;
   earlybirdPriceToDestination: number;
