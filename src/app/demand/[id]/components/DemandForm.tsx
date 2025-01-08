@@ -96,7 +96,9 @@ const DemandForm = ({ shuttle }: Props) => {
       )}
       <BottomBar
         shuttleName={shuttle.name}
-        disabled={!selectedDailyShuttle || !regionId}
+        disabled={
+          !selectedDailyShuttle || !regionId || shuttle.status !== 'OPEN'
+        }
       />
     </form>
   );

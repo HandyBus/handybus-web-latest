@@ -160,7 +160,10 @@ const ReservationForm = ({
           />
         </>
       )}
-      <BottomBar disabled={!selectedRoute} shuttleName={shuttle.name} />
+      <BottomBar
+        disabled={!selectedRoute || selectedRoute.status !== 'OPEN'}
+        shuttleName={shuttle.name}
+      />
     </form>
   );
 };
