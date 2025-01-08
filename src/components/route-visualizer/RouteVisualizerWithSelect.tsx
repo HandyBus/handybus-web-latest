@@ -147,8 +147,8 @@ const HubItem = ({
         <p
           className={`text-16 font-400 leading-[24px] ${
             selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
-              ? 'text-primary-main'
-              : 'text-grey-900'
+              ? 'text-grey-900'
+              : 'text-grey-300'
           }`}
         >
           {hub.name}
