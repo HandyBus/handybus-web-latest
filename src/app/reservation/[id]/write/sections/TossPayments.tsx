@@ -3,7 +3,7 @@
 import { authInstance } from '@/services/config';
 import Script from 'next/script';
 import { PassengerInfoType } from '../page';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.type';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
@@ -13,6 +13,9 @@ import { useFormContext } from 'react-hook-form';
 import { ShuttleRouteType } from '@/types/shuttle.types';
 import { IssuedCouponType } from '@/types/client.types';
 import { getUser } from '@/services/users';
+import { CustomError } from '@/services/custom-error';
+import { BillingReservations } from '../types/reservationWrite.type';
+import { generateCustomerKey } from '../utils/reservationWrite.util';
 
 declare global {
   interface Window {
@@ -33,6 +36,8 @@ declare global {
           customerEmail?: string;
           customerName?: string;
           customerMobilePhone?: string;
+          successUrl: string;
+          failUrl: string;
         }) => Promise<void>;
       };
     };
@@ -42,12 +47,10 @@ declare global {
 interface Props {
   shuttleRouteId: number;
   type: 'ROUND_TRIP' | 'TO_DESTINATION' | 'FROM_DESTINATION';
-  toDestinationShuttleRouteHubId: string;
-  fromDestinationShuttleRouteHubId: string;
+  toDestinationShuttleRouteHubId: number;
+  fromDestinationShuttleRouteHubId: number;
   passengers: PassengerInfoType[];
   isSupportingHandy?: boolean;
-  handleNextStep: () => void;
-  handlePrevStep: () => void;
   shuttleData: ShuttleRouteType[];
 }
 
@@ -58,11 +61,10 @@ const TossPayment = ({
   fromDestinationShuttleRouteHubId,
   passengers,
   isSupportingHandy = false,
-  handleNextStep,
-  handlePrevStep,
   shuttleData,
 }: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
   const { getValues, watch } = useFormContext();
   const selectedCoupon: IssuedCouponType = watch('selectedCoupon');
   const watchShuttleRoute = getValues('shuttleRoute');
@@ -107,10 +109,12 @@ const TossPayment = ({
       shuttleRouteId,
       type,
       ...((type === 'ROUND_TRIP' || type === 'TO_DESTINATION') && {
-        toDestinationShuttleRouteHubId,
+        toDestinationShuttleRouteHubId: Number(toDestinationShuttleRouteHubId),
       }),
       ...((type === 'ROUND_TRIP' || type === 'FROM_DESTINATION') && {
-        fromDestinationShuttleRouteHubId,
+        fromDestinationShuttleRouteHubId: Number(
+          fromDestinationShuttleRouteHubId,
+        ),
       }),
       ...(selectedCoupon && {
         issuedCouponId: selectedCoupon.issuedCouponId,
@@ -130,18 +134,16 @@ const TossPayment = ({
 
   const initializeTossPayments = useCallback(async () => {
     try {
-      if (typeof window.TossPayments === 'undefined') {
+      if (typeof window.TossPayments === 'undefined')
         throw new Error('TossPayments SDK가 로드되지 않았습니다.');
-      }
 
-      // const clientKey = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY;
+      // const clientKey = process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY; //NOTES: 토스페이먼츠 심사 이후 정식 키 교환필요
       const clientKey = 'test_gck_DLJOpm5Qrld0vRJb02RPrPNdxbWn';
       if (!clientKey)
         throw new Error('TossPayments client key가 설정되지 않았습니다.');
 
       const tossPayments = new window.TossPayments(clientKey);
 
-      console.log('💵 현재 userId:', userId, typeof userId);
       if (typeof userId !== 'number')
         throw new Error('유저 정보를 불러오는데 실패했습니다.');
       const customerKey = await generateCustomerKey(userId);
@@ -151,20 +153,17 @@ const TossPayment = ({
         customerKey: customerKey,
       });
 
-      // 결제 금액 설정
       if (!requestPrice) throw new Error('requestPrice is undefined');
       widgets.setAmount({
         value: requestPrice,
         currency: 'KRW',
       });
 
-      // 결제 UI 렌더링
       widgets.renderPaymentMethods({
         selector: '#payment-method',
         variantKey: 'DEFAULT',
       });
 
-      // 약관 UI 렌더링
       widgets.renderAgreement({
         selector: '#agreement',
         variantKey: 'AGREEMENT',
@@ -172,80 +171,42 @@ const TossPayment = ({
 
       const button = document.getElementById('payment-button');
       button?.addEventListener('click', async function () {
-        const prepareBillingResponse: BillingReservations = await authInstance
-          .post<{ reservation: BillingReservations }>(
-            `/v1/billing/reservations`,
-            billingReservationData,
-          )
-          .then((res) => {
-            console.log('💵 (API SERVER) prepareBillingResponse', res);
-            return res.reservation;
-          })
-          .catch((error) => {
-            console.log('💵 (API SERVER) prepareBillingResponse 실패', error);
-            console.log(
-              '💵 (API SERVER, billingReservationData)',
-              billingReservationData,
-            );
-            toast.error('결제 요청 실패, 처음부터 다시 시작해 주세요.');
-            throw new Error('결제 생성 및 준비 실패');
-          });
+        console.log(
+          '💵 (TOSSPAYMENTS) 결제 버튼 클릭 + billingReservationData',
+          billingReservationData,
+        );
+        const prepareBillingResponse = await authInstance.post<{
+          reservation: BillingReservations;
+        }>(`/v1/billing/reservations`, billingReservationData);
 
-        await widgets
-          .requestPayment({
-            orderId: prepareBillingResponse.paymentId,
-            orderName: '(TEST) 핸디버스 토스 티셔츠 외 2건',
-            customerName: passengers[0].name,
-            customerMobilePhone: passengers[0].phoneNumber,
-          })
-          .then(
-            (
-              res: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-            ) => {
-              console.log('💵(TOSSPAYMENTS) 결제 요청 성공', res);
-              console.log(
-                '💵(API SERVER) 결제 승인 api 에 담아둘 paymentId, paymentKey',
-                res.orderId,
-                res.paymentKey,
-              );
-              // const apiResponse = authInstance
-              authInstance
-                .post(`/v1/billing/payments/${res.orderId}`, {
-                  paymentKey: res.paymentKey,
-                  pgType: 'TOSS',
-                })
-                .then((res) => {
-                  console.log('💵(API SERVER) 결제 승인 API 요청', res);
-                  handleNextStep();
-                  return res;
-                })
-                .catch((error) => {
-                  console.log('💵(API SERVER) 결제 승인 API 요청 실패', error);
-                  toast.error('결제 승인 실패, 처음부터 다시 시작해 주세요.');
-                  handlePrevStep();
-                });
-            },
-          )
-          .catch((error) => {
-            console.log('💵(TOSSPAYMENTS) 결제 요청 실패', error);
-            toast.error('결제 요청 실패, 처음부터 다시 시작해 주세요.');
-            handlePrevStep();
-          });
+        const successUrl =
+          window.location.origin +
+          pathname +
+          `/payments/${prepareBillingResponse.reservation.reservationId}/success`;
+        const failUrl = window.location.origin + pathname + `/payments/fail`;
+
+        await widgets.requestPayment({
+          orderId: prepareBillingResponse.reservation.paymentId,
+          orderName: '(TEST) 핸디버스 토스 티셔츠 외 2건',
+          customerName: passengers[0].name,
+          customerMobilePhone: passengers[0].phoneNumber,
+          successUrl: successUrl,
+          failUrl: failUrl,
+        });
       });
     } catch (error) {
-      if (error instanceof Error && error.message.includes('401')) {
+      if (error instanceof CustomError && error.statusCode === 401) {
         router.push('/login');
       }
       console.error('토스 결제 초기화 실패:', error);
+      toast.error('결제 요청 실패, 다시 시도해 주세요.');
     }
   }, [billingReservationData, userId]);
 
   return (
     <>
       <section className="h-[354px]">
-        {/* 결제 UI */}
         <div id="payment-method"></div>
-        {/* 이용약관 UI */}
         <div id="agreement"></div>
       </section>
       <Script
@@ -266,37 +227,3 @@ const TossPayment = ({
 TossPayment.displayName = 'TossPayment';
 
 export default TossPayment;
-
-export interface BillingReservations {
-  reservationId: number;
-  type: 'TO_DESTINATION' | 'FROM_DESTINATION';
-  shuttleRouteId: number;
-  pickupHubId: number;
-  dropoffHubId: number;
-  shuttleBusId: number;
-  reservationStatus: 'NOT_PAYMENT' | 'PAYMENT_COMPLETED' | 'PAYMENT_FAILED';
-  cancelStatus: 'NONE' | 'CANCELLED';
-  paymentId: string;
-  userId: number;
-  handyStatus: 'NOT_SUPPORTED' | 'SUPPORTED';
-  createdAt: string;
-}
-
-const generateCustomerKey = async (userId: number): Promise<string> => {
-  const rawData = `HANDYBUS_USER_${userId}_TOSS_PAYMENTS_KEY`;
-  const encoder = new TextEncoder();
-  const data = encoder.encode(rawData);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-  const base64Hash = btoa(
-    hashArray.map((b) => String.fromCharCode(b)).join(''),
-  );
-  console.log(
-    'generateCustomerKey',
-    `USER_${userId}_${base64Hash.slice(0, 40).replace(/[^A-Za-z0-9\-_=.@]/g, '_')}`,
-  );
-  return `USER_${userId}_${base64Hash
-    .slice(0, 40)
-    .replace(/[^A-Za-z0-9\-_=.@]/g, '_')}`;
-};

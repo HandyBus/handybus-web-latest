@@ -28,8 +28,8 @@ export interface ReservationFormData {
   passengerCount: number;
   passengers: PassengerInfoType[];
   isHandy: boolean;
-  toDestinationHubId: string;
-  fromDestinationHubId: string;
+  toDestinationHubId: number;
+  fromDestinationHubId: number;
   selectedCoupon: IssuedCouponType;
   finalPrice: number;
   postCoupon: string;
@@ -63,8 +63,8 @@ const ShuttleWrite = ({ params }: Props) => {
       passengerCount: 1,
       passengers: [],
       isHandy: false,
-      toDestinationHubId: '',
-      fromDestinationHubId: '',
+      toDestinationHubId: 0,
+      fromDestinationHubId: 0,
       selectedCoupon: undefined,
       finalPrice: 0,
       postCoupon: '',
@@ -186,11 +186,7 @@ const ShuttleWrite = ({ params }: Props) => {
 
           <Step name={3}>
             <StepLayout step={3} shuttleInfoData={shuttleData[0].shuttle}>
-              <ShuttleWriteStep3
-                handleNextStep={handleNextStep}
-                handlePrevStep={handlePrevStep}
-                shuttleData={shuttleData}
-              />
+              <ShuttleWriteStep3 shuttleData={shuttleData} />
             </StepLayout>
           </Step>
 
