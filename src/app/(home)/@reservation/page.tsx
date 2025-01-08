@@ -1,19 +1,15 @@
 import type { ReactElement, ReactNode } from 'react';
-import {
-  fetchAllShuttles,
-  fetchIncludingRelatedOpenShuttles,
-} from '@/app/reservation/util/fetch.util';
 import { getUser } from '@/services/users';
 import Article from '@/components/article/Article';
 import { Region } from '@/hooks/useRegion';
 import { regionToString } from '@/utils/region.util';
 import { ID_TO_REGION } from '@/constants/regions';
 import { ShuttleRouteType } from '@/types/shuttle.types';
-import ShuttlesSwiperView from './components/ShuttlesSwiperView';
+import RoutesSwiperView from './components/RoutesSwiperView';
 
 const Page = async () => {
-  const { region, shuttles, promoted, userRegion } =
-    await getRegionAndOpenShuttles();
+  const { region, routes, promoted, userRegion } =
+    await getRegionAndOpenRoutes();
 
   const location = promoted ? (
     <p>
@@ -33,9 +29,13 @@ const Page = async () => {
     smallRegion: region?.smallRegion,
   }).toString();
 
+  const sortedRoutes = routes
+    .slice(0, 16)
+    .sort((a, b) => a.remainingSeatCount - b.remainingSeatCount);
+
   return (
     <Bar regionString={location} postfix={postfix}>
-      <ShuttlesSwiperView shuttles={shuttles} />
+      <RoutesSwiperView routes={sortedRoutes} />
     </Bar>
   );
 };
@@ -44,6 +44,7 @@ export default Page;
 
 import LocationMarker from './icons/marker.svg';
 import { toSearchParams } from '@/utils/searchParams';
+import { getAllRoutes } from '@/services/shuttleOperation';
 interface BarProp {
   postfix: string;
   regionString: ReactElement<HTMLParagraphElement>;
@@ -66,10 +67,11 @@ const Bar = ({ regionString, children, postfix }: BarProp) => {
   );
 };
 
-const getRegionAndOpenShuttles = async (): Promise<{
+// 유저 지역과 관련된 노선을 가져오는 함수
+const getRegionAndOpenRoutes = async (): Promise<{
   region: Region | undefined;
   promoted: boolean;
-  shuttles: ShuttleRouteType[];
+  routes: ShuttleRouteType[];
   userRegion: Region | undefined;
 }> => {
   let userRegionId: number | undefined;
@@ -80,39 +82,43 @@ const getRegionAndOpenShuttles = async (): Promise<{
   }
   const userRegion = userRegionId ? ID_TO_REGION[userRegionId] : undefined;
 
-  const shuttles = await fetchAllShuttles();
-
   if (userRegionId === undefined || userRegion === undefined) {
-    return { region: undefined, promoted: false, shuttles, userRegion };
+    const routes = await getAllRoutes({ status: 'OPEN' });
+    return { region: undefined, promoted: false, routes, userRegion };
   }
 
-  const regionShuttles = await fetchIncludingRelatedOpenShuttles(userRegion);
+  const regionRoutes = await getAllRoutes({
+    provinceFullName: userRegion.bigRegion,
+    cityFullName: userRegion.smallRegion,
+    status: 'OPEN',
+  });
 
-  if (regionShuttles.length > 0) {
+  if (regionRoutes.length > 0) {
     return {
       region: ID_TO_REGION[userRegionId],
       promoted: false,
-      shuttles: regionShuttles,
+      routes: regionRoutes,
       userRegion,
     };
   }
 
-  const provinenceShuttles = await fetchIncludingRelatedOpenShuttles({
-    bigRegion: userRegion.bigRegion,
-    smallRegion: undefined,
+  const promotedRegionRoutes = await getAllRoutes({
+    provinceFullName: userRegion.bigRegion,
+    status: 'OPEN',
   });
 
-  if (provinenceShuttles.length > 0) {
+  if (promotedRegionRoutes.length > 0) {
     return {
       region: {
         bigRegion: userRegion.bigRegion,
         smallRegion: undefined,
       },
       promoted: true,
-      shuttles: provinenceShuttles,
+      routes: promotedRegionRoutes,
       userRegion,
     };
   }
 
-  return { region: undefined, promoted: true, shuttles, userRegion };
+  const routes = await getAllRoutes({ status: 'OPEN' });
+  return { region: undefined, promoted: false, routes, userRegion };
 };

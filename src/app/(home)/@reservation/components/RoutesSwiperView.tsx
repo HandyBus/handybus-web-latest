@@ -1,6 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
-import Shuttle from './Shuttle';
+import Route from './Route';
 import { ShuttleRouteType } from '@/types/shuttle.types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
@@ -8,11 +8,15 @@ import 'swiper/css';
 import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('@/app/reservation/components/Empty'));
 
-const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRouteType[] }) => {
+interface Props {
+  routes: ShuttleRouteType[];
+}
+
+const RoutesSwiperView = ({ routes }: Props) => {
   const [loading, setLoading] = useState(true);
   const swiper = useRef<SwiperRef>(null);
 
-  if (shuttles.length === 0) {
+  if (routes.length === 0) {
     return <Empty />;
   }
 
@@ -30,13 +34,13 @@ const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRouteType[] }) => {
           slidesOffsetAfter={10}
           onAfterInit={() => setLoading(false)}
         >
-          {shuttles?.slice(0, 16).map((v) => (
+          {routes?.map((v) => (
             <SwiperSlide
               key={v.shuttleRouteId}
               style={{ width: 'fit-content' }}
             >
               <div className="pr-[6px]">
-                <Shuttle shuttle={v} />
+                <Route route={v} />
               </div>
             </SwiperSlide>
           ))}
@@ -46,4 +50,4 @@ const ShuttlesSwiperView = ({ shuttles }: { shuttles: ShuttleRouteType[] }) => {
   );
 };
 
-export default ShuttlesSwiperView;
+export default RoutesSwiperView;

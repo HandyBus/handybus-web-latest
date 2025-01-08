@@ -1,7 +1,6 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
-import { fetchIncludingRelatedOpenShuttles } from './util/fetch.util';
 import getFirstSearchParam from '@/utils/getFirstSearchParam';
 import {
   shuttleSortSearhParamsFromString,
@@ -15,9 +14,10 @@ import {
 import { Region } from '@/hooks/useRegion';
 import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
-import { toSortedShuttles } from './util/sort.util';
+import { toSortedRoutes } from './util/sort.util';
 import { Metadata } from 'next';
 import ShuttleRouteView from './components/ShuttleRoute';
+import { getAllRoutes } from '@/services/shuttleOperation';
 
 export const metadata: Metadata = {
   title: '지금 예약 모집 중인 셔틀',
@@ -55,9 +55,13 @@ const Page = async ({ searchParams }: Props) => {
       ? ({ bigRegion, smallRegion } as Region)
       : { bigRegion: undefined, smallRegion: undefined };
 
-  const related = await fetchIncludingRelatedOpenShuttles(region);
+  const related = await getAllRoutes({
+    status: 'OPEN',
+    provinceFullName: region.bigRegion,
+    cityFullName: region.smallRegion,
+  });
 
-  const data = toSortedShuttles(sortBy, related);
+  const data = toSortedRoutes(sortBy, related);
 
   return (
     <>

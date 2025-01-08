@@ -3,43 +3,45 @@ import dateString, { ddayString } from '@/utils/dateString';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Shuttle = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
+interface Props {
+  route: ShuttleRouteType;
+}
+
+const Shuttle = ({ route }: Props) => {
   return (
     <Link
-      href={`/reservation/${shuttle.shuttleId}?dailyShuttleId=${shuttle.dailyShuttleId}&shuttleRouteId=${shuttle.shuttleRouteId}`}
+      href={`/reservation/${route.shuttleId}?dailyShuttleId=${route.dailyShuttleId}&shuttleRouteId=${route.shuttleRouteId}`}
     >
       <div className="flex w-220 flex-col gap-8">
         <div className="relative h-280 w-220 overflow-hidden rounded-[12px] bg-grey-600">
           <Image
             className="animate-fade object-cover"
-            src={shuttle.shuttle.image}
-            alt={`콘서트 ${shuttle.shuttle.name}의 포스터`}
+            src={route.shuttle.image}
+            alt={`콘서트 ${route.shuttle.name}의 포스터`}
             fill
           />
           <div className="absolute left-8 top-8 rounded-full bg-white px-8 py-[1px] text-12 font-500 text-grey-600-sub">
-            {ddayString(new Date(shuttle.reservationDeadline))}
+            {ddayString(new Date(route.reservationDeadline))}
           </div>
-          <SeatString shuttle={shuttle} />
+          <SeatString route={route} />
         </div>
         <div className="flex flex-col gap-4 pl-4">
           <span className="line-clamp-2 text-16 font-600 text-grey-900">
-            {shuttle.shuttle.name}
+            {route.shuttle.name}
           </span>
           <div className="flex flex-col text-12 font-400">
-            <span className="text-black">
-              {shuttle.shuttle.destination.name}
-            </span>
+            <span className="text-black">{route.shuttle.destination.name}</span>
             <span className="text-grey-900">
               {dateString(
                 new Date(
-                  shuttle.shuttle.dailyShuttles.find(
-                    (v) => v.dailyShuttleId === shuttle.dailyShuttleId,
+                  route.shuttle.dailyShuttles.find(
+                    (v) => v.dailyShuttleId === route.dailyShuttleId,
                   )?.date || '',
                 ),
               )}{' '}
               셔틀
             </span>
-            <span className="text-grey-500">{shuttle.name}</span>
+            <span className="text-grey-500">{route.name}</span>
           </div>
         </div>
       </div>
@@ -49,9 +51,13 @@ const Shuttle = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
 
 export default Shuttle;
 
-const SeatString = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
+interface SeatStringProps {
+  route: ShuttleRouteType;
+}
+
+const SeatString = ({ route }: SeatStringProps) => {
   let prefix: string;
-  switch (shuttle.remainingSeatType) {
+  switch (route.remainingSeatType) {
     case 'FROM_DESTINATION':
       prefix = `콘서트행 잔여석`;
       break;
@@ -70,8 +76,8 @@ const SeatString = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
       className="absolute bottom-0 w-full bg-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-white backdrop-blur-[2px]"
     >
       {prefix}{' '}
-      <span className="text-primary-main">{shuttle.remainingSeatCount}석</span>{' '}
-      / {shuttle.maxPassengerCount}석
+      <span className="text-primary-main">{route.remainingSeatCount}석</span> /{' '}
+      {route.maxPassengerCount}석
     </div>
   );
 };

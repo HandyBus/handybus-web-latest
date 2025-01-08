@@ -45,21 +45,49 @@ export const useGetShuttle = (id: number) => {
   });
 };
 
+export const getAllRoutes = async ({
+  provinceFullName,
+  cityFullName,
+  status,
+}: {
+  provinceFullName?: string;
+  cityFullName?: string;
+  status?: RouteStatusType;
+} = {}) => {
+  const queryParams = new URLSearchParams();
+  if (provinceFullName)
+    queryParams.append('provinceFullName', provinceFullName);
+  if (cityFullName) queryParams.append('cityFullName', cityFullName);
+  if (status) queryParams.append('status', status);
+
+  const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
+    `/v1/shuttle-operation/shuttles/all/dates/all/routes?${queryParams.toString()}`,
+  );
+
+  return res.shuttleRouteDetails;
+};
+
 export const getRoutes = async (
   shuttleId: number,
   dailyShuttleId: number,
   {
-    bigRegion,
-    smallRegion,
-    status = 'OPEN',
+    provinceFullName,
+    cityFullName,
+    status,
   }: {
-    bigRegion?: string;
-    smallRegion?: string;
+    provinceFullName?: string;
+    cityFullName?: string;
     status?: RouteStatusType;
   } = {},
 ) => {
+  const queryParams = new URLSearchParams();
+  if (provinceFullName)
+    queryParams.append('provinceFullName', provinceFullName);
+  if (cityFullName) queryParams.append('cityFullName', cityFullName);
+  if (status) queryParams.append('status', status);
+
   const res = await instance.get<{ shuttleRouteDetails: ShuttleRouteType[] }>(
-    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?bigRegion=${bigRegion}&smallRegion=${smallRegion}&status=${status}`,
+    `/v1/shuttle-operation/shuttles/${shuttleId}/dates/${dailyShuttleId}/routes?${queryParams.toString()}`,
   );
   return res.shuttleRouteDetails;
 };
@@ -68,12 +96,12 @@ export const useGetRoutes = (
   shuttleId: number,
   dailyShuttleId: number,
   {
-    bigRegion,
-    smallRegion,
-    status = 'OPEN',
+    provinceFullName,
+    cityFullName,
+    status,
   }: {
-    bigRegion?: string;
-    smallRegion?: string;
+    provinceFullName?: string;
+    cityFullName?: string;
     status?: RouteStatusType;
   } = {},
 ) => {
@@ -82,12 +110,16 @@ export const useGetRoutes = (
       'routes',
       shuttleId,
       dailyShuttleId,
-      bigRegion,
-      smallRegion,
+      provinceFullName,
+      cityFullName,
       status,
     ],
     queryFn: () =>
-      getRoutes(shuttleId, dailyShuttleId, { bigRegion, smallRegion, status }),
+      getRoutes(shuttleId, dailyShuttleId, {
+        provinceFullName,
+        cityFullName,
+        status,
+      }),
     enabled: Boolean(shuttleId && dailyShuttleId),
   });
 };

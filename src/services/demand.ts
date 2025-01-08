@@ -63,7 +63,11 @@ const getReservationOngoingDemand = async (demand: ShuttleDemandType) => {
   const routes = await getRoutes(
     demand.shuttle.shuttleId,
     demand.dailyShuttleId,
-    region,
+    {
+      provinceFullName: region.bigRegion,
+      cityFullName: region.smallRegion,
+      status: 'OPEN',
+    },
   );
   if (routes.length === 0) {
     return null;
