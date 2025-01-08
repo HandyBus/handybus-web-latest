@@ -13,8 +13,8 @@ import ShuttleWriteStep3 from './components/ShuttleWriteStep3';
 import ShuttleWriteStep4 from './components/ShuttleWriteStep4';
 import StepLayout from './sections/StepLayout';
 import { useSearchParams } from 'next/navigation';
-import { formatDate } from '@/components/shuttle-detail/shuttleDetailPage.utils';
 import { getAllRoutes } from '@/services/shuttleOperation';
+import { parseDateString } from '@/utils/dateString';
 
 export interface PassengerInfoType {
   name: string;
@@ -139,7 +139,7 @@ const ShuttleWrite = ({ params }: Props) => {
     if (!isInitialMount || !shuttleData || !shuttleData.length) return;
     if (dailyShuttleId)
       setValue('dailyShuttle', {
-        label: formatDate(
+        label: parseDateString(
           shuttleData[0].shuttle.dailyShuttles?.find(
             (v) => v.dailyShuttleId === Number(dailyShuttleId),
           )?.date ?? '',
