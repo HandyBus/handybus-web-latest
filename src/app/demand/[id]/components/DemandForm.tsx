@@ -12,24 +12,51 @@ import { parseDateString } from '@/utils/dateString';
 import { SyntheticEvent, useMemo, useState } from 'react';
 import DemandStats from './DemandStats';
 import BottomBar from './BottomBar';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   shuttle: ShuttleType;
 }
 
 const DemandForm = ({ shuttle }: Props) => {
-  const [selectedBigRegion, setSelectedBigRegion] = useState<BigRegionsType>();
-  const [selectedSmallRegion, setSelectedSmallRegion] = useState<string>();
-  const [selectedDailyShuttle, setSelectedDailyShuttle] =
-    useState<DailyShuttleType>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [selectedBigRegion, setSelectedBigRegion] = useState<
+    BigRegionsType | undefined
+  >(searchParams.get('bigRegion') as BigRegionsType);
+  const [selectedSmallRegion, setSelectedSmallRegion] = useState<
+    string | undefined
+  >(searchParams.get('smallRegion') || undefined);
+  const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
+    DailyShuttleType | undefined
+  >(
+    shuttle.dailyShuttles.find(
+      (dailyShuttle) =>
+        String(dailyShuttle.dailyShuttleId) ===
+        searchParams.get('dailyShuttleId'),
+    ) ?? undefined,
+  );
 
   const regionId = useMemo(() => {
     if (!selectedBigRegion || !selectedSmallRegion) return undefined;
     return REGION_TO_ID[selectedBigRegion][selectedSmallRegion];
   }, [selectedBigRegion, selectedSmallRegion]);
 
-  const router = useRouter();
+  const updateQuery = (updates: Record<string, string | undefined>) => {
+    const params = new URLSearchParams(searchParams);
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === undefined) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+    router.replace(`/demand/${shuttle.shuttleId}?${params.toString()}`, {
+      scroll: false,
+    });
+  };
+
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     router.push(
@@ -50,6 +77,11 @@ const DemandForm = ({ shuttle }: Props) => {
             setSelectedDailyShuttle(value);
             setSelectedBigRegion(undefined);
             setSelectedSmallRegion(undefined);
+            updateQuery({
+              dailyShuttleId: String(value?.dailyShuttleId),
+              bigRegion: undefined,
+              smallRegion: undefined,
+            });
           }}
           renderValue={(value) => parseDateString(value.date)}
           placeholder="운행일"
@@ -67,6 +99,10 @@ const DemandForm = ({ shuttle }: Props) => {
           setValue={(value) => {
             setSelectedBigRegion(value);
             setSelectedSmallRegion(undefined);
+            updateQuery({
+              bigRegion: value,
+              smallRegion: undefined,
+            });
           }}
           disabled={!selectedDailyShuttle}
           placeholder="도/광역시 선택"
@@ -78,6 +114,9 @@ const DemandForm = ({ shuttle }: Props) => {
           value={selectedSmallRegion}
           setValue={(value) => {
             setSelectedSmallRegion(value);
+            updateQuery({
+              smallRegion: value,
+            });
           }}
           disabled={!selectedBigRegion}
           placeholder="시/군/구 선택"
