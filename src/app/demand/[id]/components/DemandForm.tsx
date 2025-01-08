@@ -13,6 +13,7 @@ import { SyntheticEvent, useMemo, useState } from 'react';
 import DemandStats from './DemandStats';
 import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
+import RouteModal from './RouteModal';
 
 interface Props {
   shuttle: ShuttleType;
@@ -21,20 +22,25 @@ interface Props {
 const DemandForm = ({ shuttle }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const initialBigRegion = searchParams.get('bigRegion') as
+    | BigRegionsType
+    | undefined;
+  const initialSmallRegion = searchParams.get('smallRegion');
+  const initialDailyShuttleId = searchParams.get('dailyShuttleId')
+    ? Number(searchParams.get('dailyShuttleId'))
+    : undefined;
 
   const [selectedBigRegion, setSelectedBigRegion] = useState<
     BigRegionsType | undefined
-  >(searchParams.get('bigRegion') as BigRegionsType);
+  >(initialBigRegion ?? undefined);
   const [selectedSmallRegion, setSelectedSmallRegion] = useState<
     string | undefined
-  >(searchParams.get('smallRegion') || undefined);
+  >(initialSmallRegion ?? undefined);
   const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
     DailyShuttleType | undefined
   >(
     shuttle.dailyShuttles.find(
-      (dailyShuttle) =>
-        String(dailyShuttle.dailyShuttleId) ===
-        searchParams.get('dailyShuttleId'),
+      (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
     ) ?? undefined,
   );
 
@@ -139,6 +145,14 @@ const DemandForm = ({ shuttle }: Props) => {
           !selectedDailyShuttle || !regionId || shuttle.status !== 'OPEN'
         }
       />
+      {initialDailyShuttleId && initialBigRegion && initialSmallRegion && (
+        <RouteModal
+          shuttle={shuttle}
+          dailyShuttleId={initialDailyShuttleId}
+          bigRegion={initialBigRegion}
+          smallRegion={initialSmallRegion}
+        />
+      )}
     </form>
   );
 };

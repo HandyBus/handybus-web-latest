@@ -103,7 +103,7 @@ const BottomBar = ({
         bottomSheetRef={bottomSheetRef}
         contentRef={contentRef}
         closeBottomSheet={closeBottomSheet}
-        shuttleName={shuttleName}
+        shuttleName={shuttleName || ''}
       />
     </BottomBarPortal>
   );

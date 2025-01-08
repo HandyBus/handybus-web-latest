@@ -13,6 +13,7 @@ import {
 } from '@/services/demand';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { ID_TO_REGION } from '@/constants/regions';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const DemandTab = () => {
@@ -46,14 +47,19 @@ const DemandTab = () => {
       <ul>
         {parsedReservationOngoingDemands.length > 0 && (
           <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
-            {parsedReservationOngoingDemands.map((demand) => (
-              <DemandCard
-                key={demand.shuttleDemandId}
-                demand={demand}
-                buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-                buttonHref={`/shuttle-detail/${demand.shuttle.shuttleId}`}
-              />
-            ))}
+            {parsedReservationOngoingDemands.map((demand) => {
+              const region = ID_TO_REGION[demand.regionId];
+              const href = `/demand/${demand.shuttle.shuttleId}?dailyShuttleId=${demand.dailyShuttleId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
+              return (
+                <DemandCard
+                  key={demand.shuttleDemandId}
+                  demand={demand}
+                  href={href}
+                  buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
+                  buttonHref={href}
+                />
+              );
+            })}
           </ReservationOngoingWrapper>
         )}
       </ul>
