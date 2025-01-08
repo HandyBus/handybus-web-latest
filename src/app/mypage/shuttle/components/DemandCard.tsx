@@ -13,6 +13,7 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 
 interface Props {
   demand: ShuttleDemandType;
+  href?: string;
   buttonText?: string;
   buttonHref?: string;
   buttonDisabled?: boolean;
@@ -24,6 +25,7 @@ interface Props {
 
 const DemandCard = ({
   demand,
+  href,
   buttonText,
   buttonHref,
   buttonDisabled,
@@ -48,7 +50,7 @@ const DemandCard = ({
 
   return (
     <Link
-      href={`/demand/${demand.shuttle.shuttleId}`}
+      href={href || `/demand/${demand.shuttle.shuttleId}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">

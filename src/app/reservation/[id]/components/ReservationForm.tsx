@@ -6,12 +6,13 @@ import {
   ShuttleRouteType,
   ShuttleType,
 } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { compareToNow, parseDateString } from '@/utils/dateString';
 import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import { useGetRoutes } from '@/services/shuttleOperation';
 import BottomBar from './BottomBar';
+import PriceStats from './PriceStats';
 
 interface Props {
   shuttle: ShuttleType;
@@ -81,6 +82,14 @@ const ReservationForm = ({
     router.push(`/reservation/${shuttle.shuttleId}/write?${query}`);
   };
 
+  const sortedToDestinationHubs = useMemo(
+    () =>
+      selectedRoute?.hubs.toDestination.sort(
+        (a, b) => a.sequence - b.sequence,
+      ) ?? [],
+    [selectedRoute],
+  );
+
   return (
     <form onSubmit={handleSubmit}>
       <section className="flex flex-col gap-16 p-16">
@@ -119,14 +128,42 @@ const ReservationForm = ({
       </section>
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
       {selectedRoute && (
-        <RouteVisualizer
-          type="ROUND_TRIP"
-          isSelected={false}
-          toDestinationHubs={selectedRoute.hubs.toDestination}
-          fromDestinationHubs={selectedRoute.hubs.fromDestination}
-        />
+        <>
+          <RouteVisualizer
+            type="ROUND_TRIP"
+            isSelected={false}
+            toDestinationHubs={selectedRoute.hubs.toDestination}
+            fromDestinationHubs={selectedRoute.hubs.fromDestination}
+          />
+          <PriceStats
+            tripType={selectedRoute.remainingSeatType}
+            region={sortedToDestinationHubs[0].name}
+            destination={
+              sortedToDestinationHubs[sortedToDestinationHubs.length - 1].name
+            }
+            regularPrice={{
+              toDestination: selectedRoute.regularPriceToDestination,
+              fromDestination: selectedRoute.regularPriceFromDestination,
+              roundTrip: selectedRoute.regularPriceRoundTrip,
+            }}
+            isEarlybird={Boolean(
+              selectedRoute.hasEarlybird &&
+                selectedRoute.earlybirdDeadline &&
+                compareToNow(selectedRoute.earlybirdDeadline, (a, b) => a > b),
+            )}
+            earlybirdDeadline={selectedRoute.earlybirdDeadline}
+            earlybirdPrice={{
+              toDestination: selectedRoute.earlybirdPriceToDestination,
+              fromDestination: selectedRoute.earlybirdPriceFromDestination,
+              roundTrip: selectedRoute.earlybirdPriceRoundTrip,
+            }}
+          />
+        </>
       )}
-      <BottomBar disabled={!selectedRoute} />
+      <BottomBar
+        disabled={!selectedRoute || selectedRoute.status !== 'OPEN'}
+        shuttleName={shuttle.name}
+      />
     </form>
   );
 };

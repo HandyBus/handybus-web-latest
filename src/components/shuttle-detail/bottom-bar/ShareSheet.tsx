@@ -16,7 +16,7 @@ interface ShareSheetProps {
   ) => (() => void) | undefined;
   contentRef: RefObject<HTMLDivElement>;
   closeBottomSheet: () => void;
-  shuttleName?: string;
+  shuttleName: string;
 }
 
 const ShareSheet = ({
@@ -25,14 +25,13 @@ const ShareSheet = ({
   closeBottomSheet,
   shuttleName,
 }: ShareSheetProps) => {
-  const currentUrl = window.location.href;
   const { shareToTwitter, copyToClipboard, shareToKakao, initializeKakao } =
-    useShare(currentUrl, closeBottomSheet, shuttleName);
+    useShare({ closeBottomSheet, shuttleName });
 
   const handleShare = (platform: SharePlatform) => {
     switch (platform) {
       case SHARE_PLATFORM.KAKAO:
-        shareToKakao(shuttleName);
+        shareToKakao();
         break;
       case SHARE_PLATFORM.TWITTER:
         shareToTwitter();

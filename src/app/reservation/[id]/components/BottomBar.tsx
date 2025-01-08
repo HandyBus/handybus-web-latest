@@ -8,9 +8,10 @@ import ShareSheet from '@/components/shuttle-detail/bottom-bar/ShareSheet';
 
 interface Props {
   disabled?: boolean;
+  shuttleName: string;
 }
 
-const BottomBar = ({ disabled = false }: Props) => {
+const BottomBar = ({ disabled = false, shuttleName }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
@@ -34,6 +35,7 @@ const BottomBar = ({ disabled = false }: Props) => {
         bottomSheetRef={bottomSheetRef}
         contentRef={contentRef}
         closeBottomSheet={closeBottomSheet}
+        shuttleName={shuttleName}
       />
     </>
   );

@@ -49,7 +49,7 @@ const ReservationCard = ({
 
   return (
     <Link
-      href={`/shuttle/${reservation.shuttle.shuttleId}?dailyShuttleId=${reservation.shuttle.route.dailyShuttleId}&shuttleRouteId=${reservation.shuttle.route.shuttleRouteId}`}
+      href={`/reservation/${reservation.shuttle.shuttleId}?dailyShuttleId=${reservation.shuttle.route.dailyShuttleId}&shuttleRouteId=${reservation.shuttle.route.shuttleRouteId}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">

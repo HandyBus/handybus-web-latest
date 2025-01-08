@@ -38,7 +38,6 @@ export const DEMAND_STATUS_TO_STRING: Record<ShuttleDemandStatusType, string> =
   {
     OPEN: '수요 확인 중',
     CLOSED: '수요 신청 마감',
-    SHUTTLE_ASSIGNED: '수요 신청 마감',
     ENDED: '운행 종료',
     CANCELLED: '무산',
     INACTIVE: '비활성',

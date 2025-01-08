@@ -7,10 +7,11 @@ import ShareIcon from 'public/icons/share.svg';
 import ShareSheet from '@/components/shuttle-detail/bottom-bar/ShareSheet';
 
 interface Props {
+  shuttleName: string;
   disabled?: boolean;
 }
 
-const BottomBar = ({ disabled = false }: Props) => {
+const BottomBar = ({ shuttleName, disabled = false }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
@@ -39,6 +40,7 @@ const BottomBar = ({ disabled = false }: Props) => {
         bottomSheetRef={bottomSheetRef}
         contentRef={contentRef}
         closeBottomSheet={closeBottomSheet}
+        shuttleName={shuttleName}
       />
     </>
   );

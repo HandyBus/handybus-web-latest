@@ -59,7 +59,6 @@ export interface ArtistType {
 export type ShuttleDemandStatusType =
   | 'OPEN' // 수요조사가 아직 모집 중인 상태
   | 'CLOSED' // 수요조사 모집 종료, 셔틀 미매핑 상태
-  | 'SHUTTLE_ASSIGNED' // 수요조사 모집 종료, 셔틀 매핑 상태
   | 'ENDED' // 콘서트가 끝나 셔틀 운행 종료
   | 'CANCELLED' // 무산 상태
   | 'INACTIVE';
@@ -87,6 +86,7 @@ export interface ShuttleDemandType {
   regionId: number;
   dailyShuttleId: number;
   createdAt: string;
+  hasShuttleRoute: boolean;
 }
 
 type BaseReservationType = {
