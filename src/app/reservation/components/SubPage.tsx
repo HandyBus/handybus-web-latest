@@ -33,7 +33,7 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
       ...(region.bigRegion ? region : {}),
       sort: shuttleSortToSearchParam(sort),
     } as Record<string, string>).toString();
-    route.replace(`/shuttle${postfix ? `?${postfix}` : ''}`);
+    route.replace(`/reservation${postfix ? `?${postfix}` : ''}`);
   }, [region, sort, route]);
 
   return (
@@ -53,7 +53,7 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
                 ...region,
                 sort: shuttleSortToSearchParam(s),
               } as Record<string, string | undefined>).toString();
-              route.replace(`/shuttle${postfix ? `?${postfix}` : ''}`);
+              route.replace(`/reservation${postfix ? `?${postfix}` : ''}`);
             }}
             options={SHUTTLE_SORT}
             value={sort}

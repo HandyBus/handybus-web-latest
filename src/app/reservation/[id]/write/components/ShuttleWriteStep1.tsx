@@ -1,16 +1,16 @@
 'use client';
 
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import ReservationShuttleInfo from '../sections/ReservationShuttleInfo';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
-import { SECTION, ShuttleRouteType } from '@/types/shuttle.types';
+import { ShuttleRouteType } from '@/types/shuttle.types';
 import { HubType } from '@/types/hub.type';
 import { BottomBarType } from '@/components/shuttle-detail/bottom-bar/BottomBar.type';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { DailyShuttle, ReservationFormData } from '../page';
 import BottomBar from '@/components/shuttle-detail/bottom-bar/BottomBar';
 import { useCallback } from 'react';
+import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
 
 interface Props {
   handleNextStep: () => void;
@@ -58,17 +58,44 @@ const ShuttleWriteStep1 = ({
         dailyShuttleRouteArray={dailyShuttleRouteArray}
       />
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
-      <ShuttleRouteVisualizer
-        type={
-          tripType?.value as
-            | 'ROUND_TRIP'
-            | 'TO_DESTINATION'
-            | 'FROM_DESTINATION'
-        }
-        toDestinationObject={routeHubsToDestination}
-        fromDestinationObject={routeHubsFromDestination}
-        section={SECTION.RESERVATION_DETAIL}
-      />
+      {(tripType?.value === 'TO_DESTINATION' ||
+        tripType?.value === 'ROUND_TRIP') && (
+        <Controller
+          control={control}
+          name="toDestinationHubId"
+          render={({ field: { value, onChange } }) => (
+            <RouteVisualizerWithSelect
+              type="TO_DESTINATION"
+              toDestinationHubs={routeHubsToDestination}
+              toDestinationHubValue={routeHubsToDestination.find(
+                (hub) => hub.shuttleRouteHubId === Number(value),
+              )}
+              setToDestinationHubValue={(hub) =>
+                onChange(String(hub?.shuttleRouteHubId))
+              }
+            />
+          )}
+        />
+      )}
+      {(tripType?.value === 'FROM_DESTINATION' ||
+        tripType?.value === 'ROUND_TRIP') && (
+        <Controller
+          control={control}
+          name="fromDestinationHubId"
+          render={({ field: { value, onChange } }) => (
+            <RouteVisualizerWithSelect
+              type="FROM_DESTINATION"
+              fromDestinationHubs={routeHubsFromDestination}
+              fromDestinationHubValue={routeHubsFromDestination.find(
+                (hub) => hub.shuttleRouteHubId === Number(value),
+              )}
+              setFromDestinationHubValue={(hub) =>
+                onChange(String(hub?.shuttleRouteHubId))
+              }
+            />
+          )}
+        />
+      )}
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
       <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
       <BottomBar

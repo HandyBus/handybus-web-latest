@@ -51,7 +51,7 @@ const ShuttleSelector = ({ control, type, data, reservData }: Props) => {
   useEffect(() => {
     if (type === 'RESERVATION') {
       router.replace(
-        `/shuttle/${data.shuttleId}?dailyShuttleId=${watchDailyShuttle.dailyShuttleId}&shuttleRouteId=${watchShuttleRoute?.value}`,
+        `/reservation/${data.shuttleId}?dailyShuttleId=${watchDailyShuttle.dailyShuttleId}&shuttleRouteId=${watchShuttleRoute?.value}`,
       );
     }
   }, [watchDailyShuttle, watchShuttleRoute]);

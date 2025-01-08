@@ -10,7 +10,7 @@ const RouteStatusChip = ({ status }: Props) => {
   switch (status) {
     case 'OPEN':
       return (
-        <div className="w-fit whitespace-nowrap  rounded-full bg-[#FEF87A] px-[14px] py-[3px] text-12 text-black">
+        <div className="w-fit whitespace-nowrap  rounded-full bg-primary-main px-[14px] py-[3px] text-12 text-white">
           {statusString}
         </div>
       );
