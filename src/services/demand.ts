@@ -56,7 +56,7 @@ export const useDeleteDemand = () => {
 };
 
 const getReservationOngoingDemand = async (demand: ShuttleDemandType) => {
-  if (demand.status !== 'SHUTTLE_ASSIGNED') {
+  if (!demand.hasShuttleRoute) {
     return null;
   }
   const region = ID_TO_REGION[demand.regionId];
