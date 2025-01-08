@@ -6,12 +6,15 @@ import Section from '../Section';
 import { useState } from 'react';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
 import { HandyStatusType, ShuttleWithRouteType } from '@/types/client.types';
-import { HANDY_STATUS_TEXT, TRIP_TEXT } from '../../../shuttle.constants';
 import { parseDateString } from '@/utils/dateString';
 import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber } from '@/utils/common';
 import { TripType } from '@/types/shuttle.types';
+import {
+  HANDY_STATUS_TO_STRING,
+  TRIP_STATUS_TO_STRING,
+} from '@/constants/status';
 
 interface Props {
   reservationId: number;
@@ -63,7 +66,7 @@ const ReservationInfoSection = ({
     setIsHandyRequestModalOpen(false);
   };
 
-  const tripText = TRIP_TEXT[trip];
+  const tripText = TRIP_STATUS_TO_STRING[trip];
   const showToDestination = trip === 'TO_DESTINATION' || trip === 'ROUND_TRIP';
   const showFromDestination =
     trip === 'FROM_DESTINATION' || trip === 'ROUND_TRIP';
@@ -73,7 +76,7 @@ const ReservationInfoSection = ({
   const fromDestinationPlace = shuttle.route.hubs.fromDestination.find(
     (hub) => hub.selected,
   )?.name;
-  const handyTagText = HANDY_STATUS_TEXT[handyStatus];
+  const handyTagText = HANDY_STATUS_TO_STRING[handyStatus];
   const parsedDate = parseDateString(shuttle.date);
 
   return (

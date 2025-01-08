@@ -5,14 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import {
-  CANCEL_STATUS_TEXT,
-  HANDY_STATUS_TEXT,
-  RESERVATION_STATUS_TEXT,
-  TRIP_TEXT,
-} from '../shuttle.constants';
-import { getStatusStyle } from '../shuttle.utils';
+import { getStatusStyle } from '../status.utils';
 import { parseDateString } from '@/utils/dateString';
+import {
+  CANCEL_STATUS_TO_STRING,
+  HANDY_STATUS_TO_STRING,
+  RESERVATION_STATUS_TO_STRING,
+  TRIP_STATUS_TO_STRING,
+} from '@/constants/status';
 
 interface Props {
   reservation: ReservationType;
@@ -42,10 +42,10 @@ const ReservationCard = ({
 
   const parsedReservationDate = parseDateString(reservation.createdAt);
   const parsedShuttleDate = parseDateString(reservation.shuttle.date);
-  const status = RESERVATION_STATUS_TEXT[reservation.shuttle.route.status];
+  const status = RESERVATION_STATUS_TO_STRING[reservation.shuttle.route.status];
   const statusStyle = getStatusStyle(status);
-  const handyStatus = HANDY_STATUS_TEXT[reservation.handyStatus];
-  const cancelStatus = CANCEL_STATUS_TEXT[reservation.cancelStatus];
+  const handyStatus = HANDY_STATUS_TO_STRING[reservation.handyStatus];
+  const cancelStatus = CANCEL_STATUS_TO_STRING[reservation.cancelStatus];
 
   return (
     <Link
@@ -80,7 +80,8 @@ const ReservationCard = ({
           </span>
           <span className="flex gap-12 text-12 font-400 text-grey-500">
             <span>
-              {reservation.shuttle.route.name} ({TRIP_TEXT[reservation.type]})
+              {reservation.shuttle.route.name} (
+              {TRIP_STATUS_TO_STRING[reservation.type]})
             </span>
             <span>{reservation.passengers.length}인</span>
           </span>
