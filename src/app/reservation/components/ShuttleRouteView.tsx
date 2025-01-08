@@ -61,7 +61,6 @@ const SeatString = ({ shuttle }: { shuttle: ShuttleRouteType }) => {
       prefix = `콘서트행 잔여석`;
       break;
     case 'TO_DESTINATION':
-      // TODO check if this term is correct
       prefix = `귀가행 잔여석`;
       break;
     case 'ROUND_TRIP':

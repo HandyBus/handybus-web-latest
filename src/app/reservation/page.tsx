@@ -3,7 +3,7 @@ import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
 import getFirstSearchParam from '@/utils/getFirstSearchParam';
 import {
-  shuttleSortSearhParamsFromString,
+  shuttleSortSearchParamsFromString,
   searchParamToSort,
 } from './constants/params';
 import {
@@ -16,7 +16,7 @@ import dynamic from 'next/dynamic';
 const Empty = dynamic(() => import('./components/Empty'));
 import { toSortedRoutes } from './util/sort.util';
 import { Metadata } from 'next';
-import ShuttleRouteView from './components/ShuttleRoute';
+import ShuttleRouteView from './components/ShuttleRouteView';
 import { getAllRoutes } from '@/services/shuttleOperation';
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ interface Props {
 
 const Page = async ({ searchParams }: Props) => {
   const sortBy = searchParamToSort(
-    shuttleSortSearhParamsFromString(
+    shuttleSortSearchParamsFromString(
       getFirstSearchParam(searchParams.sort) || '',
     ),
   );
