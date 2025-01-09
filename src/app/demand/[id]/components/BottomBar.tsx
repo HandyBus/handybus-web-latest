@@ -4,7 +4,7 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import IconButton from '@/components/buttons/icon-button/IconButton';
 import ShareIcon from 'public/icons/share.svg';
-import ShareSheet from '@/components/shuttle-detail/bottom-bar/ShareSheet';
+import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
 
 interface Props {
   shuttleName: string;

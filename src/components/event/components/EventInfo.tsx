@@ -22,7 +22,7 @@ type Props = {
     }
 );
 
-export const ShuttleInfo = ({ shuttle, status, type }: Props) => {
+const EventInfo = ({ shuttle, status, type }: Props) => {
   const minDate = shuttle.dailyShuttles.reduce((min, curr) => {
     return min.date < curr.date ? min : curr;
   });
@@ -53,6 +53,7 @@ export const ShuttleInfo = ({ shuttle, status, type }: Props) => {
   );
 };
 
+export default EventInfo;
 const Badge = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="flex gap-12">

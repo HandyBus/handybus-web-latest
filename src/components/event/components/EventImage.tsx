@@ -4,7 +4,7 @@ interface Props {
   image: string;
 }
 
-const ShuttleImage = ({ image }: Props) => {
+const EventImage = ({ image }: Props) => {
   return (
     <article className="relative">
       <Image
@@ -18,4 +18,4 @@ const ShuttleImage = ({ image }: Props) => {
   );
 };
 
-export default ShuttleImage;
+export default EventImage;
