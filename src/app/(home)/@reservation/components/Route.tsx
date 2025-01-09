@@ -58,23 +58,19 @@ interface SeatStringProps {
 const SeatString = ({ route }: SeatStringProps) => {
   let prefix: string;
   switch (route.remainingSeatType) {
-    case 'FROM_DESTINATION':
-      prefix = `콘서트행 잔여석`;
-      break;
     case 'TO_DESTINATION':
-      // TODO check if this term is correct
-      prefix = `귀가행 잔여석`;
+      prefix = '콘서트행 잔여석';
+      break;
+    case 'FROM_DESTINATION':
+      prefix = '귀가행 잔여석';
       break;
     case 'ROUND_TRIP':
-      prefix = `잔여석`;
+      prefix = '잔여석';
       break;
   }
 
   return (
-    <div
-      // TODO '콘서트행' 처리
-      className="absolute bottom-0 w-full bg-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-white backdrop-blur-[2px]"
-    >
+    <div className="absolute bottom-0 w-full bg-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-white backdrop-blur-[2px]">
       {prefix}{' '}
       <span className="text-primary-main">{route.remainingSeatCount}석</span> /{' '}
       {route.maxPassengerCount}석
