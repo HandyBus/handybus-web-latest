@@ -1,5 +1,3 @@
-'use client';
-
 import { ReactNode, forwardRef } from 'react';
 import BottomSheetPortal from './BottomSheetPortal';
 

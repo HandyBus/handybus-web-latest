@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import {
   fetchAllShuttles,
-  fetchIncludingRelatedOpenShuttles,
+  fetchIncludingRelatedShuttles,
 } from '@/app/shuttle/util/fetch.util';
 import { getUser } from '@/services/users';
 import Article from '@/components/article/Article';
@@ -13,7 +13,7 @@ import ShuttlesSwiperView from './components/ShuttlesSwiperView';
 
 const Page = async () => {
   const { region, shuttles, promoted, userRegion } =
-    await getRegionAndOpenShuttles();
+    await getRegionAndShuttles();
 
   const location = promoted ? (
     <p>
@@ -66,7 +66,7 @@ const Bar = ({ regionString, children, postfix }: BarProp) => {
   );
 };
 
-const getRegionAndOpenShuttles = async (): Promise<{
+const getRegionAndShuttles = async (): Promise<{
   region: Region | undefined;
   promoted: boolean;
   shuttles: ShuttleRoute[];
@@ -86,7 +86,7 @@ const getRegionAndOpenShuttles = async (): Promise<{
     return { region: undefined, promoted: false, shuttles, userRegion };
   }
 
-  const regionShuttles = await fetchIncludingRelatedOpenShuttles(userRegion);
+  const regionShuttles = await fetchIncludingRelatedShuttles(userRegion);
 
   if (regionShuttles.length > 0) {
     return {
@@ -97,7 +97,7 @@ const getRegionAndOpenShuttles = async (): Promise<{
     };
   }
 
-  const provinenceShuttles = await fetchIncludingRelatedOpenShuttles({
+  const provinenceShuttles = await fetchIncludingRelatedShuttles({
     bigRegion: userRegion.bigRegion,
     smallRegion: undefined,
   });

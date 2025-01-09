@@ -28,7 +28,7 @@ export const shuttleStateConverter = (
   type: 'DEMAND' | 'RESERVATION',
 ) => {
   if (status === 'OPEN') return type === 'DEMAND' ? 'DEMAND_SURVEY' : 'PENDING';
-  if (status === 'CLOSED' || status === 'CONFIRMED')
+  if (status === 'CLOSED')
     return type === 'DEMAND' ? 'SURVEY_CLOSED' : 'RESERVATION_CLOSED';
   if (status === 'ENDED') return 'ENDED';
   return undefined;

@@ -13,7 +13,6 @@ import {
 import { formatDate } from '../shuttleDetailPage.utils';
 import SelectLabeled from '@/components/select-labeled/SelectLabeled';
 import { ShuttleFormValues } from './shuttleForm.type';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   control: Control<ShuttleFormValues>;
@@ -22,14 +21,12 @@ interface Props {
   reservData?: ShuttleRoute[];
 }
 const ShuttleSelector = ({ control, type, data, reservData }: Props) => {
-  const router = useRouter();
   const { setValue, watch } = useFormContext<ShuttleFormValues>();
   const bigLocation = useWatch({
     control,
     name: 'bigLocation',
   });
   const watchDailyShuttle = watch('dailyShuttle');
-  const watchShuttleRoute = watch('shuttleRoute');
   const shuttleRouteOptions = useMemo(
     () =>
       reservData
@@ -48,14 +45,6 @@ const ShuttleSelector = ({ control, type, data, reservData }: Props) => {
     }
     setValue('smallLocation', '');
   }, [bigLocation, setValue]);
-
-  useEffect(() => {
-    if (type === 'RESERVATION') {
-      router.replace(
-        `/shuttle/${data.shuttleId}?dailyShuttleId=${watchDailyShuttle.dailyShuttleId}&shuttleRouteId=${watchShuttleRoute?.value}`,
-      );
-    }
-  }, [watchDailyShuttle, watchShuttleRoute]);
 
   return (
     <div>

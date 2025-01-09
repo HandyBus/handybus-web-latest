@@ -10,19 +10,11 @@ export const fetchAllShuttles = async () => {
   return res.shuttleRouteDetails;
 };
 
-export const fetchAllOpenShuttles = async () => {
-  const res = await instance.get<{ shuttleRouteDetails: ShuttleRoute[] }>(
-    '/shuttle-operation/shuttles/all/dates/all/routes?status=OPEN',
-  );
-  return res.shuttleRouteDetails;
-};
-
-export const fetchIncludingRelatedOpenShuttles = async (region: Region) => {
+export const fetchIncludingRelatedShuttles = async (region: Region) => {
   if (region.bigRegion === undefined) {
-    return fetchAllOpenShuttles();
+    return fetchAllShuttles();
   }
   const params = toSearchParams({
-    status: 'OPEN',
     provinceFullName: region.bigRegion,
     cityFullName: region.smallRegion,
   }).toString();

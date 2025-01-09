@@ -1,7 +1,7 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
-import { fetchIncludingRelatedOpenShuttles } from './util/fetch.util';
+import { fetchIncludingRelatedShuttles } from './util/fetch.util';
 import getFirstSearchParam from '@/utils/getFirstSearchParam';
 import {
   shuttleSortSearhParamsFromString,
@@ -55,7 +55,7 @@ const Page = async ({ searchParams }: Props) => {
       ? ({ bigRegion, smallRegion } as Region)
       : { bigRegion: undefined, smallRegion: undefined };
 
-  const related = await fetchIncludingRelatedOpenShuttles(region);
+  const related = await fetchIncludingRelatedShuttles(region);
 
   const data = toSortedShuttles(sortBy, related);
 

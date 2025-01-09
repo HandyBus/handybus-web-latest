@@ -44,7 +44,7 @@ const PriceDetail = ({ SelectedCoupon, shuttleData }: props) => {
           <dd className="text-12 font-400 leading-[19.2px] text-grey-900">
             (
             {totalRegularPrice({
-              passengerCount: 1,
+              passengerCount,
               currentShuttleData,
               tripType,
             })}
