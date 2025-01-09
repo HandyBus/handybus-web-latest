@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import Script from 'next/script';
 import LogoIcon from 'public/icons/logo-small.svg';
 import KakaoMapIcon from 'public/icons/kakaomap-logo.svg';
@@ -90,14 +90,6 @@ const KakaoMapContent = ({
   initializeMap,
   mapRef,
 }: KakaoMapContentProps) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (loaded) {
-      window.kakao.maps.load(initializeMap);
-    }
-  }, [loaded]);
-
   return (
     <article
       className="relative h-auto p-16 [&_div]:cursor-pointer"
@@ -111,7 +103,7 @@ const KakaoMapContent = ({
         id="kakao-maps-sdk"
         strategy="afterInteractive"
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false&libraries=services`}
-        onReady={() => setLoaded(true)}
+        onLoad={() => window.kakao.maps.load(initializeMap)}
       />
       <div className="absolute right-16 top-[-8px] flex items-center justify-end ">
         <KakaoMapIcon viewBox="0 0 12 13" width="12px" height="12px" />
