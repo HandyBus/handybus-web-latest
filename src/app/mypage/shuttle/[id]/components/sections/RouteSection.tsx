@@ -1,26 +1,21 @@
 'use client';
 
-import ShuttleRouteVisualizer from '@/components/shuttle/shuttle-route-visualizer/ShuttleRouteVisualizer';
 import Divider from '../Divider';
-import { SECTION } from '@/types/shuttle.types';
-import { FormProvider, useForm } from 'react-hook-form';
-import { HubType, TripType } from '@/types/client.types';
-import { useState } from 'react';
+import { TripType } from '@/types/shuttle.types';
+import { HubType, HubWithSelectedType } from '@/types/hub.type';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
-
-interface FormValues {
-  toDestinationHubId: number;
-  fromDestinationHubId: number;
-}
+import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
+import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
 
 interface Props {
   isShuttleBusAssigned: boolean;
   reservationId: number;
   tripType: TripType;
   hubs: {
-    toDestination: HubType[];
-    fromDestination: HubType[];
+    toDestination: HubWithSelectedType[];
+    fromDestination: HubWithSelectedType[];
   };
 }
 
@@ -30,15 +25,29 @@ const RouteSection = ({
   tripType,
   hubs,
 }: Props) => {
-  const methods = useForm<FormValues>();
-  const toDestination =
-    tripType === 'FROM_DESTINATION' ? [] : hubs.toDestination;
-  const fromDestination =
-    tripType === 'TO_DESTINATION' ? [] : hubs.fromDestination;
-
   const [isEdit, setIsEdit] = useState(false);
+
+  const [toDestinationHubValue, setToDestinationHubValue] = useState<HubType>();
+  const [fromDestinationHubValue, setFromDestinationHubValue] =
+    useState<HubType>();
+
+  const setInitialHubValue = () => {
+    const selectedToDestination = hubs.toDestination.find(
+      (hub) => hub.selected,
+    );
+    const selectedFromDestination = hubs.fromDestination.find(
+      (hub) => hub.selected,
+    );
+    setToDestinationHubValue(selectedToDestination);
+    setFromDestinationHubValue(selectedFromDestination);
+  };
+  useEffect(() => {
+    setInitialHubValue();
+  }, []);
+
   const onError = () => {
     toast.error('탑승지 변경에 실패했습니다.');
+    setInitialHubValue();
   };
   const { mutate: updateReservation } = usePostUpdateReservation(
     reservationId,
@@ -46,23 +55,42 @@ const RouteSection = ({
     onError,
   );
 
-  const handleSubmit = (formData: FormValues) => {
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
     setIsEdit(false);
     updateReservation({
-      toDestinationShuttleRouteHubId: formData.toDestinationHubId,
-      fromDestinationShuttleRouteHubId: formData.fromDestinationHubId,
+      toDestinationShuttleRouteHubId: toDestinationHubValue?.shuttleRouteHubId,
+      fromDestinationShuttleRouteHubId:
+        fromDestinationHubValue?.shuttleRouteHubId,
     });
   };
 
   return (
-    <FormProvider {...methods}>
+    <>
       <Divider />
-      <form onSubmit={methods.handleSubmit(handleSubmit)}>
-        <ShuttleRouteVisualizer
-          toDestinationObject={toDestination}
-          fromDestinationObject={fromDestination}
-          section={isEdit ? SECTION.RESERVATION_DETAIL : SECTION.MY_RESERVATION}
-        />
+      <form onSubmit={handleSubmit}>
+        <section className="px-16 py-24">
+          {isEdit ? (
+            <RouteVisualizerWithSelect
+              type={tripType}
+              toDestinationHubs={hubs.toDestination}
+              fromDestinationHubs={hubs.fromDestination}
+              toDestinationHubValue={toDestinationHubValue}
+              fromDestinationHubValue={fromDestinationHubValue}
+              setToDestinationHubValue={setToDestinationHubValue}
+              setFromDestinationHubValue={setFromDestinationHubValue}
+            />
+          ) : (
+            <RouteVisualizer
+              type={tripType}
+              toDestinationHubs={hubs.toDestination}
+              fromDestinationHubs={hubs.fromDestination}
+              isSelected={true}
+              selectedToDestinationHub={toDestinationHubValue}
+              selectedFromDestinationHub={fromDestinationHubValue}
+            />
+          )}
+        </section>
         {!isShuttleBusAssigned && (
           <div className="flex flex-col items-end gap-8 pb-24 pr-24">
             {isEdit ? (
@@ -98,7 +126,7 @@ const RouteSection = ({
           </div>
         )}
       </form>
-    </FormProvider>
+    </>
   );
 };
 

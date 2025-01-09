@@ -43,7 +43,15 @@ const useFunnel = <T,>(stepNames: readonly T[], initialStep?: T) => {
     setStep(stepNames[currIndex - 1]);
   };
 
-  return { Funnel, Step, setStep, handleNextStep, handlePrevStep };
+  return {
+    Funnel,
+    Step,
+    setStep,
+    handleNextStep,
+    handlePrevStep,
+    stepName: step,
+    stepIndex: stepNames.indexOf(step),
+  };
 };
 
 export default useFunnel;

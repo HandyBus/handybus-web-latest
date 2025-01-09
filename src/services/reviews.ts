@@ -13,7 +13,7 @@ export const getReviews = async (page: number, limit: number) => {
     reviews: ReviewType[];
     totalCount: number;
     nextPage: number | null;
-  }>(`/shuttle-operation/reviews?page=${page}&limit=${limit}`);
+  }>(`/v2/shuttle-operation/reviews?page=${page}&limit=${limit}`);
   return res;
 };
 
@@ -36,7 +36,7 @@ export const useGetReviews = () => {
 
 const getUserReviews = async () => {
   const res = await authInstance.get<{ reviews: ReviewType[] }>(
-    '/user-management/users/me/reviews',
+    '/v1/user-management/users/me/reviews',
   );
   return res.reviews;
 };
@@ -58,7 +58,7 @@ const postUserReview = async (body: {
     imageUrl: string;
   }[];
 }) => {
-  return await authInstance.post('/shuttle-operation/reviews', body);
+  return await authInstance.post('/v1/shuttle-operation/reviews', body);
 };
 
 export const usePostUserReview = () => {

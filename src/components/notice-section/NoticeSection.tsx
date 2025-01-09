@@ -10,11 +10,16 @@ export type NoticeType = (typeof NOTICE_TYPE)[keyof typeof NOTICE_TYPE];
 
 interface Props {
   type: NoticeType;
+  noPadding?: boolean;
 }
 
-const NoticeSection = ({ type }: Props) => {
+const NoticeSection = ({ type, noPadding = false }: Props) => {
   return (
-    <details className="group flex flex-col gap-16 p-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden">
+    <details
+      className={`group flex flex-col gap-16 ${
+        noPadding ? '' : 'p-16'
+      } [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden`}
+    >
       <summary className="flex cursor-pointer list-none items-center justify-between">
         <h2 className="text-22 font-700 leading-[30.8px] text-grey-800">
           {type === NOTICE_TYPE.CANCELLATION_AND_REFUND

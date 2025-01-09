@@ -1,11 +1,10 @@
 'use client';
 
-import CouponIcon from 'public/icons/coupon.svg';
-import Link from 'next/link';
-import Coupon from './Coupon';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import { useEffect, useMemo, useState } from 'react';
 import { IssuedCouponType } from '@/types/client.types';
+import Coupon from '@/components/coupon/Coupon';
+import NoCoupon from '@/components/coupon/NoCoupon';
 
 interface Props {
   coupons: IssuedCouponType[];
@@ -79,18 +78,3 @@ const CouponList = ({ coupons }: Props) => {
 };
 
 export default CouponList;
-
-const NoCoupon = () => {
-  return (
-    <div className="flex flex-col items-center gap-4 py-28 ">
-      <CouponIcon />
-      <span className="text-16 font-400 text-grey-300">쿠폰이 없어요</span>
-      <Link
-        href="/"
-        className="text-14 font-500 text-grey-600-sub underline underline-offset-[3px]"
-      >
-        진행 중인 이벤트는 홈 화면 배너를 확인해주세요
-      </Link>
-    </div>
-  );
-};

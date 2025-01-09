@@ -1,5 +1,7 @@
 import { BigRegionsType } from '@/constants/regions';
 import { ShuttleBusType } from '@/constants/shuttleBus';
+import { HubWithSelectedType } from '@/types/hub.type';
+import { RouteStatusType, ShuttleStatusType, TripType } from './shuttle.types';
 
 //  --- 유저 관련 타입 ---
 export type AgeType =
@@ -57,24 +59,9 @@ export interface ArtistType {
 export type ShuttleDemandStatusType =
   | 'OPEN' // 수요조사가 아직 모집 중인 상태
   | 'CLOSED' // 수요조사 모집 종료, 셔틀 미매핑 상태
-  | 'SHUTTLE_ASSIGNED' // 수요조사 모집 종료, 셔틀 매핑 상태
   | 'ENDED' // 콘서트가 끝나 셔틀 운행 종료
   | 'CANCELLED' // 무산 상태
   | 'INACTIVE';
-
-export type ShuttleStatusType =
-  | 'OPEN' // 셔틀 열린 상태
-  | 'CLOSED' // 셔틀의 모든 일자에 대한 수요조사 모집 종료
-  | 'ENDED' // 셔틀 종료됨
-  | 'INACTIVE';
-
-export type RouteStatusType =
-  | 'OPEN' // 예약모집중
-  | 'CLOSED' // 예약마감
-  | 'CONFIRMED' // 배차가 완료되고 모든 정보가 확정된 상태
-  | 'ENDED' // 운행종료
-  | 'CANCELLED' // 무산
-  | 'INACTIVE'; // 비활성
 
 export type ReservationStatusType =
   | 'NOT_PAYMENT' // 결제 전
@@ -90,8 +77,6 @@ export type HandyStatusType =
   | 'DECLINED'
   | 'ACCEPTED';
 
-export type TripType = 'TO_DESTINATION' | 'FROM_DESTINATION' | 'ROUND_TRIP';
-
 export interface ShuttleDemandType {
   shuttleDemandId: number;
   shuttle: ShuttleType;
@@ -101,6 +86,7 @@ export interface ShuttleDemandType {
   regionId: number;
   dailyShuttleId: number;
   createdAt: string;
+  hasShuttleRoute: boolean;
 }
 
 type BaseReservationType = {
@@ -165,8 +151,8 @@ export interface RouteType {
   name: string;
   status: RouteStatusType;
   hubs: {
-    toDestination: HubType[];
-    fromDestination: HubType[];
+    toDestination: HubWithSelectedType[];
+    fromDestination: HubWithSelectedType[];
   };
 }
 
@@ -231,14 +217,6 @@ export interface RegionType {
   provinceShortName: string;
   cityFullName: string;
   cityShortName: string;
-}
-
-export interface HubType {
-  shuttleRouteHubId: number;
-  name: string;
-  sequence: number;
-  arrivalTime: string;
-  selected: boolean;
 }
 
 export interface PaymentType {

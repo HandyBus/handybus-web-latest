@@ -1,14 +1,14 @@
 import type { DemandSortType } from '@/constants/demand';
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
-import { EventDetailProps } from '@/types/event.types';
-import OpenShuttleDetails from './components/OpenShuttleDetails';
+import DemandFilterContainer from './components/DemandFilterContainer';
 import { fromString, toDemandSort } from './utils/param.util';
-import { getOpenDemandings } from './utils/fetch.util';
-import ShuttleDetail from './components/ShuttleDetail';
+import DemandCard from './components/DemandCard';
 import dynamic from 'next/dynamic';
-const Empty = dynamic(() => import('./components/Empty'));
 import { Metadata } from 'next';
+import { ShuttleWithDemandCountType } from '@/types/shuttle.types';
+import { getShuttles } from '@/services/shuttleOperation';
+const Empty = dynamic(() => import('./components/Empty'));
 
 export const metadata: Metadata = {
   title: '수요 확인 중인 셔틀',
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const data = await getOpenDemandings();
+  const shuttles = await getShuttles('OPEN');
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
@@ -33,24 +33,22 @@ const Page = async ({ searchParams }: Props) => {
       : searchParams?.sort) || '',
   );
 
-  const sortedData = await toSorted(data, toDemandSort(sort));
+  const sortedData = await toSorted(shuttles, toDemandSort(sort));
 
   return (
     <>
       <AppBar>수요 확인 중인 셔틀</AppBar>
       <div className="flex w-full flex-col items-center">
-        <OpenShuttleDetails
+        <DemandFilterContainer
           length={sortedData.length}
           sort={toDemandSort(sort)}
         >
           {sortedData.length === 0 ? (
             <Empty />
           ) : (
-            sortedData?.map((v) => (
-              <ShuttleDetail key={v.shuttleId} shuttle={v} />
-            ))
+            sortedData?.map((v) => <DemandCard key={v.shuttleId} shuttle={v} />)
           )}
-        </OpenShuttleDetails>
+        </DemandFilterContainer>
       </div>
       <Footer />
     </>
@@ -59,19 +57,22 @@ const Page = async ({ searchParams }: Props) => {
 
 export default Page;
 
-const toSorted = async (data: EventDetailProps[], sort: DemandSortType) => {
-  let newData: EventDetailProps[];
+const toSorted = async (
+  shuttles: ShuttleWithDemandCountType[],
+  sort: DemandSortType,
+) => {
+  let newData: ShuttleWithDemandCountType[];
   switch (sort) {
     case '수요 신청한 인원이 많은 순':
-      newData = data.toSorted(
+      newData = shuttles.toSorted(
         (a, b) => a.totalDemandCount - b.totalDemandCount,
       );
       break;
     case '콘서트 이름 가나다 순':
-      newData = data.toSorted((a, b) => a.name.localeCompare(b.name));
+      newData = shuttles.toSorted((a, b) => a.name.localeCompare(b.name));
       break;
     case '셔틀 일자 빠른 순':
-      newData = data.toSorted(
+      newData = shuttles.toSorted(
         (a, b) =>
           new Date(a.dailyShuttles[0].date).getTime() -
           new Date(b.dailyShuttles[0].date).getTime(),

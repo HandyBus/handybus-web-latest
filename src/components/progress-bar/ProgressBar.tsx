@@ -1,14 +1,18 @@
-'use client';
-
 interface Props {
   numerator: number;
   denominator: number;
+  title: string;
 }
-const ProgressBar = ({ numerator, denominator }: Props) => {
+
+const ProgressBar = ({ numerator, denominator, title }: Props) => {
   return (
-    <section className="flex flex-col gap-12 px-16 py-28">
-      <h2 className="justify-center text-18 font-700 leading-[25.2px] text-grey-800">
-        노선 선택 ({numerator} / {denominator})
+    <section className="flex flex-col gap-12 px-16 pt-8">
+      <h2 className="flex items-center justify-center gap-4 text-18 font-700 text-grey-600-sub">
+        <div className="w-24" />
+        {title}
+        <div className="w-24 text-12 font-400">
+          ({numerator}/{denominator})
+        </div>
       </h2>
       <div className="relative h-[6px] w-full rounded-[4px] bg-grey-100">
         <div

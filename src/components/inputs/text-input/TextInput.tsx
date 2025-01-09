@@ -62,7 +62,9 @@ const TextInput = <T extends FieldValues>({
           type="button"
           onClick={handleResetValue}
           className={`absolute right-12 ${
-            version === 'shuttle' ? 'top-32' : 'top-48'
+            version === 'shuttle'
+              ? 'top-32'
+              : `${fieldState?.error ? 'bottom-40' : 'bottom-12'}`
           }`}
         >
           <DeleteIcon />

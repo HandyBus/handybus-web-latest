@@ -1,43 +1,30 @@
+import { SHUTTLE_STATUS_TO_STRING } from '@/constants/status';
+import { ShuttleStatusType } from '@/types/shuttle.types';
+
 interface Props {
-  status:
-    | 'DEMAND_SURVEY'
-    | 'SURVEY_CLOSED'
-    | 'PENDING'
-    | 'RESERVATION_CLOSED'
-    | 'ENDED'
-    | undefined;
+  status: ShuttleStatusType;
 }
 
 const ShuttleStatusChip = ({ status }: Props) => {
+  const statusString = SHUTTLE_STATUS_TO_STRING[status];
   switch (status) {
-    case 'DEMAND_SURVEY':
+    case 'OPEN':
       return (
-        <div className="w-fit whitespace-nowrap  rounded-full  bg-[#FEF87A] px-[14px] py-[3px] text-black">
-          수요 확인 중
+        <div className="w-fit whitespace-nowrap  rounded-full bg-[#FEF87A] px-[14px] py-[3px] text-12 text-black">
+          {statusString}
         </div>
       );
-    case 'SURVEY_CLOSED':
-      return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-black px-[14px] py-[3px] text-white">
-          수요 신청 마감
-        </div>
-      );
-    case 'PENDING':
-      return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-primary-main px-[14px] py-[3px] text-white">
-          예약 모집 중
-        </div>
-      );
-    case 'RESERVATION_CLOSED':
-      return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-black px-[14px] py-[3px] text-white">
-          예약 마감
-        </div>
-      );
+    case 'CLOSED':
     case 'ENDED':
       return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-grey-100 px-[14px] py-[3px] text-black">
-          운행 종료
+        <div className="w-fit whitespace-nowrap rounded-full bg-black px-[14px] py-[3px] text-12 text-white">
+          {statusString}
+        </div>
+      );
+    case 'INACTIVE':
+      return (
+        <div className="w-fit whitespace-nowrap rounded-full bg-grey-100 px-[14px] py-[3px] text-12 text-black">
+          {statusString}
         </div>
       );
   }

@@ -6,7 +6,7 @@ import { IssuedCouponType } from '@/types/client.types';
 
 const getUserCoupons = async () => {
   const res = await authInstance.get<{ issuedCoupons: IssuedCouponType[] }>(
-    '/user-management/users/me/coupons',
+    '/v1/user-management/users/me/coupons',
   );
   return res.issuedCoupons;
 };
@@ -19,7 +19,7 @@ export const useGetUserCoupons = () => {
 };
 
 const postCoupon = async (code: string) => {
-  return await authInstance.post('/billing/coupons', { code });
+  return await authInstance.post('/v1/billing/coupons', { code });
 };
 
 export const usePostCoupon = ({

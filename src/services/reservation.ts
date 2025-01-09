@@ -7,7 +7,7 @@ import { ReservationType } from '@/types/client.types';
 
 const getUserReservations = async (type: 'CURRENT' | 'PAST') => {
   const res = await authInstance.get<{ reservations: ReservationType[] }>(
-    `/user-management/users/me/reservations?shuttleProgressStatus=${type}`,
+    `/v1/user-management/users/me/reservations?shuttleProgressStatus=${type}`,
   );
   return res.reservations;
 };
@@ -21,7 +21,7 @@ export const useGetUserReservations = (type: 'CURRENT' | 'PAST') => {
 
 const getUserReservation = async (reservationId: number) => {
   const res = await authInstance.get<{ reservation: ReservationType }>(
-    `/user-management/users/me/reservations/${reservationId}`,
+    `/v1/user-management/users/me/reservations/${reservationId}`,
   );
   return res.reservation;
 };
@@ -34,7 +34,7 @@ export const useGetUserReservation = (reservationId: number) => {
 };
 
 const postRefund = async (paymentId: number, refundReason: string) => {
-  await authInstance.post(`/billing/payments/${paymentId}/refunds`, {
+  await authInstance.post(`/v1/billing/payments/${paymentId}/refunds`, {
     refundReason,
   });
 };
@@ -70,7 +70,7 @@ const postUpdateReservation = async (
   body: UpdateReservationBody,
 ) => {
   return await authInstance.put(
-    `/shuttle-operation/reservations/${reservationId}`,
+    `/v1/shuttle-operation/reservations/${reservationId}`,
     body,
   );
 };

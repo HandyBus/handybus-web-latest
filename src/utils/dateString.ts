@@ -37,6 +37,8 @@ const dateString = (date: Date | Date[]) => {
   return `${singleDateString(min)} ~ ${singleDateString(max)}`;
 };
 
+export default dateString;
+
 export const ddayString = (date: Date) => {
   const now = new Date();
   const diff = date.getTime() - now.getTime();
@@ -47,11 +49,11 @@ export const ddayString = (date: Date) => {
   return 'D-Day';
 };
 
-export const parseDateString = (date: string) => {
+export const parseDateString = (date: string, showYear: boolean = true) => {
   const parsedDate = new Date(date);
   const formattedDate = parsedDate
     .toLocaleDateString('ko-KR', {
-      year: 'numeric',
+      year: showYear ? 'numeric' : undefined,
       month: '2-digit',
       day: '2-digit',
       weekday: 'short',
@@ -61,4 +63,13 @@ export const parseDateString = (date: string) => {
   return formattedDate;
 };
 
-export default dateString;
+export const compareToNow = (
+  date: string | Date,
+  callback: (a: Date, b: Date) => boolean,
+) => {
+  const targetDate = new Date(date);
+  const nowKST = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }),
+  );
+  return callback(targetDate, nowKST);
+};

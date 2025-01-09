@@ -1,42 +1,36 @@
 import { Meta, StoryObj } from '@storybook/react';
-import ShuttleStatusChip from './ShuttleStatusChip';
+import RouteStatusChip from './ShuttleStatusChip';
 
-const meta: Meta<typeof ShuttleStatusChip> = {
-  title: 'Components/chips/ShuttleStatusChip',
-  component: ShuttleStatusChip,
+const meta: Meta<typeof RouteStatusChip> = {
+  title: 'Components/chips/RouteStatusChip',
+  component: RouteStatusChip,
   tags: ['autodocs'],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof ShuttleStatusChip>;
+type Story = StoryObj<typeof RouteStatusChip>;
 
 export const DemandSurvey: Story = {
   args: {
-    status: 'DEMAND_SURVEY',
+    status: 'OPEN',
   },
 };
 
 export const DemandClosed: Story = {
   args: {
-    status: 'SURVEY_CLOSED',
-  },
-};
-
-export const Pending: Story = {
-  args: {
-    status: 'PENDING',
+    status: 'CLOSED',
   },
 };
 
 export const ReservationClosed: Story = {
   args: {
-    status: 'RESERVATION_CLOSED',
+    status: 'ENDED',
   },
 };
 
-export const Ended: Story = {
+export const Inactive: Story = {
   args: {
-    status: 'ENDED',
+    status: 'INACTIVE',
   },
 };

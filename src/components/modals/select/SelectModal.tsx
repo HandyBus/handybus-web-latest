@@ -1,36 +1,19 @@
 import CustomModal from '../CustomModal';
 import ChevronRight from 'public/icons/quill-chevron-right.svg';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 import Button from '@/components/buttons/button/Button';
-
-interface RouteInfo {
-  shuttleRouteId: number;
-  placeInfo: string;
-  onSelect: () => void;
-}
+import { ShuttleRouteType } from '@/types/shuttle.types';
+import { parseDateString } from '@/utils/dateString';
+import Link from 'next/link';
 
 interface Props {
   isOpen: boolean;
   onClosed: () => void;
-  scheduledData: string;
-  hubPlaceInfo: string;
-  shuttleBusRoutes: RouteInfo[];
+  date: string;
+  region: string;
+  routes: ShuttleRouteType[];
 }
 
-// TODO: remove test data
-const SelectModal = ({
-  isOpen,
-  onClosed,
-  scheduledData = '2024-08-24 10:00:00',
-  hubPlaceInfo = '서울특별시 동대문구',
-  shuttleBusRoutes = [
-    { shuttleRouteId: 1, placeInfo: '노원 - DDP 노선', onSelect: () => {} },
-    { shuttleRouteId: 2, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
-    // { id: 3, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
-    // { id: 4, placeInfo: '광화문 - 신당 노선', onSelect: () => {} },
-  ],
-}: Props) => {
+const SelectModal = ({ isOpen, onClosed, date, region, routes }: Props) => {
   return (
     <CustomModal
       isOpen={isOpen}
@@ -38,9 +21,9 @@ const SelectModal = ({
       styles="fixed top-50 left-50 z-[101] flex max-h-[540px] w-[301px] flex-col items-center justify-center gap-16 bg-white px-24 py-20 rounded-[20px]"
     >
       <SelectModalContent
-        scheduledData={scheduledData}
-        hubPlaceInfo={hubPlaceInfo}
-        shuttleBusRoutes={shuttleBusRoutes}
+        date={date}
+        region={region}
+        routes={routes}
         onClosed={onClosed}
       />
     </CustomModal>
@@ -50,23 +33,19 @@ const SelectModal = ({
 export default SelectModal;
 
 interface SelectModalContentProps {
-  scheduledData: string;
-  hubPlaceInfo: string;
-  shuttleBusRoutes: RouteInfo[];
+  date: string;
+  region: string;
+  routes: ShuttleRouteType[];
   onClosed: () => void;
 }
 
 const SelectModalContent = ({
-  scheduledData,
-  hubPlaceInfo,
-  shuttleBusRoutes,
+  date,
+  region,
+  routes,
   onClosed,
 }: SelectModalContentProps) => {
-  dayjs.locale('ko');
-  const convetScheduledData = dayjs(scheduledData).format(
-    'YYYY년 MM월 DD일 (ddd)',
-  );
-
+  const parsedDate = parseDateString(date);
   return (
     <>
       <h2 id="modal-title" className="text-22 font-700 leading-[30.8px] ">
@@ -76,25 +55,14 @@ const SelectModalContent = ({
         id="modal-description"
         className="text-16 font-500 leading-6 text-grey-500"
       >
-        <span className="leading-[25.6px] text-grey-700">
-          {convetScheduledData}
-        </span>
-        에{' '}
-        <span className="leading-[25.6px] text-grey-700">{hubPlaceInfo}</span>
+        <span className="leading-[25.6px] text-grey-700">{parsedDate}</span>에{' '}
+        <span className="leading-[25.6px] text-grey-700">{region}</span>
         에서 탈 만한 노선을 알려드릴게요.
       </p>
       <div id="suttle-bus-route-information" className="flex flex-col gap-8">
-        {shuttleBusRoutes.length > 0
-          ? shuttleBusRoutes.slice(0, 4).map((route) => (
-              <SelectModalButton
-                id={route.shuttleRouteId.toString()}
-                key={route.shuttleRouteId.toString()}
-                onClick={route.onSelect}
-              >
-                {route.placeInfo}
-              </SelectModalButton>
-            ))
-          : '노선 정보가 없습니다.'}
+        {routes.slice(0, 4).map((route) => (
+          <SelectModalButton key={route.shuttleRouteId} route={route} />
+        ))}
       </div>
       <div className="flex w-[100%] flex-col gap-8">
         <Button variant="secondary" onClick={onClosed}>
@@ -105,18 +73,20 @@ const SelectModalContent = ({
   );
 };
 
-const SelectModalButton = ({
-  children,
-}: React.HTMLProps<HTMLButtonElement>) => {
+interface SelectModalButtonProps {
+  route: ShuttleRouteType;
+}
+
+const SelectModalButton = ({ route }: SelectModalButtonProps) => {
   return (
-    <button
-      type="button"
+    <Link
+      href={`/reservation/${route.shuttleId}?dailyShuttleId=${route.dailyShuttleId}&shuttleRouteId=${route.shuttleRouteId}`}
       className="h-58 flex w-252 items-center justify-between rounded-[11px] border border-grey-200 px-24 py-16"
     >
       <p className="text-16 font-500 leading-[25.6px] text-grey-900">
-        {children}
+        {route.name}
       </p>
       <ChevronRight color="#999999" />
-    </button>
+    </Link>
   );
 };

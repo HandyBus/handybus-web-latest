@@ -1,4 +1,4 @@
-import { EventDetailProps } from '@/types/event.types';
+import { ShuttleType } from '@/types/shuttle.types';
 import {
   DemandRequestFormValues,
   DemandWriteSearchParams,
@@ -6,15 +6,15 @@ import {
 
 export const getDefaultValues = (
   searchParams: DemandWriteSearchParams,
-  demandData: EventDetailProps,
+  shuttle: ShuttleType,
 ): DemandRequestFormValues => ({
   dailyShuttle: {
     dailyShuttleId: Number(searchParams.dailyShuttleId),
     date:
-      demandData.dailyShuttles.find(
+      shuttle.dailyShuttles.find(
         (shuttle) =>
           shuttle.dailyShuttleId === Number(searchParams.dailyShuttleId),
-      )?.date || demandData.dailyShuttles[0].date,
+      )?.date || shuttle.dailyShuttles[0].date,
   },
   bigLocation: searchParams.bigLocation || '',
   smallLocation: searchParams.smallLocation || '',
