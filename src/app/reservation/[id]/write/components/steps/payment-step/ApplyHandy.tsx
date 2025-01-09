@@ -55,6 +55,7 @@ const ApplyHandy = () => {
         </div>
         <p>
           <button
+            type="button"
             className="text-12 font-400 text-grey-700 underline"
             onClick={() => setIsHandyRequestModalOpen(true)}
           >
