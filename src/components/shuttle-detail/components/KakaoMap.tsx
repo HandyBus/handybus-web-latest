@@ -102,7 +102,7 @@ const KakaoMapContent = ({
       <Script
         id="kakao-maps-sdk"
         strategy="afterInteractive"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY}&autoload=false&libraries=services`}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&autoload=false&libraries=services`}
         onLoad={() => window.kakao.maps.load(initializeMap)}
       />
       <div className="absolute right-16 top-[-8px] flex items-center justify-end ">
