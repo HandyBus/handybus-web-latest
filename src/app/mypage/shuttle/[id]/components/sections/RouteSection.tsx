@@ -69,26 +69,28 @@ const RouteSection = ({
     <>
       <Divider />
       <form onSubmit={handleSubmit}>
-        {isEdit ? (
-          <RouteVisualizerWithSelect
-            type={tripType}
-            toDestinationHubs={hubs.toDestination}
-            fromDestinationHubs={hubs.fromDestination}
-            toDestinationHubValue={toDestinationHubValue}
-            fromDestinationHubValue={fromDestinationHubValue}
-            setToDestinationHubValue={setToDestinationHubValue}
-            setFromDestinationHubValue={setFromDestinationHubValue}
-          />
-        ) : (
-          <RouteVisualizer
-            type={tripType}
-            toDestinationHubs={hubs.toDestination}
-            fromDestinationHubs={hubs.fromDestination}
-            isSelected={true}
-            selectedToDestinationHub={toDestinationHubValue}
-            selectedFromDestinationHub={fromDestinationHubValue}
-          />
-        )}
+        <section className="px-16 py-24">
+          {isEdit ? (
+            <RouteVisualizerWithSelect
+              type={tripType}
+              toDestinationHubs={hubs.toDestination}
+              fromDestinationHubs={hubs.fromDestination}
+              toDestinationHubValue={toDestinationHubValue}
+              fromDestinationHubValue={fromDestinationHubValue}
+              setToDestinationHubValue={setToDestinationHubValue}
+              setFromDestinationHubValue={setFromDestinationHubValue}
+            />
+          ) : (
+            <RouteVisualizer
+              type={tripType}
+              toDestinationHubs={hubs.toDestination}
+              fromDestinationHubs={hubs.fromDestination}
+              isSelected={true}
+              selectedToDestinationHub={toDestinationHubValue}
+              selectedFromDestinationHub={fromDestinationHubValue}
+            />
+          )}
+        </section>
         {!isShuttleBusAssigned && (
           <div className="flex flex-col items-end gap-8 pb-24 pr-24">
             {isEdit ? (

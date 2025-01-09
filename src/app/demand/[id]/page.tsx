@@ -1,11 +1,10 @@
-import Spacer from '@/components/shuttle-detail/components/Spacer';
 import Footer from '@/components/footer/Footer';
-import { ShuttleInfo } from '@/components/shuttle-detail/components/ShuttleInfo';
-import BackButton from '@/components/shuttle-detail/components/BackButton';
-import ShuttleImage from '@/components/shuttle-detail/components/ShuttleImage';
-import KakaoMap from '@/components/shuttle-detail/components/KakaoMap';
 import { getShuttle } from '@/services/shuttleOperation';
 import DemandForm from './components/DemandForm';
+import EventInfo from '@/components/event/components/EventInfo';
+import EventImage from '@/components/event/components/EventImage';
+import KakaoMap from '@/components/kakao-map/KakaoMap';
+import BackButton from '@/components/buttons/back-button/BackButton';
 
 interface Props {
   params: { id: string };
@@ -17,8 +16,8 @@ const Demand = async ({ params }: Props) => {
   return (
     <main className="relative overflow-y-hidden">
       <BackButton />
-      <ShuttleImage image={shuttle.image} />
-      <ShuttleInfo shuttle={shuttle} status={shuttle.status} type="SHUTTLE" />
+      <EventImage image={shuttle.image} />
+      <EventInfo shuttle={shuttle} status={shuttle.status} type="SHUTTLE" />
       <KakaoMap
         placeName={shuttle.destination.name}
         latitude={shuttle.destination.latitude}
@@ -26,7 +25,7 @@ const Demand = async ({ params }: Props) => {
       />
       <DemandForm shuttle={shuttle} />
       <Footer />
-      <Spacer />
+      <div className="h-120" />
     </main>
   );
 };

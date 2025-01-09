@@ -3,7 +3,6 @@
 import AppBar from '@/components/app-bar/AppBar';
 import WriteForm from './components/WriteForm';
 import BannerImage from './components/BannerImage';
-import Spacer from '@/components/shuttle-detail/components/Spacer';
 import { useGetShuttle } from '@/services/shuttleOperation';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
@@ -31,7 +30,7 @@ const DemandWrite = ({ params, searchParams }: Props) => {
               dailyShuttleId={Number(searchParams.dailyShuttleId)}
               regionId={Number(searchParams.regionId)}
             />
-            <Spacer />
+            <div className="h-120" />
           </main>
         )}
       </DeferredSuspense>

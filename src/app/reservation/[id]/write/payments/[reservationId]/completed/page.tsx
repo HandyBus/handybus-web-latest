@@ -1,17 +1,26 @@
+import Button from '@/components/buttons/button/Button';
+import Link from 'next/link';
+import LogoLargeIcon from 'public/icons/logo-large.svg';
+
 const PaymentsCompleted = () => {
-  return <div>예약성공하였습니다.</div>;
-  // return (
-  //   <>
-  // <ReservationCompleted />
-  //     <BannerImage shuttle={shuttleData[0].shuttle} />
-  //     <ReservationInfo shuttleData={shuttleData} />
-  //     <PassengerInfo />
-  //     <section className="px-16 pb-24 pt-32">
-  //       <PriceDetail SelectedCoupon={watchCoupon} shuttleData={shuttleData} />
-  //     </section>
-  //     <BottomBar type={`RESERVATION_WRITE_4` as BottomBarType} />
-  //   </>
-  // );
+  return (
+    <main className="flex grow flex-col items-center justify-center gap-24">
+      <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
+      <section>
+        <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
+          결제가 완료되었습니다!
+        </h1>
+        <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
+          마이페이지에서 예약 내역을 확인하실 수 있습니다.
+        </p>
+      </section>
+      <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">
+        <Link href="/">
+          <Button>홈으로 돌아가기</Button>
+        </Link>
+      </div>
+    </main>
+  );
 };
 
 export default PaymentsCompleted;

@@ -32,7 +32,7 @@ type Props = ToDestinationType | FromDestinationType | RoundTripType;
 
 const RouteVisualizerWithSelect = (props: Props) => {
   return (
-    <section className="flex flex-col gap-16 px-16 py-24">
+    <section className="flex flex-col gap-16">
       <header>
         <h2 className="text-22 font-700 leading-[30.8px]">
           탑승/하차 장소를 선택해주세요
@@ -146,9 +146,11 @@ const HubItem = ({
         </p>
         <p
           className={`text-16 font-400 leading-[24px] ${
-            selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
-              ? 'text-grey-900'
-              : 'text-grey-300'
+            isDestination
+              ? 'text-grey-600'
+              : selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
+                ? 'text-grey-900'
+                : 'text-grey-300'
           }`}
         >
           {hub.name}
