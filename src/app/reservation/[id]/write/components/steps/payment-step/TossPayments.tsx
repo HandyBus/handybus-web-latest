@@ -136,6 +136,7 @@ const TossPayments = () => {
       }
       if (e.statusCode === 403) {
         toast.error('예약이 마감되었습니다.');
+        return;
       }
       toast.error('잠시 후 다시 시도해주세요.');
     }

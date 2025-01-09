@@ -65,7 +65,6 @@ const Form = ({
       <BannerImage shuttle={shuttle} />
       <FormProvider {...methods}>
         <form className="flex flex-col px-16 pb-100">
-          <button>제출</button>
           <Funnel>
             <Step name="노선 선택">
               <RouteSelectStep

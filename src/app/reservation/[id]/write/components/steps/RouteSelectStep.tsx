@@ -1,7 +1,7 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { useGetRoutes } from '@/services/shuttleOperation';
-import { DailyShuttleType, ShuttleType } from '@/types/shuttle.types';
+import { DailyShuttleType, ShuttleType, TripType } from '@/types/shuttle.types';
 import { parseDateString } from '@/utils/dateString';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -35,6 +35,7 @@ const RouteSelectStep = ({
       (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
     ),
   );
+  const [availableTypes, setAvailableTypes] = useState<TripType[]>([]);
 
   const { data: routes } = useGetRoutes(
     shuttle.shuttleId,
@@ -55,6 +56,18 @@ const RouteSelectStep = ({
   const watchType = watch('type');
   const watchShuttleRoute = watch('shuttleRoute');
 
+  useEffect(() => {
+    if (!watchShuttleRoute) {
+      return;
+    }
+    if (watchShuttleRoute.remainingSeatType === 'ROUND_TRIP') {
+      setAvailableTypes(['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION']);
+    } else if (watchShuttleRoute.remainingSeatType === 'TO_DESTINATION') {
+      setAvailableTypes(['TO_DESTINATION']);
+    } else if (watchShuttleRoute.remainingSeatType === 'FROM_DESTINATION') {
+      setAvailableTypes(['FROM_DESTINATION']);
+    }
+  }, [watchShuttleRoute]);
   useEffect(() => {
     if (watchType === 'TO_DESTINATION') {
       setValue('hub.fromDestinationHub', undefined);
@@ -138,9 +151,7 @@ const RouteSelectStep = ({
           name="type"
           render={({ field: { value, onChange } }) => (
             <Select
-              options={
-                ['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION'] as const
-              }
+              options={availableTypes}
               value={value}
               setValue={onChange}
               renderValue={(value) => TRIP_STATUS_TO_STRING[value]}
