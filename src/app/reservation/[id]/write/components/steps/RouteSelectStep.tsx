@@ -1,16 +1,20 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { useGetRoutes } from '@/services/shuttleOperation';
-import { DailyShuttleType, ShuttleType, TripType } from '@/types/shuttle.types';
+import {
+  DailyShuttleType,
+  ShuttleRouteType,
+  ShuttleType,
+  TripType,
+} from '@/types/shuttle.types';
 import { parseDateString } from '@/utils/dateString';
 import { useEffect, useState } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { ReservationFormValues } from '../Form';
 import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   handleNextStep: () => void;
@@ -25,7 +29,7 @@ const RouteSelectStep = ({
   initialDailyShuttleId,
   initialShuttleRouteId,
 }: Props) => {
-  const { control, watch, setValue, getValues } =
+  const { control, setValue, getValues } =
     useFormContext<ReservationFormValues>();
 
   const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
@@ -35,13 +39,14 @@ const RouteSelectStep = ({
       (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
     ),
   );
-  const [availableTypes, setAvailableTypes] = useState<TripType[]>([]);
 
   const { data: routes } = useGetRoutes(
     shuttle.shuttleId,
     selectedDailyShuttle?.dailyShuttleId ?? 0,
     { status: 'OPEN' },
   );
+
+  // 초기 노선 설정
   useEffect(() => {
     if (routes && initialShuttleRouteId) {
       const initialRoute = routes.find(
@@ -53,28 +58,25 @@ const RouteSelectStep = ({
     }
   }, [routes, initialShuttleRouteId]);
 
-  const watchType = watch('type');
-  const watchShuttleRoute = watch('shuttleRoute');
+  const handleDailyShuttleChange = (dailyShuttle: DailyShuttleType) => {
+    setSelectedDailyShuttle(dailyShuttle);
+    setValue('shuttleRoute', undefined);
+    setValue('type', undefined);
+    setValue('hub', {
+      toDestinationHub: undefined,
+      fromDestinationHub: undefined,
+    });
+  };
 
-  useEffect(() => {
-    if (!watchShuttleRoute) {
-      return;
-    }
-    if (watchShuttleRoute.remainingSeatType === 'ROUND_TRIP') {
-      setAvailableTypes(['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION']);
-    } else if (watchShuttleRoute.remainingSeatType === 'TO_DESTINATION') {
-      setAvailableTypes(['TO_DESTINATION']);
-    } else if (watchShuttleRoute.remainingSeatType === 'FROM_DESTINATION') {
-      setAvailableTypes(['FROM_DESTINATION']);
-    }
-  }, [watchShuttleRoute]);
-  useEffect(() => {
-    if (watchType === 'TO_DESTINATION') {
-      setValue('hub.fromDestinationHub', undefined);
-    } else if (watchType === 'FROM_DESTINATION') {
-      setValue('hub.toDestinationHub', undefined);
-    }
-  }, [watchType]);
+  // 노선 변경에 따라 기존 타입 및 허브 값 초기화
+  const handleRouteChange = (route: ShuttleRouteType) => {
+    setValue('shuttleRoute', route);
+    setValue('type', undefined);
+    setValue('hub', {
+      toDestinationHub: undefined,
+      fromDestinationHub: undefined,
+    });
+  };
 
   const checkValidAndGoNextStep = () => {
     const [shuttleRoute, type, hub] = getValues([
@@ -96,16 +98,6 @@ const RouteSelectStep = ({
     handleNextStep();
   };
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const updateDailyShuttleIdParams = (dailyShuttleId: number) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    current.set('dailyShuttleId', dailyShuttleId.toString());
-    const search = current.toString();
-    const query = search ? `?${search}` : '';
-    router.replace(`${window.location.pathname}${query}`, { scroll: false });
-  };
-
   return (
     <>
       <section className="flex flex-col gap-16 py-28">
@@ -115,10 +107,7 @@ const RouteSelectStep = ({
         <Select
           options={shuttle.dailyShuttles}
           value={selectedDailyShuttle}
-          setValue={(value) => {
-            setSelectedDailyShuttle(value);
-            updateDailyShuttleIdParams(value.dailyShuttleId);
-          }}
+          setValue={(value) => handleDailyShuttleChange(value)}
           renderValue={(value) => parseDateString(value.date)}
           isUnderLined
           placeholder="탑승일"
@@ -127,17 +116,11 @@ const RouteSelectStep = ({
         <Controller
           control={control}
           name="shuttleRoute"
-          render={({ field: { value, onChange } }) => (
+          render={({ field: { value } }) => (
             <Select
               options={routes ?? []}
               value={value}
-              setValue={(value) => {
-                onChange(value);
-                setValue('hub', {
-                  toDestinationHub: undefined,
-                  fromDestinationHub: undefined,
-                });
-              }}
+              setValue={handleRouteChange}
               renderValue={(value) => value.name}
               isUnderLined
               placeholder="노선 종류"
@@ -146,51 +129,9 @@ const RouteSelectStep = ({
             />
           )}
         />
-        <Controller
-          control={control}
-          name="type"
-          render={({ field: { value, onChange } }) => (
-            <Select
-              options={availableTypes}
-              value={value}
-              setValue={onChange}
-              renderValue={(value) => TRIP_STATUS_TO_STRING[value]}
-              isUnderLined
-              placeholder="왕복/콘서트행/귀가행"
-              bottomSheetTitle="왕복/콘서트행/귀가행 선택"
-            />
-          )}
-        />
+        <TypeSelect />
       </section>
-      {watchType && watchShuttleRoute && (
-        <>
-          <section>
-            <Controller
-              control={control}
-              name="hub"
-              render={({ field: { value, onChange } }) => (
-                <RouteVisualizerWithSelect
-                  type={watchType}
-                  toDestinationHubs={watchShuttleRoute.hubs.toDestination}
-                  toDestinationHubValue={value.toDestinationHub}
-                  setToDestinationHubValue={(toDestinationHub) =>
-                    onChange({ ...value, toDestinationHub: toDestinationHub })
-                  }
-                  fromDestinationHubs={watchShuttleRoute.hubs.fromDestination}
-                  fromDestinationHubValue={value.fromDestinationHub}
-                  setFromDestinationHubValue={(fromDestinationHub) =>
-                    onChange({ ...value, fromDestinationHub })
-                  }
-                />
-              )}
-            />
-          </section>
-          <section className="flex flex-col gap-16 py-44">
-            <NoticeSection type={'cancellation-and-refund'} noPadding />
-            <NoticeSection type={'term-and-condition'} noPadding />
-          </section>
-        </>
-      )}
+      <RouteSelect />
       <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white px-16 py-8 shadow-bottomBar">
         <Button type="button" onClick={checkValidAndGoNextStep}>
           다음 단계로
@@ -201,3 +142,102 @@ const RouteSelectStep = ({
 };
 
 export default RouteSelectStep;
+
+const TypeSelect = () => {
+  const { control, setValue, getValues } =
+    useFormContext<ReservationFormValues>();
+  const watchedShuttleRoute = useWatch({ control, name: 'shuttleRoute' });
+
+  // 남아있는 좌석에 따라 선택 가능한 타입 반환
+  const getAvailableTypes = (remainingSeatType?: string): TripType[] => {
+    switch (remainingSeatType) {
+      case 'ROUND_TRIP':
+        return ['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION'];
+      case 'TO_DESTINATION':
+        return ['TO_DESTINATION'];
+      case 'FROM_DESTINATION':
+        return ['FROM_DESTINATION'];
+      default:
+        return [];
+    }
+  };
+
+  // 타입 변경에 따라 기존 허브 값 초기화
+  const handleTypeChange = (type: TripType) => {
+    setValue('type', type);
+    setValue('hub', {
+      toDestinationHub:
+        type === 'FROM_DESTINATION'
+          ? undefined
+          : getValues('hub.toDestinationHub'),
+      fromDestinationHub:
+        type === 'TO_DESTINATION'
+          ? undefined
+          : getValues('hub.fromDestinationHub'),
+    });
+  };
+
+  return (
+    <Controller
+      control={control}
+      name="type"
+      render={({ field: { value } }) => (
+        <Select
+          options={getAvailableTypes(watchedShuttleRoute?.remainingSeatType)}
+          value={value}
+          setValue={handleTypeChange}
+          renderValue={(value) => TRIP_STATUS_TO_STRING[value]}
+          isUnderLined
+          placeholder="왕복/콘서트행/귀가행"
+          bottomSheetTitle="왕복/콘서트행/귀가행 선택"
+          disabled={!watchedShuttleRoute}
+        />
+      )}
+    />
+  );
+};
+
+const RouteSelect = () => {
+  const { control } = useFormContext<ReservationFormValues>();
+  const [watchedShuttleRoute, watchedType] = useWatch({
+    control,
+    name: ['shuttleRoute', 'type'],
+  });
+
+  return (
+    <section>
+      {watchedType && watchedShuttleRoute && (
+        <>
+          <article>
+            <Controller
+              control={control}
+              name="hub"
+              render={({ field: { value, onChange } }) => (
+                <RouteVisualizerWithSelect
+                  type={watchedType}
+                  toDestinationHubs={watchedShuttleRoute.hubs.toDestination}
+                  toDestinationHubValue={value.toDestinationHub}
+                  setToDestinationHubValue={(toDestinationHub) =>
+                    onChange({
+                      ...value,
+                      toDestinationHub: toDestinationHub,
+                    })
+                  }
+                  fromDestinationHubs={watchedShuttleRoute.hubs.fromDestination}
+                  fromDestinationHubValue={value.fromDestinationHub}
+                  setFromDestinationHubValue={(fromDestinationHub) =>
+                    onChange({ ...value, fromDestinationHub })
+                  }
+                />
+              )}
+            />
+          </article>
+          <article className="flex flex-col gap-16 py-44">
+            <NoticeSection type={'cancellation-and-refund'} noPadding />
+            <NoticeSection type={'term-and-condition'} noPadding />
+          </article>
+        </>
+      )}
+    </section>
+  );
+};
