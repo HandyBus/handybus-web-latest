@@ -1,66 +1,26 @@
-'use client';
+import Button from '@/components/buttons/button/Button';
+import Link from 'next/link';
+import LogoLargeIcon from 'public/icons/logo-large.svg';
 
-import { postBillingPayment } from '@/services/billing';
-import { CustomError } from '@/services/custom-error';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
-import { BeatLoader } from 'react-spinners';
-
-const Page = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const isInitiated = useRef(false);
-
-  const callPaymentConfirmation = async () => {
-    try {
-      const orderId = searchParams.get('orderId');
-      const paymentKey = searchParams.get('paymentKey');
-
-      if (!orderId || !paymentKey) {
-        throw new CustomError(400, '구매키가 존재하지 않습니다.');
-      }
-
-      await postBillingPayment(orderId, paymentKey);
-
-      router.replace(pathname + '/completed');
-    } catch (e) {
-      const error = e as CustomError;
-      router.replace(pathname + `/fail?code=${error?.statusCode}`);
-    }
-  };
-
-  useEffect(() => {
-    if (isInitiated.current) {
-      return;
-    }
-    isInitiated.current = true;
-    callPaymentConfirmation();
-  }, []);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
+const PaymentsCompleted = () => {
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-24">
-      <BeatLoader color="#9edbcc" />
-      <div className="flex flex-col gap-[6px]">
-        <h1 className="flex justify-center text-[28px] font-700 leading-[39.2px]">
-          결제 중 입니다
+    <main className="flex grow flex-col items-center justify-center gap-24">
+      <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
+      <section>
+        <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
+          결제가 완료되었습니다!
         </h1>
-        <p className="text-gray-500 text-[16px] font-400 leading-[25.6px]">
-          페이지를 벗어나거나 새로고침을 하지 마세요.
+        <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
+          마이페이지에서 예약 내역을 확인하실 수 있습니다.
         </p>
+      </section>
+      <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">
+        <Link href="/">
+          <Button>홈으로 돌아가기</Button>
+        </Link>
       </div>
-    </div>
+    </main>
   );
 };
 
-export default Page;
+export default PaymentsCompleted;

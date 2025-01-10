@@ -106,6 +106,9 @@ const TossPayments = () => {
   const handlePayment = async (widgets: TossPaymentsWidgets) => {
     try {
       const formValues = getValues();
+      if (!formValues.shuttleRoute || !formValues.type) {
+        throw new CustomError(400, '예약 정보가 존재하지 않습니다.');
+      }
       const parsedFormValues = {
         shuttleRouteId: formValues.shuttleRoute.shuttleRouteId,
         type: formValues.type,
@@ -119,8 +122,7 @@ const TossPayments = () => {
       };
       const res = await postBillingReservation(parsedFormValues);
 
-      const successUrl =
-        window.location.origin + pathname + `/payments/${res.reservationId}`;
+      const successUrl = window.location.origin + pathname + `/payments`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
 
       await widgets.requestPayment({
