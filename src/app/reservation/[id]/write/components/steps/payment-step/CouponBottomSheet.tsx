@@ -22,7 +22,7 @@ const CouponBottomSheet = ({
   closeBottomSheet,
   setSelectedCoupon,
 }: Props) => {
-  const { data: coupons } = useGetUserCoupons();
+  const { data: coupons } = useGetUserCoupons('BEFORE_USE');
 
   const { control, handleSubmit, setValue } = useForm<{ coupon: string }>();
   const { mutate: postCoupon } = usePostCoupon({

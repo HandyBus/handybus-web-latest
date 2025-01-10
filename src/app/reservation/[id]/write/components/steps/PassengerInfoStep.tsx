@@ -45,11 +45,13 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
     handleNextStep();
   };
 
-  const price = useMemo(
-    () =>
-      getSinglePriceWithEarlybird(getValues('type'), getValues('shuttleRoute')),
-    [],
-  );
+  const price = useMemo(() => {
+    const [type, shuttleRoute] = getValues(['type', 'shuttleRoute']);
+    if (!type || !shuttleRoute) {
+      return 0;
+    }
+    return getSinglePriceWithEarlybird(type, shuttleRoute);
+  }, [getValues('type'), getValues('shuttleRoute')]);
 
   return (
     <>
