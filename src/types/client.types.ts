@@ -195,6 +195,13 @@ export interface ImageType {
   updatedAt: string;
 }
 
+export type CouponStatusType =
+  | 'BEFORE_USE'
+  | 'USED'
+  | 'EXPIRED'
+  | 'RETRIEVED'
+  | 'DELETED';
+
 export interface IssuedCouponType {
   code: string;
   discountAmount: number;
@@ -204,7 +211,7 @@ export interface IssuedCouponType {
   maxApplicablePeople: number;
   maxDiscountAmount: number;
   name: string;
-  status: 'BEFORE_USE' | 'USED' | 'EXPIRED' | 'RETRIEVED' | 'DELETED';
+  status: CouponStatusType;
   validFrom: string;
   validTo: string;
 }

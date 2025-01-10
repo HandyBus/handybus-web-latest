@@ -1,7 +1,12 @@
 import { ShuttleRouteType, TripType } from '@/types/shuttle.types';
 import { compareToNow } from '@/utils/dateString';
 
-export const checkIsEarlybird = (shuttleRoute: ShuttleRouteType) => {
+export const checkIsEarlybird = (
+  shuttleRoute: ShuttleRouteType | undefined,
+) => {
+  if (!shuttleRoute) {
+    return false;
+  }
   return Boolean(
     shuttleRoute.hasEarlybird &&
       shuttleRoute.earlybirdDeadline &&
@@ -10,9 +15,12 @@ export const checkIsEarlybird = (shuttleRoute: ShuttleRouteType) => {
 };
 
 export const getSinglePrice = (
-  type: TripType,
-  shuttleRoute: ShuttleRouteType,
+  type: TripType | undefined,
+  shuttleRoute: ShuttleRouteType | undefined,
 ) => {
+  if (!shuttleRoute || !type) {
+    return 0;
+  }
   const price =
     type === 'ROUND_TRIP'
       ? shuttleRoute.regularPriceRoundTrip
@@ -23,9 +31,12 @@ export const getSinglePrice = (
 };
 
 export const getSinglePriceWithEarlybird = (
-  type: TripType,
-  shuttleRoute: ShuttleRouteType,
+  type: TripType | undefined,
+  shuttleRoute: ShuttleRouteType | undefined,
 ) => {
+  if (!shuttleRoute || !type) {
+    return 0;
+  }
   const isEarlybird = checkIsEarlybird(shuttleRoute);
   const price = isEarlybird
     ? type === 'ROUND_TRIP'

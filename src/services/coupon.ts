@@ -2,19 +2,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authInstance } from './config';
 import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
-import { IssuedCouponType } from '@/types/client.types';
+import { IssuedCouponType, CouponStatusType } from '@/types/client.types';
 
-const getUserCoupons = async () => {
+const getUserCoupons = async (status?: CouponStatusType) => {
   const res = await authInstance.get<{ issuedCoupons: IssuedCouponType[] }>(
-    '/v1/user-management/users/me/coupons',
+    `/v1/user-management/users/me/coupons${status ? `?status=${status}` : ''}`,
   );
   return res.issuedCoupons;
 };
 
-export const useGetUserCoupons = () => {
+export const useGetUserCoupons = (status?: CouponStatusType) => {
   return useQuery({
-    queryKey: ['user', 'coupons'],
-    queryFn: getUserCoupons,
+    queryKey: ['user', 'coupons', status],
+    queryFn: () => getUserCoupons(status),
   });
 };
 

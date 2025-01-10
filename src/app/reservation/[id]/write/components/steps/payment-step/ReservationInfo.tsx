@@ -20,7 +20,7 @@ const ReservationInfo = ({ shuttle }: Props) => {
   const parsedDate = parseDateString(
     shuttle.dailyShuttles.find(
       (dailyShuttle) =>
-        dailyShuttle.dailyShuttleId === shuttleRoute.dailyShuttleId,
+        dailyShuttle.dailyShuttleId === shuttleRoute?.dailyShuttleId,
     )?.date ?? '',
   );
 
@@ -32,8 +32,11 @@ const ReservationInfo = ({ shuttle }: Props) => {
         </h2>
         <div className="grid grid-cols-[80px_1fr] gap-x-32 gap-y-12">
           <Item label="탑승일" value={parsedDate} />
-          <Item label="노선 종류" value={shuttleRoute.name} />
-          <Item label="왕복 여부" value={TRIP_STATUS_TO_STRING[type]} />
+          <Item label="노선 종류" value={shuttleRoute?.name ?? ''} />
+          <Item
+            label="왕복 여부"
+            value={TRIP_STATUS_TO_STRING[type ?? 'ROUND_TRIP']}
+          />
           {(type === 'ROUND_TRIP' || type === 'TO_DESTINATION') && (
             <Item label="탑승 장소" value={hub.toDestinationHub?.name ?? ''} />
           )}

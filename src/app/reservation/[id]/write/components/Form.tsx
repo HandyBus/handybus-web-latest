@@ -11,8 +11,8 @@ import PaymentStep from './steps/payment-step/PaymentStep';
 const STEPS = ['노선 선택', '탑승 정보 입력', '결제'] as const;
 
 export interface ReservationFormValues {
-  shuttleRoute: ShuttleRouteType;
-  type: TripType;
+  shuttleRoute: ShuttleRouteType | undefined;
+  type: TripType | undefined;
   hub: {
     toDestinationHub: HubType | undefined;
     fromDestinationHub: HubType | undefined;
