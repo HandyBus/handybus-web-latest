@@ -2,16 +2,19 @@
 
 import TextInput from '@/components/inputs/text-input/TextInput';
 import Select from '@/components/select/Select';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { FormValues } from './WriteForm';
 import { useGetHubsByRegionId } from '@/services/hub';
 import { useEffect, useState } from 'react';
 
 const JourneyLocationPicker = () => {
-  const { control, watch, setValue } = useFormContext<FormValues>();
-  const regionId = watch('regionId');
-  const type = watch('type');
+  const { control, setValue } = useFormContext<FormValues>();
+
+  const [regionId, type] = useWatch({
+    control,
+    name: ['regionId', 'type'],
+  });
 
   const { data: regionHubs } = useGetHubsByRegionId(regionId);
 
