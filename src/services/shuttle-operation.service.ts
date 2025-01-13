@@ -413,11 +413,11 @@ export const getEventDemandStats = async (
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/all/stats?${searchParams.toString()}`,
     {
       shape: {
-        count: EventDemandStatsSchema,
+        statistic: EventDemandStatsSchema,
       },
     },
   );
-  return res.count;
+  return res.statistic;
 };
 
 export const useGetEventDemandStats = (

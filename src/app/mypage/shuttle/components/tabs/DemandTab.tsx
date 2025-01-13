@@ -150,10 +150,9 @@ const ReservationOngoingWrapper = ({
 };
 
 const getReservationOngoingDemand = async (demand: ShuttleDemand) => {
-  // TODO: 백엔드랑 체크
-  // if (!demand.hasShuttleRoute) {
-  //   return null;
-  // }
+  if (!demand.hasShuttleRoute) {
+    return null;
+  }
   const region = ID_TO_REGION[demand.regionId];
   const routes = await getShuttleRoutesOfDailyEvent(
     demand.eventId,

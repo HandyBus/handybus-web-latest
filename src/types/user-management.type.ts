@@ -108,6 +108,7 @@ export const ShuttleDemandSchema = z
     type: TripTypeEnum,
     passengerCount: z.number(),
     status: ShuttleDemandStatusEnum,
+    hasShuttleRoute: z.boolean(),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
   })
