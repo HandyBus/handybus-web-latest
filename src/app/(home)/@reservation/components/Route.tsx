@@ -1,3 +1,5 @@
+'use client';
+
 import { ShuttleRoute } from '@/types/shuttle-operation.type';
 import { dateString, ddayString } from '@/utils/dateString.util';
 import Image from 'next/image';

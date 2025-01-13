@@ -37,14 +37,14 @@ export const usePostCoupon = ({ onSuccess }: { onSuccess?: () => void }) => {
   });
 };
 
-export const postRefund = async (paymentId: number, refundReason: string) => {
+export const postRefund = async (paymentId: string, refundReason: string) => {
   await authInstance.post(`/v1/billing/payments/${paymentId}/refunds`, {
     refundReason,
   });
 };
 
 export const usePostRefund = (
-  paymentId: number,
+  paymentId: string,
   refundReason: string,
   { onSuccess }: { onSuccess?: () => void },
 ) => {

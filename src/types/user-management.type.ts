@@ -80,7 +80,7 @@ export const ShuttleDemandSchema = z
     shuttleDemandId: z.number(),
     userId: z.number(),
     userNickname: z.string(),
-    userProfileImage: z.string().url(),
+    userProfileImage: z.string(),
     event: EventSchema,
     eventId: z.number(),
     dailyEventId: z.number(),
@@ -120,7 +120,7 @@ export const ReservationSchema = z
     userId: z.number(),
     userNickname: z.string(),
     userPhoneNumber: z.string(),
-    userProfileImage: z.string().url(),
+    userProfileImage: z.string(),
     shuttleRouteId: z.number(),
     type: TripTypeEnum,
     toDestinationShuttleRouteHubId: z.number().nullable(),
@@ -129,7 +129,7 @@ export const ReservationSchema = z
     hasReview: z.boolean(),
     reservationStatus: ReservationStatusEnum,
     cancelStatus: CancelStatusEnum,
-    paymentId: z.number().nullable(),
+    paymentId: z.string().nullable(),
     paymentPrincipalAmount: z.number().nullable(), // 할인 전 원금
     paymentAmount: z.number().nullable(), // 할인 후 총 결제 금액
     paymentDiscountAmount: z.number().nullable(),
@@ -156,7 +156,7 @@ export type Reservation = z.infer<typeof ReservationSchema>;
 export const RefundRequestSchema = z
   .object({
     refundRequestId: z.number(), // 환불 요청 PK
-    paymentId: z.string(),
+    paymentId: z.number(),
     principalAmount: z.number(), // 결제의 원래 총 결제 금액
     previousRefundableAmount: z.number(), // 환불 요청 시점에서 환불 가능 금액
     refundAmount: z.number(), // 환불 요청 금액
@@ -172,7 +172,7 @@ export type RefundRequest = z.infer<typeof RefundRequestSchema>;
 
 export const PaymentSchema = z
   .object({
-    paymentId: z.string().uuid(), // 결제 PK
+    paymentId: z.string(), // 결제 PK
     principalAmount: z.number(), // 원금 (할인 전 금액)
     paymentAmount: z.number(), // 결제 금액
     discountAmount: z.number(), // 총 할인 금액
@@ -230,7 +230,7 @@ export const UserStatsSchema = z
     userId: z.number(),
     nickname: z.string(),
     phoneNumber: z.string(),
-    profileImage: z.string().url(),
+    profileImage: z.string(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
     authChannel: z.enum(['NONE', 'kakao', 'naver']),

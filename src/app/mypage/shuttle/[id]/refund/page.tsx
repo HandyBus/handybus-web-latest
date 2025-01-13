@@ -27,7 +27,7 @@ const Refund = ({ params }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: postRefund } = usePostRefund(
-    data?.reservation.paymentId ?? 0,
+    data?.reservation.paymentId ?? '',
     '자동 승인 환불 요청',
     { onSuccess: () => router.push('/mypage/shuttle?type=current') },
   );

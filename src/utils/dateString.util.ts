@@ -13,11 +13,16 @@ const findMinMaxDate = (dates: Date[]) => {
 };
 
 const singleDateString = (date: Date | null, showYear: boolean = true) => {
-  if (!date || !(date instanceof Date)) {
+  if (!date) {
     return '';
   }
+  if (typeof date === 'string') {
+    console.error('singleDateString: date is string');
+  }
 
-  const formattedDate = date
+  const target = new Date(date);
+
+  const formattedDate = target
     .toLocaleDateString('ko-KR', {
       year: showYear ? 'numeric' : undefined,
       month: '2-digit',
@@ -52,12 +57,16 @@ export const dateString = (
 };
 
 export const ddayString = (date: Date | null | undefined) => {
-  if (!date || !(date instanceof Date)) {
+  if (!date) {
     return '';
   }
+  if (typeof date === 'string') {
+    console.error('singleDateString: date is string');
+  }
 
+  const target = new Date(date);
   const now = new Date();
-  const diff = date.getTime() - now.getTime();
+  const diff = target.getTime() - now.getTime();
   const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
   if (diffDays > 0) return `D-${diffDays}`;
