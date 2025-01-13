@@ -6,8 +6,8 @@ import {
   Event,
   EventStatus,
   ShuttleRouteStatus,
-} from '@/types/v2-temp/shuttle-operation.type';
-import { dateString } from '@/utils/dateString';
+} from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 
 type Props = {
   event: Event;

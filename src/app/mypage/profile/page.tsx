@@ -7,8 +7,8 @@ import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { ID_TO_REGION } from '@/constants/regions';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { parsePhoneNumber } from '@/utils/common';
-import { useGetUserStats } from '@/services/v2-temp/user-management.service';
+import { parsePhoneNumber } from '@/utils/common.util';
+import { useGetUserStats } from '@/services/user-management.service';
 
 const Profile = () => {
   const { data: userStats, isLoading } = useGetUserStats();

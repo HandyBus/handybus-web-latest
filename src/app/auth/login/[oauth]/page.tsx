@@ -1,14 +1,14 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
-import { postLogin } from '@/services/v2-temp/auth.service';
-import { getUser } from '@/services/v2-temp/user-management.service';
+import { postLogin } from '@/services/auth.service';
+import { getUser } from '@/services/user-management.service';
 import {
   setAccessToken,
   setOnboardingToken,
   setRefreshToken,
-} from '@/utils/handleToken';
-import { parseProgress } from '@/utils/parseProgress';
+} from '@/utils/handleToken.util';
+import { parseProgress } from '@/utils/parseProgress.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 

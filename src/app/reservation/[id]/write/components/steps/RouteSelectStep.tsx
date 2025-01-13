@@ -1,7 +1,7 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { TripType } from '@/types/v2-temp/shuttle-operation.type';
-import { dateString } from '@/utils/dateString';
+import { TripType } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { ReservationFormValues } from '../Form';
@@ -9,12 +9,12 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
 import {
   DailyEvent,
   Event,
   ShuttleRoute,
-} from '@/types/v2-temp/shuttle-operation.type';
+} from '@/types/shuttle-operation.type';
 
 interface Props {
   handleNextStep: () => void;

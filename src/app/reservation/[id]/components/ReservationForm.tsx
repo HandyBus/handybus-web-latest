@@ -1,18 +1,18 @@
 'use client';
 
 import Select from '@/components/select/Select';
-import { compareToNow, dateString } from '@/utils/dateString';
+import { compareToNow, dateString } from '@/utils/dateString.util';
 import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import BottomBar from './BottomBar';
 import PriceStats from './PriceStats';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
 import {
   DailyEvent,
   Event,
   ShuttleRoute,
-} from '@/types/v2-temp/shuttle-operation.type';
+} from '@/types/shuttle-operation.type';
 
 interface Props {
   event: Event;

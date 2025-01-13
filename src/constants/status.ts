@@ -2,12 +2,12 @@ import {
   EventStatus,
   ShuttleRouteStatus,
   TripType,
-} from '@/types/v2-temp/shuttle-operation.type';
+} from '@/types/shuttle-operation.type';
 import {
   CancelStatus,
   HandyStatus,
   ShuttleDemandStatus,
-} from '@/types/v2-temp/user-management.type';
+} from '@/types/user-management.type';
 
 export const ROUTE_STATUS_TO_STRING: Record<ShuttleRouteStatus, string> = {
   OPEN: '예약 모집 중',

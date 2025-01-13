@@ -11,9 +11,9 @@ import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
 import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
 import Loading from '@/components/loading/Loading';
-import { useGetUserReservation } from '@/services/v2-temp/user-management.service';
-import { usePostReview } from '@/services/v2-temp/shuttle-operation.service';
-import { getImageUrl } from '@/services/v2-temp/common.service';
+import { useGetUserReservation } from '@/services/user-management.service';
+import { usePostReview } from '@/services/shuttle-operation.service';
+import { getImageUrl } from '@/services/common.service';
 
 interface Props {
   params: {

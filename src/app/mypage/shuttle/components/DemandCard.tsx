@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, MouseEventHandler } from 'react';
 import { getStatusStyle } from '../status.utils';
-import { dateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { ShuttleDemand } from '@/types/v2-temp/user-management.type';
+import { ShuttleDemand } from '@/types/user-management.type';
 
 interface Props {
   demand: ShuttleDemand;

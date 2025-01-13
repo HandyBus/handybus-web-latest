@@ -6,8 +6,8 @@ import Rating from '@/components/rating/Rating';
 import ArtistIcon from '../icons/artist.svg';
 import LocateIcon from '../icons/locate.svg';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
-import { dateString } from '@/utils/dateString';
-import { Artist, Review } from '@/types/v2-temp/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
+import { Artist, Review } from '@/types/shuttle-operation.type';
 
 interface Props {
   review: Review;

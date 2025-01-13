@@ -5,9 +5,9 @@ import NoCoupon from '@/components/coupon/NoCoupon';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import { RefObject } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGetUserCoupons } from '@/services/v2-temp/user-management.service';
-import { IssuedCoupon } from '@/types/v2-temp/user-management.type';
-import { usePostCoupon } from '@/services/v2-temp/billing.service';
+import { useGetUserCoupons } from '@/services/user-management.service';
+import { IssuedCoupon } from '@/types/user-management.type';
+import { usePostCoupon } from '@/services/billing.service';
 
 interface Props {
   bottomSheetRef: (node: HTMLDivElement) => void;

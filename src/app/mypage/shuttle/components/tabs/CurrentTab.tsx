@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useMemo } from 'react';
-import { useGetUserReservations } from '@/services/v2-temp/user-management.service';
+import { useGetUserReservations } from '@/services/user-management.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const CurrentTab = () => {

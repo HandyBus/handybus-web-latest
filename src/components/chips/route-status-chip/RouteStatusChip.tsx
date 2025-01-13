@@ -1,5 +1,5 @@
 import { ROUTE_STATUS_TO_STRING } from '@/constants/status';
-import { ShuttleRouteStatus } from '@/types/v2-temp/shuttle-operation.type';
+import { ShuttleRouteStatus } from '@/types/shuttle-operation.type';
 
 interface Props {
   status: ShuttleRouteStatus;

@@ -6,7 +6,7 @@ import Coupon from '@/components/coupon/Coupon';
 import NoCoupon from '@/components/coupon/NoCoupon';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUserCoupons } from '@/services/v2-temp/user-management.service';
+import { useGetUserCoupons } from '@/services/user-management.service';
 
 const CouponList = () => {
   const [showUnusableCoupons, setShowUnusableCoupons] = useState(false);

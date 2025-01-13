@@ -1,5 +1,5 @@
 import { EVENT_STATUS_TO_STRING } from '@/constants/status';
-import { EventStatus } from '@/types/v2-temp/shuttle-operation.type';
+import { EventStatus } from '@/types/shuttle-operation.type';
 
 interface Props {
   status: EventStatus;

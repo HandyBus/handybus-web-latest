@@ -1,4 +1,4 @@
-import { IssuedCoupon } from '@/types/v2-temp/user-management.type';
+import { IssuedCoupon } from '@/types/user-management.type';
 
 interface Props {
   coupon: IssuedCoupon;

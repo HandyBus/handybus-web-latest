@@ -10,10 +10,10 @@ import {
   SMALL_REGIONS,
 } from '@/constants/regions';
 import { useEffect, useState } from 'react';
-import { TripType } from '@/types/v2-temp/shuttle-operation.type';
+import { TripType } from '@/types/shuttle-operation.type';
 import { FormValues } from './WriteForm';
-import { dateString } from '@/utils/dateString';
-import { Event } from '@/types/v2-temp/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
+import { Event } from '@/types/shuttle-operation.type';
 
 const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
   ROUND_TRIP: '왕복',

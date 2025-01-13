@@ -5,11 +5,8 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
-import {
-  ShuttleRouteHub,
-  TripType,
-} from '@/types/v2-temp/shuttle-operation.type';
-import { usePostUpdateReservation } from '@/services/v2-temp/shuttle-operation.service';
+import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
+import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 
 interface Props {
   isShuttleBusAssigned: boolean;

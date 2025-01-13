@@ -7,7 +7,7 @@ import {
   REFRESH_TOKEN,
 } from './constants/token';
 import { cookies } from 'next/headers';
-import { postUpdateToken } from './services/v2-temp/auth.service';
+import { postUpdateToken } from './services/auth.service';
 
 // 로그인이 필요한 페이지들만 미들웨어 처리
 export const middleware = async (req: NextRequest) => {

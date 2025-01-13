@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import GroupIcon from 'public/icons/group.svg';
 import BxIcon from 'public/icons/bx-map.svg';
-import { Event } from '@/types/v2-temp/shuttle-operation.type';
+import { Event } from '@/types/shuttle-operation.type';
 
 interface Props {
   event: Event;

@@ -1,6 +1,6 @@
 import Rating from '@/components/rating/Rating';
 import Article from '@/components/article/Article';
-import { getReviewsWithPagination } from '@/services/v2-temp/shuttle-operation.service';
+import { getReviewsWithPagination } from '@/services/shuttle-operation.service';
 
 const PromotionReview = async () => {
   const paginatedReviews = await getReviewsWithPagination();

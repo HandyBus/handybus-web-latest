@@ -5,7 +5,7 @@ import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
-import { useDeleteUser } from '@/services/v2-temp/user-management.service';
+import { useDeleteUser } from '@/services/user-management.service';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 

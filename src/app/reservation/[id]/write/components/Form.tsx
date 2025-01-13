@@ -1,7 +1,7 @@
 import BannerImage from '@/app/demand/[id]/write/components/BannerImage';
 import ProgressBar from '@/components/progress-bar/ProgressBar';
 import useFunnel from '@/hooks/useFunnel';
-import { TripType } from '@/types/v2-temp/shuttle-operation.type';
+import { TripType } from '@/types/shuttle-operation.type';
 import { FormProvider, useForm } from 'react-hook-form';
 import RouteSelectStep from './steps/RouteSelectStep';
 import PassengerInfoStep from './steps/PassengerInfoStep';
@@ -10,7 +10,7 @@ import {
   Event,
   ShuttleRoute,
   ShuttleRouteHub,
-} from '@/types/v2-temp/shuttle-operation.type';
+} from '@/types/shuttle-operation.type';
 
 const STEPS = ['노선 선택', '탑승 정보 입력', '결제'] as const;
 

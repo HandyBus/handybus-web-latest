@@ -10,8 +10,8 @@ import logout from '@/app/actions/logout.action';
 import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
 import { generateCustomerKey } from '../../../reservation.util';
-import { getUser } from '@/services/v2-temp/user-management.service';
-import { postReservation } from '@/services/v2-temp/billing.service';
+import { getUser } from '@/services/user-management.service';
+import { postReservation } from '@/services/billing.service';
 
 declare global {
   interface Window {

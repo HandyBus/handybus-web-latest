@@ -1,5 +1,5 @@
-import { ShuttleRoute } from '@/types/v2-temp/shuttle-operation.type';
-import { dateString } from '@/utils/dateString';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
 import Link from 'next/link';
 

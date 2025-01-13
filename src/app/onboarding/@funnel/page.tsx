@@ -1,8 +1,8 @@
 import OnboardingFunnel from './components/OnboardingFunnel';
-import { parseProgress } from '@/utils/parseProgress';
+import { parseProgress } from '@/utils/parseProgress.util';
 import { redirect } from 'next/navigation';
-import { removeOnboardingToken } from '@/utils/handleToken';
-import { getUser } from '@/services/v2-temp/user-management.service';
+import { removeOnboardingToken } from '@/utils/handleToken.util';
+import { getUser } from '@/services/user-management.service';
 
 const Funnel = async () => {
   const user = await getUser();

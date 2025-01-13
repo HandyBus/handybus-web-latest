@@ -1,6 +1,6 @@
 import { BigRegionsType } from '@/constants/regions';
-import { Artist } from '@/types/v2-temp/shuttle-operation.type';
-import { AgeRange } from '@/types/v2-temp/user-management.type';
+import { Artist } from '@/types/shuttle-operation.type';
+import { AgeRange } from '@/types/user-management.type';
 
 export interface OnboardingFormValues {
   nickname: string;

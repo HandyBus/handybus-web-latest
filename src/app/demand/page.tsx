@@ -6,8 +6,8 @@ import { fromString, toDemandSort } from './utils/param.util';
 import DemandCard from './components/DemandCard';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
-import { getEvents } from '@/services/v2-temp/shuttle-operation.service';
-import { Event } from '@/types/v2-temp/shuttle-operation.type';
+import { getEvents } from '@/services/shuttle-operation.service';
+import { Event } from '@/types/shuttle-operation.type';
 const Empty = dynamic(() => import('./components/Empty'));
 
 export const metadata: Metadata = {

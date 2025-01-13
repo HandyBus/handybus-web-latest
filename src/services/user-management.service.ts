@@ -10,14 +10,14 @@ import {
   ShuttleDemandStatus,
   UserSchema,
   UserStatsSchema,
-} from '@/types/v2-temp/user-management.type';
-import { authInstance } from '../config';
-import { toSearchParams } from '@/utils/searchParams';
+} from '@/types/user-management.type';
+import { authInstance } from './config';
+import { toSearchParams } from '@/utils/searchParams.util';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ReviewSchema } from '@/types/v2-temp/shuttle-operation.type';
+import { ReviewSchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
-import { CustomError } from '../custom-error';
-import { setOnboardingToken } from '@/utils/handleToken';
+import { CustomError } from './custom-error';
+import { setOnboardingToken } from '@/utils/handleToken.util';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });

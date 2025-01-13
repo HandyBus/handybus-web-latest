@@ -1,9 +1,9 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { dateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import Divider from './Divider';
 import { ReservationFormValues } from '../../Form';
 import { useFormContext } from 'react-hook-form';
-import { Event } from '@/types/v2-temp/shuttle-operation.type';
+import { Event } from '@/types/shuttle-operation.type';
 
 interface Props {
   event: Event;

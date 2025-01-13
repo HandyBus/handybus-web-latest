@@ -2,7 +2,7 @@
 
 import DetailedReview from './components/DetailedReview';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { useGetReviewsWithPagination } from '@/services/v2-temp/shuttle-operation.service';
+import { useGetReviewsWithPagination } from '@/services/shuttle-operation.service';
 import LoadingCircle from 'public/icons/loading-circle.svg';
 
 const ReviewPage = () => {

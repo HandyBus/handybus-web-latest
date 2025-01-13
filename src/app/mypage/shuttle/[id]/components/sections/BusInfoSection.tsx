@@ -1,7 +1,7 @@
 import { SHUTTLE_BUS_TYPE_TO_STRING } from '@/constants/shuttleBus';
 import DetailRow from '../DetailRow';
 import Section from '../Section';
-import { ShuttleBus } from '@/types/v2-temp/shuttle-operation.type';
+import { ShuttleBus } from '@/types/shuttle-operation.type';
 
 interface Props {
   shuttleBus: ShuttleBus;

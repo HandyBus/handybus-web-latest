@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Coupon from '@/components/coupon/Coupon';
 import XIcon from 'public/icons/x.svg';
 import Button from '@/components/buttons/button/Button';
-import { IssuedCoupon } from '@/types/v2-temp/user-management.type';
+import { IssuedCoupon } from '@/types/user-management.type';
 
 interface Props {
   handlePrevStep: () => void;

@@ -1,9 +1,9 @@
 'use client';
 
 import { ID_TO_REGION } from '@/constants/regions';
-import { useGetEventDemandStats } from '@/services/v2-temp/shuttle-operation.service';
-import { DailyEvent } from '@/types/v2-temp/shuttle-operation.type';
-import { dateString } from '@/utils/dateString';
+import { useGetEventDemandStats } from '@/services/shuttle-operation.service';
+import { DailyEvent } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 import { useMemo } from 'react';
 
 interface Props {

@@ -1,5 +1,5 @@
 import { createMetadataWithOG } from '@/constants/metadata';
-import { getEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { getEvent } from '@/services/shuttle-operation.service';
 import { ReactNode } from 'react';
 
 export const generateMetadata = async ({

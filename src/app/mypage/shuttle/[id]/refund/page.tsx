@@ -11,8 +11,8 @@ import Section from '../components/Section';
 import ReservationCard from '../../components/ReservationCard';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import { useGetUserReservation } from '@/services/v2-temp/user-management.service';
-import { usePostRefund } from '@/services/v2-temp/billing.service';
+import { useGetUserReservation } from '@/services/user-management.service';
+import { usePostRefund } from '@/services/billing.service';
 
 interface Props {
   params: {

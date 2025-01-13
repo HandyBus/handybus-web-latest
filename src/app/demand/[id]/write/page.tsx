@@ -5,7 +5,7 @@ import WriteForm from './components/WriteForm';
 import BannerImage from './components/BannerImage';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { useGetEvent } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: { id: string };

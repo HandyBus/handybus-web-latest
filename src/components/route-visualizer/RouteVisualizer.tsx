@@ -3,10 +3,7 @@
 import SpinnerIcon from '/public/icons/spinner.svg';
 import dayjs from 'dayjs';
 import RoutePoints from './RoutePoint';
-import {
-  ShuttleRouteHub,
-  TripType,
-} from '@/types/v2-temp/shuttle-operation.type';
+import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
 
 type Props = {
   type: TripType;

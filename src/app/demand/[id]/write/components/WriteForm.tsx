@@ -1,14 +1,14 @@
 'use client';
 
-import { TripType } from '@/types/v2-temp/shuttle-operation.type';
+import { TripType } from '@/types/shuttle-operation.type';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
 import PassengerCount from './PassengerCount';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
-import { DailyEvent, Event } from '@/types/v2-temp/shuttle-operation.type';
-import { usePostDemand } from '@/services/v2-temp/shuttle-operation.service';
+import { DailyEvent, Event } from '@/types/shuttle-operation.type';
+import { usePostDemand } from '@/services/shuttle-operation.service';
 import { useRouter } from 'next/navigation';
 
 export interface FormValues {

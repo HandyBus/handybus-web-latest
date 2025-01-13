@@ -7,7 +7,7 @@ import Select from '@/components/select/Select';
 import useStickyMenu from '@/hooks/useStickyMenu';
 import useRegion, { Region } from '@/hooks/useRegion';
 import { regionToString } from '@/utils/region.util';
-import { toSearchParams } from '@/utils/searchParams';
+import { toSearchParams } from '@/utils/searchParams.util';
 
 import SelectRegionsWithChips from './SelectRegionsWithChips';
 import {

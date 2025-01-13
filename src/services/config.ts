@@ -4,12 +4,12 @@ import {
   getAccessToken,
   setAccessToken,
   setRefreshToken,
-} from '@/utils/handleToken';
+} from '@/utils/handleToken.util';
 import { CustomError } from './custom-error';
 import logout from '@/app/actions/logout.action';
 import { z } from 'zod';
 import { replacer, silentParse } from '@/utils/config.util';
-import { postUpdateToken } from './v2-temp/auth.service';
+import { postUpdateToken } from './auth.service';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

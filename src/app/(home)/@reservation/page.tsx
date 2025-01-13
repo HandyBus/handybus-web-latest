@@ -5,10 +5,10 @@ import { regionToString } from '@/utils/region.util';
 import { ID_TO_REGION } from '@/constants/regions';
 import RoutesSwiperView from './components/RoutesSwiperView';
 import LocationMarker from './icons/marker.svg';
-import { toSearchParams } from '@/utils/searchParams';
-import { getShuttleRoutes } from '@/services/v2-temp/shuttle-operation.service';
-import { ShuttleRoute } from '@/types/v2-temp/shuttle-operation.type';
-import { getUser } from '@/services/v2-temp/user-management.service';
+import { toSearchParams } from '@/utils/searchParams.util';
+import { getShuttleRoutes } from '@/services/shuttle-operation.service';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { getUser } from '@/services/user-management.service';
 
 const Page = async () => {
   const { region, routes, promoted, userRegion } =

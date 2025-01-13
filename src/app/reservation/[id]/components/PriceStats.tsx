@@ -1,8 +1,8 @@
 'use client';
 
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { TripType } from '@/types/v2-temp/shuttle-operation.type';
-import { dateString } from '@/utils/dateString';
+import { TripType } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   tripType: TripType;

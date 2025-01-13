@@ -8,7 +8,7 @@ import MarketingBottomSheet from '../bottom-sheets/MarketingBottomSheet';
 import { toast } from 'react-toastify';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import OnboardingTitle from '@/components/onboarding-contents/OnboardingTitle';
-import { putUser } from '@/services/v2-temp/user-management.service';
+import { putUser } from '@/services/user-management.service';
 import { useMutation } from '@tanstack/react-query';
 
 interface Props {

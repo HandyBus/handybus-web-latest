@@ -1,8 +1,8 @@
 'use server';
 
 import { z } from 'zod';
-import { instance } from '../config';
-import { getRefreshToken } from '@/utils/handleToken';
+import { instance } from './config';
+import { getRefreshToken } from '@/utils/handleToken.util';
 
 export const postLogin = async (
   method: 'kakao' | 'naver',

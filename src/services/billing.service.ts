@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { authInstance } from '../config';
+import { authInstance } from './config';
 import { toast } from 'react-toastify';
-import { CustomError } from '../custom-error';
+import { CustomError } from './custom-error';
 import { silentParse } from '@/utils/config.util';
 import {
   PostReservationBody,
   PostReservationBodySchema,
   TempPaymentSchema,
   TempReservationSchema,
-} from '@/types/v2-temp/billing.type';
+} from '@/types/billing.type';
 
 export const postCoupon = async (code: string) => {
   return await authInstance.post('/v1/billing/coupons', { code });

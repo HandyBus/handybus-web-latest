@@ -1,5 +1,5 @@
 import type { ShuttleSortType } from '../constants/params';
-import { ShuttleRoute } from '@/types/v2-temp/shuttle-operation.type';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
 
 export const toSortedRoutes = (
   sort: ShuttleSortType,

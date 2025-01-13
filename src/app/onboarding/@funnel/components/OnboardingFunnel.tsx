@@ -14,10 +14,10 @@ import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
-import { removeOnboardingToken } from '@/utils/handleToken';
-import { OnboardingProgress } from '@/utils/parseProgress';
-import { usePutUser } from '@/services/v2-temp/user-management.service';
-import { getImageUrl } from '@/services/v2-temp/common.service';
+import { removeOnboardingToken } from '@/utils/handleToken.util';
+import { OnboardingProgress } from '@/utils/parseProgress.util';
+import { usePutUser } from '@/services/user-management.service';
+import { getImageUrl } from '@/services/common.service';
 
 interface Props {
   onboardingProgress: OnboardingProgress;

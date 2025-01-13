@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { instance } from '../config';
+import { instance } from './config';
 
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';

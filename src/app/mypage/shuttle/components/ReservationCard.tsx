@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { getStatusStyle } from '../status.utils';
-import { dateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import {
   CANCEL_STATUS_TO_STRING,
   HANDY_STATUS_TO_STRING,
   SHUTTLE_ROUTE_STATUS_TO_STRING,
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
-import { Reservation } from '@/types/v2-temp/user-management.type';
+import { Reservation } from '@/types/user-management.type';
 
 interface Props {
   reservation: Reservation;

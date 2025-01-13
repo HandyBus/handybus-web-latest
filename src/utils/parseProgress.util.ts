@@ -1,4 +1,4 @@
-import { ProgressType } from '@/types/v2-temp/user-management.type';
+import { ProgressType } from '@/types/user-management.type';
 
 export type OnboardingProgress =
   | 'AGREEMENT_INCOMPLETE'

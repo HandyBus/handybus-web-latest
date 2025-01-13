@@ -1,9 +1,9 @@
 import CustomModal from '../CustomModal';
 import ChevronRight from 'public/icons/quill-chevron-right.svg';
 import Button from '@/components/buttons/button/Button';
-import { dateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import Link from 'next/link';
-import { ShuttleRoute } from '@/types/v2-temp/shuttle-operation.type';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
 
 interface Props {
   isOpen: boolean;

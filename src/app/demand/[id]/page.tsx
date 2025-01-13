@@ -4,7 +4,7 @@ import EventInfo from '@/components/event/components/EventInfo';
 import EventImage from '@/components/event/components/EventImage';
 import KakaoMap from '@/components/kakao-map/KakaoMap';
 import BackButton from '@/components/buttons/back-button/BackButton';
-import { getEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { getEvent } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: { id: string };

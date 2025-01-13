@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { dateString } from '@/utils/dateString';
-import { Event } from '@/types/v2-temp/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
+import { Event } from '@/types/shuttle-operation.type';
 
 interface Props {
   event: Event;

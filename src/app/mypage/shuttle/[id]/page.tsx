@@ -14,8 +14,8 @@ import RouteSection from './components/sections/RouteSection';
 import { useRouter } from 'next/navigation';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUserReservation } from '@/services/v2-temp/user-management.service';
-import { useGetShuttleBus } from '@/services/v2-temp/shuttle-operation.service';
+import { useGetUserReservation } from '@/services/user-management.service';
+import { useGetShuttleBus } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: {

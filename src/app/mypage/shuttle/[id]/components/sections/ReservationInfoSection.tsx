@@ -5,15 +5,15 @@ import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { useState } from 'react';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
-import { dateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import { toast } from 'react-toastify';
-import { parsePhoneNumber } from '@/utils/common';
+import { parsePhoneNumber } from '@/utils/common.util';
 import {
   HANDY_STATUS_TO_STRING,
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
-import { Reservation } from '@/types/v2-temp/user-management.type';
-import { usePostUpdateReservation } from '@/services/v2-temp/shuttle-operation.service';
+import { Reservation } from '@/types/user-management.type';
+import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 
 interface Props {
   reservation: Reservation;

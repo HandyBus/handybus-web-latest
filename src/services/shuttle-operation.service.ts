@@ -11,19 +11,19 @@ import {
   ShuttleBusSchema,
   ShuttleRouteSchema,
   ShuttleRouteStatus,
-} from '@/types/v2-temp/shuttle-operation.type';
-import { authInstance, instance } from '../config';
+} from '@/types/shuttle-operation.type';
+import { authInstance, instance } from './config';
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { toSearchParams } from '@/utils/searchParams';
+import { toSearchParams } from '@/utils/searchParams.util';
 import { DEFAULT_PAGINATION_LIMIT } from '@/constants/common';
-import { withPagination } from '@/types/v2-temp/common.type';
+import { withPagination } from '@/types/common.type';
 import { toast } from 'react-toastify';
-import { CustomError } from '../custom-error';
+import { CustomError } from './custom-error';
 import { silentParse } from '@/utils/config.util';
 
 // ----- Event -----

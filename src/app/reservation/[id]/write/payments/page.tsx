@@ -1,7 +1,7 @@
 'use client';
 
 import { CustomError } from '@/services/custom-error';
-import { postPayment } from '@/services/v2-temp/billing.service';
+import { postPayment } from '@/services/billing.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';

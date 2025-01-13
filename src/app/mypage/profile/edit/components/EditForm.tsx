@@ -18,9 +18,9 @@ import { useRouter } from 'next/navigation';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
-import { usePutUser } from '@/services/v2-temp/user-management.service';
-import { UserStats } from '@/types/v2-temp/user-management.type';
-import { getImageUrl } from '@/services/v2-temp/common.service';
+import { usePutUser } from '@/services/user-management.service';
+import { UserStats } from '@/types/user-management.type';
+import { getImageUrl } from '@/services/common.service';
 
 interface Props {
   type: EditType;

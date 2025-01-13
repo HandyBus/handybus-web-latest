@@ -10,8 +10,8 @@ import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
-import { useGetArtists } from '@/services/v2-temp/shuttle-operation.service';
-import { Artist } from '@/types/v2-temp/shuttle-operation.type';
+import { useGetArtists } from '@/services/shuttle-operation.service';
+import { Artist } from '@/types/shuttle-operation.type';
 
 interface Props {
   initialSelectedArtists?: Artist[];

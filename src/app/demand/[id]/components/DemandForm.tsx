@@ -7,13 +7,13 @@ import {
   REGION_TO_ID,
   SMALL_REGIONS,
 } from '@/constants/regions';
-import { dateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import { SyntheticEvent, useMemo, useState } from 'react';
 import DemandStats from './DemandStats';
 import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
-import { DailyEvent, Event } from '@/types/v2-temp/shuttle-operation.type';
+import { DailyEvent, Event } from '@/types/shuttle-operation.type';
 
 interface Props {
   event: Event;

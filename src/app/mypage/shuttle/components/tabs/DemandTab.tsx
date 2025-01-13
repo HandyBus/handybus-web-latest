@@ -8,12 +8,12 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
-import { useGetUserDemands } from '@/services/v2-temp/user-management.service';
-import { ShuttleDemand } from '@/types/v2-temp/user-management.type';
+import { useGetUserDemands } from '@/services/user-management.service';
+import { ShuttleDemand } from '@/types/user-management.type';
 import {
   getShuttleRoutesOfDailyEvent,
   useDeleteDemand,
-} from '@/services/v2-temp/shuttle-operation.service';
+} from '@/services/shuttle-operation.service';
 import { useQueries } from '@tanstack/react-query';
 const EmptyView = dynamic(() => import('../EmptyView'));
 

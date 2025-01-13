@@ -6,7 +6,7 @@ import Activity from './components/Activity';
 import Settings from './components/Settings';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import { useGetUserStats } from '@/services/v2-temp/user-management.service';
+import { useGetUserStats } from '@/services/user-management.service';
 
 const MyPage = () => {
   const { data: userStats, isLoading } = useGetUserStats();

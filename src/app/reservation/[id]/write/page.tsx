@@ -4,7 +4,7 @@ import AppBar from '@/components/app-bar/AppBar';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Form from './components/Form';
-import { useGetEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { useGetEvent } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: {

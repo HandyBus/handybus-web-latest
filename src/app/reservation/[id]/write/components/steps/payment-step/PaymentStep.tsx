@@ -3,7 +3,7 @@ import Divider from './Divider';
 import ApplyHandy from './ApplyHandy';
 import ApplyCoupon from './ApplyCoupon';
 import TossPayments from './TossPayments';
-import { Event } from '@/types/v2-temp/shuttle-operation.type';
+import { Event } from '@/types/shuttle-operation.type';
 
 interface Props {
   handlePrevStep: () => void;

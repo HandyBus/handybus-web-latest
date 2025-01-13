@@ -2,7 +2,7 @@ import Article from '@/components/article/Article';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
-import { getEvents } from '@/services/v2-temp/shuttle-operation.service';
+import { getEvents } from '@/services/shuttle-operation.service';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (

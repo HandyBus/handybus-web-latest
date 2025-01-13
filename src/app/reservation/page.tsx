@@ -1,7 +1,6 @@
 import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
-import getFirstSearchParam from '@/utils/getFirstSearchParam';
 import {
   shuttleSortSearchParamsFromString,
   searchParamToSort,
@@ -16,7 +15,8 @@ import dynamic from 'next/dynamic';
 import { toSortedRoutes } from './util/sort.util';
 import { Metadata } from 'next';
 import ShuttleRouteView from './components/ShuttleRouteView';
-import { getShuttleRoutes } from '@/services/v2-temp/shuttle-operation.service';
+import { getShuttleRoutes } from '@/services/shuttle-operation.service';
+import getFirstSearchParam from '@/utils/getFirstSearchParam.util';
 const Empty = dynamic(() => import('./components/Empty'));
 
 export const metadata: Metadata = {

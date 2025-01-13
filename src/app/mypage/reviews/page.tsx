@@ -6,7 +6,7 @@ import Loading from '@/components/loading/Loading';
 import Link from 'next/link';
 import ReviewIcon from 'public/icons/review.svg';
 import DetailedReview from '@/app/help/reviews/components/DetailedReview';
-import { useGetUserReviews } from '@/services/v2-temp/user-management.service';
+import { useGetUserReviews } from '@/services/user-management.service';
 
 const Reviews = () => {
   const { data: reviews, isFetching } = useGetUserReviews();
