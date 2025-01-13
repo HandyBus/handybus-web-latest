@@ -1,6 +1,8 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
+import usePreventRefresh from '@/hooks/usePreventRefresh';
+import usePreventScroll from '@/hooks/usePreventScroll';
 import { postLogin } from '@/services/auth.service';
 import { getUser } from '@/services/user-management.service';
 import {
@@ -20,6 +22,8 @@ interface Props {
 const OAuth = ({ params, searchParams }: Props) => {
   const router = useRouter();
   const isInitiated = useRef(false);
+  usePreventRefresh();
+  usePreventScroll();
 
   const handleOAuth = async () => {
     try {
@@ -54,16 +58,6 @@ const OAuth = ({ params, searchParams }: Props) => {
     }
     isInitiated.current = true;
     handleOAuth();
-  }, []);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []);
 
   return <Loading />;
