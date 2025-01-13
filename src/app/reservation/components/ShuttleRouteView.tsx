@@ -19,7 +19,7 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
 
   return (
     <Link
-      href={`/reservation/${shuttleRoute.shuttleRouteId}?dailyShuttleId=${shuttleRoute.dailyEventId}&shuttleRouteId=${shuttleRoute.shuttleRouteId}`}
+      href={`/reservation/${shuttleRoute.shuttleRouteId}?dailyEventId=${shuttleRoute.dailyEventId}&shuttleRouteId=${shuttleRoute.shuttleRouteId}`}
       className="flex flex-row gap-16 px-16 py-12"
     >
       <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-grey-50">

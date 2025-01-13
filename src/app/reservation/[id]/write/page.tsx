@@ -11,7 +11,7 @@ interface Props {
     id: string; // shuttleId
   };
   searchParams: {
-    dailyShuttleId: string;
+    dailyEventId: string;
     shuttleRouteId: string;
   };
 }
@@ -26,7 +26,7 @@ const Page = ({ params, searchParams }: Props) => {
         {event && (
           <Form
             event={event}
-            initialDailyShuttleId={Number(searchParams.dailyShuttleId)}
+            initialDailyShuttleId={Number(searchParams.dailyEventId)}
             initialShuttleRouteId={Number(searchParams.shuttleRouteId)}
           />
         )}

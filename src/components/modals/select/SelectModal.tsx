@@ -80,7 +80,7 @@ interface SelectModalButtonProps {
 const SelectModalButton = ({ route }: SelectModalButtonProps) => {
   return (
     <Link
-      href={`/reservation/${route.shuttleRouteId}?dailyShuttleId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
+      href={`/reservation/${route.shuttleRouteId}?dailyEventId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
       className="h-58 flex w-252 items-center justify-between rounded-[11px] border border-grey-200 px-24 py-16"
     >
       <p className="text-16 font-500 leading-[25.6px] text-grey-900">

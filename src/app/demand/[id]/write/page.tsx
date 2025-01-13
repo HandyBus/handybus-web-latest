@@ -10,7 +10,7 @@ import { useGetEvent } from '@/services/shuttle-operation.service';
 interface Props {
   params: { id: string };
   searchParams: {
-    dailyShuttleId: string;
+    dailyEventId: string;
     regionId: string;
   };
 }
@@ -27,7 +27,7 @@ const DemandWrite = ({ params, searchParams }: Props) => {
             <BannerImage event={event} />
             <WriteForm
               event={event}
-              dailyShuttleId={Number(searchParams.dailyShuttleId)}
+              dailyEventId={Number(searchParams.dailyEventId)}
               regionId={Number(searchParams.regionId)}
             />
             <div className="h-120" />

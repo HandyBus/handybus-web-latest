@@ -57,7 +57,7 @@ const ReservationForm = ({
       return;
     }
     const params = new URLSearchParams(searchParams.toString());
-    params.set('dailyShuttleId', selectedDailyEvent.dailyEventId.toString());
+    params.set('dailyEventId', selectedDailyEvent.dailyEventId.toString());
     params.set('shuttleRouteId', selectedRoute?.shuttleRouteId.toString());
 
     router.replace(`?${params.toString()}`, { scroll: false });

@@ -26,8 +26,8 @@ const DemandForm = ({ event }: Props) => {
     | BigRegionsType
     | undefined;
   const initialSmallRegion = searchParams.get('smallRegion');
-  const initialDailyShuttleId = searchParams.get('dailyShuttleId')
-    ? Number(searchParams.get('dailyShuttleId'))
+  const initialDailyEventId = searchParams.get('dailyEventId')
+    ? Number(searchParams.get('dailyEventId'))
     : undefined;
 
   const [selectedBigRegion, setSelectedBigRegion] = useState<
@@ -40,7 +40,7 @@ const DemandForm = ({ event }: Props) => {
     DailyEvent | undefined
   >(
     event.dailyEvents.find(
-      (dailyEvent) => dailyEvent.dailyEventId === initialDailyShuttleId,
+      (dailyEvent) => dailyEvent.dailyEventId === initialDailyEventId,
     ) ?? undefined,
   );
 
@@ -146,10 +146,10 @@ const DemandForm = ({ event }: Props) => {
           !selectedDailyEvent || !regionId || event.eventStatus !== 'OPEN'
         }
       />
-      {initialDailyShuttleId && initialBigRegion && initialSmallRegion && (
+      {initialDailyEventId && initialBigRegion && initialSmallRegion && (
         <RouteModal
           event={event}
-          dailyEventId={initialDailyShuttleId}
+          dailyEventId={initialDailyEventId}
           bigRegion={initialBigRegion}
           smallRegion={initialSmallRegion}
         />

@@ -13,17 +13,17 @@ interface Props {
     id: string; // shuttleId
   };
   searchParams: {
-    dailyShuttleId: string;
+    dailyEventId: string;
     shuttleRouteId: string;
   };
 }
 
 const Page = async ({ params, searchParams }: Props) => {
-  const dailyShuttleId = Number(searchParams.dailyShuttleId);
+  const dailyEventId = Number(searchParams.dailyEventId);
   const shuttleRouteId = Number(searchParams.shuttleRouteId);
   const shuttleRoute = await getShuttleRoute(
     Number(params.id),
-    dailyShuttleId,
+    dailyEventId,
     shuttleRouteId,
   );
 
@@ -47,7 +47,7 @@ const Page = async ({ params, searchParams }: Props) => {
       />
       <ReservationForm
         event={shuttleRoute.event}
-        initialDailyEventId={dailyShuttleId}
+        initialDailyEventId={dailyEventId}
         initialRouteId={shuttleRouteId}
       />
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />

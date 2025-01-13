@@ -50,7 +50,7 @@ const DemandTab = () => {
           <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
             {parsedReservationOngoingDemands.map((demand) => {
               const region = ID_TO_REGION[demand.regionId];
-              const href = `/demand/${demand.eventId}?dailyShuttleId=${demand.dailyEventId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
+              const href = `/demand/${demand.eventId}?dailyEventId=${demand.dailyEventId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
               return (
                 <DemandCard
                   key={demand.shuttleDemandId}

@@ -30,15 +30,15 @@ export interface FormValues {
 
 interface Props {
   event: Event;
-  dailyShuttleId: number;
+  dailyEventId: number;
   regionId: number;
 }
 
-const WriteForm = ({ event, dailyShuttleId, regionId }: Props) => {
+const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
   const methods = useForm<FormValues>({
     defaultValues: {
       dailyEvent: event.dailyEvents.find(
-        (dailyEvent) => dailyEvent.dailyEventId === dailyShuttleId,
+        (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
       ),
       regionId,
       passengerCount: 0,
