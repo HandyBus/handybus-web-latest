@@ -4,17 +4,18 @@ import ReservationCard from '../ReservationCard';
 import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUserReservations } from '@/services/reservation';
 import { useMemo } from 'react';
+import { useGetUserReservations } from '@/services/v2-temp/user-management.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const CurrentTab = () => {
-  const { data: reservations, isLoading } = useGetUserReservations('CURRENT');
+  const { data: reservations, isLoading } = useGetUserReservations({
+    eventProgressStatus: 'CURRENT',
+  });
   const sortedReservations = useMemo(
     () =>
       reservations?.sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        (a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0),
       ),
     [reservations],
   );

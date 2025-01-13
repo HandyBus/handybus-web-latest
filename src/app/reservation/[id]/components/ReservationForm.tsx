@@ -1,46 +1,48 @@
 'use client';
 
 import Select from '@/components/select/Select';
-import {
-  DailyShuttleType,
-  ShuttleRouteType,
-  ShuttleType,
-} from '@/types/shuttle.types';
-import { compareToNow, parseDateString } from '@/utils/dateString';
+import { compareToNow, dateString } from '@/utils/dateString';
 import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
-import { useGetRoutes } from '@/services/shuttleOperation';
 import BottomBar from './BottomBar';
 import PriceStats from './PriceStats';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/v2-temp/shuttle-operation.service';
+import {
+  DailyEvent,
+  Event,
+  ShuttleRoute,
+} from '@/types/v2-temp/shuttle-operation.type';
 
 interface Props {
-  shuttle: ShuttleType;
-  initialDailyShuttleId: number;
+  event: Event;
+  initialDailyEventId: number;
   initialRouteId: number;
 }
 
 const ReservationForm = ({
-  shuttle,
-  initialDailyShuttleId,
+  event,
+  initialDailyEventId,
   initialRouteId,
 }: Props) => {
-  const [selectedDailyShuttle, setSelectedDailyShuttle] =
-    useState<DailyShuttleType>();
-  const [selectedRoute, setSelectedRoute] = useState<ShuttleRouteType>();
+  const [selectedDailyEvent, setSelectedDailyEvent] = useState<DailyEvent>();
+  const [selectedRoute, setSelectedRoute] = useState<ShuttleRoute>();
 
-  const { data: routes } = useGetRoutes(
-    shuttle.shuttleId,
-    selectedDailyShuttle?.dailyShuttleId ?? initialDailyShuttleId,
+  const { data: routes } = useGetShuttleRoutesOfDailyEvent(
+    event.eventId,
+    selectedDailyEvent?.dailyEventId ?? initialDailyEventId,
+    {
+      status: 'OPEN',
+    },
   );
 
   useEffect(() => {
-    if (selectedDailyShuttle || selectedRoute || !routes) {
+    if (selectedDailyEvent || selectedRoute || !routes) {
       return;
     }
-    setSelectedDailyShuttle(
-      shuttle.dailyShuttles.find(
-        (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
+    setSelectedDailyEvent(
+      event.dailyEvents.find(
+        (dailyEvent) => dailyEvent.dailyEventId === initialDailyEventId,
       ),
     );
     setSelectedRoute(
@@ -51,14 +53,11 @@ const ReservationForm = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   useEffect(() => {
-    if (!selectedDailyShuttle || !selectedRoute) {
+    if (!selectedDailyEvent || !selectedRoute) {
       return;
     }
     const params = new URLSearchParams(searchParams.toString());
-    params.set(
-      'dailyShuttleId',
-      selectedDailyShuttle.dailyShuttleId.toString(),
-    );
+    params.set('dailyShuttleId', selectedDailyEvent.dailyEventId.toString());
     params.set('shuttleRouteId', selectedRoute?.shuttleRouteId.toString());
 
     router.replace(`?${params.toString()}`, { scroll: false });
@@ -67,24 +66,23 @@ const ReservationForm = ({
   const filteredRoutes = useMemo(
     () =>
       routes?.filter(
-        (route) =>
-          route.dailyShuttleId === selectedDailyShuttle?.dailyShuttleId,
+        (route) => route.dailyEventId === selectedDailyEvent?.dailyEventId,
       ),
-    [routes, selectedDailyShuttle],
+    [routes, selectedDailyEvent],
   );
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const query = new URLSearchParams({
-      dailyShuttleId: selectedDailyShuttle?.dailyShuttleId?.toString() ?? '',
+      dailyEventId: selectedDailyEvent?.dailyEventId?.toString() ?? '',
       shuttleRouteId: selectedRoute?.shuttleRouteId?.toString() ?? '',
     });
-    router.push(`/reservation/${shuttle.shuttleId}/write?${query}`);
+    router.push(`/reservation/${event.eventId}/write?${query}`);
   };
 
   const sortedToDestinationHubs = useMemo(
     () =>
-      selectedRoute?.hubs.toDestination.sort(
+      selectedRoute?.toDestinationShuttleRouteHubs?.sort(
         (a, b) => a.sequence - b.sequence,
       ) ?? [],
     [selectedRoute],
@@ -97,13 +95,13 @@ const ReservationForm = ({
           운행일을 선택해주세요
         </h5>
         <Select
-          options={shuttle.dailyShuttles}
-          value={selectedDailyShuttle}
+          options={event.dailyEvents}
+          value={selectedDailyEvent}
           setValue={(value) => {
-            setSelectedDailyShuttle(value);
+            setSelectedDailyEvent(value);
             setSelectedRoute(undefined);
           }}
-          renderValue={(value) => parseDateString(value.date)}
+          renderValue={(value) => dateString(value.date)}
           placeholder="운행일"
           bottomSheetTitle="운행일 선택"
           isUnderLined
@@ -120,7 +118,7 @@ const ReservationForm = ({
             setSelectedRoute(value);
           }}
           renderValue={(value) => value.name}
-          disabled={!selectedDailyShuttle}
+          disabled={!selectedDailyEvent}
           placeholder="노선 종류"
           bottomSheetTitle="노선 종류 선택"
           isUnderLined
@@ -132,8 +130,12 @@ const ReservationForm = ({
           <RouteVisualizer
             type="ROUND_TRIP"
             isSelected={false}
-            toDestinationHubs={selectedRoute.hubs.toDestination}
-            fromDestinationHubs={selectedRoute.hubs.fromDestination}
+            toDestinationHubs={
+              selectedRoute.toDestinationShuttleRouteHubs ?? []
+            }
+            fromDestinationHubs={
+              selectedRoute.fromDestinationShuttleRouteHubs ?? []
+            }
           />
           <PriceStats
             tripType={selectedRoute.remainingSeatType}
@@ -153,16 +155,16 @@ const ReservationForm = ({
             )}
             earlybirdDeadline={selectedRoute.earlybirdDeadline}
             earlybirdPrice={{
-              toDestination: selectedRoute.earlybirdPriceToDestination,
-              fromDestination: selectedRoute.earlybirdPriceFromDestination,
-              roundTrip: selectedRoute.earlybirdPriceRoundTrip,
+              toDestination: selectedRoute.earlybirdPriceToDestination ?? 0,
+              fromDestination: selectedRoute.earlybirdPriceFromDestination ?? 0,
+              roundTrip: selectedRoute.earlybirdPriceRoundTrip ?? 0,
             }}
           />
         </>
       )}
       <BottomBar
         disabled={!selectedRoute || selectedRoute.status !== 'OPEN'}
-        shuttleName={shuttle.name}
+        eventName={event.eventName}
       />
     </form>
   );

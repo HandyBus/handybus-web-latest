@@ -13,11 +13,11 @@ import {
 } from '@/constants/regions';
 import { Region } from '@/hooks/useRegion';
 import dynamic from 'next/dynamic';
-const Empty = dynamic(() => import('./components/Empty'));
 import { toSortedRoutes } from './util/sort.util';
 import { Metadata } from 'next';
 import ShuttleRouteView from './components/ShuttleRouteView';
-import { getAllRoutes } from '@/services/shuttleOperation';
+import { getShuttleRoutes } from '@/services/v2-temp/shuttle-operation.service';
+const Empty = dynamic(() => import('./components/Empty'));
 
 export const metadata: Metadata = {
   title: '지금 예약 모집 중인 셔틀',
@@ -55,25 +55,28 @@ const Page = async ({ searchParams }: Props) => {
       ? ({ bigRegion, smallRegion } as Region)
       : { bigRegion: undefined, smallRegion: undefined };
 
-  const related = await getAllRoutes({
+  const routes = await getShuttleRoutes({
     status: 'OPEN',
     provinceFullName: region.bigRegion,
     cityFullName: region.smallRegion,
   });
 
-  const data = toSortedRoutes(sortBy, related);
+  const sortedRoutes = toSortedRoutes(sortBy, routes);
 
   return (
     <>
       <AppBar>지금 예약 모집 중인 셔틀</AppBar>
       <div className="flex w-full flex-col items-center">
-        <SubPage region={region} sort={sortBy} length={data.length}>
+        <SubPage region={region} sort={sortBy} length={sortedRoutes.length}>
           <div>
-            {data.length === 0 ? (
+            {sortedRoutes.length === 0 ? (
               <Empty />
             ) : (
-              data.map((v) => (
-                <ShuttleRouteView key={v.shuttleRouteId} shuttleRoute={v} />
+              sortedRoutes.map((route) => (
+                <ShuttleRouteView
+                  key={route.shuttleRouteId}
+                  shuttleRoute={route}
+                />
               ))
             )}
           </div>

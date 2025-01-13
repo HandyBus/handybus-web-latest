@@ -5,24 +5,23 @@ import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
-import { deleteUser } from '@/services/users';
+import { useDeleteUser } from '@/services/v2-temp/user-management.service';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Leave = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleDeleteUser = async () => {
-    try {
-      await deleteUser();
+  const { mutate: deleteUser } = useDeleteUser({
+    onSuccess: () => {
       logout();
       toast.success('핸디버스를 이용해주셔서 감사합니다.');
-    } catch (e) {
+    },
+    onError: (e) => {
       console.error(e);
-      toast.error('탈퇴에 실패했습니다.');
-    }
-  };
+      toast.error('잠시 후 다시 시도해주세요.');
+    },
+  });
 
   return (
     <>
@@ -69,7 +68,7 @@ const Leave = () => {
         isOpen={isOpen}
         onClosed={() => setIsOpen(false)}
         buttonLabels={{ back: '안 떠날래요', confirm: '탈퇴하기' }}
-        onConfirm={handleDeleteUser}
+        onConfirm={deleteUser}
       />
     </>
   );

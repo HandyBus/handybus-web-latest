@@ -4,15 +4,15 @@ import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import { useMemo, useState } from 'react';
 import Coupon from '@/components/coupon/Coupon';
 import NoCoupon from '@/components/coupon/NoCoupon';
-import { useGetUserCoupons } from '@/services/coupon';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { useGetUserCoupons } from '@/services/v2-temp/user-management.service';
 
 const CouponList = () => {
   const [showUnusableCoupons, setShowUnusableCoupons] = useState(false);
-  const { data: coupons, isLoading } = useGetUserCoupons(
-    showUnusableCoupons ? undefined : 'BEFORE_USE',
-  );
+  const { data: coupons, isLoading } = useGetUserCoupons({
+    status: showUnusableCoupons ? undefined : 'BEFORE_USE',
+  });
 
   const usableCouponsLength = useMemo(
     () => coupons?.filter((coupon) => coupon.status === 'BEFORE_USE').length,

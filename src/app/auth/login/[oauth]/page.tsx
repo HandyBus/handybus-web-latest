@@ -1,13 +1,14 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
-import { postLogin } from '@/services/auth';
-import { getProgress } from '@/services/users';
+import { postLogin } from '@/services/v2-temp/auth.service';
+import { getUser } from '@/services/v2-temp/user-management.service';
 import {
   setAccessToken,
   setOnboardingToken,
   setRefreshToken,
 } from '@/utils/handleToken';
+import { parseProgress } from '@/utils/parseProgress';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -32,9 +33,10 @@ const OAuth = ({ params, searchParams }: Props) => {
         setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
       ]);
 
-      const progress = await getProgress();
+      const user = await getUser();
+      const onboardingProgress = parseProgress(user.progresses);
 
-      if (progress !== 'ONBOARDING_COMPLETE') {
+      if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
         await setOnboardingToken();
         router.push('/onboarding');
       } else {

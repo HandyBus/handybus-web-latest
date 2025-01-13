@@ -1,15 +1,15 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { ShuttleType } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString';
 import Divider from './Divider';
 import { ReservationFormValues } from '../../Form';
 import { useFormContext } from 'react-hook-form';
+import { Event } from '@/types/v2-temp/shuttle-operation.type';
 
 interface Props {
-  shuttle: ShuttleType;
+  event: Event;
 }
 
-const ReservationInfo = ({ shuttle }: Props) => {
+const ReservationInfo = ({ event }: Props) => {
   const { getValues } = useFormContext<ReservationFormValues>();
   const [shuttleRoute, passengers, type, hub] = getValues([
     'shuttleRoute',
@@ -17,11 +17,10 @@ const ReservationInfo = ({ shuttle }: Props) => {
     'type',
     'hub',
   ]);
-  const parsedDate = parseDateString(
-    shuttle.dailyShuttles.find(
-      (dailyShuttle) =>
-        dailyShuttle.dailyShuttleId === shuttleRoute?.dailyShuttleId,
-    )?.date ?? '',
+  const parsedDate = dateString(
+    event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === shuttleRoute?.dailyEventId,
+    )?.date,
   );
 
   return (

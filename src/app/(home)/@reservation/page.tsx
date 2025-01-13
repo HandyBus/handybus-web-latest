@@ -1,11 +1,14 @@
 import type { ReactElement, ReactNode } from 'react';
-import { getUser } from '@/services/users';
 import Article from '@/components/article/Article';
 import { Region } from '@/hooks/useRegion';
 import { regionToString } from '@/utils/region.util';
 import { ID_TO_REGION } from '@/constants/regions';
-import { ShuttleRouteType } from '@/types/shuttle.types';
 import RoutesSwiperView from './components/RoutesSwiperView';
+import LocationMarker from './icons/marker.svg';
+import { toSearchParams } from '@/utils/searchParams';
+import { getShuttleRoutes } from '@/services/v2-temp/shuttle-operation.service';
+import { ShuttleRoute } from '@/types/v2-temp/shuttle-operation.type';
+import { getUser } from '@/services/v2-temp/user-management.service';
 
 const Page = async () => {
   const { region, routes, promoted, userRegion } =
@@ -42,9 +45,6 @@ const Page = async () => {
 
 export default Page;
 
-import LocationMarker from './icons/marker.svg';
-import { toSearchParams } from '@/utils/searchParams';
-import { getAllRoutes } from '@/services/shuttleOperation';
 interface BarProp {
   postfix: string;
   regionString: ReactElement<HTMLParagraphElement>;
@@ -71,7 +71,7 @@ const Bar = ({ regionString, children, postfix }: BarProp) => {
 const getRegionAndOpenRoutes = async (): Promise<{
   region: Region | undefined;
   promoted: boolean;
-  routes: ShuttleRouteType[];
+  routes: ShuttleRoute[];
   userRegion: Region | undefined;
 }> => {
   let userRegionId: number | undefined;
@@ -83,14 +83,14 @@ const getRegionAndOpenRoutes = async (): Promise<{
   const userRegion = userRegionId ? ID_TO_REGION[userRegionId] : undefined;
 
   if (userRegionId === undefined || userRegion === undefined) {
-    const routes = await getAllRoutes({ status: 'OPEN' });
+    const routes = await getShuttleRoutes({ status: 'OPEN' });
     return { region: undefined, promoted: false, routes, userRegion };
   }
 
-  const regionRoutes = await getAllRoutes({
+  const regionRoutes = await getShuttleRoutes({
+    status: 'OPEN',
     provinceFullName: userRegion.bigRegion,
     cityFullName: userRegion.smallRegion,
-    status: 'OPEN',
   });
 
   if (regionRoutes.length > 0) {
@@ -102,9 +102,9 @@ const getRegionAndOpenRoutes = async (): Promise<{
     };
   }
 
-  const promotedRegionRoutes = await getAllRoutes({
-    provinceFullName: userRegion.bigRegion,
+  const promotedRegionRoutes = await getShuttleRoutes({
     status: 'OPEN',
+    provinceFullName: userRegion.bigRegion,
   });
 
   if (promotedRegionRoutes.length > 0) {
@@ -119,6 +119,6 @@ const getRegionAndOpenRoutes = async (): Promise<{
     };
   }
 
-  const routes = await getAllRoutes({ status: 'OPEN' });
+  const routes = await getShuttleRoutes({ status: 'OPEN' });
   return { region: undefined, promoted: false, routes, userRegion };
 };

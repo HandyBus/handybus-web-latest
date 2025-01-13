@@ -6,7 +6,6 @@ import {
 } from '@/components/onboarding-contents/formValidation.constants';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
-import { usePutUser } from '@/services/users';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import AppBar from '@/components/app-bar/AppBar';
@@ -15,16 +14,17 @@ import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoCo
 import ResidenceContent from '@/components/onboarding-contents/ResidenceContent';
 import ArtistContent from '@/components/onboarding-contents/ArtistContent';
 import { toast } from 'react-toastify';
-import { getImageUrl } from '@/services/common';
 import { useRouter } from 'next/navigation';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
-import { UserStatsType } from '@/types/client.types';
 import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
+import { usePutUser } from '@/services/v2-temp/user-management.service';
+import { UserStats } from '@/types/v2-temp/user-management.type';
+import { getImageUrl } from '@/services/v2-temp/common.service';
 
 interface Props {
   type: EditType;
-  userStats: UserStatsType;
+  userStats: UserStats;
 }
 
 const EditForm = ({ type, userStats }: Props) => {

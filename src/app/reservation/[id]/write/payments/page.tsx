@@ -1,7 +1,7 @@
 'use client';
 
-import { postBillingPayment } from '@/services/billing';
 import { CustomError } from '@/services/custom-error';
+import { postPayment } from '@/services/v2-temp/billing.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
@@ -21,7 +21,7 @@ const Page = () => {
         throw new CustomError(400, '구매키가 존재하지 않습니다.');
       }
 
-      const res = await postBillingPayment(orderId, paymentKey);
+      const res = await postPayment(orderId, paymentKey);
       router.replace(pathname + `/${res.reservationId}`);
     } catch (e) {
       const error = e as CustomError;

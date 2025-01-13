@@ -7,37 +7,37 @@ import SearchBar from '@/components/buttons/search-bar/SearchBar';
 import SearchInput from '@/components/inputs/search-input/SearchInput';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import { useFormContext } from 'react-hook-form';
-import { ArtistType } from '@/types/client.types';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
-import { useGetArtists } from '@/services/shuttleOperation';
 import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
+import { useGetArtists } from '@/services/v2-temp/shuttle-operation.service';
+import { Artist } from '@/types/v2-temp/shuttle-operation.type';
 
 interface Props {
-  initialSelectedArtists?: ArtistType[];
+  initialSelectedArtists?: Artist[];
 }
 
 const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   const { data: artists } = useGetArtists();
   const [isListOpen, setIsListOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [filteredArtists, setFilteredArtists] = useState<ArtistType[]>([]);
-  const [selectedArtists, setSelectedArtists] = useState<ArtistType[]>(
+  const [filteredArtists, setFilteredArtists] = useState<Artist[]>([]);
+  const [selectedArtists, setSelectedArtists] = useState<Artist[]>(
     initialSelectedArtists,
   );
 
   const filterArtist = useDebounce(() => {
     const newFilteredArtists = artists?.filter((artist) =>
-      artist.name.toLowerCase().includes(searchValue.toLowerCase()),
+      artist.artistName.toLowerCase().includes(searchValue.toLowerCase()),
     );
-    setFilteredArtists(newFilteredArtists);
+    setFilteredArtists(newFilteredArtists ?? []);
   }, 200);
 
   useEffect(() => {
     filterArtist();
   }, [searchValue, artists]);
 
-  const handleSelectArtist = (artist: ArtistType) =>
+  const handleSelectArtist = (artist: Artist) =>
     setSelectedArtists((prev) =>
       prev.find((selectedArtist) => selectedArtist.artistId === artist.artistId)
         ? prev.filter(
@@ -72,7 +72,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
                 className="flex items-center justify-between gap-16 px-32 py-12"
               >
                 <span className="line-clamp-1 text-16 font-400 text-grey-800">
-                  {artist.name}
+                  {artist.artistName}
                 </span>
                 <button
                   type="button"
@@ -124,7 +124,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
                   setIsChecked={() => handleSelectArtist(artist)}
                 />
                 <span className="text-16 font-400 text-grey-800">
-                  {artist.name}
+                  {artist.artistName}
                 </span>
               </button>
             ))}

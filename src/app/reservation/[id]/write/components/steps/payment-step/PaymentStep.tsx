@@ -1,19 +1,19 @@
-import { ShuttleType } from '@/types/shuttle.types';
 import ReservationInfo from './ReservationInfo';
 import Divider from './Divider';
 import ApplyHandy from './ApplyHandy';
 import ApplyCoupon from './ApplyCoupon';
 import TossPayments from './TossPayments';
+import { Event } from '@/types/v2-temp/shuttle-operation.type';
 
 interface Props {
   handlePrevStep: () => void;
-  shuttle: ShuttleType;
+  event: Event;
 }
 
-const PaymentStep = ({ handlePrevStep, shuttle }: Props) => {
+const PaymentStep = ({ handlePrevStep, event }: Props) => {
   return (
     <>
-      <ReservationInfo shuttle={shuttle} />
+      <ReservationInfo event={event} />
       <Divider />
       <ApplyHandy />
       <Divider />

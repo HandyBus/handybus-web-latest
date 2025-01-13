@@ -11,9 +11,9 @@ import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
 import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
 import Loading from '@/components/loading/Loading';
-import { getImageUrl } from '@/services/common';
-import { useGetUserReservation } from '@/services/reservation';
-import { usePostUserReview } from '@/services/reviews';
+import { useGetUserReservation } from '@/services/v2-temp/user-management.service';
+import { usePostReview } from '@/services/v2-temp/shuttle-operation.service';
+import { getImageUrl } from '@/services/v2-temp/common.service';
 
 interface Props {
   params: {
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const WriteReview = ({ params }: Props) => {
-  const { data: reservation } = useGetUserReservation(Number(params.id));
+  const { data } = useGetUserReservation(Number(params.id));
 
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
@@ -50,14 +50,14 @@ const WriteReview = ({ params }: Props) => {
     setFiles((prev) => prev.filter((f) => f !== file));
   };
 
-  const { mutate: postUserReview } = usePostUserReview();
+  const { mutate: postReview } = usePostReview();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (text.length < 20) {
       toast.error('20자 이상 작성해주세요.');
       return;
     }
-    if (!reservation) {
+    if (!data) {
       toast.error('잠시 후 다시 시도해주세요.');
       return;
     }
@@ -72,14 +72,12 @@ const WriteReview = ({ params }: Props) => {
       }),
     );
 
-    postUserReview({
-      shuttleId: reservation.shuttle.shuttleId,
-      reservationId: reservation.reservationId,
+    postReview({
+      eventId: data.reservation.shuttleRoute.eventId,
+      reservationId: data.reservation.reservationId,
       rating,
       content: text,
-      images: imageUrls
-        .filter((url) => url !== null && url !== undefined)
-        .map((url) => ({ imageUrl: url })),
+      images: imageUrls.filter((url) => url !== null && url !== undefined),
     });
   };
 
@@ -87,8 +85,8 @@ const WriteReview = ({ params }: Props) => {
     <>
       <AppBar>후기 작성</AppBar>
       <form onSubmit={handleSubmit} className="relative grow">
-        {reservation ? (
-          <ReservationCard reservation={reservation} />
+        {data ? (
+          <ReservationCard reservation={data.reservation} />
         ) : (
           <div className="flex h-192 grow items-center justify-center">
             <Loading />

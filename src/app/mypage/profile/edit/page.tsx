@@ -1,9 +1,9 @@
 'use client';
 
-import { useGetUserStats } from '@/services/users';
 import EditForm from './components/EditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { useGetUserStats } from '@/services/v2-temp/user-management.service';
 
 export type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 

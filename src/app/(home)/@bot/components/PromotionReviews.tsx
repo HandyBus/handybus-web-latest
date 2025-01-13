@@ -1,10 +1,12 @@
 import Rating from '@/components/rating/Rating';
 import Article from '@/components/article/Article';
-import { getReviews } from '@/services/reviews';
+import { getReviewsWithPagination } from '@/services/v2-temp/shuttle-operation.service';
 
 const PromotionReview = async () => {
-  const review = await getReviews(0, 20);
-  const top3 = review.reviews.sort((a, b) => b.rating - a.rating).slice(0, 3);
+  const paginatedReviews = await getReviewsWithPagination();
+  const top3 = paginatedReviews.reviews
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 3);
 
   return (
     <Article richTitle="핸디버스의 생생한 후기" showMore="/help/reviews">

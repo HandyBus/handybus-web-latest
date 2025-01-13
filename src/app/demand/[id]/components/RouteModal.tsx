@@ -1,31 +1,30 @@
 import SelectModal from '@/components/modals/select/SelectModal';
-import { useGetRoutes } from '@/services/shuttleOperation';
-import { ShuttleType } from '@/types/shuttle.types';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/v2-temp/shuttle-operation.service';
+import { Event } from '@/types/v2-temp/shuttle-operation.type';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  shuttle: ShuttleType;
-  dailyShuttleId: number;
+  event: Event;
+  dailyEventId: number;
   bigRegion: string;
   smallRegion: string;
 }
 
-const RouteModal = ({
-  shuttle,
-  dailyShuttleId,
-  bigRegion,
-  smallRegion,
-}: Props) => {
+const RouteModal = ({ event, dailyEventId, bigRegion, smallRegion }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: openRoutes } = useGetRoutes(shuttle.shuttleId, dailyShuttleId, {
-    provinceFullName: bigRegion,
-    cityFullName: smallRegion,
-    status: 'OPEN',
-  });
+  const { data: openRoutes } = useGetShuttleRoutesOfDailyEvent(
+    event.eventId,
+    dailyEventId,
+    {
+      status: 'OPEN',
+      provinceFullName: bigRegion,
+      cityFullName: smallRegion,
+    },
+  );
 
-  const date = shuttle.dailyShuttles.find(
-    (dailyShuttle) => dailyShuttle.dailyShuttleId === dailyShuttleId,
+  const date = event.dailyEvents.find(
+    (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
   )?.date;
   const region = `${bigRegion} ${smallRegion}`;
 

@@ -1,11 +1,13 @@
 'use client';
 
 import { useFormContext } from 'react-hook-form';
-import { usePutNickname } from '@/services/users';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { ERROR_MESSAGES } from '@/components/onboarding-contents/formValidation.constants';
 import ProfileInfoContent from '@/components/onboarding-contents/ProfileInfoContent';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { putUser } from '@/services/v2-temp/user-management.service';
 
 interface Props {
   handleNextStep: () => void;
@@ -54,3 +56,21 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
 };
 
 export default ProfileInfoStep;
+
+const usePutNickname = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (nickname: string) => putUser({ nickname }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      onSuccess?.();
+    },
+    onError,
+  });
+};

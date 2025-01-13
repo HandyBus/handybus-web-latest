@@ -111,10 +111,10 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
         <p className="flex items-center gap-12 text-22 font-700 text-grey-900">
           {passengerCount > 1 && (
             <span className="text-14 font-400 text-grey-600-sub">
-              ({price.toLocaleString()}원 * {passengerCount}인)
+              ({price?.toLocaleString()}원 * {passengerCount}인)
             </span>
           )}
-          {(price * passengerCount).toLocaleString()}원
+          {(price ?? 0) * passengerCount}원
         </p>
       </section>
       <div className="fixed bottom-0 left-0 right-0 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-white px-16 py-8 shadow-bottomBar">

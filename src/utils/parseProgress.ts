@@ -1,4 +1,4 @@
-import { ProgressType } from '@/types/client.types';
+import { ProgressType } from '@/types/v2-temp/user-management.type';
 
 export type OnboardingProgress =
   | 'AGREEMENT_INCOMPLETE'
@@ -7,19 +7,18 @@ export type OnboardingProgress =
 
 export const parseProgress = (
   progresses: {
-    userProgressId: number;
     isCompleted: boolean;
-    type: ProgressType;
+    progressType: ProgressType;
   }[],
 ): OnboardingProgress => {
   const isAgreedServiceTerms = progresses.find(
-    (el) => el.type === 'SERVICE_TERMS_AGREEMENT',
+    (el) => el.progressType === 'SERVICE_TERMS_AGREEMENT',
   )?.isCompleted;
   const isAgreedPersonalInfo = progresses.find(
-    (el) => el.type === 'PERSONAL_INFO_CONSENT',
+    (el) => el.progressType === 'PERSONAL_INFO_CONSENT',
   )?.isCompleted;
   const isOnboardingComplete = progresses.find(
-    (el) => el.type === 'ONBOARDING_COMPLETE',
+    (el) => el.progressType === 'ONBOARDING_COMPLETE',
   )?.isCompleted;
 
   if (isOnboardingComplete) {

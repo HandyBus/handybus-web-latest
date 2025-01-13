@@ -1,8 +1,8 @@
 import { ROUTE_STATUS_TO_STRING } from '@/constants/status';
-import { RouteStatusType } from '@/types/shuttle.types';
+import { ShuttleRouteStatus } from '@/types/v2-temp/shuttle-operation.type';
 
 interface Props {
-  status: RouteStatusType;
+  status: ShuttleRouteStatus;
 }
 
 const RouteStatusChip = ({ status }: Props) => {

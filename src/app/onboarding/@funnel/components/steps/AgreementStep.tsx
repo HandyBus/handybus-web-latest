@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import ServiceBottomSheet from '../bottom-sheets/ServiceBottomSheet';
 import PersonalInfoBottomSheet from '../bottom-sheets/PersonalInfoBottomSheet';
 import MarketingBottomSheet from '../bottom-sheets/MarketingBottomSheet';
-import { usePutAgreement } from '@/services/users';
 import { toast } from 'react-toastify';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import OnboardingTitle from '@/components/onboarding-contents/OnboardingTitle';
+import { putUser } from '@/services/v2-temp/user-management.service';
+import { useMutation } from '@tanstack/react-query';
 
 interface Props {
   handleNextStep: () => void;
@@ -184,4 +185,22 @@ const AgreementItem = ({
       <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
     </button>
   );
+};
+
+const usePutAgreement = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+}) => {
+  return useMutation({
+    mutationFn: (body: {
+      isAgreedMarketing: boolean;
+      isAgreedServiceTerms: boolean;
+      isAgreedPersonalInfo: boolean;
+    }) => putUser(body),
+    onSuccess,
+    onError,
+  });
 };

@@ -1,60 +1,62 @@
 'use client';
 
+import EventStatusChip from '@/components/chips/event-status-chip/EventStatusChip';
 import RouteStatusChip from '@/components/chips/route-status-chip/RouteStatusChip';
-import ShuttleStatusChip from '@/components/chips/shuttle-status-chip/ShuttleStatusChip';
 import {
-  RouteStatusType,
-  ShuttleStatusType,
-  ShuttleType,
-} from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+  Event,
+  EventStatus,
+  ShuttleRouteStatus,
+} from '@/types/v2-temp/shuttle-operation.type';
+import { dateString } from '@/utils/dateString';
 
 type Props = {
-  shuttle: ShuttleType;
+  event: Event;
 } & (
   | {
       type: 'ROUTE';
-      status: RouteStatusType;
+      status: ShuttleRouteStatus;
     }
   | {
-      type: 'SHUTTLE';
-      status: ShuttleStatusType;
+      type: 'EVENT';
+      status: EventStatus;
     }
 );
 
-const EventInfo = ({ shuttle, status, type }: Props) => {
-  const minDate = shuttle.dailyShuttles.reduce((min, curr) => {
-    return min.date < curr.date ? min : curr;
-  });
-  const maxDate = shuttle.dailyShuttles.reduce((max, curr) => {
-    return max.date > curr.date ? max : curr;
-  });
-  const parsedDateString =
-    shuttle.dailyShuttles.length > 1
-      ? parseDateString(minDate.date) + ' ~ ' + parseDateString(maxDate.date)
-      : parseDateString(minDate.date);
+const EventInfo = ({ event, status, type }: Props) => {
+  const parsedDateString = dateString(event.dailyEvents.map((v) => v.date));
 
   return (
     <article className="px-16 py-24">
       {type === 'ROUTE' && <RouteStatusChip status={status} />}
-      {type === 'SHUTTLE' && <ShuttleStatusChip status={status} />}
+      {type === 'EVENT' && <EventStatusChip status={status} />}
       <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-900">
-        {shuttle.name}
+        {event.eventName}
       </h1>
       <dl className="flex flex-col gap-8">
         <Badge
           label="아티스트"
-          value={shuttle.participants.map((v) => v.name).join(', ')}
+          value={event.eventArtists
+            ?.map((artist) => artist.artistName)
+            .join(', ')}
         />
         <Badge label="일자" value={parsedDateString} />
-        <Badge label="장소" value={shuttle.destination.name} />
+        <Badge label="장소" value={event.eventLocationName} />
       </dl>
     </article>
   );
 };
 
 export default EventInfo;
-const Badge = ({ label, value }: { label: string; value: string }) => {
+
+interface BadgeProps {
+  label: string;
+  value: string | undefined;
+}
+
+const Badge = ({ label, value }: BadgeProps) => {
+  if (!value) {
+    return null;
+  }
   return (
     <div className="flex gap-12">
       <dt className="h-[21px] w-72 rounded-xl border border-grey-100 text-center text-12 font-500 leading-[21px] text-grey-600">

@@ -9,9 +9,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Section from '../components/Section';
 import ReservationCard from '../../components/ReservationCard';
-import { useGetUserReservation, usePostRefund } from '@/services/reservation';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import { useGetUserReservation } from '@/services/v2-temp/user-management.service';
+import { usePostRefund } from '@/services/v2-temp/billing.service';
 
 interface Props {
   params: {
@@ -21,20 +22,17 @@ interface Props {
 
 const Refund = ({ params }: Props) => {
   const { id } = params;
-  const {
-    data: reservation,
-    isLoading,
-    isSuccess,
-  } = useGetUserReservation(Number(id));
+  const { data, isLoading, isSuccess } = useGetUserReservation(Number(id));
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: postRefund } = usePostRefund(
-    reservation?.payment.paymentId ?? 0,
+    data?.reservation.paymentId ?? 0,
     '자동 승인 환불 요청',
+    { onSuccess: () => router.push('/mypage/shuttle?type=current') },
   );
 
-  if (isSuccess && !reservation) {
+  if (isSuccess && !data) {
     router.replace('/mypage/shuttle?type=current');
     return <div className="h-[100dvh]" />;
   }
@@ -43,9 +41,9 @@ const Refund = ({ params }: Props) => {
     <>
       <AppBar>환불 신청</AppBar>
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {reservation && (
+        {data && (
           <main className="grow">
-            <ReservationCard reservation={reservation} />
+            <ReservationCard reservation={data.reservation} />
             <Section title="유의사항">
               <RefundPolicy />
             </Section>

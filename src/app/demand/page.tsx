@@ -6,8 +6,8 @@ import { fromString, toDemandSort } from './utils/param.util';
 import DemandCard from './components/DemandCard';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
-import { ShuttleWithDemandCountType } from '@/types/shuttle.types';
-import { getShuttles } from '@/services/shuttleOperation';
+import { getEvents } from '@/services/v2-temp/shuttle-operation.service';
+import { Event } from '@/types/v2-temp/shuttle-operation.type';
 const Empty = dynamic(() => import('./components/Empty'));
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const shuttles = await getShuttles('OPEN');
+  const events = await getEvents('OPEN');
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
@@ -33,20 +33,22 @@ const Page = async ({ searchParams }: Props) => {
       : searchParams?.sort) || '',
   );
 
-  const sortedData = await toSorted(shuttles, toDemandSort(sort));
+  const sortedEvents = await toSorted(events, toDemandSort(sort));
 
   return (
     <>
       <AppBar>수요 확인 중인 셔틀</AppBar>
       <div className="flex w-full flex-col items-center">
         <DemandFilterContainer
-          length={sortedData.length}
+          length={sortedEvents.length}
           sort={toDemandSort(sort)}
         >
-          {sortedData.length === 0 ? (
+          {sortedEvents.length === 0 ? (
             <Empty />
           ) : (
-            sortedData?.map((v) => <DemandCard key={v.shuttleId} shuttle={v} />)
+            sortedEvents.map((event) => (
+              <DemandCard key={event.eventId} event={event} />
+            ))
           )}
         </DemandFilterContainer>
       </div>
@@ -57,25 +59,24 @@ const Page = async ({ searchParams }: Props) => {
 
 export default Page;
 
-const toSorted = async (
-  shuttles: ShuttleWithDemandCountType[],
-  sort: DemandSortType,
-) => {
-  let newData: ShuttleWithDemandCountType[];
+const toSorted = async (events: Event[], sort: DemandSortType) => {
+  let newData: Event[];
   switch (sort) {
-    case '수요 신청한 인원이 많은 순':
-      newData = shuttles.toSorted(
-        (a, b) => a.totalDemandCount - b.totalDemandCount,
+    // case '수요 신청한 인원이 많은 순':
+    //   newData = events.toSorted(
+    //     (a, b) => a.totalDemandCount - b.totalDemandCount,
+    //   );
+    //   break;
+    case '콘서트 이름 가나다 순':
+      newData = events.toSorted((a, b) =>
+        a.eventName.localeCompare(b.eventName),
       );
       break;
-    case '콘서트 이름 가나다 순':
-      newData = shuttles.toSorted((a, b) => a.name.localeCompare(b.name));
-      break;
     case '셔틀 일자 빠른 순':
-      newData = shuttles.toSorted(
+      newData = events.toSorted(
         (a, b) =>
-          new Date(a.dailyShuttles[0].date).getTime() -
-          new Date(b.dailyShuttles[0].date).getTime(),
+          (a.dailyEvents[0].date?.getTime() || 0) -
+          (b.dailyEvents[0].date?.getTime() || 0),
       );
       break;
   }

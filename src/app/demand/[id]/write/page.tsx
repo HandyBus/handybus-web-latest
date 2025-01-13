@@ -3,9 +3,9 @@
 import AppBar from '@/components/app-bar/AppBar';
 import WriteForm from './components/WriteForm';
 import BannerImage from './components/BannerImage';
-import { useGetShuttle } from '@/services/shuttleOperation';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { useGetEvent } from '@/services/v2-temp/shuttle-operation.service';
 
 interface Props {
   params: { id: string };
@@ -16,17 +16,17 @@ interface Props {
 }
 
 const DemandWrite = ({ params, searchParams }: Props) => {
-  const { data: shuttle, isLoading } = useGetShuttle(Number(params.id));
+  const { data: event, isLoading } = useGetEvent(Number(params.id));
 
   return (
     <>
       <AppBar>수요 신청하기</AppBar>
       <DeferredSuspense isLoading={isLoading} fallback={<Loading />}>
-        {shuttle && (
+        {event && (
           <main className="relative">
-            <BannerImage shuttle={shuttle} />
+            <BannerImage event={event} />
             <WriteForm
-              shuttle={shuttle}
+              event={event}
               dailyShuttleId={Number(searchParams.dailyShuttleId)}
               regionId={Number(searchParams.regionId)}
             />

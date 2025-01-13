@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { ActiveStatusEnum } from './common.type';
+import { ActiveStatusEnum, nullableDate } from './common.type';
 
 //  ----- ENUM -----
 
-const EventTypeEnum = z.enum(['CONCERT', 'FESTIVAL']);
+export const EventTypeEnum = z.enum(['CONCERT', 'FESTIVAL']);
 export type EventType = z.infer<typeof EventTypeEnum>;
 
-const EventStatusEnum = z.enum([
+export const EventStatusEnum = z.enum([
   'OPEN', // 행사 수요조사 모집 중
   'CLOSED', // 행사 수요조사 모집 종료 (dailyShuttle의 경우에는 해당 일자의 수요조사 모집 종료)
   'ENDED', // 행사 종료
@@ -14,7 +14,7 @@ const EventStatusEnum = z.enum([
 ]);
 export type EventStatus = z.infer<typeof EventStatusEnum>;
 
-const ShuttleRouteStatusEnum = z.enum([
+export const ShuttleRouteStatusEnum = z.enum([
   'OPEN', // 예약 모집 중
   'CLOSED', // 예약 마감
   'CONFIRMED', // 배차가 완료되고 모든 정보가 확정된 상태
@@ -31,6 +31,20 @@ export const TripTypeEnum = z.enum([
 ]);
 export type TripType = z.infer<typeof TripTypeEnum>;
 
+export const ShuttleBusTypeEnum = z.enum([
+  'SMALL_BUS_28',
+  'LIMOUSINE_BUS_31',
+  'SPRINTER_12',
+  'VAN_12',
+  'MINIBUS_24',
+  'LARGE_BUS_45',
+  'LARGE_BUS_41',
+  'PREMIUM_BUS_21',
+  'MEDIUM_BUS_21',
+  'SMALL_BUS_33',
+]);
+export type ShuttleBusType = z.infer<typeof ShuttleBusTypeEnum>;
+
 //  ----- SCHEMA -----
 
 export const ArtistSchema = z
@@ -44,7 +58,7 @@ export type Artist = z.infer<typeof ArtistSchema>;
 export const DailyEventSchema = z
   .object({
     dailyEventId: z.number(),
-    date: z.string(),
+    date: z.coerce.date(),
     status: EventStatusEnum,
   })
   .strict();
@@ -64,7 +78,7 @@ export const EventSchema = z
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
     eventArtists: ArtistSchema.array().nullable(),
-    dailyEvents: DailyEventSchema.array().nullable(),
+    dailyEvents: DailyEventSchema.array(),
   })
   .strict();
 export type Event = z.infer<typeof EventSchema>;
@@ -91,12 +105,12 @@ export const ShuttleRouteSchema = z
     eventId: z.number(),
     dailyEventId: z.number(),
     name: z.string(),
-    reservationDeadline: z.string(),
+    reservationDeadline: z.coerce.date(),
     hasEarlybird: z.boolean(),
-    earlybirdDeadline: z.string(),
-    earlybirdPriceToDestination: z.number(),
-    earlybirdPriceFromDestination: z.number(),
-    earlybirdPriceRoundTrip: z.number(),
+    earlybirdDeadline: nullableDate,
+    earlybirdPriceToDestination: z.number().nullable(),
+    earlybirdPriceFromDestination: z.number().nullable(),
+    earlybirdPriceRoundTrip: z.number().nullable(),
     regularPriceToDestination: z.number(),
     regularPriceFromDestination: z.number(),
     regularPriceRoundTrip: z.number(),
@@ -113,6 +127,21 @@ export const ShuttleRouteSchema = z
   .strict();
 export type ShuttleRoute = z.infer<typeof ShuttleRouteSchema>;
 
+export const ShuttleBusSchema = z
+  .object({
+    shuttleBusId: z.number(),
+    shuttleRouteId: z.number(),
+    busType: ShuttleBusTypeEnum,
+    busName: z.string(),
+    busNumber: z.string(),
+    busCapacity: z.number(),
+    busDriverPhoneNumber: z.string(),
+    handyUserId: z.number(),
+    openChatLink: z.string().url().nullable(),
+  })
+  .strict();
+export type ShuttleBus = z.infer<typeof ShuttleBusSchema>;
+
 export const ReviewSchema = z
   .object({
     reviewId: z.number(),
@@ -120,8 +149,8 @@ export const ReviewSchema = z
     rating: z.number(),
     content: z.string(),
     reviewStatus: ActiveStatusEnum,
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
     userId: z.number(),
     userNickname: z.string(),
     userProfileImage: z.string(),
@@ -141,3 +170,45 @@ export const ReviewSchema = z
   })
   .strict();
 export type Review = z.infer<typeof ReviewSchema>;
+
+export const EventDemandStatsSchema = z.object({
+  fromDestinationCount: z.number(),
+  roundTripCount: z.number(),
+  toDestinationCount: z.number(),
+});
+export type EventDemandStats = z.infer<typeof EventDemandStatsSchema>;
+
+// ----- POST & PUT BODY -----
+
+export const PostDemandBodySchema = z.object({
+  regionId: z.number(),
+  type: z.enum(['TO_DESTINATION', 'FROM_DESTINATION', 'ROUND_TRIP']),
+  passengerCount: z.number(),
+  toDestinationRegionHub: z
+    .object({
+      regionHubId: z.number().optional(),
+      desiredRegionHub: z.string().optional(),
+    })
+    .optional(),
+  fromDestinationRegionHub: z
+    .object({
+      regionHubId: z.number().optional(),
+      desiredRegionHub: z.string().optional(),
+    })
+    .optional(),
+});
+export type PostDemandBody = z.infer<typeof PostDemandBodySchema>;
+
+export const PutShuttleBusBodySchema = z.object({
+  openChatLink: z.string().url(),
+});
+export type PutShuttleBusBody = z.infer<typeof PutShuttleBusBodySchema>;
+
+export const PostReviewBodySchema = z.object({
+  eventId: z.number(),
+  reservationId: z.number(),
+  rating: z.number().int().min(1).max(5),
+  content: z.string(),
+  images: z.string().array(),
+});
+export type PostReviewBody = z.infer<typeof PostReviewBodySchema>;
