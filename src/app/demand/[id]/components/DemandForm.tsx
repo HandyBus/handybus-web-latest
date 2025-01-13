@@ -135,7 +135,8 @@ const DemandForm = ({ event }: Props) => {
         <DemandStats
           eventId={event.eventId}
           dailyEvent={selectedDailyEvent}
-          regionId={regionId}
+          bigRegion={selectedBigRegion}
+          smallRegion={selectedSmallRegion}
           location={event.eventLocationName}
         />
       )}

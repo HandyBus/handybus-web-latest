@@ -1,30 +1,31 @@
 'use client';
 
-import { ID_TO_REGION } from '@/constants/regions';
 import { useGetEventDemandStats } from '@/services/shuttle-operation.service';
 import { DailyEvent } from '@/types/shuttle-operation.type';
 import { dateString } from '@/utils/dateString.util';
-import { useMemo } from 'react';
 
 interface Props {
   eventId: number;
   dailyEvent: DailyEvent;
-  regionId?: number;
   location: string;
+  bigRegion?: string;
+  smallRegion?: string;
 }
 
-const DemandStats = ({ eventId, dailyEvent, regionId, location }: Props) => {
+const DemandStats = ({
+  eventId,
+  dailyEvent,
+  location,
+  bigRegion,
+  smallRegion,
+}: Props) => {
   const { data: demandStats } = useGetEventDemandStats(
     eventId,
     dailyEvent.dailyEventId,
-    { regionId },
+    { provinceFullName: bigRegion, cityFullName: smallRegion },
   );
 
-  const region = useMemo(() => {
-    if (!regionId) return undefined;
-    const region = ID_TO_REGION[regionId];
-    return region.bigRegion + ' ' + region.smallRegion;
-  }, [regionId]);
+  const region = bigRegion + ' ' + smallRegion;
 
   return (
     <article className="px-16 py-24">

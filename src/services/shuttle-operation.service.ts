@@ -403,11 +403,14 @@ export const useDeleteDemand = () => {
 export const getEventDemandStats = async (
   eventId: number,
   dailyEventId: number,
-  { regionId }: { regionId?: number } = {},
+  {
+    provinceFullName,
+    cityFullName,
+  }: { provinceFullName?: string; cityFullName?: string } = {},
 ) => {
-  const searchParams = toSearchParams({ regionId });
+  const searchParams = toSearchParams({ provinceFullName, cityFullName });
   const res = await instance.get(
-    `/v1/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/all/stats?${searchParams.toString()}`,
+    `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/all/stats?${searchParams.toString()}`,
     {
       shape: {
         count: EventDemandStatsSchema,
@@ -420,7 +423,10 @@ export const getEventDemandStats = async (
 export const useGetEventDemandStats = (
   eventId: number,
   dailyEventId: number,
-  params?: { regionId?: number },
+  params?: {
+    provinceFullName?: string;
+    cityFullName?: string;
+  },
 ) =>
   useQuery({
     queryKey: ['demand', 'stats', eventId, dailyEventId, params],
