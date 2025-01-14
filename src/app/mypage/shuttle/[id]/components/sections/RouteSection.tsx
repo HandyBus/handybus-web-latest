@@ -73,7 +73,7 @@ const RouteSection = ({
     <>
       <Divider />
       <form onSubmit={handleSubmit}>
-        <section className="px-16 py-24">
+        <section className="px-16 py-32">
           {isEdit ? (
             <RouteVisualizerWithSelect
               type={tripType}

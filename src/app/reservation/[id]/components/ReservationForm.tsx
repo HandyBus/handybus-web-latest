@@ -127,16 +127,18 @@ const ReservationForm = ({
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
       {selectedRoute && (
         <>
-          <RouteVisualizer
-            type="ROUND_TRIP"
-            isSelected={false}
-            toDestinationHubs={
-              selectedRoute.toDestinationShuttleRouteHubs ?? []
-            }
-            fromDestinationHubs={
-              selectedRoute.fromDestinationShuttleRouteHubs ?? []
-            }
-          />
+          <div className="px-16 py-20">
+            <RouteVisualizer
+              type="ROUND_TRIP"
+              isSelected={false}
+              toDestinationHubs={
+                selectedRoute.toDestinationShuttleRouteHubs ?? []
+              }
+              fromDestinationHubs={
+                selectedRoute.fromDestinationShuttleRouteHubs ?? []
+              }
+            />
+          </div>
           <PriceStats
             tripType={selectedRoute.remainingSeatType}
             region={sortedToDestinationHubs[0].name}
