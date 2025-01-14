@@ -23,8 +23,7 @@ const OAuth = ({ params, searchParams }: Props) => {
   const router = useRouter();
   const isInitiated = useRef(false);
   usePreventRefresh();
-  const { preventScroll } = usePreventScroll();
-  preventScroll();
+  usePreventScroll();
 
   const handleOAuth = async () => {
     try {
