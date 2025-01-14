@@ -26,7 +26,7 @@ const Refund = ({ params }: Props) => {
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate: postRefund } = usePostRefund(
+  const { mutate: postRefund, isPending } = usePostRefund(
     data?.reservation.paymentId ?? '',
     '자동 승인 환불 요청',
     { onSuccess: () => router.push('/mypage/shuttle?type=current') },
@@ -51,7 +51,9 @@ const Refund = ({ params }: Props) => {
               <CancellationAndRefundContent />
             </Section>
             <div className="px-20 pb-12">
-              <Button onClick={() => setIsOpen(true)}>환불 신청하기</Button>
+              <Button onClick={() => setIsOpen(true)} disabled={isPending}>
+                환불 신청하기
+              </Button>
             </div>
           </main>
         )}
@@ -62,6 +64,7 @@ const Refund = ({ params }: Props) => {
         onConfirm={postRefund}
         title="정말 환불을 신청하시겠습니까?"
         buttonLabels={{ back: '취소하기', confirm: '환불 신청하기' }}
+        disabled={isPending}
       />
     </>
   );

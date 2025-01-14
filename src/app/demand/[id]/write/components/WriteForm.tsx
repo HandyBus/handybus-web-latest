@@ -49,7 +49,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
   });
 
   const router = useRouter();
-  const { mutate: postDemand } = usePostDemand({
+  const { mutate: postDemand, isPending } = usePostDemand({
     onSuccess: () => {
       router.push(`/demand/${event.eventId}`);
     },
@@ -140,7 +140,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
         />
         <JourneyLocationPicker />
         <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white px-16 py-20">
-          <Button>수요조사 신청하기</Button>
+          <Button disabled={isPending}>수요조사 신청하기</Button>
         </div>
       </form>
     </FormProvider>

@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { CustomError } from '@/services/custom-error';
 import logout from '@/app/actions/logout.action';
 import { ReservationFormValues } from '../../Form';
@@ -12,6 +12,7 @@ import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
 import { generateCustomerKey } from '../../../reservation.util';
 import { getUser } from '@/services/user-management.service';
 import { postReservation } from '@/services/billing.service';
+import Button from '@/components/buttons/button/Button';
 
 declare global {
   interface Window {
@@ -21,12 +22,17 @@ declare global {
   }
 }
 
-const TossPayments = () => {
+interface Props {
+  handlePrevStep: () => void;
+}
+
+const TossPayments = ({ handlePrevStep }: Props) => {
   const pathname = usePathname();
   const { getValues } = useFormContext<ReservationFormValues>();
 
   const [loaded, setLoaded] = useState(false);
   const [userId, setUserId] = useState<number>();
+  const [loading, setLoading] = useState(false);
 
   const loadUserId = useCallback(async () => {
     try {
@@ -105,6 +111,7 @@ const TossPayments = () => {
 
   const handlePayment = async (widgets: TossPaymentsWidgets) => {
     try {
+      setLoading(true);
       const formValues = getValues();
       if (!formValues.shuttleRoute || !formValues.type) {
         throw new CustomError(400, '예약 정보가 존재하지 않습니다.');
@@ -141,6 +148,8 @@ const TossPayments = () => {
         return;
       }
       toast.error('잠시 후 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -150,6 +159,7 @@ const TossPayments = () => {
         <div id="payment-method"></div>
         <div id="agreement"></div>
       </section>
+      <BottomBar handlePrevStep={handlePrevStep} loading={loading} />
       <Script
         src="https://js.tosspayments.com/v2/standard"
         onReady={() => setLoaded(true)}
@@ -160,3 +170,27 @@ const TossPayments = () => {
 };
 
 export default TossPayments;
+
+interface BottomBarProps {
+  handlePrevStep: () => void;
+  loading: boolean;
+}
+
+const BottomBar = ({ handlePrevStep, loading }: BottomBarProps) => {
+  const { control } = useFormContext<ReservationFormValues>();
+  const finalPrice = useWatch({
+    control,
+    name: 'finalPrice',
+  });
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-white px-16 py-8 shadow-bottomBar">
+      <Button type="button" variant="secondary" onClick={handlePrevStep}>
+        이전
+      </Button>
+      <Button id="payment-button" type="button" disabled={loading}>
+        {finalPrice.toLocaleString()}원 결제하기
+      </Button>
+    </div>
+  );
+};

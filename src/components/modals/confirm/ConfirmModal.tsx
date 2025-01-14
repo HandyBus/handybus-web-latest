@@ -15,6 +15,7 @@ interface Props {
   onConfirm: () => void;
   isOpen: boolean;
   onClosed: () => void;
+  disabled?: boolean;
 }
 
 const ConfirmModal = ({
@@ -24,6 +25,7 @@ const ConfirmModal = ({
   onConfirm,
   isOpen,
   onClosed,
+  disabled = false,
 }: Props) => {
   return (
     <CustomModal
@@ -37,6 +39,7 @@ const ConfirmModal = ({
         title={title}
         description={description}
         buttonLabels={buttonLabels}
+        disabled={disabled}
       />
     </CustomModal>
   );
@@ -50,6 +53,7 @@ interface ConfirmModalContentProps {
   title: string;
   description: string;
   buttonLabels: ButtonLabels;
+  disabled?: boolean;
 }
 
 const ConfirmModalContent = ({
@@ -58,10 +62,10 @@ const ConfirmModalContent = ({
   title,
   description,
   buttonLabels,
+  disabled = false,
 }: ConfirmModalContentProps) => {
   return (
     <>
-      {' '}
       <div>
         <h2
           id="modal-title"
@@ -80,7 +84,7 @@ const ConfirmModalContent = ({
         <Button variant="modalSecondary" onClick={onClosed}>
           {buttonLabels.back}
         </Button>
-        <Button variant="alert" onClick={onConfirm}>
+        <Button variant="alert" onClick={onConfirm} disabled={disabled}>
           {buttonLabels.confirm}
         </Button>
       </div>

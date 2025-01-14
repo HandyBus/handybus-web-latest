@@ -11,14 +11,9 @@ import CouponBottomSheet from './CouponBottomSheet';
 import { useEffect, useMemo, useState } from 'react';
 import Coupon from '@/components/coupon/Coupon';
 import XIcon from 'public/icons/x.svg';
-import Button from '@/components/buttons/button/Button';
 import { IssuedCoupon } from '@/types/user-management.type';
 
-interface Props {
-  handlePrevStep: () => void;
-}
-
-const ApplyCoupon = ({ handlePrevStep }: Props) => {
+const ApplyCoupon = () => {
   const { openBottomSheet, closeBottomSheet, bottomSheetRef, contentRef } =
     useBottomSheet();
 
@@ -165,14 +160,6 @@ const ApplyCoupon = ({ handlePrevStep }: Props) => {
           </dl>
         </article>
       </section>
-      <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-white px-16 py-8 shadow-bottomBar">
-        <Button type="button" variant="secondary" onClick={handlePrevStep}>
-          이전
-        </Button>
-        <Button id="payment-button" type="button">
-          {finalPrice.toLocaleString()}원 결제하기
-        </Button>
-      </div>
       <CouponBottomSheet
         bottomSheetRef={bottomSheetRef}
         contentRef={contentRef}
