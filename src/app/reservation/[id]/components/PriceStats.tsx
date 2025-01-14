@@ -109,7 +109,7 @@ const Card = ({
 
   return (
     <div
-      className={`flex items-center justify-between rounded-xl px-16 py-20 ${
+      className={`flex items-center justify-between gap-8 rounded-xl px-16 py-20 ${
         highlighted
           ? 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
           : 'bg-[#F8F8F8]'
