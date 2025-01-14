@@ -17,7 +17,7 @@ export const silentParse = <T extends z.ZodTypeAny>(
 ): z.infer<T> => {
   const parseResult = zod.safeParse(input);
   const isServer = typeof window === 'undefined';
-  const isProduction = process.env.NODE_ENV !== 'development';
+  const isProduction = process.env.NODE_ENV === 'production';
   if (isProduction) {
     return input as z.infer<T>;
   }
