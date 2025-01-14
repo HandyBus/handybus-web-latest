@@ -37,7 +37,7 @@ const RouteVisualizer = ({
     );
 
   return (
-    <section className="flex flex-col gap-16 px-16 py-24">
+    <section className="flex flex-col gap-16">
       <header>
         <h2 className="text-22 font-700 leading-[30.8px]">셔틀 예상 노선</h2>
         <p className="text-14 font-500 leading-[22.4px] text-grey-500">
