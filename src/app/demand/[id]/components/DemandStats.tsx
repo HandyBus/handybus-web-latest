@@ -1,35 +1,31 @@
 'use client';
 
-import { ID_TO_REGION } from '@/constants/regions';
-import { useGetShuttleDemandStats } from '@/services/shuttleOperation';
-import { DailyShuttleType } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
-import { useMemo } from 'react';
+import { useGetEventDemandStats } from '@/services/shuttle-operation.service';
+import { DailyEvent } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
-  shuttleId: number;
-  dailyShuttle: DailyShuttleType;
-  regionId?: number;
-  destination: string;
+  eventId: number;
+  dailyEvent: DailyEvent;
+  location: string;
+  bigRegion?: string;
+  smallRegion?: string;
 }
 
 const DemandStats = ({
-  shuttleId,
-  dailyShuttle,
-  regionId,
-  destination,
+  eventId,
+  dailyEvent,
+  location,
+  bigRegion,
+  smallRegion,
 }: Props) => {
-  const { data: demandStats } = useGetShuttleDemandStats(
-    shuttleId,
-    dailyShuttle.dailyShuttleId,
-    regionId,
+  const { data: demandStats } = useGetEventDemandStats(
+    eventId,
+    dailyEvent.dailyEventId,
+    { provinceFullName: bigRegion, cityFullName: smallRegion },
   );
 
-  const region = useMemo(() => {
-    if (!regionId) return undefined;
-    const region = ID_TO_REGION[regionId];
-    return region.bigRegion + ' ' + region.smallRegion;
-  }, [regionId]);
+  const region = bigRegion + ' ' + smallRegion;
 
   return (
     <article className="px-16 py-24">
@@ -39,9 +35,7 @@ const DemandStats = ({
         </h2>
         <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-grey-500">
           이번 콘서트를 위해{' '}
-          <span className="text-grey-700">
-            {parseDateString(dailyShuttle.date)}
-          </span>
+          <span className="text-grey-700">{dateString(dailyEvent.date)}</span>
           {region ? (
             <>
               에 <span className="text-grey-700">{region}</span>를 지나는{' '}
@@ -53,24 +47,24 @@ const DemandStats = ({
         </p>
       </header>
       <section className="flex flex-col gap-12">
-        <ShuttleCard
+        <EventCard
           tripType="왕복"
           highlighted={true}
-          count={demandStats?.count.roundTripCount}
+          count={demandStats?.roundTripCount}
           region={region}
-          destination={destination}
+          location={location}
         />
-        <ShuttleCard
+        <EventCard
           tripType="콘서트행"
-          count={demandStats?.count.fromDestinationCount}
+          count={demandStats?.fromDestinationCount}
           region={region}
-          destination={destination}
+          location={location}
         />
-        <ShuttleCard
+        <EventCard
           tripType="귀가행"
-          count={demandStats?.count.toDestinationCount}
+          count={demandStats?.toDestinationCount}
           region={region}
-          destination={destination}
+          location={location}
         />
       </section>
     </article>
@@ -79,21 +73,21 @@ const DemandStats = ({
 
 export default DemandStats;
 
-interface ShuttleCardProps {
+interface EventCardProps {
   tripType?: '왕복' | '콘서트행' | '귀가행';
   highlighted?: boolean;
   count?: number;
   region?: string;
-  destination?: string;
+  location?: string;
 }
 
-const ShuttleCard = ({
+const EventCard = ({
   tripType,
   highlighted = false,
   count,
   region,
-  destination,
-}: ShuttleCardProps) => {
+  location,
+}: EventCardProps) => {
   return (
     <div
       className={`flex items-center justify-between rounded-xl px-16 py-20 ${
@@ -108,10 +102,10 @@ const ShuttleCard = ({
             {tripType}
           </p>
         </span>
-        {region && destination && (
+        {region && location && (
           <span>
             <p className="text-12 font-400 leading-[19.2px] text-grey-500">
-              {displayRouteInfo(tripType, destination, region)}
+              {displayRouteInfo(tripType, location, region)}
             </p>
           </span>
         )}

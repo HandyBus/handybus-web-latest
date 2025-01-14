@@ -14,17 +14,17 @@ interface ShareSheetProps {
   ) => (() => void) | undefined;
   contentRef: RefObject<HTMLDivElement>;
   closeBottomSheet: () => void;
-  shuttleName: string;
+  eventName: string;
 }
 
 const ShareSheet = ({
   bottomSheetRef,
   contentRef,
   closeBottomSheet,
-  shuttleName,
+  eventName,
 }: ShareSheetProps) => {
   const { shareToTwitter, copyToClipboard, shareToKakao, initializeKakao } =
-    useShare({ closeBottomSheet, shuttleName });
+    useShare({ closeBottomSheet, eventName });
 
   const handleShare = (platform: SharePlatform) => {
     switch (platform) {

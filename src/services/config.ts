@@ -4,45 +4,56 @@ import {
   getAccessToken,
   setAccessToken,
   setRefreshToken,
-  updateToken,
-} from '@/utils/handleToken';
+} from '@/utils/handleToken.util';
 import { CustomError } from './custom-error';
 import logout from '@/app/actions/logout.action';
-
-const FETCH_REVALIDATE_TIME = 60; // 1분
+import { z } from 'zod';
+import { replacer, silentParse } from '@/utils/config.util';
+import { postUpdateToken } from './auth.service';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-type ApiResponse<T> = {
-  ok: boolean;
-  statusCode: number;
-  error?: {
-    message: string;
-    stack: string[];
-  };
-} & T;
+const EmptyShape = {};
+type EmptyShape = typeof EmptyShape;
 
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+interface RequestInitWithSchema<T extends z.ZodRawShape> extends RequestInit {
+  shape?: T;
+}
+
+const getApiResponseOkSchema = <T extends z.ZodRawShape>(rawShape: T) =>
+  z
+    .object({ ok: z.literal(true), statusCode: z.number() })
+    .merge(z.object(rawShape))
+    .strict();
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const FETCH_REVALIDATE_TIME = 60; // 1분
 
 class Instance {
   constructor(private readonly baseUrl: string = BASE_URL ?? '') {}
 
-  async fetchWithConfig<T>(
+  async fetchWithConfig<T extends z.ZodRawShape = EmptyShape>(
     url: string,
     method: HttpMethod,
     body?: any,
-    options: RequestInit = {},
+    options: RequestInitWithSchema<T> = {},
   ) {
+    const { shape, ...pureOptions } = options;
     const config: RequestInit = {
       method,
       next: { revalidate: FETCH_REVALIDATE_TIME },
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        ...options?.headers,
+        ...pureOptions?.headers,
       },
-      ...(body && { body: JSON.stringify(body) }),
+      ...(body && { body: JSON.stringify(body, replacer) }),
     };
+
+    const schema = shape
+      ? getApiResponseOkSchema(shape)
+      : // NOTE this `as T` is safe because `shape` is undefined
+        getApiResponseOkSchema(EmptyShape as T);
 
     const res = await fetch(new URL(url, this.baseUrl).toString(), config);
 
@@ -51,14 +62,14 @@ class Instance {
       if (res.status >= 400) {
         throw new CustomError(res.status, 'No Content');
       }
-      return {
+      return silentParse(schema, {
         ok: true,
         statusCode: res.status,
-      } as ApiResponse<T>;
+      });
     }
 
     // response가 있는 경우
-    const data = (await res.json()) as ApiResponse<T>;
+    const data = await res.json();
     if (!data.ok) {
       throw new CustomError(
         data.statusCode,
@@ -66,22 +77,40 @@ class Instance {
       );
     }
 
-    return data;
+    return silentParse(schema, data);
   }
 
-  async get<T>(url: string, options?: RequestInit) {
+  async get<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return this.fetchWithConfig<T>(url, 'GET', undefined, options);
   }
-  async delete<T>(url: string, options?: RequestInit) {
+  async delete<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return await this.fetchWithConfig<T>(url, 'DELETE', undefined, options);
   }
-  async post<T>(url: string, body: any, options?: RequestInit) {
+  async post<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    body: any,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return await this.fetchWithConfig<T>(url, 'POST', body, options);
   }
-  async put<T>(url: string, body: any, options?: RequestInit) {
+  async put<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    body: any,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return await this.fetchWithConfig<T>(url, 'PUT', body, options);
   }
-  async patch<T>(url: string, body: any, options?: RequestInit) {
+  async patch<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    body: any,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return await this.fetchWithConfig<T>(url, 'PATCH', body, options);
   }
 }
@@ -89,14 +118,14 @@ class Instance {
 export const instance = new Instance();
 
 class AuthInstance {
-  async authFetchWithConfig<T>(
+  async authFetchWithConfig<T extends z.ZodRawShape = EmptyShape>(
     url: string,
     method: HttpMethod,
     body?: unknown,
-    options: RequestInit = {},
+    options: RequestInitWithSchema<T> = {},
   ) {
     const accessToken = await getAccessToken();
-    const authOptions: RequestInit = {
+    const authOptions: RequestInitWithSchema<T> = {
       ...options,
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -111,7 +140,7 @@ class AuthInstance {
       const isServer = typeof window === 'undefined';
       if (error.statusCode === 401 && !isServer) {
         try {
-          const tokens = await updateToken();
+          const tokens = await postUpdateToken();
           await Promise.all([
             setAccessToken(tokens.accessToken, tokens.accessTokenExpiresAt),
             setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
@@ -133,21 +162,39 @@ class AuthInstance {
     }
   }
 
-  async get<T>(url: string, options?: RequestInit) {
+  async get<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return this.authFetchWithConfig<T>(url, 'GET', undefined, options);
   }
-  async delete<T>(url: string, options?: RequestInit) {
+  async delete<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return this.authFetchWithConfig<T>(url, 'DELETE', undefined, options);
   }
 
-  async post<T>(url: string, body: any, options?: RequestInit) {
+  async post<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    body: any,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return this.authFetchWithConfig<T>(url, 'POST', body, options);
   }
-  async put<T>(url: string, body: any, options?: RequestInit) {
+  async put<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    body: any,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return this.authFetchWithConfig<T>(url, 'PUT', body, options);
   }
 
-  async patch<T>(url: string, body: any, options?: RequestInit) {
+  async patch<T extends z.ZodRawShape = EmptyShape>(
+    url: string,
+    body: any,
+    options?: RequestInitWithSchema<T>,
+  ) {
     return this.authFetchWithConfig<T>(url, 'PATCH', body, options);
   }
 }

@@ -6,7 +6,6 @@ import {
   OPTIONS,
   REFRESH_TOKEN,
 } from '@/constants/token';
-import { TokenType } from '@/services/auth';
 import { cookies } from 'next/headers';
 
 export const getAccessToken = async () => {
@@ -45,25 +44,6 @@ export const removeAccessToken = async () => {
 
 export const removeRefreshToken = async () => {
   cookies().delete(REFRESH_TOKEN);
-};
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-export const updateToken = async () => {
-  const refreshToken = await getRefreshToken();
-  const res = await fetch(new URL('/v1/auth/refresh', BASE_URL), {
-    method: 'POST',
-    cache: 'no-store',
-    headers: {
-      Authorization: `Bearer ${refreshToken}`,
-    },
-  });
-  const data = await res.json();
-  if (!data.ok) {
-    throw new Error('토큰 재발급 실패');
-  }
-
-  return data as TokenType;
 };
 
 export const setOnboardingToken = async () => {

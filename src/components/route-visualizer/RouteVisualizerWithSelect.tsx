@@ -1,31 +1,31 @@
 'use client';
 
-import { HubType } from '@/types/hub.type';
 import dayjs from 'dayjs';
 import RoutePoints from './RoutePoint';
+import { ShuttleRouteHub } from '@/types/shuttle-operation.type';
 
 type ToDestinationType = {
   type: 'TO_DESTINATION';
-  toDestinationHubs: HubType[];
-  toDestinationHubValue: HubType | undefined;
-  setToDestinationHubValue: (value: HubType | undefined) => void;
+  toDestinationHubs: ShuttleRouteHub[];
+  toDestinationHubValue: ShuttleRouteHub | undefined;
+  setToDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
 };
 
 type FromDestinationType = {
   type: 'FROM_DESTINATION';
-  fromDestinationHubs: HubType[];
-  fromDestinationHubValue: HubType | undefined;
-  setFromDestinationHubValue: (value: HubType | undefined) => void;
+  fromDestinationHubs: ShuttleRouteHub[];
+  fromDestinationHubValue: ShuttleRouteHub | undefined;
+  setFromDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
 };
 
 type RoundTripType = {
   type: 'ROUND_TRIP';
-  toDestinationHubs: HubType[];
-  toDestinationHubValue: HubType | undefined;
-  setToDestinationHubValue: (value: HubType | undefined) => void;
-  fromDestinationHubs: HubType[];
-  fromDestinationHubValue: HubType | undefined;
-  setFromDestinationHubValue: (value: HubType | undefined) => void;
+  toDestinationHubs: ShuttleRouteHub[];
+  toDestinationHubValue: ShuttleRouteHub | undefined;
+  setToDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
+  fromDestinationHubs: ShuttleRouteHub[];
+  fromDestinationHubValue: ShuttleRouteHub | undefined;
+  setFromDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
 };
 
 type Props = ToDestinationType | FromDestinationType | RoundTripType;
@@ -66,10 +66,10 @@ const RouteVisualizerWithSelect = (props: Props) => {
 export default RouteVisualizerWithSelect;
 
 type RouteCardProps = {
-  hubs: HubType[];
+  hubs: ShuttleRouteHub[];
   type: 'TO_DESTINATION' | 'FROM_DESTINATION';
-  hubValue: HubType | undefined;
-  setHubValue: (value: HubType | undefined) => void;
+  hubValue: ShuttleRouteHub | undefined;
+  setHubValue: (value: ShuttleRouteHub | undefined) => void;
 };
 
 const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
@@ -127,9 +127,9 @@ const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
 
 interface HubItemProps {
   isDestination: boolean;
-  hub: HubType;
-  selectedHub: HubType | undefined;
-  setSelectedHub: (value: HubType | undefined) => void;
+  hub: ShuttleRouteHub;
+  selectedHub: ShuttleRouteHub | undefined;
+  setSelectedHub: (value: ShuttleRouteHub | undefined) => void;
 }
 
 const HubItem = ({

@@ -1,16 +1,18 @@
 'use client';
 
-import { DailyShuttleType, ShuttleType, TripType } from '@/types/shuttle.types';
+import { TripType } from '@/types/shuttle-operation.type';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
 import PassengerCount from './PassengerCount';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
-import { usePostDemand } from '@/services/demand';
+import { DailyEvent, Event } from '@/types/shuttle-operation.type';
+import { usePostDemand } from '@/services/shuttle-operation.service';
+import { useRouter } from 'next/navigation';
 
 export interface FormValues {
-  dailyShuttle: Omit<DailyShuttleType, 'status'>;
+  dailyEvent: DailyEvent;
   regionId: number | null;
   passengerCount: number;
   type: TripType;
@@ -27,16 +29,16 @@ export interface FormValues {
 }
 
 interface Props {
-  shuttle: ShuttleType;
-  dailyShuttleId: number;
+  event: Event;
+  dailyEventId: number;
   regionId: number;
 }
 
-const WriteForm = ({ shuttle, dailyShuttleId, regionId }: Props) => {
+const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
   const methods = useForm<FormValues>({
     defaultValues: {
-      dailyShuttle: shuttle.dailyShuttles.find(
-        (dailyShuttle) => dailyShuttle.dailyShuttleId === dailyShuttleId,
+      dailyEvent: event.dailyEvents.find(
+        (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
       ),
       regionId,
       passengerCount: 0,
@@ -46,10 +48,15 @@ const WriteForm = ({ shuttle, dailyShuttleId, regionId }: Props) => {
     },
   });
 
-  const { mutate: postDemand } = usePostDemand(shuttle.shuttleId);
+  const router = useRouter();
+  const { mutate: postDemand } = usePostDemand({
+    onSuccess: () => {
+      router.push(`/demand/${event.eventId}`);
+    },
+  });
 
   const handleSubmit = (formValues: FormValues) => {
-    if (!formValues.dailyShuttle) {
+    if (!formValues.dailyEvent) {
       toast.error('운행일을 선택해주세요.');
       return;
     }
@@ -93,23 +100,26 @@ const WriteForm = ({ shuttle, dailyShuttleId, regionId }: Props) => {
     }
 
     postDemand({
-      dailyShuttleId: formValues.dailyShuttle.dailyShuttleId,
-      regionId: formValues.regionId!,
-      type: formValues.type,
-      passengerCount: formValues.passengerCount,
-      toDestinationRegionHub: {
-        regionHubId:
-          formValues.toDestinationRegionHub?.regionHubId ?? undefined,
-        desiredRegionHub: formValues.toDestinationRegionHub
-          ? formValues.toDestinationDesiredRegionHub
-          : undefined,
-      },
-      fromDestinationRegionHub: {
-        regionHubId:
-          formValues.fromDestinationRegionHub?.regionHubId ?? undefined,
-        desiredRegionHub: formValues.fromDestinationDesiredRegionHub
-          ? formValues.fromDestinationDesiredRegionHub
-          : undefined,
+      eventId: event.eventId,
+      dailyEventId: formValues.dailyEvent.dailyEventId,
+      body: {
+        regionId: formValues.regionId,
+        type: formValues.type,
+        passengerCount: formValues.passengerCount,
+        toDestinationRegionHub: {
+          regionHubId:
+            formValues.toDestinationRegionHub?.regionHubId ?? undefined,
+          desiredRegionHub: formValues.toDestinationRegionHub
+            ? formValues.toDestinationDesiredRegionHub
+            : undefined,
+        },
+        fromDestinationRegionHub: {
+          regionHubId:
+            formValues.fromDestinationRegionHub?.regionHubId ?? undefined,
+          desiredRegionHub: formValues.fromDestinationDesiredRegionHub
+            ? formValues.fromDestinationDesiredRegionHub
+            : undefined,
+        },
       },
     });
   };
@@ -117,7 +127,7 @@ const WriteForm = ({ shuttle, dailyShuttleId, regionId }: Props) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleSubmit)}>
-        <RouteInfo shuttle={shuttle} regionId={regionId} />
+        <RouteInfo event={event} regionId={regionId} />
         <Controller
           control={methods.control}
           name="passengerCount"

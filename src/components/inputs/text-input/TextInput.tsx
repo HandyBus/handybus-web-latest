@@ -14,7 +14,6 @@ interface Props<T extends FieldValues> extends UseControllerProps<T> {
   setValue: (name: FieldPath<T>, value: string) => void;
   placeholder?: string;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
-  version?: 'default' | 'shuttle';
   value?: string;
 }
 
@@ -23,7 +22,6 @@ const TextInput = <T extends FieldValues>({
   setValue,
   placeholder,
   onKeyDown,
-  version = 'default',
   ...controls
 }: Props<T>) => {
   const { field, fieldState } = useController({
@@ -35,17 +33,11 @@ const TextInput = <T extends FieldValues>({
   };
 
   return (
-    <div
-      className={`relative flex w-full flex-col ${
-        version === 'shuttle' ? 'gap-0' : 'gap-8'
-      }`}
-    >
+    <div className="relative flex w-full flex-col gap-8">
       {children && (
         <label
           htmlFor={field.name}
-          className={`block text-16 font-500 text-grey-600-sub ${
-            version === 'shuttle' ? 'h-auto' : 'h-[26px]'
-          }`}
+          className="block h-[26px] text-16 font-500 text-grey-600-sub"
         >
           {children}
         </label>
@@ -62,9 +54,7 @@ const TextInput = <T extends FieldValues>({
           type="button"
           onClick={handleResetValue}
           className={`absolute right-12 ${
-            version === 'shuttle'
-              ? 'top-32'
-              : `${fieldState?.error ? 'bottom-40' : 'bottom-12'}`
+            fieldState?.error ? 'bottom-40' : 'bottom-12'
           }`}
         >
           <DeleteIcon />

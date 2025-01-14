@@ -1,16 +1,16 @@
 import CustomModal from '../CustomModal';
 import ChevronRight from 'public/icons/quill-chevron-right.svg';
 import Button from '@/components/buttons/button/Button';
-import { ShuttleRouteType } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import Link from 'next/link';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
 
 interface Props {
   isOpen: boolean;
   onClosed: () => void;
   date: string;
   region: string;
-  routes: ShuttleRouteType[];
+  routes: ShuttleRoute[];
 }
 
 const SelectModal = ({ isOpen, onClosed, date, region, routes }: Props) => {
@@ -35,7 +35,7 @@ export default SelectModal;
 interface SelectModalContentProps {
   date: string;
   region: string;
-  routes: ShuttleRouteType[];
+  routes: ShuttleRoute[];
   onClosed: () => void;
 }
 
@@ -45,7 +45,7 @@ const SelectModalContent = ({
   routes,
   onClosed,
 }: SelectModalContentProps) => {
-  const parsedDate = parseDateString(date);
+  const parsedDate = dateString(date);
   return (
     <>
       <h2 id="modal-title" className="text-22 font-700 leading-[30.8px] ">
@@ -59,7 +59,7 @@ const SelectModalContent = ({
         <span className="leading-[25.6px] text-grey-700">{region}</span>
         에서 탈 만한 노선을 알려드릴게요.
       </p>
-      <div id="suttle-bus-route-information" className="flex flex-col gap-8">
+      <div id="shuttle-bus-route-information" className="flex flex-col gap-8">
         {routes.slice(0, 4).map((route) => (
           <SelectModalButton key={route.shuttleRouteId} route={route} />
         ))}
@@ -74,13 +74,13 @@ const SelectModalContent = ({
 };
 
 interface SelectModalButtonProps {
-  route: ShuttleRouteType;
+  route: ShuttleRoute;
 }
 
 const SelectModalButton = ({ route }: SelectModalButtonProps) => {
   return (
     <Link
-      href={`/reservation/${route.shuttleId}?dailyShuttleId=${route.dailyShuttleId}&shuttleRouteId=${route.shuttleRouteId}`}
+      href={`/reservation/${route.shuttleRouteId}?dailyEventId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
       className="h-58 flex w-252 items-center justify-between rounded-[11px] border border-grey-200 px-24 py-16"
     >
       <p className="text-16 font-500 leading-[25.6px] text-grey-900">

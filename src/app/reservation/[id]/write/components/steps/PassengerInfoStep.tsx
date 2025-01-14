@@ -111,7 +111,7 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
         <p className="flex items-center gap-12 text-22 font-700 text-grey-900">
           {passengerCount > 1 && (
             <span className="text-14 font-400 text-grey-600-sub">
-              ({price.toLocaleString()}원 * {passengerCount}인)
+              ({price?.toLocaleString()}원 * {passengerCount}인)
             </span>
           )}
           {(price * passengerCount).toLocaleString()}원

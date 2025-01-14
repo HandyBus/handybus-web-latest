@@ -5,13 +5,13 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFormContext } from 'react-hook-form';
-import { getUser } from '@/services/users';
 import { CustomError } from '@/services/custom-error';
 import logout from '@/app/actions/logout.action';
 import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
-import { postBillingReservation } from '@/services/billing';
 import { generateCustomerKey } from '../../../reservation.util';
+import { getUser } from '@/services/user-management.service';
+import { postReservation } from '@/services/billing.service';
 
 declare global {
   interface Window {
@@ -120,7 +120,7 @@ const TossPayments = () => {
         isSupportingHandy: formValues.isSupportingHandy,
         passengers: formValues.passengers,
       };
-      const res = await postBillingReservation(parsedFormValues);
+      const res = await postReservation(parsedFormValues);
 
       const successUrl = window.location.origin + pathname + `/payments`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;

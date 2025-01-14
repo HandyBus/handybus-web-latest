@@ -9,7 +9,7 @@ const EventImage = ({ image }: Props) => {
     <article className="relative">
       <Image
         src={image || '/images/concert-sample.png'} // NOTES: need default image when image is not provided
-        alt="shuttle-info-image"
+        alt="행사 이미지"
         width={1080}
         height={720}
       />

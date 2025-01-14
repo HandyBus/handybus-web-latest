@@ -1,13 +1,7 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { useGetRoutes } from '@/services/shuttleOperation';
-import {
-  DailyShuttleType,
-  ShuttleRouteType,
-  ShuttleType,
-  TripType,
-} from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { TripType } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { ReservationFormValues } from '../Form';
@@ -15,17 +9,23 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import {
+  DailyEvent,
+  Event,
+  ShuttleRoute,
+} from '@/types/shuttle-operation.type';
 
 interface Props {
   handleNextStep: () => void;
-  shuttle: ShuttleType;
+  event: Event;
   initialDailyShuttleId?: number;
   initialShuttleRouteId?: number;
 }
 
 const RouteSelectStep = ({
   handleNextStep,
-  shuttle,
+  event,
   initialDailyShuttleId,
   initialShuttleRouteId,
 }: Props) => {
@@ -33,16 +33,16 @@ const RouteSelectStep = ({
     useFormContext<ReservationFormValues>();
 
   const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
-    DailyShuttleType | undefined
+    DailyEvent | undefined
   >(
-    shuttle.dailyShuttles.find(
-      (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
+    event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === initialDailyShuttleId,
     ),
   );
 
-  const { data: routes } = useGetRoutes(
-    shuttle.shuttleId,
-    selectedDailyShuttle?.dailyShuttleId ?? 0,
+  const { data: routes } = useGetShuttleRoutesOfDailyEvent(
+    event.eventId,
+    selectedDailyShuttle?.dailyEventId ?? 0,
     { status: 'OPEN' },
   );
 
@@ -58,8 +58,8 @@ const RouteSelectStep = ({
     }
   }, [routes, initialShuttleRouteId]);
 
-  const handleDailyShuttleChange = (dailyShuttle: DailyShuttleType) => {
-    setSelectedDailyShuttle(dailyShuttle);
+  const handleDailyShuttleChange = (dailyEvent: DailyEvent) => {
+    setSelectedDailyShuttle(dailyEvent);
     setValue('shuttleRoute', undefined);
     setValue('type', undefined);
     setValue('hub', {
@@ -69,7 +69,7 @@ const RouteSelectStep = ({
   };
 
   // 노선 변경에 따라 기존 타입 및 허브 값 초기화
-  const handleRouteChange = (route: ShuttleRouteType) => {
+  const handleRouteChange = (route: ShuttleRoute) => {
     setValue('shuttleRoute', route);
     setValue('type', undefined);
     setValue('hub', {
@@ -105,10 +105,10 @@ const RouteSelectStep = ({
           원하는 셔틀을 선택해주세요
         </h3>
         <Select
-          options={shuttle.dailyShuttles}
+          options={event.dailyEvents}
           value={selectedDailyShuttle}
           setValue={(value) => handleDailyShuttleChange(value)}
-          renderValue={(value) => parseDateString(value.date)}
+          renderValue={(value) => dateString(value.date)}
           isUnderLined
           placeholder="탑승일"
           bottomSheetTitle="탑승일 선택"
@@ -215,7 +215,9 @@ const RouteSelect = () => {
               render={({ field: { value, onChange } }) => (
                 <RouteVisualizerWithSelect
                   type={watchedType}
-                  toDestinationHubs={watchedShuttleRoute.hubs.toDestination}
+                  toDestinationHubs={
+                    watchedShuttleRoute.toDestinationShuttleRouteHubs ?? []
+                  }
                   toDestinationHubValue={value.toDestinationHub}
                   setToDestinationHubValue={(toDestinationHub) =>
                     onChange({
@@ -223,7 +225,9 @@ const RouteSelect = () => {
                       toDestinationHub: toDestinationHub,
                     })
                   }
-                  fromDestinationHubs={watchedShuttleRoute.hubs.fromDestination}
+                  fromDestinationHubs={
+                    watchedShuttleRoute.fromDestinationShuttleRouteHubs ?? []
+                  }
                   fromDestinationHubValue={value.fromDestinationHub}
                   setFromDestinationHubValue={(fromDestinationHub) =>
                     onChange({ ...value, fromDestinationHub })

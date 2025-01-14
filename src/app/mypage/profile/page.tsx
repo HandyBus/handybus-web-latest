@@ -3,12 +3,12 @@
 import AppBar from '@/components/app-bar/AppBar';
 import ListButton from '../components/ListButton';
 import Image from 'next/image';
-import { useGetUserStats } from '@/services/users';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { ID_TO_REGION } from '@/constants/regions';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { parsePhoneNumber } from '@/utils/common';
+import { parsePhoneNumber } from '@/utils/common.util';
+import { useGetUserStats } from '@/services/user-management.service';
 
 const Profile = () => {
   const { data: userStats, isLoading } = useGetUserStats();
@@ -16,7 +16,8 @@ const Profile = () => {
   const gender = userStats?.gender === 'MALE' ? '남성' : '여성';
   const region = ID_TO_REGION[userStats?.regionId ?? 1];
   const favoriteArtists =
-    userStats?.favoriteArtists.map((artist) => artist.name).join(', ') ?? '';
+    userStats?.favoriteArtists?.map((artist) => artist.artistName).join(', ') ??
+    '';
   const phoneNumber = parsePhoneNumber(userStats?.phoneNumber ?? '');
 
   return (

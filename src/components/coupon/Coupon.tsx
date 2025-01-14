@@ -1,7 +1,7 @@
-import { IssuedCouponType } from '@/types/client.types';
+import { IssuedCoupon } from '@/types/user-management.type';
 
 interface Props {
-  coupon: IssuedCouponType;
+  coupon: IssuedCoupon;
 }
 
 const Coupon = ({ coupon }: Props) => {
@@ -15,7 +15,15 @@ const Coupon = ({ coupon }: Props) => {
   const title =
     coupon.discountType === 'RATE'
       ? `${coupon.discountRate}%`
-      : `${coupon.discountAmount.toLocaleString()}원`;
+      : `${coupon.discountAmount?.toLocaleString()}원`;
+  const parsedValidTo = new Date(coupon.validTo).toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
 
   return (
     <div
@@ -28,7 +36,7 @@ const Coupon = ({ coupon }: Props) => {
         {title} 할인{' '}
         {coupon.discountType === 'RATE' && (
           <span className="text-12 font-400 text-grey-500">
-            최대 {coupon.maxDiscountAmount.toLocaleString()}원 할인
+            최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
           </span>
         )}
       </h4>
@@ -41,7 +49,7 @@ const Coupon = ({ coupon }: Props) => {
           : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`}
       </p>
       <p className="text-12 font-400 text-grey-500">
-        {coupon.validTo.replace(/-/g, '.')}까지 사용 가능
+        {parsedValidTo}까지 사용 가능
       </p>
     </div>
   );

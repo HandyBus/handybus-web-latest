@@ -1,17 +1,17 @@
 import { ReactNode } from 'react';
 import { createMetadataWithOG } from '@/constants/metadata';
-import { getShuttle } from '@/services/shuttleOperation';
+import { getEvent } from '@/services/shuttle-operation.service';
 
 export const generateMetadata = async ({
   params,
 }: {
   params: { id: string };
 }) => {
-  const shuttle = await getShuttle(Number(params.id));
+  const event = await getEvent(Number(params.id));
   const metadata = createMetadataWithOG(
-    `${shuttle.name} 셔틀 예약`,
-    shuttle.image,
-    shuttle.name,
+    `${event.eventName} 셔틀 예약`,
+    event.eventImageUrl,
+    event.eventName,
   );
   return metadata;
 };

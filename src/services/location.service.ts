@@ -1,22 +1,23 @@
-import { RegionHubType } from '@/types/hub.type';
 import { authInstance } from './config';
 import { useQuery } from '@tanstack/react-query';
+import { RegionHubSchema } from '@/types/location.type';
 
 const getHubsByRegionId = async (regionId?: number | null) => {
   if (!regionId) {
     return [];
   }
-  const res = await authInstance.get<{ regionHubs: RegionHubType[] }>(
-    `/v1/location/regions/${regionId}/hubs`,
-  );
+  const res = await authInstance.get(`/v1/location/regions/${regionId}/hubs`, {
+    shape: {
+      regionHubs: RegionHubSchema.array(),
+    },
+  });
   return res.regionHubs;
 };
 
-export const useGetHubsByRegionId = (regionId?: number | null) => {
-  return useQuery({
-    queryKey: ['hubs', regionId],
+export const useGetHubsByRegionId = (regionId?: number | null) =>
+  useQuery({
+    queryKey: ['hub', regionId],
     queryFn: () => getHubsByRegionId(regionId),
     enabled: !!regionId,
     initialData: [],
   });
-};

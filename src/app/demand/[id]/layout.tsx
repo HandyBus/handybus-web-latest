@@ -1,5 +1,5 @@
 import { createMetadataWithOG } from '@/constants/metadata';
-import { getShuttle } from '@/services/shuttleOperation';
+import { getEvent } from '@/services/shuttle-operation.service';
 import { ReactNode } from 'react';
 
 export const generateMetadata = async ({
@@ -7,11 +7,11 @@ export const generateMetadata = async ({
 }: {
   params: { id: string };
 }) => {
-  const shuttle = await getShuttle(Number(params.id));
+  const event = await getEvent(Number(params.id));
   const metadata = createMetadataWithOG(
-    `${shuttle.name} 수요조사`,
-    shuttle.image,
-    shuttle.name,
+    `${event.eventName} 수요조사`,
+    event.eventImageUrl,
+    event.eventName,
   );
   return metadata;
 };

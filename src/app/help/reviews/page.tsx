@@ -2,7 +2,7 @@
 
 import DetailedReview from './components/DetailedReview';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { useGetReviews } from '@/services/reviews';
+import { useGetReviewsWithPagination } from '@/services/shuttle-operation.service';
 import LoadingCircle from 'public/icons/loading-circle.svg';
 
 const ReviewPage = () => {
@@ -11,7 +11,7 @@ const ReviewPage = () => {
     fetchNextPage,
     isFetching,
     hasNextPage,
-  } = useGetReviews();
+  } = useGetReviewsWithPagination();
 
   const ref = useInfiniteScroll(fetchNextPage);
 

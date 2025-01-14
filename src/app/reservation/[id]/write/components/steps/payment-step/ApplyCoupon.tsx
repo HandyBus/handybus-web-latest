@@ -9,10 +9,10 @@ import {
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CouponBottomSheet from './CouponBottomSheet';
 import { useEffect, useMemo, useState } from 'react';
-import { IssuedCouponType } from '@/types/client.types';
 import Coupon from '@/components/coupon/Coupon';
 import XIcon from 'public/icons/x.svg';
 import Button from '@/components/buttons/button/Button';
+import { IssuedCoupon } from '@/types/user-management.type';
 
 interface Props {
   handlePrevStep: () => void;
@@ -24,7 +24,7 @@ const ApplyCoupon = ({ handlePrevStep }: Props) => {
 
   const { getValues, setValue } = useFormContext<ReservationFormValues>();
 
-  const [selectedCoupon, setSelectedCoupon] = useState<IssuedCouponType | null>(
+  const [selectedCoupon, setSelectedCoupon] = useState<IssuedCoupon | null>(
     null,
   );
 
@@ -52,8 +52,8 @@ const ApplyCoupon = ({ handlePrevStep }: Props) => {
       (singlePrice - singlePriceWithEarlybird) * passengersCount;
     const singleCouponDiscount = selectedCoupon
       ? selectedCoupon.discountType === 'RATE'
-        ? (selectedCoupon.discountRate / 100) * singlePrice
-        : selectedCoupon.discountAmount
+        ? ((selectedCoupon.discountRate ?? 0) / 100) * singlePrice
+        : (selectedCoupon.discountAmount ?? 0)
       : 0;
     const couponDiscount = selectedCoupon?.maxDiscountAmount
       ? Math.min(singleCouponDiscount, selectedCoupon.maxDiscountAmount) *

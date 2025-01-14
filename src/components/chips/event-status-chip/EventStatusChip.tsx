@@ -1,12 +1,12 @@
-import { SHUTTLE_STATUS_TO_STRING } from '@/constants/status';
-import { ShuttleStatusType } from '@/types/shuttle.types';
+import { EVENT_STATUS_TO_STRING } from '@/constants/status';
+import { EventStatus } from '@/types/shuttle-operation.type';
 
 interface Props {
-  status: ShuttleStatusType;
+  status: EventStatus;
 }
 
-const ShuttleStatusChip = ({ status }: Props) => {
-  const statusString = SHUTTLE_STATUS_TO_STRING[status];
+const EventStatusChip = ({ status }: Props) => {
+  const statusString = EVENT_STATUS_TO_STRING[status];
   switch (status) {
     case 'OPEN':
       return (
@@ -30,4 +30,4 @@ const ShuttleStatusChip = ({ status }: Props) => {
   }
 };
 
-export default ShuttleStatusChip;
+export default EventStatusChip;

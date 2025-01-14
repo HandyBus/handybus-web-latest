@@ -1,13 +1,16 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
-import { postLogin } from '@/services/auth';
-import { getProgress } from '@/services/users';
+import usePreventRefresh from '@/hooks/usePreventRefresh';
+import usePreventScroll from '@/hooks/usePreventScroll';
+import { postLogin } from '@/services/auth.service';
+import { getUser } from '@/services/user-management.service';
 import {
   setAccessToken,
   setOnboardingToken,
   setRefreshToken,
-} from '@/utils/handleToken';
+} from '@/utils/handleToken.util';
+import { parseProgress } from '@/utils/parseProgress.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -19,6 +22,8 @@ interface Props {
 const OAuth = ({ params, searchParams }: Props) => {
   const router = useRouter();
   const isInitiated = useRef(false);
+  usePreventRefresh();
+  usePreventScroll();
 
   const handleOAuth = async () => {
     try {
@@ -32,9 +37,10 @@ const OAuth = ({ params, searchParams }: Props) => {
         setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
       ]);
 
-      const progress = await getProgress();
+      const user = await getUser();
+      const onboardingProgress = parseProgress(user.progresses);
 
-      if (progress !== 'ONBOARDING_COMPLETE') {
+      if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
         await setOnboardingToken();
         router.push('/onboarding');
       } else {
@@ -52,16 +58,6 @@ const OAuth = ({ params, searchParams }: Props) => {
     }
     isInitiated.current = true;
     handleOAuth();
-  }, []);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []);
 
   return <Loading />;

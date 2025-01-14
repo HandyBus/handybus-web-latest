@@ -2,8 +2,8 @@ import DetailRow from '../DetailRow';
 import Section from '../Section';
 
 interface Props {
-  requestedDate: string;
-  resolvedDate: string;
+  requestedDate: Date | null | undefined;
+  resolvedDate: Date | null | undefined;
   price: number;
   refundPrice: number;
 }
@@ -18,8 +18,14 @@ const RefundInfoSection = ({
     <>
       <Section title="취소 신청 정보">
         <div className="flex flex-col gap-8">
-          <DetailRow title="신청 일시" content={requestedDate} />
-          <DetailRow title="완료 일시" content={resolvedDate} />
+          <DetailRow
+            title="신청 일시"
+            content={requestedDate?.toLocaleString() ?? ''}
+          />
+          <DetailRow
+            title="완료 일시"
+            content={resolvedDate?.toLocaleString() ?? ''}
+          />
         </div>
       </Section>
       <Section title="환불 정보">
@@ -31,7 +37,7 @@ const RefundInfoSection = ({
           <div className="flex w-full gap-4">
             <div>수수료</div>
             <div className="grow text-right">
-              -{(refundPrice - price).toLocaleString()}원
+              -{(price - refundPrice).toLocaleString()}원
             </div>
           </div>
           <div className="flex w-full gap-4 pt-24">

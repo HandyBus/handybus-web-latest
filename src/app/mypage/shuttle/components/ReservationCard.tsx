@@ -1,21 +1,21 @@
 'use client';
 
-import { ReservationType } from '@/types/client.types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { getStatusStyle } from '../status.utils';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import {
   CANCEL_STATUS_TO_STRING,
   HANDY_STATUS_TO_STRING,
-  RESERVATION_STATUS_TO_STRING,
+  SHUTTLE_ROUTE_STATUS_TO_STRING,
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
+import { Reservation } from '@/types/user-management.type';
 
 interface Props {
-  reservation: ReservationType;
+  reservation: Reservation;
   buttonText?: string;
   buttonHref?: string;
   buttonDisabled?: boolean;
@@ -40,16 +40,22 @@ const ReservationCard = ({
       router.push(href);
     };
 
-  const parsedReservationDate = parseDateString(reservation.createdAt);
-  const parsedShuttleDate = parseDateString(reservation.shuttle.date);
-  const status = RESERVATION_STATUS_TO_STRING[reservation.shuttle.route.status];
+  const parsedReservationDate = dateString(reservation.createdAt);
+  const parsedShuttleDate = dateString(
+    reservation.shuttleRoute.event.dailyEvents.find(
+      (dailyEvent) =>
+        dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
+    )?.date,
+  );
+  const status =
+    SHUTTLE_ROUTE_STATUS_TO_STRING[reservation.shuttleRoute.status];
   const statusStyle = getStatusStyle(status);
   const handyStatus = HANDY_STATUS_TO_STRING[reservation.handyStatus];
   const cancelStatus = CANCEL_STATUS_TO_STRING[reservation.cancelStatus];
 
   return (
     <Link
-      href={`/reservation/${reservation.shuttle.shuttleId}?dailyShuttleId=${reservation.shuttle.route.dailyShuttleId}&shuttleRouteId=${reservation.shuttle.route.shuttleRouteId}`}
+      href={`/reservation/${reservation.shuttleRoute.eventId}?dailyEventId=${reservation.shuttleRoute.dailyEventId}&shuttleRouteId=${reservation.shuttleRoute.shuttleRouteId}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">
@@ -62,7 +68,7 @@ const ReservationCard = ({
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
-            src={reservation.shuttle.image}
+            src={reservation.shuttleRoute.event.eventImageUrl}
             alt="행사 포스터"
             fill
             className="object-cover"
@@ -70,23 +76,23 @@ const ReservationCard = ({
         </div>
         <div className="flex flex-col">
           <span className="pb-4 text-16 font-500 text-grey-900">
-            {reservation.shuttle.name}
+            {reservation.shuttleRoute.event.eventName}
           </span>
           <span className="text-12 font-400 text-grey-900">
-            {reservation.shuttle.destination.name}
+            {reservation.shuttleRoute.event.eventLocationName}
           </span>
           <span className="text-12 font-400 text-grey-900">
             {parsedShuttleDate} 셔틀
           </span>
           <span className="flex gap-12 text-12 font-400 text-grey-500">
             <span>
-              {reservation.shuttle.route.name} (
+              {reservation.shuttleRoute.name} (
               {TRIP_STATUS_TO_STRING[reservation.type]})
             </span>
-            <span>{reservation.passengers.length}인</span>
+            <span>{reservation.passengers?.length}인</span>
           </span>
           <span className="pt-4 text-14 font-500 text-grey-900">
-            {reservation.payment.paymentAmount.toLocaleString()}{' '}
+            {reservation.paymentAmount?.toLocaleString()}{' '}
             <span className="text-12">원</span>
           </span>
           <div className="flex gap-8 pt-4">

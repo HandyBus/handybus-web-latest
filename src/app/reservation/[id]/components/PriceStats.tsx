@@ -1,8 +1,8 @@
 'use client';
 
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { TripType } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { TripType } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   tripType: TripType;
@@ -14,7 +14,7 @@ interface Props {
     roundTrip: number;
   };
   isEarlybird: boolean;
-  earlybirdDeadline?: string;
+  earlybirdDeadline?: string | null;
   earlybirdPrice: {
     toDestination: number;
     fromDestination: number;
@@ -38,7 +38,7 @@ const PriceStats = ({
           셔틀 가격
           {isEarlybird && earlybirdDeadline && (
             <span className="absolute -top-4 translate-x-8 text-14 font-500 text-red-600">
-              {parseDateString(earlybirdDeadline, false)}까지 얼리버드 🔥
+              {dateString(earlybirdDeadline, false)}까지 얼리버드 🔥
             </span>
           )}
         </h2>

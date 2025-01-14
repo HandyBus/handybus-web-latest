@@ -1,23 +1,25 @@
 'use client';
 
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
-import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import dynamic from 'next/dynamic';
-import {
-  useDeleteDemand,
-  useGetReservationOngoingDemands,
-  useGetUserDemands,
-} from '@/services/demand';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
+import { useGetUserDemands } from '@/services/user-management.service';
+import { ShuttleDemand } from '@/types/user-management.type';
+import {
+  getShuttleRoutesOfDailyEvent,
+  useDeleteDemand,
+} from '@/services/shuttle-operation.service';
+import { useQueries } from '@tanstack/react-query';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const DemandTab = () => {
   const { data: demands, isLoading } = useGetUserDemands();
+
   const reservationOngoingDemands = useGetReservationOngoingDemands(
     demands ?? [],
   );
@@ -26,21 +28,12 @@ const DemandTab = () => {
   )
     ? reservationOngoingDemands
         .filter((x) => x.data !== null)
-        .map((x) => x.data as ShuttleDemandType)
+        .map((x) => x.data as ShuttleDemand)
     : [];
-
-  const sortedDemands = useMemo(
-    () =>
-      demands?.sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      ),
-    [demands],
-  );
 
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
-  const [demand, setDemand] = useState<ShuttleDemandType | null>(null);
+  const [demand, setDemand] = useState<ShuttleDemand | null>(null);
 
   return (
     <>
@@ -49,7 +42,7 @@ const DemandTab = () => {
           <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
             {parsedReservationOngoingDemands.map((demand) => {
               const region = ID_TO_REGION[demand.regionId];
-              const href = `/demand/${demand.shuttle.shuttleId}?dailyShuttleId=${demand.dailyShuttleId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
+              const href = `/demand/${demand.eventId}?dailyEventId=${demand.dailyEventId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
               return (
                 <DemandCard
                   key={demand.shuttleDemandId}
@@ -67,12 +60,12 @@ const DemandTab = () => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {sortedDemands &&
-          (sortedDemands.length === 0 ? (
+        {demands &&
+          (demands.length === 0 ? (
             <EmptyView />
           ) : (
             <ul>
-              {sortedDemands.map((demand) => (
+              {demands.map((demand) => (
                 <DemandCard
                   key={demand.shuttleDemandId}
                   demand={demand}
@@ -105,8 +98,8 @@ const DemandTab = () => {
             return;
           }
           deleteDemand({
-            shuttleId: demand.shuttle.shuttleId,
-            dailyShuttleId: demand.dailyShuttleId,
+            eventId: demand.eventId,
+            dailyEventId: demand.dailyEventId,
             shuttleDemandId: demand.shuttleDemandId,
           });
           setDemand(null);
@@ -147,3 +140,37 @@ const ReservationOngoingWrapper = ({
     </>
   );
 };
+
+const getReservationOngoingDemand = async (demand: ShuttleDemand) => {
+  if (!demand.hasShuttleRoute) {
+    return null;
+  }
+  const region = ID_TO_REGION[demand.regionId];
+  const routes = await getShuttleRoutesOfDailyEvent(
+    demand.eventId,
+    demand.dailyEventId,
+    {
+      status: 'OPEN',
+      provinceFullName: region.bigRegion,
+      cityFullName: region.smallRegion,
+    },
+  );
+  if (routes.length === 0) {
+    return null;
+  }
+  return demand;
+};
+
+export const useGetReservationOngoingDemands = (demands: ShuttleDemand[]) =>
+  useQueries<Array<ShuttleDemand | null>>({
+    queries: demands.map((demand) => ({
+      queryKey: [
+        'user',
+        'demands',
+        'reservation-ongoing',
+        demand.shuttleDemandId,
+      ],
+      queryFn: () => getReservationOngoingDemand(demand),
+      enabled: !!demands,
+    })),
+  });

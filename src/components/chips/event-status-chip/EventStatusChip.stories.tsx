@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react';
-import RouteStatusChip from './ShuttleStatusChip';
+import EventStatusChip from './EventStatusChip';
 
-const meta: Meta<typeof RouteStatusChip> = {
-  title: 'Components/chips/RouteStatusChip',
-  component: RouteStatusChip,
+const meta: Meta<typeof EventStatusChip> = {
+  title: 'Components/chips/EventStatusChip',
+  component: EventStatusChip,
   tags: ['autodocs'],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof RouteStatusChip>;
+type Story = StoryObj<typeof EventStatusChip>;
 
 export const DemandSurvey: Story = {
   args: {
