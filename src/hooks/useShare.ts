@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const useShare = ({ eventName, closeBottomSheet }: Props) => {
-  const currentUrl = window.location.href;
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   const shareToTwitter = () => {
     const text = encodeURIComponent(currentUrl);
