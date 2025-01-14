@@ -37,7 +37,7 @@ const RefundInfoSection = ({
           <div className="flex w-full gap-4">
             <div>수수료</div>
             <div className="grow text-right">
-              -{(refundPrice - price).toLocaleString()}원
+              -{(price - refundPrice).toLocaleString()}원
             </div>
           </div>
           <div className="flex w-full gap-4 pt-24">

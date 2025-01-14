@@ -73,6 +73,9 @@ const ProgressTypeEnum = z.enum([
 ]);
 export type ProgressType = z.infer<typeof ProgressTypeEnum>;
 
+const AuthChannelTypeEnum = z.enum(['NONE', 'kakao', 'naver']);
+export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
+
 //  ----- SCHEMA -----
 export const ShuttleDemandSchema = z
   .object({
@@ -156,13 +159,14 @@ export type Reservation = z.infer<typeof ReservationSchema>;
 export const RefundRequestSchema = z
   .object({
     refundRequestId: z.number(), // 환불 요청 PK
-    paymentId: z.number(),
+    paymentId: z.string(),
     principalAmount: z.number(), // 결제의 원래 총 결제 금액
     previousRefundableAmount: z.number(), // 환불 요청 시점에서 환불 가능 금액
     refundAmount: z.number(), // 환불 요청 금액
-    afterRefundableAmount: z.number().nullable(), // 환불 완료 후 환불 가능 금액 (완료 전이면 null)
+    afterRefundableAmount: z.number().nullable(), // 환불 완료 후 환불 된 금액 (완료 전이면 null)
     refundReason: z.string(), // 환불 사유
     createdAt: z.string(), // 환불 요청 시점
+    updatedAt: z.string(),
     refundAt: z.string().nullable(), // 환불 완료 시점
     failedReason: z.string(),
     status: z.enum(['REQUESTED', 'COMPLETED', 'FAILED']),
@@ -191,6 +195,9 @@ export type Payment = z.infer<typeof PaymentSchema>;
 export const IssuedCouponSchema = z
   .object({
     issuedCouponId: z.number(),
+    userId: z.number(),
+    userNickname: z.string(),
+    userProfileImage: z.string(),
     code: z.string(),
     name: z.string(),
     discountType: z.enum(['RATE', 'AMOUNT']),
@@ -213,7 +220,7 @@ export const UserSchema = z
     phoneNumber: z.string(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    authChannelType: z.enum(['NONE', 'kakao', 'naver']),
+    authChannelType: AuthChannelTypeEnum,
     lastLoginAt: z.string().nullable(),
     regionId: z.number(),
     favoriteArtists: ArtistSchema.array().nullable(),
@@ -235,7 +242,7 @@ export const UserStatsSchema = z
     profileImage: z.string(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    authChannel: z.enum(['NONE', 'kakao', 'naver']),
+    authChannel: AuthChannelTypeEnum,
     regionId: z.number(),
     socialInfo: z.object({
       uniqueId: z.string(),

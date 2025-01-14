@@ -114,7 +114,7 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
               ({price?.toLocaleString()}원 * {passengerCount}인)
             </span>
           )}
-          {(price ?? 0) * passengerCount}원
+          {(price * passengerCount).toLocaleString()}원
         </p>
       </section>
       <div className="fixed bottom-0 left-0 right-0 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-white px-16 py-8 shadow-bottomBar">
