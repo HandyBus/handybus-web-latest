@@ -15,7 +15,8 @@ const Page = () => {
   const isInitiated = useRef(false);
 
   usePreventRefresh();
-  usePreventScroll();
+  const { preventScroll } = usePreventScroll();
+  preventScroll();
 
   const callPaymentConfirmation = async () => {
     try {

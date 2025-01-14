@@ -17,10 +17,10 @@ const PaymentStep = ({ handlePrevStep, event }: Props) => {
       <Divider />
       <ApplyHandy />
       <Divider />
-      <ApplyCoupon handlePrevStep={handlePrevStep} />
+      <ApplyCoupon />
       <Divider />
       <section className="-mx-16">
-        <TossPayments />
+        <TossPayments handlePrevStep={handlePrevStep} />
       </section>
     </>
   );
