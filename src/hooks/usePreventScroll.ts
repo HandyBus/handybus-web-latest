@@ -1,15 +1,12 @@
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 const usePreventScroll = () => {
-  const preventScroll = useCallback(() => {
+  useEffect(() => {
     document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, []);
-
-  const allowScroll = useCallback(() => {
-    document.body.style.overflow = 'unset';
-  }, []);
-
-  return { preventScroll, allowScroll };
 };
 
 export default usePreventScroll;
