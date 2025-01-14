@@ -74,10 +74,10 @@ const ModalContent = ({
         <br /> 안전한 운행을 도와주면, <br /> 다음 이용료가 절반!
       </p>
       <div className="flex w-[100%] flex-col gap-8">
-        <Button variant="primary" onClick={onConfirm}>
+        <Button variant="primary" onClick={onConfirm} type="button">
           {buttonText}
         </Button>
-        <Button variant="secondary" onClick={onClosed}>
+        <Button variant="secondary" onClick={onClosed} type="button">
           {subButtonText}
         </Button>
       </div>
