@@ -1,8 +1,6 @@
-'use server';
-
-import { z } from 'zod';
 import { instance } from './config';
 import { getRefreshToken } from '@/utils/handleToken.util';
+import { TokenShape } from '@/types/auth.type';
 
 export const postLogin = async (
   method: 'kakao' | 'naver',
@@ -25,12 +23,7 @@ export const postLogin = async (
         : undefined,
   };
   const res = await instance.post('/v1/auth/login', body, {
-    shape: {
-      accessToken: z.string(),
-      refreshToken: z.string(),
-      accessTokenExpiresAt: z.string(),
-      refreshTokenExpiresAt: z.string(),
-    },
+    shape: TokenShape,
   });
   return res;
 };
@@ -42,12 +35,7 @@ export const postUpdateToken = async () => {
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
-    shape: {
-      accessToken: z.string(),
-      refreshToken: z.string(),
-      accessTokenExpiresAt: z.string(),
-      refreshTokenExpiresAt: z.string(),
-    },
+    shape: TokenShape,
   });
   return res;
 };
