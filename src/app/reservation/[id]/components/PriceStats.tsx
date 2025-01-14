@@ -14,7 +14,7 @@ interface Props {
     roundTrip: number;
   };
   isEarlybird: boolean;
-  earlybirdDeadline?: Date | null;
+  earlybirdDeadline?: string | null;
   earlybirdPrice: {
     toDestination: number;
     fromDestination: number;

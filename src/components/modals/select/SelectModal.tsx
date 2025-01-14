@@ -8,7 +8,7 @@ import { ShuttleRoute } from '@/types/shuttle-operation.type';
 interface Props {
   isOpen: boolean;
   onClosed: () => void;
-  date: Date;
+  date: string;
   region: string;
   routes: ShuttleRoute[];
 }
@@ -33,7 +33,7 @@ const SelectModal = ({ isOpen, onClosed, date, region, routes }: Props) => {
 export default SelectModal;
 
 interface SelectModalContentProps {
-  date: Date;
+  date: string;
   region: string;
   routes: ShuttleRoute[];
   onClosed: () => void;
@@ -59,7 +59,7 @@ const SelectModalContent = ({
         <span className="leading-[25.6px] text-grey-700">{region}</span>
         에서 탈 만한 노선을 알려드릴게요.
       </p>
-      <div id="suttle-bus-route-information" className="flex flex-col gap-8">
+      <div id="shuttle-bus-route-information" className="flex flex-col gap-8">
         {routes.slice(0, 4).map((route) => (
           <SelectModalButton key={route.shuttleRouteId} route={route} />
         ))}

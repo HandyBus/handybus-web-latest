@@ -44,7 +44,7 @@ export const TempReservationSchema = z.object({
   paymentId: z.string(),
   userId: z.string(),
   handyStatus: HandyStatusEnum,
-  createdAt: z.coerce.date(),
+  createdAt: z.string(),
 });
 export type TempReservation = z.infer<typeof TempReservationSchema>;
 
@@ -60,6 +60,6 @@ export const TempPaymentSchema = z.object({
   discountAmount: z.number(),
   refundableAmount: z.number(),
   refundRequests: RefundRequestSchema.array(),
-  createdAt: z.coerce.date(),
+  createdAt: z.string(),
 });
 export type TempPayment = z.infer<typeof TempPaymentSchema>;

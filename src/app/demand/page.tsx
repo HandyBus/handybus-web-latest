@@ -75,8 +75,8 @@ const toSorted = async (events: Event[], sort: DemandSortType) => {
     case '셔틀 일자 빠른 순':
       newData = events.toSorted(
         (a, b) =>
-          (a.dailyEvents[0].date?.getTime() || 0) -
-          (b.dailyEvents[0].date?.getTime() || 0),
+          (new Date(a.dailyEvents[0].date).getTime() || 0) -
+          (new Date(b.dailyEvents[0].date).getTime() || 0),
       );
       break;
   }

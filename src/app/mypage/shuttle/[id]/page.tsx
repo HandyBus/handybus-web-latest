@@ -107,8 +107,16 @@ const ShuttleDetail = ({ params }: Props) => {
             ) : (
               <>
                 <RefundInfoSection
-                  requestedDate={data.payment.refundRequests?.[0].createdAt}
-                  resolvedDate={data.payment.refundRequests?.[0].refundAt}
+                  requestedDate={
+                    data.payment.refundRequests?.[0].createdAt
+                      ? new Date(data.payment.refundRequests[0].createdAt)
+                      : null
+                  }
+                  resolvedDate={
+                    data.payment.refundRequests?.[0].refundAt
+                      ? new Date(data.payment.refundRequests[0].refundAt)
+                      : null
+                  }
                   price={data.payment.paymentAmount}
                   refundPrice={
                     data.payment.refundRequests?.[0].afterRefundableAmount ?? 0

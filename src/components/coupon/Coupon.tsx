@@ -16,7 +16,7 @@ const Coupon = ({ coupon }: Props) => {
     coupon.discountType === 'RATE'
       ? `${coupon.discountRate}%`
       : `${coupon.discountAmount?.toLocaleString()}원`;
-  const parsedVaildTo = coupon.validTo.toLocaleString('ko-KR', {
+  const parsedValidTo = new Date(coupon.validTo).toLocaleString('ko-KR', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -49,7 +49,7 @@ const Coupon = ({ coupon }: Props) => {
           : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`}
       </p>
       <p className="text-12 font-400 text-grey-500">
-        {parsedVaildTo}까지 사용 가능
+        {parsedValidTo}까지 사용 가능
       </p>
     </div>
   );

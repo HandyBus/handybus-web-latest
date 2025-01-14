@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ActiveStatusEnum, nullableDate } from './common.type';
+import { ActiveStatusEnum } from './common.type';
 
 //  ----- ENUM -----
 
@@ -58,7 +58,7 @@ export type Artist = z.infer<typeof ArtistSchema>;
 export const DailyEventSchema = z
   .object({
     dailyEventId: z.number(),
-    date: z.coerce.date(),
+    date: z.string(),
     status: EventStatusEnum,
   })
   .strict();
@@ -105,9 +105,9 @@ export const ShuttleRouteSchema = z
     eventId: z.number(),
     dailyEventId: z.number(),
     name: z.string(),
-    reservationDeadline: z.coerce.date(),
+    reservationDeadline: z.string(),
     hasEarlybird: z.boolean(),
-    earlybirdDeadline: nullableDate,
+    earlybirdDeadline: z.string().nullable(),
     earlybirdPriceToDestination: z.number().nullable(),
     earlybirdPriceFromDestination: z.number().nullable(),
     earlybirdPriceRoundTrip: z.number().nullable(),
@@ -149,8 +149,8 @@ export const ReviewSchema = z
     rating: z.number(),
     content: z.string(),
     reviewStatus: ActiveStatusEnum,
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
     userId: z.number(),
     userNickname: z.string(),
     userProfileImage: z.string(),

@@ -36,35 +36,39 @@ const singleDateString = (date: Date | null, showYear: boolean = true) => {
 
 // 날짜 및 날짜 배열을 받아 형식에 맞추어 리턴
 export const dateString = (
-  date: Date | Date[] | null | undefined,
+  date: Date | Date[] | string | string[] | null | undefined,
   showYear: boolean = true,
 ) => {
   if (!date) {
     return '';
   }
   if (!Array.isArray(date)) {
-    return singleDateString(date, showYear);
+    const target = typeof date === 'string' ? new Date(date) : date;
+    return singleDateString(target, showYear);
   }
   if (date.length === 0) {
     return '';
   }
   if (date.length === 1) {
-    return singleDateString(date[0], showYear);
+    const target = typeof date[0] === 'string' ? new Date(date[0]) : date[0];
+    return singleDateString(target, showYear);
   }
 
-  const { min, max } = findMinMaxDate(date);
+  const targetDates = date.map((date) =>
+    typeof date === 'string' ? new Date(date) : date,
+  );
+
+  const { min, max } = findMinMaxDate(targetDates);
   return `${singleDateString(min)} ~ ${singleDateString(max)}`;
 };
 
-export const ddayString = (date: Date | null | undefined) => {
+export const ddayString = (date: Date | string | null | undefined) => {
   if (!date) {
     return '';
   }
-  if (typeof date === 'string') {
-    console.error('singleDateString: date is string');
-  }
 
-  const target = new Date(date);
+  const target = typeof date === 'string' ? new Date(date) : date;
+
   const now = new Date();
   const diff = target.getTime() - now.getTime();
   const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
@@ -75,11 +79,12 @@ export const ddayString = (date: Date | null | undefined) => {
 };
 
 export const compareToNow = (
-  date: Date,
+  date: Date | string,
   callback: (a: Date, b: Date) => boolean,
 ) => {
+  const target = typeof date === 'string' ? new Date(date) : date;
   const nowKST = new Date(
     new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }),
   );
-  return callback(date, nowKST);
+  return callback(target, nowKST);
 };

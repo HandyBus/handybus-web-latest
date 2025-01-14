@@ -5,7 +5,6 @@ import {
   ShuttleRouteSchema,
   TripTypeEnum,
 } from './shuttle-operation.type';
-import { nullableDate } from './common.type';
 
 //  ----- ENUM -----
 
@@ -109,8 +108,8 @@ export const ShuttleDemandSchema = z
     passengerCount: z.number(),
     status: ShuttleDemandStatusEnum,
     hasShuttleRoute: z.boolean(),
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type ShuttleDemand = z.infer<typeof ShuttleDemandSchema>;
@@ -136,8 +135,8 @@ export const ReservationSchema = z
     paymentDiscountAmount: z.number().nullable(),
     paymentCouponDiscountAmount: z.number().nullable(),
     paymentEarlybirdDiscountAmount: z.number().nullable(),
-    paymentCreatedAt: nullableDate,
-    paymentUpdatedAt: nullableDate,
+    paymentCreatedAt: z.string().nullable(),
+    paymentUpdatedAt: z.string().nullable(),
     shuttleBusId: z.number().nullable(),
     passengers: z
       .object({
@@ -148,8 +147,8 @@ export const ReservationSchema = z
       .array()
       .nullable(),
     shuttleRoute: ShuttleRouteSchema,
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type Reservation = z.infer<typeof ReservationSchema>;
@@ -163,8 +162,8 @@ export const RefundRequestSchema = z
     refundAmount: z.number(), // 환불 요청 금액
     afterRefundableAmount: z.number().nullable(), // 환불 완료 후 환불 가능 금액 (완료 전이면 null)
     refundReason: z.string(), // 환불 사유
-    createdAt: z.coerce.date(), // 환불 요청 시점
-    refundAt: nullableDate, // 환불 완료 시점
+    createdAt: z.string(), // 환불 요청 시점
+    refundAt: z.string().nullable(), // 환불 완료 시점
     failedReason: z.string(),
     status: z.enum(['REQUESTED', 'COMPLETED', 'FAILED']),
   })
@@ -182,8 +181,8 @@ export const PaymentSchema = z
     refundableAmount: z.number(), // 환불 가능 금액
     issuedCouponId: z.number().nullable(), // 발행된 쿠폰 ID
     reservationId: z.number(),
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
     refundRequests: RefundRequestSchema.array().nullable(),
   })
   .strict();
@@ -199,8 +198,8 @@ export const IssuedCouponSchema = z
     discountAmount: z.number().nullable(),
     maxDiscountAmount: z.number().nullable(),
     maxApplicablePeople: z.number().nullable(),
-    validFrom: z.coerce.date(),
-    validTo: z.coerce.date(),
+    validFrom: z.string(),
+    validTo: z.string(),
     status: IssuedCouponStatusEnum,
   })
   .strict();

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
 import DemandCard from '../DemandCard';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
@@ -31,14 +31,6 @@ const DemandTab = () => {
         .map((x) => x.data as ShuttleDemand)
     : [];
 
-  const sortedDemands = useMemo(
-    () =>
-      demands?.sort(
-        (a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0),
-      ),
-    [demands],
-  );
-
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
   const [demand, setDemand] = useState<ShuttleDemand | null>(null);
@@ -68,12 +60,12 @@ const DemandTab = () => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {sortedDemands &&
-          (sortedDemands.length === 0 ? (
+        {demands &&
+          (demands.length === 0 ? (
             <EmptyView />
           ) : (
             <ul>
-              {sortedDemands.map((demand) => (
+              {demands.map((demand) => (
                 <DemandCard
                   key={demand.shuttleDemandId}
                   demand={demand}

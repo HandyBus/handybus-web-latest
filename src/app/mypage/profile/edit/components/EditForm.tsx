@@ -37,7 +37,7 @@ const EditForm = ({ type, userStats }: Props) => {
       age: userStats.ageRange,
       bigRegion: region.bigRegion,
       smallRegion: region.smallRegion,
-      favoriteArtists: userStats.favoriteArtists,
+      favoriteArtists: userStats.favoriteArtists ?? [],
     },
     mode: 'onBlur',
   });
@@ -111,7 +111,9 @@ const EditForm = ({ type, userStats }: Props) => {
         return <ResidenceContent />;
       case 'artist':
         return (
-          <ArtistContent initialSelectedArtists={userStats.favoriteArtists} />
+          <ArtistContent
+            initialSelectedArtists={userStats.favoriteArtists ?? []}
+          />
         );
     }
   };

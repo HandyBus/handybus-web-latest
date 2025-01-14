@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-export const nullableDate = z.null().or(z.coerce.date());
-
 /// --------- ENUM ---------
 export const ActiveStatusEnum = z.enum(['ACTIVE', 'INACTIVE']);
 export type ActiveStatus = z.infer<typeof ActiveStatusEnum>;
