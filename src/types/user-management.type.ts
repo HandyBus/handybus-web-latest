@@ -210,12 +210,14 @@ export const UserSchema = z
   .object({
     userId: z.number(),
     nickname: z.string(),
-    profileImage: z.string().url(),
+    profileImage: z.string(),
     phoneNumber: z.string(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
+    authChannelType: z.enum(['NONE', 'kakao', 'naver']),
+    lastLoginAt: z.string().nullable(),
     regionId: z.number(),
-    favoriteArtists: ArtistSchema.array(),
+    favoriteArtists: ArtistSchema.array().nullable(),
     progresses: z
       .object({
         progressType: ProgressTypeEnum,
@@ -240,7 +242,7 @@ export const UserStatsSchema = z
       uniqueId: z.string(),
       nickname: z.string(),
     }),
-    favoriteArtists: ArtistSchema.array(),
+    favoriteArtists: ArtistSchema.array().nullable(),
     currentReservationCount: z.number(),
     pastReservationCount: z.number(),
     activeCouponCount: z.number(),
@@ -254,7 +256,7 @@ export type UserStats = z.infer<typeof UserStatsSchema>;
 
 export const PutUserBodySchema = z
   .object({
-    profileImage: z.string().url(),
+    profileImage: z.string(),
     nickname: z.string(),
     phoneNumber: z.string(),
     gender: GenderEnum,
