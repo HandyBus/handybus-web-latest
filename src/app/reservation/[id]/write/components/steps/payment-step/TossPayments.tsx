@@ -11,7 +11,7 @@ import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
 import { generateCustomerKey } from '../../../reservation.util';
 import { getUser } from '@/services/user-management.service';
-import { postReservation } from '@/services/billing.service';
+import { postReadyPayment, postReservation } from '@/services/billing.service';
 import Button from '@/components/buttons/button/Button';
 
 declare global {
@@ -123,17 +123,24 @@ const TossPayments = ({ handlePrevStep }: Props) => {
           formValues.hub.toDestinationHub?.shuttleRouteHubId,
         fromDestinationShuttleRouteHubId:
           formValues.hub.fromDestinationHub?.shuttleRouteHubId,
-        issuedCouponId: formValues.issuedCouponId,
         isSupportingHandy: formValues.isSupportingHandy,
         passengers: formValues.passengers,
       };
-      const res = await postReservation(parsedFormValues);
+      const postReservationResponse = await postReservation(parsedFormValues);
+
+      const readyPaymentFormValues = {
+        reservationId: postReservationResponse.reservationId,
+        issuedCouponId: formValues.issuedCouponId ?? null,
+      };
+      const readyPaymentResponse = await postReadyPayment(
+        readyPaymentFormValues,
+      );
 
       const successUrl = window.location.origin + pathname + `/payments`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
 
       await widgets.requestPayment({
-        orderId: res.paymentId,
+        orderId: readyPaymentResponse.paymentId,
         orderName: formValues.shuttleRoute.name,
         successUrl,
         failUrl,
