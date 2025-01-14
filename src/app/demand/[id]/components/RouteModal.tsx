@@ -34,7 +34,7 @@ const RouteModal = ({ event, dailyEventId, bigRegion, smallRegion }: Props) => {
     }
   }, [date, openRoutes]);
 
-  if (!date || !openRoutes) return null;
+  if (!date || !openRoutes || openRoutes.length === 0) return null;
 
   return (
     <SelectModal
