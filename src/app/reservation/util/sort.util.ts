@@ -31,9 +31,9 @@ export const toSortedRoutes = (
     case '예약한 인원이 많은 순':
       return routes.toSorted(
         (a, b) =>
-          a.maxPassengerCount -
-          a.remainingSeatCount -
-          (b.maxPassengerCount - b.remainingSeatCount),
+          b.maxPassengerCount -
+          b.remainingSeatCount -
+          (a.maxPassengerCount - a.remainingSeatCount),
       );
     case '잔여석이 적게 남은 순':
       return routes.toSorted(
