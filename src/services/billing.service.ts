@@ -69,7 +69,7 @@ export const usePostRefund = (
 // TODO: v2 적용 후 타입 정리
 export const postReservation = async (body: PostReservationBody) => {
   const res = await authInstance.post(
-    '/v1/billing/reservations',
+    '/v2/shuttle-operation/reservations',
     silentParse(PostReservationBodySchema, body),
     {
       shape: {
