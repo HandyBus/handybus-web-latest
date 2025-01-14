@@ -4,9 +4,12 @@ import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
 import { silentParse } from '@/utils/config.util';
 import {
+  PostReadyPaymentBody,
+  PostReadyPaymentBodySchema,
   PostReservationBody,
   PostReservationBodySchema,
   TempPaymentSchema,
+  TempReadyPaymentSchema,
   TempReservationSchema,
 } from '@/types/billing.type';
 
@@ -78,6 +81,19 @@ export const postReservation = async (body: PostReservationBody) => {
     },
   );
   return res.reservation;
+};
+
+export const postReadyPayment = async (body: PostReadyPaymentBody) => {
+  const res = await authInstance.post(
+    '/v1/billing/payments',
+    silentParse(PostReadyPaymentBodySchema, body),
+    {
+      shape: {
+        payment: TempReadyPaymentSchema,
+      },
+    },
+  );
+  return res.payment;
 };
 
 // TODO: v2 적용 후 타입 정리

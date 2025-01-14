@@ -30,6 +30,12 @@ export const PostReservationBodySchema = z.object({
 });
 export type PostReservationBody = z.infer<typeof PostReservationBodySchema>;
 
+export const PostReadyPaymentBodySchema = z.object({
+  reservationId: z.number(),
+  issuedCouponId: z.number().nullable(),
+});
+export type PostReadyPaymentBody = z.infer<typeof PostReadyPaymentBodySchema>;
+
 // ----- 임시 타입 -----
 
 export const TempReservationSchema = z.object({
@@ -41,12 +47,28 @@ export const TempReservationSchema = z.object({
   shuttleBusId: z.number().nullable(),
   reservationStatus: ReservationStatusEnum,
   cancelStatus: CancelStatusEnum,
-  paymentId: z.string(),
+  paymentId: z.string().nullable(), // 250114 21:25 /v1/billing/payments API가 새로 추가되어 이제 /v2/shuttle-operation/reservations에서 paymentId는 null로 들어옵니다.
   userId: z.number(),
   handyStatus: HandyStatusEnum,
   createdAt: z.string(),
 });
 export type TempReservation = z.infer<typeof TempReservationSchema>;
+
+export const TempReadyPaymentSchema = z.object({
+  paymentId: z.string(),
+  reservationId: z.number(),
+  issuedCouponId: z.number().nullable(),
+  pgType: z.enum(['TOSS']),
+  principalAmount: z.number(),
+  earlybirdDiscountAmount: z.number(),
+  paymentAmount: z.number(),
+  couponDiscountAmount: z.number(),
+  discountAmount: z.number(),
+  refundableAmount: z.number(),
+  refundRequests: RefundRequestSchema.array().nullable(),
+  createdAt: z.string(),
+});
+export type TempReadyPayment = z.infer<typeof TempReadyPaymentSchema>;
 
 export const TempPaymentSchema = z.object({
   paymentId: z.string(),
