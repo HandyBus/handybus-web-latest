@@ -25,7 +25,8 @@ const DemandStats = ({
     { provinceFullName: bigRegion, cityFullName: smallRegion },
   );
 
-  const region = bigRegion + ' ' + smallRegion;
+  const region =
+    bigRegion && smallRegion ? bigRegion + ' ' + smallRegion : undefined;
 
   return (
     <article className="px-16 py-24">
