@@ -5,8 +5,10 @@ import Kakao from 'public/icons/kakao.svg';
 import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
+import usePreventScroll from '@/hooks/usePreventScroll';
 
 const Login = () => {
+  usePreventScroll();
   return (
     <main className="flex grow flex-col items-center bg-primary-main">
       <div className="my-auto flex flex-col items-center">

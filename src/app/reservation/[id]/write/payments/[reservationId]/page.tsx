@@ -1,8 +1,12 @@
+'use client';
+
 import Button from '@/components/buttons/button/Button';
+import usePreventScroll from '@/hooks/usePreventScroll';
 import Link from 'next/link';
 import LogoLargeIcon from 'public/icons/logo-large.svg';
 
 const PaymentsCompleted = () => {
+  usePreventScroll();
   return (
     <main className="flex grow flex-col items-center justify-center gap-24">
       <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />

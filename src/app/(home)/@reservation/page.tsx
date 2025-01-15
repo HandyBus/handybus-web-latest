@@ -33,8 +33,8 @@ const Page = async () => {
   }).toString();
 
   const sortedRoutes = routes
-    .slice(0, 16)
-    .sort((a, b) => a.remainingSeatCount - b.remainingSeatCount);
+    .sort((a, b) => a.remainingSeatCount - b.remainingSeatCount)
+    .slice(0, 16);
 
   return (
     <Bar regionString={location} postfix={postfix}>

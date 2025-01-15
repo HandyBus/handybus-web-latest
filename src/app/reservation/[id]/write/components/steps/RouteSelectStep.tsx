@@ -149,8 +149,8 @@ const TypeSelect = () => {
   const watchedShuttleRoute = useWatch({ control, name: 'shuttleRoute' });
 
   // 남아있는 좌석에 따라 선택 가능한 타입 반환
-  const getAvailableTypes = (remainingSeatType?: string): TripType[] => {
-    switch (remainingSeatType) {
+  const getAvailableTypes = (type?: TripType): TripType[] => {
+    switch (type) {
       case 'ROUND_TRIP':
         return ['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION'];
       case 'TO_DESTINATION':
@@ -159,6 +159,35 @@ const TypeSelect = () => {
         return ['FROM_DESTINATION'];
       default:
         return [];
+    }
+  };
+
+  // 남아있는 좌석 수 반환
+  const getRemainingSeatCount = (type?: TripType): number => {
+    const maxSeatCount = watchedShuttleRoute?.maxPassengerCount ?? 0;
+    switch (type) {
+      case 'ROUND_TRIP':
+        return watchedShuttleRoute?.remainingSeatCount ?? 0;
+      case 'TO_DESTINATION':
+        return maxSeatCount - (watchedShuttleRoute?.toDestinationCount ?? 0);
+      case 'FROM_DESTINATION':
+        return maxSeatCount - (watchedShuttleRoute?.fromDestinationCount ?? 0);
+      default:
+        return 0;
+    }
+  };
+
+  // 좌석 가격 반환
+  const getPrice = (type?: TripType): number => {
+    switch (type) {
+      case 'ROUND_TRIP':
+        return watchedShuttleRoute?.regularPriceRoundTrip ?? 0;
+      case 'TO_DESTINATION':
+        return watchedShuttleRoute?.regularPriceToDestination ?? 0;
+      case 'FROM_DESTINATION':
+        return watchedShuttleRoute?.regularPriceFromDestination ?? 0;
+      default:
+        return 0;
     }
   };
 
@@ -186,7 +215,19 @@ const TypeSelect = () => {
           options={getAvailableTypes(watchedShuttleRoute?.remainingSeatType)}
           value={value}
           setValue={handleTypeChange}
-          renderValue={(value) => TRIP_STATUS_TO_STRING[value]}
+          renderValue={(value) => (
+            <p className="flex items-center justify-between">
+              <span>{TRIP_STATUS_TO_STRING[value]}</span>
+              <div className="flex gap-12">
+                <span className="text-14 text-grey-500">
+                  {getRemainingSeatCount(value)}석
+                </span>
+                <span className="text-14 text-grey-700">
+                  {getPrice(value).toLocaleString()}원
+                </span>
+              </div>
+            </p>
+          )}
           isUnderLined
           placeholder="왕복/콘서트행/귀가행"
           bottomSheetTitle="왕복/콘서트행/귀가행 선택"

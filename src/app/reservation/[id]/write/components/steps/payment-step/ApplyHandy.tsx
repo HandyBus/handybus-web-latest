@@ -3,10 +3,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { ReservationFormValues } from '../../Form';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 const ApplyHandy = () => {
-  const router = useRouter();
   const { control } = useFormContext<ReservationFormValues>();
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
 
@@ -66,7 +64,7 @@ const ApplyHandy = () => {
       <HandyRequestModal
         isOpen={isHandyRequestModalOpen}
         onClosed={() => setIsHandyRequestModalOpen(false)}
-        onConfirm={() => router.push('/help/what-is-handy')}
+        onConfirm={() => window.open('/help/what-is-handy', '_blank')}
       />
     </>
   );

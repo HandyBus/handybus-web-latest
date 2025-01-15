@@ -34,7 +34,7 @@ export const getUserDemands = async (status?: ShuttleDemandStatus) => {
 
 export const useGetUserDemands = (status?: ShuttleDemandStatus) =>
   useQuery({
-    queryKey: ['user', 'demands', status],
+    queryKey: ['user', 'demand', status],
     queryFn: () => getUserDemands(status),
   });
 
@@ -59,7 +59,7 @@ export const useGetUserReservations = (params?: {
   eventProgressStatus?: 'PAST' | 'CURRENT';
 }) =>
   useQuery({
-    queryKey: ['user', 'reservations', params],
+    queryKey: ['user', 'reservation', params],
     queryFn: () => getUserReservations(params),
   });
 
@@ -111,7 +111,7 @@ export const getUserReviews = async () => {
 
 export const useGetUserReviews = () =>
   useQuery({
-    queryKey: ['user', 'reviews'],
+    queryKey: ['user', 'review'],
     queryFn: getUserReviews,
   });
 
@@ -138,7 +138,7 @@ export const useGetUserCoupons = (params?: {
   validTo?: string;
 }) =>
   useQuery({
-    queryKey: ['user', 'coupons', params],
+    queryKey: ['user', 'coupon', params],
     queryFn: () => getUserCoupons(params),
   });
 

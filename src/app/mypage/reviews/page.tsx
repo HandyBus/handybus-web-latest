@@ -49,7 +49,7 @@ const NoReview = () => {
         작성한 후기가 없어요
       </span>
       <Link
-        href="/"
+        href="/mypage/shuttle?type=past"
         className="text-14 font-500 text-grey-600-sub underline underline-offset-[3px]"
       >
         지난 콘서트 보러가기

@@ -20,7 +20,7 @@ const Page = ({ searchParams }: Props) => {
             이미 완료된 예약결제입니다.
           </h1>
           <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
-            내 예약 페이지로 이동합니다.
+            내 예약 페이지에서 확인해주세요.
           </p>
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">

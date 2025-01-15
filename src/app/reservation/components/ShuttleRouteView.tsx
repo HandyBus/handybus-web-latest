@@ -8,12 +8,12 @@ interface Props {
 }
 
 const ShuttleRouteView = ({ shuttleRoute }: Props) => {
-  const dailyShuttle = shuttleRoute.event.dailyEvents.find(
+  const dailyEvent = shuttleRoute.event.dailyEvents.find(
     (d) => d.dailyEventId === shuttleRoute.dailyEventId,
   );
 
-  if (!dailyShuttle) {
-    console.error('dailyShuttle not found', shuttleRoute.dailyEventId);
+  if (!dailyEvent) {
+    console.error('dailyEvent not found', shuttleRoute.dailyEventId);
     return null;
   }
 
@@ -39,7 +39,7 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
             {shuttleRoute.event.eventLocationName}
           </div>
           <div className="line-clamp-1 text-grey-900">
-            {dateString(dailyShuttle.date)} 셔틀
+            {dateString(dailyEvent.date)} 셔틀
           </div>
           <div className="line-clamp-1 text-grey-500">{shuttleRoute.name}</div>
         </div>
@@ -57,10 +57,10 @@ const SeatString = ({ shuttleRoute }: Props) => {
   let prefix: string;
 
   switch (shuttleRoute.remainingSeatType) {
-    case 'FROM_DESTINATION':
+    case 'TO_DESTINATION':
       prefix = `콘서트행 잔여석`;
       break;
-    case 'TO_DESTINATION':
+    case 'FROM_DESTINATION':
       prefix = `귀가행 잔여석`;
       break;
     case 'ROUND_TRIP':
