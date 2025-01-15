@@ -19,12 +19,14 @@ interface Props {
   reservation: Reservation;
   isShuttleBusAssigned: boolean;
   isExpandable?: boolean;
+  hideApplyHandy?: boolean;
 }
 
 const ReservationInfoSection = ({
   reservation,
   isShuttleBusAssigned,
   isExpandable = false,
+  hideApplyHandy = false,
 }: Props) => {
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
 
@@ -130,7 +132,7 @@ const ReservationInfoSection = ({
               tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
-          {!isShuttleBusAssigned && (
+          {!hideApplyHandy && !isShuttleBusAssigned && (
             <>
               <div className="flex flex-col gap-8">
                 <button

@@ -53,7 +53,7 @@ const ShuttleDetail = ({ params }: Props) => {
         {data && (
           <main className="grow">
             <ReservationCard reservation={data.reservation} />
-            {!isShuttleBusAssigned && (
+            {!isShuttleBusAssigned && !isCanceled && (
               <section className="m-16 rounded-[10px] bg-primary-50 p-16 text-14 font-400 text-grey-800">
                 <p>
                   현재 셔틀 정보, 기사님 정보, 핸디 정보 등을 결정하고 있어요.
@@ -126,6 +126,7 @@ const ShuttleDetail = ({ params }: Props) => {
                   reservation={data.reservation}
                   isExpandable
                   isShuttleBusAssigned={isShuttleBusAssigned}
+                  hideApplyHandy={true}
                 />
                 <RefundGuideSection />
               </>
