@@ -8,7 +8,7 @@ export type EventType = z.infer<typeof EventTypeEnum>;
 
 export const EventStatusEnum = z.enum([
   'OPEN', // 행사 수요조사 모집 중
-  'CLOSED', // 행사 수요조사 모집 종료 (dailyShuttle의 경우에는 해당 일자의 수요조사 모집 종료)
+  'CLOSED', // 행사 수요조사 모집 종료 (dailyEvent의 경우에는 해당 일자의 수요조사 모집 종료)
   'ENDED', // 행사 종료
   'INACTIVE', // 행사 비활성
 ]);
