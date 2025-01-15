@@ -161,6 +161,15 @@ const ReservationForm = ({
               fromDestination: selectedRoute.earlybirdPriceFromDestination ?? 0,
               roundTrip: selectedRoute.earlybirdPriceRoundTrip ?? 0,
             }}
+            remainingSeat={{
+              toDestination:
+                selectedRoute.remainingSeatCount -
+                selectedRoute.toDestinationCount,
+              fromDestination:
+                selectedRoute.remainingSeatCount -
+                selectedRoute.fromDestinationCount,
+            }}
+            maxSeat={selectedRoute.maxPassengerCount}
           />
         </>
       )}

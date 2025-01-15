@@ -20,6 +20,11 @@ interface Props {
     fromDestination: number;
     roundTrip: number;
   };
+  remainingSeat: {
+    toDestination: number;
+    fromDestination: number;
+  };
+  maxSeat: number;
 }
 
 const PriceStats = ({
@@ -30,7 +35,13 @@ const PriceStats = ({
   isEarlybird,
   earlybirdDeadline,
   earlybirdPrice,
+  remainingSeat,
+  maxSeat,
 }: Props) => {
+  const roundTripRemainingSeat = Math.min(
+    remainingSeat.toDestination,
+    remainingSeat.fromDestination,
+  );
   return (
     <article className="px-16 py-24">
       <header className="flex flex-col gap-4 py-16">
@@ -51,6 +62,8 @@ const PriceStats = ({
             regularPrice={regularPrice.roundTrip}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.roundTrip}
+            remainingSeat={roundTripRemainingSeat}
+            maxSeat={maxSeat}
           />
         )}
         {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') && (
@@ -62,6 +75,8 @@ const PriceStats = ({
             regularPrice={regularPrice.toDestination}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.toDestination}
+            remainingSeat={remainingSeat.toDestination}
+            maxSeat={maxSeat}
           />
         )}
         {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') && (
@@ -73,6 +88,8 @@ const PriceStats = ({
             regularPrice={regularPrice.fromDestination}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.fromDestination}
+            remainingSeat={remainingSeat.fromDestination}
+            maxSeat={maxSeat}
           />
         )}
       </section>
@@ -90,6 +107,8 @@ interface CardProps {
   regularPrice: number;
   isEarlybird: boolean;
   earlybirdPrice?: number;
+  remainingSeat: number;
+  maxSeat: number;
 }
 
 const Card = ({
@@ -100,6 +119,8 @@ const Card = ({
   regularPrice,
   isEarlybird,
   earlybirdPrice,
+  remainingSeat,
+  maxSeat,
 }: CardProps) => {
   const parsedRegularPrice = regularPrice.toLocaleString();
   const parsedEarlybirdPrice = earlybirdPrice?.toLocaleString();
@@ -116,11 +137,12 @@ const Card = ({
       }`}
     >
       <div>
-        <span>
-          <p className="text-16 font-600 leading-[25.6px] text-grey-800">
-            {TRIP_STATUS_TO_STRING[tripType]}
-          </p>
-        </span>
+        <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-grey-800">
+          <span>{TRIP_STATUS_TO_STRING[tripType]}</span>
+          <span className="text-12 font-400 text-grey-500">
+            ({remainingSeat}/{maxSeat}석)
+          </span>
+        </p>
         {region && destination && (
           <span>
             <p className="text-12 font-400 leading-[19.2px] text-grey-500">
