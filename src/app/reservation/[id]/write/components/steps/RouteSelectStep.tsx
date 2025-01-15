@@ -177,7 +177,7 @@ const TypeSelect = () => {
     }
   };
 
-  // 남아있는 좌석 수 반환
+  // 좌석 가격 반환
   const getPrice = (type?: TripType): number => {
     switch (type) {
       case 'ROUND_TRIP':
