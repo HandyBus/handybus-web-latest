@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 const Counter = ({
   count,
   setCount,
-  max = 0,
+  max = 9,
 }: {
   count: number;
   setCount: (value: number) => void;
@@ -21,7 +21,7 @@ const Counter = ({
         className="w-full text-16 font-400 leading-[24px] text-grey-800"
         readOnly
       />
-      <CounterButton onClick={() => setCount(count > 1 ? count - 1 : 1)}>
+      <CounterButton onClick={() => setCount(count > 0 ? count - 1 : 0)}>
         <MinusIcon viewBox="0 0 18 18" />
       </CounterButton>
       <CounterButton
