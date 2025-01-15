@@ -8,7 +8,7 @@ import { useGetEvent } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: {
-    id: string; // shuttleId
+    id: string; // eventId
   };
   searchParams: {
     dailyEventId: string;
