@@ -1,5 +1,12 @@
 import type { ReactNode } from 'react';
-import type { MDXContent } from 'mdx/types';
+
+import FAQ1 from './1-sure.mdx';
+import FAQ2 from './2-change.mdx';
+import FAQ3 from './3-refund.mdx';
+import FAQ4 from './4-stop.mdx';
+import FAQ5 from './5-no.mdx';
+import FAQ6 from './6-threshold.mdx';
+import FAQ7 from './7-bus.mdx';
 
 interface FAQ {
   title: string;
@@ -7,19 +14,18 @@ interface FAQ {
 }
 
 export const faqs: FAQ[] = (
-  await Promise.all([
-    import('./1-sure.mdx'),
-    import('./2-change.mdx'),
-    import('./3-refund.mdx'),
-    import('./4-stop.mdx'),
-    import('./5-no.mdx'),
-    import('./6-threshold.mdx'),
-    import('./7-bus.mdx'),
-  ])
-).map((module) => {
-  const FaqContent = module.default satisfies MDXContent;
+  [
+    [FAQ1, '예약이 잘 되었는지 확인하고 싶어요'],
+    [FAQ2, '예약한 셔틀의 탑승지를 변경하고 싶어요.'],
+    [FAQ3, '예약한 셔틀을 환불받고 싶어요.'],
+    [FAQ4, '셔틀 운행 시 휴게소를 들르나요?'],
+    [FAQ5, '원하는 셔틀이 없어요.'],
+    [FAQ6, '셔틀 확정/무산의 기준이 무엇인가요?'],
+    [FAQ7, '어떤 버스로 운행되나요?'],
+  ] as const
+).map(([Content, title]) => {
   return {
-    title: module.metadata.title satisfies string,
-    content: <FaqContent />,
+    title: title,
+    content: <Content />,
   };
 });
