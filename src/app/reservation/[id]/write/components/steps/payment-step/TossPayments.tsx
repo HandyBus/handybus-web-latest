@@ -28,9 +28,12 @@ interface Props {
 
 const TossPayments = ({ handlePrevStep }: Props) => {
   const pathname = usePathname();
-  const { getValues } = useFormContext<ReservationFormValues>();
+  const { getValues, control } = useFormContext<ReservationFormValues>();
 
   const [loaded, setLoaded] = useState(false);
+  const [tossWidgets, setTossWidgets] = useState<TossPaymentsWidgets | null>(
+    null,
+  );
   const [userId, setUserId] = useState<number>();
   const [loading, setLoading] = useState(false);
 
@@ -71,6 +74,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
       const widgets = tossPayments.widgets({
         customerKey: customerKey,
       });
+      setTossWidgets(widgets);
 
       const finalPrice = getValues('finalPrice');
       if (!finalPrice) {
@@ -89,13 +93,6 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         selector: '#agreement',
         variantKey: 'AGREEMENT',
       });
-
-      const paymentButton = document.getElementById('payment-button');
-      if (paymentButton) {
-        paymentButton.addEventListener('click', () => {
-          handlePayment(widgets);
-        });
-      }
     } catch (e) {
       const error = e as CustomError;
       console.error(error);
@@ -109,7 +106,25 @@ const TossPayments = ({ handlePrevStep }: Props) => {
     }
   }, [loaded, userId]);
 
-  const handlePayment = async (widgets: TossPaymentsWidgets) => {
+  const finalPrice = useWatch({
+    control,
+    name: 'finalPrice',
+  });
+
+  useEffect(() => {
+    if (!tossWidgets) {
+      return;
+    }
+    tossWidgets.setAmount({
+      currency: 'KRW',
+      value: finalPrice,
+    });
+  }, [finalPrice, tossWidgets]);
+
+  const handlePayment = async () => {
+    if (!tossWidgets) {
+      return;
+    }
     try {
       setLoading(true);
       const formValues = getValues();
@@ -139,7 +154,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
       const successUrl = window.location.origin + pathname + `/payments`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
 
-      await widgets.requestPayment({
+      await tossWidgets.requestPayment({
         orderId: readyPaymentResponse.paymentId,
         orderName: formValues.shuttleRoute.name,
         successUrl,
@@ -166,7 +181,11 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         <div id="payment-method"></div>
         <div id="agreement"></div>
       </section>
-      <BottomBar handlePrevStep={handlePrevStep} loading={loading} />
+      <BottomBar
+        handlePayment={handlePayment}
+        handlePrevStep={handlePrevStep}
+        loading={loading}
+      />
       <Script
         src="https://js.tosspayments.com/v2/standard"
         onReady={() => setLoaded(true)}
@@ -179,11 +198,16 @@ const TossPayments = ({ handlePrevStep }: Props) => {
 export default TossPayments;
 
 interface BottomBarProps {
+  handlePayment: () => void;
   handlePrevStep: () => void;
   loading: boolean;
 }
 
-const BottomBar = ({ handlePrevStep, loading }: BottomBarProps) => {
+const BottomBar = ({
+  handlePayment,
+  handlePrevStep,
+  loading,
+}: BottomBarProps) => {
   const { control } = useFormContext<ReservationFormValues>();
   const finalPrice = useWatch({
     control,
@@ -195,7 +219,7 @@ const BottomBar = ({ handlePrevStep, loading }: BottomBarProps) => {
       <Button type="button" variant="secondary" onClick={handlePrevStep}>
         이전
       </Button>
-      <Button id="payment-button" type="button" disabled={loading}>
+      <Button type="button" disabled={loading} onClick={handlePayment}>
         {finalPrice.toLocaleString()}원 결제하기
       </Button>
     </div>
