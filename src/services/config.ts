@@ -50,7 +50,6 @@ class Instance {
       ...(body && { body: JSON.stringify(body, replacer) }),
     };
 
-    const getNotifiedUsingToast = shape !== undefined && method === 'GET';
     const schema = shape
       ? getApiResponseOkSchema(shape)
       : // NOTE this `as T` is safe because `shape` is undefined
@@ -63,16 +62,10 @@ class Instance {
       if (res.status >= 400) {
         throw new CustomError(res.status, 'No Content');
       }
-      return silentParse(
-        schema,
-        {
-          ok: true,
-          statusCode: res.status,
-        },
-        {
-          useToast: getNotifiedUsingToast,
-        },
-      );
+      return silentParse(schema, {
+        ok: true,
+        statusCode: res.status,
+      });
     }
 
     // response가 있는 경우
@@ -84,7 +77,7 @@ class Instance {
       );
     }
 
-    return silentParse(schema, data, { useToast: getNotifiedUsingToast });
+    return silentParse(schema, data);
   }
 
   async get<T extends z.ZodRawShape = EmptyShape>(
