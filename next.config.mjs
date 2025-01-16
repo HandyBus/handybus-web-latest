@@ -23,6 +23,12 @@ const nextConfig = {
 };
 
 import createMDX from '@next/mdx';
-const withMDX = createMDX({});
+import remarkGfm from 'remark-gfm';
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [remarkGfm],
+  },
+});
 
 export default withMDX(nextConfig);
