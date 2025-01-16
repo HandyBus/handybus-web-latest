@@ -1,7 +1,7 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { TripType } from '@/types/shuttle-operation.type';
-import { dateString } from '@/utils/dateString.util';
+import { compareToNow, dateString } from '@/utils/dateString.util';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { ReservationFormValues } from '../Form';
@@ -179,13 +179,23 @@ const TypeSelect = () => {
 
   // 좌석 가격 반환
   const getPrice = (type?: TripType): number => {
+    const isEarlybird = watchedShuttleRoute?.earlybirdDeadline
+      ? compareToNow(watchedShuttleRoute.earlybirdDeadline, (a, b) => a > b)
+      : false;
+
     switch (type) {
       case 'ROUND_TRIP':
-        return watchedShuttleRoute?.regularPriceRoundTrip ?? 0;
+        return isEarlybird
+          ? (watchedShuttleRoute?.earlybirdPriceRoundTrip ?? 0)
+          : (watchedShuttleRoute?.regularPriceRoundTrip ?? 0);
       case 'TO_DESTINATION':
-        return watchedShuttleRoute?.regularPriceToDestination ?? 0;
+        return isEarlybird
+          ? (watchedShuttleRoute?.earlybirdPriceToDestination ?? 0)
+          : (watchedShuttleRoute?.regularPriceToDestination ?? 0);
       case 'FROM_DESTINATION':
-        return watchedShuttleRoute?.regularPriceFromDestination ?? 0;
+        return isEarlybird
+          ? (watchedShuttleRoute?.earlybirdPriceFromDestination ?? 0)
+          : (watchedShuttleRoute?.regularPriceFromDestination ?? 0);
       default:
         return 0;
     }
