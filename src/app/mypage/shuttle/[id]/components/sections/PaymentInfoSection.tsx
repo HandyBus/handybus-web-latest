@@ -29,7 +29,7 @@ const PaymentInfoSection = ({
       </div>
       <div className="flex w-full gap-4 pb-24">
         <div>할인 금액</div>
-        <div className="grow text-right">{discount.toLocaleString()}원</div>
+        <div className="grow text-right">- {discount.toLocaleString()}원</div>
       </div>
       <div className="flex w-full gap-4">
         <div className="text-18">최종 결제 금액</div>

@@ -163,10 +163,10 @@ const ReservationForm = ({
             }}
             remainingSeat={{
               toDestination:
-                selectedRoute.remainingSeatCount -
+                selectedRoute.maxPassengerCount -
                 selectedRoute.toDestinationCount,
               fromDestination:
-                selectedRoute.remainingSeatCount -
+                selectedRoute.maxPassengerCount -
                 selectedRoute.fromDestinationCount,
             }}
             maxSeat={selectedRoute.maxPassengerCount}
