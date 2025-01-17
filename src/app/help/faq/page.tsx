@@ -44,7 +44,11 @@ const FAQPage = async () => (
 export default FAQPage;
 
 const AskHandyButton = () => (
-  <RedirectButton description="찾는 답변이 없다면" href="/TODO">
+  <RedirectButton
+    description="찾는 답변이 없다면"
+    href="http://pf.kakao.com/_AxncxhG"
+    target="_blank"
+  >
     핸디버스에게 직접 물어보기
   </RedirectButton>
 );
