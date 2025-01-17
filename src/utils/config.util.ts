@@ -2,6 +2,10 @@ import { z } from 'zod';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 
+interface SilentParseOptions {
+  useToast?: boolean;
+}
+
 /**
  * zod schema를 이용하여 데이터를 파싱합니다.
  * 파싱에 실패하더라도 오류를 throw하지 않고, 대신 콘솔 및 toast에 오류를 출력합니다.
@@ -14,6 +18,7 @@ import dayjs from 'dayjs';
 export const silentParse = <T extends z.ZodTypeAny>(
   zod: T,
   input: unknown,
+  option: SilentParseOptions = {},
 ): z.infer<T> => {
   const parseResult = zod.safeParse(input);
   const isServer = typeof window === 'undefined';
@@ -23,7 +28,7 @@ export const silentParse = <T extends z.ZodTypeAny>(
   }
 
   if (!parseResult.success) {
-    if (!isServer) {
+    if (!isServer && option.useToast) {
       toast.error('파싱 과정에서 타입 오류가 발생했습니다.');
     }
     console.error(
