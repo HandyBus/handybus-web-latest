@@ -37,10 +37,5 @@ export const createMetadataWithOG = (
         'max-image-preview': 'large',
       },
     },
-    viewport: {
-      width: 'device-width',
-      initialScale: 1,
-      maximumScale: 1,
-    },
   };
 };
