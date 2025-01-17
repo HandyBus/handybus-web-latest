@@ -136,8 +136,7 @@ export const ShuttleBusSchema = z
     busNumber: z.string(),
     busCapacity: z.number(),
     busDriverPhoneNumber: z.string(),
-    handyUserId: z.number(),
-    openChatLink: z.string().url().nullable(),
+    openChatLink: z.string().nullable(),
   })
   .strict();
 export type ShuttleBus = z.infer<typeof ShuttleBusSchema>;
