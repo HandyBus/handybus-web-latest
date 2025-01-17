@@ -28,10 +28,14 @@ export const createMetadataWithOG = (
         },
       ],
     },
-    twitter: {
-      title,
-      description,
-      images: [image],
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+      },
     },
   };
 };

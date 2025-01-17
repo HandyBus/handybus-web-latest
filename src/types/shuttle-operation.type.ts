@@ -78,6 +78,8 @@ export const EventSchema = z
     eventLocationLongitude: z.number(),
     eventArtists: ArtistSchema.array().nullable(),
     dailyEvents: DailyEventSchema.array(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type Event = z.infer<typeof EventSchema>;
@@ -122,6 +124,8 @@ export const ShuttleRouteSchema = z
     toDestinationShuttleRouteHubs: ShuttleRouteHubSchema.array().nullable(),
     fromDestinationShuttleRouteHubs: ShuttleRouteHubSchema.array().nullable(),
     event: EventSchema,
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type ShuttleRoute = z.infer<typeof ShuttleRouteSchema>;
@@ -207,6 +211,11 @@ export const PostReviewBodySchema = z.object({
   reservationId: z.number(),
   rating: z.number().int().min(1).max(5),
   content: z.string(),
-  images: z.string().array(),
+  images: z
+    .object({
+      imageUrl: z.string(),
+    })
+    .array()
+    .nullable(),
 });
 export type PostReviewBody = z.infer<typeof PostReviewBodySchema>;
