@@ -34,25 +34,22 @@ const TossPayments = ({ handlePrevStep }: Props) => {
   const [tossWidgets, setTossWidgets] = useState<TossPaymentsWidgets | null>(
     null,
   );
-  const [userId, setUserId] = useState<number>();
   const [loading, setLoading] = useState(false);
 
   const loadUserId = useCallback(async () => {
     try {
       const res = await getUser();
-      setUserId(res.userId);
+      return res.userId;
     } catch (error) {
       console.error('사용자 정보 로딩 실패:', error);
       logout();
     }
   }, []);
 
-  useEffect(() => {
-    loadUserId();
-  }, []);
-
   const initializeTossPayments = useCallback(async () => {
     try {
+      const userId = await loadUserId();
+
       if (typeof window.TossPayments === 'undefined') {
         throw new CustomError(400, 'TossPayments SDK가 로드되지 않았습니다.');
       }
@@ -98,13 +95,13 @@ const TossPayments = ({ handlePrevStep }: Props) => {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
     }
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
-    if (loaded && userId) {
+    if (loaded) {
       initializeTossPayments();
     }
-  }, [loaded, userId]);
+  }, [loaded]);
 
   const finalPrice = useWatch({
     control,
