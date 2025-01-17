@@ -211,6 +211,11 @@ export const PostReviewBodySchema = z.object({
   reservationId: z.number(),
   rating: z.number().int().min(1).max(5),
   content: z.string(),
-  images: z.string().array(),
+  images: z
+    .object({
+      imageUrl: z.string(),
+    })
+    .array()
+    .nullable(),
 });
 export type PostReviewBody = z.infer<typeof PostReviewBodySchema>;

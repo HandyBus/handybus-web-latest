@@ -14,6 +14,7 @@ import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/user-management.service';
 import { usePostReview } from '@/services/shuttle-operation.service';
 import { getImageUrl } from '@/services/common.service';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -50,7 +51,13 @@ const WriteReview = ({ params }: Props) => {
     setFiles((prev) => prev.filter((f) => f !== file));
   };
 
-  const { mutate: postReview } = usePostReview();
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { mutate: postReview } = usePostReview({
+    onSuccess: () => router.replace('/mypage/reviews'),
+    onSettled: () => setIsLoading(false),
+  });
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (text.length < 20) {
@@ -62,6 +69,7 @@ const WriteReview = ({ params }: Props) => {
       return;
     }
 
+    setIsLoading(true);
     const imageUrls = await Promise.all(
       files.map(async (file) => {
         const imageUrl = await getImageUrl({
@@ -77,7 +85,9 @@ const WriteReview = ({ params }: Props) => {
       reservationId: data.reservation.reservationId,
       rating,
       content: text,
-      images: imageUrls.filter((url) => url !== null && url !== undefined),
+      images: imageUrls
+        .filter((url) => url !== null && url !== undefined)
+        .map((url) => ({ imageUrl: url })),
     });
   };
 
@@ -147,7 +157,7 @@ const WriteReview = ({ params }: Props) => {
           </div>
         </section>
         <div className="absolute bottom-0 left-0 right-0 p-28">
-          <Button>제출하기</Button>
+          <Button disabled={isLoading}>제출하기</Button>
         </div>
       </form>
     </>

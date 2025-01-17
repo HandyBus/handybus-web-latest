@@ -11,7 +11,8 @@ const Page = () => (
     <div className="w-full p-16">
       <RedirectButton
         description="찾고 있는 셔틀이 없나요?"
-        href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL}
+        href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL ?? ''}
+        target="_blank"
       >
         원하는 셔틀 요청하기
       </RedirectButton>

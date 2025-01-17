@@ -310,17 +310,25 @@ export const postReview = async (body: PostReviewBody) => {
   );
 };
 
-export const usePostReview = () => {
+export const usePostReview = ({
+  onSuccess,
+  onSettled,
+}: {
+  onSuccess?: () => void;
+  onSettled?: () => void;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postReview,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
       toast.success('후기가 등록되었습니다!');
+      onSuccess?.();
     },
     onError: () => {
       toast.error('후기 등록에 실패하였습니다.');
     },
+    onSettled: onSettled,
   });
 };
 
