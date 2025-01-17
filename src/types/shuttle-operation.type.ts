@@ -79,6 +79,8 @@ export const EventSchema = z
     eventLocationLongitude: z.number(),
     eventArtists: ArtistSchema.array().nullable(),
     dailyEvents: DailyEventSchema.array(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type Event = z.infer<typeof EventSchema>;
@@ -123,6 +125,8 @@ export const ShuttleRouteSchema = z
     toDestinationShuttleRouteHubs: ShuttleRouteHubSchema.array().nullable(),
     fromDestinationShuttleRouteHubs: ShuttleRouteHubSchema.array().nullable(),
     event: EventSchema,
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type ShuttleRoute = z.infer<typeof ShuttleRouteSchema>;

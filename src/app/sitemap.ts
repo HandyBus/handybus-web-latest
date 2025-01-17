@@ -77,14 +77,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const shuttleRoutes = await getShuttleRoutes();
   const eventsArray = events.map((event) => ({
     url: `${baseUrl}/demand/${event.eventId}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as ChangeFreq,
+    lastModified: new Date(event.updatedAt),
+    // changeFrequency: 'weekly' as ChangeFreq,
     priority: 0.8,
   }));
   const shuttleRoutesArray = shuttleRoutes.map((route) => ({
-    url: `${baseUrl}/reservation/${route.shuttleRouteId}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as ChangeFreq,
+    url: `${baseUrl}/reservation/${route.eventId}?dailyShuttleId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`,
+    lastModified: new Date(route.updatedAt),
+    // changeFrequency: 'weekly' as ChangeFreq,
     priority: 0.8,
   }));
   const dynamicRoutes = [...eventsArray, ...shuttleRoutesArray];
