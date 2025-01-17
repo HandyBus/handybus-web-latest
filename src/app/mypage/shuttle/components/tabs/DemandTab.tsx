@@ -20,16 +20,9 @@ const EmptyView = dynamic(() => import('../EmptyView'));
 const DemandTab = () => {
   const { data: demands, isLoading } = useGetUserDemands();
 
-  const reservationOngoingDemands = useGetReservationOngoingDemands(
-    demands ?? [],
+  const demandsWithReservationOngoing = demands?.filter(
+    (demand) => demand.hasShuttleRoute,
   );
-  const parsedReservationOngoingDemands = reservationOngoingDemands.every(
-    (request) => request.isSuccess,
-  )
-    ? reservationOngoingDemands
-        .filter((x) => x.data !== null)
-        .map((x) => x.data as ShuttleDemand)
-    : [];
 
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
@@ -38,23 +31,26 @@ const DemandTab = () => {
   return (
     <>
       <ul>
-        {parsedReservationOngoingDemands.length > 0 && (
-          <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
-            {parsedReservationOngoingDemands.map((demand) => {
-              const region = ID_TO_REGION[demand.regionId];
-              const href = `/demand/${demand.eventId}?dailyEventId=${demand.dailyEventId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
-              return (
-                <DemandCard
-                  key={demand.shuttleDemandId}
-                  demand={demand}
-                  href={href}
-                  buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-                  buttonHref={href}
-                />
-              );
-            })}
-          </ReservationOngoingWrapper>
-        )}
+        {demandsWithReservationOngoing &&
+          demandsWithReservationOngoing.length > 0 && (
+            <ReservationOngoingWrapper
+              count={demandsWithReservationOngoing.length}
+            >
+              {demandsWithReservationOngoing.map((demand) => {
+                const region = ID_TO_REGION[demand.regionId];
+                const href = `/demand/${demand.eventId}?dailyEventId=${demand.dailyEventId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
+                return (
+                  <DemandCard
+                    key={demand.shuttleDemandId}
+                    demand={demand}
+                    href={href}
+                    buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
+                    buttonHref={href}
+                  />
+                );
+              })}
+            </ReservationOngoingWrapper>
+          )}
       </ul>
       <DeferredSuspense
         fallback={<Loading style="grow" />}

@@ -34,7 +34,9 @@ const ShuttleDetail = ({ params }: Props) => {
     data?.reservation.shuttleBusId ?? 0,
   );
 
-  const isShuttleBusAssigned = Boolean(data?.reservation?.shuttleBusId);
+  const isShuttleBusAssigned = Boolean(
+    data?.reservation?.shuttleBusId && shuttleBus?.openChatLink,
+  );
   const isHandy = data?.reservation?.handyStatus === 'ACCEPTED';
   const isCanceled = data?.reservation?.cancelStatus === 'CANCEL_COMPLETE';
   const date = data?.reservation?.shuttleRoute.event.dailyEvents.find(
@@ -74,16 +76,14 @@ const ShuttleDetail = ({ params }: Props) => {
                     name={data.reservation.passengers?.[0].passengerName ?? ''}
                   />
                 )}
-                {data.reservation?.shuttleBusId && shuttleBus && (
+                {isShuttleBusAssigned && shuttleBus && (
                   <BusInfoSection shuttleBus={shuttleBus} />
                 )}
                 <ReservationInfoSection
                   reservation={data.reservation}
-                  isShuttleBusAssigned={isShuttleBusAssigned}
                   hideApplyHandy={isHandy}
                 />
                 <RouteSection
-                  isShuttleBusAssigned={isShuttleBusAssigned}
                   reservationId={data.reservation.reservationId}
                   tripType={data.reservation.type}
                   toDestinationHubs={
@@ -132,7 +132,6 @@ const ShuttleDetail = ({ params }: Props) => {
                 <ReservationInfoSection
                   reservation={data.reservation}
                   isExpandable
-                  isShuttleBusAssigned={isShuttleBusAssigned}
                   hideApplyHandy={true}
                 />
                 <RefundGuideSection />

@@ -9,7 +9,6 @@ import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
 import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 
 interface Props {
-  isShuttleBusAssigned: boolean;
   reservationId: number;
   tripType: TripType;
   toDestinationHubs: ShuttleRouteHub[];

@@ -17,7 +17,6 @@ import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 
 interface Props {
   reservation: Reservation;
-  isShuttleBusAssigned: boolean;
   isExpandable?: boolean;
   hideApplyHandy?: boolean;
 }
