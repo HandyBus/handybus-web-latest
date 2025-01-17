@@ -28,7 +28,6 @@ export type HandyStatus = z.infer<typeof HandyStatusEnum>;
 export const ReservationStatusEnum = z.enum([
   'NOT_PAYMENT', // 결제 전
   'COMPLETE_PAYMENT', // 결제 완료
-  'RESERVATION_CONFIRM', // 예약 확정
   'CANCEL', // 예약 취소
 ]);
 export type ReservationStatus = z.infer<typeof ReservationStatusEnum>;

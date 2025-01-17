@@ -9,6 +9,7 @@ const EmptyView = dynamic(() => import('../EmptyView'));
 
 const CurrentTab = () => {
   const { data: reservations, isLoading } = useGetUserReservations({
+    reservationStatus: 'COMPLETE_PAYMENT',
     eventProgressStatus: 'CURRENT',
   });
 
