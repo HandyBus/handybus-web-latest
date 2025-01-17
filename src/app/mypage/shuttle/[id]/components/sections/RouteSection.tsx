@@ -16,16 +16,17 @@ interface Props {
   fromDestinationHubs: ShuttleRouteHub[];
   toDestinationHubId: number;
   fromDestinationHubId: number;
+  date: Date | null;
 }
 
 const RouteSection = ({
-  isShuttleBusAssigned,
   reservationId,
   tripType,
   toDestinationHubs,
   fromDestinationHubs,
   toDestinationHubId,
   fromDestinationHubId,
+  date,
 }: Props) => {
   const [isEdit, setIsEdit] = useState(false);
 
@@ -69,6 +70,20 @@ const RouteSection = ({
     });
   };
 
+  const checkCanEditHub = () => {
+    if (!date) {
+      return false;
+    }
+    const today = new Date();
+    const twoDaysAgo = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - 2,
+    );
+    return date <= twoDaysAgo;
+  };
+  const canEditHub = checkCanEditHub();
+
   return (
     <>
       <Divider />
@@ -95,7 +110,7 @@ const RouteSection = ({
             />
           )}
         </section>
-        {!isShuttleBusAssigned && (
+        {canEditHub && (
           <div className="flex flex-col items-end gap-8 pb-24 pr-24">
             {isEdit ? (
               <div className="flex gap-8">

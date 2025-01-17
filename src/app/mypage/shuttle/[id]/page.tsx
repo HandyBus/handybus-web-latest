@@ -37,6 +37,11 @@ const ShuttleDetail = ({ params }: Props) => {
   const isShuttleBusAssigned = Boolean(data?.reservation?.shuttleBusId);
   const isHandy = data?.reservation?.handyStatus === 'ACCEPTED';
   const isCanceled = data?.reservation?.cancelStatus === 'CANCEL_COMPLETE';
+  const date = data?.reservation?.shuttleRoute.event.dailyEvents.find(
+    (dailyEvent) =>
+      dailyEvent.dailyEventId === data?.reservation?.shuttleRoute.dailyEventId,
+  )?.date;
+  const parsedDate = date ? new Date(date) : null;
 
   if (isSuccess && !data) {
     router.replace('/mypage/shuttle?type=current');
@@ -75,6 +80,7 @@ const ShuttleDetail = ({ params }: Props) => {
                 <ReservationInfoSection
                   reservation={data.reservation}
                   isShuttleBusAssigned={isShuttleBusAssigned}
+                  hideApplyHandy={isHandy}
                 />
                 <RouteSection
                   isShuttleBusAssigned={isShuttleBusAssigned}
@@ -94,6 +100,7 @@ const ShuttleDetail = ({ params }: Props) => {
                   fromDestinationHubId={
                     data.reservation.fromDestinationShuttleRouteHubId ?? 0
                   }
+                  date={parsedDate}
                 />
                 <PaymentInfoSection
                   price={data.reservation.paymentPrincipalAmount ?? 0}
