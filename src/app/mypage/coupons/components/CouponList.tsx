@@ -11,13 +11,15 @@ import { useGetUserCoupons } from '@/services/user-management.service';
 const CouponList = () => {
   const [showUnusableCoupons, setShowUnusableCoupons] = useState(false);
   const { data: coupons, isLoading } = useGetUserCoupons({
-    status: showUnusableCoupons ? undefined : 'BEFORE_USE',
+    issuedCouponStatus: showUnusableCoupons ? undefined : 'BEFORE_USE',
   });
 
   const usableCouponsLength = useMemo(
     () => coupons?.filter((coupon) => coupon.status === 'BEFORE_USE').length,
     [coupons],
   );
+
+  console.log(coupons);
 
   return (
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>

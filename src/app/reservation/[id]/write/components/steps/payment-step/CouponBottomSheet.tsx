@@ -23,7 +23,7 @@ const CouponBottomSheet = ({
   setSelectedCoupon,
 }: Props) => {
   const { data: coupons } = useGetUserCoupons({
-    status: 'BEFORE_USE',
+    issuedCouponStatus: 'BEFORE_USE',
   });
 
   const { control, handleSubmit, setValue } = useForm<{ coupon: string }>();
@@ -38,7 +38,7 @@ const CouponBottomSheet = ({
 
   return (
     <BottomSheet ref={bottomSheetRef} title="쿠폰 선택">
-      <div ref={contentRef}>
+      <div ref={contentRef} className="overflow-y-auto">
         <form
           className="flex flex-col gap-24 pb-24 pt-8"
           onSubmit={handleSubmit(onSubmit)}
