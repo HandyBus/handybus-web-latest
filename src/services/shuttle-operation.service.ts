@@ -206,7 +206,7 @@ const putShuttleBus = async (
   },
 ) => {
   return await authInstance.put(
-    `/v1/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
+    `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
     { openChatLink },
   );
 };
