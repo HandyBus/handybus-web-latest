@@ -10,11 +10,7 @@ import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
 import { useGetUserDemands } from '@/services/user-management.service';
 import { ShuttleDemand } from '@/types/user-management.type';
-import {
-  getShuttleRoutesOfDailyEvent,
-  useDeleteDemand,
-} from '@/services/shuttle-operation.service';
-import { useQueries } from '@tanstack/react-query';
+import { useDeleteDemand } from '@/services/shuttle-operation.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const DemandTab = () => {
@@ -136,37 +132,3 @@ const ReservationOngoingWrapper = ({
     </>
   );
 };
-
-const getReservationOngoingDemand = async (demand: ShuttleDemand) => {
-  if (!demand.hasShuttleRoute) {
-    return null;
-  }
-  const region = ID_TO_REGION[demand.regionId];
-  const routes = await getShuttleRoutesOfDailyEvent(
-    demand.eventId,
-    demand.dailyEventId,
-    {
-      status: 'OPEN',
-      provinceFullName: region.bigRegion,
-      cityFullName: region.smallRegion,
-    },
-  );
-  if (routes.length === 0) {
-    return null;
-  }
-  return demand;
-};
-
-export const useGetReservationOngoingDemands = (demands: ShuttleDemand[]) =>
-  useQueries<Array<ShuttleDemand | null>>({
-    queries: demands.map((demand) => ({
-      queryKey: [
-        'user',
-        'demands',
-        'reservation-ongoing',
-        demand.shuttleDemandId,
-      ],
-      queryFn: () => getReservationOngoingDemand(demand),
-      enabled: !!demands,
-    })),
-  });
