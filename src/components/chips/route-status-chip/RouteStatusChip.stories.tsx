@@ -23,12 +23,6 @@ export const DemandClosed: Story = {
   },
 };
 
-export const Pending: Story = {
-  args: {
-    status: 'CONFIRMED',
-  },
-};
-
 export const ReservationClosed: Story = {
   args: {
     status: 'ENDED',
