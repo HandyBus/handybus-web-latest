@@ -1,4 +1,4 @@
-import { ROUTE_STATUS_TO_STRING } from '@/constants/status';
+import { SHUTTLE_ROUTE_STATUS_TO_STRING } from '@/constants/status';
 import { ShuttleRouteStatus } from '@/types/shuttle-operation.type';
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
 }
 
 const RouteStatusChip = ({ status }: Props) => {
-  const statusString = ROUTE_STATUS_TO_STRING[status];
+  const statusString = SHUTTLE_ROUTE_STATUS_TO_STRING[status];
   switch (status) {
     case 'OPEN':
       return (
@@ -15,7 +15,6 @@ const RouteStatusChip = ({ status }: Props) => {
         </div>
       );
     case 'CLOSED':
-    case 'CONFIRMED':
       return (
         <div className="w-fit whitespace-nowrap rounded-full bg-black px-[14px] py-[3px] text-12 text-white">
           {statusString}

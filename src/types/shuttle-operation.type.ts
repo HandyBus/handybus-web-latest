@@ -17,7 +17,6 @@ export type EventStatus = z.infer<typeof EventStatusEnum>;
 export const ShuttleRouteStatusEnum = z.enum([
   'OPEN', // 예약 모집 중
   'CLOSED', // 예약 마감
-  'CONFIRMED', // 배차가 완료되고 모든 정보가 확정된 상태
   'ENDED', // 운행 종료
   'CANCELLED', // 무산
   'INACTIVE', // 비활성

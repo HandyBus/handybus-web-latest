@@ -24,7 +24,6 @@ interface Props {
 
 const ReservationInfoSection = ({
   reservation,
-  isShuttleBusAssigned,
   isExpandable = false,
   hideApplyHandy = false,
 }: Props) => {
@@ -132,7 +131,7 @@ const ReservationInfoSection = ({
               tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
-          {!hideApplyHandy && !isShuttleBusAssigned && (
+          {!hideApplyHandy && (
             <>
               <div className="flex flex-col gap-8">
                 <button

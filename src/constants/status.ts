@@ -9,15 +9,6 @@ import {
   ShuttleDemandStatus,
 } from '@/types/user-management.type';
 
-export const ROUTE_STATUS_TO_STRING: Record<ShuttleRouteStatus, string> = {
-  OPEN: '예약 모집 중',
-  CLOSED: '예약 마감',
-  CONFIRMED: '예약 마감',
-  ENDED: '운행 종료',
-  CANCELLED: '무산',
-  INACTIVE: '비활성',
-} as const;
-
 export const EVENT_STATUS_TO_STRING: Record<EventStatus, string> = {
   OPEN: '수요 확인 중',
   CLOSED: '수요조사 마감',
@@ -31,7 +22,6 @@ export const SHUTTLE_ROUTE_STATUS_TO_STRING: Record<
 > = {
   OPEN: '예약 모집 중',
   CLOSED: '예약 마감',
-  CONFIRMED: '배차 확정',
   ENDED: '운행 종료',
   CANCELLED: '무산',
   INACTIVE: '비활성',
