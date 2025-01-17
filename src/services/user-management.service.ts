@@ -133,7 +133,7 @@ export const getUserCoupons = async (params?: {
 };
 
 export const useGetUserCoupons = (params?: {
-  status?: IssuedCouponStatus;
+  issuedCouponStatus?: IssuedCouponStatus;
   validFrom?: string;
   validTo?: string;
 }) =>
