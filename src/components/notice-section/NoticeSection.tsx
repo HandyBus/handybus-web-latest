@@ -69,7 +69,7 @@ export const CancellationAndRefundContent = () => {
           예약한 셔틀의 출발일자/시간을 기준으로 환불 신청 시점에 따라 수수료가
           발생합니다.
         </li>
-        <li>결제 당일 취소 시 24시간 내 무료 취소 가능합니다.</li>
+        <li>결제 24시간 이내 무료 취소 가능합니다.</li>
       </ul>
 
       <section className="overflow-hidden rounded-[5px] border border-grey-300 text-grey-500">
