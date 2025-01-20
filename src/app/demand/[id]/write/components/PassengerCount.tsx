@@ -5,6 +5,7 @@ interface Props {
   setCount: (value: number) => void;
 }
 
+// NOTE: 기획 상으로 수요조사 탑승객 수를 입력하지 않도록 수정하면서 해당 컴포넌트를 일단 사용하지 않게 되었습니다.
 const PassengerCount = ({ count, setCount }: Props) => {
   return (
     <section className="flex flex-col gap-[16px] px-16 py-28">
