@@ -71,7 +71,7 @@ export const EventSchema = z
     regionId: z.number(),
     regionHubId: z.number(),
     eventStatus: EventStatusEnum,
-    eventImageUrl: z.string().url(),
+    eventImageUrl: z.string().nullable(),
     eventLocationName: z.string(),
     eventLocationAddress: z.string(),
     eventLocationLatitude: z.number(),
