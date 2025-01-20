@@ -39,10 +39,12 @@ const ApplyCoupon = () => {
 
     const passengersCount = passengers.length;
     const isEarlybird = checkIsEarlybird(shuttleRoute);
+
     const singlePrice = getSinglePrice(type, shuttleRoute);
     const singlePriceWithEarlybird = isEarlybird
       ? getSinglePriceWithEarlybird(type, shuttleRoute)
       : singlePrice;
+
     const earlybirdDiscount =
       (singlePrice - singlePriceWithEarlybird) * passengersCount;
     const singleCouponDiscount = selectedCoupon
@@ -50,12 +52,17 @@ const ApplyCoupon = () => {
         ? ((selectedCoupon.discountRate ?? 0) / 100) * singlePrice
         : (selectedCoupon.discountAmount ?? 0)
       : 0;
-    const couponDiscount = selectedCoupon?.maxDiscountAmount
-      ? Math.min(singleCouponDiscount, selectedCoupon.maxDiscountAmount) *
-        passengersCount
-      : singleCouponDiscount * passengersCount;
-    const finalPrice =
-      singlePrice * passengersCount - (earlybirdDiscount + couponDiscount);
+    const couponDiscount = Math.ceil(
+      selectedCoupon?.maxDiscountAmount
+        ? Math.min(singleCouponDiscount, selectedCoupon.maxDiscountAmount) *
+            passengersCount
+        : singleCouponDiscount * passengersCount,
+    );
+
+    const totalPrice = isEarlybird
+      ? singlePriceWithEarlybird * passengersCount
+      : singlePrice * passengersCount;
+    const finalPrice = Math.floor(totalPrice - couponDiscount);
 
     setValue('finalPrice', finalPrice);
 
