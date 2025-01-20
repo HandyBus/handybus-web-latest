@@ -146,5 +146,5 @@ const TITLE = {
   profile: '프로필 수정',
   'personal-info': '성별 및 연령대 수정',
   region: '거주 지역 수정',
-  artist: '최애 가수 수정',
+  artist: '최애 아티스트 수정',
 };

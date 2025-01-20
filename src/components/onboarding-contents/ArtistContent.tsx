@@ -55,14 +55,14 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   return (
     <>
       <div className="relative grow">
-        <OnboardingTitle title="최애 가수를 찾아주세요" />
+        <OnboardingTitle title="최애 아티스트를 찾아주세요" />
         <div className="px-28 pb-16">
           <SearchBar type="button" onClick={() => setIsListOpen(true)}>
-            가수 이름으로 검색
+            아티스트 이름으로 검색
           </SearchBar>
         </div>
         <div className="px-28 py-12 text-16 font-600 text-grey-600-sub">
-          나의 최애 가수
+          나의 최애 아티스트
         </div>
         {selectedArtists.length !== 0 ? (
           <div className="max-h-400 overflow-y-auto">
@@ -91,7 +91,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
           <div className="mt-[30px] flex w-full flex-col items-center justify-center gap-4">
             <MicrophoneIcon />
             <span className="text-16 font-400 text-grey-300">
-              최애 가수가 없어요
+              최애 아티스트가 없어요
             </span>
           </div>
         )}
@@ -105,7 +105,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
               setIsListOpen(false);
               setSearchValue('');
             }}
-            placeholder="가수 이름으로 검색"
+            placeholder="아티스트 이름으로 검색"
           />
           <div className="grow overflow-y-auto pt-12">
             {filteredArtists.map((artist) => (
