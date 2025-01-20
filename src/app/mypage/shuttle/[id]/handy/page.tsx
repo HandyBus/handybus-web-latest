@@ -77,8 +77,9 @@ const Handy = ({ params }: Props) => {
             자세한 핸디 가이드는 아래 링크를 확인해주세요!
           </p>
           <Link
-            href="/help/what-is-handy"
+            href={process.env.NEXT_PUBLIC_HANDY_GUIDE_URL ?? ''}
             className="mx-auto mt-[60px] block w-fit rounded-full bg-grey-100 px-16 text-grey-600-sub"
+            target="_blank"
           >
             핸디 가이드 보러가기
           </Link>
