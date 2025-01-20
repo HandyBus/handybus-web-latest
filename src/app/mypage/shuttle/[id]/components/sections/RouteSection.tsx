@@ -75,11 +75,11 @@ const RouteSection = ({
     }
     const today = new Date();
     const twoDaysAgo = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 2,
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() - 2,
     );
-    return date <= twoDaysAgo;
+    return today <= twoDaysAgo;
   };
   const canEditHub = checkCanEditHub();
 
