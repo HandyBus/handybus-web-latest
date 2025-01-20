@@ -145,13 +145,13 @@ const Card = ({
         </p>
         {region && destination && (
           <span>
-            <p className="text-12 font-400 leading-[19.2px] text-grey-500">
+            <p className="break-keep text-12 font-400 leading-[19.2px] text-grey-500">
               {displayRouteInfo(tripType, destination, region)}
             </p>
           </span>
         )}
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex shrink-0 flex-col items-end">
         {isEarlybird && (
           <div>
             <span className="text-14 font-600 text-red-700">얼리버드 </span>
