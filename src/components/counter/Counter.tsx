@@ -2,7 +2,7 @@
 
 import PlusIcon from '/public/icons/baseline-plus.svg';
 import MinusIcon from '/public/icons/baseline-minus.svg';
-import { ReactNode } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 
 const Counter = ({
   count,
@@ -13,13 +13,25 @@ const Counter = ({
   setCount: (value: number) => void;
   max?: number;
 }) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (value < 0) {
+      setCount(0);
+      return;
+    } else if (value > max) {
+      setCount(max);
+      return;
+    }
+    setCount(value);
+  };
+
   return (
     <div className="flex w-full items-center justify-center gap-12 border-b border-grey-100 p-12">
       <input
         type="text"
         value={count}
-        className="w-full text-16 font-400 leading-[24px] text-grey-800"
-        readOnly
+        onChange={handleChange}
+        className="w-full text-16 font-400 leading-[24px] text-grey-800 outline-none"
       />
       <CounterButton onClick={() => setCount(count > 0 ? count - 1 : 0)}>
         <MinusIcon viewBox="0 0 18 18" />
