@@ -17,7 +17,12 @@ const DemandTab = () => {
   const { data: demands, isLoading } = useGetUserDemands();
 
   const demandsWithReservationOngoing = useMemo(
-    () => demands?.filter((demand) => demand.hasShuttleRoute),
+    () =>
+      demands?.filter(
+        (demand) =>
+          demand.hasShuttleRoute &&
+          (demand.status === 'OPEN' || demand.status === 'ENDED'),
+      ),
     [demands],
   );
   const demandsWithoutReservationOngoing = useMemo(
