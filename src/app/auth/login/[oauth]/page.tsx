@@ -44,7 +44,9 @@ const OAuth = ({ params, searchParams }: Props) => {
         await setOnboardingToken();
         router.push('/onboarding');
       } else {
-        router.push('/');
+        const redirectUrl = sessionStorage.getItem('redirectUrl') || '/';
+        sessionStorage.removeItem('redirectUrl');
+        router.replace(redirectUrl);
       }
     } catch (e) {
       console.error(e);

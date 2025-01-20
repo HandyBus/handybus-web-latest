@@ -23,7 +23,10 @@ export const middleware = async (req: NextRequest) => {
 
   // 로그인 여부에 따라 리다이렉트
   if (!refreshToken) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    const currentUrl = req.nextUrl.pathname;
+    return NextResponse.redirect(
+      new URL(`/login?redirectUrl=${currentUrl}`, req.url),
+    );
   }
 
   // 온보딩 토큰이 있는 경우 온보딩 페이지로 리다이렉트
