@@ -27,7 +27,7 @@ const Activity = ({
       <Divider />
       <BoxButton
         number={pastReservationCount}
-        title="지난 콘서트"
+        title="지난 셔틀"
         href="/mypage/shuttle?type=past"
       />
     </section>
