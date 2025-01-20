@@ -1,3 +1,4 @@
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { createMetadataWithOG } from '@/constants/metadata';
 import { getEvent } from '@/services/shuttle-operation.service';
 import { ReactNode } from 'react';
@@ -10,7 +11,7 @@ export const generateMetadata = async ({
   const event = await getEvent(Number(params.id));
   const metadata = createMetadataWithOG(
     `${event.eventName} 수요조사`,
-    event.eventImageUrl,
+    event.eventImageUrl ?? DEFAULT_EVENT_IMAGE,
     event.eventName,
   );
   return metadata;

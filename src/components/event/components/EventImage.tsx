@@ -1,14 +1,15 @@
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import Image from 'next/image';
 
 interface Props {
-  image: string;
+  image: string | null;
 }
 
 const EventImage = ({ image }: Props) => {
   return (
     <article className="relative">
       <Image
-        src={image || '/images/concert-sample.png'} // NOTES: need default image when image is not provided
+        src={image || DEFAULT_EVENT_IMAGE}
         alt="행사 이미지"
         width={1080}
         height={720}

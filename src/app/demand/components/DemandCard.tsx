@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { dateString } from '@/utils/dateString.util';
 import { Event } from '@/types/shuttle-operation.type';
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 
 interface Props {
   event: Event;
@@ -16,7 +17,7 @@ const DemandCard = ({ event }: Props) => {
         <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-grey-50">
           <Image
             className="object-cover"
-            src={event.eventImageUrl}
+            src={event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
             alt={`${event.eventName}의 포스터`}
             fill
           />

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
 import DemandCard from '../DemandCard';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
@@ -16,8 +16,13 @@ const EmptyView = dynamic(() => import('../EmptyView'));
 const DemandTab = () => {
   const { data: demands, isLoading } = useGetUserDemands();
 
-  const demandsWithReservationOngoing = demands?.filter(
-    (demand) => demand.hasShuttleRoute,
+  const demandsWithReservationOngoing = useMemo(
+    () => demands?.filter((demand) => demand.hasShuttleRoute),
+    [demands],
+  );
+  const demandsWithoutReservationOngoing = useMemo(
+    () => demands?.filter((demand) => !demand.hasShuttleRoute),
+    [demands],
   );
 
   const { mutate: deleteDemand } = useDeleteDemand();
@@ -57,7 +62,7 @@ const DemandTab = () => {
             <EmptyView />
           ) : (
             <ul>
-              {demands.map((demand) => (
+              {demandsWithoutReservationOngoing?.map((demand) => (
                 <DemandCard
                   key={demand.shuttleDemandId}
                   demand={demand}

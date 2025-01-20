@@ -94,7 +94,7 @@ const WriteReview = ({ params }: Props) => {
   return (
     <>
       <AppBar>후기 작성</AppBar>
-      <form onSubmit={handleSubmit} className="relative grow">
+      <form onSubmit={handleSubmit} className="relative grow pb-100">
         {data ? (
           <ReservationCard reservation={data.reservation} />
         ) : (
@@ -156,7 +156,7 @@ const WriteReview = ({ params }: Props) => {
             ))}
           </div>
         </section>
-        <div className="absolute bottom-0 left-0 right-0 p-28">
+        <div className="absolute bottom-0 left-0 right-0 bg-white p-28">
           <Button disabled={isLoading}>제출하기</Button>
         </div>
       </form>

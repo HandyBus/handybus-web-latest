@@ -12,17 +12,19 @@ import {
   HANDY_STATUS_TO_STRING,
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
-import { Reservation } from '@/types/user-management.type';
+import { HandyStatus, Reservation } from '@/types/user-management.type';
 import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 
 interface Props {
   reservation: Reservation;
+  handyStatus?: HandyStatus;
   isExpandable?: boolean;
   hideApplyHandy?: boolean;
 }
 
 const ReservationInfoSection = ({
   reservation,
+  handyStatus,
   isExpandable = false,
   hideApplyHandy = false,
 }: Props) => {
@@ -130,33 +132,38 @@ const ReservationInfoSection = ({
               tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
-          {!hideApplyHandy && (
-            <>
-              <div className="flex flex-col gap-8">
-                <button
-                  onClick={() => setIsHandyRequestModalOpen(true)}
-                  className="ml-auto block w-fit rounded-full bg-grey-100 px-16 text-14 font-400 text-grey-600-sub"
-                >
-                  핸디 지원/취소하기
-                </button>
-                <p className="text-right text-12 font-400 text-grey-500">
-                  핸디는 탑승객1(직접 신청자)만 지원이 가능합니다.{' '}
-                  <Link
-                    href="/help/what-is-handy"
-                    className="text-right text-12 font-400 text-grey-500 underline"
+          {!hideApplyHandy &&
+            handyStatus &&
+            handyStatus !== 'ACCEPTED' &&
+            handyStatus !== 'DECLINED' && (
+              <>
+                <div className="flex flex-col gap-8">
+                  <button
+                    onClick={() => setIsHandyRequestModalOpen(true)}
+                    className="ml-auto block w-fit rounded-full bg-grey-100 px-16 text-14 font-400 text-grey-600-sub"
                   >
-                    핸디 더 알아보기
-                  </Link>
-                </p>
-              </div>
-              <HandyRequestModal
-                isOpen={isHandyRequestModalOpen}
-                onConfirm={handleHandyRequestConfirm}
-                onClosed={handleHandyRequestClosed}
-                buttonText="지원/취소하기"
-              />
-            </>
-          )}
+                    핸디 {handyStatus === 'NOT_SUPPORTED' ? '지원' : '취소'}하기
+                  </button>
+                  <p className="text-right text-12 font-400 text-grey-500">
+                    핸디는 탑승객1(직접 신청자)만 지원이 가능합니다.{' '}
+                    <Link
+                      href="/help/what-is-handy"
+                      className="text-right text-12 font-400 text-grey-500 underline"
+                    >
+                      핸디 더 알아보기
+                    </Link>
+                  </p>
+                </div>
+                <HandyRequestModal
+                  isOpen={isHandyRequestModalOpen}
+                  onConfirm={handleHandyRequestConfirm}
+                  onClosed={handleHandyRequestClosed}
+                  buttonText={
+                    handyStatus === 'NOT_SUPPORTED' ? '지원하기' : '취소하기'
+                  }
+                />
+              </>
+            )}
         </div>
       </Section>
     </>

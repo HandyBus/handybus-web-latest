@@ -79,7 +79,7 @@ const ShuttleDetail = ({ params }: Props) => {
                   shuttleBus && <BusInfoSection shuttleBus={shuttleBus} />}
                 <ReservationInfoSection
                   reservation={data.reservation}
-                  hideApplyHandy={isHandy}
+                  handyStatus={data.reservation.handyStatus}
                 />
                 <RouteSection
                   reservationId={data.reservation.reservationId}

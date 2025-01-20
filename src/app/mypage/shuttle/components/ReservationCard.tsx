@@ -13,6 +13,7 @@ import {
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
 import { Reservation } from '@/types/user-management.type';
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 
 interface Props {
   reservation: Reservation;
@@ -68,7 +69,10 @@ const ReservationCard = ({
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
-            src={reservation.shuttleRoute.event.eventImageUrl}
+            src={
+              reservation.shuttleRoute.event.eventImageUrl ??
+              DEFAULT_EVENT_IMAGE
+            }
             alt="행사 포스터"
             fill
             className="object-cover"

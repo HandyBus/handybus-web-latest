@@ -1,5 +1,6 @@
 'use client';
 
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { ShuttleRoute } from '@/types/shuttle-operation.type';
 import { dateString, ddayString } from '@/utils/dateString.util';
 import Image from 'next/image';
@@ -18,7 +19,7 @@ const Shuttle = ({ route }: Props) => {
         <div className="relative h-280 w-220 overflow-hidden rounded-[12px] bg-grey-600">
           <Image
             className="animate-fade object-cover"
-            src={route.event.eventImageUrl}
+            src={route.event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
             alt={`콘서트 ${route.event.eventName}의 포스터`}
             fill
           />
