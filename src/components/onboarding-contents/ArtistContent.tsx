@@ -12,6 +12,7 @@ import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
 import { useGetArtists } from '@/services/shuttle-operation.service';
 import { Artist } from '@/types/shuttle-operation.type';
+import Button from '@/components/buttons/button/Button';
 
 interface Props {
   initialSelectedArtists?: Artist[];
@@ -19,18 +20,30 @@ interface Props {
 
 const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   const { data: artists } = useGetArtists();
-  const [isListOpen, setIsListOpen] = useState(false);
+
   const [searchValue, setSearchValue] = useState('');
-  const [filteredArtists, setFilteredArtists] = useState<Artist[]>([]);
+
+  // 수정 모드 여부도 같이 판단
+  const [isListOpen, setIsListOpen] = useState(false);
+
+  // 수정 off
   const [selectedArtists, setSelectedArtists] = useState<Artist[]>(
     initialSelectedArtists,
   );
+
+  // 수정 on
+  const [editingFilteredArtists, setEditingFilteredArtists] = useState<
+    Artist[]
+  >([]);
+  const [editingSelectedArtists, setEditingSelectedArtists] = useState<
+    Artist[]
+  >([]);
 
   const filterArtist = useDebounce(() => {
     const newFilteredArtists = artists?.filter((artist) =>
       artist.artistName.toLowerCase().includes(searchValue.toLowerCase()),
     );
-    setFilteredArtists(newFilteredArtists ?? []);
+    setEditingFilteredArtists(newFilteredArtists ?? []);
   }, 200);
 
   useEffect(() => {
@@ -38,13 +51,25 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   }, [searchValue, artists]);
 
   const handleSelectArtist = (artist: Artist) =>
-    setSelectedArtists((prev) =>
+    setEditingSelectedArtists((prev) =>
       prev.find((selectedArtist) => selectedArtist.artistId === artist.artistId)
         ? prev.filter(
             (selectedArtist) => selectedArtist.artistId !== artist.artistId,
           )
         : [...prev, artist],
     );
+
+  const handleEditingConfirm = () => {
+    setSelectedArtists(editingSelectedArtists);
+    setIsListOpen(false);
+    setSearchValue('');
+  };
+
+  const handleEditingCancel = () => {
+    setEditingSelectedArtists([]);
+    setIsListOpen(false);
+    setSearchValue('');
+  };
 
   const { setValue } = useFormContext<OnboardingFormValues>();
 
@@ -57,7 +82,13 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
       <div className="relative grow">
         <OnboardingTitle title="최애 아티스트를 찾아주세요" />
         <div className="px-28 pb-16">
-          <SearchBar type="button" onClick={() => setIsListOpen(true)}>
+          <SearchBar
+            type="button"
+            onClick={() => {
+              setIsListOpen(true);
+              setEditingSelectedArtists(selectedArtists);
+            }}
+          >
             아티스트 이름으로 검색
           </SearchBar>
         </div>
@@ -96,6 +127,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
           </div>
         )}
       </div>
+      {/* 수정모드 */}
       {isListOpen && (
         <div className="absolute -top-44 bottom-0 left-0 right-0 z-[51] flex flex-col bg-white">
           <SearchInput
@@ -108,7 +140,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
             placeholder="아티스트 이름으로 검색"
           />
           <div className="grow overflow-y-auto pt-12">
-            {filteredArtists.map((artist) => (
+            {editingFilteredArtists.map((artist) => (
               <button
                 key={artist.artistId}
                 type="button"
@@ -117,7 +149,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
               >
                 <CheckBox
                   isChecked={
-                    selectedArtists.find(
+                    editingSelectedArtists.find(
                       (el) => el.artistId === artist.artistId,
                     ) !== undefined
                   }
@@ -128,6 +160,22 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
                 </span>
               </button>
             ))}
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 flex gap-16 bg-white px-32 py-12">
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleEditingConfirm}
+            >
+              확인
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleEditingCancel}
+            >
+              취소
+            </Button>
           </div>
         </div>
       )}
