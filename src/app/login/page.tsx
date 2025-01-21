@@ -6,9 +6,24 @@ import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
+import { useEffect } from 'react';
 
-const Login = () => {
+interface Props {
+  searchParams: {
+    redirectUrl: string | null | undefined;
+  };
+}
+
+const Login = ({ searchParams }: Props) => {
   usePreventScroll();
+
+  useEffect(() => {
+    const redirectUrl = searchParams.redirectUrl;
+    if (redirectUrl) {
+      sessionStorage.setItem('redirectUrl', redirectUrl);
+    }
+  }, [searchParams]);
+
   return (
     <main className="flex grow flex-col items-center bg-primary-main">
       <div className="my-auto flex flex-col items-center">
@@ -21,6 +36,7 @@ const Login = () => {
       <div className="mb-16 flex flex-col gap-8">
         <Link
           href={OAUTH.kakao()}
+          replace
           className="flex h-52 w-320 items-center justify-center gap-16 rounded-full bg-[#FEE500] text-16 font-600 text-black/85"
         >
           <Kakao />
@@ -28,6 +44,7 @@ const Login = () => {
         </Link>
         <Link
           href={OAUTH.naver()}
+          replace
           className="flex h-52 w-320 items-center justify-center gap-16 rounded-full bg-[#03C75A] text-16 font-600 text-white"
         >
           <Naver />

@@ -58,7 +58,6 @@ const PriceStats = ({
         {tripType === 'ROUND_TRIP' && (
           <Card
             tripType="ROUND_TRIP"
-            highlighted={true}
             regularPrice={regularPrice.roundTrip}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.roundTrip}
@@ -69,7 +68,6 @@ const PriceStats = ({
         {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') && (
           <Card
             tripType="TO_DESTINATION"
-            highlighted={tripType === 'TO_DESTINATION'}
             region={region}
             destination={destination}
             regularPrice={regularPrice.toDestination}
@@ -82,7 +80,6 @@ const PriceStats = ({
         {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') && (
           <Card
             tripType="FROM_DESTINATION"
-            highlighted={tripType === 'FROM_DESTINATION'}
             region={region}
             destination={destination}
             regularPrice={regularPrice.fromDestination}
@@ -101,7 +98,6 @@ export default PriceStats;
 
 interface CardProps {
   tripType: TripType;
-  highlighted?: boolean;
   region?: string;
   destination?: string;
   regularPrice: number;
@@ -113,7 +109,6 @@ interface CardProps {
 
 const Card = ({
   tripType,
-  highlighted = false,
   region,
   destination,
   regularPrice,
@@ -129,13 +124,7 @@ const Card = ({
   );
 
   return (
-    <div
-      className={`flex items-center justify-between gap-8 rounded-xl px-16 py-20 ${
-        highlighted
-          ? 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
-          : 'bg-[#F8F8F8]'
-      }`}
-    >
+    <div className="flex items-center justify-between gap-8 rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
         <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-grey-800">
           <span>{TRIP_STATUS_TO_STRING[tripType]}</span>

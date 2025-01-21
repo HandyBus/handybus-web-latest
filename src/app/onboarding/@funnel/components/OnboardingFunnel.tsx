@@ -129,7 +129,7 @@ const OnboardingFunnel = ({
               handlePrevStep={handlePrevStep}
             />
           </Step>
-          <Step name="최애 가수">
+          <Step name="최애 아티스트">
             <ArtistStep
               handlePrevStep={handlePrevStep}
               isLoading={isSubmitting || isSuccess}
@@ -149,5 +149,5 @@ const ONBOARDING_STEPS = [
   '프로필 정보',
   '개인 정보',
   '거주지',
-  '최애 가수',
+  '최애 아티스트',
 ] as const;

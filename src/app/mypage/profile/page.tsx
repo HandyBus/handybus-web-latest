@@ -50,7 +50,7 @@ const Profile = () => {
                 />
                 {favoriteArtists && (
                   <ProfileItem
-                    title="최애 가수"
+                    title="최애 아티스트"
                     description={favoriteArtists}
                   />
                 )}
@@ -73,7 +73,7 @@ const Profile = () => {
               replace
             />
             <ListButton
-              title="최애 가수 수정"
+              title="최애 아티스트 수정"
               href="/mypage/profile/edit?type=artist"
               replace
             />

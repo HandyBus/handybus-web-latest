@@ -1,10 +1,9 @@
 'use client';
 
 import { TripType } from '@/types/shuttle-operation.type';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
-import PassengerCount from './PassengerCount';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import { DailyEvent, Event } from '@/types/shuttle-operation.type';
@@ -14,7 +13,6 @@ import { useRouter } from 'next/navigation';
 export interface FormValues {
   dailyEvent: DailyEvent;
   regionId: number | null;
-  passengerCount: number;
   type: TripType;
   toDestinationRegionHub?: {
     name: string;
@@ -41,7 +39,6 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
         (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
       ),
       regionId,
-      passengerCount: 0,
       type: undefined,
       toDestinationRegionHub: undefined,
       fromDestinationRegionHub: undefined,
@@ -66,10 +63,6 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
     }
     if (!formValues.type) {
       toast.error('탑승 방향을 선택해주세요.');
-      return;
-    }
-    if (formValues.passengerCount === 0) {
-      toast.error('탑승객 수를 선택해주세요.');
       return;
     }
     if (
@@ -105,7 +98,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
       body: {
         regionId: formValues.regionId,
         type: formValues.type,
-        passengerCount: formValues.passengerCount,
+        passengerCount: 1,
         toDestinationRegionHub: {
           regionHubId:
             formValues.toDestinationRegionHub?.regionHubId ?? undefined,
@@ -128,16 +121,6 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleSubmit)}>
         <RouteInfo event={event} regionId={regionId} />
-        <Controller
-          control={methods.control}
-          name="passengerCount"
-          render={({ field: { value, onChange } }) => (
-            <PassengerCount
-              count={value}
-              setCount={(newValue) => onChange(newValue)}
-            />
-          )}
-        />
         <JourneyLocationPicker />
         <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white px-16 py-20">
           <Button disabled={isPending}>수요조사 신청하기</Button>

@@ -50,7 +50,6 @@ const DemandStats = ({
       <section className="flex flex-col gap-12">
         <EventCard
           tripType="왕복"
-          highlighted={true}
           count={demandStats?.roundTripCount}
           region={region}
           location={location}
@@ -76,27 +75,14 @@ export default DemandStats;
 
 interface EventCardProps {
   tripType?: '왕복' | '콘서트행' | '귀가행';
-  highlighted?: boolean;
   count?: number;
   region?: string;
   location?: string;
 }
 
-const EventCard = ({
-  tripType,
-  highlighted = false,
-  count,
-  region,
-  location,
-}: EventCardProps) => {
+const EventCard = ({ tripType, count, region, location }: EventCardProps) => {
   return (
-    <div
-      className={`flex items-center justify-between rounded-xl px-16 py-20 ${
-        highlighted
-          ? 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
-          : 'bg-[#F8F8F8]'
-      }`}
-    >
+    <div className="flex items-center justify-between rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
         <span>
           <p className="text-16 font-600 leading-[25.6px] text-grey-800">

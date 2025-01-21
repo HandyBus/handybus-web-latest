@@ -120,7 +120,7 @@ const ImagesArea = ({ imageUrls }: ImagesAreaProps) => {
   }
 
   return (
-    <div className="flex snap-x flex-row gap-8 overflow-scroll">
+    <div className="flex snap-x flex-row gap-8 overflow-y-auto overflow-x-hidden">
       {imageUrls.map((imageUrl, idx) => (
         <figure
           key={idx}
