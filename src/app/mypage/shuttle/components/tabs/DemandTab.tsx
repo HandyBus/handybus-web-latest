@@ -21,7 +21,7 @@ const DemandTab = () => {
       demands?.filter(
         (demand) =>
           demand.hasShuttleRoute &&
-          (demand.status === 'OPEN' || demand.status === 'ENDED'),
+          (demand.status === 'OPEN' || demand.status === 'CLOSED'),
       ),
     [demands],
   );
