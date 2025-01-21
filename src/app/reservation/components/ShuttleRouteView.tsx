@@ -33,7 +33,7 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
       </div>
       <div className="flex h-[110px] flex-col gap-4 overflow-hidden">
         <div className="line-clamp-1 text-16 font-500 text-grey-900">
-          {shuttleRoute.event.eventName}
+          [{shuttleRoute.name}] {shuttleRoute.event.eventName}
         </div>
         <div className="text-12 font-400">
           <div className="line-clamp-1 text-grey-900">
@@ -42,7 +42,6 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
           <div className="line-clamp-1 text-grey-900">
             {dateString(dailyEvent.date)} 셔틀
           </div>
-          <div className="line-clamp-1 text-grey-500">{shuttleRoute.name}</div>
         </div>
         <div className="line-clamp-1 text-14 font-500 text-grey-900">
           <SeatString shuttleRoute={shuttleRoute} />
