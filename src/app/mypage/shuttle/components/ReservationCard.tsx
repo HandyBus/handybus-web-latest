@@ -70,7 +70,7 @@ const ReservationCard = ({
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
             src={
-              reservation.shuttleRoute.event.eventImageUrl ??
+              reservation.shuttleRoute.event.eventImageUrl ||
               DEFAULT_EVENT_IMAGE
             }
             alt="행사 포스터"

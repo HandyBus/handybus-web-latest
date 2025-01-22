@@ -16,6 +16,7 @@ interface Props {
   isOpen: boolean;
   onClosed: () => void;
   disabled?: boolean;
+  variant?: 'alert' | 'primary' | 'secondary' | 'modalSecondary' | 'none';
 }
 
 const ConfirmModal = ({
@@ -26,6 +27,7 @@ const ConfirmModal = ({
   isOpen,
   onClosed,
   disabled = false,
+  variant,
 }: Props) => {
   return (
     <CustomModal
@@ -40,6 +42,7 @@ const ConfirmModal = ({
         description={description}
         buttonLabels={buttonLabels}
         disabled={disabled}
+        variant={variant}
       />
     </CustomModal>
   );
@@ -54,6 +57,7 @@ interface ConfirmModalContentProps {
   description: string;
   buttonLabels: ButtonLabels;
   disabled?: boolean;
+  variant?: 'alert' | 'primary' | 'secondary' | 'modalSecondary' | 'none';
 }
 
 const ConfirmModalContent = ({
@@ -63,6 +67,7 @@ const ConfirmModalContent = ({
   description,
   buttonLabels,
   disabled = false,
+  variant = 'alert',
 }: ConfirmModalContentProps) => {
   return (
     <>
@@ -84,7 +89,7 @@ const ConfirmModalContent = ({
         <Button variant="modalSecondary" onClick={onClosed}>
           {buttonLabels.back}
         </Button>
-        <Button variant="alert" onClick={onConfirm} disabled={disabled}>
+        <Button variant={variant} onClick={onConfirm} disabled={disabled}>
           {buttonLabels.confirm}
         </Button>
       </div>
