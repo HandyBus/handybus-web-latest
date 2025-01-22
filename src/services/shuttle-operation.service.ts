@@ -275,7 +275,7 @@ export const getReviewsWithPagination = async ({
   userId,
 }: {
   limit?: number;
-  page?: number;
+  page?: string;
   eventId?: number;
   userId?: number;
 } = {}) => {
@@ -292,9 +292,9 @@ export const getReviewsWithPagination = async ({
 export const useGetReviewsWithPagination = () =>
   useInfiniteQuery({
     queryKey: ['review'],
-    queryFn: ({ pageParam }: { pageParam: number }) =>
-      getReviewsWithPagination({ page: pageParam }),
-    initialPageParam: 0,
+    queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
+      getReviewsWithPagination({ page: pageParam, limit: 1 }),
+    initialPageParam: undefined,
     initialData: { pages: [], pageParams: [] },
     getNextPageParam: (lastPage) => lastPage.nextPage,
     select: (data) => ({

@@ -7,7 +7,7 @@ export type ActiveStatus = z.infer<typeof ActiveStatusEnum>;
 /// --------- SCHEMA ---------
 type PaginatedResponse<Shape extends z.ZodRawShape> = Shape & {
   totalCount: z.ZodNumber;
-  nextPage: z.ZodNullable<z.ZodNumber>;
+  nextPage: z.ZodNullable<z.ZodString>;
 };
 
 export const withPagination = <Shape extends z.ZodRawShape>(
@@ -16,7 +16,7 @@ export const withPagination = <Shape extends z.ZodRawShape>(
   ({
     ...shape,
     totalCount: z.number(),
-    nextPage: z.number().nullable(),
+    nextPage: z.string().nullable(),
   }) satisfies PaginatedResponse<Shape>;
 
 export const PresignedUrlSchema = z.object({
