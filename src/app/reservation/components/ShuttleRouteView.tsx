@@ -26,7 +26,7 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
       <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-grey-50">
         <Image
           className="object-cover"
-          src={shuttleRoute.event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
+          src={shuttleRoute.event.eventImageUrl || DEFAULT_EVENT_IMAGE}
           alt={`${shuttleRoute.event.eventName}의 포스터`}
           fill
         />
