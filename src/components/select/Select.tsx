@@ -4,12 +4,13 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import ChevronEnabledIcon from 'public/icons/chevron-enabled.svg';
 import ChevronDisabledIcon from 'public/icons/chevron-disabled.svg';
+import { ReactNode } from 'react';
 
 interface Props<T> {
   options: readonly T[];
   value: T | undefined;
   setValue: (value: T) => void;
-  renderValue?: (value: T) => string;
+  renderValue?: (value: T) => ReactNode;
   placeholder?: string;
   disabled?: boolean;
   bottomSheetTitle?: string;
@@ -51,9 +52,9 @@ const Select = <T,>({
           ref={contentRef}
           className="flex h-full w-full flex-col overflow-y-auto bg-white"
         >
-          {options?.map((option) => (
+          {options?.map((option, index) => (
             <button
-              key={renderValue ? renderValue(option) : String(option)}
+              key={index}
               className="py-16 text-left"
               type="button"
               onClick={() => {

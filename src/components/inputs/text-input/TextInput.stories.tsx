@@ -37,15 +37,3 @@ export const Primary: Story = {
     children: '입력 라벨',
   },
 };
-
-export const Shuttle: Story = {
-  render: (args) => <TextInputWrapper {...args} />,
-  args: {
-    name: 'testInput',
-    control: undefined,
-    setValue: () => {},
-    placeholder: '텍스트를 입력하세요',
-    children: '입력 라벨',
-    version: 'shuttle',
-  },
-};

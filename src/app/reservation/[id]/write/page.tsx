@@ -3,30 +3,30 @@
 import AppBar from '@/components/app-bar/AppBar';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetShuttle } from '@/services/shuttleOperation';
 import Form from './components/Form';
+import { useGetEvent } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: {
-    id: string; // shuttleId
+    id: string; // eventId
   };
   searchParams: {
-    dailyShuttleId: string;
+    dailyEventId: string;
     shuttleRouteId: string;
   };
 }
 
 const Page = ({ params, searchParams }: Props) => {
-  const { data: shuttle, isLoading } = useGetShuttle(Number(params.id));
+  const { data: event, isLoading } = useGetEvent(Number(params.id));
 
   return (
     <>
       <AppBar>셔틀 예약하기</AppBar>
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {shuttle && (
+        {event && (
           <Form
-            shuttle={shuttle}
-            initialDailyShuttleId={Number(searchParams.dailyShuttleId)}
+            event={event}
+            initialDailyShuttleId={Number(searchParams.dailyEventId)}
             initialShuttleRouteId={Number(searchParams.shuttleRouteId)}
           />
         )}

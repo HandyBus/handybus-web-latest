@@ -10,9 +10,10 @@ import {
   SMALL_REGIONS,
 } from '@/constants/regions';
 import { useEffect, useState } from 'react';
-import { ShuttleType, TripType } from '@/types/shuttle.types';
+import { TripType } from '@/types/shuttle-operation.type';
 import { FormValues } from './WriteForm';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
+import { Event } from '@/types/shuttle-operation.type';
 
 const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
   ROUND_TRIP: '왕복',
@@ -21,11 +22,11 @@ const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
 };
 
 interface Props {
-  shuttle: ShuttleType;
+  event: Event;
   regionId: number;
 }
 
-const RouteInfo = ({ shuttle, regionId }: Props) => {
+const RouteInfo = ({ event, regionId }: Props) => {
   const { control, getValues, setValue } = useFormContext<FormValues>();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const RouteInfo = ({ shuttle, regionId }: Props) => {
     setSelectedSmallRegion(region.smallRegion);
   }, [regionId]);
 
-  const dailyShuttle = getValues('dailyShuttle');
+  const dailyEvent = getValues('dailyEvent');
   const [selectedBigRegion, setSelectedBigRegion] = useState<BigRegionsType>();
   const [selectedSmallRegion, setSelectedSmallRegion] = useState<string>();
 
@@ -59,15 +60,15 @@ const RouteInfo = ({ shuttle, regionId }: Props) => {
       </h2>
       <Controller
         control={control}
-        name="dailyShuttle"
+        name="dailyEvent"
         render={({ field: { value, onChange } }) => (
           <Select
-            options={shuttle.dailyShuttles}
+            options={event.dailyEvents}
             value={value}
             setValue={(value) => {
               onChange(value);
             }}
-            renderValue={(value) => parseDateString(value.date)}
+            renderValue={(value) => dateString(value.date)}
             placeholder="운행일"
             isUnderLined
             bottomSheetTitle="운행일 선택"
@@ -86,7 +87,7 @@ const RouteInfo = ({ shuttle, regionId }: Props) => {
           setValue('fromDestinationRegionHub', undefined);
           setValue('fromDestinationDesiredRegionHub', undefined);
         }}
-        disabled={!dailyShuttle}
+        disabled={!dailyEvent}
         placeholder="도/광역시 선택"
         isUnderLined
         bottomSheetTitle="도/광역시 선택"

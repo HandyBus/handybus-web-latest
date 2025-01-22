@@ -5,24 +5,29 @@ import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
-import { deleteUser } from '@/services/users';
+import { useDeleteUser } from '@/services/user-management.service';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Leave = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleDeleteUser = async () => {
-    try {
-      await deleteUser();
+  const {
+    mutate: deleteUser,
+    isPending,
+    isSuccess,
+  } = useDeleteUser({
+    onSuccess: () => {
       logout();
       toast.success('핸디버스를 이용해주셔서 감사합니다.');
-    } catch (e) {
+    },
+    onError: (e) => {
       console.error(e);
-      toast.error('탈퇴에 실패했습니다.');
-    }
-  };
+      toast.error('잠시 후 다시 시도해주세요.');
+    },
+  });
+
+  const disabled = !isChecked || isPending || isSuccess;
 
   return (
     <>
@@ -42,8 +47,8 @@ const Leave = () => {
           </h4>
           <p className="text-14 font-400 text-grey-600-sub">
             계정을 삭제하면 계정 정보(연동 계정으로부터 제공받은 정보), 회원
-            정보(프로필, 성별, 연령대, 거주 지역, 최애 가수), 작성한 셔틀 후기
-            등 핸디버스에서 활동한 모든 정보가 삭제돼요. 다시 가입하더라도
+            정보(프로필, 성별, 연령대, 거주 지역, 최애 아티스트), 작성한 셔틀
+            후기 등 핸디버스에서 활동한 모든 정보가 삭제돼요. 다시 가입하더라도
             복구할 수 없어요.
           </p>
         </section>
@@ -57,7 +62,7 @@ const Leave = () => {
           </button>
           <Button
             type="button"
-            disabled={!isChecked}
+            disabled={disabled}
             onClick={() => setIsOpen(true)}
           >
             탈퇴 계속하기
@@ -69,7 +74,8 @@ const Leave = () => {
         isOpen={isOpen}
         onClosed={() => setIsOpen(false)}
         buttonLabels={{ back: '안 떠날래요', confirm: '탈퇴하기' }}
-        onConfirm={handleDeleteUser}
+        onConfirm={deleteUser}
+        disabled={disabled}
       />
     </>
   );

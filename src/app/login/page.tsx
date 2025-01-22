@@ -1,24 +1,42 @@
 'use client';
 
-import Logo from 'public/icons/logo-large-white.svg';
+import LogoLarge from 'public/icons/logo-large.svg';
 import Kakao from 'public/icons/kakao.svg';
 import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
+import usePreventScroll from '@/hooks/usePreventScroll';
+import { useEffect } from 'react';
 
-const Login = () => {
+interface Props {
+  searchParams: {
+    redirectUrl: string | null | undefined;
+  };
+}
+
+const Login = ({ searchParams }: Props) => {
+  usePreventScroll();
+
+  useEffect(() => {
+    const redirectUrl = searchParams.redirectUrl;
+    if (redirectUrl) {
+      sessionStorage.setItem('redirectUrl', redirectUrl);
+    }
+  }, [searchParams]);
+
   return (
-    <main className="flex grow flex-col items-center bg-primary-main">
+    <main className="flex grow flex-col items-center bg-white">
       <div className="my-auto flex flex-col items-center">
-        <span className="text-18 font-500 text-white">집부터 콘서트장까지</span>
-        <span className="mb-32 text-28 font-700 text-white">
+        <span className="text-18 font-500 text-black">집부터 콘서트장까지</span>
+        <span className="mb-32 text-28 font-700 text-black">
           핸디버스와 함께
         </span>
-        <Logo />
+        <LogoLarge viewBox="0 0 121 75" width={215} height={108} />
       </div>
       <div className="mb-16 flex flex-col gap-8">
         <Link
           href={OAUTH.kakao()}
+          replace
           className="flex h-52 w-320 items-center justify-center gap-16 rounded-full bg-[#FEE500] text-16 font-600 text-black/85"
         >
           <Kakao />
@@ -26,6 +44,7 @@ const Login = () => {
         </Link>
         <Link
           href={OAUTH.naver()}
+          replace
           className="flex h-52 w-320 items-center justify-center gap-16 rounded-full bg-[#03C75A] text-16 font-600 text-white"
         >
           <Naver />

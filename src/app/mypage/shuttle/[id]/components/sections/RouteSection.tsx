@@ -1,42 +1,45 @@
 'use client';
 
 import Divider from '../Divider';
-import { TripType } from '@/types/shuttle.types';
-import { HubType, HubWithSelectedType } from '@/types/hub.type';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { usePostUpdateReservation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
+import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
+import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 
 interface Props {
-  isShuttleBusAssigned: boolean;
   reservationId: number;
   tripType: TripType;
-  hubs: {
-    toDestination: HubWithSelectedType[];
-    fromDestination: HubWithSelectedType[];
-  };
+  toDestinationHubs: ShuttleRouteHub[];
+  fromDestinationHubs: ShuttleRouteHub[];
+  toDestinationHubId: number;
+  fromDestinationHubId: number;
+  date: Date | null;
 }
 
 const RouteSection = ({
-  isShuttleBusAssigned,
   reservationId,
   tripType,
-  hubs,
+  toDestinationHubs,
+  fromDestinationHubs,
+  toDestinationHubId,
+  fromDestinationHubId,
+  date,
 }: Props) => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const [toDestinationHubValue, setToDestinationHubValue] = useState<HubType>();
+  const [toDestinationHubValue, setToDestinationHubValue] =
+    useState<ShuttleRouteHub>();
   const [fromDestinationHubValue, setFromDestinationHubValue] =
-    useState<HubType>();
+    useState<ShuttleRouteHub>();
 
   const setInitialHubValue = () => {
-    const selectedToDestination = hubs.toDestination.find(
-      (hub) => hub.selected,
+    const selectedToDestination = toDestinationHubs.find(
+      (hub) => hub.shuttleRouteHubId === toDestinationHubId,
     );
-    const selectedFromDestination = hubs.fromDestination.find(
-      (hub) => hub.selected,
+    const selectedFromDestination = fromDestinationHubs.find(
+      (hub) => hub.shuttleRouteHubId === fromDestinationHubId,
     );
     setToDestinationHubValue(selectedToDestination);
     setFromDestinationHubValue(selectedFromDestination);
@@ -51,8 +54,9 @@ const RouteSection = ({
   };
   const { mutate: updateReservation } = usePostUpdateReservation(
     reservationId,
-    undefined,
-    onError,
+    {
+      onError,
+    },
   );
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -65,16 +69,30 @@ const RouteSection = ({
     });
   };
 
+  const checkCanEditHub = () => {
+    if (!date) {
+      return false;
+    }
+    const today = new Date();
+    const twoDaysAgo = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() - 2,
+    );
+    return today <= twoDaysAgo;
+  };
+  const canEditHub = checkCanEditHub();
+
   return (
     <>
       <Divider />
       <form onSubmit={handleSubmit}>
-        <section className="px-16 py-24">
+        <section className="px-16 py-32">
           {isEdit ? (
             <RouteVisualizerWithSelect
               type={tripType}
-              toDestinationHubs={hubs.toDestination}
-              fromDestinationHubs={hubs.fromDestination}
+              toDestinationHubs={toDestinationHubs}
+              fromDestinationHubs={fromDestinationHubs}
               toDestinationHubValue={toDestinationHubValue}
               fromDestinationHubValue={fromDestinationHubValue}
               setToDestinationHubValue={setToDestinationHubValue}
@@ -83,15 +101,15 @@ const RouteSection = ({
           ) : (
             <RouteVisualizer
               type={tripType}
-              toDestinationHubs={hubs.toDestination}
-              fromDestinationHubs={hubs.fromDestination}
+              toDestinationHubs={toDestinationHubs}
+              fromDestinationHubs={fromDestinationHubs}
               isSelected={true}
               selectedToDestinationHub={toDestinationHubValue}
               selectedFromDestinationHub={fromDestinationHubValue}
             />
           )}
         </section>
-        {!isShuttleBusAssigned && (
+        {canEditHub && (
           <div className="flex flex-col items-end gap-8 pb-24 pr-24">
             {isEdit ? (
               <div className="flex gap-8">

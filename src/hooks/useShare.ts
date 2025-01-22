@@ -16,12 +16,12 @@ declare global {
 }
 
 interface Props {
-  shuttleName: string;
+  eventName: string;
   closeBottomSheet?: () => void;
 }
 
-export const useShare = ({ shuttleName, closeBottomSheet }: Props) => {
-  const currentUrl = window.location.href;
+export const useShare = ({ eventName, closeBottomSheet }: Props) => {
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   const shareToTwitter = () => {
     const text = encodeURIComponent(currentUrl);
@@ -47,7 +47,7 @@ export const useShare = ({ shuttleName, closeBottomSheet }: Props) => {
   };
 
   const shareToKakao = () => {
-    if (!window.Kakao || !shuttleName) {
+    if (!window.Kakao || !eventName) {
       alert('카카오톡 공유하기를 사용할 수 없습니다.');
       return;
     }
@@ -55,7 +55,7 @@ export const useShare = ({ shuttleName, closeBottomSheet }: Props) => {
     window.Kakao.Share.sendCustom({
       templateId: 115434,
       templateArgs: {
-        name: shuttleName,
+        name: eventName,
         path: currentUrl,
       },
     });

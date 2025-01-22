@@ -11,9 +11,10 @@ import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
 import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
 import Loading from '@/components/loading/Loading';
-import { getImageUrl } from '@/services/common';
-import { useGetUserReservation } from '@/services/reservation';
-import { usePostUserReview } from '@/services/reviews';
+import { useGetUserReservation } from '@/services/user-management.service';
+import { usePostReview } from '@/services/shuttle-operation.service';
+import { getImageUrl } from '@/services/common.service';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const WriteReview = ({ params }: Props) => {
-  const { data: reservation } = useGetUserReservation(Number(params.id));
+  const { data } = useGetUserReservation(Number(params.id));
 
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
@@ -50,18 +51,25 @@ const WriteReview = ({ params }: Props) => {
     setFiles((prev) => prev.filter((f) => f !== file));
   };
 
-  const { mutate: postUserReview } = usePostUserReview();
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { mutate: postReview } = usePostReview({
+    onSuccess: () => router.replace('/mypage/reviews'),
+    onSettled: () => setIsLoading(false),
+  });
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (text.length < 20) {
       toast.error('20자 이상 작성해주세요.');
       return;
     }
-    if (!reservation) {
+    if (!data) {
       toast.error('잠시 후 다시 시도해주세요.');
       return;
     }
 
+    setIsLoading(true);
     const imageUrls = await Promise.all(
       files.map(async (file) => {
         const imageUrl = await getImageUrl({
@@ -72,9 +80,9 @@ const WriteReview = ({ params }: Props) => {
       }),
     );
 
-    postUserReview({
-      shuttleId: reservation.shuttle.shuttleId,
-      reservationId: reservation.reservationId,
+    postReview({
+      eventId: data.reservation.shuttleRoute.eventId,
+      reservationId: data.reservation.reservationId,
       rating,
       content: text,
       images: imageUrls
@@ -86,9 +94,9 @@ const WriteReview = ({ params }: Props) => {
   return (
     <>
       <AppBar>후기 작성</AppBar>
-      <form onSubmit={handleSubmit} className="relative grow">
-        {reservation ? (
-          <ReservationCard reservation={reservation} />
+      <form onSubmit={handleSubmit} className="relative grow pb-100">
+        {data ? (
+          <ReservationCard reservation={data.reservation} />
         ) : (
           <div className="flex h-192 grow items-center justify-center">
             <Loading />
@@ -148,8 +156,8 @@ const WriteReview = ({ params }: Props) => {
             ))}
           </div>
         </section>
-        <div className="absolute bottom-0 left-0 right-0 p-28">
-          <Button>제출하기</Button>
+        <div className="absolute bottom-0 left-0 right-0 bg-white p-28">
+          <Button disabled={isLoading}>제출하기</Button>
         </div>
       </form>
     </>

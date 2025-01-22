@@ -1,8 +1,8 @@
 'use client';
 
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { TripType } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { TripType } from '@/types/shuttle-operation.type';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   tripType: TripType;
@@ -14,12 +14,17 @@ interface Props {
     roundTrip: number;
   };
   isEarlybird: boolean;
-  earlybirdDeadline?: string;
+  earlybirdDeadline?: string | null;
   earlybirdPrice: {
     toDestination: number;
     fromDestination: number;
     roundTrip: number;
   };
+  remainingSeat: {
+    toDestination: number;
+    fromDestination: number;
+  };
+  maxSeat: number;
 }
 
 const PriceStats = ({
@@ -30,7 +35,13 @@ const PriceStats = ({
   isEarlybird,
   earlybirdDeadline,
   earlybirdPrice,
+  remainingSeat,
+  maxSeat,
 }: Props) => {
+  const roundTripRemainingSeat = Math.min(
+    remainingSeat.toDestination,
+    remainingSeat.fromDestination,
+  );
   return (
     <article className="px-16 py-24">
       <header className="flex flex-col gap-4 py-16">
@@ -38,7 +49,7 @@ const PriceStats = ({
           셔틀 가격
           {isEarlybird && earlybirdDeadline && (
             <span className="absolute -top-4 translate-x-8 text-14 font-500 text-red-600">
-              {parseDateString(earlybirdDeadline, false)}까지 얼리버드 🔥
+              {dateString(earlybirdDeadline, false)}까지 얼리버드 🔥
             </span>
           )}
         </h2>
@@ -47,32 +58,35 @@ const PriceStats = ({
         {tripType === 'ROUND_TRIP' && (
           <Card
             tripType="ROUND_TRIP"
-            highlighted={true}
             regularPrice={regularPrice.roundTrip}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.roundTrip}
+            remainingSeat={roundTripRemainingSeat}
+            maxSeat={maxSeat}
           />
         )}
         {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') && (
           <Card
             tripType="TO_DESTINATION"
-            highlighted={tripType === 'TO_DESTINATION'}
             region={region}
             destination={destination}
             regularPrice={regularPrice.toDestination}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.toDestination}
+            remainingSeat={remainingSeat.toDestination}
+            maxSeat={maxSeat}
           />
         )}
         {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') && (
           <Card
             tripType="FROM_DESTINATION"
-            highlighted={tripType === 'FROM_DESTINATION'}
             region={region}
             destination={destination}
             regularPrice={regularPrice.fromDestination}
             isEarlybird={isEarlybird}
             earlybirdPrice={earlybirdPrice.fromDestination}
+            remainingSeat={remainingSeat.fromDestination}
+            maxSeat={maxSeat}
           />
         )}
       </section>
@@ -84,22 +98,24 @@ export default PriceStats;
 
 interface CardProps {
   tripType: TripType;
-  highlighted?: boolean;
   region?: string;
   destination?: string;
   regularPrice: number;
   isEarlybird: boolean;
   earlybirdPrice?: number;
+  remainingSeat: number;
+  maxSeat: number;
 }
 
 const Card = ({
   tripType,
-  highlighted = false,
   region,
   destination,
   regularPrice,
   isEarlybird,
   earlybirdPrice,
+  remainingSeat,
+  maxSeat,
 }: CardProps) => {
   const parsedRegularPrice = regularPrice.toLocaleString();
   const parsedEarlybirdPrice = earlybirdPrice?.toLocaleString();
@@ -108,28 +124,23 @@ const Card = ({
   );
 
   return (
-    <div
-      className={`flex items-center justify-between rounded-xl px-16 py-20 ${
-        highlighted
-          ? 'bg-gradient-to-r from-[#E5FFF8] to-transparent'
-          : 'bg-[#F8F8F8]'
-      }`}
-    >
+    <div className="flex items-center justify-between gap-8 rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
-        <span>
-          <p className="text-16 font-600 leading-[25.6px] text-grey-800">
-            {TRIP_STATUS_TO_STRING[tripType]}
-          </p>
-        </span>
+        <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-grey-800">
+          <span>{TRIP_STATUS_TO_STRING[tripType]}</span>
+          <span className="text-12 font-400 text-grey-500">
+            ({remainingSeat}/{maxSeat}석)
+          </span>
+        </p>
         {region && destination && (
           <span>
-            <p className="text-12 font-400 leading-[19.2px] text-grey-500">
+            <p className="break-keep text-12 font-400 leading-[19.2px] text-grey-500">
               {displayRouteInfo(tripType, destination, region)}
             </p>
           </span>
         )}
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex shrink-0 flex-col items-end">
         {isEarlybird && (
           <div>
             <span className="text-14 font-600 text-red-700">얼리버드 </span>

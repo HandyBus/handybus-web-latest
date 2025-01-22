@@ -1,45 +1,53 @@
 import Footer from '@/components/footer/Footer';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { getRoute } from '@/services/shuttleOperation';
 import ReservationForm from './components/ReservationForm';
 import EventInfo from '@/components/event/components/EventInfo';
 import EventImage from '@/components/event/components/EventImage';
 import KakaoMap from '@/components/kakao-map/KakaoMap';
 import BackButton from '@/components/buttons/back-button/BackButton';
+import { getShuttleRoute } from '@/services/shuttle-operation.service';
 
 interface Props {
   params: {
-    id: string; // shuttleId
+    id: string; // eventId
   };
   searchParams: {
-    dailyShuttleId: string;
+    dailyEventId: string;
     shuttleRouteId: string;
   };
 }
 
 const Page = async ({ params, searchParams }: Props) => {
-  const dailyShuttleId = Number(searchParams.dailyShuttleId);
+  const dailyEventId = Number(searchParams.dailyEventId);
   const shuttleRouteId = Number(searchParams.shuttleRouteId);
-  const route = await getRoute({
-    shuttleId: Number(params.id),
-    dailyShuttleId,
+  const shuttleRoute = await getShuttleRoute(
+    Number(params.id),
+    dailyEventId,
     shuttleRouteId,
-  });
+  );
 
   return (
     <main className="relative overflow-y-hidden">
       <BackButton />
-      <EventImage image={route.shuttle.image} />
-      <EventInfo shuttle={route.shuttle} status={route.status} type="ROUTE" />
+      <EventImage image={shuttleRoute.event.eventImageUrl} />
+      <EventInfo
+        event={shuttleRoute.event}
+        status={shuttleRoute.status}
+        type="ROUTE"
+      />
       <KakaoMap
-        placeName={route.shuttle.destination.name}
-        latitude={route.shuttle.destination.latitude}
-        longitude={route.shuttle.destination.longitude}
+        placeName={shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.name ?? ''}
+        latitude={
+          shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.latitude ?? 0
+        }
+        longitude={
+          shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.longitude ?? 0
+        }
       />
       <ReservationForm
-        shuttle={route.shuttle}
-        initialDailyShuttleId={dailyShuttleId}
+        event={shuttleRoute.event}
+        initialDailyEventId={dailyEventId}
         initialRouteId={shuttleRouteId}
       />
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />

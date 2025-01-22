@@ -2,7 +2,7 @@ import Link from 'next/link';
 import ReservationEmpty from '../icons/reservation-empty.svg';
 
 const Empty = () => {
-  const newShuttleFormUrl = '/' + process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL;
+  const newShuttleFormUrl = process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL ?? '';
   return (
     <div className="flex w-full flex-col items-center gap-4 px-16 py-56">
       <ReservationEmpty />

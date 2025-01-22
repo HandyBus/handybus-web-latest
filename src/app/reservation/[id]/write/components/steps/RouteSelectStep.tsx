@@ -1,13 +1,7 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { useGetRoutes } from '@/services/shuttleOperation';
-import {
-  DailyShuttleType,
-  ShuttleRouteType,
-  ShuttleType,
-  TripType,
-} from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { TripType } from '@/types/shuttle-operation.type';
+import { compareToNow, dateString } from '@/utils/dateString.util';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { ReservationFormValues } from '../Form';
@@ -15,17 +9,23 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import {
+  DailyEvent,
+  Event,
+  ShuttleRoute,
+} from '@/types/shuttle-operation.type';
 
 interface Props {
   handleNextStep: () => void;
-  shuttle: ShuttleType;
+  event: Event;
   initialDailyShuttleId?: number;
   initialShuttleRouteId?: number;
 }
 
 const RouteSelectStep = ({
   handleNextStep,
-  shuttle,
+  event,
   initialDailyShuttleId,
   initialShuttleRouteId,
 }: Props) => {
@@ -33,16 +33,16 @@ const RouteSelectStep = ({
     useFormContext<ReservationFormValues>();
 
   const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
-    DailyShuttleType | undefined
+    DailyEvent | undefined
   >(
-    shuttle.dailyShuttles.find(
-      (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
+    event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === initialDailyShuttleId,
     ),
   );
 
-  const { data: routes } = useGetRoutes(
-    shuttle.shuttleId,
-    selectedDailyShuttle?.dailyShuttleId ?? 0,
+  const { data: routes } = useGetShuttleRoutesOfDailyEvent(
+    event.eventId,
+    selectedDailyShuttle?.dailyEventId ?? 0,
     { status: 'OPEN' },
   );
 
@@ -58,8 +58,8 @@ const RouteSelectStep = ({
     }
   }, [routes, initialShuttleRouteId]);
 
-  const handleDailyShuttleChange = (dailyShuttle: DailyShuttleType) => {
-    setSelectedDailyShuttle(dailyShuttle);
+  const handleDailyShuttleChange = (dailyEvent: DailyEvent) => {
+    setSelectedDailyShuttle(dailyEvent);
     setValue('shuttleRoute', undefined);
     setValue('type', undefined);
     setValue('hub', {
@@ -69,7 +69,7 @@ const RouteSelectStep = ({
   };
 
   // 노선 변경에 따라 기존 타입 및 허브 값 초기화
-  const handleRouteChange = (route: ShuttleRouteType) => {
+  const handleRouteChange = (route: ShuttleRoute) => {
     setValue('shuttleRoute', route);
     setValue('type', undefined);
     setValue('hub', {
@@ -105,10 +105,10 @@ const RouteSelectStep = ({
           원하는 셔틀을 선택해주세요
         </h3>
         <Select
-          options={shuttle.dailyShuttles}
+          options={event.dailyEvents}
           value={selectedDailyShuttle}
           setValue={(value) => handleDailyShuttleChange(value)}
-          renderValue={(value) => parseDateString(value.date)}
+          renderValue={(value) => dateString(value.date)}
           isUnderLined
           placeholder="탑승일"
           bottomSheetTitle="탑승일 선택"
@@ -149,8 +149,8 @@ const TypeSelect = () => {
   const watchedShuttleRoute = useWatch({ control, name: 'shuttleRoute' });
 
   // 남아있는 좌석에 따라 선택 가능한 타입 반환
-  const getAvailableTypes = (remainingSeatType?: string): TripType[] => {
-    switch (remainingSeatType) {
+  const getAvailableTypes = (type?: TripType): TripType[] => {
+    switch (type) {
       case 'ROUND_TRIP':
         return ['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION'];
       case 'TO_DESTINATION':
@@ -159,6 +159,45 @@ const TypeSelect = () => {
         return ['FROM_DESTINATION'];
       default:
         return [];
+    }
+  };
+
+  // 남아있는 좌석 수 반환
+  const getRemainingSeatCount = (type?: TripType): number => {
+    const maxSeatCount = watchedShuttleRoute?.maxPassengerCount ?? 0;
+    switch (type) {
+      case 'ROUND_TRIP':
+        return watchedShuttleRoute?.remainingSeatCount ?? 0;
+      case 'TO_DESTINATION':
+        return maxSeatCount - (watchedShuttleRoute?.toDestinationCount ?? 0);
+      case 'FROM_DESTINATION':
+        return maxSeatCount - (watchedShuttleRoute?.fromDestinationCount ?? 0);
+      default:
+        return 0;
+    }
+  };
+
+  // 좌석 가격 반환
+  const getPrice = (type?: TripType): number => {
+    const isEarlybird = watchedShuttleRoute?.earlybirdDeadline
+      ? compareToNow(watchedShuttleRoute.earlybirdDeadline, (a, b) => a > b)
+      : false;
+
+    switch (type) {
+      case 'ROUND_TRIP':
+        return isEarlybird
+          ? (watchedShuttleRoute?.earlybirdPriceRoundTrip ?? 0)
+          : (watchedShuttleRoute?.regularPriceRoundTrip ?? 0);
+      case 'TO_DESTINATION':
+        return isEarlybird
+          ? (watchedShuttleRoute?.earlybirdPriceToDestination ?? 0)
+          : (watchedShuttleRoute?.regularPriceToDestination ?? 0);
+      case 'FROM_DESTINATION':
+        return isEarlybird
+          ? (watchedShuttleRoute?.earlybirdPriceFromDestination ?? 0)
+          : (watchedShuttleRoute?.regularPriceFromDestination ?? 0);
+      default:
+        return 0;
     }
   };
 
@@ -186,7 +225,19 @@ const TypeSelect = () => {
           options={getAvailableTypes(watchedShuttleRoute?.remainingSeatType)}
           value={value}
           setValue={handleTypeChange}
-          renderValue={(value) => TRIP_STATUS_TO_STRING[value]}
+          renderValue={(value) => (
+            <p className="flex items-center justify-between">
+              <span>{TRIP_STATUS_TO_STRING[value]}</span>
+              <div className="flex gap-12">
+                <span className="text-14 text-grey-500">
+                  {getRemainingSeatCount(value)}석
+                </span>
+                <span className="text-14 text-grey-700">
+                  {getPrice(value).toLocaleString()}원
+                </span>
+              </div>
+            </p>
+          )}
           isUnderLined
           placeholder="왕복/콘서트행/귀가행"
           bottomSheetTitle="왕복/콘서트행/귀가행 선택"
@@ -215,7 +266,9 @@ const RouteSelect = () => {
               render={({ field: { value, onChange } }) => (
                 <RouteVisualizerWithSelect
                   type={watchedType}
-                  toDestinationHubs={watchedShuttleRoute.hubs.toDestination}
+                  toDestinationHubs={
+                    watchedShuttleRoute.toDestinationShuttleRouteHubs ?? []
+                  }
                   toDestinationHubValue={value.toDestinationHub}
                   setToDestinationHubValue={(toDestinationHub) =>
                     onChange({
@@ -223,7 +276,9 @@ const RouteSelect = () => {
                       toDestinationHub: toDestinationHub,
                     })
                   }
-                  fromDestinationHubs={watchedShuttleRoute.hubs.fromDestination}
+                  fromDestinationHubs={
+                    watchedShuttleRoute.fromDestinationShuttleRouteHubs ?? []
+                  }
                   fromDestinationHubValue={value.fromDestinationHub}
                   setFromDestinationHubValue={(fromDestinationHub) =>
                     onChange({ ...value, fromDestinationHub })

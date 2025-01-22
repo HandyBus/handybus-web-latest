@@ -9,22 +9,17 @@ import {
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CouponBottomSheet from './CouponBottomSheet';
 import { useEffect, useMemo, useState } from 'react';
-import { IssuedCouponType } from '@/types/client.types';
 import Coupon from '@/components/coupon/Coupon';
 import XIcon from 'public/icons/x.svg';
-import Button from '@/components/buttons/button/Button';
+import { IssuedCoupon } from '@/types/user-management.type';
 
-interface Props {
-  handlePrevStep: () => void;
-}
-
-const ApplyCoupon = ({ handlePrevStep }: Props) => {
+const ApplyCoupon = () => {
   const { openBottomSheet, closeBottomSheet, bottomSheetRef, contentRef } =
     useBottomSheet();
 
   const { getValues, setValue } = useFormContext<ReservationFormValues>();
 
-  const [selectedCoupon, setSelectedCoupon] = useState<IssuedCouponType | null>(
+  const [selectedCoupon, setSelectedCoupon] = useState<IssuedCoupon | null>(
     null,
   );
 
@@ -44,23 +39,28 @@ const ApplyCoupon = ({ handlePrevStep }: Props) => {
 
     const passengersCount = passengers.length;
     const isEarlybird = checkIsEarlybird(shuttleRoute);
+
     const singlePrice = getSinglePrice(type, shuttleRoute);
     const singlePriceWithEarlybird = isEarlybird
       ? getSinglePriceWithEarlybird(type, shuttleRoute)
       : singlePrice;
+
     const earlybirdDiscount =
       (singlePrice - singlePriceWithEarlybird) * passengersCount;
     const singleCouponDiscount = selectedCoupon
       ? selectedCoupon.discountType === 'RATE'
-        ? (selectedCoupon.discountRate / 100) * singlePrice
-        : selectedCoupon.discountAmount
+        ? ((selectedCoupon.discountRate ?? 0) / 100) * singlePriceWithEarlybird
+        : (selectedCoupon.discountAmount ?? 0)
       : 0;
-    const couponDiscount = selectedCoupon?.maxDiscountAmount
-      ? Math.min(singleCouponDiscount, selectedCoupon.maxDiscountAmount) *
-        passengersCount
-      : singleCouponDiscount * passengersCount;
-    const finalPrice =
-      singlePrice * passengersCount - (earlybirdDiscount + couponDiscount);
+    const couponDiscount = Math.ceil(
+      selectedCoupon?.maxDiscountAmount
+        ? Math.min(singleCouponDiscount, selectedCoupon.maxDiscountAmount) *
+            passengersCount
+        : singleCouponDiscount * passengersCount,
+    );
+
+    const totalPrice = singlePriceWithEarlybird * passengersCount;
+    const finalPrice = Math.floor(totalPrice - couponDiscount);
 
     setValue('finalPrice', finalPrice);
 
@@ -165,14 +165,6 @@ const ApplyCoupon = ({ handlePrevStep }: Props) => {
           </dl>
         </article>
       </section>
-      <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-white px-16 py-8 shadow-bottomBar">
-        <Button type="button" variant="secondary" onClick={handlePrevStep}>
-          이전
-        </Button>
-        <Button id="payment-button" type="button">
-          {finalPrice.toLocaleString()}원 결제하기
-        </Button>
-      </div>
       <CouponBottomSheet
         bottomSheetRef={bottomSheetRef}
         contentRef={contentRef}

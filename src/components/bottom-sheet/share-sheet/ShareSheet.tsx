@@ -14,17 +14,17 @@ interface ShareSheetProps {
   ) => (() => void) | undefined;
   contentRef: RefObject<HTMLDivElement>;
   closeBottomSheet: () => void;
-  shuttleName: string;
+  eventName: string;
 }
 
 const ShareSheet = ({
   bottomSheetRef,
   contentRef,
   closeBottomSheet,
-  shuttleName,
+  eventName,
 }: ShareSheetProps) => {
   const { shareToTwitter, copyToClipboard, shareToKakao, initializeKakao } =
-    useShare({ closeBottomSheet, shuttleName });
+    useShare({ closeBottomSheet, eventName });
 
   const handleShare = (platform: SharePlatform) => {
     switch (platform) {
@@ -49,13 +49,13 @@ const ShareSheet = ({
       >
         <div
           ref={contentRef}
-          className="overflow-y-hidden text-16 font-400 leading-[24px] text-grey-800"
+          className="w-full overflow-y-hidden text-16 font-400 leading-[24px] text-grey-800"
         >
           {SHARE_BUTTONS.map((button) => (
             <button
               key={button.id}
               type="button"
-              className="flex items-center gap-16 py-16"
+              className="flex w-full items-center gap-16 py-16"
               onClick={() => handleShare(button.id)}
               aria-label={button.ariaLabel}
             >

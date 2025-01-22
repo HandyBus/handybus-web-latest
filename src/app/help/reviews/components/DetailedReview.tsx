@@ -3,14 +3,14 @@
 import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 import Rating from '@/components/rating/Rating';
-import { ArtistType, ImageType, ReviewType } from '@/types/client.types';
 import ArtistIcon from '../icons/artist.svg';
 import LocateIcon from '../icons/locate.svg';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
+import { Artist, Review } from '@/types/shuttle-operation.type';
 
 interface Props {
-  review: ReviewType;
+  review: Review;
   showUser?: boolean;
   showCreatedAt?: boolean;
 }
@@ -24,7 +24,9 @@ const DetailedReview = ({
     <article className="flex flex-col rounded-[16px] bg-grey-50 p-16 px-28 py-28">
       <ContentArea rating={review.rating} content={review.content} />
       <div className="flex flex-col gap-12 pb-12 pt-16">
-        <ImagesArea images={review.reviewImages} />
+        <ImagesArea
+          imageUrls={review.reviewImages?.map((image) => image.imageUrl) ?? []}
+        />
         <div className="flex">
           {showUser && (
             <UserTag
@@ -34,7 +36,7 @@ const DetailedReview = ({
           )}
           {showCreatedAt && (
             <span className="ml-auto block text-12 font-500 text-grey-400">
-              {parseDateString(review.createdAt)} 작성
+              {dateString(review.createdAt)} 작성
             </span>
           )}
         </div>
@@ -42,10 +44,10 @@ const DetailedReview = ({
       <div className="flex flex-col gap-8 border-t-[1.5px] border-t-grey-100 pt-8">
         <span className="text-14 font-600 text-grey-700">다녀온 콘서트</span>
         <EventTag
-          title={review.shuttleEventName}
-          artists={review.shuttleEventArtists ?? []}
-          destination={review.shuttleDestinationName}
-          posterImageUrl={review.shuttleEventImageUrl}
+          title={review.eventName}
+          artists={review.eventArtists ?? []}
+          location={review.eventLocationName}
+          posterImageUrl={review.eventImageUrl}
         />
       </div>
     </article>
@@ -109,23 +111,23 @@ const ContentArea = ({ rating, content }: ContentAreaProps) => {
 };
 
 interface ImagesAreaProps {
-  images: ImageType[];
+  imageUrls: string[];
 }
 
-const ImagesArea = ({ images }: ImagesAreaProps) => {
-  if (images.length === 0) {
+const ImagesArea = ({ imageUrls }: ImagesAreaProps) => {
+  if (imageUrls.length === 0) {
     return null;
   }
 
   return (
-    <div className="flex snap-x flex-row gap-8 overflow-scroll">
-      {images.map((image, idx) => (
+    <div className="flex snap-x flex-row gap-8 overflow-y-auto overflow-x-hidden">
+      {imageUrls.map((imageUrl, idx) => (
         <figure
           key={idx}
           className="relative max-h-100 min-h-100 min-w-100 max-w-100 snap-start"
         >
           <Image
-            src={image.imageUrl}
+            src={imageUrl}
             alt="review"
             className="rounded-[20px] object-cover"
             fill
@@ -157,15 +159,15 @@ const UserTag = ({ nickname, profileImageUrl }: UserTagProps) => (
 
 interface EventTagProps {
   title: string;
-  artists: ArtistType[];
-  destination: string;
+  artists: Artist[];
+  location: string;
   posterImageUrl: string;
 }
 
 const EventTag = ({
   title,
   artists,
-  destination,
+  location,
   posterImageUrl,
 }: EventTagProps) => (
   <div className="relative h-[97px] overflow-hidden rounded-[12px] text-white">
@@ -182,14 +184,14 @@ const EventTag = ({
           <div className="flex flex-row items-center justify-start gap-4">
             <ArtistIcon />
             <span className="line-clamp-1 text-10 font-400 text-grey-200 ">
-              {artists.map((artist) => artist.name).join(', ')}
+              {artists.map((artist) => artist.artistName).join(', ')}
             </span>
           </div>
         )}
         <div className="flex flex-row items-center justify-start gap-4">
           <LocateIcon />
           <span className="line-clamp-1 text-10 font-400 text-grey-200 ">
-            {destination}
+            {location}
           </span>
         </div>
       </div>

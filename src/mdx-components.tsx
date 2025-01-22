@@ -17,6 +17,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     td: ({ children }) => (
       <td className="py-2 border border-grey-300 px-4">{children}</td>
     ),
+    p: ({ children }) => (
+      <div className="text-16 font-400 text-grey-700">{children}</div>
+    ),
     ...components,
   };
 }

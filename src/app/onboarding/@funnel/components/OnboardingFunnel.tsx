@@ -3,8 +3,6 @@
 import useFunnel from '@/hooks/useFunnel';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardEvent, useState } from 'react';
-import { OnboardingProgress, usePutUser } from '@/services/users';
-import { getImageUrl } from '@/services/common';
 import { REGION_TO_ID } from '@/constants/regions';
 import { toast } from 'react-toastify';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
@@ -16,16 +14,22 @@ import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
 import ArtistStep from './steps/ArtistStep';
-import { removeOnboardingToken } from '@/utils/handleToken';
+import { removeOnboardingToken } from '@/utils/handleToken.util';
+import { OnboardingProgress } from '@/utils/parseProgress.util';
+import { usePutUser } from '@/services/user-management.service';
+import { getImageUrl } from '@/services/common.service';
 
 interface Props {
-  progress: OnboardingProgress;
+  onboardingProgress: OnboardingProgress;
   initialPhoneNumber?: string;
 }
 
-const OnboardingFunnel = ({ progress, initialPhoneNumber }: Props) => {
+const OnboardingFunnel = ({
+  onboardingProgress,
+  initialPhoneNumber,
+}: Props) => {
   const initialStep =
-    progress === 'AGREEMENT_INCOMPLETE' ? '약관 동의' : '전화번호';
+    onboardingProgress === 'AGREEMENT_INCOMPLETE' ? '약관 동의' : '전화번호';
   const { Funnel, Step, handleNextStep, handlePrevStep, setStep } = useFunnel(
     ONBOARDING_STEPS,
     initialStep,
@@ -125,7 +129,7 @@ const OnboardingFunnel = ({ progress, initialPhoneNumber }: Props) => {
               handlePrevStep={handlePrevStep}
             />
           </Step>
-          <Step name="최애 가수">
+          <Step name="최애 아티스트">
             <ArtistStep
               handlePrevStep={handlePrevStep}
               isLoading={isSubmitting || isSuccess}
@@ -145,5 +149,5 @@ const ONBOARDING_STEPS = [
   '프로필 정보',
   '개인 정보',
   '거주지',
-  '최애 가수',
+  '최애 아티스트',
 ] as const;

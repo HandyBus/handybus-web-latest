@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { instance } from './config';
 
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
@@ -5,10 +6,13 @@ type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
 
 const getPresignedUrl = async (key: KeyType, extension: ExtensionType) => {
   const params = new URLSearchParams({ key, extension });
-  const res = await instance.get<{
-    presignedUrl: string;
-    cdnUrl: string;
-  }>(`/v1/common/image/presigned-url?${params}`, { cache: 'no-store' });
+  const res = await instance.get(`/v1/common/image/presigned-url?${params}`, {
+    cache: 'no-store',
+    shape: {
+      presignedUrl: z.string(),
+      cdnUrl: z.string(),
+    },
+  });
   return res;
 };
 

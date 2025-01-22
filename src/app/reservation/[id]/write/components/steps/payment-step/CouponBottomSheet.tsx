@@ -1,19 +1,19 @@
-import { IssuedCouponType } from '@/types/client.types';
-import { usePostCoupon } from '@/services/coupon';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import Button from '@/components/buttons/button/Button';
 import Coupon from '@/components/coupon/Coupon';
 import NoCoupon from '@/components/coupon/NoCoupon';
 import TextInput from '@/components/inputs/text-input/TextInput';
-import { useGetUserCoupons } from '@/services/coupon';
 import { RefObject } from 'react';
 import { useForm } from 'react-hook-form';
+import { useGetUserCoupons } from '@/services/user-management.service';
+import { IssuedCoupon } from '@/types/user-management.type';
+import { usePostCoupon } from '@/services/billing.service';
 
 interface Props {
   bottomSheetRef: (node: HTMLDivElement) => void;
   contentRef: RefObject<HTMLDivElement> | undefined;
   closeBottomSheet: () => void;
-  setSelectedCoupon: (coupon: IssuedCouponType | null) => void;
+  setSelectedCoupon: (coupon: IssuedCoupon | null) => void;
 }
 
 const CouponBottomSheet = ({
@@ -22,7 +22,9 @@ const CouponBottomSheet = ({
   closeBottomSheet,
   setSelectedCoupon,
 }: Props) => {
-  const { data: coupons } = useGetUserCoupons('BEFORE_USE');
+  const { data: coupons } = useGetUserCoupons({
+    issuedCouponStatus: 'BEFORE_USE',
+  });
 
   const { control, handleSubmit, setValue } = useForm<{ coupon: string }>();
   const { mutate: postCoupon } = usePostCoupon({
@@ -36,7 +38,7 @@ const CouponBottomSheet = ({
 
   return (
     <BottomSheet ref={bottomSheetRef} title="쿠폰 선택">
-      <div ref={contentRef}>
+      <div ref={contentRef} className="overflow-y-auto">
         <form
           className="flex flex-col gap-24 pb-24 pt-8"
           onSubmit={handleSubmit(onSubmit)}
@@ -47,7 +49,7 @@ const CouponBottomSheet = ({
           <Button>쿠폰 등록하기</Button>
         </form>
         <div className="mx-[-32px] h-[8px] bg-grey-50" />
-        <section className="py-28">
+        <section className="overflow-x-hidden py-28">
           <div className="flex flex-col gap-16">
             {!coupons?.length ? (
               <NoCoupon />

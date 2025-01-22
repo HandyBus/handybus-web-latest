@@ -4,8 +4,8 @@ import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import { CustomError } from '@/services/custom-error';
-import { useGetUserReservation } from '@/services/reservation';
-import { usePutShuttleBus } from '@/services/shuttleOperation';
+import { usePutShuttleBus } from '@/services/shuttle-operation.service';
+import { useGetUserReservation } from '@/services/user-management.service';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -24,13 +24,8 @@ interface Props {
 const Handy = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { data: reservation } = useGetUserReservation(Number(id));
-  const { mutate: putShuttleBus } = usePutShuttleBus({
-    shuttleId: reservation?.shuttle.shuttleId,
-    dailyShuttleId: reservation?.shuttle.route.dailyShuttleId,
-    shuttleRouteId: reservation?.shuttle.route.shuttleRouteId,
-    shuttleBusId: reservation?.shuttleBus?.shuttleBusId,
-    reservationId: Number(id),
+  const { data } = useGetUserReservation(Number(id));
+  const { mutate: putShuttleBus } = usePutShuttleBus(Number(id), {
     onSuccess: () => {
       toast.success('오픈채팅방 링크가 제출되었습니다.');
       router.push(`/mypage/shuttle/${id}`);
@@ -50,8 +45,18 @@ const Handy = ({ params }: Props) => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
-    putShuttleBus(data.openChatLink);
+  const onSubmit = (formValues: FormValues) => {
+    if (!data || !data.reservation.shuttleBusId) {
+      toast.error('예약 정보를 불러오는데 실패했습니다.');
+      return;
+    }
+    putShuttleBus({
+      eventId: data.reservation.shuttleRoute.eventId,
+      dailyEventId: data.reservation.shuttleRoute.dailyEventId,
+      shuttleRouteId: data.reservation.shuttleRouteId,
+      shuttleBusId: data.reservation.shuttleBusId,
+      openChatLink: formValues.openChatLink,
+    });
   };
 
   return (
@@ -72,8 +77,9 @@ const Handy = ({ params }: Props) => {
             자세한 핸디 가이드는 아래 링크를 확인해주세요!
           </p>
           <Link
-            href="/help/what-is-handy"
+            href={process.env.NEXT_PUBLIC_HANDY_GUIDE_URL ?? ''}
             className="mx-auto mt-[60px] block w-fit rounded-full bg-grey-100 px-16 text-grey-600-sub"
+            target="_blank"
           >
             핸디 가이드 보러가기
           </Link>

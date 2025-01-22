@@ -7,27 +7,27 @@ import {
   REGION_TO_ID,
   SMALL_REGIONS,
 } from '@/constants/regions';
-import { DailyShuttleType, ShuttleType } from '@/types/shuttle.types';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import { SyntheticEvent, useMemo, useState } from 'react';
 import DemandStats from './DemandStats';
 import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
+import { DailyEvent, Event } from '@/types/shuttle-operation.type';
 
 interface Props {
-  shuttle: ShuttleType;
+  event: Event;
 }
 
-const DemandForm = ({ shuttle }: Props) => {
+const DemandForm = ({ event }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialBigRegion = searchParams.get('bigRegion') as
     | BigRegionsType
     | undefined;
   const initialSmallRegion = searchParams.get('smallRegion');
-  const initialDailyShuttleId = searchParams.get('dailyShuttleId')
-    ? Number(searchParams.get('dailyShuttleId'))
+  const initialDailyEventId = searchParams.get('dailyEventId')
+    ? Number(searchParams.get('dailyEventId'))
     : undefined;
 
   const [selectedBigRegion, setSelectedBigRegion] = useState<
@@ -36,11 +36,11 @@ const DemandForm = ({ shuttle }: Props) => {
   const [selectedSmallRegion, setSelectedSmallRegion] = useState<
     string | undefined
   >(initialSmallRegion ?? undefined);
-  const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
-    DailyShuttleType | undefined
+  const [selectedDailyEvent, setSelectedDailyEvent] = useState<
+    DailyEvent | undefined
   >(
-    shuttle.dailyShuttles.find(
-      (dailyShuttle) => dailyShuttle.dailyShuttleId === initialDailyShuttleId,
+    event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === initialDailyEventId,
     ) ?? undefined,
   );
 
@@ -58,7 +58,7 @@ const DemandForm = ({ shuttle }: Props) => {
         params.set(key, value);
       }
     });
-    router.replace(`/demand/${shuttle.shuttleId}?${params.toString()}`, {
+    router.replace(`/demand/${event.eventId}?${params.toString()}`, {
       scroll: false,
     });
   };
@@ -66,7 +66,7 @@ const DemandForm = ({ shuttle }: Props) => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     router.push(
-      `/demand/${shuttle.shuttleId}/write?dailyShuttleId=${selectedDailyShuttle?.dailyShuttleId}&regionId=${regionId}`,
+      `/demand/${event.eventId}/write?dailyEventId=${selectedDailyEvent?.dailyEventId}&regionId=${regionId}`,
     );
   };
 
@@ -77,19 +77,19 @@ const DemandForm = ({ shuttle }: Props) => {
           운행일을 선택해주세요
         </h5>
         <Select
-          options={shuttle.dailyShuttles}
-          value={selectedDailyShuttle}
+          options={event.dailyEvents}
+          value={selectedDailyEvent}
           setValue={(value) => {
-            setSelectedDailyShuttle(value);
+            setSelectedDailyEvent(value);
             setSelectedBigRegion(undefined);
             setSelectedSmallRegion(undefined);
             updateQuery({
-              dailyShuttleId: String(value?.dailyShuttleId),
+              dailyEventId: String(value?.dailyEventId),
               bigRegion: undefined,
               smallRegion: undefined,
             });
           }}
-          renderValue={(value) => parseDateString(value.date)}
+          renderValue={(value) => dateString(value.date)}
           placeholder="운행일"
           isUnderLined
           bottomSheetTitle="운행일 선택"
@@ -110,7 +110,7 @@ const DemandForm = ({ shuttle }: Props) => {
               smallRegion: undefined,
             });
           }}
-          disabled={!selectedDailyShuttle}
+          disabled={!selectedDailyEvent}
           placeholder="도/광역시 선택"
           isUnderLined
           bottomSheetTitle="도/광역시 선택"
@@ -131,24 +131,25 @@ const DemandForm = ({ shuttle }: Props) => {
         />
       </section>
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
-      {selectedDailyShuttle && (
+      {selectedDailyEvent && (
         <DemandStats
-          shuttleId={shuttle.shuttleId}
-          dailyShuttle={selectedDailyShuttle}
-          regionId={regionId}
-          destination={shuttle.destination.name}
+          eventId={event.eventId}
+          dailyEvent={selectedDailyEvent}
+          bigRegion={selectedBigRegion}
+          smallRegion={selectedSmallRegion}
+          location={event.eventLocationName}
         />
       )}
       <BottomBar
-        shuttleName={shuttle.name}
+        eventName={event.eventName}
         disabled={
-          !selectedDailyShuttle || !regionId || shuttle.status !== 'OPEN'
+          !selectedDailyEvent || !regionId || event.eventStatus !== 'OPEN'
         }
       />
-      {initialDailyShuttleId && initialBigRegion && initialSmallRegion && (
+      {initialDailyEventId && initialBigRegion && initialSmallRegion && (
         <RouteModal
-          shuttle={shuttle}
-          dailyShuttleId={initialDailyShuttleId}
+          event={event}
+          dailyEventId={initialDailyEventId}
           bigRegion={initialBigRegion}
           smallRegion={initialSmallRegion}
         />

@@ -1,18 +1,17 @@
 'use client';
 
-import { HubType } from '@/types/hub.type';
 import SpinnerIcon from '/public/icons/spinner.svg';
 import dayjs from 'dayjs';
 import RoutePoints from './RoutePoint';
-import { TripType } from '@/types/shuttle.types';
+import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
 
 type Props = {
   type: TripType;
-  toDestinationHubs?: HubType[];
-  fromDestinationHubs?: HubType[];
+  toDestinationHubs?: ShuttleRouteHub[];
+  fromDestinationHubs?: ShuttleRouteHub[];
   isSelected?: boolean;
-  selectedToDestinationHub?: HubType;
-  selectedFromDestinationHub?: HubType;
+  selectedToDestinationHub?: ShuttleRouteHub;
+  selectedFromDestinationHub?: ShuttleRouteHub;
   isLoading?: boolean;
 };
 
@@ -38,7 +37,7 @@ const RouteVisualizer = ({
     );
 
   return (
-    <section className="flex flex-col gap-16 px-16 py-24">
+    <section className="flex flex-col gap-16">
       <header>
         <h2 className="text-22 font-700 leading-[30.8px]">셔틀 예상 노선</h2>
         <p className="text-14 font-500 leading-[22.4px] text-grey-500">
@@ -87,11 +86,11 @@ export default RouteVisualizer;
 
 type RouteCardProps = {
   type: 'TO_DESTINATION' | 'FROM_DESTINATION';
-  hubs: HubType[];
+  hubs: ShuttleRouteHub[];
 } & (
   | {
       isSelected: true;
-      selectedHub: HubType;
+      selectedHub: ShuttleRouteHub;
     }
   | {
       isSelected: false;
@@ -181,11 +180,11 @@ const RouteCard = (props: RouteCardProps) => {
 
 type HubItemProps = {
   isDestination: boolean;
-  hub: HubType;
+  hub: ShuttleRouteHub;
 } & (
   | {
       isSelected: true;
-      selectedHub: HubType;
+      selectedHub: ShuttleRouteHub;
     }
   | {
       isSelected: false;

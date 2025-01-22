@@ -1,19 +1,19 @@
-import { getUser } from '@/services/users';
 import OnboardingFunnel from './components/OnboardingFunnel';
-import { parseProgress } from '@/utils/parseProgress';
+import { parseProgress } from '@/utils/parseProgress.util';
 import { redirect } from 'next/navigation';
-import { removeOnboardingToken } from '@/utils/handleToken';
+import { removeOnboardingToken } from '@/utils/handleToken.util';
+import { getUser } from '@/services/user-management.service';
 
 const Funnel = async () => {
   const user = await getUser();
-  const progress = parseProgress(user.progresses);
-  if (progress === 'ONBOARDING_COMPLETE') {
+  const onboardingProgress = parseProgress(user.progresses);
+  if (onboardingProgress === 'ONBOARDING_COMPLETE') {
     await removeOnboardingToken();
     return redirect('/mypage');
   }
   return (
     <OnboardingFunnel
-      progress={progress}
+      onboardingProgress={onboardingProgress}
       initialPhoneNumber={user?.phoneNumber}
     />
   );

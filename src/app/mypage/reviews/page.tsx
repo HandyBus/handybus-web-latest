@@ -6,7 +6,7 @@ import Loading from '@/components/loading/Loading';
 import Link from 'next/link';
 import ReviewIcon from 'public/icons/review.svg';
 import DetailedReview from '@/app/help/reviews/components/DetailedReview';
-import { useGetUserReviews } from '@/services/reviews';
+import { useGetUserReviews } from '@/services/user-management.service';
 
 const Reviews = () => {
   const { data: reviews, isFetching } = useGetUserReviews();
@@ -14,24 +14,26 @@ const Reviews = () => {
     <>
       <AppBar>작성한 후기 조회</AppBar>
       <DeferredSuspense fallback={<Loading />} isLoading={isFetching}>
-        <main className="px-16 pb-16">
-          <div className="py-8 text-14 font-400 text-grey-500">
-            후기 ({reviews.length})
-          </div>
-          <ul className="flex flex-col gap-16">
-            {reviews.length === 0 ? (
-              <NoReview />
-            ) : (
-              reviews.map((review) => (
-                <DetailedReview
-                  key={review.reviewId}
-                  review={review}
-                  showCreatedAt
-                />
-              ))
-            )}
-          </ul>
-        </main>
+        {reviews && (
+          <main className="px-16 pb-16">
+            <div className="py-8 text-14 font-400 text-grey-500">
+              후기 ({reviews.length})
+            </div>
+            <ul className="flex flex-col gap-16">
+              {reviews.length === 0 ? (
+                <NoReview />
+              ) : (
+                reviews.map((review) => (
+                  <DetailedReview
+                    key={review.reviewId}
+                    review={review}
+                    showCreatedAt
+                  />
+                ))
+              )}
+            </ul>
+          </main>
+        )}
       </DeferredSuspense>
     </>
   );
@@ -47,7 +49,7 @@ const NoReview = () => {
         작성한 후기가 없어요
       </span>
       <Link
-        href="/"
+        href="/mypage/shuttle?type=past"
         className="text-14 font-500 text-grey-600-sub underline underline-offset-[3px]"
       >
         지난 콘서트 보러가기

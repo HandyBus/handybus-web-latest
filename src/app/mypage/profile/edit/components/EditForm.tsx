@@ -6,7 +6,6 @@ import {
 } from '@/components/onboarding-contents/formValidation.constants';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
-import { usePutUser } from '@/services/users';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import AppBar from '@/components/app-bar/AppBar';
@@ -15,16 +14,17 @@ import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoCo
 import ResidenceContent from '@/components/onboarding-contents/ResidenceContent';
 import ArtistContent from '@/components/onboarding-contents/ArtistContent';
 import { toast } from 'react-toastify';
-import { getImageUrl } from '@/services/common';
 import { useRouter } from 'next/navigation';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
-import { UserStatsType } from '@/types/client.types';
 import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
+import { usePutUser } from '@/services/user-management.service';
+import { UserStats } from '@/types/user-management.type';
+import { getImageUrl } from '@/services/common.service';
 
 interface Props {
   type: EditType;
-  userStats: UserStatsType;
+  userStats: UserStats;
 }
 
 const EditForm = ({ type, userStats }: Props) => {
@@ -37,7 +37,7 @@ const EditForm = ({ type, userStats }: Props) => {
       age: userStats.ageRange,
       bigRegion: region.bigRegion,
       smallRegion: region.smallRegion,
-      favoriteArtists: userStats.favoriteArtists,
+      favoriteArtists: userStats.favoriteArtists ?? [],
     },
     mode: 'onBlur',
   });
@@ -111,7 +111,9 @@ const EditForm = ({ type, userStats }: Props) => {
         return <ResidenceContent />;
       case 'artist':
         return (
-          <ArtistContent initialSelectedArtists={userStats.favoriteArtists} />
+          <ArtistContent
+            initialSelectedArtists={userStats.favoriteArtists ?? []}
+          />
         );
     }
   };
@@ -144,5 +146,5 @@ const TITLE = {
   profile: '프로필 수정',
   'personal-info': '성별 및 연령대 수정',
   region: '거주 지역 수정',
-  artist: '최애 가수 수정',
+  artist: '최애 아티스트 수정',
 };

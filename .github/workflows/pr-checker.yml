@@ -25,6 +25,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
           NEXT_PUBLIC_DOMAIN_URL: ${{ secrets.NEXT_PUBLIC_DOMAIN_URL }}
+          NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL: ${{ secrets.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL }}
 
       - name: Debug Information
         run: |

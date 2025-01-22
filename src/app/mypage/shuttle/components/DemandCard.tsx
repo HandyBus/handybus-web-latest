@@ -1,18 +1,19 @@
 'use client';
 
 import { ID_TO_REGION } from '@/constants/regions';
-import { ShuttleDemandType } from '@/types/client.types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, MouseEventHandler } from 'react';
 import { getStatusStyle } from '../status.utils';
-import { parseDateString } from '@/utils/dateString';
+import { dateString } from '@/utils/dateString.util';
 import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
+import { ShuttleDemand } from '@/types/user-management.type';
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 
 interface Props {
-  demand: ShuttleDemandType;
+  demand: ShuttleDemand;
   href?: string;
   buttonText?: string;
   buttonHref?: string;
@@ -41,8 +42,12 @@ const DemandCard = ({
       router.push(href);
     };
 
-  const parsedDemandDate = parseDateString(demand.createdAt);
-  const parsedShuttleDate = parseDateString(demand.shuttle.date);
+  const parsedDemandDate = dateString(demand.createdAt);
+  const parsedDailyEventDate = dateString(
+    demand.event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === demand.dailyEventId,
+    )?.date,
+  );
   const region = ID_TO_REGION[demand.regionId];
   const routeText = `${region.bigRegion} ${region.smallRegion} (${TRIP_STATUS_TO_STRING[demand.type]})`;
   const status = DEMAND_STATUS_TO_STRING[demand.status];
@@ -50,7 +55,7 @@ const DemandCard = ({
 
   return (
     <Link
-      href={href || `/demand/${demand.shuttle.shuttleId}`}
+      href={href || `/demand/${demand.eventId}`}
       className="flex w-full flex-col gap-12 p-16"
     >
       <div className="flex items-center gap-8 text-12">
@@ -61,7 +66,7 @@ const DemandCard = ({
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
-            src={demand.shuttle.image}
+            src={demand.event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
             alt="행사 포스터"
             fill
             className="object-cover"
@@ -69,13 +74,13 @@ const DemandCard = ({
         </div>
         <div className="flex flex-col">
           <span className="pb-4 text-16 font-500 text-grey-900">
-            {demand.shuttle.name}
+            {demand.event.eventName}
           </span>
           <span className="text-12 font-400 text-grey-900">
-            {demand.shuttle.destination.name}
+            {demand.event.eventLocationName}
           </span>
           <span className="text-12 font-400 text-grey-900">
-            {parsedShuttleDate} 셔틀
+            {parsedDailyEventDate} 셔틀
           </span>
           <span className="flex gap-12 text-12 font-400 text-grey-500">
             <span>{routeText}</span>

@@ -13,6 +13,6 @@ type Story = StoryObj<typeof SearchBar>;
 
 export const Primary: Story = {
   args: {
-    children: '최애 가수를 검색해보세요',
+    children: '최애 아티스트를 검색해보세요',
   },
 };

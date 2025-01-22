@@ -1,5 +1,4 @@
 import { MutableRefObject, useCallback, useRef } from 'react';
-import usePreventScroll from './usePreventScroll';
 
 interface Metrics {
   transformDuration: string;
@@ -13,8 +12,6 @@ const TRANSFORM_DURATION = { short: '200ms', long: '290ms' };
 const LONG_BOTTOM_SHEET_HEIGHT = 500;
 
 const useBottomSheet = () => {
-  const { preventScroll, allowScroll } = usePreventScroll();
-
   const bottomSheetRef = useCallback((bottomSheetElement: HTMLDivElement) => {
     if (!bottomSheetElement || !bottomSheetElement?.parentElement) {
       return;
@@ -88,7 +85,9 @@ const useBottomSheet = () => {
 
   // 바텀시트 열고 닫기
   const openBottomSheet = () => {
-    preventScroll();
+    // 스크롤 방지
+    document.body.style.overflow = 'hidden';
+
     const bottomSheetElement = bottomSheet.current;
     const backdropElement = backdrop.current;
     if (!bottomSheetElement || !backdropElement) {
@@ -116,7 +115,9 @@ const useBottomSheet = () => {
   };
 
   const closeBottomSheet = () => {
-    allowScroll();
+    // 스크롤 방지 해제
+    document.body.style.overflow = 'unset';
+
     const bottomSheetElement = bottomSheet.current;
     const backdropElement = backdrop.current;
     if (!bottomSheetElement || !backdropElement) {

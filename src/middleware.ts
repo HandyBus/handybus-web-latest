@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-import { updateToken } from './utils/handleToken';
 import {
   ACCESS_TOKEN,
   ONBOARDING_TOKEN,
@@ -8,6 +7,7 @@ import {
   REFRESH_TOKEN,
 } from './constants/token';
 import { cookies } from 'next/headers';
+import { postUpdateToken } from './services/auth.service';
 
 // 로그인이 필요한 페이지들만 미들웨어 처리
 export const middleware = async (req: NextRequest) => {
@@ -23,7 +23,10 @@ export const middleware = async (req: NextRequest) => {
 
   // 로그인 여부에 따라 리다이렉트
   if (!refreshToken) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    const currentUrl = req.nextUrl.pathname;
+    return NextResponse.redirect(
+      new URL(`/login?redirectUrl=${currentUrl}`, req.url),
+    );
   }
 
   // 온보딩 토큰이 있는 경우 온보딩 페이지로 리다이렉트
@@ -46,7 +49,7 @@ export const config = {
 const handleRefreshToken = async (req: NextRequest) => {
   try {
     const response = NextResponse.redirect(new URL(req.url));
-    const tokens = await updateToken();
+    const tokens = await postUpdateToken();
     response.cookies.set(ACCESS_TOKEN, tokens.accessToken, {
       ...OPTIONS,
       expires: new Date(tokens.accessTokenExpiresAt),

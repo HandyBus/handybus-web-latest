@@ -16,7 +16,7 @@ const HandySection = ({ id, name }: Props) => {
         href={`/mypage/shuttle/${id}/handy`}
         className="ml-auto mt-8 block w-fit rounded-full bg-grey-100 px-16 text-14 font-400 text-grey-600-sub"
       >
-        핸디 가이드 보러가기
+        오픈채팅방 링크 제출하기
       </Link>
     </Section>
   );

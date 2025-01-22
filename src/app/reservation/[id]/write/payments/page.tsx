@@ -1,16 +1,21 @@
 'use client';
 
-import { postBillingPayment } from '@/services/billing';
 import { CustomError } from '@/services/custom-error';
+import { postPayment } from '@/services/billing.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
+import usePreventScroll from '@/hooks/usePreventScroll';
+import usePreventRefresh from '@/hooks/usePreventRefresh';
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const isInitiated = useRef(false);
+
+  usePreventRefresh();
+  usePreventScroll();
 
   const callPaymentConfirmation = async () => {
     try {
@@ -21,7 +26,7 @@ const Page = () => {
         throw new CustomError(400, '구매키가 존재하지 않습니다.');
       }
 
-      const res = await postBillingPayment(orderId, paymentKey);
+      const res = await postPayment(orderId, paymentKey);
       router.replace(pathname + `/${res.reservationId}`);
     } catch (e) {
       const error = e as CustomError;
@@ -35,16 +40,6 @@ const Page = () => {
     }
     isInitiated.current = true;
     callPaymentConfirmation();
-  }, []);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []);
 
   return (

@@ -53,13 +53,35 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
     return getSinglePriceWithEarlybird(type, shuttleRoute);
   }, [getValues('type'), getValues('shuttleRoute')]);
 
+  const maxPassengerCount = useMemo(() => {
+    const [shuttleRoute, type] = getValues(['shuttleRoute', 'type']);
+    if (!shuttleRoute || !type) {
+      return 0;
+    }
+    const maxSeatCount = shuttleRoute?.maxPassengerCount ?? 0;
+    switch (type) {
+      case 'ROUND_TRIP':
+        return shuttleRoute?.remainingSeatCount ?? 0;
+      case 'TO_DESTINATION':
+        return maxSeatCount - (shuttleRoute?.toDestinationCount ?? 0);
+      case 'FROM_DESTINATION':
+        return maxSeatCount - (shuttleRoute?.fromDestinationCount ?? 0);
+      default:
+        return 0;
+    }
+  }, [getValues('shuttleRoute')]);
+
   return (
     <>
       <section className="flex flex-col gap-16 py-28">
         <h3 className="text-22 font-700 text-grey-900">
           탑승객 수를 입력해주세요
         </h3>
-        <Counter count={passengerCount} setCount={setPassengerCount} />
+        <Counter
+          count={passengerCount}
+          setCount={setPassengerCount}
+          max={Math.min(maxPassengerCount, 9)}
+        />
         <p className="text-12 font-400 text-grey-500">
           10명 이상 예약하는 경우, <u>핸디버스 카카오 채널</u>로 문의 바랍니다.
         </p>
@@ -111,7 +133,7 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
         <p className="flex items-center gap-12 text-22 font-700 text-grey-900">
           {passengerCount > 1 && (
             <span className="text-14 font-400 text-grey-600-sub">
-              ({price.toLocaleString()}원 * {passengerCount}인)
+              ({price?.toLocaleString()}원 * {passengerCount}인)
             </span>
           )}
           {(price * passengerCount).toLocaleString()}원

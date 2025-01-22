@@ -2,7 +2,7 @@ import Article from '@/components/article/Article';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
-import { getShuttles } from '@/services/shuttleOperation';
+import { getEvents } from '@/services/shuttle-operation.service';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (
@@ -11,7 +11,8 @@ const Page = () => (
     <div className="w-full p-16">
       <RedirectButton
         description="찾고 있는 셔틀이 없나요?"
-        href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL}
+        href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL ?? ''}
+        target="_blank"
       >
         원하는 셔틀 요청하기
       </RedirectButton>
@@ -22,19 +23,19 @@ const Page = () => (
 export default Page;
 
 const SubPage = async () => {
-  const shuttles = await getShuttles('OPEN');
-  const sortedShuttles = shuttles
-    .slice(0, 5)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  if (shuttles.length === 0) {
+  const events = await getEvents('OPEN');
+  if (events.length === 0) {
     return <Empty />;
   }
 
+  const sortedEvents = events
+    .slice(0, 5)
+    .sort((a, b) => a.eventName.localeCompare(b.eventName));
+
   return (
     <div className="flex flex-col">
-      {sortedShuttles.map((d) => (
-        <DemandView key={d.shuttleId} event={d} />
+      {sortedEvents.map((event) => (
+        <DemandView key={event.eventId} event={event} />
       ))}
     </div>
   );

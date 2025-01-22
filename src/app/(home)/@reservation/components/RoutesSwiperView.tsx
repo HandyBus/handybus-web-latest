@@ -1,15 +1,15 @@
 'use client';
 import { useRef, useState } from 'react';
 import Route from './Route';
-import { ShuttleRouteType } from '@/types/shuttle.types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import dynamic from 'next/dynamic';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
 const Empty = dynamic(() => import('@/app/reservation/components/Empty'));
 
 interface Props {
-  routes: ShuttleRouteType[];
+  routes: ShuttleRoute[];
 }
 
 const RoutesSwiperView = ({ routes }: Props) => {

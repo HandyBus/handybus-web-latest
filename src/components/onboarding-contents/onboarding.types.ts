@@ -1,14 +1,15 @@
 import { BigRegionsType } from '@/constants/regions';
-import { AgeType, ArtistType } from '@/types/client.types';
+import { Artist } from '@/types/shuttle-operation.type';
+import { AgeRange } from '@/types/user-management.type';
 
 export interface OnboardingFormValues {
   nickname: string;
   phoneNumber: string;
   profileImage: File | null;
   gender: '남성' | '여성';
-  age: AgeType;
+  age: AgeRange;
   bigRegion: BigRegionsType;
   smallRegion: string | undefined;
   regionId: number;
-  favoriteArtists: ArtistType[];
+  favoriteArtists: Artist[];
 }

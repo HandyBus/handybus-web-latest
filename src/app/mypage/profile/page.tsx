@@ -3,12 +3,12 @@
 import AppBar from '@/components/app-bar/AppBar';
 import ListButton from '../components/ListButton';
 import Image from 'next/image';
-import { useGetUserStats } from '@/services/users';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { ID_TO_REGION } from '@/constants/regions';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { parsePhoneNumber } from '@/utils/common';
+import { parsePhoneNumber } from '@/utils/common.util';
+import { useGetUserStats } from '@/services/user-management.service';
 
 const Profile = () => {
   const { data: userStats, isLoading } = useGetUserStats();
@@ -16,7 +16,8 @@ const Profile = () => {
   const gender = userStats?.gender === 'MALE' ? '남성' : '여성';
   const region = ID_TO_REGION[userStats?.regionId ?? 1];
   const favoriteArtists =
-    userStats?.favoriteArtists.map((artist) => artist.name).join(', ') ?? '';
+    userStats?.favoriteArtists?.map((artist) => artist.artistName).join(', ') ??
+    '';
   const phoneNumber = parsePhoneNumber(userStats?.phoneNumber ?? '');
 
   return (
@@ -49,7 +50,7 @@ const Profile = () => {
                 />
                 {favoriteArtists && (
                   <ProfileItem
-                    title="최애 가수"
+                    title="최애 아티스트"
                     description={favoriteArtists}
                   />
                 )}
@@ -72,7 +73,7 @@ const Profile = () => {
               replace
             />
             <ListButton
-              title="최애 가수 수정"
+              title="최애 아티스트 수정"
               href="/mypage/profile/edit?type=artist"
               replace
             />
@@ -93,7 +94,7 @@ interface ProfileItemProps {
 const ProfileItem = ({ title, description }: ProfileItemProps) => {
   return (
     <li className="flex items-center gap-16 text-grey-600-sub">
-      <div className="flex h-20 w-[70px] shrink-0 items-center justify-center rounded-full border border-grey-100 text-12 font-500">
+      <div className="flex h-20 w-[78px] shrink-0 items-center justify-center rounded-full border border-grey-100 text-12 font-500">
         {title}
       </div>
       <span className="text-14 font-400">{description}</span>

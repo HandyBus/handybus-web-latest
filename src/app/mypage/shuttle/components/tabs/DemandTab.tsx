@@ -2,77 +2,72 @@
 
 import { ReactNode, useMemo, useState } from 'react';
 import SmallBusIcon from 'public/icons/bus-small.svg';
-import { ShuttleDemandType } from '@/types/client.types';
 import DemandCard from '../DemandCard';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import dynamic from 'next/dynamic';
-import {
-  useDeleteDemand,
-  useGetReservationOngoingDemands,
-  useGetUserDemands,
-} from '@/services/demand';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
+import { useGetUserDemands } from '@/services/user-management.service';
+import { ShuttleDemand } from '@/types/user-management.type';
+import { useDeleteDemand } from '@/services/shuttle-operation.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const DemandTab = () => {
   const { data: demands, isLoading } = useGetUserDemands();
-  const reservationOngoingDemands = useGetReservationOngoingDemands(
-    demands ?? [],
-  );
-  const parsedReservationOngoingDemands = reservationOngoingDemands.every(
-    (request) => request.isSuccess,
-  )
-    ? reservationOngoingDemands
-        .filter((x) => x.data !== null)
-        .map((x) => x.data as ShuttleDemandType)
-    : [];
 
-  const sortedDemands = useMemo(
+  const demandsWithReservationOngoing = useMemo(
     () =>
-      demands?.sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      demands?.filter(
+        (demand) =>
+          demand.hasShuttleRoute &&
+          (demand.status === 'OPEN' || demand.status === 'CLOSED'),
       ),
+    [demands],
+  );
+  const demandsWithoutReservationOngoing = useMemo(
+    () => demands?.filter((demand) => !demand.hasShuttleRoute),
     [demands],
   );
 
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
-  const [demand, setDemand] = useState<ShuttleDemandType | null>(null);
+  const [demand, setDemand] = useState<ShuttleDemand | null>(null);
 
   return (
     <>
       <ul>
-        {parsedReservationOngoingDemands.length > 0 && (
-          <ReservationOngoingWrapper count={reservationOngoingDemands.length}>
-            {parsedReservationOngoingDemands.map((demand) => {
-              const region = ID_TO_REGION[demand.regionId];
-              const href = `/demand/${demand.shuttle.shuttleId}?dailyShuttleId=${demand.dailyShuttleId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
-              return (
-                <DemandCard
-                  key={demand.shuttleDemandId}
-                  demand={demand}
-                  href={href}
-                  buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
-                  buttonHref={href}
-                />
-              );
-            })}
-          </ReservationOngoingWrapper>
-        )}
+        {demandsWithReservationOngoing &&
+          demandsWithReservationOngoing.length > 0 && (
+            <ReservationOngoingWrapper
+              count={demandsWithReservationOngoing.length}
+            >
+              {demandsWithReservationOngoing.map((demand) => {
+                const region = ID_TO_REGION[demand.regionId];
+                const href = `/demand/${demand.eventId}?dailyEventId=${demand.dailyEventId}&bigRegion=${region.bigRegion}&smallRegion=${region.smallRegion}`;
+                return (
+                  <DemandCard
+                    key={demand.shuttleDemandId}
+                    demand={demand}
+                    href={href}
+                    buttonText="현재 예약이 진행되고 있는 셔틀이 있어요!"
+                    buttonHref={href}
+                  />
+                );
+              })}
+            </ReservationOngoingWrapper>
+          )}
       </ul>
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {sortedDemands &&
-          (sortedDemands.length === 0 ? (
+        {demands &&
+          (demands.length === 0 ? (
             <EmptyView />
           ) : (
             <ul>
-              {sortedDemands.map((demand) => (
+              {demandsWithoutReservationOngoing?.map((demand) => (
                 <DemandCard
                   key={demand.shuttleDemandId}
                   demand={demand}
@@ -105,8 +100,8 @@ const DemandTab = () => {
             return;
           }
           deleteDemand({
-            shuttleId: demand.shuttle.shuttleId,
-            dailyShuttleId: demand.dailyShuttleId,
+            eventId: demand.eventId,
+            dailyEventId: demand.dailyEventId,
             shuttleDemandId: demand.shuttleDemandId,
           });
           setDemand(null);
