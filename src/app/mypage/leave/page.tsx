@@ -12,7 +12,11 @@ import { toast } from 'react-toastify';
 const Leave = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate: deleteUser } = useDeleteUser({
+  const {
+    mutate: deleteUser,
+    isPending,
+    isSuccess,
+  } = useDeleteUser({
     onSuccess: () => {
       logout();
       toast.success('핸디버스를 이용해주셔서 감사합니다.');
@@ -22,6 +26,8 @@ const Leave = () => {
       toast.error('잠시 후 다시 시도해주세요.');
     },
   });
+
+  const disabled = !isChecked || isPending || isSuccess;
 
   return (
     <>
@@ -56,7 +62,7 @@ const Leave = () => {
           </button>
           <Button
             type="button"
-            disabled={!isChecked}
+            disabled={disabled}
             onClick={() => setIsOpen(true)}
           >
             탈퇴 계속하기
@@ -69,6 +75,7 @@ const Leave = () => {
         onClosed={() => setIsOpen(false)}
         buttonLabels={{ back: '안 떠날래요', confirm: '탈퇴하기' }}
         onConfirm={deleteUser}
+        disabled={disabled}
       />
     </>
   );
