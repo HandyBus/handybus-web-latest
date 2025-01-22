@@ -79,7 +79,8 @@ const ReservationCard = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="pb-4 text-16 font-500 text-grey-900">
+          <span className="line-clamp-1 pb-4 text-16 font-500 text-grey-900">
+            [{reservation.shuttleRoute.name}]{' '}
             {reservation.shuttleRoute.event.eventName}
           </span>
           <span className="text-12 font-400 text-grey-900">
@@ -88,11 +89,8 @@ const ReservationCard = ({
           <span className="text-12 font-400 text-grey-900">
             {parsedShuttleDate} 셔틀
           </span>
-          <span className="flex gap-12 text-12 font-400 text-grey-500">
-            <span>
-              {reservation.shuttleRoute.name} (
-              {TRIP_STATUS_TO_STRING[reservation.type]})
-            </span>
+          <span className="flex gap-8 text-12 font-400 text-grey-500">
+            <span>{TRIP_STATUS_TO_STRING[reservation.type]}</span>
             <span>{reservation.passengers?.length}인</span>
           </span>
           <span className="pt-4 text-14 font-500 text-grey-900">

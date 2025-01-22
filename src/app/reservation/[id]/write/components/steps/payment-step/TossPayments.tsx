@@ -30,11 +30,14 @@ const TossPayments = ({ handlePrevStep }: Props) => {
   const pathname = usePathname();
   const { getValues, control } = useFormContext<ReservationFormValues>();
 
-  const [loaded, setLoaded] = useState(false);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [tossInitialized, setTossInitialized] = useState(false);
   const [tossWidgets, setTossWidgets] = useState<TossPaymentsWidgets | null>(
     null,
   );
   const [loading, setLoading] = useState(false);
+  const buttonDisabled =
+    !scriptLoaded || !tossInitialized || !tossWidgets || loading;
 
   const loadUserId = useCallback(async () => {
     try {
@@ -90,6 +93,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         selector: '#agreement',
         variantKey: 'AGREEMENT',
       });
+      setTossInitialized(true);
     } catch (e) {
       const error = e as CustomError;
       console.error(error);
@@ -98,10 +102,10 @@ const TossPayments = ({ handlePrevStep }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (loaded) {
+    if (scriptLoaded) {
       initializeTossPayments();
     }
-  }, [loaded]);
+  }, [scriptLoaded]);
 
   const finalPrice = useWatch({
     control,
@@ -181,11 +185,11 @@ const TossPayments = ({ handlePrevStep }: Props) => {
       <BottomBar
         handlePayment={handlePayment}
         handlePrevStep={handlePrevStep}
-        loading={loading}
+        disabled={buttonDisabled}
       />
       <Script
         src="https://js.tosspayments.com/v2/standard"
-        onReady={() => setLoaded(true)}
+        onReady={() => setScriptLoaded(true)}
         strategy="afterInteractive"
       />
     </>
@@ -197,13 +201,13 @@ export default TossPayments;
 interface BottomBarProps {
   handlePayment: () => void;
   handlePrevStep: () => void;
-  loading: boolean;
+  disabled: boolean;
 }
 
 const BottomBar = ({
   handlePayment,
   handlePrevStep,
-  loading,
+  disabled,
 }: BottomBarProps) => {
   const { control } = useFormContext<ReservationFormValues>();
   const finalPrice = useWatch({
@@ -216,7 +220,7 @@ const BottomBar = ({
       <Button type="button" variant="secondary" onClick={handlePrevStep}>
         이전
       </Button>
-      <Button type="button" disabled={loading} onClick={handlePayment}>
+      <Button type="button" disabled={disabled} onClick={handlePayment}>
         {finalPrice.toLocaleString()}원 결제하기
       </Button>
     </div>
