@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { useEffect } from 'react';
+import { Cookies } from 'react-cookie';
 
 interface Props {
   searchParams: {
@@ -17,11 +18,18 @@ interface Props {
 const Login = ({ searchParams }: Props) => {
   usePreventScroll();
 
-  useEffect(() => {
+  const handleRedirectUrl = () => {
     const redirectUrl = searchParams.redirectUrl;
+    const cookies = new Cookies();
     if (redirectUrl) {
-      sessionStorage.setItem('redirectUrl', redirectUrl);
+      cookies.set('redirectUrl', redirectUrl);
+    } else {
+      cookies.remove('redirectUrl');
     }
+  };
+
+  useEffect(() => {
+    handleRedirectUrl();
   }, [searchParams]);
 
   return (
