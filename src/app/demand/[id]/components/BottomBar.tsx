@@ -23,9 +23,7 @@ const BottomBar = ({ eventName, disabled = false }: Props) => {
           </p>
 
           <div className="flex justify-between gap-12 font-600">
-            <Button type="button" disabled={disabled}>
-              수요 신청하기
-            </Button>
+            <Button disabled={disabled}>수요 신청하기</Button>
             <Button type="button" variant="secondary" onClick={openBottomSheet}>
               친구에게 알리기
             </Button>
