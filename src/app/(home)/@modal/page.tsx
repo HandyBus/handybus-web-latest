@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const Page = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(
+    process.env.NODE_ENV === 'production' ? true : false,
+  );
   const push = useRouter().push;
 
   return (
