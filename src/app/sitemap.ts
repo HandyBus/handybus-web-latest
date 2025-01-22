@@ -82,7 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
   const shuttleRoutesArray = shuttleRoutes.map((route) => ({
-    url: `${baseUrl}/reservation/${route.eventId}?dailyShuttleId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`,
+    url: `${baseUrl}/reservation/${route.eventId}?dailyShuttleId=${route.dailyEventId}&amp;shuttleRouteId=${route.shuttleRouteId}`,
     lastModified: new Date(route.updatedAt),
     // changeFrequency: 'weekly' as ChangeFreq,
     priority: 0.8,
