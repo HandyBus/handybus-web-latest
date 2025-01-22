@@ -27,7 +27,7 @@ const ReservationInfo = ({ event }: Props) => {
     <>
       <section className="flex flex-col gap-16 py-28">
         <h2 className="text-22 font-700 text-grey-900">
-          예약내역을 확인해주세요
+          신청 정보를 확인해주세요
         </h2>
         <div className="grid grid-cols-[80px_1fr] gap-x-32 gap-y-12">
           <Item label="탑승일" value={parsedDate} />
