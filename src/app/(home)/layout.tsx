@@ -7,6 +7,7 @@ interface Props {
   bot: ReactNode;
   reservation: ReactNode;
   demand: ReactNode;
+  modal: ReactNode;
 }
 
 export default function WithFooterLayout({
@@ -14,6 +15,7 @@ export default function WithFooterLayout({
   bot,
   reservation,
   demand,
+  modal,
 }: Readonly<Props>) {
   return (
     <div className="flex h-full flex-grow flex-col">
@@ -23,6 +25,7 @@ export default function WithFooterLayout({
         {reservation}
         {demand}
         {bot}
+        {modal}
       </main>
       <Footer />
     </div>
