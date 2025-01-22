@@ -2,8 +2,6 @@
 
 import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
-import IconButton from '@/components/buttons/icon-button/IconButton';
-import ShareIcon from 'public/icons/share.svg';
 import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
 
 interface Props {
@@ -24,15 +22,13 @@ const BottomBar = ({ eventName, disabled = false }: Props) => {
             결과를 노선 개설에 활용합니다.
           </p>
 
-          <div className=" flex justify-between gap-12">
-            <Button disabled={disabled}>수요 신청하기</Button>
-            <IconButton
-              type="button"
-              className="h-44 w-44"
-              onClick={openBottomSheet}
-            >
-              <ShareIcon />
-            </IconButton>
+          <div className="flex justify-between gap-12 font-600">
+            <Button type="button" disabled={disabled}>
+              수요 신청하기
+            </Button>
+            <Button type="button" variant="secondary" onClick={openBottomSheet}>
+              친구에게 알리기
+            </Button>
           </div>
         </div>
       </div>
