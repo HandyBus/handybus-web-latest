@@ -17,7 +17,7 @@ const DemandView = ({ event }: Props) => {
         <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-[8px] bg-grey-300">
           <Image
             className="object-cover"
-            src={event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
+            src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
             alt={`콘서트 ${event.eventName}의 포스터`}
             fill
           />

@@ -66,7 +66,7 @@ const DemandCard = ({
       <div className="flex h-[130px] w-full gap-16">
         <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
           <Image
-            src={demand.event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
+            src={demand.event.eventImageUrl || DEFAULT_EVENT_IMAGE}
             alt="행사 포스터"
             fill
             className="object-cover"
