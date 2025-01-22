@@ -39,28 +39,43 @@ const ApplyCoupon = () => {
 
     const passengersCount = passengers.length;
     const isEarlybird = checkIsEarlybird(shuttleRoute);
-
     const singlePrice = getSinglePrice(type, shuttleRoute);
-    const singlePriceWithEarlybird = isEarlybird
+
+    // 얼리버드 할인
+    const singlePriceWithEarlybirdDiscount = isEarlybird
       ? getSinglePriceWithEarlybird(type, shuttleRoute)
       : singlePrice;
-
     const earlybirdDiscount =
-      (singlePrice - singlePriceWithEarlybird) * passengersCount;
+      (singlePrice - singlePriceWithEarlybirdDiscount) * passengersCount;
+    const totalPriceWithEarlybirdDiscount =
+      singlePriceWithEarlybirdDiscount * passengersCount;
+
+    // 쿠폰 할인
+    const cappedPassengersCount = selectedCoupon?.maxApplicablePeople
+      ? Math.min(passengersCount, selectedCoupon.maxApplicablePeople)
+      : passengersCount;
     const singleCouponDiscount = selectedCoupon
       ? selectedCoupon.discountType === 'RATE'
-        ? ((selectedCoupon.discountRate ?? 0) / 100) * singlePriceWithEarlybird
+        ? ((selectedCoupon.discountRate ?? 0) / 100) *
+          singlePriceWithEarlybirdDiscount
         : (selectedCoupon.discountAmount ?? 0)
       : 0;
     const couponDiscount = Math.ceil(
-      selectedCoupon?.maxDiscountAmount
-        ? Math.min(singleCouponDiscount, selectedCoupon.maxDiscountAmount) *
-            passengersCount
-        : singleCouponDiscount * passengersCount,
+      singleCouponDiscount * cappedPassengersCount,
     );
+    const cappedCouponDiscount = selectedCoupon?.maxDiscountAmount
+      ? Math.min(
+          couponDiscount,
+          selectedCoupon.maxDiscountAmount,
+          totalPriceWithEarlybirdDiscount,
+        )
+      : Math.min(couponDiscount, totalPriceWithEarlybirdDiscount);
 
-    const totalPrice = singlePriceWithEarlybird * passengersCount;
-    const finalPrice = Math.floor(totalPrice - couponDiscount);
+    // 최종 결제 금액
+    const finalPrice = Math.max(
+      Math.floor(totalPriceWithEarlybirdDiscount - cappedCouponDiscount),
+      0,
+    );
 
     setValue('finalPrice', finalPrice);
 
@@ -69,7 +84,7 @@ const ApplyCoupon = () => {
       isEarlybird,
       singlePrice,
       earlybirdDiscount,
-      couponDiscount,
+      couponDiscount: cappedCouponDiscount,
       finalPrice,
     };
   }, [selectedCoupon?.issuedCouponId]);
