@@ -13,6 +13,7 @@ import {
 import { parseProgress } from '@/utils/parseProgress.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { Cookies } from 'react-cookie';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' };
@@ -44,8 +45,9 @@ const OAuth = ({ params, searchParams }: Props) => {
         await setOnboardingToken();
         router.push('/onboarding');
       } else {
-        const redirectUrl = sessionStorage.getItem('redirectUrl') || '/';
-        sessionStorage.removeItem('redirectUrl');
+        const cookies = new Cookies();
+        const redirectUrl = cookies.get('redirectUrl') || '/';
+        cookies.remove('redirectUrl');
         router.replace(redirectUrl);
       }
     } catch (e) {
