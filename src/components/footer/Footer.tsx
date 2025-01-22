@@ -18,15 +18,27 @@ const Footer = () => {
         성신여자대학교운정그린캠퍼스)
       </div>
       <div className="flex gap-16">
-        <button>
+        <a
+          href="https://www.instagram.com/handy.bus/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <InstagramIcon />
-        </button>
-        <button>
+        </a>
+        <a
+          href="https://x.com/Handy_Bus?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <TwitterIcon />
-        </button>
-        <button>
+        </a>
+        <a
+          href="https://blog.naver.com/handy_bus"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <NaverBlogIcon />
-        </button>
+        </a>
       </div>
       <div className="text-12 font-600 text-grey-500">
         <Link href="/policy">이용약관</Link>
