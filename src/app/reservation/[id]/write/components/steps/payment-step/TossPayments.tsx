@@ -81,18 +81,21 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         throw new CustomError(400, '최종 가격이 존재하지 않습니다..');
       }
 
-      widgets.setAmount({
-        value: finalPrice,
-        currency: 'KRW',
-      });
-      widgets.renderPaymentMethods({
-        selector: '#payment-method',
-        variantKey: 'DEFAULT',
-      });
-      widgets.renderAgreement({
-        selector: '#agreement',
-        variantKey: 'AGREEMENT',
-      });
+      await Promise.all([
+        widgets.setAmount({
+          value: finalPrice,
+          currency: 'KRW',
+        }),
+        widgets.renderPaymentMethods({
+          selector: '#payment-method',
+          variantKey: 'DEFAULT',
+        }),
+        widgets.renderAgreement({
+          selector: '#agreement',
+          variantKey: 'AGREEMENT',
+        }),
+      ]);
+
       setTossInitialized(true);
     } catch (e) {
       const error = e as CustomError;
