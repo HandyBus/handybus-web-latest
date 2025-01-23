@@ -34,7 +34,6 @@ const ShuttleDetail = ({ params }: Props) => {
   );
 
   const isShuttleBusAssigned = Boolean(data?.reservation?.shuttleBusId);
-  const isHandy = data?.reservation?.handyStatus === 'ACCEPTED';
   const isCanceled = data?.reservation?.cancelStatus === 'CANCEL_COMPLETE';
   const date = data?.reservation?.shuttleRoute.event.dailyEvents.find(
     (dailyEvent) =>
@@ -67,17 +66,16 @@ const ShuttleDetail = ({ params }: Props) => {
             )}
             {!isCanceled ? (
               <>
-                {isShuttleBusAssigned && isHandy && (
-                  <HandySection
-                    id={id}
-                    name={data.reservation.passengers?.[0].passengerName ?? ''}
-                  />
-                )}
                 {isShuttleBusAssigned &&
                   shuttleBus?.openChatLink &&
                   shuttleBus && <BusInfoSection shuttleBus={shuttleBus} />}
                 <ReservationInfoSection
                   reservation={data.reservation}
+                  handyStatus={data.reservation.handyStatus}
+                />
+                <HandySection
+                  reservationId={data.reservation.reservationId}
+                  name={data.reservation.passengers?.[0].passengerName ?? ''}
                   handyStatus={data.reservation.handyStatus}
                 />
                 <RouteSection

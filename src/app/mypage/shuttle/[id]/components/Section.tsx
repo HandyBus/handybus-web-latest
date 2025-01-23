@@ -4,7 +4,7 @@ import ChevronRightIcon from 'public/icons/chevron-right.svg';
 
 interface Props {
   children: ReactNode;
-  title: string;
+  title: ReactNode;
   isExpandable?: boolean;
 }
 
