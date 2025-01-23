@@ -1,4 +1,5 @@
 import {
+  HandyStatus,
   ReservationStatus,
   ShuttleDemandStatus,
 } from '@/types/user-management.type';
@@ -25,8 +26,8 @@ const STATUS_STYLE = {
     text: 'text-black',
   },
   red: {
-    dot: 'bg-red-500',
-    text: 'text-red-500',
+    dot: 'bg-red-700',
+    text: 'text-red-700',
   },
 };
 
@@ -49,9 +50,22 @@ export const getReservationStatusStyle = (status: ReservationStatus) => {
   switch (status) {
     case 'COMPLETE_PAYMENT':
       return STATUS_STYLE.black;
-    case 'NOT_PAYMENT':
+    case 'CANCEL':
       return STATUS_STYLE.red;
     default:
       return STATUS_STYLE.lightGrey;
+  }
+};
+
+export const getHandyStatusStyle = (status: HandyStatus) => {
+  switch (status) {
+    case 'ACCEPTED':
+      return 'text-blue-500';
+    case 'DECLINED':
+      return 'text-grey-400';
+    case 'NOT_SUPPORTED':
+      return 'text-primary-main';
+    default:
+      return 'text-grey-400';
   }
 };

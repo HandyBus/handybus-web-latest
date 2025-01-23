@@ -23,7 +23,9 @@ const CurrentTab = () => {
               <ReservationCard
                 key={reservation.reservationId}
                 reservation={reservation}
-                subButtonText="예약 상세보기"
+                buttonText="예약 취소"
+                buttonHref={`/mypage/shuttle/${reservation.reservationId}`}
+                subButtonText="예약 상세"
                 subButtonHref={`/mypage/shuttle/${reservation.reservationId}`}
               />
             ))}

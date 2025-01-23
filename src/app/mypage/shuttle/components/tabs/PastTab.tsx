@@ -29,6 +29,7 @@ const PastTab = () => {
                     ? '/mypage/reviews'
                     : `/mypage/reviews/write/${reservation.reservationId}`
                 }
+                buttonColor="primary"
                 subButtonText="예약 상세보기"
                 subButtonHref={`/mypage/shuttle/${reservation.reservationId}`}
               />

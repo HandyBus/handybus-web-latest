@@ -43,9 +43,9 @@ export const TRIP_STATUS_TO_STRING: Record<TripType, string> = {
 } as const;
 
 export const HANDY_STATUS_TO_STRING: Record<HandyStatus, string> = {
-  SUPPORTED: '핸디 지원',
-  ACCEPTED: '핸디',
-  DECLINED: '',
+  SUPPORTED: '핸디 심사 진행 중',
+  ACCEPTED: '핸디 선정',
+  DECLINED: '핸디 미선정',
   NOT_SUPPORTED: '',
 } as const;
 
