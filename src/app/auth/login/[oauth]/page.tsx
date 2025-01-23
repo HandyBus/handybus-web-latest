@@ -47,7 +47,7 @@ const OAuth = ({ params, searchParams }: Props) => {
         await setOnboardingToken();
         router.push('/onboarding');
       } else {
-        router.replace(redirectUrl);
+        router.replace(decodeURIComponent(redirectUrl));
       }
     } catch (e) {
       console.error(e);
