@@ -4,10 +4,7 @@ import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { dateString } from '@/utils/dateString.util';
 import { parsePhoneNumber } from '@/utils/common.util';
-import {
-  HANDY_STATUS_TO_STRING,
-  TRIP_STATUS_TO_STRING,
-} from '@/constants/status';
+import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyStatus, Reservation } from '@/types/user-management.type';
 
 interface Props {
@@ -37,7 +34,6 @@ const ReservationInfoSection = ({
       (hub) =>
         hub.shuttleRouteHubId === reservation.fromDestinationShuttleRouteHubId,
     )?.name;
-  const handyTagText = HANDY_STATUS_TO_STRING[reservation.handyStatus];
   const parsedDate = dateString(
     reservation.shuttleRoute.event.dailyEvents.find(
       (dailyEvent) =>
@@ -91,7 +87,6 @@ const ReservationInfoSection = ({
               index={index + 1}
               name={passenger.passengerName}
               phoneNumber={parsePhoneNumber(passenger.passengerPhoneNumber)}
-              tagText={index === 0 ? handyTagText : undefined}
             />
           ))}
         </div>
@@ -106,19 +101,13 @@ interface PassengerProps {
   index: number;
   name: string;
   phoneNumber: string;
-  tagText?: string;
 }
 
-const Passenger = ({ index, name, phoneNumber, tagText }: PassengerProps) => {
+const Passenger = ({ index, name, phoneNumber }: PassengerProps) => {
   return (
     <section className="flex flex-col gap-8">
       <h4 className="flex items-center gap-8 pb-4 text-18 font-500 text-grey-700">
         탑승객 {index}
-        {tagText && (
-          <div className="rounded-full border border-grey-100 px-8 text-12 font-400 text-grey-600-sub">
-            {tagText}
-          </div>
-        )}
       </h4>
       <DetailRow title="이름" content={name} />
       <DetailRow title="전화번호" content={phoneNumber} />
