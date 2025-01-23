@@ -1,2 +1,6 @@
 addReviewers: true
 addAssignees: author
+
+reviewers:
+  - joonseong11
+  - gw-lim

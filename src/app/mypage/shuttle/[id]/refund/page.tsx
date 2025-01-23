@@ -55,8 +55,9 @@ const Refund = ({ params }: Props) => {
     }
 
     const diffDays = Math.ceil(
-      (currentDate.getTime() - shuttleDate.getTime()) / (1000 * 60 * 60 * 24),
+      (shuttleDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
     );
+
     if (diffDays >= REFUND_DAY_LIMIT) {
       return true;
     }

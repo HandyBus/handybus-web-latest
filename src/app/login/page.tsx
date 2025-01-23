@@ -7,21 +7,24 @@ import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-interface Props {
-  searchParams: {
-    redirectUrl: string | null | undefined;
-  };
-}
-
-const Login = ({ searchParams }: Props) => {
+const Login = () => {
   usePreventScroll();
 
-  useEffect(() => {
-    const redirectUrl = searchParams.redirectUrl;
+  const searchParams = useSearchParams();
+
+  const handleRedirectUrl = () => {
+    const redirectUrl = searchParams.get('redirectUrl');
     if (redirectUrl) {
-      sessionStorage.setItem('redirectUrl', redirectUrl);
+      localStorage.setItem('redirectUrl', encodeURIComponent(redirectUrl));
+    } else {
+      localStorage.removeItem('redirectUrl');
     }
+  };
+
+  useEffect(() => {
+    handleRedirectUrl();
   }, [searchParams]);
 
   return (
