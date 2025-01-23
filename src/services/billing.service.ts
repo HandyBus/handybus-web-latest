@@ -47,6 +47,7 @@ export const postRefund = async (paymentId: string, refundReason: string) => {
 };
 
 export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       paymentId,
@@ -55,7 +56,10 @@ export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
       paymentId: string;
       refundReason: string;
     }) => postRefund(paymentId, refundReason),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['user', 'reservation'],
+      });
       toast.success('예약이 취소되었습니다.');
       onSuccess?.();
     },
