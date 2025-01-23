@@ -56,12 +56,20 @@ const CurrentTab = () => {
               <ReservationCard
                 key={reservation.reservationId}
                 reservation={reservation}
-                buttonText="예약 취소"
-                onButtonClick={() => handleReservationCancelClick(reservation)}
-                subButtonText="예약 상세"
-                onSubButtonClick={() =>
-                  handleReservationDetailClick(reservation.reservationId)
-                }
+                {...(reservation.reservationStatus === 'CANCEL'
+                  ? {
+                      buttonText: '취소 상세 보기',
+                      onButtonClick: () =>
+                        handleReservationDetailClick(reservation.reservationId),
+                    }
+                  : {
+                      buttonText: '예약 취소',
+                      onButtonClick: () =>
+                        handleReservationCancelClick(reservation),
+                      subButtonText: '예약 상세',
+                      onSubButtonClick: () =>
+                        handleReservationDetailClick(reservation.reservationId),
+                    })}
               />
             ))}
             <CancelBottomSheet

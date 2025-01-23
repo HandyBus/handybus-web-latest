@@ -93,7 +93,7 @@ const CancelBottomSheet = ({
                   다음
                 </Button>
               </div>
-              <div className="fixed z-[103] -mx-32 h-400 w-full bg-white" />
+              <div className="fixed -mx-32 h-400 w-full bg-white" />
             </section>
           </Step>
           <Step name="취소 수수료">
