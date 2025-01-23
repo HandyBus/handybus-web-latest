@@ -7,6 +7,7 @@ import { CustomError } from '@/services/custom-error';
 import { usePutShuttleBus } from '@/services/shuttle-operation.service';
 import { useGetUserReservation } from '@/services/user-management.service';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -87,6 +88,12 @@ const Handy = ({ params }: Props) => {
       openChatLink: formValues.openChatLink,
     });
   };
+
+  useEffect(() => {
+    if (data?.reservation.handyStatus !== 'ACCEPTED') {
+      router.replace(`/mypage/shuttle/${id}`);
+    }
+  }, [data?.reservation.handyStatus]);
 
   const openHandyGuide = () => {
     window.open(HANDY_GUIDE_URL);

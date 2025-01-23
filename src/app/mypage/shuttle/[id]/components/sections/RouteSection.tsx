@@ -7,6 +7,7 @@ import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
 import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
 import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
+import Button from '@/components/buttons/button/Button';
 
 interface Props {
   reservationId: number;
@@ -110,32 +111,25 @@ const RouteSection = ({
           )}
         </section>
         {canEditHub && (
-          <div className="flex flex-col items-end gap-8 pb-24 pr-24">
+          <div className="flex flex-col items-end gap-8 px-16 pb-32">
             {isEdit ? (
-              <div className="flex gap-8">
-                <button
+              <div className="flex w-full gap-8">
+                <Button
                   type="button"
                   onClick={() => setIsEdit(false)}
-                  className="h-[26px] rounded-full border border-grey-100 px-16 text-14 text-grey-600-sub"
+                  variant="secondary"
                 >
                   취소
-                </button>
-                <button
-                  type="submit"
-                  className="h-[26px] rounded-full border border-grey-100 bg-grey-700 px-16 text-14 text-white"
-                >
+                </Button>
+                <Button type="submit" variant="primary">
                   완료
-                </button>
+                </Button>
               </div>
             ) : (
               <>
-                <button
-                  type="button"
-                  onClick={() => setIsEdit(true)}
-                  className="h-[26px] rounded-full bg-grey-100 px-16 text-14 text-grey-600-sub"
-                >
-                  탑승지 변경하기
-                </button>
+                <Button type="button" onClick={() => setIsEdit(true)}>
+                  탑승지 변경
+                </Button>
                 <p className="text-12 font-400 text-grey-500">
                   탑승지 변경은 셔틀 운행일 기준 D-2일까지 가능합니다.
                 </p>

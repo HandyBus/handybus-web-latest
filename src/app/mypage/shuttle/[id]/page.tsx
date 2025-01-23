@@ -6,7 +6,6 @@ import ReservationInfoSection from './components/sections/ReservationInfoSection
 import HandySection from './components/sections/HandySection';
 import BusInfoSection from './components/sections/BusInfoSection';
 import PaymentInfoSection from './components/sections/PaymentInfoSection';
-import RefundSection from './components/sections/RefundSection';
 import TermsSection from './components/sections/TermsSection';
 import RefundInfoSection from './components/sections/RefundInfoSection';
 import RefundGuideSection from './components/sections/RefundGuideSection';
@@ -35,7 +34,6 @@ const ShuttleDetail = ({ params }: Props) => {
   );
 
   const isShuttleBusAssigned = Boolean(data?.reservation?.shuttleBusId);
-  const isHandy = data?.reservation?.handyStatus === 'ACCEPTED';
   const isCanceled = data?.reservation?.cancelStatus === 'CANCEL_COMPLETE';
   const date = data?.reservation?.shuttleRoute.event.dailyEvents.find(
     (dailyEvent) =>
@@ -68,17 +66,16 @@ const ShuttleDetail = ({ params }: Props) => {
             )}
             {!isCanceled ? (
               <>
-                {isShuttleBusAssigned && isHandy && (
-                  <HandySection
-                    id={id}
-                    name={data.reservation.passengers?.[0].passengerName ?? ''}
-                  />
-                )}
                 {isShuttleBusAssigned &&
                   shuttleBus?.openChatLink &&
                   shuttleBus && <BusInfoSection shuttleBus={shuttleBus} />}
                 <ReservationInfoSection
                   reservation={data.reservation}
+                  handyStatus={data.reservation.handyStatus}
+                />
+                <HandySection
+                  reservationId={data.reservation.reservationId}
+                  name={data.reservation.passengers?.[0].passengerName ?? ''}
                   handyStatus={data.reservation.handyStatus}
                 />
                 <RouteSection
@@ -106,7 +103,6 @@ const ShuttleDetail = ({ params }: Props) => {
                   finalPrice={data.reservation.paymentAmount ?? 0}
                   passengerCount={data.reservation.passengers?.length ?? 0}
                 />
-                <RefundSection id={id} />
                 <TermsSection />
               </>
             ) : (

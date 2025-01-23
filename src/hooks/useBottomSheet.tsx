@@ -1,4 +1,14 @@
-import { MutableRefObject, useCallback, useRef } from 'react';
+import {
+  MutableRefObject,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+const TRANSFORM_DURATION = { short: '200ms', long: '290ms' };
+const LONG_BOTTOM_SHEET_HEIGHT = 500;
 
 interface Metrics {
   transformDuration: string;
@@ -6,12 +16,15 @@ interface Metrics {
   initTransformValue: number;
   isContentAreaTouched: boolean;
   closingY: number;
+  currHeight: number;
 }
 
-const TRANSFORM_DURATION = { short: '200ms', long: '290ms' };
-const LONG_BOTTOM_SHEET_HEIGHT = 500;
+interface Props {
+  onOpen?: () => void;
+  onClose?: () => void;
+}
 
-const useBottomSheet = () => {
+const useBottomSheet = ({ onOpen, onClose }: Props = {}) => {
   const bottomSheetRef = useCallback((bottomSheetElement: HTMLDivElement) => {
     if (!bottomSheetElement || !bottomSheetElement?.parentElement) {
       return;
@@ -81,7 +94,10 @@ const useBottomSheet = () => {
     initTransformValue: 0,
     isContentAreaTouched: false,
     closingY: 0,
+    currHeight: 0,
   });
+
+  const [isOpen, setIsOpen] = useState(false);
 
   // 바텀시트 열고 닫기
   const openBottomSheet = () => {
@@ -106,12 +122,15 @@ const useBottomSheet = () => {
 
     bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
     metrics.current.closingY = bottomSheetHeight / 2;
+    metrics.current.currHeight = bottomSheetHeight;
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       bottomSheetElement.style.transitionDuration =
         metrics.current.transformDuration;
       bottomSheetElement.style.transform = `translateY(0px)`;
-    }, 0);
+      setIsOpen(true);
+      onOpen?.();
+    });
   };
 
   const closeBottomSheet = () => {
@@ -124,15 +143,57 @@ const useBottomSheet = () => {
       return;
     }
     const bottomSheetHeight = bottomSheetElement.clientHeight;
-    bottomSheetElement.style.transitionDuration =
-      metrics.current.transformDuration;
-    bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
+
+    requestAnimationFrame(() => {
+      bottomSheetElement.style.transitionDuration =
+        metrics.current.transformDuration;
+      bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
+    });
 
     setTimeout(() => {
       bottomSheetElement.style.display = 'none';
       backdropElement.style.display = 'none';
-    }, 130);
+      setIsOpen(false);
+      onClose?.();
+    }, 150);
   };
+
+  // 바텀시트 크기 변경 감지
+  useEffect(() => {
+    const bottomSheetElement = bottomSheet.current;
+    if (!bottomSheetElement || !isOpen) {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      const currHeight = metrics.current.currHeight;
+      const newHeight = bottomSheetElement.clientHeight;
+
+      metrics.current.closingY = newHeight / 2;
+      metrics.current.currHeight = newHeight;
+
+      if (newHeight > LONG_BOTTOM_SHEET_HEIGHT) {
+        metrics.current.transformDuration = TRANSFORM_DURATION.long;
+      } else {
+        metrics.current.transformDuration = TRANSFORM_DURATION.short;
+      }
+
+      bottomSheetElement.style.transitionDuration = '0ms';
+      bottomSheetElement.style.transform = `translateY(${newHeight - currHeight}px)`;
+
+      requestAnimationFrame(() => {
+        bottomSheetElement.style.transitionDuration =
+          metrics.current.transformDuration;
+        bottomSheetElement.style.transform = `translateY(0px)`;
+      });
+    });
+
+    observer.observe(bottomSheetElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isOpen]);
 
   // 바텀시트 드래그
   const handleStart = (clientY: number) => {
@@ -211,7 +272,20 @@ const useBottomSheet = () => {
     leave: handleEnd,
   };
 
-  return { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet };
+  return {
+    bottomSheetRef,
+    contentRef,
+    openBottomSheet,
+    closeBottomSheet,
+    isOpen,
+  };
 };
 
 export default useBottomSheet;
+
+export interface BottomSheetRefs {
+  bottomSheetRef: (
+    bottomSheetElement: HTMLDivElement,
+  ) => (() => void) | undefined;
+  contentRef: RefObject<HTMLDivElement>;
+}

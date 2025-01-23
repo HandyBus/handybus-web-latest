@@ -96,6 +96,7 @@ export const ShuttleRouteHubSchema = z
     sequence: z.number(),
     arrivalTime: z.string(),
     status: ActiveStatusEnum,
+    regionId: z.number(),
   })
   .strict();
 export type ShuttleRouteHub = z.infer<typeof ShuttleRouteHubSchema>;

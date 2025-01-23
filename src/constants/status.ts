@@ -6,6 +6,7 @@ import {
 import {
   CancelStatus,
   HandyStatus,
+  ReservationStatus,
   ShuttleDemandStatus,
 } from '@/types/user-management.type';
 
@@ -42,9 +43,9 @@ export const TRIP_STATUS_TO_STRING: Record<TripType, string> = {
 } as const;
 
 export const HANDY_STATUS_TO_STRING: Record<HandyStatus, string> = {
-  SUPPORTED: '핸디 지원',
-  ACCEPTED: '핸디',
-  DECLINED: '',
+  SUPPORTED: '핸디 심사 진행 중',
+  ACCEPTED: '핸디 선정',
+  DECLINED: '핸디 미선정',
   NOT_SUPPORTED: '',
 } as const;
 
@@ -52,4 +53,10 @@ export const CANCEL_STATUS_TO_STRING: Record<CancelStatus, string> = {
   CANCEL_REQUEST: '환불 진행 중',
   CANCEL_COMPLETE: '환불 완료',
   NONE: '',
+} as const;
+
+export const RESERVATION_STATUS_TO_STRING: Record<ReservationStatus, string> = {
+  COMPLETE_PAYMENT: '결제 완료',
+  NOT_PAYMENT: '결제 미완료',
+  CANCEL: '예약 취소',
 } as const;
