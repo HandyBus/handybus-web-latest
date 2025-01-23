@@ -2,8 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { MouseEvent } from 'react';
 import {
   getHandyStatusStyle,
   getReservationStatusStyle,
@@ -17,17 +15,18 @@ import {
 } from '@/constants/status';
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
+import { SyntheticEvent } from 'react';
 
 type ButtonColor = 'primary' | 'grey';
 
 interface Props {
   reservation: Reservation;
   buttonText?: string;
-  buttonHref?: string;
+  onButtonClick?: () => void;
   buttonDisabled?: boolean;
   buttonColor?: ButtonColor;
   subButtonText?: string;
-  subButtonHref?: string;
+  onSubButtonClick?: () => void;
   subButtonDisabled?: boolean;
   subButtonColor?: ButtonColor;
 }
@@ -35,11 +34,11 @@ interface Props {
 const ReservationCard = ({
   reservation,
   buttonText,
-  buttonHref,
+  onButtonClick,
   buttonDisabled = false,
   buttonColor = 'grey',
   subButtonText,
-  subButtonHref,
+  onSubButtonClick,
   subButtonDisabled = false,
   subButtonColor = 'grey',
 }: Props) => {
@@ -120,18 +119,18 @@ const ReservationCard = ({
       </div>
       {(buttonText || subButtonText) && (
         <div className="flex gap-8">
-          {buttonText && buttonHref && (
+          {buttonText && onButtonClick && (
             <Button
               text={buttonText}
-              href={buttonHref}
+              onClick={onButtonClick}
               disabled={buttonDisabled}
               color={buttonColor}
             />
           )}
-          {subButtonText && subButtonHref && (
+          {subButtonText && onSubButtonClick && (
             <Button
               text={subButtonText}
-              href={subButtonHref}
+              onClick={onSubButtonClick}
               disabled={subButtonDisabled}
               color={subButtonColor}
             />
@@ -146,22 +145,20 @@ export default ReservationCard;
 
 interface ButtonProps {
   text: string;
-  href: string;
+  onClick: () => void;
   disabled: boolean;
   color: ButtonColor;
 }
 
-const Button = ({ text, href, disabled, color }: ButtonProps) => {
-  const router = useRouter();
-  const handleButtonClick =
-    (href: string) => (e: MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      router.push(href);
-    };
+const Button = ({ text, onClick, disabled, color }: ButtonProps) => {
+  const handleButtonClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    onClick();
+  };
 
   return (
     <button
-      onClick={handleButtonClick(href)}
+      onClick={handleButtonClick}
       disabled={disabled}
       type="button"
       className={`flex h-40 w-full items-center justify-center rounded-full text-14 font-500 disabled:bg-grey-50 disabled:text-grey-300 ${color === 'primary' ? 'bg-primary-main text-white active:bg-primary-700' : 'bg-grey-50 text-grey-700 active:bg-grey-100'}`}

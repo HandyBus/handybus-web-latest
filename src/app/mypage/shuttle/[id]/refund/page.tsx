@@ -29,6 +29,7 @@ const Refund = ({ params }: Props) => {
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
   const { mutate: postRefund, isPending } = usePostRefund(
     data?.reservation.paymentId ?? '',
     '자동 승인 환불 요청',

@@ -46,15 +46,17 @@ export const postRefund = async (paymentId: string, refundReason: string) => {
   });
 };
 
-export const usePostRefund = (
-  paymentId: string,
-  refundReason: string,
-  { onSuccess }: { onSuccess?: () => void },
-) => {
+export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
   return useMutation({
-    mutationFn: () => postRefund(paymentId, refundReason),
+    mutationFn: ({
+      paymentId,
+      refundReason,
+    }: {
+      paymentId: string;
+      refundReason: string;
+    }) => postRefund(paymentId, refundReason),
     onSuccess: () => {
-      toast.success('환불 신청이 완료되었습니다.');
+      toast.success('예약이 취소되었습니다.');
       onSuccess?.();
     },
     onError: (error: CustomError) => {
@@ -63,7 +65,7 @@ export const usePostRefund = (
       } else if (error.statusCode === 403) {
         toast.error('환불 날짜가 지나서 환불 요청을 할 수 없습니다.');
       } else {
-        toast.error('환불 신청에 실패했습니다.');
+        toast.error('예약 취소에 실패했습니다.');
       }
     },
   });

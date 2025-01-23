@@ -63,7 +63,7 @@ export const getHandyStatusStyle = (status: HandyStatus) => {
       return 'text-blue-500';
     case 'DECLINED':
       return 'text-grey-400';
-    case 'NOT_SUPPORTED':
+    case 'SUPPORTED':
       return 'text-primary-main';
     default:
       return 'text-grey-400';
