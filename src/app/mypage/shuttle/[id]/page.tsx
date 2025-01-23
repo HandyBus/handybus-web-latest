@@ -6,7 +6,6 @@ import ReservationInfoSection from './components/sections/ReservationInfoSection
 import HandySection from './components/sections/HandySection';
 import BusInfoSection from './components/sections/BusInfoSection';
 import PaymentInfoSection from './components/sections/PaymentInfoSection';
-import RefundSection from './components/sections/RefundSection';
 import TermsSection from './components/sections/TermsSection';
 import RefundInfoSection from './components/sections/RefundInfoSection';
 import RefundGuideSection from './components/sections/RefundGuideSection';
@@ -106,7 +105,6 @@ const ShuttleDetail = ({ params }: Props) => {
                   finalPrice={data.reservation.paymentAmount ?? 0}
                   passengerCount={data.reservation.passengers?.length ?? 0}
                 />
-                <RefundSection id={id} />
                 <TermsSection />
               </>
             ) : (
