@@ -20,7 +20,7 @@ const Login = ({ searchParams }: Props) => {
   const handleRedirectUrl = useCallback(() => {
     const redirectUrl = searchParams.redirectUrl;
     if (redirectUrl) {
-      localStorage.setItem('redirectUrl', redirectUrl);
+      localStorage.setItem('redirectUrl', encodeURIComponent(redirectUrl));
     } else {
       localStorage.removeItem('redirectUrl');
     }
