@@ -15,16 +15,10 @@ const Login = () => {
   const searchParams = useSearchParams();
 
   const handleRedirectUrl = () => {
-    console.log('RUN', window?.localStorage);
-    if (!window) {
-      return;
-    }
     const redirectUrl = searchParams.get('redirectUrl');
     if (redirectUrl) {
-      console.log('SET REDIRECT URL');
       localStorage.setItem('redirectUrl', encodeURIComponent(redirectUrl));
     } else {
-      console.log('REMOVE REDIRECT URL');
       localStorage.removeItem('redirectUrl');
     }
   };
