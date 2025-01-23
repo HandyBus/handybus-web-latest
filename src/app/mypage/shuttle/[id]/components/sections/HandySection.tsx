@@ -30,8 +30,8 @@ const TEXT: Record<
   ACCEPTED: {
     title: '당신은 핸디입니다',
     description: (name: string) =>
-      `축하합니다! ${name}님은 이번 셔틀의 핸디로 선정되셨어요.`,
-    button: '오픈채팅링크 제출하기',
+      `축하합니다! ${name}님은 이번 셔틀의 핸디로 선정되셨어요. 소통을 위한 오픈채팅방 링크를 제출해주세요.`,
+    button: '제출하기',
   },
   DECLINED: {
     title: '핸디 미선정',
