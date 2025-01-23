@@ -18,8 +18,8 @@ const Login = ({ searchParams }: Props) => {
   usePreventScroll();
 
   const handleRedirectUrl = () => {
-    console.log('RUN', window.localStorage);
-    if (!window.localStorage) {
+    console.log('RUN', window?.localStorage);
+    if (!window) {
       return;
     }
     const redirectUrl = searchParams.redirectUrl;
@@ -34,7 +34,7 @@ const Login = ({ searchParams }: Props) => {
 
   useEffect(() => {
     handleRedirectUrl();
-  }, [searchParams, window]);
+  }, [searchParams]);
 
   return (
     <main className="flex grow flex-col items-center bg-white">
