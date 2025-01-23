@@ -3,12 +3,27 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservations } from '@/services/user-management.service';
+import { useRouter } from 'next/navigation';
+import { Reservation } from '@/types/user-management.type';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const PastTab = () => {
   const { data: reservations, isLoading } = useGetUserReservations({
     eventProgressStatus: 'PAST',
   });
+
+  const router = useRouter();
+  const handleButtonClick = (reservation: Reservation) => {
+    if (reservation.hasReview) {
+      router.push(`/mypage/reviews/${reservation.reservationId}`);
+    } else {
+      router.push(`/mypage/reviews/write/${reservation.reservationId}`);
+    }
+  };
+
+  const handleSubButtonClick = (reservationId: number) => {
+    router.push(`/mypage/shuttle/${reservationId}`);
+  };
 
   return (
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
@@ -24,14 +39,12 @@ const PastTab = () => {
                 buttonText={
                   reservation.hasReview ? '작성한 후기 보기' : '후기 작성하기'
                 }
-                buttonHref={
-                  reservation.hasReview
-                    ? '/mypage/reviews'
-                    : `/mypage/reviews/write/${reservation.reservationId}`
-                }
+                onButtonClick={() => handleButtonClick(reservation)}
                 buttonColor="primary"
                 subButtonText="예약 상세보기"
-                subButtonHref={`/mypage/shuttle/${reservation.reservationId}`}
+                onSubButtonClick={() =>
+                  handleSubButtonClick(reservation.reservationId)
+                }
               />
             ))}
           </ul>
