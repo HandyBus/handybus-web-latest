@@ -40,14 +40,13 @@ const OAuth = ({ params, searchParams }: Props) => {
       const user = await getUser();
       const onboardingProgress = parseProgress(user.progresses);
 
-      const redirectUrl = localStorage.getItem('redirectUrl') || '/';
-      localStorage.removeItem('redirectUrl');
-
       if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
         await setOnboardingToken();
         router.push('/onboarding');
       } else {
-        router.replace(decodeURIComponent(redirectUrl));
+        const redirectUrl = sessionStorage.getItem('redirectUrl') || '/';
+        sessionStorage.removeItem('redirectUrl');
+        router.replace(redirectUrl);
       }
     } catch (e) {
       console.error(e);
