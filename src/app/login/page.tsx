@@ -6,7 +6,7 @@ import Naver from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface Props {
   searchParams: {
@@ -17,17 +17,11 @@ interface Props {
 const Login = ({ searchParams }: Props) => {
   usePreventScroll();
 
-  const handleRedirectUrl = useCallback(() => {
+  useEffect(() => {
     const redirectUrl = searchParams.redirectUrl;
     if (redirectUrl) {
-      localStorage.setItem('redirectUrl', encodeURIComponent(redirectUrl));
-    } else {
-      localStorage.removeItem('redirectUrl');
+      sessionStorage.setItem('redirectUrl', redirectUrl);
     }
-  }, [searchParams]);
-
-  useEffect(() => {
-    handleRedirectUrl();
   }, [searchParams]);
 
   return (
