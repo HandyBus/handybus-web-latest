@@ -20,17 +20,14 @@ const Login = ({ searchParams }: Props) => {
   const handleRedirectUrl = useCallback(() => {
     const redirectUrl = searchParams.redirectUrl;
     if (redirectUrl) {
-      sessionStorage.setItem('redirectUrl', redirectUrl);
+      localStorage.setItem('redirectUrl', redirectUrl);
     } else {
-      sessionStorage.removeItem('redirectUrl');
+      localStorage.removeItem('redirectUrl');
     }
   }, [searchParams]);
 
   useEffect(() => {
-    const timeout = setTimeout(handleRedirectUrl, 0);
-    return () => {
-      clearTimeout(timeout);
-    };
+    handleRedirectUrl();
   }, [searchParams]);
 
   return (
