@@ -1,3 +1,8 @@
+import {
+  ReservationStatus,
+  ShuttleDemandStatus,
+} from '@/types/user-management.type';
+
 const STATUS_STYLE = {
   fullGreen: {
     dot: 'bg-primary-main',
@@ -15,22 +20,37 @@ const STATUS_STYLE = {
     dot: 'bg-grey-500',
     text: 'text-grey-500',
   },
+  black: {
+    dot: 'bg-black',
+    text: 'text-black',
+  },
+  red: {
+    dot: 'bg-red-500',
+    text: 'text-red-500',
+  },
 };
 
-export const getStatusStyle = (status: string) => {
+export const getDemandStatusStyle = (status: ShuttleDemandStatus) => {
   switch (status) {
-    case '예약 모집 중':
-    case '배차 확정':
-      return STATUS_STYLE.fullGreen;
-    case '수요 확인 중':
-    case '예약 모집 마감':
+    case 'OPEN':
       return STATUS_STYLE.emptyGreen;
-    case '수요 신청 마감':
-    case '운행 종료':
+    case 'CLOSED':
+    case 'ENDED':
       return STATUS_STYLE.darkGrey;
-    case '무산':
-    case '비활성':
+    case 'CANCELLED':
+    case 'INACTIVE':
       return STATUS_STYLE.lightGrey;
+    default:
+      return STATUS_STYLE.lightGrey;
+  }
+};
+
+export const getReservationStatusStyle = (status: ReservationStatus) => {
+  switch (status) {
+    case 'COMPLETE_PAYMENT':
+      return STATUS_STYLE.black;
+    case 'NOT_PAYMENT':
+      return STATUS_STYLE.red;
     default:
       return STATUS_STYLE.lightGrey;
   }

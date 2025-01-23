@@ -4,12 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import { getStatusStyle } from '../status.utils';
+import { getReservationStatusStyle } from '../status.utils';
 import { dateString } from '@/utils/dateString.util';
 import {
   CANCEL_STATUS_TO_STRING,
   HANDY_STATUS_TO_STRING,
-  SHUTTLE_ROUTE_STATUS_TO_STRING,
+  RESERVATION_STATUS_TO_STRING,
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
 import { Reservation } from '@/types/user-management.type';
@@ -48,9 +48,8 @@ const ReservationCard = ({
         dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
     )?.date,
   );
-  const status =
-    SHUTTLE_ROUTE_STATUS_TO_STRING[reservation.shuttleRoute.status];
-  const statusStyle = getStatusStyle(status);
+  const status = RESERVATION_STATUS_TO_STRING[reservation.reservationStatus];
+  const statusStyle = getReservationStatusStyle(reservation.reservationStatus);
   const handyStatus = HANDY_STATUS_TO_STRING[reservation.handyStatus];
   const cancelStatus = CANCEL_STATUS_TO_STRING[reservation.cancelStatus];
 

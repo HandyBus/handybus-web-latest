@@ -6,6 +6,7 @@ import {
 import {
   CancelStatus,
   HandyStatus,
+  ReservationStatus,
   ShuttleDemandStatus,
 } from '@/types/user-management.type';
 
@@ -52,4 +53,10 @@ export const CANCEL_STATUS_TO_STRING: Record<CancelStatus, string> = {
   CANCEL_REQUEST: '환불 진행 중',
   CANCEL_COMPLETE: '환불 완료',
   NONE: '',
+} as const;
+
+export const RESERVATION_STATUS_TO_STRING: Record<ReservationStatus, string> = {
+  COMPLETE_PAYMENT: '결제 완료',
+  NOT_PAYMENT: '결제 미완료',
+  CANCEL: '예약 취소',
 } as const;
