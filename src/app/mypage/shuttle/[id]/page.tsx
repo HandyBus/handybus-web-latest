@@ -35,6 +35,7 @@ const ShuttleDetail = ({ params }: Props) => {
 
   const isShuttleBusAssigned = Boolean(data?.reservation?.shuttleBusId);
   const isCanceled = data?.reservation?.cancelStatus === 'CANCEL_COMPLETE';
+  const isHandyAssigned = data?.reservation?.handyStatus === 'ACCEPTED';
   const date = data?.reservation?.shuttleRoute.event.dailyEvents.find(
     (dailyEvent) =>
       dailyEvent.dailyEventId === data?.reservation?.shuttleRoute.dailyEventId,
@@ -56,7 +57,7 @@ const ShuttleDetail = ({ params }: Props) => {
         {data && (
           <main className="grow">
             <ReservationCard reservation={data.reservation} />
-            {!isShuttleBusAssigned && !isCanceled && (
+            {!isShuttleBusAssigned && !isCanceled && !isHandyAssigned && (
               <section className="m-16 rounded-[10px] bg-primary-50 p-16 text-14 font-400 text-grey-800">
                 <p>
                   현재 셔틀 정보, 기사님 정보, 핸디 정보 등을 결정하고 있어요.
