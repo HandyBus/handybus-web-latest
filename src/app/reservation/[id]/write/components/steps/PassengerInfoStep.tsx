@@ -83,7 +83,16 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
           max={Math.min(maxPassengerCount, 9)}
         />
         <p className="text-12 font-400 text-grey-500">
-          10명 이상 예약하는 경우, <u>핸디버스 카카오 채널</u>로 문의 바랍니다.
+          10명 이상 예약하는 경우,{' '}
+          <a
+            href="http://pf.kakao.com/_AxncxhG"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            핸디버스 카카오 채널
+          </a>
+          로 문의 바랍니다.
         </p>
       </section>
       <section className="py-28">
