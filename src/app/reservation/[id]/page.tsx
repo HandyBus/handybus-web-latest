@@ -2,11 +2,11 @@ import Footer from '@/components/footer/Footer';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
 import NoticeSection from '@/components/notice-section/NoticeSection';
 import ReservationForm from './components/ReservationForm';
-import EventInfo from '@/components/event/components/EventInfo';
-import EventImage from '@/components/event/components/EventImage';
 import KakaoMap from '@/components/kakao-map/KakaoMap';
 import BackButton from '@/components/buttons/back-button/BackButton';
 import { getShuttleRoute } from '@/services/shuttle-operation.service';
+import RouteInfo from './components/RouteInfo';
+import EventImage from '@/components/event-image/EventImage';
 
 interface Props {
   params: {
@@ -31,11 +31,7 @@ const Page = async ({ params, searchParams }: Props) => {
     <main className="relative overflow-y-hidden">
       <BackButton />
       <EventImage image={shuttleRoute.event.eventImageUrl} />
-      <EventInfo
-        event={shuttleRoute.event}
-        status={shuttleRoute.status}
-        type="ROUTE"
-      />
+      <RouteInfo route={shuttleRoute} />
       <KakaoMap
         placeName={shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.name ?? ''}
         latitude={

@@ -1,52 +1,39 @@
 'use client';
 
-import EventStatusChip from '@/components/chips/event-status-chip/EventStatusChip';
 import RouteStatusChip from '@/components/chips/route-status-chip/RouteStatusChip';
-import {
-  Event,
-  EventStatus,
-  ShuttleRouteStatus,
-} from '@/types/shuttle-operation.type';
+import { ShuttleRoute } from '@/types/shuttle-operation.type';
 import { dateString } from '@/utils/dateString.util';
 
 type Props = {
-  event: Event;
-} & (
-  | {
-      type: 'ROUTE';
-      status: ShuttleRouteStatus;
-    }
-  | {
-      type: 'EVENT';
-      status: EventStatus;
-    }
-);
+  route: ShuttleRoute;
+};
 
-const EventInfo = ({ event, status, type }: Props) => {
-  const parsedDateString = dateString(event.dailyEvents.map((v) => v.date));
+const RouteInfo = ({ route }: Props) => {
+  const parsedDateString = dateString(
+    route.event.dailyEvents.map((v) => v.date),
+  );
 
   return (
     <article className="px-16 py-24">
-      {type === 'ROUTE' && <RouteStatusChip status={status} />}
-      {type === 'EVENT' && <EventStatusChip status={status} />}
+      <RouteStatusChip status={route.status} />
       <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-900">
-        {event.eventName}
+        [{route.name}] {route.event.eventName}
       </h1>
       <dl className="flex flex-col gap-8">
         <Badge
           label="아티스트"
-          value={event.eventArtists
+          value={route.event.eventArtists
             ?.map((artist) => artist.artistName)
             .join(', ')}
         />
-        <Badge label="일자" value={parsedDateString} />
-        <Badge label="장소" value={event.eventLocationName} />
+        <Badge label="행사 일자" value={parsedDateString} />
+        <Badge label="장소" value={route.event.eventLocationName} />
       </dl>
     </article>
   );
 };
 
-export default EventInfo;
+export default RouteInfo;
 
 interface BadgeProps {
   label: string;
