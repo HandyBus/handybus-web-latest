@@ -36,14 +36,15 @@ export const getEvents = async (status?: EventStatus) => {
   const res = await instance.get(
     `/v2/shuttle-operation/events?${searchParams.toString()}`,
     {
-      shape: {
+      shape: withPagination({
         events: EventSchema.array(),
-      },
+      }),
     },
   );
   return res.events;
 };
 
+// TODO 추후에 pagination으로 변경
 export const useGetEvents = (status?: EventStatus) =>
   useQuery({
     queryKey: ['event', status],
@@ -76,14 +77,15 @@ export const getShuttleRoutes = async (params?: {
   const res = await instance.get(
     `/v2/shuttle-operation/events/all/dates/all/routes?${searchParams.toString()}`,
     {
-      shape: {
+      shape: withPagination({
         shuttleRoutes: ShuttleRouteSchema.array(),
-      },
+      }),
     },
   );
   return res.shuttleRoutes;
 };
 
+// TODO 추후에 pagination으로 변경
 export const useGetShuttleRoutes = (params?: {
   provinceFullName?: string;
   cityFullName?: string;
@@ -107,14 +109,15 @@ export const getShuttleRoutesOfDailyEvent = async (
   const res = await instance.get(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes?${searchParams.toString()}`,
     {
-      shape: {
+      shape: withPagination({
         shuttleRoutes: ShuttleRouteSchema.array(),
-      },
+      }),
     },
   );
   return res.shuttleRoutes;
 };
 
+// TODO 추후에 pagination으로 변경
 export const useGetShuttleRoutesOfDailyEvent = (
   eventId: number,
   dailyEventId: number,
