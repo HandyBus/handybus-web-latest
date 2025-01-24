@@ -6,10 +6,11 @@ import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
 
 interface Props {
   eventName: string;
-  disabled?: boolean;
+  isNotOpen: boolean;
+  isSelected: boolean;
 }
 
-const BottomBar = ({ eventName, disabled = false }: Props) => {
+const BottomBar = ({ eventName, isNotOpen, isSelected }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
@@ -21,12 +22,23 @@ const BottomBar = ({ eventName, disabled = false }: Props) => {
             수요 신청은 <span className="font-700">무료</span>이며, 수요 신청
             결과를 노선 개설에 활용합니다.
           </p>
-
           <div className="flex justify-between gap-12 font-600">
-            <Button disabled={disabled}>수요 신청하기</Button>
-            <Button type="button" variant="secondary" onClick={openBottomSheet}>
-              친구에게 알리기
-            </Button>
+            {isNotOpen ? (
+              <>
+                <Button disabled>수요조사가 마감된 행사이에요</Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={openBottomSheet}
+                >
+                  친구에게 알리기
+                </Button>
+                <Button disabled={!isSelected}>수요 신청하기</Button>
+              </>
+            )}
           </div>
         </div>
       </div>
