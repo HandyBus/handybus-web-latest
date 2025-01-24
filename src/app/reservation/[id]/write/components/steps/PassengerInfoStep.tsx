@@ -73,14 +73,22 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
                 max={Math.min(maxPassengerCount, 9)}
               />
               <p className="text-12 font-400 text-grey-500">
-                10명 이상 예약하는 경우, <u>핸디버스 카카오 채널</u>로 문의
-                바랍니다.
+                10명 이상 예약하는 경우,{' '}
+                <a
+                  href="http://pf.kakao.com/_AxncxhG"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  핸디버스 카카오 채널
+                </a>
+                로 문의 바랍니다.
               </p>
             </>
           )}
         />
       </section>
-      <div className="fixed bottom-0 left-0 right-0 mx-auto flex grid max-w-500 flex-col gap-12 bg-white px-16 py-8 shadow-bottomBar">
+      <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-12 bg-white px-16 py-8 shadow-bottomBar">
         <section className="flex items-center justify-between py-4">
           <h5 className="text-14 font-400 text-grey-900">총 금액</h5>
           <p className="flex items-center gap-12 text-22 font-700 text-grey-900">
