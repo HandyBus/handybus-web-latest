@@ -76,7 +76,7 @@ const ShuttleDetail = ({ params }: Props) => {
                 />
                 <HandySection
                   reservationId={data.reservation.reservationId}
-                  name={data.reservation.passengers?.[0].passengerName ?? ''}
+                  name={data.reservation.userNickname ?? ''}
                   handyStatus={data.reservation.handyStatus}
                 />
                 <RouteSection
@@ -102,7 +102,7 @@ const ShuttleDetail = ({ params }: Props) => {
                   price={data.reservation.paymentPrincipalAmount ?? 0}
                   discount={data.reservation.paymentDiscountAmount ?? 0}
                   finalPrice={data.reservation.paymentAmount ?? 0}
-                  passengerCount={data.reservation.passengers?.length ?? 0}
+                  passengerCount={data.reservation.passengerCount ?? 0}
                 />
                 <TermsSection />
               </>

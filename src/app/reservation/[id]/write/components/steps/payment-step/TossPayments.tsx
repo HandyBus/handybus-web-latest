@@ -143,7 +143,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         fromDestinationShuttleRouteHubId:
           formValues.hub.fromDestinationHub?.shuttleRouteHubId,
         isSupportingHandy: formValues.isSupportingHandy,
-        passengers: formValues.passengers,
+        passengerCount: formValues.passengerCount,
       };
       const postReservationResponse = await postReservation(parsedFormValues);
 

@@ -18,7 +18,7 @@ const TEXT: Record<
 > = {
   NOT_SUPPORTED: {
     title: '핸디 지원',
-    description: '핸디는 탑승객1(직접 신청자)만 지원이 가능합니다.',
+    description: '핸디는 신청자만 지원이 가능합니다.',
     button: '지원하기',
   },
   SUPPORTED: {
