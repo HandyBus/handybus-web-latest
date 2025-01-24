@@ -142,9 +142,8 @@ const DemandForm = ({ event }: Props) => {
       )}
       <BottomBar
         eventName={event.eventName}
-        disabled={
-          !selectedDailyEvent || !regionId || event.eventStatus !== 'OPEN'
-        }
+        isNotOpen={event.eventStatus !== 'OPEN'}
+        isSelected={!!(selectedDailyEvent && regionId)}
       />
       {initialDailyEventId && initialBigRegion && initialSmallRegion && (
         <RouteModal
