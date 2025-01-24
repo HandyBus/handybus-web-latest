@@ -3,7 +3,6 @@
 import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { dateString } from '@/utils/dateString.util';
-import { parsePhoneNumber } from '@/utils/common.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyStatus, Reservation } from '@/types/user-management.type';
 
@@ -78,17 +77,9 @@ const ReservationInfoSection = ({
             )}
             <DetailRow
               title="탑승객 수"
-              content={`${reservation.passengers?.length ?? 0}명`}
+              content={`${reservation.passengerCount ?? 0}명`}
             />
           </section>
-          {reservation.passengers?.map((passenger, index) => (
-            <Passenger
-              key={index}
-              index={index + 1}
-              name={passenger.passengerName}
-              phoneNumber={parsePhoneNumber(passenger.passengerPhoneNumber)}
-            />
-          ))}
         </div>
       </Section>
     </>
@@ -96,21 +87,3 @@ const ReservationInfoSection = ({
 };
 
 export default ReservationInfoSection;
-
-interface PassengerProps {
-  index: number;
-  name: string;
-  phoneNumber: string;
-}
-
-const Passenger = ({ index, name, phoneNumber }: PassengerProps) => {
-  return (
-    <section className="flex flex-col gap-8">
-      <h4 className="flex items-center gap-8 pb-4 text-18 font-500 text-grey-700">
-        탑승객 {index}
-      </h4>
-      <DetailRow title="이름" content={name} />
-      <DetailRow title="전화번호" content={phoneNumber} />
-    </section>
-  );
-};

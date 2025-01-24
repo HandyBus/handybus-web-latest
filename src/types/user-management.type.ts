@@ -140,14 +140,7 @@ export const ReservationSchema = z
     paymentCreatedAt: z.string().nullable(),
     paymentUpdatedAt: z.string().nullable(),
     shuttleBusId: z.number().nullable(),
-    passengers: z
-      .object({
-        passengerId: z.number(),
-        passengerName: z.string(),
-        passengerPhoneNumber: z.string(),
-      })
-      .array()
-      .nullable(),
+    passengerCount: z.number().int(),
     shuttleRoute: ShuttleRouteSchema,
     createdAt: z.string(),
     updatedAt: z.string(),

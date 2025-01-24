@@ -21,12 +21,7 @@ export const PostReservationBodySchema = z.object({
   fromDestinationShuttleRouteHubId: z.number().optional(),
   issuedCouponId: z.number().optional(),
   isSupportingHandy: z.boolean(),
-  passengers: z
-    .object({
-      name: z.string(),
-      phoneNumber: z.string(),
-    })
-    .array(),
+  passengerCount: z.number().int(),
 });
 export type PostReservationBody = z.infer<typeof PostReservationBodySchema>;
 

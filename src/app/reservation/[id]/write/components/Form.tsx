@@ -21,10 +21,7 @@ export interface ReservationFormValues {
     toDestinationHub: ShuttleRouteHub | undefined;
     fromDestinationHub: ShuttleRouteHub | undefined;
   };
-  passengers: {
-    name: string;
-    phoneNumber: string;
-  }[];
+  passengerCount: number;
   issuedCouponId: number | undefined;
   isSupportingHandy: boolean;
   finalPrice: number;
@@ -49,7 +46,7 @@ const Form = ({
         toDestinationHub: undefined,
         fromDestinationHub: undefined,
       },
-      passengers: [{ name: '', phoneNumber: '' }],
+      passengerCount: 1,
       issuedCouponId: undefined,
       isSupportingHandy: false,
       finalPrice: 0,

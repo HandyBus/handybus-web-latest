@@ -24,20 +24,19 @@ const ApplyCoupon = () => {
   );
 
   const {
-    passengersCount,
+    passengerCount,
     isEarlybird,
     singlePrice,
     earlybirdDiscount,
     couponDiscount,
     finalPrice,
   } = useMemo(() => {
-    const [shuttleRoute, passengers, type] = getValues([
+    const [shuttleRoute, passengerCount, type] = getValues([
       'shuttleRoute',
-      'passengers',
+      'passengerCount',
       'type',
     ]);
 
-    const passengersCount = passengers.length;
     const isEarlybird = checkIsEarlybird(shuttleRoute);
     const singlePrice = getSinglePrice(type, shuttleRoute);
 
@@ -46,14 +45,14 @@ const ApplyCoupon = () => {
       ? getSinglePriceWithEarlybird(type, shuttleRoute)
       : singlePrice;
     const earlybirdDiscount =
-      (singlePrice - singlePriceWithEarlybirdDiscount) * passengersCount;
+      (singlePrice - singlePriceWithEarlybirdDiscount) * passengerCount;
     const totalPriceWithEarlybirdDiscount =
-      singlePriceWithEarlybirdDiscount * passengersCount;
+      singlePriceWithEarlybirdDiscount * passengerCount;
 
     // 쿠폰 할인
     const cappedPassengersCount = selectedCoupon?.maxApplicablePeople
-      ? Math.min(passengersCount, selectedCoupon.maxApplicablePeople)
-      : passengersCount;
+      ? Math.min(passengerCount, selectedCoupon.maxApplicablePeople)
+      : passengerCount;
     const singleCouponDiscount = selectedCoupon
       ? selectedCoupon.discountType === 'RATE'
         ? ((selectedCoupon.discountRate ?? 0) / 100) *
@@ -80,7 +79,7 @@ const ApplyCoupon = () => {
     setValue('finalPrice', finalPrice);
 
     return {
-      passengersCount,
+      passengerCount,
       isEarlybird,
       singlePrice,
       earlybirdDiscount,
@@ -133,10 +132,10 @@ const ApplyCoupon = () => {
               </dt>
               <div>
                 <dd className="text-right text-16 font-400 leading-[24px] text-grey-900">
-                  {(singlePrice * passengersCount).toLocaleString()} 원
+                  {(singlePrice * passengerCount).toLocaleString()} 원
                 </dd>
                 <dd className="text-right text-12 font-400 leading-[19.2px] text-grey-600">
-                  {singlePrice.toLocaleString()} 원 * {passengersCount}인
+                  {singlePrice.toLocaleString()} 원 * {passengerCount}인
                 </dd>
               </div>
             </div>

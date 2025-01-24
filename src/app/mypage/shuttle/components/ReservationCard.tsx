@@ -100,7 +100,7 @@ const ReservationCard = ({
           </span>
           <span className="flex gap-8 text-12 font-400 text-grey-500">
             <span>{TRIP_STATUS_TO_STRING[reservation.type]}</span>
-            <span>{reservation.passengers?.length}인</span>
+            <span>{reservation.passengerCount}인</span>
           </span>
           <span className="pt-4 text-14 font-500 text-grey-900">
             {reservation.paymentAmount?.toLocaleString()}{' '}

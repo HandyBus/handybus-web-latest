@@ -4,19 +4,18 @@ import PlusIcon from '/public/icons/baseline-plus.svg';
 import MinusIcon from '/public/icons/baseline-minus.svg';
 import { ChangeEvent, ReactNode } from 'react';
 
-const Counter = ({
-  count,
-  setCount,
-  max = 9,
-}: {
+interface Props {
   count: number;
   setCount: (value: number) => void;
+  min?: number;
   max?: number;
-}) => {
+}
+
+const Counter = ({ count, setCount, min = 0, max = 9 }: Props) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    if (value < 0) {
-      setCount(0);
+    if (value < min) {
+      setCount(min);
       return;
     } else if (value > max) {
       setCount(max);
@@ -33,14 +32,23 @@ const Counter = ({
         onChange={handleChange}
         className="w-full text-16 font-400 leading-[24px] text-grey-800 outline-none"
       />
-      <CounterButton onClick={() => setCount(count > 0 ? count - 1 : 0)}>
-        <MinusIcon viewBox="0 0 18 18" />
+      <CounterButton
+        onClick={() => setCount(count - 1)}
+        disabled={count <= min}
+      >
+        <MinusIcon
+          viewBox="0 0 18 18"
+          fill={count === min ? '#ABABAB' : '#4D4D4D'}
+        />
       </CounterButton>
       <CounterButton
-        onClick={() => setCount(count < max ? count + 1 : max)}
+        onClick={() => setCount(count + 1)}
         disabled={count >= max}
       >
-        <PlusIcon viewBox="0 0 18 18" />
+        <PlusIcon
+          viewBox="0 0 18 18"
+          fill={count === max ? '#ABABAB' : '#4D4D4D'}
+        />
       </CounterButton>
     </div>
   );
