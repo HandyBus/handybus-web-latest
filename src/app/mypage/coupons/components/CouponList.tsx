@@ -19,8 +19,6 @@ const CouponList = () => {
     [coupons],
   );
 
-  console.log(coupons);
-
   return (
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
       {coupons && (
