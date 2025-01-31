@@ -2,7 +2,6 @@
 
 import Divider from '../Divider';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
 import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
@@ -50,7 +49,6 @@ const RouteSection = ({
   }, []);
 
   const onError = () => {
-    toast.error('탑승지 변경에 실패했습니다.');
     setInitialHubValue();
   };
   const { mutate: updateReservation } = usePostUpdateReservation(
