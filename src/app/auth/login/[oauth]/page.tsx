@@ -7,7 +7,8 @@ import { postLogin } from '@/services/auth.service';
 import { getUser } from '@/services/user-management.service';
 import {
   setAccessToken,
-  setOnboardingToken,
+  setIsLoggedIn,
+  setIsOnboarding,
   setRefreshToken,
 } from '@/utils/handleToken.util';
 import { parseProgress } from '@/utils/parseProgress.util';
@@ -32,10 +33,9 @@ const OAuth = ({ params, searchParams }: Props) => {
         state: searchParams?.state,
       });
 
-      await Promise.all([
-        setAccessToken(tokens.accessToken, tokens.accessTokenExpiresAt),
-        setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
-      ]);
+      setAccessToken(tokens.accessToken);
+      setRefreshToken(tokens.refreshToken);
+      setIsLoggedIn();
 
       const user = await getUser();
       const onboardingProgress = parseProgress(user.progresses);
@@ -44,14 +44,14 @@ const OAuth = ({ params, searchParams }: Props) => {
       localStorage.removeItem('redirectUrl');
 
       if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
-        await setOnboardingToken();
+        setIsOnboarding();
         router.push('/onboarding');
       } else {
         router.replace(decodeURIComponent(redirectUrl));
       }
     } catch (e) {
       console.error(e);
-      router.push('/login');
+      // router.push('/login');
     }
   };
 

@@ -1,11 +1,11 @@
 'use client';
 
-import logout from '@/app/actions/logout.action';
 import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import { useDeleteUser } from '@/services/user-management.service';
+import { logout } from '@/utils/handleToken.util';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -17,8 +17,8 @@ const Leave = () => {
     isPending,
     isSuccess,
   } = useDeleteUser({
-    onSuccess: () => {
-      logout();
+    onSuccess: async () => {
+      await logout();
       toast.success('핸디버스를 이용해주셔서 감사합니다.');
     },
     onError: (e) => {

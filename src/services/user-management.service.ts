@@ -17,7 +17,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReviewSchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
-import { setOnboardingToken } from '@/utils/handleToken.util';
+import { setIsOnboarding } from '@/utils/handleToken.util';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });
@@ -194,7 +194,7 @@ const getUserStats = async () => {
   // 온보딩 완료 유무 확인
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((res.userStats as any).ageRange === '연령대 미지정') {
-    await setOnboardingToken();
+    setIsOnboarding();
     throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
   }
   return res.userStats;

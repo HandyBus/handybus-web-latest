@@ -1,8 +1,8 @@
 'use client';
 
-import logout from '@/app/actions/logout.action';
 import AppBar from '@/components/app-bar/AppBar';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
+import { logout } from '@/utils/handleToken.util';
 import { useState } from 'react';
 
 const OnboardingTop = () => {

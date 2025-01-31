@@ -1,10 +1,11 @@
 import UserIcon from 'public/icons/user.svg';
 import LogoIcon from 'public/icons/logo.svg';
 import Link from 'next/link';
-import { getRefreshToken } from '@/utils/handleToken.util';
+import { cookies } from 'next/headers';
+import { IS_LOGGED_IN } from '@/constants/token';
 
 const Header = async () => {
-  const isLoggedIn = Boolean(await getRefreshToken());
+  const isLoggedIn = Boolean(cookies().get(IS_LOGGED_IN));
 
   return (
     <header className="sticky top-0 z-50 flex h-48 w-full items-center justify-between bg-white px-16 py-12">

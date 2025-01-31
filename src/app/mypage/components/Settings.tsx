@@ -1,7 +1,7 @@
 'use client';
 
 import ListButton from './ListButton';
-import logout from '@/app/actions/logout.action';
+import { logout } from '@/utils/handleToken.util';
 
 interface Props {
   couponCount: number;

@@ -1,21 +1,26 @@
+'use client';
+
 import OnboardingFunnel from './components/OnboardingFunnel';
 import { parseProgress } from '@/utils/parseProgress.util';
-import { redirect } from 'next/navigation';
-import { removeOnboardingToken } from '@/utils/handleToken.util';
-import { getUser } from '@/services/user-management.service';
+import { useGetUser } from '@/services/user-management.service';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
 
-const Funnel = async () => {
-  const user = await getUser();
-  const onboardingProgress = parseProgress(user.progresses);
-  if (onboardingProgress === 'ONBOARDING_COMPLETE') {
-    await removeOnboardingToken();
-    return redirect('/mypage');
-  }
+const Funnel = () => {
+  const { data: user, isLoading } = useGetUser();
+  const onboardingProgress = user?.progresses
+    ? parseProgress(user.progresses)
+    : null;
+
   return (
-    <OnboardingFunnel
-      onboardingProgress={onboardingProgress}
-      initialPhoneNumber={user?.phoneNumber}
-    />
+    <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
+      {onboardingProgress && (
+        <OnboardingFunnel
+          onboardingProgress={onboardingProgress}
+          initialPhoneNumber={user?.phoneNumber}
+        />
+      )}
+    </DeferredSuspense>
   );
 };
 
