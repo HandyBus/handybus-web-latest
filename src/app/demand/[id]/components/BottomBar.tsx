@@ -3,16 +3,79 @@
 import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
+import { useEffect, useState } from 'react';
+import { DEMAND_FORM_ID } from './DemandForm';
+import { toast } from 'react-toastify';
 
 interface Props {
   eventName: string;
   isNotOpen: boolean;
-  isSelected: boolean;
+  isDailyEventSelected: boolean;
+  isBigRegionSelected: boolean;
+  isSmallRegionSelected: boolean;
 }
 
-const BottomBar = ({ eventName, isNotOpen, isSelected }: Props) => {
+const BottomBar = ({
+  eventName,
+  isNotOpen,
+  isDailyEventSelected,
+  isBigRegionSelected,
+  isSmallRegionSelected,
+}: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
+  const [isInView, setIsInView] = useState(false);
+
+  const handleClick = () => {
+    const demandForm = document.getElementById(
+      DEMAND_FORM_ID,
+    ) as HTMLFormElement | null;
+    if (!demandForm) {
+      return;
+    }
+    if (!isInView) {
+      demandForm.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (!isDailyEventSelected) {
+      toast.error('운행일과 지역을 선택해주세요.');
+    } else if (!isBigRegionSelected) {
+      toast.error('지역을 선택해주세요.');
+    } else if (!isSmallRegionSelected) {
+      toast.error('시/군/구를 선택해주세요.');
+    }
+    if (isDailyEventSelected && isBigRegionSelected && isSmallRegionSelected) {
+      demandForm.requestSubmit();
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+          } else {
+            setIsInView(false);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5,
+      },
+    );
+
+    const demandForm = document.getElementById(DEMAND_FORM_ID);
+    if (demandForm) {
+      observer.observe(demandForm);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <>
@@ -36,7 +99,9 @@ const BottomBar = ({ eventName, isNotOpen, isSelected }: Props) => {
                 >
                   친구에게 알리기
                 </Button>
-                <Button disabled={!isSelected}>수요 신청하기</Button>
+                <Button type="button" onClick={handleClick}>
+                  수요 신청하기
+                </Button>
               </>
             )}
           </div>
