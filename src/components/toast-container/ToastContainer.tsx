@@ -1,8 +1,6 @@
 import { ToastContainer as ToastifyToastContainer } from 'react-toastify';
 import './ToastContainer.css';
 
-import Check from 'public/icons/toasty-check.svg';
-
 const ToastContainer = () => {
   return (
     <ToastifyToastContainer
@@ -10,13 +8,12 @@ const ToastContainer = () => {
       hideProgressBar
       closeButton={false}
       position="bottom-center"
-      autoClose={5000}
+      autoClose={1200}
       closeOnClick={true}
-      pauseOnHover={true}
       draggable={true}
+      draggablePercent={25}
       theme="colored"
       transition={undefined}
-      icon={<Check />}
     />
   );
 };
