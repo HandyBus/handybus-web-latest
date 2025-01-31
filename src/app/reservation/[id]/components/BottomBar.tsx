@@ -20,7 +20,7 @@ const BottomBar = ({
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto max-w-500 bg-white shadow-bottomBar">
         <div className="flex justify-between gap-12 px-16 py-8 font-600">
           {isNotOpen ? (
             <>
