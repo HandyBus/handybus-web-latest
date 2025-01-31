@@ -86,7 +86,7 @@ const HandySection = ({ reservationId, name, handyStatus }: Props) => {
         setIsHandyRequestModalOpen(true);
         break;
       case 'ACCEPTED':
-        router.push('./handy');
+        router.push(`/mypage/shuttle/${reservationId}/handy`);
         break;
     }
   };
