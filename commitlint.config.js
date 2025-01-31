@@ -24,6 +24,7 @@ module.exports = {
         'release',
       ],
     ],
+    'subject-case': [0, 'never'],
     'subject-full-stop': [2, 'never', '.'],
     'header-max-length': [2, 'always', 72],
     'body-leading-blank': [2, 'always'],
