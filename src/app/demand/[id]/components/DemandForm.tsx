@@ -15,6 +15,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
 import { DailyEvent, Event } from '@/types/shuttle-operation.type';
 
+export const DEMAND_FORM_ID = 'demand-form';
+
 interface Props {
   event: Event;
 }
@@ -71,65 +73,67 @@ const DemandForm = ({ event }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <section className="flex flex-col gap-16 p-16">
-        <h5 className="text-16 font-400 text-grey-600-sub">
-          운행일을 선택해주세요
-        </h5>
-        <Select
-          options={event.dailyEvents}
-          value={selectedDailyEvent}
-          setValue={(value) => {
-            setSelectedDailyEvent(value);
-            setSelectedBigRegion(undefined);
-            setSelectedSmallRegion(undefined);
-            updateQuery({
-              dailyEventId: String(value?.dailyEventId),
-              bigRegion: undefined,
-              smallRegion: undefined,
-            });
-          }}
-          renderValue={(value) => dateString(value.date)}
-          placeholder="운행일"
-          isUnderLined
-          bottomSheetTitle="운행일 선택"
-        />
-      </section>
-      <section className="flex flex-col gap-16 p-16">
-        <h5 className="text-16 font-400 text-grey-600-sub">
-          지역을 선택해주세요
-        </h5>
-        <Select
-          options={BIG_REGIONS}
-          value={selectedBigRegion}
-          setValue={(value) => {
-            setSelectedBigRegion(value);
-            setSelectedSmallRegion(undefined);
-            updateQuery({
-              bigRegion: value,
-              smallRegion: undefined,
-            });
-          }}
-          disabled={!selectedDailyEvent}
-          placeholder="도/광역시 선택"
-          isUnderLined
-          bottomSheetTitle="도/광역시 선택"
-        />
-        <Select
-          options={SMALL_REGIONS?.[selectedBigRegion!] ?? []}
-          value={selectedSmallRegion}
-          setValue={(value) => {
-            setSelectedSmallRegion(value);
-            updateQuery({
-              smallRegion: value,
-            });
-          }}
-          disabled={!selectedBigRegion}
-          placeholder="시/군/구 선택"
-          isUnderLined
-          bottomSheetTitle="시/군/구 선택"
-        />
-      </section>
+    <>
+      <form onSubmit={handleSubmit} id={DEMAND_FORM_ID}>
+        <section className="flex flex-col gap-16 p-16">
+          <h5 className="text-16 font-400 text-grey-600-sub">
+            운행일을 선택해주세요
+          </h5>
+          <Select
+            options={event.dailyEvents}
+            value={selectedDailyEvent}
+            setValue={(value) => {
+              setSelectedDailyEvent(value);
+              setSelectedBigRegion(undefined);
+              setSelectedSmallRegion(undefined);
+              updateQuery({
+                dailyEventId: String(value?.dailyEventId),
+                bigRegion: undefined,
+                smallRegion: undefined,
+              });
+            }}
+            renderValue={(value) => dateString(value.date)}
+            placeholder="운행일"
+            isUnderLined
+            bottomSheetTitle="운행일 선택"
+          />
+        </section>
+        <section className="flex flex-col gap-16 p-16">
+          <h5 className="text-16 font-400 text-grey-600-sub">
+            지역을 선택해주세요
+          </h5>
+          <Select
+            options={BIG_REGIONS}
+            value={selectedBigRegion}
+            setValue={(value) => {
+              setSelectedBigRegion(value);
+              setSelectedSmallRegion(undefined);
+              updateQuery({
+                bigRegion: value,
+                smallRegion: undefined,
+              });
+            }}
+            disabled={!selectedDailyEvent}
+            placeholder="도/광역시 선택"
+            isUnderLined
+            bottomSheetTitle="도/광역시 선택"
+          />
+          <Select
+            options={SMALL_REGIONS?.[selectedBigRegion!] ?? []}
+            value={selectedSmallRegion}
+            setValue={(value) => {
+              setSelectedSmallRegion(value);
+              updateQuery({
+                smallRegion: value,
+              });
+            }}
+            disabled={!selectedBigRegion}
+            placeholder="시/군/구 선택"
+            isUnderLined
+            bottomSheetTitle="시/군/구 선택"
+          />
+        </section>
+      </form>
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
       {selectedDailyEvent && (
         <DemandStats
@@ -143,7 +147,9 @@ const DemandForm = ({ event }: Props) => {
       <BottomBar
         eventName={event.eventName}
         isNotOpen={event.eventStatus !== 'OPEN'}
-        isSelected={!!(selectedDailyEvent && regionId)}
+        isDailyEventSelected={!!selectedDailyEvent}
+        isBigRegionSelected={!!selectedBigRegion}
+        isSmallRegionSelected={!!selectedSmallRegion}
       />
       {initialDailyEventId && initialBigRegion && initialSmallRegion && (
         <RouteModal
@@ -153,7 +159,7 @@ const DemandForm = ({ event }: Props) => {
           smallRegion={initialSmallRegion}
         />
       )}
-    </form>
+    </>
   );
 };
 
