@@ -5,6 +5,7 @@ import {
   ShuttleRouteSchema,
   TripTypeEnum,
 } from './shuttle-operation.type';
+import { ActiveStatusEnum } from './common.type';
 
 //  ----- ENUM -----
 
@@ -222,6 +223,7 @@ export const UserSchema = z
         isCompleted: z.boolean(),
       })
       .array(),
+    status: ActiveStatusEnum,
   })
   .strict();
 export type User = z.infer<typeof UserSchema>;
