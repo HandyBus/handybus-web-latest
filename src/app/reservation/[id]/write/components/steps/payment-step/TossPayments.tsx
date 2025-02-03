@@ -6,13 +6,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { CustomError } from '@/services/custom-error';
-import logout from '@/app/actions/logout.action';
 import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
 import { generateCustomerKey } from '../../../reservation.util';
 import { getUser } from '@/services/user-management.service';
 import { postReadyPayment, postReservation } from '@/services/billing.service';
 import Button from '@/components/buttons/button/Button';
+import { logout } from '@/utils/handleToken.util';
 
 declare global {
   interface Window {

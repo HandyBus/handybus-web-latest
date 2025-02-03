@@ -28,8 +28,9 @@ export const postLogin = async (
   return res;
 };
 
+// CSR 환경에서만 사용 가능
 export const postUpdateToken = async () => {
-  const refreshToken = await getRefreshToken();
+  const refreshToken = getRefreshToken();
   const res = await instance.post('/v1/auth/refresh', undefined, {
     cache: 'no-store',
     headers: {

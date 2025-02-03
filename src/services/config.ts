@@ -2,11 +2,11 @@
 
 import {
   getAccessToken,
+  logout,
   setAccessToken,
   setRefreshToken,
 } from '@/utils/handleToken.util';
 import { CustomError } from './custom-error';
-import logout from '@/app/actions/logout.action';
 import { z } from 'zod';
 import { replacer, silentParse } from '@/utils/config.util';
 import { postUpdateToken } from './auth.service';
@@ -124,6 +124,7 @@ class Instance {
 
 export const instance = new Instance();
 
+// CSR 환경에서만 사용 가능
 class AuthInstance {
   async authFetchWithConfig<T extends z.ZodRawShape = EmptyShape>(
     url: string,
@@ -131,9 +132,18 @@ class AuthInstance {
     body?: unknown,
     options: RequestInitWithSchema<T> = {},
   ) {
-    const accessToken = await getAccessToken();
+    const isServer = typeof window === 'undefined';
+    if (isServer) {
+      throw new CustomError(
+        403,
+        '인증이 필요한 요청은 서버사이드에서 호출 불가합니다.',
+      );
+    }
+
+    const accessToken = getAccessToken();
     const authOptions: RequestInitWithSchema<T> = {
       ...options,
+      credentials: 'include',
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ...options.headers,
@@ -144,14 +154,16 @@ class AuthInstance {
       return await instance.fetchWithConfig<T>(url, method, body, authOptions);
     } catch (e) {
       const error = e as CustomError;
-      const isServer = typeof window === 'undefined';
-      if (error.statusCode === 401 && !isServer) {
+
+      if (error.statusCode === 429) {
+        throw new CustomError(429, '요청이 너무 많습니다.');
+      }
+
+      if (error.statusCode === 401) {
         try {
           const tokens = await postUpdateToken();
-          await Promise.all([
-            setAccessToken(tokens.accessToken, tokens.accessTokenExpiresAt),
-            setRefreshToken(tokens.refreshToken, tokens.refreshTokenExpiresAt),
-          ]);
+          setAccessToken(tokens.accessToken);
+          setRefreshToken(tokens.refreshToken);
           return await instance.fetchWithConfig<T>(url, method, body, {
             ...authOptions,
             headers: {
@@ -162,7 +174,7 @@ class AuthInstance {
         } catch (e) {
           const error = e as CustomError;
           console.error('로그인 시간 만료: ', error.message);
-          logout();
+          await logout();
         }
       }
       throw error;
