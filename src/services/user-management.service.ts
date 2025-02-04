@@ -63,7 +63,7 @@ export const useGetUserReservations = (params?: {
     queryFn: () => getUserReservations(params),
   });
 
-export const getUserReservation = async (reservationId: number) => {
+export const getUserReservation = async (reservationId: string) => {
   const res = await authInstance.get(
     `/v2/user-management/users/me/reservations/${reservationId}`,
     {
@@ -76,13 +76,13 @@ export const getUserReservation = async (reservationId: number) => {
   return res;
 };
 
-export const useGetUserReservation = (reservationId: number) =>
+export const useGetUserReservation = (reservationId: string) =>
   useQuery({
     queryKey: ['user', 'reservation', reservationId],
     queryFn: () => getUserReservation(reservationId),
   });
 
-export const getUserPayment = async (paymentId: number) => {
+export const getUserPayment = async (paymentId: string) => {
   const res = await authInstance.get(
     `/v2/user-management/users/me/payments/${paymentId}`,
     {
@@ -94,7 +94,7 @@ export const getUserPayment = async (paymentId: number) => {
   return res.payments;
 };
 
-export const useGetUserPayment = (paymentId: number) =>
+export const useGetUserPayment = (paymentId: string) =>
   useQuery({
     queryKey: ['user', 'payment', paymentId],
     queryFn: () => getUserPayment(paymentId),

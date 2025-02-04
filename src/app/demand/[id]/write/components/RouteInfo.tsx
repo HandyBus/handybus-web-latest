@@ -23,7 +23,7 @@ const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
 
 interface Props {
   event: Event;
-  regionId: number;
+  regionId: string;
 }
 
 const RouteInfo = ({ event, regionId }: Props) => {

@@ -18,7 +18,7 @@ const CurrentTab = () => {
   });
 
   const router = useRouter();
-  const handleReservationDetailClick = (reservationId: number) => {
+  const handleReservationDetailClick = (reservationId: string) => {
     router.push(`/mypage/shuttle/${reservationId}`);
   };
 

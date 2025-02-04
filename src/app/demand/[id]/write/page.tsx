@@ -16,7 +16,7 @@ interface Props {
 }
 
 const DemandWrite = ({ params, searchParams }: Props) => {
-  const { data: event, isLoading } = useGetEvent(Number(params.id));
+  const { data: event, isLoading } = useGetEvent(params.id);
 
   return (
     <>
@@ -27,8 +27,8 @@ const DemandWrite = ({ params, searchParams }: Props) => {
             <BannerImage event={event} />
             <WriteForm
               event={event}
-              dailyEventId={Number(searchParams.dailyEventId)}
-              regionId={Number(searchParams.regionId)}
+              dailyEventId={searchParams.dailyEventId}
+              regionId={searchParams.regionId}
             />
             <div className="h-120" />
           </main>

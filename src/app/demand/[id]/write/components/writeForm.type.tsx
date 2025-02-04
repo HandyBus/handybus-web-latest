@@ -1,6 +1,6 @@
 export interface DemandRequestFormValues {
   dailyEvent: {
-    dailyEventId: number;
+    dailyEventId: string;
     date: string;
   };
   bigLocation: string;
@@ -9,13 +9,13 @@ export interface DemandRequestFormValues {
   routeType: string;
   passengerCount: number;
   destinationStop?: {
-    hubId?: number | null;
+    hubId?: string | null;
     name: string;
     isCustom: boolean;
     customHub?: string | null;
   };
   returnStop?: {
-    hubId?: number | null;
+    hubId?: string | null;
     name: string;
     isCustom: boolean;
     customHub?: string | null;

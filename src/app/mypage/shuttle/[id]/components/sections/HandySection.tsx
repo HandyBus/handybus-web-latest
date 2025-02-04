@@ -42,7 +42,7 @@ const TEXT: Record<
 };
 
 interface Props {
-  reservationId: number;
+  reservationId: string;
   name: string;
   handyStatus: HandyStatus;
 }

@@ -16,8 +16,8 @@ import {
 
 interface Props {
   event: Event;
-  initialDailyEventId: number;
-  initialRouteId: number;
+  initialDailyEventId: string;
+  initialRouteId: string;
 }
 
 const ReservationForm = ({

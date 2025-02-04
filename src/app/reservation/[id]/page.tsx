@@ -19,10 +19,10 @@ interface Props {
 }
 
 const Page = async ({ params, searchParams }: Props) => {
-  const dailyEventId = Number(searchParams.dailyEventId);
-  const shuttleRouteId = Number(searchParams.shuttleRouteId);
+  const dailyEventId = searchParams.dailyEventId;
+  const shuttleRouteId = searchParams.shuttleRouteId;
   const shuttleRoute = await getShuttleRoute(
-    Number(params.id),
+    params.id,
     dailyEventId,
     shuttleRouteId,
   );

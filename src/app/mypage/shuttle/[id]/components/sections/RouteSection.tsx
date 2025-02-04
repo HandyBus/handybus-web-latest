@@ -9,12 +9,12 @@ import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 import Button from '@/components/buttons/button/Button';
 
 interface Props {
-  reservationId: number;
+  reservationId: string;
   tripType: TripType;
   toDestinationHubs: ShuttleRouteHub[];
   fromDestinationHubs: ShuttleRouteHub[];
-  toDestinationHubId: number;
-  fromDestinationHubId: number;
+  toDestinationHubId: string;
+  fromDestinationHubId: string;
   date: Date | null;
 }
 
