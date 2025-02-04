@@ -54,8 +54,8 @@ interface Props {
 const Handy = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { data } = useGetUserReservation(Number(id));
-  const { mutate: putShuttleBus } = usePutShuttleBus(Number(id), {
+  const { data } = useGetUserReservation(id);
+  const { mutate: putShuttleBus } = usePutShuttleBus(id, {
     onSuccess: () => {
       toast.success('오픈채팅방 링크가 제출되었습니다.');
       router.push(`/mypage/shuttle/${id}`);

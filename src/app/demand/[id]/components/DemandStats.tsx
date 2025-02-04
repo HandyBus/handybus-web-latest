@@ -5,7 +5,7 @@ import { DailyEvent } from '@/types/shuttle-operation.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
-  eventId: number;
+  eventId: string;
   dailyEvent: DailyEvent;
   location: string;
   bigRegion?: string;

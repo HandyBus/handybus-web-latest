@@ -47,7 +47,7 @@ export const getSinglePriceWithEarlybird = (
   return price;
 };
 
-export const generateCustomerKey = async (userId: number): Promise<string> => {
+export const generateCustomerKey = async (userId: string): Promise<string> => {
   const rawData = `HANDYBUS_USER_${userId}_TOSS_PAYMENTS_KEY`;
   const encoder = new TextEncoder();
   const data = encoder.encode(rawData);

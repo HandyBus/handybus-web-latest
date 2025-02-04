@@ -21,7 +21,7 @@ const PastTab = () => {
     }
   };
 
-  const handleSubButtonClick = (reservationId: number) => {
+  const handleSubButtonClick = (reservationId: string) => {
     router.push(`/mypage/shuttle/${reservationId}`);
   };
 

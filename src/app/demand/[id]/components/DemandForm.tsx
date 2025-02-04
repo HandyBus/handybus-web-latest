@@ -28,9 +28,7 @@ const DemandForm = ({ event }: Props) => {
     | BigRegionsType
     | undefined;
   const initialSmallRegion = searchParams.get('smallRegion');
-  const initialDailyEventId = searchParams.get('dailyEventId')
-    ? Number(searchParams.get('dailyEventId'))
-    : undefined;
+  const initialDailyEventId = searchParams.get('dailyEventId');
 
   const [selectedBigRegion, setSelectedBigRegion] = useState<
     BigRegionsType | undefined

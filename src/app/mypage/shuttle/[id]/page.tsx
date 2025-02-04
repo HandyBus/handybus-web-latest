@@ -25,12 +25,12 @@ interface Props {
 const ShuttleDetail = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { data, isLoading, isSuccess } = useGetUserReservation(Number(id));
+  const { data, isLoading, isSuccess } = useGetUserReservation(id);
   const { data: shuttleBus } = useGetShuttleBus(
-    data?.reservation.shuttleRoute.eventId ?? 0,
-    data?.reservation.shuttleRoute.dailyEventId ?? 0,
-    data?.reservation.shuttleRoute.shuttleRouteId ?? 0,
-    data?.reservation.shuttleBusId ?? 0,
+    data?.reservation.shuttleRoute.eventId ?? '',
+    data?.reservation.shuttleRoute.dailyEventId ?? '',
+    data?.reservation.shuttleRoute.shuttleRouteId ?? '',
+    data?.reservation.shuttleBusId ?? '',
   );
 
   const isShuttleBusAssigned = Boolean(data?.reservation?.shuttleBusId);
@@ -91,10 +91,10 @@ const ShuttleDetail = ({ params }: Props) => {
                       .fromDestinationShuttleRouteHubs ?? []
                   }
                   toDestinationHubId={
-                    data.reservation.toDestinationShuttleRouteHubId ?? 0
+                    data.reservation.toDestinationShuttleRouteHubId ?? ''
                   }
                   fromDestinationHubId={
-                    data.reservation.fromDestinationShuttleRouteHubId ?? 0
+                    data.reservation.fromDestinationShuttleRouteHubId ?? ''
                   }
                   date={parsedDate}
                 />

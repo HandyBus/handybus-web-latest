@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const RegionHubSchema = z.object({
-  regionHubId: z.number(),
-  regionId: z.number(),
+  regionHubId: z.string(),
+  regionId: z.string(),
   name: z.string(),
   address: z.string(),
   latitude: z.number(),

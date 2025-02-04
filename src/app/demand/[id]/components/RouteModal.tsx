@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 interface Props {
   event: Event;
-  dailyEventId: number;
+  dailyEventId: string;
   bigRegion: string;
   smallRegion: string;
 }

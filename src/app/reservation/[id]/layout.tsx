@@ -8,7 +8,7 @@ export const generateMetadata = async ({
 }: {
   params: { id: string };
 }) => {
-  const event = await getEvent(Number(params.id));
+  const event = await getEvent(params.id);
   const metadata = createMetadataWithOG(
     `${event.eventName} 셔틀 예약`,
     event.eventImageUrl ?? DEFAULT_EVENT_IMAGE,

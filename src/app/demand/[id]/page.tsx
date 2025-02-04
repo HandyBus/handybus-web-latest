@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Demand = async ({ params }: Props) => {
-  const event = await getEvent(Number(params.id));
+  const event = await getEvent(params.id);
 
   return (
     <main className="relative overflow-y-hidden">

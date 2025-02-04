@@ -79,17 +79,17 @@ export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
 //  ----- SCHEMA -----
 export const ShuttleDemandSchema = z
   .object({
-    shuttleDemandId: z.number(),
-    userId: z.number(),
+    shuttleDemandId: z.string(),
+    userId: z.string(),
     userNickname: z.string(),
     userProfileImage: z.string(),
     event: EventSchema,
-    eventId: z.number(),
-    dailyEventId: z.number(),
-    regionId: z.number(),
+    eventId: z.string(),
+    dailyEventId: z.string(),
+    regionId: z.string(),
     toDestinationRegionHub: z
       .object({
-        regionHubId: z.number(),
+        regionHubId: z.string(),
         name: z.string(),
         address: z.string(),
         latitude: z.number(),
@@ -99,7 +99,7 @@ export const ShuttleDemandSchema = z
     desiredToDestinationRegionHub: z.string().nullable(),
     fromDestinationRegionHub: z
       .object({
-        regionHubId: z.number(),
+        regionHubId: z.string(),
         name: z.string(),
         address: z.string(),
         latitude: z.number(),
@@ -119,15 +119,15 @@ export type ShuttleDemand = z.infer<typeof ShuttleDemandSchema>;
 
 export const ReservationSchema = z
   .object({
-    reservationId: z.number(),
-    userId: z.number(),
+    reservationId: z.string(),
+    userId: z.string(),
     userNickname: z.string(),
     userPhoneNumber: z.string(),
     userProfileImage: z.string(),
-    shuttleRouteId: z.number(),
+    shuttleRouteId: z.string(),
     type: TripTypeEnum,
-    toDestinationShuttleRouteHubId: z.number().nullable(),
-    fromDestinationShuttleRouteHubId: z.number().nullable(),
+    toDestinationShuttleRouteHubId: z.string().nullable(),
+    fromDestinationShuttleRouteHubId: z.string().nullable(),
     handyStatus: HandyStatusEnum,
     hasReview: z.boolean(),
     reservationStatus: ReservationStatusEnum,
@@ -140,7 +140,7 @@ export const ReservationSchema = z
     paymentEarlybirdDiscountAmount: z.number().nullable(),
     paymentCreatedAt: z.string().nullable(),
     paymentUpdatedAt: z.string().nullable(),
-    shuttleBusId: z.number().nullable(),
+    shuttleBusId: z.string().nullable(),
     passengerCount: z.number().int(),
     shuttleRoute: ShuttleRouteSchema,
     createdAt: z.string(),
@@ -151,7 +151,7 @@ export type Reservation = z.infer<typeof ReservationSchema>;
 
 export const RefundRequestSchema = z
   .object({
-    refundRequestId: z.number(), // 환불 요청 PK
+    refundRequestId: z.string(), // 환불 요청 PK
     paymentId: z.string(),
     principalAmount: z.number(), // 결제의 원래 총 결제 금액
     previousRefundableAmount: z.number(), // 환불 요청 시점에서 환불 가능 금액
@@ -176,8 +176,8 @@ export const PaymentSchema = z
     couponDiscountAmount: z.number(), // 쿠폰 할인 금액
     earlybirdDiscountAmount: z.number(), // 얼리버드 할인 금액
     refundableAmount: z.number(), // 환불 가능 금액
-    issuedCouponId: z.number().nullable(), // 발행된 쿠폰 ID
-    reservationId: z.number(),
+    issuedCouponId: z.string().nullable(), // 발행된 쿠폰 ID
+    reservationId: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
     refundRequests: RefundRequestSchema.array().nullable(),
@@ -187,8 +187,8 @@ export type Payment = z.infer<typeof PaymentSchema>;
 
 export const IssuedCouponSchema = z
   .object({
-    issuedCouponId: z.number(),
-    userId: z.number(),
+    issuedCouponId: z.string(),
+    userId: z.string(),
     userNickname: z.string(),
     userProfileImage: z.string(),
     code: z.string(),
@@ -207,7 +207,7 @@ export type IssuedCoupon = z.infer<typeof IssuedCouponSchema>;
 
 export const UserSchema = z
   .object({
-    userId: z.number(),
+    userId: z.string(),
     nickname: z.string(),
     profileImage: z.string(),
     phoneNumber: z.string(),
@@ -215,7 +215,7 @@ export const UserSchema = z
     ageRange: AgeRangeEnum,
     authChannelType: AuthChannelTypeEnum,
     lastLoginAt: z.string().nullable(),
-    regionId: z.number(),
+    regionId: z.string(),
     favoriteArtists: ArtistSchema.array().nullable(),
     progresses: z
       .object({
@@ -230,14 +230,14 @@ export type User = z.infer<typeof UserSchema>;
 
 export const UserStatsSchema = z
   .object({
-    userId: z.number(),
+    userId: z.string(),
     nickname: z.string(),
     phoneNumber: z.string(),
     profileImage: z.string(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
     authChannel: AuthChannelTypeEnum,
-    regionId: z.number(),
+    regionId: z.string(),
     socialInfo: z.object({
       uniqueId: z.string(),
       nickname: z.string(),
@@ -261,8 +261,8 @@ export const PutUserBodySchema = z
     phoneNumber: z.string(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    regionId: z.number(),
-    favoriteArtistsIds: z.number().array(),
+    regionId: z.string(),
+    favoriteArtistsIds: z.string().array(),
     isAgreedMarketing: z.boolean(),
     isAgreedServiceTerms: z.boolean(),
     isAgreedPersonalInfo: z.boolean(),

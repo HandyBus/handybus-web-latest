@@ -19,8 +19,8 @@ import {
 interface Props {
   handleNextStep: () => void;
   event: Event;
-  initialDailyShuttleId?: number;
-  initialShuttleRouteId?: number;
+  initialDailyShuttleId?: string;
+  initialShuttleRouteId?: string;
 }
 
 const RouteSelectStep = ({
@@ -42,7 +42,7 @@ const RouteSelectStep = ({
 
   const { data: routes } = useGetShuttleRoutesOfDailyEvent(
     event.eventId,
-    selectedDailyShuttle?.dailyEventId ?? 0,
+    selectedDailyShuttle?.dailyEventId ?? '',
     { status: 'OPEN' },
   );
 

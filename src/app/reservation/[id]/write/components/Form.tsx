@@ -22,15 +22,15 @@ export interface ReservationFormValues {
     fromDestinationHub: ShuttleRouteHub | undefined;
   };
   passengerCount: number;
-  issuedCouponId: number | undefined;
+  issuedCouponId: string | undefined;
   isSupportingHandy: boolean;
   finalPrice: number;
 }
 
 interface Props {
   event: Event;
-  initialDailyShuttleId: number;
-  initialShuttleRouteId: number;
+  initialDailyShuttleId: string;
+  initialShuttleRouteId: string;
 }
 
 const Form = ({

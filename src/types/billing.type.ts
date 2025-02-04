@@ -15,35 +15,35 @@ export const PostCouponBodySchema = z.object({
 export type PostCouponBody = z.infer<typeof PostCouponBodySchema>;
 
 export const PostReservationBodySchema = z.object({
-  shuttleRouteId: z.number(),
+  shuttleRouteId: z.string(),
   type: TripTypeEnum,
-  toDestinationShuttleRouteHubId: z.number().optional(),
-  fromDestinationShuttleRouteHubId: z.number().optional(),
-  issuedCouponId: z.number().optional(),
+  toDestinationShuttleRouteHubId: z.string().optional(),
+  fromDestinationShuttleRouteHubId: z.string().optional(),
+  issuedCouponId: z.string().optional(),
   isSupportingHandy: z.boolean(),
   passengerCount: z.number().int(),
 });
 export type PostReservationBody = z.infer<typeof PostReservationBodySchema>;
 
 export const PostReadyPaymentBodySchema = z.object({
-  reservationId: z.number(),
-  issuedCouponId: z.number().nullable(),
+  reservationId: z.string(),
+  issuedCouponId: z.string().nullable(),
 });
 export type PostReadyPaymentBody = z.infer<typeof PostReadyPaymentBodySchema>;
 
 // ----- 임시 타입 -----
 
 export const TempReservationSchema = z.object({
-  reservationId: z.number(),
+  reservationId: z.string(),
   type: TripTypeEnum,
-  shuttleRouteId: z.number(),
-  toDestinationShuttleRouteHubId: z.number().nullable(),
-  fromDestinationShuttleRouteHubId: z.number().nullable(),
-  shuttleBusId: z.number().nullable(),
+  shuttleRouteId: z.string(),
+  toDestinationShuttleRouteHubId: z.string().nullable(),
+  fromDestinationShuttleRouteHubId: z.string().nullable(),
+  shuttleBusId: z.string().nullable(),
   reservationStatus: ReservationStatusEnum,
   cancelStatus: CancelStatusEnum,
   paymentId: z.string().nullable(), // 250114 21:25 /v1/billing/payments API가 새로 추가되어 이제 /v2/shuttle-operation/reservations에서 paymentId는 null로 들어옵니다.
-  userId: z.number(),
+  userId: z.string(),
   handyStatus: HandyStatusEnum,
   createdAt: z.string(),
 });
@@ -51,8 +51,8 @@ export type TempReservation = z.infer<typeof TempReservationSchema>;
 
 export const TempReadyPaymentSchema = z.object({
   paymentId: z.string(),
-  reservationId: z.number(),
-  issuedCouponId: z.number().nullable(),
+  reservationId: z.string(),
+  issuedCouponId: z.string().nullable(),
   pgType: z.enum(['TOSS']),
   principalAmount: z.number(),
   earlybirdDiscountAmount: z.number(),
@@ -67,8 +67,8 @@ export type TempReadyPayment = z.infer<typeof TempReadyPaymentSchema>;
 
 export const TempPaymentSchema = z.object({
   paymentId: z.string(),
-  reservationId: z.number(),
-  issuedCouponId: z.number().nullable(),
+  reservationId: z.string(),
+  issuedCouponId: z.string().nullable(),
   pgType: z.enum(['TOSS']),
   principalAmount: z.number(),
   earlybirdDiscountAmount: z.number().nullable(),
