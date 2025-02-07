@@ -17,6 +17,11 @@ const Settings = ({ couponCount, reviewCount }: Props) => {
         description={`${couponCount}장`}
       />
       <ListButton
+        title="의견 남기기"
+        href={process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ?? ''}
+        newTab={true}
+      />
+      <ListButton
         title="작성한 후기 조회"
         href="/mypage/reviews"
         description={`${reviewCount}건`}
