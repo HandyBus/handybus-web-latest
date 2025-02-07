@@ -1,6 +1,5 @@
 'use client';
 
-import { FEEDBACK_FORM_URL } from '@/constants/common';
 import ListButton from './ListButton';
 import { logout } from '@/utils/handleToken.util';
 
@@ -17,7 +16,11 @@ const Settings = ({ couponCount, reviewCount }: Props) => {
         href="/mypage/coupons"
         description={`${couponCount}장`}
       />
-      <ListButton title="의견 남기기" href={FEEDBACK_FORM_URL} newTab={true} />
+      <ListButton
+        title="의견 남기기"
+        href={process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ?? ''}
+        newTab={true}
+      />
       <ListButton
         title="작성한 후기 조회"
         href="/mypage/reviews"

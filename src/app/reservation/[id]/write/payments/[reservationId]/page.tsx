@@ -7,7 +7,6 @@ import LogoLargeIcon from 'public/icons/logo-large.svg';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
-import { FEEDBACK_FORM_URL } from '@/constants/common';
 
 const PaymentsCompleted = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -36,7 +35,7 @@ const PaymentsCompleted = () => {
         isOpen={isOpen}
         onClosed={() => setIsOpen(false)}
         onConfirm={() => {
-          push(FEEDBACK_FORM_URL);
+          push(process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ?? '');
         }}
         title="의견을 남겨주세요!"
         description="핸디버스에서 예약은 어떠셨나요? 

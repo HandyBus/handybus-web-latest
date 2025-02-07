@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import LargeLogo from 'public/icons/logo-large.svg';
 import ChatSolidIcon from 'public/icons/chat-solid.svg';
-import { FEEDBACK_FORM_URL } from '@/constants/common';
 
 const DeadZonePopup = () => {
   return (
@@ -23,7 +22,7 @@ const DeadZonePopup = () => {
         </div>
       </div>
       <a
-        href={FEEDBACK_FORM_URL}
+        href={process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ?? ''}
         className="flex flex-col items-start gap-4 rounded-[10px] bg-grey-50 p-16"
         target="_blank"
         rel="noopener noreferrer"
