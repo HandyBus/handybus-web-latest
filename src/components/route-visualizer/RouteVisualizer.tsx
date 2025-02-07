@@ -39,7 +39,7 @@ const RouteVisualizer = ({
   return (
     <section className="flex flex-col gap-16">
       <header>
-        <h2 className="text-22 font-700 leading-[30.8px]">셔틀 예상 노선</h2>
+        <h2 className="text-22 font-700 leading-[30.8px]">셔틀 노선</h2>
         <p className="text-14 font-500 leading-[22.4px] text-grey-500">
           예약 현황에 따라 추가 경유지가 발생하거나 시각이 변동될 수 있습니다.
         </p>
