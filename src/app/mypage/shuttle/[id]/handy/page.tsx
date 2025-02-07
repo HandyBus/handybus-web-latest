@@ -6,10 +6,40 @@ import TextInput from '@/components/inputs/text-input/TextInput';
 import { CustomError } from '@/services/custom-error';
 import { usePutShuttleBus } from '@/services/shuttle-operation.service';
 import { useGetUserReservation } from '@/services/user-management.service';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+
+const HANDY_GUIDE_URL = process.env.NEXT_PUBLIC_HANDY_GUIDE_URL ?? '';
+
+const TEXT = {
+  busAssigned: {
+    description: (
+      <>
+        개설한 오픈채팅방으로 다른 탑승객분들이 입장할 수 있도록 링크를
+        입력해주세요.
+        <br />
+        <br />
+        자세한 개설 방법은 ‘핸디 가이드 보러가기’에서 확인하실 수 있어요.
+      </>
+    ),
+    placeholder: '오픈채팅방 링크를 입력해주세요',
+  },
+  busNotAssigned: {
+    description: (
+      <>
+        개설한 오픈채팅방으로 다른 탑승객분들이 입장할 수 있도록 링크를
+        입력해주세요. 링크 입력은 버스 배정 후 가능하며, 배정이 완료되면 바로
+        알려드릴게요.
+        <br />
+        <br />
+        자세한 개설 방법은 ‘핸디 가이드 보러가기’에서 확인하실 수 있어요.
+      </>
+    ),
+    placeholder: '버스 배정 후 입력할 수 있습니다.',
+  },
+};
 
 interface FormValues {
   openChatLink: string;
@@ -24,8 +54,8 @@ interface Props {
 const Handy = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { data } = useGetUserReservation(Number(id));
-  const { mutate: putShuttleBus } = usePutShuttleBus(Number(id), {
+  const { data } = useGetUserReservation(id);
+  const { mutate: putShuttleBus } = usePutShuttleBus(id, {
     onSuccess: () => {
       toast.success('오픈채팅방 링크가 제출되었습니다.');
       router.push(`/mypage/shuttle/${id}`);
@@ -59,6 +89,18 @@ const Handy = ({ params }: Props) => {
     });
   };
 
+  useEffect(() => {
+    if (data?.reservation.handyStatus !== 'ACCEPTED') {
+      router.replace(`/mypage/shuttle/${id}`);
+    }
+  }, [data?.reservation.handyStatus]);
+
+  const openHandyGuide = () => {
+    window.open(HANDY_GUIDE_URL);
+  };
+
+  const isBusAssigned = data?.reservation.shuttleBusId !== null;
+
   return (
     <>
       <AppBar>핸디 가이드</AppBar>
@@ -76,22 +118,19 @@ const Handy = ({ params }: Props) => {
             <br />
             자세한 핸디 가이드는 아래 링크를 확인해주세요!
           </p>
-          <Link
-            href={process.env.NEXT_PUBLIC_HANDY_GUIDE_URL ?? ''}
+          <Button
+            onClick={openHandyGuide}
             className="mx-auto mt-[60px] block w-fit rounded-full bg-grey-100 px-16 text-grey-600-sub"
-            target="_blank"
           >
             핸디 가이드 보러가기
-          </Link>
+          </Button>
         </section>
         <section className="py-[60px]">
           <h2 className="pb-12 text-28 font-700">오픈채팅방 링크 입력</h2>
           <p className="pb-24 text-16 font-400 text-grey-700">
-            개설한 오픈채팅방으로 다른 탑승객분들이 입장할 수 있도록 링크를
-            입력해주세요.
-            <br />
-            <br />
-            자세한 개설 방법은 ‘핸디 가이드 보러가기’에서 확인하실 수 있어요.
+            {isBusAssigned
+              ? TEXT.busAssigned.description
+              : TEXT.busNotAssigned.description}
           </p>
           <form
             className="flex flex-col gap-12"
@@ -101,11 +140,17 @@ const Handy = ({ params }: Props) => {
               name="openChatLink"
               control={control}
               setValue={setValue}
-              placeholder="오픈채팅방 링크를 입력해주세요"
+              placeholder={
+                isBusAssigned
+                  ? TEXT.busAssigned.placeholder
+                  : TEXT.busNotAssigned.placeholder
+              }
             >
               링크 입력
             </TextInput>
-            <Button>링크 제출하기</Button>
+            <Button type="submit" disabled={!isBusAssigned}>
+              링크 제출하기
+            </Button>
           </form>
         </section>
       </main>

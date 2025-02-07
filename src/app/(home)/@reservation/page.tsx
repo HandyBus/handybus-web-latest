@@ -74,7 +74,7 @@ const getRegionAndOpenRoutes = async (): Promise<{
   routes: ShuttleRoute[];
   userRegion: Region | undefined;
 }> => {
-  let userRegionId: number | undefined;
+  let userRegionId: string | undefined;
   try {
     userRegionId = (await getUser()).regionId;
   } catch {

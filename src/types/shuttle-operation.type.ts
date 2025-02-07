@@ -48,7 +48,7 @@ export type ShuttleBusType = z.infer<typeof ShuttleBusTypeEnum>;
 
 export const ArtistSchema = z
   .object({
-    artistId: z.number(),
+    artistId: z.string(),
     artistName: z.string(),
   })
   .strict();
@@ -56,7 +56,7 @@ export type Artist = z.infer<typeof ArtistSchema>;
 
 export const DailyEventSchema = z
   .object({
-    dailyEventId: z.number(),
+    dailyEventId: z.string(),
     date: z.string(),
     status: EventStatusEnum,
   })
@@ -65,11 +65,11 @@ export type DailyEvent = z.infer<typeof DailyEventSchema>;
 
 export const EventSchema = z
   .object({
-    eventId: z.number(),
+    eventId: z.string(),
     eventName: z.string(),
     eventType: EventTypeEnum,
-    regionId: z.number(),
-    regionHubId: z.number(),
+    regionId: z.string(),
+    regionHubId: z.string(),
     eventStatus: EventStatusEnum,
     eventImageUrl: z.string().nullable(),
     eventLocationName: z.string(),
@@ -86,8 +86,8 @@ export type Event = z.infer<typeof EventSchema>;
 
 export const ShuttleRouteHubSchema = z
   .object({
-    shuttleRouteHubId: z.number(),
-    regionHubId: z.number(),
+    shuttleRouteHubId: z.string(),
+    regionHubId: z.string(),
     name: z.string(),
     address: z.string(),
     latitude: z.number(),
@@ -96,15 +96,16 @@ export const ShuttleRouteHubSchema = z
     sequence: z.number(),
     arrivalTime: z.string(),
     status: ActiveStatusEnum,
+    regionId: z.string(),
   })
   .strict();
 export type ShuttleRouteHub = z.infer<typeof ShuttleRouteHubSchema>;
 
 export const ShuttleRouteSchema = z
   .object({
-    shuttleRouteId: z.number(),
-    eventId: z.number(),
-    dailyEventId: z.number(),
+    shuttleRouteId: z.string(),
+    eventId: z.string(),
+    dailyEventId: z.string(),
     name: z.string(),
     reservationDeadline: z.string(),
     hasEarlybird: z.boolean(),
@@ -132,8 +133,8 @@ export type ShuttleRoute = z.infer<typeof ShuttleRouteSchema>;
 
 export const ShuttleBusSchema = z
   .object({
-    shuttleBusId: z.number(),
-    shuttleRouteId: z.number(),
+    shuttleBusId: z.string(),
+    shuttleRouteId: z.string(),
     busType: ShuttleBusTypeEnum,
     busName: z.string(),
     busNumber: z.string(),
@@ -146,17 +147,17 @@ export type ShuttleBus = z.infer<typeof ShuttleBusSchema>;
 
 export const ReviewSchema = z
   .object({
-    reviewId: z.number(),
-    reservationId: z.number(),
+    reviewId: z.string(),
+    reservationId: z.string(),
     rating: z.number(),
     content: z.string(),
     reviewStatus: ActiveStatusEnum,
     createdAt: z.string(),
     updatedAt: z.string(),
-    userId: z.number(),
+    userId: z.string(),
     userNickname: z.string(),
     userProfileImage: z.string(),
-    eventId: z.number(),
+    eventId: z.string(),
     eventName: z.string(),
     eventType: EventTypeEnum,
     eventLocationName: z.string(),
@@ -183,18 +184,18 @@ export type EventDemandStats = z.infer<typeof EventDemandStatsSchema>;
 // ----- POST & PUT BODY -----
 
 export const PostDemandBodySchema = z.object({
-  regionId: z.number(),
+  regionId: z.string(),
   type: z.enum(['TO_DESTINATION', 'FROM_DESTINATION', 'ROUND_TRIP']),
   passengerCount: z.number(),
   toDestinationRegionHub: z
     .object({
-      regionHubId: z.number().optional(),
+      regionHubId: z.string().optional(),
       desiredRegionHub: z.string().optional(),
     })
     .optional(),
   fromDestinationRegionHub: z
     .object({
-      regionHubId: z.number().optional(),
+      regionHubId: z.string().optional(),
       desiredRegionHub: z.string().optional(),
     })
     .optional(),
@@ -207,8 +208,8 @@ export const PutShuttleBusBodySchema = z.object({
 export type PutShuttleBusBody = z.infer<typeof PutShuttleBusBodySchema>;
 
 export const PostReviewBodySchema = z.object({
-  eventId: z.number(),
-  reservationId: z.number(),
+  eventId: z.string(),
+  reservationId: z.string(),
   rating: z.number().int().min(1).max(5),
   content: z.string(),
   images: z

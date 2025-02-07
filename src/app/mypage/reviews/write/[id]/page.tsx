@@ -23,7 +23,7 @@ interface Props {
 }
 
 const WriteReview = ({ params }: Props) => {
-  const { data } = useGetUserReservation(Number(params.id));
+  const { data } = useGetUserReservation(params.id);
 
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');

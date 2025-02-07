@@ -2,8 +2,7 @@
 
 import Footer from '@/components/footer/Footer';
 import Image from 'next/image';
-import logout from './actions/logout.action';
-
+import { logout } from '@/utils/handleToken.util';
 export const Error = ({
   error,
   reset,

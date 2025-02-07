@@ -58,8 +58,8 @@ jobs:
             revert
             release
           requireScope: false
-          subjectPattern: ^[a-z가-힣].+$
+          subjectPattern: ^([A-Za-z가-힣].+|release)$
           subjectPatternError: |
-            The subject must start with a lowercase letter or a Korean character and not end with a period.
+            The subject must start with a letter or a Korean character and not end with a period.
           wip: false
           validateSingleCommit: false

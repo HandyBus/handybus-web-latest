@@ -6,13 +6,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { CustomError } from '@/services/custom-error';
-import logout from '@/app/actions/logout.action';
 import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
 import { generateCustomerKey } from '../../../reservation.util';
 import { getUser } from '@/services/user-management.service';
 import { postReadyPayment, postReservation } from '@/services/billing.service';
 import Button from '@/components/buttons/button/Button';
+import { logout } from '@/utils/handleToken.util';
 
 declare global {
   interface Window {
@@ -81,18 +81,21 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         throw new CustomError(400, '최종 가격이 존재하지 않습니다..');
       }
 
-      widgets.setAmount({
-        value: finalPrice,
-        currency: 'KRW',
-      });
-      widgets.renderPaymentMethods({
-        selector: '#payment-method',
-        variantKey: 'DEFAULT',
-      });
-      widgets.renderAgreement({
-        selector: '#agreement',
-        variantKey: 'AGREEMENT',
-      });
+      await Promise.all([
+        widgets.setAmount({
+          value: finalPrice,
+          currency: 'KRW',
+        }),
+        widgets.renderPaymentMethods({
+          selector: '#payment-method',
+          variantKey: 'DEFAULT',
+        }),
+        widgets.renderAgreement({
+          selector: '#agreement',
+          variantKey: 'AGREEMENT',
+        }),
+      ]);
+
       setTossInitialized(true);
     } catch (e) {
       const error = e as CustomError;
@@ -140,7 +143,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         fromDestinationShuttleRouteHubId:
           formValues.hub.fromDestinationHub?.shuttleRouteHubId,
         isSupportingHandy: formValues.isSupportingHandy,
-        passengers: formValues.passengers,
+        passengerCount: formValues.passengerCount,
       };
       const postReservationResponse = await postReservation(parsedFormValues);
 

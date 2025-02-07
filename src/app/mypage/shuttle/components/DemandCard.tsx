@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, MouseEventHandler } from 'react';
-import { getStatusStyle } from '../status.utils';
+import { getDemandStatusStyle } from '../status.utils';
 import { dateString } from '@/utils/dateString.util';
 import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
@@ -51,7 +51,7 @@ const DemandCard = ({
   const region = ID_TO_REGION[demand.regionId];
   const routeText = `${region.bigRegion} ${region.smallRegion} (${TRIP_STATUS_TO_STRING[demand.type]})`;
   const status = DEMAND_STATUS_TO_STRING[demand.status];
-  const statusStyle = getStatusStyle(status);
+  const statusStyle = getDemandStatusStyle(demand.status);
 
   return (
     <Link

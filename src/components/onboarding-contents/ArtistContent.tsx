@@ -135,6 +135,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
             setValue={setSearchValue}
             handleBack={() => {
               setIsListOpen(false);
+              handleEditingCancel();
               setSearchValue('');
             }}
             placeholder="아티스트 이름으로 검색"
@@ -161,20 +162,13 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
               </button>
             ))}
           </div>
-          <div className="absolute bottom-0 left-0 right-0 flex gap-16 bg-white px-32 py-12">
+          <div className="absolute bottom-0 left-0 right-0 bg-white px-32 pb-16 pt-12">
             <Button
               type="button"
               variant="primary"
               onClick={handleEditingConfirm}
             >
-              확인
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={handleEditingCancel}
-            >
-              취소
+              추가하기
             </Button>
           </div>
         </div>

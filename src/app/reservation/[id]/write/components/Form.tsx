@@ -21,19 +21,16 @@ export interface ReservationFormValues {
     toDestinationHub: ShuttleRouteHub | undefined;
     fromDestinationHub: ShuttleRouteHub | undefined;
   };
-  passengers: {
-    name: string;
-    phoneNumber: string;
-  }[];
-  issuedCouponId: number | undefined;
+  passengerCount: number;
+  issuedCouponId: string | undefined;
   isSupportingHandy: boolean;
   finalPrice: number;
 }
 
 interface Props {
   event: Event;
-  initialDailyShuttleId: number;
-  initialShuttleRouteId: number;
+  initialDailyShuttleId: string;
+  initialShuttleRouteId: string;
 }
 
 const Form = ({
@@ -49,7 +46,7 @@ const Form = ({
         toDestinationHub: undefined,
         fromDestinationHub: undefined,
       },
-      passengers: [{ name: '', phoneNumber: '' }],
+      passengerCount: 1,
       issuedCouponId: undefined,
       isSupportingHandy: false,
       finalPrice: 0,

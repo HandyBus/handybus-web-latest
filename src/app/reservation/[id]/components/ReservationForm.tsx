@@ -16,8 +16,8 @@ import {
 
 interface Props {
   event: Event;
-  initialDailyEventId: number;
-  initialRouteId: number;
+  initialDailyEventId: string;
+  initialRouteId: string;
 }
 
 const ReservationForm = ({
@@ -174,7 +174,8 @@ const ReservationForm = ({
         </>
       )}
       <BottomBar
-        disabled={!selectedRoute || selectedRoute.status !== 'OPEN'}
+        isSelected={!!selectedRoute}
+        isNotOpen={selectedRoute?.status !== 'OPEN'}
         eventName={event.eventName}
       />
     </form>

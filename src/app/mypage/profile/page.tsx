@@ -14,7 +14,9 @@ const Profile = () => {
   const { data: userStats, isLoading } = useGetUserStats();
 
   const gender = userStats?.gender === 'MALE' ? '남성' : '여성';
-  const region = ID_TO_REGION[userStats?.regionId ?? 1];
+  const region = userStats?.regionId
+    ? ID_TO_REGION[userStats.regionId]
+    : undefined;
   const favoriteArtists =
     userStats?.favoriteArtists?.map((artist) => artist.artistName).join(', ') ??
     '';
@@ -46,7 +48,7 @@ const Profile = () => {
                 <ProfileItem title="연령대" description={userStats.ageRange} />
                 <ProfileItem
                   title="거주 지역"
-                  description={`${region.bigRegion ?? ''} ${region.smallRegion ?? ''}`}
+                  description={`${region?.bigRegion ?? ''} ${region?.smallRegion ?? ''}`}
                 />
                 {favoriteArtists && (
                   <ProfileItem

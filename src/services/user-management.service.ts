@@ -17,7 +17,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReviewSchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
-import { setOnboardingToken } from '@/utils/handleToken.util';
+import { setIsOnboarding } from '@/utils/handleToken.util';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });
@@ -63,7 +63,7 @@ export const useGetUserReservations = (params?: {
     queryFn: () => getUserReservations(params),
   });
 
-export const getUserReservation = async (reservationId: number) => {
+export const getUserReservation = async (reservationId: string) => {
   const res = await authInstance.get(
     `/v2/user-management/users/me/reservations/${reservationId}`,
     {
@@ -76,13 +76,13 @@ export const getUserReservation = async (reservationId: number) => {
   return res;
 };
 
-export const useGetUserReservation = (reservationId: number) =>
+export const useGetUserReservation = (reservationId: string) =>
   useQuery({
     queryKey: ['user', 'reservation', reservationId],
     queryFn: () => getUserReservation(reservationId),
   });
 
-export const getUserPayment = async (paymentId: number) => {
+export const getUserPayment = async (paymentId: string) => {
   const res = await authInstance.get(
     `/v2/user-management/users/me/payments/${paymentId}`,
     {
@@ -94,7 +94,7 @@ export const getUserPayment = async (paymentId: number) => {
   return res.payments;
 };
 
-export const useGetUserPayment = (paymentId: number) =>
+export const useGetUserPayment = (paymentId: string) =>
   useQuery({
     queryKey: ['user', 'payment', paymentId],
     queryFn: () => getUserPayment(paymentId),
@@ -194,7 +194,7 @@ const getUserStats = async () => {
   // 온보딩 완료 유무 확인
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((res.userStats as any).ageRange === '연령대 미지정') {
-    await setOnboardingToken();
+    setIsOnboarding();
     throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
   }
   return res.userStats;

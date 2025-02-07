@@ -10,6 +10,7 @@ interface Props {
   onClick?: () => void;
   hideArrow?: boolean;
   replace?: boolean;
+  newTab?: boolean;
 }
 
 const ListButton = ({
@@ -19,6 +20,7 @@ const ListButton = ({
   onClick,
   hideArrow = false,
   replace = false,
+  newTab = false,
 }: Props) => {
   const content = (
     <>
@@ -37,6 +39,18 @@ const ListButton = ({
     </>
   );
 
+  if (newTab)
+    return (
+      <a
+        href={href}
+        onClick={onClick}
+        className="flex h-56 w-full items-center gap-16 p-16"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {content}
+      </a>
+    );
   return (
     <>
       {href ? (

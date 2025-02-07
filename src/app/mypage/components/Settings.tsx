@@ -1,7 +1,7 @@
 'use client';
 
 import ListButton from './ListButton';
-import logout from '@/app/actions/logout.action';
+import { logout } from '@/utils/handleToken.util';
 
 interface Props {
   couponCount: number;
@@ -15,6 +15,11 @@ const Settings = ({ couponCount, reviewCount }: Props) => {
         title="쿠폰함"
         href="/mypage/coupons"
         description={`${couponCount}장`}
+      />
+      <ListButton
+        title="의견 남기기"
+        href={process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ?? ''}
+        newTab={true}
       />
       <ListButton
         title="작성한 후기 조회"

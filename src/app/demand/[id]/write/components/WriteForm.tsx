@@ -12,15 +12,15 @@ import { useRouter } from 'next/navigation';
 
 export interface FormValues {
   dailyEvent: DailyEvent;
-  regionId: number | null;
+  regionId: string | null;
   type: TripType;
   toDestinationRegionHub?: {
     name: string;
-    regionHubId?: number | null;
+    regionHubId?: string | null;
   };
   fromDestinationRegionHub?: {
     name: string;
-    regionHubId?: number | null;
+    regionHubId?: string | null;
   };
   toDestinationDesiredRegionHub?: string;
   fromDestinationDesiredRegionHub?: string;
@@ -28,8 +28,8 @@ export interface FormValues {
 
 interface Props {
   event: Event;
-  dailyEventId: number;
-  regionId: number;
+  dailyEventId: string;
+  regionId: string;
 }
 
 const WriteForm = ({ event, dailyEventId, regionId }: Props) => {

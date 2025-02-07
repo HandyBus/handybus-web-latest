@@ -1,6 +1,5 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { dateString } from '@/utils/dateString.util';
-import Divider from './Divider';
 import { ReservationFormValues } from '../../Form';
 import { useFormContext } from 'react-hook-form';
 import { Event } from '@/types/shuttle-operation.type';
@@ -11,9 +10,9 @@ interface Props {
 
 const ReservationInfo = ({ event }: Props) => {
   const { getValues } = useFormContext<ReservationFormValues>();
-  const [shuttleRoute, passengers, type, hub] = getValues([
+  const [shuttleRoute, passengerCount, type, hub] = getValues([
     'shuttleRoute',
-    'passengers',
+    'passengerCount',
     'type',
     'hub',
   ]);
@@ -45,24 +44,8 @@ const ReservationInfo = ({ event }: Props) => {
               value={hub.fromDestinationHub?.name ?? ''}
             />
           )}
-          <Item label="탑승객 수" value={`${passengers.length}명`} />
+          <Item label="탑승객 수" value={`${passengerCount}명`} />
         </div>
-      </section>
-      <Divider />
-      <section className="flex flex-col gap-32 py-32">
-        {passengers.map((passenger, index) => (
-          <article key={index}>
-            <div className="flex flex-col gap-[16px]">
-              <h3 className="text-18 font-500 text-grey-700">
-                탑승객 {index + 1}
-              </h3>
-              <div className="grid grid-cols-[80px_1fr] gap-x-32 gap-y-12">
-                <Item label="이름" value={passenger.name} />
-                <Item label="전화번호" value={passenger.phoneNumber} />
-              </div>
-            </div>
-          </article>
-        ))}
       </section>
     </>
   );

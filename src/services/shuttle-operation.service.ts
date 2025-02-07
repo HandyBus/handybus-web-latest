@@ -36,22 +36,23 @@ export const getEvents = async (status?: EventStatus) => {
   const res = await instance.get(
     `/v2/shuttle-operation/events?${searchParams.toString()}`,
     {
-      shape: {
+      shape: withPagination({
         events: EventSchema.array(),
-      },
+      }),
     },
   );
   return res.events;
 };
 
+// TODO 추후에 pagination으로 변경
 export const useGetEvents = (status?: EventStatus) =>
   useQuery({
     queryKey: ['event', status],
     queryFn: () => getEvents(status),
   });
 
-export const getEvent = async (id: number) => {
-  const res = await instance.get(`/v2/shuttle-operation/events/${id}`, {
+export const getEvent = async (eventId: string) => {
+  const res = await instance.get(`/v2/shuttle-operation/events/${eventId}`, {
     shape: {
       event: EventSchema,
     },
@@ -59,10 +60,10 @@ export const getEvent = async (id: number) => {
   return res.event;
 };
 
-export const useGetEvent = (id: number) =>
+export const useGetEvent = (eventId: string) =>
   useQuery({
-    queryKey: ['event', id],
-    queryFn: () => getEvent(id),
+    queryKey: ['event', eventId],
+    queryFn: () => getEvent(eventId),
   });
 
 // ----- Shuttle Route -----
@@ -76,14 +77,15 @@ export const getShuttleRoutes = async (params?: {
   const res = await instance.get(
     `/v2/shuttle-operation/events/all/dates/all/routes?${searchParams.toString()}`,
     {
-      shape: {
+      shape: withPagination({
         shuttleRoutes: ShuttleRouteSchema.array(),
-      },
+      }),
     },
   );
   return res.shuttleRoutes;
 };
 
+// TODO 추후에 pagination으로 변경
 export const useGetShuttleRoutes = (params?: {
   provinceFullName?: string;
   cityFullName?: string;
@@ -95,8 +97,8 @@ export const useGetShuttleRoutes = (params?: {
   });
 
 export const getShuttleRoutesOfDailyEvent = async (
-  eventId: number,
-  dailyEventId: number,
+  eventId: string,
+  dailyEventId: string,
   params?: {
     provinceFullName?: string;
     cityFullName?: string;
@@ -107,17 +109,18 @@ export const getShuttleRoutesOfDailyEvent = async (
   const res = await instance.get(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes?${searchParams.toString()}`,
     {
-      shape: {
+      shape: withPagination({
         shuttleRoutes: ShuttleRouteSchema.array(),
-      },
+      }),
     },
   );
   return res.shuttleRoutes;
 };
 
+// TODO 추후에 pagination으로 변경
 export const useGetShuttleRoutesOfDailyEvent = (
-  eventId: number,
-  dailyEventId: number,
+  eventId: string,
+  dailyEventId: string,
   params?: {
     provinceFullName?: string;
     cityFullName?: string;
@@ -130,9 +133,9 @@ export const useGetShuttleRoutesOfDailyEvent = (
   });
 
 export const getShuttleRoute = async (
-  eventId: number,
-  dailyEventId: number,
-  shuttleRouteId: number,
+  eventId: string,
+  dailyEventId: string,
+  shuttleRouteId: string,
 ) => {
   const res = await instance.get(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}`,
@@ -146,9 +149,9 @@ export const getShuttleRoute = async (
 };
 
 export const useGetShuttleRoute = (
-  eventId: number,
-  dailyEventId: number,
-  shuttleRouteId: number,
+  eventId: string,
+  dailyEventId: string,
+  shuttleRouteId: string,
 ) =>
   useQuery({
     queryKey: ['shuttle-route', eventId, dailyEventId, shuttleRouteId],
@@ -158,10 +161,10 @@ export const useGetShuttleRoute = (
 // ----- Shuttle Bus -----
 
 export const getShuttleBus = async (
-  eventId: number,
-  dailyEventId: number,
-  shuttleRouteId: number,
-  shuttleBusId: number,
+  eventId: string,
+  dailyEventId: string,
+  shuttleRouteId: string,
+  shuttleBusId: string,
 ) => {
   const res = await authInstance.get(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
@@ -175,10 +178,10 @@ export const getShuttleBus = async (
 };
 
 export const useGetShuttleBus = (
-  eventId: number,
-  dailyEventId: number,
-  shuttleRouteId: number,
-  shuttleBusId: number,
+  eventId: string,
+  dailyEventId: string,
+  shuttleRouteId: string,
+  shuttleBusId: string,
 ) =>
   useQuery({
     queryKey: [
@@ -195,10 +198,10 @@ export const useGetShuttleBus = (
   });
 
 const putShuttleBus = async (
-  eventId: number,
-  dailyEventId: number,
-  shuttleRouteId: number,
-  shuttleBusId: number,
+  eventId: string,
+  dailyEventId: string,
+  shuttleRouteId: string,
+  shuttleBusId: string,
   {
     openChatLink,
   }: {
@@ -212,7 +215,7 @@ const putShuttleBus = async (
 };
 
 export const usePutShuttleBus = (
-  reservationId: number,
+  reservationId: string,
   {
     onSuccess,
     onError,
@@ -230,10 +233,10 @@ export const usePutShuttleBus = (
       shuttleBusId,
       openChatLink,
     }: {
-      eventId: number;
-      dailyEventId: number;
-      shuttleRouteId: number;
-      shuttleBusId: number;
+      eventId: string;
+      dailyEventId: string;
+      shuttleRouteId: string;
+      shuttleBusId: string;
       openChatLink: string;
     }) =>
       putShuttleBus(eventId, dailyEventId, shuttleRouteId, shuttleBusId, {
@@ -276,8 +279,8 @@ export const getReviewsWithPagination = async ({
 }: {
   limit?: number;
   page?: string;
-  eventId?: number;
-  userId?: number;
+  eventId?: string;
+  userId?: string;
 } = {}) => {
   const searchParams = toSearchParams({ limit, page, eventId, userId });
   const res = await instance.get(
@@ -335,8 +338,8 @@ export const usePostReview = ({
 // ----- Demand -----
 
 export const postDemand = async (
-  eventId: number,
-  dailyEventId: number,
+  eventId: string,
+  dailyEventId: string,
   body: PostDemandBody,
 ) => {
   return await authInstance.post(
@@ -353,8 +356,8 @@ export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
       dailyEventId,
       body,
     }: {
-      eventId: number;
-      dailyEventId: number;
+      eventId: string;
+      dailyEventId: string;
       body: PostDemandBody;
     }) => postDemand(eventId, dailyEventId, body),
     onSuccess: async () => {
@@ -385,9 +388,9 @@ export const deleteDemand = async ({
   dailyEventId,
   shuttleDemandId,
 }: {
-  eventId: number;
-  dailyEventId: number;
-  shuttleDemandId: number;
+  eventId: string;
+  dailyEventId: string;
+  shuttleDemandId: string;
 }) => {
   await authInstance.delete(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/${shuttleDemandId}`,
@@ -409,8 +412,8 @@ export const useDeleteDemand = () => {
 };
 
 export const getEventDemandStats = async (
-  eventId: number,
-  dailyEventId: number,
+  eventId: string,
+  dailyEventId: string,
   {
     provinceFullName,
     cityFullName,
@@ -429,8 +432,8 @@ export const getEventDemandStats = async (
 };
 
 export const useGetEventDemandStats = (
-  eventId: number,
-  dailyEventId: number,
+  eventId: string,
+  dailyEventId: string,
   params?: {
     provinceFullName?: string;
     cityFullName?: string;
@@ -445,10 +448,10 @@ export const useGetEventDemandStats = (
 // ----- Reservation -----
 
 const postUpdateReservation = async (
-  reservationId: number,
+  reservationId: string,
   body?: {
-    toDestinationShuttleRouteHubId?: number;
-    fromDestinationShuttleRouteHubId?: number;
+    toDestinationShuttleRouteHubId?: string;
+    fromDestinationShuttleRouteHubId?: string;
     isSupportingHandy?: boolean;
   },
 ) => {
@@ -459,7 +462,7 @@ const postUpdateReservation = async (
 };
 
 export const usePostUpdateReservation = (
-  reservationId: number,
+  reservationId: string,
   {
     onSuccess,
     onError,
@@ -471,16 +474,21 @@ export const usePostUpdateReservation = (
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (body?: {
-      toDestinationShuttleRouteHubId?: number;
-      fromDestinationShuttleRouteHubId?: number;
+      toDestinationShuttleRouteHubId?: string;
+      fromDestinationShuttleRouteHubId?: string;
       isSupportingHandy?: boolean;
     }) => postUpdateReservation(reservationId, body),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['user', 'reservation', reservationId],
       });
+      toast.success('탑승지 변경이 완료되었습니다.');
       onSuccess?.();
     },
-    onError,
+    onError: (e) => {
+      const error = e as CustomError;
+      toast.error('탑승지 변경에 실패했습니다.');
+      onError?.(error);
+    },
   });
 };

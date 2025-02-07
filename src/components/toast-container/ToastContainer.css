@@ -11,7 +11,7 @@
   --toastify-icon-color-warning: var(--toastify-color-warning);
   --toastify-icon-color-error: var(--toastify-color-error);
   --toastify-toast-width: 343px;
-  --toastify-toast-offset: 117px;
+  --toastify-toast-offset: 100px;
   --toastify-toast-top: max(
     var(--toastify-toast-offset),
     env(safe-area-inset-top)

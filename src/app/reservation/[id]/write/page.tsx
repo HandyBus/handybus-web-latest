@@ -17,7 +17,7 @@ interface Props {
 }
 
 const Page = ({ params, searchParams }: Props) => {
-  const { data: event, isLoading } = useGetEvent(Number(params.id));
+  const { data: event, isLoading } = useGetEvent(params.id);
 
   return (
     <>
@@ -26,8 +26,8 @@ const Page = ({ params, searchParams }: Props) => {
         {event && (
           <Form
             event={event}
-            initialDailyShuttleId={Number(searchParams.dailyEventId)}
-            initialShuttleRouteId={Number(searchParams.shuttleRouteId)}
+            initialDailyShuttleId={searchParams.dailyEventId}
+            initialShuttleRouteId={searchParams.shuttleRouteId}
           />
         )}
       </DeferredSuspense>
