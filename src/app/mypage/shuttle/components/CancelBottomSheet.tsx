@@ -7,6 +7,9 @@ import RefundPolicy from '../[id]/components/RefundPolicy';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 import { usePostRefund } from '@/services/billing.service';
 import { Reservation } from '@/types/user-management.type';
+import { calculateRefundFee } from '../utils/calculateRefundFee';
+import dayjs from 'dayjs';
+import { calculateDDay } from '../utils/calculateDDay';
 
 const REFUND_DDAY_TIME_LIMIT = 24 * 60 * 60 * 1000; // 24시간
 const REFUND_DAY_LIMIT = 5; // 5일
@@ -28,6 +31,18 @@ const CancelBottomSheet = ({
 }: Props) => {
   const { Funnel, Step, handleNextStep, handlePrevStep, setStep, stepName } =
     useFunnel(CANCEL_STEP);
+
+  const dDay = useMemo(() => calculateDDay(reservation), [reservation]);
+
+  const refundFee = useMemo(
+    () =>
+      calculateRefundFee({
+        paymentAmount: reservation?.paymentAmount ?? undefined,
+        createdAt: dayjs(reservation?.createdAt),
+        dDay,
+      }),
+    [reservation?.paymentAmount, reservation?.createdAt, dDay],
+  );
 
   useEffect(() => {
     if (!isOpen) {
@@ -98,7 +113,7 @@ const CancelBottomSheet = ({
           </Step>
           <Step name="취소 수수료">
             <section>
-              <CancellationAndRefundContent />
+              <CancellationAndRefundContent dDay={dDay} refundFee={refundFee} />
               <div className="flex gap-8 py-16">
                 <Button
                   type="button"
