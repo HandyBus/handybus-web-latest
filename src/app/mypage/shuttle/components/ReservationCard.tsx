@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   getHandyStatusStyle,
   getReservationStatusStyle,
-} from '../status.utils';
+} from '../utils/status.util';
 import { dateString } from '@/utils/dateString.util';
 import {
   CANCEL_STATUS_TO_STRING,
