@@ -155,7 +155,10 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         readyPaymentFormValues,
       );
 
-      const successUrl = window.location.origin + pathname + `/payments`;
+      const successUrl =
+        window.location.origin +
+        pathname +
+        `/payments?reservationId=${postReservationResponse.reservationId}`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
 
       await tossWidgets.requestPayment({

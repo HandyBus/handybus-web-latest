@@ -7,12 +7,22 @@ import { useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
+import { getUserReservation } from '@/services/user-management.service';
+import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const reservationId = searchParams.get('reservationId');
   const isInitiated = useRef(false);
+
+  const polling = async (reservationId: string) => {
+    const res = await getUserReservation(reservationId);
+    if (res.reservation.reservationStatus === 'COMPLETE_PAYMENT') {
+      router.replace(pathname + `/${res.reservation.reservationId}`);
+    }
+  };
 
   usePreventRefresh();
   usePreventScroll();
@@ -29,6 +39,7 @@ const Page = () => {
       const res = await postPayment(orderId, paymentKey);
       router.replace(pathname + `/${res.reservationId}`);
     } catch (e) {
+      await setTimeoutWithRetry(() => polling(reservationId ?? ''), 3, 3000);
       const error = e as CustomError;
       router.replace(pathname + `/fail?code=${error?.statusCode}`);
     }
