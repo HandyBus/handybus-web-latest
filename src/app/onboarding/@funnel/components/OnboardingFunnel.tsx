@@ -13,7 +13,6 @@ import PhoneNumberStep from './steps/PhoneNumberStep';
 import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
-import ArtistStep from './steps/ArtistStep';
 import { removeIsOnboarding } from '@/utils/handleToken.util';
 import { OnboardingProgress } from '@/utils/parseProgress.util';
 import { usePutUser } from '@/services/user-management.service';
@@ -109,6 +108,7 @@ const OnboardingFunnel = ({
         onKeyDown={handleEnter}
         noValidate
         className="relative flex w-full grow flex-col"
+        id="onboarding-form"
       >
         <Funnel>
           <Step name="약관 동의">
@@ -132,16 +132,16 @@ const OnboardingFunnel = ({
           </Step>
           <Step name="거주지">
             <ResidenceStep
-              handleNextStep={handleNextStep}
-              handlePrevStep={handlePrevStep}
-            />
-          </Step>
-          <Step name="최애 아티스트">
-            <ArtistStep
               handlePrevStep={handlePrevStep}
               isLoading={isSubmitting || isSuccess}
             />
           </Step>
+          {/* <Step name="최애 아티스트">
+            <ArtistStep
+              handlePrevStep={handlePrevStep}
+              isLoading={isSubmitting || isSuccess}
+            />
+          </Step> */}
         </Funnel>
       </form>
     </FormProvider>
@@ -156,5 +156,5 @@ const ONBOARDING_STEPS = [
   '프로필 정보',
   '개인 정보',
   '거주지',
-  '최애 아티스트',
+  // '최애 아티스트',
 ] as const;

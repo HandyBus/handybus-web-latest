@@ -46,7 +46,7 @@ const ProfileInfoStep = ({ handleNextStep }: Props) => {
   return (
     <OnboardingFrame
       handleSubmit={handleCheckStep}
-      indicatorMax={5}
+      indicatorMax={4}
       indicatorValue={2}
       disabled={putNickname.isPending || putNickname.isSuccess}
     >

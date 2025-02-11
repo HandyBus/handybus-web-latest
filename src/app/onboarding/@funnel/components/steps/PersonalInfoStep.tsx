@@ -24,7 +24,7 @@ const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
     <OnboardingFrame
       handleSubmit={handleCheckStep}
       handlePrevStep={handlePrevStep}
-      indicatorMax={5}
+      indicatorMax={4}
       indicatorValue={3}
     >
       <PersonalInfoContent />

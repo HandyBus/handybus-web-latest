@@ -17,10 +17,10 @@ const Profile = () => {
   const region = userStats?.regionId
     ? ID_TO_REGION[userStats.regionId]
     : undefined;
-  const favoriteArtists =
-    userStats?.favoriteArtists?.map((artist) => artist.artistName).join(', ') ??
-    '';
   const phoneNumber = parsePhoneNumber(userStats?.phoneNumber ?? '');
+  // const favoriteArtists =
+  //   userStats?.favoriteArtists?.map((artist) => artist.artistName).join(', ') ??
+  //   '';
 
   return (
     <>
@@ -50,12 +50,12 @@ const Profile = () => {
                   title="거주 지역"
                   description={`${region?.bigRegion ?? ''} ${region?.smallRegion ?? ''}`}
                 />
-                {favoriteArtists && (
+                {/* {favoriteArtists && (
                   <ProfileItem
                     title="최애 아티스트"
                     description={favoriteArtists}
                   />
-                )}
+                )} */}
               </ul>
             </section>
             <div className="h-16 w-full bg-grey-50" />
@@ -74,11 +74,11 @@ const Profile = () => {
               href="/mypage/profile/edit?type=region"
               replace
             />
-            <ListButton
+            {/* <ListButton
               title="최애 아티스트 수정"
               href="/mypage/profile/edit?type=artist"
               replace
-            />
+            /> */}
           </main>
         )}
       </DeferredSuspense>
