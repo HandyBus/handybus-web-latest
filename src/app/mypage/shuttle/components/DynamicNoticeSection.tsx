@@ -3,11 +3,13 @@ import { Dayjs } from 'dayjs';
 interface Props {
   dDay?: Dayjs;
   refundFee?: number;
+  isRefundable?: boolean;
 }
 
 export const DynamicCancellationAndRefundContent = ({
   dDay,
   refundFee,
+  isRefundable,
 }: Props) => {
   return (
     <section className="flex flex-col gap-16">
@@ -41,7 +43,7 @@ export const DynamicCancellationAndRefundContent = ({
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
                 {dDay
-                  ? `~ ${dDay.subtract(8, 'day').format('YYYY.MM.DD')} 23:59 이전`
+                  ? `~ ${dDay.subtract(8, 'day').format('MM.DD')} 23:59 이전`
                   : '~ 탑승 D-8 23:59'}
               </td>
               <td className="border-b border-grey-300 p-12">수수료 없음</td>
@@ -49,7 +51,7 @@ export const DynamicCancellationAndRefundContent = ({
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
                 {dDay
-                  ? `~ ${dDay.subtract(7, 'day').format('YYYY.MM.DD')} 23:59 이전`
+                  ? `~ ${dDay.subtract(7, 'day').format('MM.DD')} 23:59 이전`
                   : '~ 탑승 D-7 23:59'}
               </td>
               <td className="border-b border-grey-300 p-12">결제 금액의 25%</td>
@@ -57,7 +59,7 @@ export const DynamicCancellationAndRefundContent = ({
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
                 {dDay
-                  ? `~ ${dDay.subtract(6, 'day').format('YYYY.MM.DD')} 23:59 이전`
+                  ? `~ ${dDay.subtract(6, 'day').format('MM.DD')} 23:59 이전`
                   : '~ 탑승 D-6 23:59'}
               </td>
               <td className="border-b border-grey-300 p-12">결제 금액의 50%</td>
@@ -65,7 +67,7 @@ export const DynamicCancellationAndRefundContent = ({
             <tr>
               <td className="border-r border-grey-300 p-12">
                 {dDay
-                  ? `${dDay.subtract(5, 'day').format('YYYY.MM.DD')} 00:00 ~`
+                  ? `${dDay.subtract(5, 'day').format('MM.DD')} 00:00 ~`
                   : '탑승 D-5 00:00 ~'}
               </td>
               <td className="p-12">취소 / 환불 불가</td>
@@ -74,9 +76,9 @@ export const DynamicCancellationAndRefundContent = ({
         </table>
       </section>
 
-      {dDay && (
+      {dDay && isRefundable && (
         <p className="flex items-center justify-center rounded-[4px] bg-grey-50 p-8 text-14 font-700 leading-[18px] text-red-500">
-          취소 수수료: {refundFee}원
+          취소 수수료: {refundFee?.toLocaleString()}원
         </p>
       )}
     </section>

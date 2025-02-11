@@ -38,10 +38,10 @@ const CancelBottomSheet = ({
     () =>
       calculateRefundFee({
         paymentAmount: reservation?.paymentAmount ?? undefined,
-        createdAt: dayjs(reservation?.createdAt),
+        createdAt: dayjs(reservation?.paymentCreatedAt),
         dDay,
       }),
-    [reservation?.paymentAmount, reservation?.createdAt, dDay],
+    [reservation?.paymentAmount, reservation?.paymentCreatedAt, dDay],
   );
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const CancelBottomSheet = ({
     if (!reservation) {
       return false;
     }
-    const reservationDate = new Date(reservation.createdAt);
+    const paymentDate = new Date(reservation.paymentCreatedAt ?? '');
     const shuttleDate = new Date(
       reservation.shuttleRoute.event.dailyEvents.find(
         (dailyEvent) =>
@@ -67,8 +67,9 @@ const CancelBottomSheet = ({
     );
     const currentDate = new Date();
 
-    const diffTime = currentDate.getTime() - reservationDate.getTime();
+    const diffTime = currentDate.getTime() - paymentDate.getTime();
     if (diffTime < REFUND_DDAY_TIME_LIMIT) {
+      console.log('diffTime', diffTime);
       return true;
     }
     const diffDays = Math.ceil(
@@ -76,6 +77,7 @@ const CancelBottomSheet = ({
     );
 
     if (diffDays > REFUND_DAY_LIMIT) {
+      console.log('diffDays', diffDays);
       return true;
     }
     return false;
@@ -116,6 +118,7 @@ const CancelBottomSheet = ({
               <DynamicCancellationAndRefundContent
                 dDay={dDay}
                 refundFee={refundFee}
+                isRefundable={isRefundable}
               />
               <div className="flex gap-8 py-16">
                 <Button
