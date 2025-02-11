@@ -6,7 +6,7 @@ import { ReservationFormValues } from '../Form';
 import Button from '@/components/buttons/button/Button';
 import { useMemo } from 'react';
 import { toast } from 'react-toastify';
-import { getSinglePriceWithEarlybird } from '../../reservation.util';
+import { getSinglePriceWithEarlybird } from '../../utils/reservation.util';
 
 interface Props {
   handleNextStep: () => void;

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   getHandyStatusStyle,
   getReservationStatusStyle,
-} from '../status.utils';
+} from '../utils/status.util';
 import { dateString } from '@/utils/dateString.util';
 import {
   CANCEL_STATUS_TO_STRING,
@@ -16,6 +16,11 @@ import {
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
+import { calculateDDay } from '../utils/calculateDDay.util';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
 
 type ButtonColor = 'primary' | 'grey';
 
@@ -43,12 +48,11 @@ const ReservationCard = ({
   subButtonColor = 'grey',
 }: Props) => {
   const parsedReservationDate = dateString(reservation.createdAt);
-  const parsedShuttleDate = dateString(
-    reservation.shuttleRoute.event.dailyEvents.find(
-      (dailyEvent) =>
-        dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-    )?.date,
-  );
+  const parsedShuttleDate = (() => {
+    const date = calculateDDay(reservation);
+    if (!date) return '';
+    return date.format('YYYY. MM. DD. (ddd)').replace('요일', '');
+  })();
 
   const reservationStatusText =
     RESERVATION_STATUS_TO_STRING[reservation.reservationStatus];

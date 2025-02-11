@@ -5,7 +5,7 @@ import {
   checkIsEarlybird,
   getSinglePrice,
   getSinglePriceWithEarlybird,
-} from '../../../reservation.util';
+} from '../../../utils/reservation.util';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CouponBottomSheet from './CouponBottomSheet';
 import { useEffect, useMemo, useState } from 'react';
