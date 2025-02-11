@@ -14,7 +14,7 @@ const ApplyHandy = () => {
         <div>
           <h3 className="text-22 font-700 text-grey-900">핸디 지원하기</h3>
           <p className="text-14 font-400 text-grey-500">
-            안전한 운행을 도와주면, 다음 이용료가 절반!
+            핸디는 50% 셔틀비를 지원받을 수 있어요!
           </p>
         </div>
         <div className="flex gap-8">
