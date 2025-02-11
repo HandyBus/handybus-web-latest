@@ -6,9 +6,9 @@ import { useEffect, useMemo } from 'react';
 import RefundPolicy from '../[id]/components/RefundPolicy';
 import { usePostRefund } from '@/services/billing.service';
 import { Reservation } from '@/types/user-management.type';
-import { calculateRefundFee } from '../utils/calculateRefundFee';
+import { calculateRefundFee } from '../utils/calculateRefundFee.util';
 import dayjs from 'dayjs';
-import { calculateDDay } from '../utils/calculateDDay';
+import { calculateDDay } from '../utils/calculateDDay.util';
 import { DynamicCancellationAndRefundContent } from './DynamicNoticeSection';
 
 const REFUND_DDAY_TIME_LIMIT = 24 * 60 * 60 * 1000; // 24시간

@@ -16,7 +16,7 @@ import {
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
-import { calculateDDay } from '../utils/calculateDDay';
+import { calculateDDay } from '../utils/calculateDDay.util';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 

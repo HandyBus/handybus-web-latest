@@ -1,7 +1,7 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ReservationFormValues } from '../../Form';
 import { useFormContext } from 'react-hook-form';
-import { calculateDDayOnBooking } from '../../../calculateDDayOnBooking';
+import { calculateDDayOnBooking } from '../../../utils/calculateDDayOnBooking.util';
 
 const ReservationInfo = () => {
   const { getValues } = useFormContext<ReservationFormValues>();
