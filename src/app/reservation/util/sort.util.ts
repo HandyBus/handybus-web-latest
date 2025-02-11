@@ -1,5 +1,6 @@
 import { ShuttleRoute } from '@/types/shuttle-operation.type';
 import type { ShuttleSortType } from '../constants/params';
+import { dayjsTz } from '@/utils/dayjsTz.util';
 
 export const toSortedRoutes = (
   sort: ShuttleSortType,
@@ -12,11 +13,11 @@ export const toSortedRoutes = (
       );
     case '셔틀 일자 빠른 순':
       return routes.toSorted((a, b) => {
-        const aDate = new Date(
+        const aDate = dayjsTz(
           a.event.dailyEvents.find((v) => v.dailyEventId === a.dailyEventId)
             ?.date || '',
         );
-        const bDate = new Date(
+        const bDate = dayjsTz(
           b.event.dailyEvents.find((v) => v.dailyEventId === b.dailyEventId)
             ?.date || '',
         );
@@ -25,8 +26,8 @@ export const toSortedRoutes = (
     case '예약 마감이 임박한 순':
       return routes.toSorted(
         (a, b) =>
-          (new Date(a.reservationDeadline).getTime() || 0) -
-          (new Date(b.reservationDeadline).getTime() || 0),
+          (dayjsTz(a.reservationDeadline).getTime() || 0) -
+          (dayjsTz(b.reservationDeadline).getTime() || 0),
       );
     case '예약한 인원이 많은 순':
       return routes.toSorted(

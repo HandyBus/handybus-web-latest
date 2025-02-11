@@ -10,6 +10,7 @@ import { calculateRefundFee } from '../utils/calculateRefundFee.util';
 import dayjs from 'dayjs';
 import { calculateDDay } from '../utils/calculateDDay.util';
 import { DynamicCancellationAndRefundContent } from './DynamicNoticeSection';
+import { dayjsTz } from '@/utils/dayjsTz.util';
 
 const REFUND_DDAY_TIME_LIMIT = 24 * 60 * 60 * 1000; // 24시간
 const REFUND_DAY_LIMIT = 5; // 5일
@@ -58,16 +59,16 @@ const CancelBottomSheet = ({
     if (!reservation) {
       return false;
     }
-    const reservationDate = new Date(reservation.createdAt);
-    const shuttleDate = new Date(
+    const paymentDate = dayjsTz(reservation.paymentCreatedAt ?? '');
+    const shuttleDate = dayjsTz(
       reservation.shuttleRoute.event.dailyEvents.find(
         (dailyEvent) =>
           dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
       )?.date ?? '',
     );
-    const currentDate = new Date();
+    const currentDate = dayjs().tz().toDate();
 
-    const diffTime = currentDate.getTime() - reservationDate.getTime();
+    const diffTime = currentDate.getTime() - paymentDate.getTime();
     if (diffTime < REFUND_DDAY_TIME_LIMIT) {
       return true;
     }

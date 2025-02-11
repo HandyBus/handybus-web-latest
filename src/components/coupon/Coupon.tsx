@@ -1,4 +1,5 @@
 import { IssuedCoupon } from '@/types/user-management.type';
+import { dayjsTz } from '@/utils/dayjsTz.util';
 
 interface Props {
   coupon: IssuedCoupon;
@@ -16,7 +17,7 @@ const Coupon = ({ coupon }: Props) => {
     coupon.discountType === 'RATE'
       ? `${coupon.discountRate}%`
       : `${coupon.discountAmount?.toLocaleString()}원`;
-  const parsedValidTo = new Date(coupon.validTo).toLocaleString('ko-KR', {
+  const parsedValidTo = dayjsTz(coupon.validTo).toLocaleString('ko-KR', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
