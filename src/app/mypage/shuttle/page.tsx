@@ -37,9 +37,9 @@ const Shuttle = ({ searchParams }: Props) => {
         <div className="px-16">
           <Tabs
             items={[
-              { label: '진행 중인 셔틀', value: 'current' },
-              { label: '수요 신청 현황', value: 'demand' },
-              { label: '지난 셔틀', value: 'past' },
+              { label: '예약 현황', value: 'current' },
+              { label: '수요조사 현황', value: 'demand' },
+              { label: '지난 예약', value: 'past' },
             ]}
             selected={currentTab}
             onSelect={(value) => {
