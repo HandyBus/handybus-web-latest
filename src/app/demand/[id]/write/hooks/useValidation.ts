@@ -12,8 +12,8 @@ export const useShuttleFormValidation = (
       ? formValues.returnStop?.customHub
       : formValues.returnStop?.hubId;
 
-    if (formValues.routeType === '콘서트행') return !!to_destination;
-    if (formValues.routeType === '귀가행') return !!from_destination;
+    if (formValues.routeType === '가는 편') return !!to_destination;
+    if (formValues.routeType === '오는 편') return !!from_destination;
     if (formValues.routeType === '왕복행')
       return !!to_destination && !!from_destination;
     return false;

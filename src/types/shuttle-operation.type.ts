@@ -24,8 +24,8 @@ export const ShuttleRouteStatusEnum = z.enum([
 export type ShuttleRouteStatus = z.infer<typeof ShuttleRouteStatusEnum>;
 
 export const TripTypeEnum = z.enum([
-  'TO_DESTINATION', // 목적지행
-  'FROM_DESTINATION', // 귀가행
+  'TO_DESTINATION', // 가는 편
+  'FROM_DESTINATION', // 오는 편
   'ROUND_TRIP', // 왕복행
 ]);
 export type TripType = z.infer<typeof TripTypeEnum>;
@@ -117,8 +117,8 @@ export const ShuttleRouteSchema = z
     regularPriceFromDestination: z.number(),
     regularPriceRoundTrip: z.number(),
     maxPassengerCount: z.number(),
-    toDestinationCount: z.number(), // 목적지행 예약 탑승객 수
-    fromDestinationCount: z.number(), // 귀가행 예약 탑승객 수
+    toDestinationCount: z.number(), // 가는 편 예약 탑승객 수
+    fromDestinationCount: z.number(), // 오는 편 예약 탑승객 수
     remainingSeatCount: z.number(),
     remainingSeatType: TripTypeEnum,
     status: ShuttleRouteStatusEnum,
