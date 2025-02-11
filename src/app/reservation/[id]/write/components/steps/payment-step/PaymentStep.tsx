@@ -3,17 +3,15 @@ import Divider from './Divider';
 import ApplyHandy from './ApplyHandy';
 import ApplyCoupon from './ApplyCoupon';
 import TossPayments from './TossPayments';
-import { Event } from '@/types/shuttle-operation.type';
 
 interface Props {
   handlePrevStep: () => void;
-  event: Event;
 }
 
-const PaymentStep = ({ handlePrevStep, event }: Props) => {
+const PaymentStep = ({ handlePrevStep }: Props) => {
   return (
     <>
-      <ReservationInfo event={event} />
+      <ReservationInfo />
       <Divider />
       <ApplyHandy />
       <Divider />
