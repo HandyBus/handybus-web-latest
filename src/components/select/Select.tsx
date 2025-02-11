@@ -15,6 +15,7 @@ interface Props<T> {
   disabled?: boolean;
   bottomSheetTitle?: string;
   isUnderLined?: boolean;
+  defaultText?: string;
 }
 
 const Select = <T,>({
@@ -26,6 +27,7 @@ const Select = <T,>({
   disabled,
   bottomSheetTitle,
   isUnderLined,
+  defaultText,
 }: Props<T>) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
@@ -52,19 +54,25 @@ const Select = <T,>({
           ref={contentRef}
           className="flex h-full w-full flex-col overflow-y-auto bg-white"
         >
-          {options?.map((option, index) => (
-            <button
-              key={index}
-              className="py-16 text-left"
-              type="button"
-              onClick={() => {
-                setValue(option);
-                closeBottomSheet();
-              }}
-            >
-              {renderValue ? renderValue(option) : String(option)}
-            </button>
-          ))}
+          {options?.length === 0 ? (
+            <div className="py-16 text-left text-16 font-400 text-grey-400">
+              {defaultText}
+            </div>
+          ) : (
+            options?.map((option, index) => (
+              <button
+                key={index}
+                className="py-16 text-left"
+                type="button"
+                onClick={() => {
+                  setValue(option);
+                  closeBottomSheet();
+                }}
+              >
+                {renderValue ? renderValue(option) : String(option)}
+              </button>
+            ))
+          )}
         </div>
       </BottomSheet>
     </>
