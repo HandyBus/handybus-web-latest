@@ -1,6 +1,3 @@
-'use client';
-
-import { Dayjs } from 'dayjs';
 import ChevronRightIcon from 'public/icons/chevron-right.svg';
 import { ReactNode } from 'react';
 
@@ -64,19 +61,14 @@ const Wrapper = ({
   );
 };
 
-interface CancellationAndRefundContentProps {
-  dDay?: Dayjs;
-  refundFee?: number;
-}
-
-export const CancellationAndRefundContent = ({
-  dDay,
-  refundFee,
-}: CancellationAndRefundContentProps) => {
+export const CancellationAndRefundContent = () => {
   return (
-    <section className="flex flex-col gap-16">
-      <ul className="list-disc space-y-8 pl-16 text-14 font-400 leading-[22.4px] text-grey-500 ">
-        <li>탑승일 기준으로 환불 신청 시점에 따라 수수료가 발생합니다.</li>
+    <>
+      <ul className="mb-16 list-disc space-y-8 pl-16 text-14 font-400 leading-[22.4px] text-grey-500 ">
+        <li>
+          예약한 셔틀의 출발일자/시간을 기준으로 환불 신청 시점에 따라 수수료가
+          발생합니다.
+        </li>
         <li>
           취소 수수료 발생 기간 내 행사 주최 측의 사정으로 행사가 취소될
           경우에만 전액 환불됩니다.
@@ -98,52 +90,32 @@ export const CancellationAndRefundContent = ({
           <tbody>
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
-                당일 취소
+                ~ 탑승 D-8 23:59
               </td>
               <td className="border-b border-grey-300 p-12">수수료 없음</td>
             </tr>
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
-                {dDay
-                  ? `~ ${dDay.subtract(8, 'day').format('YYYY.MM.DD')} 23:59:59 이전`
-                  : '~ 탑승 D-8'}
-              </td>
-              <td className="border-b border-grey-300 p-12">수수료 없음</td>
-            </tr>
-            <tr>
-              <td className="border-b border-r border-grey-300 p-12">
-                {dDay
-                  ? `~ ${dDay.subtract(7, 'day').format('YYYY.MM.DD')} 23:59:59 이전`
-                  : '~ 탑승 D-7'}
+                ~ 탑승 D-7 23:59
               </td>
               <td className="border-b border-grey-300 p-12">결제 금액의 25%</td>
             </tr>
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
-                {dDay
-                  ? `~ ${dDay.subtract(6, 'day').format('YYYY.MM.DD')} 23:59:59 이전`
-                  : '~ 탑승 D-6'}
+                ~ 탑승 D-6 23:59
               </td>
               <td className="border-b border-grey-300 p-12">결제 금액의 50%</td>
             </tr>
             <tr>
               <td className="border-r border-grey-300 p-12">
-                {dDay
-                  ? `~ ${dDay.subtract(5, 'day').format('YYYY.MM.DD')} 23:59:59 이전`
-                  : '~ 탑승 D-5'}
+                탑승 D-5 00:00 ~
               </td>
               <td className="p-12">취소 / 환불 불가</td>
             </tr>
           </tbody>
         </table>
       </section>
-
-      {dDay && (
-        <p className="flex items-center justify-center rounded-[4px] bg-grey-50 p-8 text-14 font-700 leading-[18px] text-red-500">
-          취소 수수료: {refundFee}원
-        </p>
-      )}
-    </section>
+    </>
   );
 };
 
