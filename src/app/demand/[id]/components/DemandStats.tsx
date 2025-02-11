@@ -1,12 +1,15 @@
 'use client';
 
-import { useGetEventDemandStats } from '@/services/shuttle-operation.service';
+import {
+  useGetAllEventDemandStats,
+  useGetEventDemandStats,
+} from '@/services/shuttle-operation.service';
 import { DailyEvent } from '@/types/shuttle-operation.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   eventId: string;
-  dailyEvent: DailyEvent;
+  dailyEvent?: DailyEvent;
   location: string;
   bigRegion?: string;
   smallRegion?: string;
@@ -19,11 +22,15 @@ const DemandStats = ({
   bigRegion,
   smallRegion,
 }: Props) => {
-  const { data: demandStats } = useGetEventDemandStats(
+  const { data: eventDemandStats } = useGetEventDemandStats(
     eventId,
-    dailyEvent.dailyEventId,
+    dailyEvent?.dailyEventId ?? '',
     { provinceFullName: bigRegion, cityFullName: smallRegion },
   );
+
+  const { data: allEventDemandStats } = useGetAllEventDemandStats(eventId);
+
+  const demandStats = dailyEvent ? eventDemandStats : allEventDemandStats;
 
   const region =
     bigRegion && smallRegion ? bigRegion + ' ' + smallRegion : undefined;
@@ -36,7 +43,9 @@ const DemandStats = ({
         </h2>
         <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-grey-500">
           이번 콘서트를 위해{' '}
-          <span className="text-grey-700">{dateString(dailyEvent.date)}</span>
+          <span className="text-grey-700">
+            {dailyEvent ? dateString(dailyEvent.date) : '전체'}
+          </span>
           {region ? (
             <>
               에 <span className="text-grey-700">{region}</span>를 지나는{' '}

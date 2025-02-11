@@ -411,6 +411,25 @@ export const useDeleteDemand = () => {
   });
 };
 
+export const getAllEventDemandStats = async (eventId: string) => {
+  const res = await instance.get(
+    `/v2/shuttle-operation/events/${eventId}/dates/all/demands/all/stats`,
+    {
+      shape: {
+        statistic: EventDemandStatsSchema,
+      },
+    },
+  );
+  return res.statistic;
+};
+
+export const useGetAllEventDemandStats = (eventId: string) =>
+  useQuery({
+    queryKey: ['demand', 'stats', eventId],
+    queryFn: () => getAllEventDemandStats(eventId),
+    enabled: Boolean(eventId),
+  });
+
 export const getEventDemandStats = async (
   eventId: string,
   dailyEventId: string,
