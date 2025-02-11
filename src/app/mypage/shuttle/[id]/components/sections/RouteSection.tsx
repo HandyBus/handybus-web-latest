@@ -7,6 +7,7 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
 import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 import Button from '@/components/buttons/button/Button';
+import dayjs from 'dayjs';
 
 interface Props {
   reservationId: string;
@@ -72,12 +73,9 @@ const RouteSection = ({
     if (!date) {
       return false;
     }
-    const today = new Date();
-    const twoDaysAgo = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate() - 2,
-    );
+    const today = dayjs().tz().toDate();
+    const boardingDate = dayjs(date).tz();
+    const twoDaysAgo = boardingDate.subtract(2, 'day').toDate();
     return today <= twoDaysAgo;
   };
   const canEditHub = checkCanEditHub();

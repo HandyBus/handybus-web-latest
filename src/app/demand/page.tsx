@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import { getEvents } from '@/services/shuttle-operation.service';
 import { Event } from '@/types/shuttle-operation.type';
+import { dayjsTz } from '@/utils/dayjsTz.util';
 const Empty = dynamic(() => import('./components/Empty'));
 
 export const metadata: Metadata = {
@@ -75,8 +76,8 @@ const toSorted = async (events: Event[], sort: DemandSortType) => {
     case '셔틀 일자 빠른 순':
       newData = events.toSorted(
         (a, b) =>
-          (new Date(a.dailyEvents[0].date).getTime() || 0) -
-          (new Date(b.dailyEvents[0].date).getTime() || 0),
+          (dayjsTz(a.dailyEvents[0].date).getTime() || 0) -
+          (dayjsTz(b.dailyEvents[0].date).getTime() || 0),
       );
       break;
   }
