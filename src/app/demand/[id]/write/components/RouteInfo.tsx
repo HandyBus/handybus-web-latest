@@ -17,8 +17,8 @@ import { Event } from '@/types/shuttle-operation.type';
 
 const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
   ROUND_TRIP: '왕복',
-  TO_DESTINATION: '편도 (콘서트행)',
-  FROM_DESTINATION: '편도 (귀가행)',
+  TO_DESTINATION: '편도 (가는 편)',
+  FROM_DESTINATION: '편도 (오는 편)',
 };
 
 interface Props {
@@ -118,9 +118,9 @@ const RouteInfo = ({ event, regionId }: Props) => {
               setValue('fromDestinationDesiredRegionHub', undefined);
             }}
             renderValue={(value) => TRIP_TYPE_TO_STRING[value as TripType]}
-            placeholder="왕복/콘서트행/귀가행"
+            placeholder="왕복/가는 편/오는 편"
             isUnderLined
-            bottomSheetTitle="왕복/콘서트행/귀가행 선택"
+            bottomSheetTitle="왕복/가는 편/오는 편 선택"
           />
         )}
       />

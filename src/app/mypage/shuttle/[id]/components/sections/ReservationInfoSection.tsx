@@ -57,7 +57,7 @@ const ReservationInfoSection = ({
                   <>
                     탑승 장소
                     <br />
-                    <span className="text-14">(콘서트행)</span>
+                    <span className="text-14">(가는 편)</span>
                   </>
                 }
                 content={toDestinationLocation}
@@ -69,7 +69,7 @@ const ReservationInfoSection = ({
                   <>
                     하차 장소
                     <br />
-                    <span className="text-14">(귀가행)</span>
+                    <span className="text-14">(오는 편)</span>
                   </>
                 }
                 content={fromDestinationLocation}

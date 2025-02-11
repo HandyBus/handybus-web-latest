@@ -38,7 +38,7 @@ const JourneyLocationPicker = () => {
       {(type === 'ROUND_TRIP' || type === 'TO_DESTINATION') && (
         <div className="flex flex-col gap-8">
           <h3 className="text-16 font-400 text-grey-600-sub">
-            희망 탑승 장소 (콘서트행)
+            희망 탑승 장소 (가는 편)
           </h3>
           <Controller
             control={control}
@@ -74,7 +74,7 @@ const JourneyLocationPicker = () => {
       {(type === 'ROUND_TRIP' || type === 'FROM_DESTINATION') && (
         <div className="flex flex-col gap-8">
           <h3 className="pb-[6px] text-16 font-400 text-grey-600-sub">
-            희망 하차 장소 (귀가행)
+            희망 하차 장소 (오는 편)
           </h3>
           <Controller
             control={control}

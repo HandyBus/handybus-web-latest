@@ -37,8 +37,8 @@ export const DEMAND_STATUS_TO_STRING: Record<ShuttleDemandStatus, string> = {
 } as const;
 
 export const TRIP_STATUS_TO_STRING: Record<TripType, string> = {
-  TO_DESTINATION: '콘서트행',
-  FROM_DESTINATION: '귀가행',
+  TO_DESTINATION: '가는 편',
+  FROM_DESTINATION: '오는 편',
   ROUND_TRIP: '왕복',
 } as const;
 

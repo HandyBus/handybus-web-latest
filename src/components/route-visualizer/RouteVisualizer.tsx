@@ -117,21 +117,21 @@ const RouteCard = (props: RouteCardProps) => {
   return (
     <article
       role="region"
-      aria-label={`${type === 'TO_DESTINATION' ? '콘서트행' : '귀가행'} 셔틀 노선`}
+      aria-label={`${type === 'TO_DESTINATION' ? '가는 편' : '오는 편'} 셔틀 노선`}
       className="flex flex-col gap-12"
     >
       <h3 className="text-16 font-700 leading-[22.4px]">
-        {type === 'TO_DESTINATION' ? '콘서트행' : '귀가행'}
+        {type === 'TO_DESTINATION' ? '가는 편' : '오는 편'}
         {type === 'FROM_DESTINATION' && (
           <p className="text-12 font-400 leading-[19.2px] text-grey-500">
-            귀가행 노선의 출발 시각은 콘서트 앵콜 종료 시각으로부터 약 30분
+            오는 편 노선의 출발 시각은 콘서트 앵콜 종료 시각으로부터 약 30분
             이후로 책정하였으며, 변동될 수 있습니다.
           </p>
         )}
       </h3>
       <section className="flex w-full gap-12">
         <div
-          aria-label={`${type === 'TO_DESTINATION' ? '콘서트행' : '귀가행'} 경로 표시`}
+          aria-label={`${type === 'TO_DESTINATION' ? '가는 편' : '오는 편'} 경로 표시`}
           className={`relative flex flex-col items-center ${type === 'TO_DESTINATION' ? 'pt-[6px]' : 'pb-[6px]'}`}
         >
           <hr

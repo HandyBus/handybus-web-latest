@@ -15,9 +15,9 @@ type Story = StoryObj<typeof Tabs>;
 export const Static: Story = {
   args: {
     items: [
-      { value: 10, label: '예약 내역' },
-      { value: 20, label: '수요 확인 내역' },
-      { value: 30, label: '지난 셔틀' },
+      { value: 10, label: '예약 현황' },
+      { value: 20, label: '수요조사 현황' },
+      { value: 30, label: '지난 예약' },
     ],
     selected: 30,
     onSelect: undefined,
@@ -28,9 +28,9 @@ export const Interactice: Story = {
   args: {},
   render: function () {
     const items = [
-      { value: 10, label: '예약 내역' },
-      { value: 20, label: '수요 확인 내역' },
-      { value: 30, label: '지난 셔틀' },
+      { value: 10, label: '예약 현황' },
+      { value: 20, label: '수요조사 현황' },
+      { value: 30, label: '지난 예약' },
     ];
     const [selected, setSelected] = useState<number>(30);
     return <Tabs items={items} selected={selected} onSelect={setSelected} />;

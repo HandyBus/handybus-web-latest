@@ -239,8 +239,8 @@ const TypeSelect = () => {
             </p>
           )}
           isUnderLined
-          placeholder="왕복/콘서트행/귀가행"
-          bottomSheetTitle="왕복/콘서트행/귀가행 선택"
+          placeholder="왕복/가는 편/오는 편"
+          bottomSheetTitle="왕복/가는 편/오는 편 선택"
           disabled={!watchedShuttleRoute}
         />
       )}
