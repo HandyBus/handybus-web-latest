@@ -9,10 +9,12 @@ export const calculateRefundFee = ({
   createdAt?: Dayjs;
   dDay?: Dayjs;
 }): number | undefined => {
-  if (!paymentAmount || !createdAt || !dDay) return undefined;
+  if (!paymentAmount || !createdAt || !dDay) {
+    return undefined;
+  }
 
   let refundableAmount = 0;
-  const now = dayjs().startOf('day');
+  const now = dayjs().tz().toDate();
 
   // dDay와 now의 차이를 "일" 단위로 계산 (정수값)
   const daysUntilEvent = dDay.diff(now, 'day');

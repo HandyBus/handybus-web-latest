@@ -10,6 +10,14 @@ import { getEvents } from '@/services/shuttle-operation.service';
 import { Event } from '@/types/shuttle-operation.type';
 import { dayjsTz } from '@/utils/dayjsTz.util';
 const Empty = dynamic(() => import('./components/Empty'));
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
+dayjs.locale('ko');
 
 export const metadata: Metadata = {
   title: '수요 확인 중인 셔틀',

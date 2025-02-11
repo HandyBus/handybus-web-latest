@@ -73,6 +73,7 @@ export const CancellationAndRefundContent = () => {
           취소 수수료 발생 기간 내 행사 주최 측의 사정으로 행사가 취소될
           경우에만 전액 환불됩니다.
         </li>
+        <li>시간대는 한국 기준으로 적용됩니다.</li>
       </ul>
 
       <section className="overflow-hidden rounded-[5px] border border-grey-300 text-grey-500">
