@@ -13,15 +13,15 @@ const PastTab = () => {
   });
 
   const router = useRouter();
-  const handleButtonClick = (reservation: Reservation) => {
+  const handleReviewClick = (reservation: Reservation) => {
     if (reservation.hasReview) {
-      router.push(`/mypage/reviews/${reservation.reservationId}`);
+      router.push('/mypage/reviews');
     } else {
       router.push(`/mypage/reviews/write/${reservation.reservationId}`);
     }
   };
 
-  const handleSubButtonClick = (reservationId: string) => {
+  const handleReservationDetailClick = (reservationId: string) => {
     router.push(`/mypage/shuttle/${reservationId}`);
   };
 
@@ -36,15 +36,15 @@ const PastTab = () => {
               <ReservationCard
                 key={reservation.reservationId}
                 reservation={reservation}
-                buttonText={
+                buttonText="예약 상세보기"
+                onButtonClick={() =>
+                  handleReservationDetailClick(reservation.reservationId)
+                }
+                subButtonText={
                   reservation.hasReview ? '작성한 후기 보기' : '후기 작성하기'
                 }
-                onButtonClick={() => handleButtonClick(reservation)}
-                buttonColor="primary"
-                subButtonText="예약 상세보기"
-                onSubButtonClick={() =>
-                  handleSubButtonClick(reservation.reservationId)
-                }
+                onSubButtonClick={() => handleReviewClick(reservation)}
+                subButtonColor={reservation.hasReview ? 'grey' : 'primary'}
               />
             ))}
           </ul>
