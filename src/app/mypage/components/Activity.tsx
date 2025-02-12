@@ -15,19 +15,19 @@ const Activity = ({
     <section className="m-16 flex h-[94px] rounded-[12px] bg-grey-50 py-16">
       <BoxButton
         number={reservationCount}
-        title="예약 내역"
+        title="예약 현황"
         href="/mypage/shuttle?type=current"
       />
       <Divider />
       <BoxButton
         number={shuttleDemandCount}
-        title="수요 신청 현황"
+        title="수요조사 현황"
         href="/mypage/shuttle?type=demand"
       />
       <Divider />
       <BoxButton
         number={pastReservationCount}
-        title="지난 셔틀"
+        title="지난 예약"
         href="/mypage/shuttle?type=past"
       />
     </section>

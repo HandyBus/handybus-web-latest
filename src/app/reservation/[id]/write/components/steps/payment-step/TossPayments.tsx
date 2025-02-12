@@ -8,7 +8,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { CustomError } from '@/services/custom-error';
 import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
-import { generateCustomerKey } from '../../../reservation.util';
+import { generateCustomerKey } from '../../../utils/reservation.util';
 import { getUser } from '@/services/user-management.service';
 import { postReadyPayment, postReservation } from '@/services/billing.service';
 import Button from '@/components/buttons/button/Button';
@@ -155,7 +155,10 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         readyPaymentFormValues,
       );
 
-      const successUrl = window.location.origin + pathname + `/payments`;
+      const successUrl =
+        window.location.origin +
+        pathname +
+        `/payments?reservationId=${postReservationResponse.reservationId}`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
 
       await tossWidgets.requestPayment({

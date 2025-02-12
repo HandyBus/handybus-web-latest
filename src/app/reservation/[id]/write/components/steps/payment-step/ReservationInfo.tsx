@@ -1,14 +1,9 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { dateString } from '@/utils/dateString.util';
 import { ReservationFormValues } from '../../Form';
 import { useFormContext } from 'react-hook-form';
-import { Event } from '@/types/shuttle-operation.type';
+import { calculateDDayOnBooking } from '../../../utils/calculateDDayOnBooking.util';
 
-interface Props {
-  event: Event;
-}
-
-const ReservationInfo = ({ event }: Props) => {
+const ReservationInfo = () => {
   const { getValues } = useFormContext<ReservationFormValues>();
   const [shuttleRoute, passengerCount, type, hub] = getValues([
     'shuttleRoute',
@@ -16,11 +11,12 @@ const ReservationInfo = ({ event }: Props) => {
     'type',
     'hub',
   ]);
-  const parsedDate = dateString(
-    event.dailyEvents.find(
-      (dailyEvent) => dailyEvent.dailyEventId === shuttleRoute?.dailyEventId,
-    )?.date,
-  );
+
+  const parsedDate = calculateDDayOnBooking({
+    type,
+    toDestinationArrivalTime: hub.toDestinationHub?.arrivalTime,
+    fromDestinationArrivalTime: hub.fromDestinationHub?.arrivalTime,
+  });
 
   return (
     <>
@@ -29,7 +25,7 @@ const ReservationInfo = ({ event }: Props) => {
           신청 정보를 확인해주세요
         </h2>
         <div className="grid grid-cols-[80px_1fr] gap-x-32 gap-y-12">
-          <Item label="탑승일" value={parsedDate} />
+          <Item label="탑승일" value={parsedDate ?? ''} />
           <Item label="노선 종류" value={shuttleRoute?.name ?? ''} />
           <Item
             label="왕복 여부"

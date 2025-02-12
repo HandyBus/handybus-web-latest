@@ -33,7 +33,7 @@ const PhoneNumberStep = ({ handleNextStep }: Props) => {
   return (
     <OnboardingFrame
       handleSubmit={handleCheckStep}
-      indicatorMax={5}
+      indicatorMax={4}
       indicatorValue={1}
     >
       <OnboardingTitle

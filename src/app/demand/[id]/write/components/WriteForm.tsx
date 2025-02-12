@@ -99,20 +99,30 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
         regionId: formValues.regionId,
         type: formValues.type,
         passengerCount: 1,
-        toDestinationRegionHub: {
-          regionHubId:
-            formValues.toDestinationRegionHub?.regionHubId ?? undefined,
-          desiredRegionHub: formValues.toDestinationRegionHub
-            ? formValues.toDestinationDesiredRegionHub
-            : undefined,
-        },
-        fromDestinationRegionHub: {
-          regionHubId:
-            formValues.fromDestinationRegionHub?.regionHubId ?? undefined,
-          desiredRegionHub: formValues.fromDestinationDesiredRegionHub
-            ? formValues.fromDestinationDesiredRegionHub
-            : undefined,
-        },
+        ...(formValues.type === 'ROUND_TRIP' ||
+        formValues.type === 'TO_DESTINATION'
+          ? {
+              toDestinationRegionHub: {
+                regionHubId:
+                  formValues.toDestinationRegionHub?.regionHubId ?? undefined,
+                desiredRegionHub: formValues.toDestinationRegionHub
+                  ? formValues.toDestinationDesiredRegionHub
+                  : undefined,
+              },
+            }
+          : {}),
+        ...(formValues.type === 'ROUND_TRIP' ||
+        formValues.type === 'FROM_DESTINATION'
+          ? {
+              fromDestinationRegionHub: {
+                regionHubId:
+                  formValues.fromDestinationRegionHub?.regionHubId ?? undefined,
+                desiredRegionHub: formValues.fromDestinationDesiredRegionHub
+                  ? formValues.fromDestinationDesiredRegionHub
+                  : undefined,
+              },
+            }
+          : {}),
       },
     });
   };

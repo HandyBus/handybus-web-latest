@@ -82,7 +82,7 @@ const Form = ({
               />
             </Step>
             <Step name="결제">
-              <PaymentStep handlePrevStep={handlePrevStep} event={event} />
+              <PaymentStep handlePrevStep={handlePrevStep} />
             </Step>
           </Funnel>
         </form>

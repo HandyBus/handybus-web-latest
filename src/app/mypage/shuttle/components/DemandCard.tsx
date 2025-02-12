@@ -5,12 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent, MouseEventHandler } from 'react';
-import { getDemandStatusStyle } from '../status.utils';
 import { dateString } from '@/utils/dateString.util';
 import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ShuttleDemand } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
+import { getDemandStatusStyle } from '../utils/status.util';
 
 interface Props {
   demand: ShuttleDemand;
@@ -64,7 +64,7 @@ const DemandCard = ({
         <span className="font-500 text-grey-500">{parsedDemandDate} 신청</span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
-        <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
+        <div className="relative h-full w-92 shrink-0 overflow-hidden rounded-[8px]">
           <Image
             src={demand.event.eventImageUrl || DEFAULT_EVENT_IMAGE}
             alt="행사 포스터"

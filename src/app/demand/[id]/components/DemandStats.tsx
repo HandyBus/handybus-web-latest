@@ -1,12 +1,15 @@
 'use client';
 
-import { useGetEventDemandStats } from '@/services/shuttle-operation.service';
+import {
+  useGetAllEventDemandStats,
+  useGetEventDemandStats,
+} from '@/services/shuttle-operation.service';
 import { DailyEvent } from '@/types/shuttle-operation.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   eventId: string;
-  dailyEvent: DailyEvent;
+  dailyEvent?: DailyEvent;
   location: string;
   bigRegion?: string;
   smallRegion?: string;
@@ -19,11 +22,15 @@ const DemandStats = ({
   bigRegion,
   smallRegion,
 }: Props) => {
-  const { data: demandStats } = useGetEventDemandStats(
+  const { data: eventDemandStats } = useGetEventDemandStats(
     eventId,
-    dailyEvent.dailyEventId,
+    dailyEvent?.dailyEventId ?? '',
     { provinceFullName: bigRegion, cityFullName: smallRegion },
   );
+
+  const { data: allEventDemandStats } = useGetAllEventDemandStats(eventId);
+
+  const demandStats = dailyEvent ? eventDemandStats : allEventDemandStats;
 
   const region =
     bigRegion && smallRegion ? bigRegion + ' ' + smallRegion : undefined;
@@ -36,7 +43,9 @@ const DemandStats = ({
         </h2>
         <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-grey-500">
           이번 콘서트를 위해{' '}
-          <span className="text-grey-700">{dateString(dailyEvent.date)}</span>
+          <span className="text-grey-700">
+            {dailyEvent ? dateString(dailyEvent.date) : '전체'}
+          </span>
           {region ? (
             <>
               에 <span className="text-grey-700">{region}</span>를 지나는{' '}
@@ -55,13 +64,13 @@ const DemandStats = ({
           location={location}
         />
         <EventCard
-          tripType="콘서트행"
+          tripType="가는 편"
           count={demandStats?.fromDestinationCount}
           region={region}
           location={location}
         />
         <EventCard
-          tripType="귀가행"
+          tripType="오는 편"
           count={demandStats?.toDestinationCount}
           region={region}
           location={location}
@@ -74,7 +83,7 @@ const DemandStats = ({
 export default DemandStats;
 
 interface EventCardProps {
-  tripType?: '왕복' | '콘서트행' | '귀가행';
+  tripType?: '왕복' | '가는 편' | '오는 편';
   count?: number;
   region?: string;
   location?: string;
@@ -112,12 +121,12 @@ const EventCard = ({ tripType, count, region, location }: EventCardProps) => {
 };
 
 export const displayRouteInfo = (
-  tripType: '왕복' | '콘서트행' | '귀가행' | undefined,
+  tripType: '왕복' | '가는 편' | '오는 편' | undefined,
   destination: string,
   region?: string,
 ) => {
   if (!region) return;
   if (tripType === '왕복') return `${region} ↔ ${destination}`;
-  if (tripType === '콘서트행') return `${region} → ${destination}`;
-  if (tripType === '귀가행') return `${destination} → ${region}`;
+  if (tripType === '가는 편') return `${region} → ${destination}`;
+  if (tripType === '오는 편') return `${destination} → ${region}`;
 };

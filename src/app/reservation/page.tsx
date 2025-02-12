@@ -18,6 +18,14 @@ import ShuttleRouteView from './components/ShuttleRouteView';
 import { getShuttleRoutes } from '@/services/shuttle-operation.service';
 import getFirstSearchParam from '@/utils/getFirstSearchParam.util';
 const Empty = dynamic(() => import('./components/Empty'));
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
+dayjs.locale('ko');
 
 export const metadata: Metadata = {
   title: '지금 예약 모집 중인 셔틀',

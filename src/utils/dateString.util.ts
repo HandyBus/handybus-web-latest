@@ -1,3 +1,6 @@
+import dayjs from 'dayjs';
+import { dayjsTz } from './dayjsTz.util';
+
 const findMinMaxDate = (dates: Date[]) => {
   if (dates.length === 0) return { min: null, max: null };
 
@@ -20,7 +23,7 @@ const singleDateString = (date: Date | null, showYear: boolean = true) => {
     console.error('singleDateString: date is string');
   }
 
-  const target = new Date(date);
+  const target = dayjsTz(date);
 
   const formattedDate = target
     .toLocaleDateString('ko-KR', {
@@ -43,19 +46,19 @@ export const dateString = (
     return '';
   }
   if (!Array.isArray(date)) {
-    const target = typeof date === 'string' ? new Date(date) : date;
+    const target = typeof date === 'string' ? dayjsTz(date) : date;
     return singleDateString(target, showYear);
   }
   if (date.length === 0) {
     return '';
   }
   if (date.length === 1) {
-    const target = typeof date[0] === 'string' ? new Date(date[0]) : date[0];
+    const target = typeof date[0] === 'string' ? dayjsTz(date[0]) : date[0];
     return singleDateString(target, showYear);
   }
 
   const targetDates = date.map((date) =>
-    typeof date === 'string' ? new Date(date) : date,
+    typeof date === 'string' ? dayjsTz(date) : date,
   );
 
   const { min, max } = findMinMaxDate(targetDates);
@@ -67,9 +70,9 @@ export const ddayString = (date: Date | string | null | undefined) => {
     return '';
   }
 
-  const target = typeof date === 'string' ? new Date(date) : date;
+  const target = typeof date === 'string' ? dayjsTz(date) : date;
 
-  const now = new Date();
+  const now = dayjs().tz().toDate();
   const diff = target.getTime() - now.getTime();
   const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
@@ -82,9 +85,7 @@ export const compareToNow = (
   date: Date | string,
   callback: (a: Date, b: Date) => boolean,
 ) => {
-  const target = typeof date === 'string' ? new Date(date) : date;
-  const nowKST = new Date(
-    new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }),
-  );
+  const target = typeof date === 'string' ? dayjsTz(date) : date;
+  const nowKST = dayjs().tz().toDate();
   return callback(target, nowKST);
 };

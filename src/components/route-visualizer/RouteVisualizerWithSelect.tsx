@@ -78,18 +78,18 @@ const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
   return (
     <article
       role="region"
-      aria-label={`${type === 'TO_DESTINATION' ? '콘서트행' : '귀가행'} 셔틀 노선`}
+      aria-label={`${type === 'TO_DESTINATION' ? '가는 편' : '오는 편'} 셔틀 노선`}
       className="flex flex-col gap-12"
     >
       <h3 className="flex items-center justify-between text-16 font-700 leading-[22.4px]">
-        {type === 'TO_DESTINATION' ? '콘서트행' : '귀가행'}
+        {type === 'TO_DESTINATION' ? '가는 편' : '오는 편'}
         <span className="text-12 font-400 leading-[19.2px] text-grey-500">
           선택
         </span>
       </h3>
       <section className="flex w-full gap-12">
         <div
-          aria-label={`${type === 'TO_DESTINATION' ? '콘서트행' : '귀가행'} 경로 표시`}
+          aria-label={`${type === 'TO_DESTINATION' ? '가는 편' : '오는 편'} 경로 표시`}
           className={`relative flex flex-col items-center ${type === 'TO_DESTINATION' ? 'pt-[6px]' : 'pb-[6px]'}`}
         >
           <hr

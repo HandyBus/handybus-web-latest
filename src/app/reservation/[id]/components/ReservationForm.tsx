@@ -92,7 +92,7 @@ const ReservationForm = ({
     <form onSubmit={handleSubmit}>
       <section className="flex flex-col gap-16 p-16">
         <h5 className="text-16 font-400 text-grey-600-sub">
-          운행일을 선택해주세요
+          일자를 선택해주세요
         </h5>
         <Select
           options={event.dailyEvents}
@@ -122,6 +122,7 @@ const ReservationForm = ({
           placeholder="노선 종류"
           bottomSheetTitle="노선 종류 선택"
           isUnderLined
+          defaultText="예약 가능한 노선이 없어요."
         />
       </section>
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />

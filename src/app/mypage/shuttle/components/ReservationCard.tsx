@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   getHandyStatusStyle,
   getReservationStatusStyle,
-} from '../status.utils';
+} from '../utils/status.util';
 import { dateString } from '@/utils/dateString.util';
 import {
   CANCEL_STATUS_TO_STRING,
@@ -16,6 +16,7 @@ import {
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
+import { dayjsTz } from '@/utils/dayjsTz.util';
 
 type ButtonColor = 'primary' | 'grey';
 
@@ -43,12 +44,21 @@ const ReservationCard = ({
   subButtonColor = 'grey',
 }: Props) => {
   const parsedReservationDate = dateString(reservation.createdAt);
-  const parsedShuttleDate = dateString(
-    reservation.shuttleRoute.event.dailyEvents.find(
+  const parsedShuttleDate = (() => {
+    const date = reservation.shuttleRoute.event.dailyEvents.find(
       (dailyEvent) =>
         dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-    )?.date,
-  );
+    )?.date;
+    if (!date) {
+      return '';
+    }
+    return dayjsTz(date).toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'short',
+    });
+  })();
 
   const reservationStatusText =
     RESERVATION_STATUS_TO_STRING[reservation.reservationStatus];
@@ -76,7 +86,7 @@ const ReservationCard = ({
         </span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
-        <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
+        <div className="relative h-full w-92 shrink-0 overflow-hidden rounded-[8px]">
           <Image
             src={
               reservation.shuttleRoute.event.eventImageUrl ||
@@ -96,7 +106,7 @@ const ReservationCard = ({
             {reservation.shuttleRoute.event.eventLocationName}
           </span>
           <span className="text-12 font-400 text-grey-900">
-            {parsedShuttleDate} 셔틀
+            {parsedShuttleDate}
           </span>
           <span className="flex gap-8 text-12 font-400 text-grey-500">
             <span>{TRIP_STATUS_TO_STRING[reservation.type]}</span>

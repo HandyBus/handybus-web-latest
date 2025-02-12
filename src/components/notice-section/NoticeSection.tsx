@@ -66,13 +66,14 @@ export const CancellationAndRefundContent = () => {
     <>
       <ul className="mb-16 list-disc space-y-8 pl-16 text-14 font-400 leading-[22.4px] text-grey-500 ">
         <li>
-          예약한 셔틀의 출발일자/시간을 기준으로 환불 신청 시점에 따라 수수료가
-          발생합니다.
+          탑승 시간을 기준으로 환불 신청 시점에 따라 수수료가 발생합니다. 정확한
+          탑승일은 예약 상세에서 확인할 수 있습니다.
         </li>
         <li>
           취소 수수료 발생 기간 내 행사 주최 측의 사정으로 행사가 취소될
           경우에만 전액 환불됩니다.
         </li>
+        <li>시간대는 한국 기준으로 적용됩니다.</li>
       </ul>
 
       <section className="overflow-hidden rounded-[5px] border border-grey-300 text-grey-500">
@@ -88,6 +89,12 @@ export const CancellationAndRefundContent = () => {
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td className="border-b border-r border-grey-300 p-12">
+                예약 24시간 이내
+              </td>
+              <td className="border-b border-grey-300 p-12">수수료 없음</td>
+            </tr>
             <tr>
               <td className="border-b border-r border-grey-300 p-12">
                 ~ 탑승 D-8 23:59

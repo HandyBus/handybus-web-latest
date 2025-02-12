@@ -60,10 +60,10 @@ const SeatString = ({ route }: SeatStringProps) => {
   let prefix: string;
   switch (route.remainingSeatType) {
     case 'TO_DESTINATION':
-      prefix = '콘서트행 잔여석';
+      prefix = '가는 편 잔여석';
       break;
     case 'FROM_DESTINATION':
-      prefix = '귀가행 잔여석';
+      prefix = '오는 편 잔여석';
       break;
     case 'ROUND_TRIP':
       prefix = '잔여석';

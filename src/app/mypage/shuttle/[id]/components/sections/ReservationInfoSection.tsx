@@ -2,9 +2,9 @@
 
 import DetailRow from '../DetailRow';
 import Section from '../Section';
-import { dateString } from '@/utils/dateString.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyStatus, Reservation } from '@/types/user-management.type';
+import { getBoardingTime } from '../../../utils/refund.util';
 
 interface Props {
   reservation: Reservation;
@@ -33,19 +33,19 @@ const ReservationInfoSection = ({
       (hub) =>
         hub.shuttleRouteHubId === reservation.fromDestinationShuttleRouteHubId,
     )?.name;
-  const parsedDate = dateString(
-    reservation.shuttleRoute.event.dailyEvents.find(
-      (dailyEvent) =>
-        dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-    )?.date,
-  );
+  const boardingTime = getBoardingTime(reservation);
+  const parsedBoardingTime =
+    boardingTime?.toDate().toLocaleDateString('ko-KR', {
+      hour: '2-digit',
+      minute: '2-digit',
+    }) ?? '';
 
   return (
     <>
       <Section title="예약 정보" isExpandable={isExpandable}>
         <div className="flex flex-col gap-28">
           <section className="flex flex-col gap-8">
-            <DetailRow title="탑승일" content={parsedDate} />
+            <DetailRow title="탑승 시간" content={parsedBoardingTime} />
             <DetailRow
               title="노선 종류"
               content={reservation.shuttleRoute.name}
@@ -57,7 +57,7 @@ const ReservationInfoSection = ({
                   <>
                     탑승 장소
                     <br />
-                    <span className="text-14">(콘서트행)</span>
+                    <span className="text-14">(가는 편)</span>
                   </>
                 }
                 content={toDestinationLocation}
@@ -69,7 +69,7 @@ const ReservationInfoSection = ({
                   <>
                     하차 장소
                     <br />
-                    <span className="text-14">(귀가행)</span>
+                    <span className="text-14">(오는 편)</span>
                   </>
                 }
                 content={fromDestinationLocation}

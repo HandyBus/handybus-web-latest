@@ -4,12 +4,10 @@ import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { useEffect, useMemo } from 'react';
 import RefundPolicy from '../[id]/components/RefundPolicy';
-import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 import { usePostRefund } from '@/services/billing.service';
 import { Reservation } from '@/types/user-management.type';
-
-const REFUND_DDAY_TIME_LIMIT = 24 * 60 * 60 * 1000; // 24시간
-const REFUND_DAY_LIMIT = 5; // 5일
+import { calculateRefundFee } from '../utils/refund.util';
+import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 
 const CANCEL_STEP = ['취소 및 환불 안내', '취소 수수료'] as const;
 
@@ -39,34 +37,6 @@ const CancelBottomSheet = ({
     onSuccess: () => closeBottomSheet(),
   });
 
-  const checkIsRefundable = () => {
-    if (!reservation) {
-      return false;
-    }
-    const reservationDate = new Date(reservation.createdAt);
-    const shuttleDate = new Date(
-      reservation.shuttleRoute.event.dailyEvents.find(
-        (dailyEvent) =>
-          dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-      )?.date ?? '',
-    );
-    const currentDate = new Date();
-
-    const diffTime = currentDate.getTime() - reservationDate.getTime();
-    if (diffTime < REFUND_DDAY_TIME_LIMIT) {
-      return true;
-    }
-    const diffDays = Math.ceil(
-      (shuttleDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (diffDays >= REFUND_DAY_LIMIT) {
-      return true;
-    }
-    return false;
-  };
-  const isRefundable = useMemo(() => checkIsRefundable(), [reservation]);
-
   const handleSubmit = () => {
     if (!reservation || !reservation.paymentId) {
       return;
@@ -76,6 +46,19 @@ const CancelBottomSheet = ({
       refundReason: '자동 승인 환불 요청',
     });
   };
+
+  const refundFee = useMemo(
+    () => calculateRefundFee(reservation),
+    [reservation],
+  );
+
+  const isRefundable = useMemo(() => {
+    const paymentAmount = reservation?.paymentAmount;
+    if (!reservation || !paymentAmount || refundFee === null) {
+      return false;
+    }
+    return refundFee !== paymentAmount;
+  }, [refundFee, reservation]);
 
   return (
     <BottomSheet ref={bottomSheetRef} title={stepName}>
@@ -99,6 +82,11 @@ const CancelBottomSheet = ({
           <Step name="취소 수수료">
             <section>
               <CancellationAndRefundContent />
+              {isRefundable && refundFee !== null && (
+                <article className="mt-16 bg-grey-50 p-8 text-center text-14 font-700 text-red-500">
+                  취소 수수료: {refundFee.toLocaleString()}원
+                </article>
+              )}
               <div className="flex gap-8 py-16">
                 <Button
                   type="button"

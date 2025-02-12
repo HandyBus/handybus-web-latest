@@ -179,9 +179,11 @@ const TypeSelect = () => {
 
   // 좌석 가격 반환
   const getPrice = (type?: TripType): number => {
-    const isEarlybird = watchedShuttleRoute?.earlybirdDeadline
-      ? compareToNow(watchedShuttleRoute.earlybirdDeadline, (a, b) => a > b)
-      : false;
+    const isEarlybird =
+      watchedShuttleRoute?.hasEarlybird &&
+      watchedShuttleRoute?.earlybirdDeadline
+        ? compareToNow(watchedShuttleRoute.earlybirdDeadline, (a, b) => a > b)
+        : false;
 
     switch (type) {
       case 'ROUND_TRIP':
@@ -239,8 +241,8 @@ const TypeSelect = () => {
             </p>
           )}
           isUnderLined
-          placeholder="왕복/콘서트행/귀가행"
-          bottomSheetTitle="왕복/콘서트행/귀가행 선택"
+          placeholder="왕복/가는 편/오는 편"
+          bottomSheetTitle="왕복/가는 편/오는 편 선택"
           disabled={!watchedShuttleRoute}
         />
       )}
