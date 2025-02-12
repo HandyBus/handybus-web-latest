@@ -6,14 +6,8 @@ import { useEffect, useMemo } from 'react';
 import RefundPolicy from '../[id]/components/RefundPolicy';
 import { usePostRefund } from '@/services/billing.service';
 import { Reservation } from '@/types/user-management.type';
-import { calculateRefundFee } from '../utils/calculateRefundFee.util';
-import dayjs from 'dayjs';
-import { calculateDDay } from '../utils/calculateDDay.util';
-import { DynamicCancellationAndRefundContent } from './DynamicNoticeSection';
-import { dayjsTz } from '@/utils/dayjsTz.util';
-
-const REFUND_DDAY_TIME_LIMIT = 24 * 60 * 60 * 1000; // 24시간
-const REFUND_DAY_LIMIT = 5; // 5일
+import { calculateRefundFee } from '../utils/refund.util';
+import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 
 const CANCEL_STEP = ['취소 및 환불 안내', '취소 수수료'] as const;
 
@@ -33,18 +27,6 @@ const CancelBottomSheet = ({
   const { Funnel, Step, handleNextStep, handlePrevStep, setStep, stepName } =
     useFunnel(CANCEL_STEP);
 
-  const dDay = useMemo(() => calculateDDay(reservation), [reservation]);
-
-  const refundFee = useMemo(
-    () =>
-      calculateRefundFee({
-        paymentAmount: reservation?.paymentAmount ?? undefined,
-        createdAt: dayjs(reservation?.createdAt),
-        dDay,
-      }),
-    [reservation?.paymentAmount, reservation?.createdAt, dDay],
-  );
-
   useEffect(() => {
     if (!isOpen) {
       setStep('취소 및 환불 안내');
@@ -55,34 +37,6 @@ const CancelBottomSheet = ({
     onSuccess: () => closeBottomSheet(),
   });
 
-  const checkIsRefundable = () => {
-    if (!reservation) {
-      return false;
-    }
-    const paymentDate = dayjsTz(reservation.paymentCreatedAt ?? '');
-    const shuttleDate = dayjsTz(
-      reservation.shuttleRoute.event.dailyEvents.find(
-        (dailyEvent) =>
-          dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-      )?.date ?? '',
-    );
-    const currentDate = dayjs().tz().toDate();
-
-    const diffTime = currentDate.getTime() - paymentDate.getTime();
-    if (diffTime < REFUND_DDAY_TIME_LIMIT) {
-      return true;
-    }
-    const diffDays = Math.ceil(
-      (shuttleDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (diffDays > REFUND_DAY_LIMIT) {
-      return true;
-    }
-    return false;
-  };
-  const isRefundable = useMemo(() => checkIsRefundable(), [reservation]);
-
   const handleSubmit = () => {
     if (!reservation || !reservation.paymentId) {
       return;
@@ -92,6 +46,19 @@ const CancelBottomSheet = ({
       refundReason: '자동 승인 환불 요청',
     });
   };
+
+  const refundFee = useMemo(
+    () => calculateRefundFee(reservation),
+    [reservation],
+  );
+
+  const isRefundable = useMemo(() => {
+    const paymentAmount = reservation?.paymentAmount;
+    if (!reservation || !paymentAmount || refundFee === null) {
+      return false;
+    }
+    return refundFee !== paymentAmount;
+  }, [refundFee, reservation]);
 
   return (
     <BottomSheet ref={bottomSheetRef} title={stepName}>
@@ -114,10 +81,12 @@ const CancelBottomSheet = ({
           </Step>
           <Step name="취소 수수료">
             <section>
-              <DynamicCancellationAndRefundContent
-                dDay={dDay}
-                refundFee={refundFee}
-              />
+              <CancellationAndRefundContent />
+              {isRefundable && refundFee !== null && (
+                <article className="mt-16 bg-grey-50 p-8 text-center text-14 font-700 text-red-500">
+                  취소 수수료: {refundFee.toLocaleString()}원
+                </article>
+              )}
               <div className="flex gap-8 py-16">
                 <Button
                   type="button"

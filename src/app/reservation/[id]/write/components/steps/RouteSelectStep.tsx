@@ -179,9 +179,11 @@ const TypeSelect = () => {
 
   // 좌석 가격 반환
   const getPrice = (type?: TripType): number => {
-    const isEarlybird = watchedShuttleRoute?.earlybirdDeadline
-      ? compareToNow(watchedShuttleRoute.earlybirdDeadline, (a, b) => a > b)
-      : false;
+    const isEarlybird =
+      watchedShuttleRoute?.hasEarlybird &&
+      watchedShuttleRoute?.earlybirdDeadline
+        ? compareToNow(watchedShuttleRoute.earlybirdDeadline, (a, b) => a > b)
+        : false;
 
     switch (type) {
       case 'ROUND_TRIP':

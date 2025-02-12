@@ -16,11 +16,7 @@ import {
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
-import { calculateDDay } from '../utils/calculateDDay.util';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
-
-dayjs.locale('ko');
+import { getBoardingTime } from '../utils/refund.util';
 
 type ButtonColor = 'primary' | 'grey';
 
@@ -49,9 +45,16 @@ const ReservationCard = ({
 }: Props) => {
   const parsedReservationDate = dateString(reservation.createdAt);
   const parsedShuttleDate = (() => {
-    const date = calculateDDay(reservation);
-    if (!date) return '';
-    return date.format('YYYY. MM. DD. (ddd)').replace('요일', '');
+    const boardingTime = getBoardingTime(reservation);
+    if (!boardingTime) {
+      return '';
+    }
+    return boardingTime.toDate().toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'short',
+    });
   })();
 
   const reservationStatusText =
