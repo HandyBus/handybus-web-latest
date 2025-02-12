@@ -64,7 +64,7 @@ const DemandCard = ({
         <span className="font-500 text-grey-500">{parsedDemandDate} 신청</span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
-        <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
+        <div className="relative h-full w-92 shrink-0 overflow-hidden rounded-[8px]">
           <Image
             src={demand.event.eventImageUrl || DEFAULT_EVENT_IMAGE}
             alt="행사 포스터"

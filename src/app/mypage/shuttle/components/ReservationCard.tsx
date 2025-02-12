@@ -83,7 +83,7 @@ const ReservationCard = ({
         </span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
-        <div className="relative h-full w-80 overflow-hidden rounded-[8px]">
+        <div className="relative h-full w-92 shrink-0 overflow-hidden rounded-[8px]">
           <Image
             src={
               reservation.shuttleRoute.event.eventImageUrl ||

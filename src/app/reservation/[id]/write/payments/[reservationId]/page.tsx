@@ -4,15 +4,16 @@ import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import Link from 'next/link';
 import LogoLargeIcon from 'public/icons/logo-large.svg';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
+import { useEffect } from 'react';
+import { setReservationCompleted } from '@/utils/localStorage';
 
 const PaymentsCompleted = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const push = useRouter().push;
-
   usePreventScroll();
+
+  useEffect(() => {
+    setReservationCompleted();
+  }, []);
+
   return (
     <>
       <main className="flex grow flex-col items-center justify-center gap-24">
@@ -31,18 +32,6 @@ const PaymentsCompleted = () => {
           </Link>
         </div>
       </main>
-      <ConfirmModal
-        isOpen={isOpen}
-        onClosed={() => setIsOpen(false)}
-        onConfirm={() => {
-          push(process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL ?? '');
-        }}
-        title="의견을 남겨주세요!"
-        description="핸디버스에서 예약은 어떠셨나요? 
-여러분의 소중한 의견을 들려주세요!"
-        buttonLabels={{ back: '닫기', confirm: '의견 남기기' }}
-        variant="primary"
-      />
     </>
   );
 };
