@@ -100,8 +100,9 @@ const RouteInfo = ({ event, regionId }: Props) => {
         }}
         disabled={!selectedBigRegion}
         placeholder="시/군/구 선택"
-        isUnderLined
         bottomSheetTitle="시/군/구 선택"
+        isUnderLined
+        sort
       />
       <Controller
         control={control}
