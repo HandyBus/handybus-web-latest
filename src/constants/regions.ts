@@ -117,6 +117,7 @@ export const SMALL_REGIONS = {
     '다정동',
     '해밀동',
     '합강동',
+    '어진동',
   ],
   경기도: [
     '수원시',
@@ -402,6 +403,7 @@ export const REGION_TO_ID: {
     다정동: '99',
     해밀동: '100',
     합강동: '101',
+    어진동: '277',
   },
   경기도: {
     수원시: '102',
@@ -1573,5 +1575,9 @@ export const ID_TO_REGION: {
   276: {
     bigRegion: '제주특별자치도',
     smallRegion: '제주시',
+  },
+  277: {
+    bigRegion: '세종특별자치시',
+    smallRegion: '어진동',
   },
 } as const;
