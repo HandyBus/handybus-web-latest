@@ -127,7 +127,7 @@ const RouteSection = ({
                   탑승지 변경
                 </Button>
                 <p className="text-12 font-400 text-grey-500">
-                  탑승지 변경은 탑승일 기준 D-2일까지 가능합니다.
+                  탑승지 변경은 탑승일 기준 2일 전까지 가능합니다.
                 </p>
               </>
             )}
