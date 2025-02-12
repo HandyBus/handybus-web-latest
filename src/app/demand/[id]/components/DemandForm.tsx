@@ -133,15 +133,13 @@ const DemandForm = ({ event }: Props) => {
         </section>
       </form>
       <div id="divider" className="my-16 h-[8px] bg-grey-50" />
-      {selectedDailyEvent && (
-        <DemandStats
-          eventId={event.eventId}
-          dailyEvent={selectedDailyEvent}
-          bigRegion={selectedBigRegion}
-          smallRegion={selectedSmallRegion}
-          location={event.eventLocationName}
-        />
-      )}
+      <DemandStats
+        eventId={event.eventId}
+        dailyEvent={selectedDailyEvent}
+        bigRegion={selectedBigRegion}
+        smallRegion={selectedSmallRegion}
+        location={event.eventLocationName}
+      />
       <BottomBar
         eventName={event.eventName}
         isNotOpen={event.eventStatus !== 'OPEN'}
