@@ -128,22 +128,24 @@ const SelectRegionsWithChips = ({
           >
             전체
           </SelectableChip>
-          {regions[region.bigRegion as BigRegionsType]?.map((smallName) => (
-            <SelectableChip
-              key={smallName}
-              selected={region.smallRegion === smallName}
-              onClick={() => {
-                setRegion({
-                  type: 'SET_SECOND',
-                  smallRegion: smallName as SmallRegionsType,
-                });
-                setShowSecondRegion(false);
-                setShowFirstRegion(false);
-              }}
-            >
-              {smallName}
-            </SelectableChip>
-          ))}
+          {regions[region.bigRegion as BigRegionsType]
+            ?.toSorted()
+            .map((smallName) => (
+              <SelectableChip
+                key={smallName}
+                selected={region.smallRegion === smallName}
+                onClick={() => {
+                  setRegion({
+                    type: 'SET_SECOND',
+                    smallRegion: smallName as SmallRegionsType,
+                  });
+                  setShowSecondRegion(false);
+                  setShowFirstRegion(false);
+                }}
+              >
+                {smallName}
+              </SelectableChip>
+            ))}
         </div>
       )}
     </>
