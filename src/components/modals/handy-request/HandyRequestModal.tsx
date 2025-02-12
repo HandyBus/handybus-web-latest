@@ -60,14 +60,16 @@ const ModalContent = ({
         className="text-center text-22 font-700 leading-[30.8px]"
         id="modal-title"
       >
-        한 번쯤 <span className="text-primary-main">핸디</span>를 해보고 싶다면?
+        한 번쯤 <span className="text-primary-main">핸디</span>를 <br />
+        해보고 싶다면?
       </h2>
       <p
         id="modal-description"
         className="text-center text-16 font-400 leading-6 text-grey-500"
       >
-        이번 기회에 핸디를 체험해보고 특별한 경험을 만들어보세요. <br />
-        최대 4만원 상당의 혜택까지 받아갈 수 있어요!
+        이번 기회에 핸디를 체험해보고 <br />
+        특별한 경험을 만들어보세요. <br />
+        최대 4만원 상당의 혜택까지 받아갈 <br />수 있어요!
       </p>
       <div className="flex w-[100%] flex-col gap-8">
         <Button variant="primary" onClick={onConfirm} type="button">
