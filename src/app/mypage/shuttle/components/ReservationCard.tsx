@@ -16,7 +16,7 @@ import {
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
-import { getBoardingTime } from '../utils/refund.util';
+import { dayjsTz } from '@/utils/dayjsTz.util';
 
 type ButtonColor = 'primary' | 'grey';
 
@@ -45,11 +45,14 @@ const ReservationCard = ({
 }: Props) => {
   const parsedReservationDate = dateString(reservation.createdAt);
   const parsedShuttleDate = (() => {
-    const boardingTime = getBoardingTime(reservation);
-    if (!boardingTime) {
+    const date = reservation.shuttleRoute.event.dailyEvents.find(
+      (dailyEvent) =>
+        dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
+    )?.date;
+    if (!date) {
       return '';
     }
-    return boardingTime.toDate().toLocaleDateString('ko-KR', {
+    return dayjsTz(date).toLocaleDateString('ko-KR', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -103,7 +106,7 @@ const ReservationCard = ({
             {reservation.shuttleRoute.event.eventLocationName}
           </span>
           <span className="text-12 font-400 text-grey-900">
-            {parsedShuttleDate} 셔틀
+            {parsedShuttleDate}
           </span>
           <span className="flex gap-8 text-12 font-400 text-grey-500">
             <span>{TRIP_STATUS_TO_STRING[reservation.type]}</span>
