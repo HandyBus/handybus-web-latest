@@ -70,6 +70,7 @@ const ResidenceContent = () => {
           setValue={setSmallRegion}
           placeholder="시/군/구"
           bottomSheetTitle="시/군/구 선택"
+          sort
         />
         <p className="h-[20px] text-12 font-400 text-red-500">
           {formState.errors.bigRegion?.message}

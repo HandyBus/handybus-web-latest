@@ -4,7 +4,7 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import ChevronEnabledIcon from 'public/icons/chevron-enabled.svg';
 import ChevronDisabledIcon from 'public/icons/chevron-disabled.svg';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 interface Props<T> {
   options: readonly T[];
@@ -16,6 +16,7 @@ interface Props<T> {
   bottomSheetTitle?: string;
   isUnderLined?: boolean;
   defaultText?: string;
+  sort?: boolean;
 }
 
 const Select = <T,>({
@@ -28,9 +29,15 @@ const Select = <T,>({
   bottomSheetTitle,
   isUnderLined,
   defaultText,
+  sort = false,
 }: Props<T>) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
+
+  const sortedOptions = useMemo(
+    () => (sort ? (options.toSorted() as T[]) : options),
+    [options, sort],
+  );
 
   return (
     <>
@@ -54,12 +61,12 @@ const Select = <T,>({
           ref={contentRef}
           className="flex h-full w-full flex-col overflow-y-auto bg-white"
         >
-          {options?.length === 0 ? (
+          {sortedOptions?.length === 0 ? (
             <div className="py-16 text-left text-16 font-400 text-grey-400">
               {defaultText}
             </div>
           ) : (
-            options?.map((option, index) => (
+            sortedOptions?.map((option, index) => (
               <button
                 key={index}
                 className="py-16 text-left"
