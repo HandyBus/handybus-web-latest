@@ -49,7 +49,6 @@ const OnboardingFunnel = ({
       removeIsOnboarding();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
-      setIsSubmitting(false);
     },
     onError: (e) => {
       console.error(e);
