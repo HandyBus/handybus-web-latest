@@ -65,7 +65,10 @@ export const CancellationAndRefundContent = () => {
   return (
     <>
       <ul className="mb-16 list-disc space-y-8 pl-16 text-14 font-400 leading-[22.4px] text-grey-500 ">
-        <li>탑승 시간을 기준으로 환불 신청 시점에 따라 수수료가 발생합니다.</li>
+        <li>
+          탑승 시간을 기준으로 환불 신청 시점에 따라 수수료가 발생합니다. 정확한
+          탑승일은 예약 상세에서 확인할 수 있습니다.
+        </li>
         <li>
           취소 수수료 발생 기간 내 행사 주최 측의 사정으로 행사가 취소될
           경우에만 전액 환불됩니다.
