@@ -1,11 +1,11 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import Tabs from '@/components/tab/Tabs';
 import { useRouter } from 'next/navigation';
 import CurrentTab from './components/tabs/CurrentTab';
 import DemandTab from './components/tabs/DemandTab';
 import PastTab from './components/tabs/PastTab';
+import Header from '@/components/header/Header';
 
 type TabType = 'current' | 'demand' | 'past';
 
@@ -32,7 +32,7 @@ const Shuttle = ({ searchParams }: Props) => {
 
   return (
     <>
-      <AppBar>마이페이지</AppBar>
+      <Header />
       <main className="flex grow flex-col">
         <div className="px-16">
           <Tabs

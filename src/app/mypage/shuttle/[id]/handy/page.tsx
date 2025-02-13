@@ -1,7 +1,7 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
+import Header from '@/components/header/Header';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
@@ -105,7 +105,7 @@ const Handy = ({ params }: Props) => {
 
   return (
     <>
-      <AppBar>핸디 가이드</AppBar>
+      <Header />
       <DeferredSuspense isLoading={isLoading} fallback={<Loading />}>
         {data && (
           <main className="px-16">
