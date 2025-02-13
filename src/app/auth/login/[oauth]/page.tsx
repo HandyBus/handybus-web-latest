@@ -6,6 +6,8 @@ import usePreventScroll from '@/hooks/usePreventScroll';
 import { postLogin } from '@/services/auth.service';
 import { getUser } from '@/services/user-management.service';
 import {
+  removeIsLoggedIn,
+  removeIsOnboarding,
   setAccessToken,
   setIsLoggedIn,
   setIsOnboarding,
@@ -35,7 +37,6 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
-      setIsLoggedIn();
 
       const user = await getUser();
       const onboardingProgress = parseProgress(user.progresses);
@@ -45,8 +46,11 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
         setIsOnboarding();
+        removeIsLoggedIn();
         router.push('/onboarding');
       } else {
+        setIsLoggedIn();
+        removeIsOnboarding();
         router.replace(decodeURIComponent(redirectUrl));
       }
     } catch (e) {
