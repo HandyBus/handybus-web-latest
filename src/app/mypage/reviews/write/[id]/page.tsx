@@ -1,6 +1,5 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import Rating from '@/components/rating/Rating';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import CameraIcon from 'public/icons/camera-black.svg';
@@ -15,6 +14,7 @@ import { useGetUserReservation } from '@/services/user-management.service';
 import { usePostReview } from '@/services/shuttle-operation.service';
 import { getImageUrl } from '@/services/common.service';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/header/Header';
 
 interface Props {
   params: {
@@ -93,7 +93,7 @@ const WriteReview = ({ params }: Props) => {
 
   return (
     <>
-      <AppBar>후기 작성</AppBar>
+      <Header />
       <form onSubmit={handleSubmit} className="relative grow pb-100">
         {data ? (
           <ReservationCard reservation={data.reservation} />

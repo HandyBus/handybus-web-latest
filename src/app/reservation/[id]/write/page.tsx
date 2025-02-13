@@ -1,10 +1,10 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Form from './components/Form';
 import { useGetEvent } from '@/services/shuttle-operation.service';
+import Header from '@/components/header/Header';
 
 interface Props {
   params: {
@@ -21,7 +21,7 @@ const Page = ({ params, searchParams }: Props) => {
 
   return (
     <>
-      <AppBar>셔틀 예약하기</AppBar>
+      <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {event && (
           <Form

@@ -1,4 +1,3 @@
-import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
 import {
@@ -21,6 +20,7 @@ const Empty = dynamic(() => import('./components/Empty'));
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import Header from '@/components/header/Header';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -73,7 +73,7 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <>
-      <AppBar>지금 예약 모집 중인 셔틀</AppBar>
+      <Header />
       <div className="flex w-full flex-col items-center">
         <SubPage region={region} sort={sortBy} length={sortedRoutes.length}>
           <div>

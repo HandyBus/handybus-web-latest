@@ -1,5 +1,4 @@
 import type { DemandSortType } from '@/constants/demand';
-import AppBar from '@/components/app-bar/AppBar';
 import Footer from '@/components/footer/Footer';
 import DemandFilterContainer from './components/DemandFilterContainer';
 import { fromString, toDemandSort } from './utils/param.util';
@@ -13,6 +12,7 @@ const Empty = dynamic(() => import('./components/Empty'));
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import Header from '@/components/header/Header';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -46,7 +46,7 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <>
-      <AppBar>수요 확인 중인 셔틀</AppBar>
+      <Header />
       <div className="flex w-full flex-col items-center">
         <DemandFilterContainer
           length={sortedEvents.length}

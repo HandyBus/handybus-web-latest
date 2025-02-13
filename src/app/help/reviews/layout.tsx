@@ -1,12 +1,11 @@
 import type { PropsWithChildren } from 'react';
-
-import AppBar from '@/components/app-bar/AppBar';
 import Article from '@/components/article/Article';
+import Header from '@/components/header/Header';
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <AppBar>전체 후기</AppBar>
+      <Header />
       <Article
         className="flex flex-col gap-24 px-16"
         richTitle={

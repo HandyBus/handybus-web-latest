@@ -8,7 +8,6 @@ import { OnboardingFormValues } from '@/components/onboarding-contents/onboardin
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import AppBar from '@/components/app-bar/AppBar';
 import ProfileInfoContent from '@/components/onboarding-contents/ProfileInfoContent';
 import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoContent';
 import ResidenceContent from '@/components/onboarding-contents/ResidenceContent';
@@ -21,6 +20,7 @@ import { CustomError } from '@/services/custom-error';
 import { usePutUser } from '@/services/user-management.service';
 import { UserStats } from '@/types/user-management.type';
 import { getImageUrl } from '@/services/common.service';
+import Header from '@/components/header/Header';
 
 interface Props {
   type: EditType;
@@ -125,9 +125,7 @@ const EditForm = ({ type, userStats }: Props) => {
         noValidate
         className="relative flex grow flex-col"
       >
-        <AppBar handleBack={() => router.replace('/mypage/profile')}>
-          {TITLE[type]}
-        </AppBar>
+        <Header />
         <OnboardingFrame
           disabled={isSubmitting || isSuccess}
           buttonType="submit"
@@ -141,10 +139,3 @@ const EditForm = ({ type, userStats }: Props) => {
 };
 
 export default EditForm;
-
-const TITLE = {
-  profile: '프로필 수정',
-  'personal-info': '성별 및 연령대 수정',
-  region: '거주 지역 수정',
-  artist: '최애 아티스트 수정',
-};

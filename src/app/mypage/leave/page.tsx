@@ -1,8 +1,8 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
+import Header from '@/components/header/Header';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import { useDeleteUser } from '@/services/user-management.service';
 import { logout } from '@/utils/handleToken.util';
@@ -31,7 +31,7 @@ const Leave = () => {
 
   return (
     <>
-      <AppBar>탈퇴하기</AppBar>
+      <Header />
       <main className="relative w-full grow">
         <section className="px-32 py-8 pt-28">
           <h2 className="pb-[6px] text-26 font-700 text-grey-900">
