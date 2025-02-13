@@ -1,5 +1,4 @@
 import type { DemandSortType } from '@/constants/demand';
-import Footer from '@/components/footer/Footer';
 import DemandFilterContainer from './components/DemandFilterContainer';
 import { fromString, toDemandSort } from './utils/param.util';
 import DemandCard from './components/DemandCard';
@@ -61,7 +60,6 @@ const Page = async ({ searchParams }: Props) => {
           )}
         </DemandFilterContainer>
       </div>
-      <Footer />
     </>
   );
 };
