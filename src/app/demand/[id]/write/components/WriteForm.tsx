@@ -54,7 +54,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
 
   const handleSubmit = (formValues: FormValues) => {
     if (!formValues.dailyEvent) {
-      toast.error('운행일을 선택해주세요.');
+      toast.error('일자를 선택해주세요.');
       return;
     }
     if (!formValues.regionId) {

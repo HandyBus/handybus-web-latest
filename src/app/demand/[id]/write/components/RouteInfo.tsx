@@ -69,9 +69,9 @@ const RouteInfo = ({ event, regionId }: Props) => {
               onChange(value);
             }}
             renderValue={(value) => dateString(value.date)}
-            placeholder="운행일"
+            placeholder="일자"
             isUnderLined
-            bottomSheetTitle="운행일 선택"
+            bottomSheetTitle="일자 선택"
           />
         )}
       />

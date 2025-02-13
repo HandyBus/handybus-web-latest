@@ -102,8 +102,8 @@ const ReservationForm = ({
             setSelectedRoute(undefined);
           }}
           renderValue={(value) => dateString(value.date)}
-          placeholder="운행일"
-          bottomSheetTitle="운행일 선택"
+          placeholder="일자"
+          bottomSheetTitle="일자 선택"
           isUnderLined
         />
       </section>
