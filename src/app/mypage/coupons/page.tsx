@@ -1,11 +1,11 @@
-import AppBar from '@/components/app-bar/AppBar';
 import CouponList from './components/CouponList';
 import RegisterCoupon from './components/RegisterCoupon';
+import Header from '@/components/header/Header';
 
 const Page = () => {
   return (
     <>
-      <AppBar>쿠폰함</AppBar>
+      <Header />
       <main className="flex grow flex-col">
         <RegisterCoupon />
         <div className="h-8 bg-grey-50" />

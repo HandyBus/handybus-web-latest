@@ -1,6 +1,5 @@
 'use client';
 
-import Footer from '@/components/footer/Footer';
 import PolicyViewer from '@/components/policy/PolicyViewer';
 import ChevronRightIcon from 'public/icons/chevron-right.svg';
 import { ReactNode } from 'react';
@@ -19,7 +18,6 @@ const Page = () => {
           <PolicyViewer type="마케팅활용동의" />
         </Wrapper>
       </main>
-      <Footer />
     </>
   );
 };

@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from 'react';
 import Image from 'next/image';
-import AppBar from '@/components/app-bar/AppBar';
 import Article from '@/components/article/Article';
 import HowTo from './images/how-to.png';
 import { Metadata } from 'next';
+import Header from '@/components/header/Header';
 
 export const metadata: Metadata = {
   title: '서비스 이용 절차',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const HowToPage = () => {
   return (
     <>
-      <AppBar>서비스 이용 절차</AppBar>
+      <Header />
       <Article richTitle="서비스 이용 절차" titleSize="large" className="px-28">
         <figure className="mt-8 px-16">
           <Image

@@ -1,6 +1,5 @@
 'use client';
 
-import Footer from '@/components/footer/Footer';
 import Image from 'next/image';
 import { logout } from '@/utils/handleToken.util';
 export const Error = ({
@@ -41,7 +40,6 @@ export const Error = ({
         홈으로 돌아가기
       </button>
       <div className="grow" />
-      <Footer />
     </div>
   );
 };
