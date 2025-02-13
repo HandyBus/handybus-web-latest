@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/Footer';
 import DemandForm from './components/DemandForm';
 import KakaoMap from '@/components/kakao-map/KakaoMap';
 import BackButton from '@/components/buttons/back-button/BackButton';
@@ -24,7 +23,6 @@ const Demand = async ({ params }: Props) => {
         longitude={event.eventLocationLongitude}
       />
       <DemandForm event={event} />
-      <Footer />
       <div className="h-120" />
     </main>
   );

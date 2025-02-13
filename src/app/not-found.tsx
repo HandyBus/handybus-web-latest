@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -26,7 +25,6 @@ export const NotFound = () => {
         홈으로 돌아가기
       </Link>
       <div className="grow" />
-      <Footer />
     </div>
   );
 };

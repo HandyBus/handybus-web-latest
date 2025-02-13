@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/Footer';
 import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
 import NoticeSection from '@/components/notice-section/NoticeSection';
 import ReservationForm from './components/ReservationForm';
@@ -48,7 +47,6 @@ const Page = async ({ params, searchParams }: Props) => {
       />
       <NoticeSection type={NOTICE_TYPE.CANCELLATION_AND_REFUND} />
       <NoticeSection type={NOTICE_TYPE.TERM_AND_CONDITION} />
-      <Footer />
       <div className="h-120" />
     </main>
   );

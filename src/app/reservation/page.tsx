@@ -1,4 +1,3 @@
-import Footer from '@/components/footer/Footer';
 import SubPage from './components/SubPage';
 import {
   shuttleSortSearchParamsFromString,
@@ -90,7 +89,6 @@ const Page = async ({ searchParams }: Props) => {
           </div>
         </SubPage>
       </div>
-      <Footer />
     </>
   );
 };
