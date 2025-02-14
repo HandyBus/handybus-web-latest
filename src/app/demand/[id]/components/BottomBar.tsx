@@ -38,7 +38,7 @@ const BottomBar = ({
       return;
     }
     if (!isDailyEventSelected) {
-      toast.error('운행일과 지역을 선택해주세요.');
+      toast.error('일자와 지역을 선택해주세요.');
     } else if (!isBigRegionSelected) {
       toast.error('지역을 선택해주세요.');
     } else if (!isSmallRegionSelected) {
