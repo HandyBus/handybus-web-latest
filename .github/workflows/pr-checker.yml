@@ -13,19 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build || exit 1
-        env:
-          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-          NEXT_PUBLIC_DOMAIN_URL: ${{ secrets.NEXT_PUBLIC_DOMAIN_URL }}
-          NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL: ${{ secrets.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL }}
 
       - name: Debug Information
         run: |
