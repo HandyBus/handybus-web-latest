@@ -3,6 +3,7 @@ import RedirectButton from '@/components/buttons/redirect-button/RedirectButton'
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
 import { getEvents } from '@/services/shuttle-operation.service';
+import { toSorted } from '@/app/demand/utils/toSorted.util';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (
@@ -28,13 +29,12 @@ const SubPage = async () => {
     return <Empty />;
   }
 
-  const sortedEvents = events
-    .slice(0, 5)
-    .sort((a, b) => a.eventName.localeCompare(b.eventName));
+  const sortedEvents = toSorted(events, '셔틀 일자 빠른 순');
+  const slicedEvents = sortedEvents.slice(0, 5);
 
   return (
     <div className="flex flex-col">
-      {sortedEvents.map((event) => (
+      {slicedEvents.map((event) => (
         <DemandView key={event.eventId} event={event} />
       ))}
     </div>
