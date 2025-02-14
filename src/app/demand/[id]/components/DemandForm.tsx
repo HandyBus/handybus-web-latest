@@ -14,6 +14,7 @@ import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
 import { DailyEvent, Event } from '@/types/shuttle-operation.type';
+import dayjs from 'dayjs';
 
 export const DEMAND_FORM_ID = 'demand-form';
 
@@ -75,7 +76,7 @@ const DemandForm = ({ event }: Props) => {
       <form onSubmit={handleSubmit} id={DEMAND_FORM_ID}>
         <section className="flex flex-col gap-16 p-16">
           <h5 className="text-16 font-400 text-grey-600-sub">
-            운행일을 선택해주세요
+            일자를 선택해주세요
           </h5>
           <Select
             options={event.dailyEvents}
@@ -91,9 +92,11 @@ const DemandForm = ({ event }: Props) => {
               });
             }}
             renderValue={(value) => dateString(value.date)}
-            placeholder="운행일"
+            placeholder="일자"
             isUnderLined
-            bottomSheetTitle="운행일 선택"
+            bottomSheetTitle="일자 선택"
+            sort
+            sortBy={(a, b) => dayjs(a.date).diff(dayjs(b.date))}
           />
         </section>
         <section className="flex flex-col gap-16 p-16">
