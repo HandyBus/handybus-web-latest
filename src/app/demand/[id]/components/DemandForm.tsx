@@ -14,6 +14,7 @@ import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
 import { DailyEvent, Event } from '@/types/shuttle-operation.type';
+import dayjs from 'dayjs';
 
 export const DEMAND_FORM_ID = 'demand-form';
 
@@ -94,6 +95,8 @@ const DemandForm = ({ event }: Props) => {
             placeholder="일자"
             isUnderLined
             bottomSheetTitle="일자 선택"
+            sort
+            sortBy={(a, b) => dayjs(a.date).diff(dayjs(b.date))}
           />
         </section>
         <section className="flex flex-col gap-16 p-16">
