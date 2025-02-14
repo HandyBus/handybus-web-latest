@@ -1,6 +1,5 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import ListButton from '../components/ListButton';
 import Image from 'next/image';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
@@ -9,6 +8,7 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { parsePhoneNumber } from '@/utils/common.util';
 import { useGetUserStats } from '@/services/user-management.service';
+import Header from '@/components/header/Header';
 
 const Profile = () => {
   const { data: userStats, isLoading } = useGetUserStats();
@@ -24,7 +24,7 @@ const Profile = () => {
 
   return (
     <>
-      <AppBar>회원 정보 관리</AppBar>
+      <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {userStats && (
           <main>

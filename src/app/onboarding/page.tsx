@@ -13,14 +13,16 @@ const Funnel = () => {
     : null;
 
   return (
-    <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      {onboardingProgress && (
-        <OnboardingFunnel
-          onboardingProgress={onboardingProgress}
-          initialPhoneNumber={user?.phoneNumber}
-        />
-      )}
-    </DeferredSuspense>
+    <div className="relative flex h-full w-full grow flex-col pt-36">
+      <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
+        {onboardingProgress && (
+          <OnboardingFunnel
+            onboardingProgress={onboardingProgress}
+            initialPhoneNumber={user?.phoneNumber}
+          />
+        )}
+      </DeferredSuspense>
+    </div>
   );
 };
 

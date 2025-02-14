@@ -1,11 +1,11 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import WriteForm from './components/WriteForm';
 import BannerImage from './components/BannerImage';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetEvent } from '@/services/shuttle-operation.service';
+import Header from '@/components/header/Header';
 
 interface Props {
   params: { id: string };
@@ -20,7 +20,7 @@ const DemandWrite = ({ params, searchParams }: Props) => {
 
   return (
     <>
-      <AppBar>수요 신청하기</AppBar>
+      <Header />
       <DeferredSuspense isLoading={isLoading} fallback={<Loading />}>
         {event && (
           <main className="relative">

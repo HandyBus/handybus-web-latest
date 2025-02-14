@@ -9,17 +9,22 @@ export const middleware = async (req: NextRequest) => {
   const isLoggedIn = cookieStore.get(IS_LOGGED_IN)?.value;
   const isOnboarding = cookieStore.get(IS_ONBOARDING)?.value;
 
-  // 로그인 여부에 따라 리다이렉트
-  if (!isLoggedIn) {
+  // 온보딩 도중일 경우 로그인 페이지로 리다이렉트
+  if (req.nextUrl.pathname !== '/onboarding' && isOnboarding) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+
+  // 미로그인 상태일 때 로그인 페이지로 리다이렉트
+  if (req.nextUrl.pathname !== '/onboarding' && !isLoggedIn) {
     const currentUrl = req.nextUrl.pathname;
     return NextResponse.redirect(
       new URL(`/login?redirectUrl=${currentUrl}`, req.url),
     );
   }
 
-  // 온보딩이 필요한 경우 온보딩 페이지로 리다이렉트
-  if (req.nextUrl.pathname !== '/onboarding' && isOnboarding) {
-    return NextResponse.redirect(new URL('/onboarding', req.url));
+  // 로그인 상태로 온보딩 페이지에 접근했을 때 마이페이지로 리다이렉트
+  if (req.nextUrl.pathname === '/onboarding' && isLoggedIn) {
+    return NextResponse.redirect(new URL('/mypage', req.url));
   }
 
   return NextResponse.next();

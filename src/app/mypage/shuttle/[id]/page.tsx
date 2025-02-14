@@ -1,6 +1,5 @@
 'use client';
 
-import AppBar from '@/components/app-bar/AppBar';
 import ReservationCard from '../components/ReservationCard';
 import ReservationInfoSection from './components/sections/ReservationInfoSection';
 import HandySection from './components/sections/HandySection';
@@ -16,6 +15,7 @@ import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/user-management.service';
 import { useGetShuttleBus } from '@/services/shuttle-operation.service';
 import { dayjsTz } from '@/utils/dayjsTz.util';
+import Header from '@/components/header/Header';
 
 interface Props {
   params: {
@@ -50,7 +50,7 @@ const ShuttleDetail = ({ params }: Props) => {
 
   return (
     <>
-      <AppBar>예약 상세 보기</AppBar>
+      <Header />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

@@ -1,9 +1,9 @@
-import AppBar from '@/components/app-bar/AppBar';
 import TopSection from './components/TopSection';
 import AboutService from './components/AboutService';
 import AboutMerit from './components/AboutMerit';
 import AsboutStats from './components/AboutStats';
 import { Metadata } from 'next';
+import Header from '@/components/header/Header';
 
 export const metadata: Metadata = {
   title: '소개',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const AboutPage = () => {
   return (
     <>
-      <AppBar>핸디버스 소개</AppBar>
+      <Header />
       <main className="py-56">
         <TopSection />
         <AboutService />

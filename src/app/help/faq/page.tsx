@@ -1,10 +1,10 @@
-import AppBar from '@/components/app-bar/AppBar';
 import Article from '@/components/article/Article';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 import FAQ from './components/FAQ';
 import HandyLogo from './icons/faq-handy-logo.svg';
 import { faqs } from '@/data/faq';
 import { Metadata } from 'next';
+import Header from '@/components/header/Header';
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const FAQPage = async () => (
   <>
-    <AppBar>FAQ</AppBar>
+    <Header />
     <Article
       richTitle={
         <div className="flex flex-col gap-12">

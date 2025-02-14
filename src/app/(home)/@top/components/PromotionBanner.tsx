@@ -19,7 +19,7 @@ const Banner = () => {
         onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
       >
         {bannerImages.map((image) => (
-          <SwiperSlide key={image.alt} className="aspect-[150/92]">
+          <SwiperSlide key={image.alt} className="aspect-[375/160]">
             <BannerItem image={image} />
           </SwiperSlide>
         ))}
@@ -69,7 +69,7 @@ const bannerImages: BannerItem[] = [
 
 const BannerItem = ({ image }: { image: BannerItem }) => (
   <Link key={image.alt} href={image.href}>
-    <div className="relative aspect-[150/92] w-[min(500px,100vw)]">
+    <div className="relative aspect-[375/161] w-[min(500px,100vw)]">
       <Image
         src={image.image}
         alt={image.alt}
