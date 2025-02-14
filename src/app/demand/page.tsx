@@ -35,7 +35,7 @@ const Page = async ({ searchParams }: Props) => {
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
-      ? searchParams?.sort[0]
+      ? searchParams?.sort[1]
       : searchParams?.sort) || '',
   );
 
