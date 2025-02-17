@@ -34,7 +34,7 @@ export const shuttleSortSearchParamsFromString = (
     case 'NAME_ASC':
       return 'NAME_ASC';
     default:
-      return SHUTTLE_SORT_SEARCH_PARAMS[0];
+      return SHUTTLE_SORT_SEARCH_PARAMS[3];
   }
 };
 

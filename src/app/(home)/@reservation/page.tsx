@@ -9,6 +9,7 @@ import { toSearchParams } from '@/utils/searchParams.util';
 import { getShuttleRoutes } from '@/services/shuttle-operation.service';
 import { ShuttleRoute } from '@/types/shuttle-operation.type';
 import { getUser } from '@/services/user-management.service';
+import { toSortedRoutes } from '@/app/reservation/util/sort.util';
 
 const Page = async () => {
   const { region, routes, promoted, userRegion } =
@@ -32,9 +33,7 @@ const Page = async () => {
     smallRegion: region?.smallRegion,
   }).toString();
 
-  const sortedRoutes = routes
-    .sort((a, b) => a.remainingSeatCount - b.remainingSeatCount)
-    .slice(0, 16);
+  const sortedRoutes = toSortedRoutes('셔틀 일자 빠른 순', routes).slice(0, 16);
 
   return (
     <Bar regionString={location} postfix={postfix}>
