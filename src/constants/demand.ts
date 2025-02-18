@@ -7,8 +7,8 @@ export const DEMAND_SORT = [
 export type DemandSortType = (typeof DEMAND_SORT)[number];
 
 export const DEMAND_SORT_SEARCH_PARAMS = [
-  'NAME_ASC',
   'DATE_ASC',
+  'NAME_ASC',
   // 'DEMAND_DESC',
 ] as const;
 
