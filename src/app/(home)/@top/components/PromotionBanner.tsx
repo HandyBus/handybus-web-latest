@@ -56,14 +56,18 @@ interface BannerItem {
 const bannerImages: BannerItem[] = [
   {
     image: Image1,
+    alt: '지드래곤 월드투어 수요조사 오픈',
+    href: '/demand/546562406302617625',
+  },
+  {
+    image: Image2,
     alt: '집에서 콘서트장까지 함께, 핸디버스와 함께',
     href: '/help/about',
   },
-  { image: Image2, alt: '핸디버스는 어떻게 이용해요?', href: '/help/how-to' },
   {
     image: Image3,
-    alt: '핸디버스와 함께한 지난 콘서트 화끈한 열기 느끼러 가기',
-    href: '/help/reviews',
+    alt: '핸디버스는 어떻게 이용해요?',
+    href: '/help/how-to',
   },
 ] as const;
 
