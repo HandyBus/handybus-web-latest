@@ -271,17 +271,19 @@ export const useGetArtists = () =>
 
 // ----- Review -----
 
+interface GetReviewsWithPaginationOptions {
+  limit: number;
+  page?: string;
+  eventId?: string;
+  userId?: string;
+}
+
 export const getReviewsWithPagination = async ({
   limit = DEFAULT_PAGINATION_LIMIT,
   page,
   eventId,
   userId,
-}: {
-  limit?: number;
-  page?: string;
-  eventId?: string;
-  userId?: string;
-} = {}) => {
+}: Partial<GetReviewsWithPaginationOptions> = {}) => {
   const searchParams = toSearchParams({ limit, page, eventId, userId });
   const res = await instance.get(
     `/v2/shuttle-operation/reviews?${searchParams.toString()}`,
@@ -292,11 +294,13 @@ export const getReviewsWithPagination = async ({
   return res;
 };
 
-export const useGetReviewsWithPagination = () =>
+export const useGetReviewsWithPagination = (
+  options?: Partial<GetReviewsWithPaginationOptions>,
+) =>
   useInfiniteQuery({
-    queryKey: ['review'],
+    queryKey: ['review', options],
     queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
-      getReviewsWithPagination({ page: pageParam, limit: 1 }),
+      getReviewsWithPagination({ page: pageParam, ...options }),
     initialPageParam: undefined,
     initialData: { pages: [], pageParams: [] },
     getNextPageParam: (lastPage) => lastPage.nextPage,
