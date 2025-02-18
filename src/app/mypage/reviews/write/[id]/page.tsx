@@ -12,7 +12,7 @@ import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/user-management.service';
 import { usePostReview } from '@/services/shuttle-operation.service';
-import { getImageUrl } from '@/services/common.service';
+import { getImageUrl } from '@/services/core.service';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
 
