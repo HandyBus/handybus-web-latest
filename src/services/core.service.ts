@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { instance } from './config';
+import { authInstance } from './config';
 
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
 
 const getPresignedUrl = async (key: KeyType, extension: ExtensionType) => {
   const params = new URLSearchParams({ key, extension });
-  const res = await instance.get(`/v1/common/image/presigned-url?${params}`, {
+  const res = await authInstance.get(`/v1/core/image/presigned-url?${params}`, {
     cache: 'no-store',
     shape: {
       presignedUrl: z.string(),
