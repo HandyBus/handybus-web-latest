@@ -10,6 +10,15 @@ interface Props {
   modal: ReactNode;
 }
 
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
+dayjs.locale('ko');
+
 export default function WithFooterLayout({
   top,
   bot,
@@ -22,8 +31,8 @@ export default function WithFooterLayout({
       <Header />
       <main className="w-full flex-grow pb-12">
         {top}
-        {reservation}
         {demand}
+        {reservation}
         {bot}
         {modal}
       </main>

@@ -17,6 +17,7 @@ interface Props<T> {
   isUnderLined?: boolean;
   defaultText?: string;
   sort?: boolean;
+  sortBy?: (a: T, b: T) => number;
 }
 
 const Select = <T,>({
@@ -30,13 +31,14 @@ const Select = <T,>({
   isUnderLined,
   defaultText,
   sort = false,
+  sortBy,
 }: Props<T>) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
   const sortedOptions = useMemo(
-    () => (sort ? (options.toSorted() as T[]) : options),
-    [options, sort],
+    () => (sort ? (options.toSorted(sortBy) as T[]) : options),
+    [options, sort, sortBy],
   );
 
   return (

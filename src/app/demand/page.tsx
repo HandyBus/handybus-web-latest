@@ -1,17 +1,15 @@
-import type { DemandSortType } from '@/constants/demand';
 import DemandFilterContainer from './components/DemandFilterContainer';
 import { fromString, toDemandSort } from './utils/param.util';
 import DemandCard from './components/DemandCard';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import { getEvents } from '@/services/shuttle-operation.service';
-import { Event } from '@/types/shuttle-operation.type';
-import { dayjsTz } from '@/utils/dayjsTz.util';
 const Empty = dynamic(() => import('./components/Empty'));
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import Header from '@/components/header/Header';
+import { toSorted } from './utils/toSorted.util';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -37,7 +35,7 @@ const Page = async ({ searchParams }: Props) => {
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
-      ? searchParams?.sort[0]
+      ? searchParams?.sort[1]
       : searchParams?.sort) || '',
   );
 
@@ -65,27 +63,3 @@ const Page = async ({ searchParams }: Props) => {
 };
 
 export default Page;
-
-const toSorted = async (events: Event[], sort: DemandSortType) => {
-  let newData: Event[];
-  switch (sort) {
-    // case '수요 신청한 인원이 많은 순':
-    //   newData = events.toSorted(
-    //     (a, b) => a.totalDemandCount - b.totalDemandCount,
-    //   );
-    //   break;
-    case '콘서트 이름 가나다 순':
-      newData = events.toSorted((a, b) =>
-        a.eventName.localeCompare(b.eventName),
-      );
-      break;
-    case '셔틀 일자 빠른 순':
-      newData = events.toSorted(
-        (a, b) =>
-          (dayjsTz(a.dailyEvents[0].date).getTime() || 0) -
-          (dayjsTz(b.dailyEvents[0].date).getTime() || 0),
-      );
-      break;
-  }
-  return newData;
-};

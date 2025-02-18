@@ -78,6 +78,8 @@ export const EventSchema = z
     eventLocationLongitude: z.number(),
     eventArtists: ArtistSchema.array().nullable(),
     dailyEvents: DailyEventSchema.array(),
+    startDate: z.string(),
+    endDate: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
   })

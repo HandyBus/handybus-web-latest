@@ -13,6 +13,7 @@ import {
   Event,
   ShuttleRoute,
 } from '@/types/shuttle-operation.type';
+import dayjs from 'dayjs';
 
 interface Props {
   event: Event;
@@ -102,9 +103,11 @@ const ReservationForm = ({
             setSelectedRoute(undefined);
           }}
           renderValue={(value) => dateString(value.date)}
-          placeholder="운행일"
-          bottomSheetTitle="운행일 선택"
+          placeholder="일자"
+          bottomSheetTitle="일자 선택"
           isUnderLined
+          sort
+          sortBy={(a, b) => dayjs(a.date).diff(dayjs(b.date))}
         />
       </section>
       <section className="flex flex-col gap-16 p-16">
