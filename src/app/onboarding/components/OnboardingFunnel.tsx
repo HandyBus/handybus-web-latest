@@ -13,7 +13,7 @@ import PhoneNumberStep from './steps/PhoneNumberStep';
 import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
-import { removeIsOnboarding } from '@/utils/handleToken.util';
+import { removeIsOnboarding, setIsLoggedIn } from '@/utils/handleToken.util';
 import { OnboardingProgress } from '@/utils/parseProgress.util';
 import { usePutUser } from '@/services/user-management.service';
 import { getImageUrl } from '@/services/common.service';
@@ -47,6 +47,7 @@ const OnboardingFunnel = ({
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: async () => {
       removeIsOnboarding();
+      setIsLoggedIn();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
     },
@@ -96,6 +97,7 @@ const OnboardingFunnel = ({
   useEffect(() => {
     if (onboardingProgress === 'ONBOARDING_COMPLETE') {
       removeIsOnboarding();
+      setIsLoggedIn();
       router.push('/');
     }
   }, [onboardingProgress]);
