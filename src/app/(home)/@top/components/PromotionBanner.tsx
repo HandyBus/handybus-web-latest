@@ -45,6 +45,8 @@ import Image from 'next/image';
 import Image1 from '../images/banner-1.png';
 import Image2 from '../images/banner-2.png';
 import Image3 from '../images/banner-3.png';
+import Image4 from '../images/banner-4.png';
+import Image5 from '../images/banner-5.png';
 import Link from 'next/link';
 import { StaticImageData } from 'next/image';
 interface BannerItem {
@@ -56,18 +58,28 @@ interface BannerItem {
 const bannerImages: BannerItem[] = [
   {
     image: Image1,
+    alt: '지금 가입하면 10,000원 드려요',
+    href: '/mypage/coupons',
+  },
+  {
+    image: Image2,
     alt: '지드래곤 월드투어 수요조사 오픈',
     href: '/demand/546562406302617625',
   },
   {
-    image: Image2,
+    image: Image3,
     alt: '집에서 콘서트장까지 함께, 핸디버스와 함께',
     href: '/help/about',
   },
   {
-    image: Image3,
+    image: Image4,
     alt: '핸디버스는 어떻게 이용해요?',
     href: '/help/how-to',
+  },
+  {
+    image: Image5,
+    alt: '팬들이 말하는 핸디버스에요',
+    href: '/help/reviews',
   },
 ] as const;
 
