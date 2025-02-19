@@ -19,7 +19,7 @@ import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
 import { usePutUser } from '@/services/user-management.service';
 import { UserStats } from '@/types/user-management.type';
-import { getImageUrl } from '@/services/common.service';
+import { getImageUrl } from '@/services/core.service';
 import Header from '@/components/header/Header';
 
 interface Props {

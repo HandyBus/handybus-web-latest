@@ -16,7 +16,7 @@ import ResidenceStep from './steps/ResidenceStep';
 import { removeIsOnboarding, setIsLoggedIn } from '@/utils/handleToken.util';
 import { OnboardingProgress } from '@/utils/parseProgress.util';
 import { usePutUser } from '@/services/user-management.service';
-import { getImageUrl } from '@/services/common.service';
+import { getImageUrl } from '@/services/core.service';
 
 interface Props {
   onboardingProgress: OnboardingProgress;
