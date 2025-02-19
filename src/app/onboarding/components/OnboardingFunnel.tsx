@@ -17,6 +17,7 @@ import { removeIsOnboarding, setIsLoggedIn } from '@/utils/handleToken.util';
 import { OnboardingProgress } from '@/utils/parseProgress.util';
 import { usePutUser } from '@/services/user-management.service';
 import { getImageUrl } from '@/services/core.service';
+import { setFirstSignup } from '@/utils/localStorage';
 
 interface Props {
   onboardingProgress: OnboardingProgress;
@@ -48,6 +49,7 @@ const OnboardingFunnel = ({
     onSuccess: async () => {
       removeIsOnboarding();
       setIsLoggedIn();
+      setFirstSignup();
       toast.success('핸디버스에 오신 것을 환영합니다!');
       router.push('/');
     },
