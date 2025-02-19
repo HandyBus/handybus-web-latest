@@ -65,13 +65,13 @@ const DemandStats = ({
         />
         <EventCard
           tripType="가는 편"
-          count={demandStats?.fromDestinationCount}
+          count={demandStats?.toDestinationCount}
           region={region}
           location={location}
         />
         <EventCard
           tripType="오는 편"
-          count={demandStats?.toDestinationCount}
+          count={demandStats?.fromDestinationCount}
           region={region}
           location={location}
         />
