@@ -5,21 +5,26 @@ import Activity from './components/Activity';
 import Settings from './components/Settings';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import { useGetUserStats } from '@/services/user-management.service';
+import {
+  useGetUser,
+  useGetUserStats,
+} from '@/services/user-management.service';
 import Header from '@/components/header/Header';
 
 const MyPage = () => {
-  const { data: userStats, isLoading } = useGetUserStats();
+  const { data: user, isLoading: isLoadingUser } = useGetUser();
+  const { data: userStats, isLoading: isLoadingUserStats } = useGetUserStats();
+  const isLoading = isLoadingUser || isLoadingUserStats;
 
   return (
     <>
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {userStats && (
+        {user && userStats && (
           <main>
             <Profile
-              nickname={userStats.nickname || ''}
-              profileImage={userStats.profileImage || ''}
+              nickname={user.nickname || ''}
+              profileImage={user.profileImage || ''}
             />
             <Activity
               reservationCount={userStats.currentReservationCount}

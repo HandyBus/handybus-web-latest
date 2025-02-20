@@ -18,26 +18,26 @@ import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
 import { usePutUser } from '@/services/user-management.service';
-import { UserStats } from '@/types/user-management.type';
+import { User } from '@/types/user-management.type';
 import { getImageUrl } from '@/services/core.service';
 import Header from '@/components/header/Header';
 
 interface Props {
   type: EditType;
-  userStats: UserStats;
+  user: User;
 }
 
-const EditForm = ({ type, userStats }: Props) => {
-  const region = userStats.regionId ? ID_TO_REGION[userStats.regionId] : null;
+const EditForm = ({ type, user }: Props) => {
+  const region = user.regionId ? ID_TO_REGION[user.regionId] : null;
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
-      nickname: userStats.nickname ?? '',
-      gender: userStats.gender === 'MALE' ? '남성' : '여성',
-      age: userStats.ageRange,
+      nickname: user.nickname ?? '',
+      gender: user.gender === 'MALE' ? '남성' : '여성',
+      age: user.ageRange === '연령대 미지정' ? undefined : user.ageRange,
       bigRegion: region?.bigRegion ?? undefined,
       smallRegion: region?.smallRegion ?? undefined,
-      favoriteArtists: userStats.favoriteArtists ?? [],
+      favoriteArtists: user.favoriteArtists ?? [],
     },
     mode: 'onBlur',
   });
@@ -104,16 +104,14 @@ const EditForm = ({ type, userStats }: Props) => {
   const renderStep = () => {
     switch (type) {
       case 'profile':
-        return <ProfileInfoContent initialImageSrc={userStats.profileImage} />;
+        return <ProfileInfoContent initialImageSrc={user.profileImage} />;
       case 'personal-info':
         return <PersonalInfoContent />;
       case 'region':
         return <ResidenceContent />;
       case 'artist':
         return (
-          <ArtistContent
-            initialSelectedArtists={userStats.favoriteArtists ?? []}
-          />
+          <ArtistContent initialSelectedArtists={user.favoriteArtists ?? []} />
         );
     }
   };

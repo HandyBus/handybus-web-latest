@@ -232,18 +232,6 @@ export type User = z.infer<typeof UserSchema>;
 export const UserStatsSchema = z
   .object({
     userId: z.string(),
-    nickname: z.string().nullable(),
-    phoneNumber: z.string().nullable(),
-    profileImage: z.string().nullable(),
-    gender: GenderEnum,
-    ageRange: AgeRangeEnum.exclude(['연령대 미지정']),
-    // authChannel: AuthChannelTypeEnum,
-    regionId: z.string().nullable(),
-    socialInfo: z.object({
-      uniqueId: z.string(),
-      nickname: z.string(),
-    }),
-    favoriteArtists: ArtistSchema.array().nullable(),
     currentReservationCount: z.number(),
     pastReservationCount: z.number(),
     activeCouponCount: z.number(),
