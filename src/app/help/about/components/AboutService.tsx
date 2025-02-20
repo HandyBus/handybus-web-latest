@@ -8,23 +8,21 @@ import Person3 from '../images/person3.png';
 
 const AboutService = () => (
   <Article
-    richTitle="서비스 소개"
+    richTitle="이런 고민 해본 적 있나요?"
     titleSize="small"
     className="flex w-full flex-col gap-[26px]"
   >
     <div className="flex w-full flex-col px-36">
       <Saying orient="left" img={Person1}>
-        <b>수도권</b>에서 대부분의 <b>콘서트, 행사</b>가 열리는데, 지방에 사는
-        사람이 콘서트장으로 이동하기 너무 <b>불편해요</b>.
+        지방에 살아서 행사를 보러 가기가 너무 힘들어요
       </Saying>
-      <Saying orient="right" img={Person2}>
-        <b>대중교통은 이동 비용</b>도 만만치 않고 <b>막차 시간</b> 때문에
-        콘서트를 끝까지 즐기지도 못해요.
-      </Saying>
+      <div className="flex justify-end">
+        <Saying orient="right" img={Person2}>
+          대중교통은 비싸고, 막차 때문에 끝까지 못 즐겨요
+        </Saying>
+      </div>
       <Saying orient="left" img={Person3}>
-        <b>단체 버스 대절</b>을 하려고 하는데 <b>혼자서</b> 총대로 나서서
-        사람들을 모으기도 어렵고, 범죄 위험이 있어 일반인들에게 총대를 맡기기
-        불안해요.
+        버스 대절하려니 혼자 총대 메기 무섭고 사기 당할까 걱정돼요
       </Saying>
     </div>
     <div>

@@ -2,55 +2,46 @@ import Article from '@/components/article/Article';
 import { PropsWithChildren } from 'react';
 
 const AboutMerit = () => (
-  <Article richTitle="핸디버스를 통해" titleSize="small" className="w-full">
+  <Article richTitle="이런 점이 좋아요" titleSize="small" className="w-full">
     <div className="mx-16 mt-28 flex flex-col gap-16 border-l-2 border-l-grey-50 pl-12 pt-12 text-grey-900">
-      <Item>
-        길에서 낭비하는{' '}
-        <strong className="inline font-600">
-          <Overdot>불</Overdot>
-          <Overdot>필</Overdot>
-          <Overdot>요</Overdot>
-          <Overdot>한</Overdot>
-        </strong>{' '}
-        환승 시간을 줄일 수 있고{' '}
-        <span className="inline text-grey-600-sub">
-          (약 3시간 *부산-서울 왕복 준)
-        </span>
-      </Item>
-      <Item>
-        <span className="inline font-600">
-          더 <Overdot>저</Overdot>
-          <Overdot>렴</Overdot>
-          <Overdot>한</Overdot> 가격
-        </span>
-        으로 이동할 수 있고{' '}
-        <span className="inline text-grey-600-sub">
-          (약 40% *부산-서울 왕복 KTX 탑승 기준)
-        </span>
-      </Item>
-      <Item>
-        내가{' '}
-        <span className="inline font-600">
-          원하는 노선을 <Overdot>자</Overdot>
-          <Overdot>유</Overdot>
-          <Overdot>롭</Overdot>
-          <Overdot>게</Overdot>
-        </span>{' '}
-        신청하여 이용할 수 있습니다.
-      </Item>
+      <ul className="flex list-none flex-col gap-16">
+        <MeritItem text="환승 없이 행사장까지 바로 이동해요.">
+          <SubList>
+            <MeritItem text="콘서트, e스포츠, 지역 축제, 스포츠 경기 등 어떤 행사든 빠르고 편하게 갈 수 있어요." />
+          </SubList>
+        </MeritItem>
+
+        <MeritItem text="최저가 이동수단이에요.">
+          <SubList>
+            <MeritItem text="타 셔틀 플랫폼, KTX, 고속버스보다 저렴해요." />
+          </SubList>
+        </MeritItem>
+
+        <MeritItem text="원하는 곳에서 출발할 수 있어요.">
+          <SubList> 실시간 수요를 기반으로 노선이 생성돼요.</SubList>
+        </MeritItem>
+      </ul>
     </div>
   </Article>
 );
 
 export default AboutMerit;
 
-const Item = ({ children }: PropsWithChildren) => <p>{children}</p>;
+interface MeritItemProps {
+  text: string;
+  children?: React.ReactNode;
+}
 
-const Overdot = ({ children }: PropsWithChildren) => (
-  <strong
-    className="relative inline after:absolute after:bottom-[1.3em] after:left-0 after:right-0
-  after:h-4 after:w-4 after:translate-x-[110%] after:rounded-full after:bg-primary-main after:text-primary-main after:content-['']"
-  >
-    {children}
-  </strong>
+const MeritItem = ({ text, children }: MeritItemProps) => (
+  <li className="flex items-start">
+    <span className="mr-8 inline-block text-grey-600">•</span>
+    <div className="flex flex-col gap-8">
+      <span>{text}</span>
+      {children}
+    </div>
+  </li>
+);
+
+const SubList = ({ children }: PropsWithChildren) => (
+  <ul className="flex list-none flex-col gap-8 pl-16">{children}</ul>
 );

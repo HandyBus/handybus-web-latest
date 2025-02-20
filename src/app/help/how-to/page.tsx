@@ -1,4 +1,3 @@
-import type { PropsWithChildren } from 'react';
 import Image from 'next/image';
 import Article from '@/components/article/Article';
 import HowTo from './images/how-to.png';
@@ -13,87 +12,97 @@ const HowToPage = () => {
   return (
     <>
       <Header />
-      <Article richTitle="서비스 이용 절차" titleSize="large" className="px-28">
-        <figure className="mt-8 px-16">
+      <article className="mx-16 mt-56">
+        <h1 className="text-28 font-700 leading-[39.2px] text-black">
+          이용 절차
+        </h1>
+        <p className="mt-4 text-16 font-500 leading-[25.6px] text-grey-900">
+          핸디버스를 통한 콘서트 여정은 이렇게 진행돼요.
+        </p>
+        <figure className="mt-8 ">
           <Image
             className="rounded-[15px] shadow-md"
             src={HowTo}
             alt="핸디버스 이용 순서를 나타낸 도식"
           />
         </figure>
-      </Article>
-      <Article richTitle="1. 수요 확인 중" titleSize="small">
+      </article>
+      <Article richTitle="1. 수요조사" titleSize="small">
+        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
+          여러분의 관심도를 체크해요
+        </p>
         <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-900">
           <li>
             <p className="py-[2px]">
-              해당 목적지로 가는 셔틀에 대한 사람들의 수요를 확인하는 단계예요.
+              수요조사를 통해 목적지로 가는 셔틀 수요를 확인해요
             </p>
             <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
               <li>
                 <p className="py-[2px]">
-                  일반적으로 콘서트 선예매 당일까지 수요 확인을 진행하며,{' '}
-                  <Bold>충분한 수요가 확인</Bold>되면 그 전에 예약 모집 단계로
-                  넘어갈 수 있어요.
+                  보통 콘서트 선예매 당일까지 수요를 살펴봐요
                 </p>
               </li>
               <li>
                 <p className="py-[2px]">
-                  수요 신청은 <Bold>무료</Bold> 입니다.
+                  많은 분들이 원하시면 더 빨리 노선을 확정해요
                 </p>
+              </li>
+              <li>
+                <p className="py-[2px]">수요 신청은 무료예요!</p>
               </li>
             </ul>
           </li>
         </ul>
       </Article>
-      <Article richTitle="2. 예약 모집 중" titleSize="small">
+      <Article richTitle="2. 운행 확정" titleSize="small">
+        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
+          노선 운행을 결정해요
+        </p>
+        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-900">
+          <li>
+            <p className="py-[2px]">
+              충분한 수요가 모이면 노선 운행을 확정해요
+            </p>
+          </li>
+        </ul>
+      </Article>
+      <Article richTitle="3. 셔틀 예약" titleSize="small" className="pb-28">
+        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
+          30초만에 간편하게 예약하세요
+        </p>
         <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16  font-500 leading-[26px] text-grey-900">
           <li>
             <p className="py-[2px]">
-              운행 예정 단계로 넘어온 셔틀에 대해서 셔틀 예약이 가능해요.
+              확정된 노선은 자리가 다 찰 때까지 예약할 수 있어요
             </p>
-            <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
-              <li>
-                <p className="py-[2px]">
-                  각 지역별 셔틀 운행에 필요한{' '}
-                  <Bold>최소 인원을 충족하지 못할 시, 운행이 무산</Bold>됩니다.
-                  결제 금액은 무산 결정 이후 1일 이내 전액 환불됩니다.
-                </p>
-              </li>
-            </ul>
           </li>
-        </ul>
-      </Article>
-      <Article richTitle="3. 예약 마감" titleSize="small" className="pb-28">
-        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16  font-500 leading-[26px] text-grey-900">
+          <li>
+            <p className="py-[2px]">차량과 셔틀 정보는 알림톡으로 알려드려요</p>
+          </li>
           <li>
             <p className="py-[2px]">
-              최소 인원 충족으로 운행이 확정되면 잔여석이 모두 찰 때까지 셔틀
-              예약이 가능합니다.
+              &apos;핸디&apos;가 오픈채팅방을 만들어 소통해요
             </p>
-            <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
-              <li>
-                <p className="py-[2px]">
-                  확정된 차량 및 셔틀 정보는 알림톡으로 공지되며, ’핸디’의 주도
-                  하에 오픈채팅방이 개설되어 각종 공지 및 운행 준비가
-                  이루어집니다.
-                </p>
-              </li>
-              <li>
-                <p className="py-[2px]">
-                  운행 당일이 되면 오픈채팅방에서 소통하며 콘서트를 즐겁게
-                  다녀오시면 됩니다 {':)'}
-                </p>
-              </li>
-            </ul>
           </li>
+          <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
+            <li>
+              <p className="py-[2px]">
+                콘서트 당일, 오픈채팅방에서 함께 이야기 나누며 즐거운 시간
+                보내세요!
+              </p>
+            </li>
+          </ul>
         </ul>
       </Article>
+      <article className="my-56 flex justify-center">
+        <p className="text-center text-18 font-600 leading-[25.2px] text-black">
+          지금 바로 가고싶은 공연을
+          <br /> 핸디버스에게 알려주세요.☺️
+          <br /> 편안한 콘서트 여정을 준비할게요!
+        </p>
+      </article>
     </>
   );
 };
 
 export default HowToPage;
-
-const Bold = ({ children }: PropsWithChildren) => (
-  <strong className="font-600 text-primary-main">{children}</strong>
-);
