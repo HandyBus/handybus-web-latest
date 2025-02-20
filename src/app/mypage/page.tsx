@@ -18,8 +18,8 @@ const MyPage = () => {
         {userStats && (
           <main>
             <Profile
-              nickname={userStats.nickname}
-              profileImage={userStats.profileImage}
+              nickname={userStats.nickname || ''}
+              profileImage={userStats.profileImage || ''}
             />
             <Activity
               reservationCount={userStats.currentReservationCount}

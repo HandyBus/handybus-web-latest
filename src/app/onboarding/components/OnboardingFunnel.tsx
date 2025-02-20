@@ -20,7 +20,7 @@ import { getImageUrl } from '@/services/core.service';
 
 interface Props {
   onboardingProgress: OnboardingProgress;
-  initialPhoneNumber?: string;
+  initialPhoneNumber?: string | null;
 }
 
 const OnboardingFunnel = ({
@@ -37,7 +37,7 @@ const OnboardingFunnel = ({
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
-      phoneNumber: initialPhoneNumber,
+      phoneNumber: initialPhoneNumber ?? undefined,
     },
     mode: 'onBlur',
   });

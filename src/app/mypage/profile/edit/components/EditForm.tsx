@@ -28,15 +28,15 @@ interface Props {
 }
 
 const EditForm = ({ type, userStats }: Props) => {
-  const region = ID_TO_REGION[userStats.regionId];
+  const region = userStats.regionId ? ID_TO_REGION[userStats.regionId] : null;
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
-      nickname: userStats.nickname,
+      nickname: userStats.nickname ?? '',
       gender: userStats.gender === 'MALE' ? '남성' : '여성',
       age: userStats.ageRange,
-      bigRegion: region.bigRegion,
-      smallRegion: region.smallRegion,
+      bigRegion: region?.bigRegion ?? undefined,
+      smallRegion: region?.smallRegion ?? undefined,
       favoriteArtists: userStats.favoriteArtists ?? [],
     },
     mode: 'onBlur',
@@ -93,7 +93,7 @@ const EditForm = ({ type, userStats }: Props) => {
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
-      profileImage: imageUrl ?? '',
+      profileImage: imageUrl ?? null,
       favoriteArtistsIds,
       regionId,
     };

@@ -73,8 +73,8 @@ const ProgressTypeEnum = z.enum([
 ]);
 export type ProgressType = z.infer<typeof ProgressTypeEnum>;
 
-const AuthChannelTypeEnum = z.enum(['NONE', 'kakao', 'naver']);
-export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
+// const AuthChannelTypeEnum = z.enum(['NONE', 'kakao', 'naver']);
+// export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
 
 //  ----- SCHEMA -----
 export const ShuttleDemandSchema = z
@@ -208,14 +208,14 @@ export type IssuedCoupon = z.infer<typeof IssuedCouponSchema>;
 export const UserSchema = z
   .object({
     userId: z.string(),
-    nickname: z.string(),
-    profileImage: z.string(),
-    phoneNumber: z.string(),
+    nickname: z.string().nullable(),
+    profileImage: z.string().nullable(),
+    phoneNumber: z.string().nullable(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    authChannelType: AuthChannelTypeEnum,
+    // authChannelType: AuthChannelTypeEnum,
     lastLoginAt: z.string().nullable(),
-    regionId: z.string(),
+    regionId: z.string().nullable(),
     favoriteArtists: ArtistSchema.array().nullable(),
     progresses: z
       .object({
@@ -231,13 +231,13 @@ export type User = z.infer<typeof UserSchema>;
 export const UserStatsSchema = z
   .object({
     userId: z.string(),
-    nickname: z.string(),
-    phoneNumber: z.string(),
-    profileImage: z.string(),
+    nickname: z.string().nullable(),
+    phoneNumber: z.string().nullable(),
+    profileImage: z.string().nullable(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    authChannel: AuthChannelTypeEnum,
-    regionId: z.string(),
+    // authChannel: AuthChannelTypeEnum,
+    regionId: z.string().nullable(),
     socialInfo: z.object({
       uniqueId: z.string(),
       nickname: z.string(),
@@ -256,7 +256,7 @@ export type UserStats = z.infer<typeof UserStatsSchema>;
 
 export const PutUserBodySchema = z
   .object({
-    profileImage: z.string(),
+    profileImage: z.string().nullable(),
     nickname: z.string(),
     phoneNumber: z.string(),
     gender: GenderEnum,
