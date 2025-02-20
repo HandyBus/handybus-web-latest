@@ -62,17 +62,14 @@ const Profile = () => {
             <ListButton
               title="프로필 수정"
               href="/mypage/profile/edit?type=profile"
-              replace
             />
             <ListButton
               title="성별 및 연령대 수정"
               href="/mypage/profile/edit?type=personal-info"
-              replace
             />
             <ListButton
               title="거주 지역 수정"
               href="/mypage/profile/edit?type=region"
-              replace
             />
             {/* <ListButton
               title="최애 아티스트 수정"

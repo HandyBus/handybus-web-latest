@@ -115,7 +115,9 @@ const OnboardingFunnel = ({
           <Step name="약관 동의">
             <AgreementStep
               handleNextStep={
-                initialPhoneNumber ? handleNextStep : () => setStep('전화번호')
+                initialPhoneNumber
+                  ? () => setStep('프로필 정보')
+                  : handleNextStep
               }
             />
           </Step>
