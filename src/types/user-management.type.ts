@@ -49,10 +49,11 @@ export const IssuedCouponStatusEnum = z.enum([
 ]);
 export type IssuedCouponStatus = z.infer<typeof IssuedCouponStatusEnum>;
 
-export const GenderEnum = z.enum(['FEMALE', 'MALE']);
+export const GenderEnum = z.enum(['NONE', 'FEMALE', 'MALE']);
 export type Gender = z.infer<typeof GenderEnum>;
 
 export const AgeRangeEnum = z.enum([
+  '연령대 미지정',
   '10대 이하',
   '20대',
   '30대',
@@ -235,7 +236,7 @@ export const UserStatsSchema = z
     phoneNumber: z.string().nullable(),
     profileImage: z.string().nullable(),
     gender: GenderEnum,
-    ageRange: AgeRangeEnum,
+    ageRange: AgeRangeEnum.exclude(['연령대 미지정']),
     // authChannel: AuthChannelTypeEnum,
     regionId: z.string().nullable(),
     socialInfo: z.object({
@@ -259,8 +260,8 @@ export const PutUserBodySchema = z
     profileImage: z.string().nullable(),
     nickname: z.string(),
     phoneNumber: z.string(),
-    gender: GenderEnum,
-    ageRange: AgeRangeEnum,
+    gender: GenderEnum.exclude(['NONE']),
+    ageRange: AgeRangeEnum.exclude(['연령대 미지정']),
     regionId: z.string(),
     favoriteArtistsIds: z.string().array(),
     isAgreedMarketing: z.boolean(),

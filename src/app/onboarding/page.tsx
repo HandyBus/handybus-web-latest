@@ -19,6 +19,8 @@ const Funnel = () => {
           <OnboardingFunnel
             onboardingProgress={onboardingProgress}
             initialPhoneNumber={user?.phoneNumber}
+            initialGender={user?.gender}
+            initialAgeRange={user?.ageRange}
           />
         )}
       </DeferredSuspense>

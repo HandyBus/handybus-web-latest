@@ -9,7 +9,6 @@ import { OnboardingFormValues } from '@/components/onboarding-contents/onboardin
 import { useRouter } from 'next/navigation';
 import { FORM_DEFAULT_VALUES } from '@/components/onboarding-contents/formValidation.constants';
 import AgreementStep from './steps/AgreementStep';
-import PhoneNumberStep from './steps/PhoneNumberStep';
 import ProfileInfoStep from './steps/ProfileInfoStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import ResidenceStep from './steps/ResidenceStep';
@@ -17,18 +16,23 @@ import { removeIsOnboarding, setIsLoggedIn } from '@/utils/handleToken.util';
 import { OnboardingProgress } from '@/utils/parseProgress.util';
 import { usePutUser } from '@/services/user-management.service';
 import { getImageUrl } from '@/services/core.service';
+import { AgeRange, Gender } from '@/types/user-management.type';
 
 interface Props {
   onboardingProgress: OnboardingProgress;
   initialPhoneNumber?: string | null;
+  initialGender?: Gender | null;
+  initialAgeRange?: AgeRange | null;
 }
 
 const OnboardingFunnel = ({
   onboardingProgress,
   initialPhoneNumber,
+  initialGender,
+  initialAgeRange,
 }: Props) => {
-  const initialStep =
-    onboardingProgress === 'AGREEMENT_INCOMPLETE' ? '약관 동의' : '전화번호';
+  const initialStep: (typeof ONBOARDING_STEPS)[number] =
+    onboardingProgress === 'AGREEMENT_INCOMPLETE' ? '약관 동의' : '프로필 정보';
   const { Funnel, Step, handleNextStep, handlePrevStep, setStep } = useFunnel(
     ONBOARDING_STEPS,
     initialStep,
@@ -38,6 +42,16 @@ const OnboardingFunnel = ({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
       phoneNumber: initialPhoneNumber ?? undefined,
+      gender:
+        initialGender === 'MALE'
+          ? '남성'
+          : initialGender === 'FEMALE'
+            ? '여성'
+            : undefined,
+      age:
+        initialAgeRange === '연령대 미지정' || !initialAgeRange
+          ? undefined
+          : initialAgeRange,
     },
     mode: 'onBlur',
   });
@@ -113,19 +127,16 @@ const OnboardingFunnel = ({
       >
         <Funnel>
           <Step name="약관 동의">
-            <AgreementStep
+            <AgreementStep handleNextStep={handleNextStep} />
+          </Step>
+          <Step name="프로필 정보">
+            <ProfileInfoStep
               handleNextStep={
-                initialPhoneNumber
-                  ? () => setStep('프로필 정보')
+                initialGender && initialAgeRange
+                  ? () => setStep('거주지')
                   : handleNextStep
               }
             />
-          </Step>
-          <Step name="전화번호">
-            <PhoneNumberStep handleNextStep={handleNextStep} />
-          </Step>
-          <Step name="프로필 정보">
-            <ProfileInfoStep handleNextStep={handleNextStep} />
           </Step>
           <Step name="개인 정보">
             <PersonalInfoStep
@@ -155,7 +166,7 @@ export default OnboardingFunnel;
 
 const ONBOARDING_STEPS = [
   '약관 동의',
-  '전화번호',
+  // '전화번호',
   '프로필 정보',
   '개인 정보',
   '거주지',
