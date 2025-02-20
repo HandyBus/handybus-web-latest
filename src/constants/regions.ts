@@ -149,6 +149,8 @@ export const SMALL_REGIONS = {
     '가평군',
     '양평군',
     '연천군',
+    '오산시',
+    '파주시',
   ],
   강원특별자치도: [
     '춘천시',
@@ -435,6 +437,8 @@ export const REGION_TO_ID: {
     가평군: '128',
     양평군: '129',
     연천군: '130',
+    오산시: '278',
+    파주시: '279',
   },
   강원특별자치도: {
     춘천시: '131',
@@ -1579,5 +1583,13 @@ export const ID_TO_REGION: {
   277: {
     bigRegion: '세종특별자치시',
     smallRegion: '어진동',
+  },
+  278: {
+    bigRegion: '경기도',
+    smallRegion: '오산시',
+  },
+  279: {
+    bigRegion: '경기도',
+    smallRegion: '파주시',
   },
 } as const;

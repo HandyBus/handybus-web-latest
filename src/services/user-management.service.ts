@@ -142,19 +142,24 @@ export const useGetUserCoupons = (params?: {
     queryFn: () => getUserCoupons(params),
   });
 
-export const getUser = async () => {
+export const getUser = async (options?: { isOnboarding?: boolean }) => {
   const res = await authInstance.get('/v2/user-management/users/me', {
     shape: {
       user: UserSchema,
     },
   });
+  // 온보딩 완료 유무 확인
+  if (!options?.isOnboarding && res.user.ageRange === '연령대 미지정') {
+    setIsOnboarding();
+    throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
+  }
   return res.user;
 };
 
-export const useGetUser = () =>
+export const useGetUser = (options?: { isOnboarding?: boolean }) =>
   useQuery({
     queryKey: ['user'],
-    queryFn: getUser,
+    queryFn: () => getUser(options),
   });
 
 export const putUser = async (body: PutUserBody) => {
@@ -191,12 +196,6 @@ const getUserStats = async () => {
       userStats: UserStatsSchema,
     },
   });
-  // 온보딩 완료 유무 확인
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((res.userStats as any).ageRange === '연령대 미지정') {
-    setIsOnboarding();
-    throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
-  }
   return res.userStats;
 };
 

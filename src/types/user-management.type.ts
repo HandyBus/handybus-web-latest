@@ -49,10 +49,11 @@ export const IssuedCouponStatusEnum = z.enum([
 ]);
 export type IssuedCouponStatus = z.infer<typeof IssuedCouponStatusEnum>;
 
-export const GenderEnum = z.enum(['FEMALE', 'MALE']);
+export const GenderEnum = z.enum(['NONE', 'FEMALE', 'MALE']);
 export type Gender = z.infer<typeof GenderEnum>;
 
 export const AgeRangeEnum = z.enum([
+  '연령대 미지정',
   '10대 이하',
   '20대',
   '30대',
@@ -73,8 +74,8 @@ const ProgressTypeEnum = z.enum([
 ]);
 export type ProgressType = z.infer<typeof ProgressTypeEnum>;
 
-const AuthChannelTypeEnum = z.enum(['NONE', 'kakao', 'naver']);
-export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
+// const AuthChannelTypeEnum = z.enum(['NONE', 'kakao', 'naver']);
+// export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
 
 //  ----- SCHEMA -----
 export const ShuttleDemandSchema = z
@@ -208,14 +209,14 @@ export type IssuedCoupon = z.infer<typeof IssuedCouponSchema>;
 export const UserSchema = z
   .object({
     userId: z.string(),
-    nickname: z.string(),
-    profileImage: z.string(),
-    phoneNumber: z.string(),
+    nickname: z.string().nullable(),
+    profileImage: z.string().nullable(),
+    phoneNumber: z.string().nullable(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    authChannelType: AuthChannelTypeEnum,
+    // authChannelType: AuthChannelTypeEnum,
     lastLoginAt: z.string().nullable(),
-    regionId: z.string(),
+    regionId: z.string().nullable(),
     favoriteArtists: ArtistSchema.array().nullable(),
     progresses: z
       .object({
@@ -231,18 +232,6 @@ export type User = z.infer<typeof UserSchema>;
 export const UserStatsSchema = z
   .object({
     userId: z.string(),
-    nickname: z.string(),
-    phoneNumber: z.string(),
-    profileImage: z.string(),
-    gender: GenderEnum,
-    ageRange: AgeRangeEnum,
-    authChannel: AuthChannelTypeEnum,
-    regionId: z.string(),
-    socialInfo: z.object({
-      uniqueId: z.string(),
-      nickname: z.string(),
-    }),
-    favoriteArtists: ArtistSchema.array().nullable(),
     currentReservationCount: z.number(),
     pastReservationCount: z.number(),
     activeCouponCount: z.number(),
@@ -256,11 +245,11 @@ export type UserStats = z.infer<typeof UserStatsSchema>;
 
 export const PutUserBodySchema = z
   .object({
-    profileImage: z.string(),
+    profileImage: z.string().nullable(),
     nickname: z.string(),
     phoneNumber: z.string(),
-    gender: GenderEnum,
-    ageRange: AgeRangeEnum,
+    gender: GenderEnum.exclude(['NONE']),
+    ageRange: AgeRangeEnum.exclude(['연령대 미지정']),
     regionId: z.string(),
     favoriteArtistsIds: z.string().array(),
     isAgreedMarketing: z.boolean(),
