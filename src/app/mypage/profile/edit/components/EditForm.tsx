@@ -23,7 +23,7 @@ import { getImageUrl } from '@/services/core.service';
 import Header from '@/components/header/Header';
 
 interface Props {
-  type: EditType | undefined;
+  type: EditType;
   user: User;
 }
 
@@ -115,10 +115,6 @@ const EditForm = ({ type, user }: Props) => {
         );
     }
   };
-
-  if (!type) {
-    return null;
-  }
 
   return (
     <FormProvider {...methods}>

@@ -4,6 +4,7 @@ import EditForm from './components/EditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUser } from '@/services/user-management.service';
+import { useEffect, useState } from 'react';
 
 export type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 
@@ -12,10 +13,20 @@ interface Props {
 }
 
 const Edit = ({ searchParams }: Props) => {
-  const { data: user, isLoading } = useGetUser();
+  const { data: user, isLoading: isUserLoading } = useGetUser();
+  const [currentType, setCurrentType] = useState<EditType | undefined>(
+    searchParams.type,
+  );
+
+  useEffect(() => {
+    setCurrentType(searchParams.type);
+  }, [searchParams.type]);
+
+  const isLoading = isUserLoading || !currentType;
+
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      {user && <EditForm type={searchParams.type} user={user} />}
+      {user && currentType && <EditForm type={currentType} user={user} />}
     </DeferredSuspense>
   );
 };
