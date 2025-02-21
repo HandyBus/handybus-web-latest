@@ -54,7 +54,7 @@ export const getImageUrl = async ({
   return urls.cdnUrl;
 };
 
-const getBanners = async () => {
+export const getBanners = async () => {
   const res = await instance.get('/v1/core/banners', {
     shape: {
       banners: AdminHandleBannerRequestBannersSchema.array(),

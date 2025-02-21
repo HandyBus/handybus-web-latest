@@ -4,19 +4,16 @@ import { useRef, useState } from 'react';
 import type { SwiperRef } from 'swiper/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { useGetBanners } from '@/services/core.service';
 
-const Banner = () => {
+const Banner = ({
+  dynamicBannerImages,
+}: {
+  dynamicBannerImages: AdminHandleBannerRequestBanners[];
+}) => {
   const swiper = useRef<SwiperRef>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const { data: bannerImages, isLoading, error, isError } = useGetBanners();
+  const images = dynamicBannerImages ? dynamicBannerImages : bannerImages;
 
-  if (isLoading)
-    return (
-      <div className="flex aspect-[375/160] w-[min(500px,100vw)] items-center justify-center" />
-    );
-  if (isError) throw error;
-  if (!bannerImages?.length) return null;
   return (
     <>
       <Swiper
@@ -25,13 +22,13 @@ const Banner = () => {
         className="relative bg-white"
         onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
       >
-        {bannerImages.map((image) => (
+        {images.map((image) => (
           <SwiperSlide key={image.title} className="aspect-[375/160]">
             <BannerItem image={image} />
           </SwiperSlide>
         ))}
         <div className="pointer-events-none absolute bottom-[14px] left-[50%] z-50 flex -translate-x-[50%] flex-row gap-[6px]">
-          {bannerImages
+          {images
             .sort((a, b) => a.sequence - b.sequence)
             .map((image, index) => (
               <span
@@ -53,6 +50,21 @@ export default Banner;
 import Image from 'next/image';
 import Link from 'next/link';
 import { AdminHandleBannerRequestBanners } from '@/types/banner.type';
+
+const bannerImages: AdminHandleBannerRequestBanners[] = [
+  {
+    imageUrl: '/images/default-banner-1.png',
+    title: '집에서 콘서트장까지 함께, 핸디버스와 함께',
+    linkUrl: '/help/about',
+    sequence: 1,
+  },
+  {
+    imageUrl: '/images/default-banner-2.png',
+    title: '핸디버스는 어떻게 이용해요?',
+    linkUrl: '/help/how-to',
+    sequence: 2,
+  },
+] as const;
 
 const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
   <Link key={image.title} href={image.linkUrl}>
