@@ -22,7 +22,7 @@ const Banner = () => {
       <Swiper
         ref={swiper}
         pagination={true}
-        className="relative bg-primary-main"
+        className="relative bg-white"
         onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
       >
         {bannerImages.map((image) => (
