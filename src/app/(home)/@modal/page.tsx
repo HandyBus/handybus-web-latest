@@ -37,7 +37,7 @@ const Page = () => {
   }, []);
 
   // 첫 가입 쿠폰 모달
-  const [isFirstSignupOpen, setIsFirstSignupOpen] = useState(true);
+  const [isFirstSignupOpen, setIsFirstSignupOpen] = useState(false);
   const handleIsFirstSignup = () => {
     const isFirstSignup = getFirstSignup();
     if (isFirstSignup) {
