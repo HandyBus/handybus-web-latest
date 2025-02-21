@@ -8,16 +8,14 @@ import { useGetUser } from '@/services/user-management.service';
 export type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 
 interface Props {
-  searchParams: { type: EditType };
+  searchParams: { type: EditType | undefined };
 }
 
 const Edit = ({ searchParams }: Props) => {
   const { data: user, isLoading } = useGetUser();
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      {user && searchParams?.type && (
-        <EditForm type={searchParams.type || 'profile'} user={user} />
-      )}
+      {user && <EditForm type={searchParams.type || 'profile'} user={user} />}
     </DeferredSuspense>
   );
 };
