@@ -4,6 +4,7 @@ import Loading from '@/components/loading/Loading';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { postLogin } from '@/services/auth.service';
+import { CustomError } from '@/services/custom-error';
 import { getUser } from '@/services/user-management.service';
 import {
   removeIsLoggedIn,
@@ -16,6 +17,7 @@ import {
 import { parseProgress } from '@/utils/parseProgress.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' };
@@ -54,8 +56,12 @@ const OAuth = ({ params, searchParams }: Props) => {
         router.replace(decodeURIComponent(redirectUrl));
       }
     } catch (e) {
-      console.error(e);
+      const error = e as CustomError;
+      console.error(error);
       router.replace('/login');
+      if (error.statusCode === 422) {
+        toast.error('전화번호가 등록된 계정으로만 회원가입이 가능합니다.');
+      }
     }
   };
 
