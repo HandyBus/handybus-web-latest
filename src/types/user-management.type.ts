@@ -225,6 +225,8 @@ export const UserSchema = z
       })
       .array(),
     status: ActiveStatusEnum,
+    isConnectedKakao: z.boolean(),
+    isConnectedNaver: z.boolean(),
   })
   .strict();
 export type User = z.infer<typeof UserSchema>;
