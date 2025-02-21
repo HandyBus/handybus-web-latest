@@ -2,37 +2,43 @@
 
 import { useRef, useState } from 'react';
 import type { SwiperRef } from 'swiper/react';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-const Banner = () => {
+const Banner = ({
+  dynamicBannerImages,
+}: {
+  dynamicBannerImages: AdminHandleBannerRequestBanners[];
+}) => {
   const swiper = useRef<SwiperRef>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const images = dynamicBannerImages ? dynamicBannerImages : bannerImages;
 
   return (
     <>
       <Swiper
         ref={swiper}
         pagination={true}
-        className="relative bg-primary-main"
+        className="relative bg-white"
         onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
       >
-        {bannerImages.map((image) => (
-          <SwiperSlide key={image.alt} className="aspect-[375/160]">
+        {images.map((image) => (
+          <SwiperSlide key={image.title} className="aspect-[375/160]">
             <BannerItem image={image} />
           </SwiperSlide>
         ))}
         <div className="pointer-events-none absolute bottom-[14px] left-[50%] z-50 flex -translate-x-[50%] flex-row gap-[6px]">
-          {bannerImages.map((image, index) => (
-            <span
-              key={image.alt}
-              className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-grey-700' : 'w-[6px] bg-grey-100'}`}
-              onClick={() => {
-                swiper.current?.swiper.slideTo(index);
-              }}
-            />
-          ))}
+          {images
+            .sort((a, b) => a.sequence - b.sequence)
+            .map((image, index) => (
+              <span
+                key={image.title}
+                className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-grey-700' : 'w-[6px] bg-grey-100'}`}
+                onClick={() => {
+                  swiper.current?.swiper.slideTo(index);
+                }}
+              />
+            ))}
         </div>
       </Swiper>
     </>
@@ -42,53 +48,30 @@ const Banner = () => {
 export default Banner;
 
 import Image from 'next/image';
-import Image1 from '../images/banner-1.png';
-import Image2 from '../images/banner-2.png';
-import Image3 from '../images/banner-3.png';
-import Image4 from '../images/banner-4.png';
-import Image5 from '../images/banner-5.png';
 import Link from 'next/link';
-import { StaticImageData } from 'next/image';
-interface BannerItem {
-  image: StaticImageData;
-  alt: string;
-  href: string;
-}
+import { AdminHandleBannerRequestBanners } from '@/types/banner.type';
 
-const bannerImages: BannerItem[] = [
+const bannerImages: AdminHandleBannerRequestBanners[] = [
   {
-    image: Image1,
-    alt: '지금 가입하면 10,000원 드려요',
-    href: '/mypage/coupons',
+    imageUrl: '/images/default-banner-1.png',
+    title: '집에서 콘서트장까지 함께, 핸디버스와 함께',
+    linkUrl: '/help/about',
+    sequence: 1,
   },
   {
-    image: Image2,
-    alt: '지드래곤 월드투어 수요조사 오픈',
-    href: '/demand/546562406302617625',
-  },
-  {
-    image: Image3,
-    alt: '집에서 콘서트장까지 함께, 핸디버스와 함께',
-    href: '/help/about',
-  },
-  {
-    image: Image4,
-    alt: '핸디버스는 어떻게 이용해요?',
-    href: '/help/how-to',
-  },
-  {
-    image: Image5,
-    alt: '팬들이 말하는 핸디버스에요',
-    href: '/help/reviews',
+    imageUrl: '/images/default-banner-2.png',
+    title: '핸디버스는 어떻게 이용해요?',
+    linkUrl: '/help/how-to',
+    sequence: 2,
   },
 ] as const;
 
-const BannerItem = ({ image }: { image: BannerItem }) => (
-  <Link key={image.alt} href={image.href}>
+const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
+  <Link key={image.title} href={image.linkUrl}>
     <div className="relative aspect-[375/161] w-[min(500px,100vw)]">
       <Image
-        src={image.image}
-        alt={image.alt}
+        src={image.imageUrl}
+        alt={image.title}
         fill
         className="object-cover"
         loading="eager"
