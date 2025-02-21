@@ -12,10 +12,13 @@ interface Props {
 }
 
 const Edit = ({ searchParams }: Props) => {
-  const { data: user, isLoading } = useGetUser();
+  const { data: user, isLoading: isUserLoading } = useGetUser();
+  const isLoading = isUserLoading || !searchParams?.type;
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      {user && <EditForm type={searchParams.type} user={user} />}
+      {user && searchParams?.type && (
+        <EditForm type={searchParams.type} user={user} />
+      )}
     </DeferredSuspense>
   );
 };
