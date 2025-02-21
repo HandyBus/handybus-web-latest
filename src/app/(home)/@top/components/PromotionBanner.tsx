@@ -4,15 +4,20 @@ import { useRef, useState } from 'react';
 import type { SwiperRef } from 'swiper/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import Image from 'next/image';
+import Link from 'next/link';
+import { AdminHandleBannerRequestBanners } from '@/types/banner.type';
 
-const Banner = ({
-  dynamicBannerImages,
-}: {
+interface Props {
   dynamicBannerImages: AdminHandleBannerRequestBanners[];
-}) => {
+}
+
+const PromotionBanner = ({ dynamicBannerImages }: Props) => {
   const swiper = useRef<SwiperRef>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const images = dynamicBannerImages ? dynamicBannerImages : bannerImages;
+  const images = dynamicBannerImages
+    ? dynamicBannerImages.toSorted((a, b) => a.sequence - b.sequence)
+    : bannerImages;
 
   return (
     <>
@@ -28,28 +33,22 @@ const Banner = ({
           </SwiperSlide>
         ))}
         <div className="pointer-events-none absolute bottom-[14px] left-[50%] z-50 flex -translate-x-[50%] flex-row gap-[6px]">
-          {images
-            .sort((a, b) => a.sequence - b.sequence)
-            .map((image, index) => (
-              <span
-                key={image.title}
-                className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-grey-700' : 'w-[6px] bg-grey-100'}`}
-                onClick={() => {
-                  swiper.current?.swiper.slideTo(index);
-                }}
-              />
-            ))}
+          {images.map((image, index) => (
+            <span
+              key={image.title}
+              className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-grey-700' : 'w-[6px] bg-grey-100'}`}
+              onClick={() => {
+                swiper.current?.swiper.slideTo(index);
+              }}
+            />
+          ))}
         </div>
       </Swiper>
     </>
   );
 };
 
-export default Banner;
-
-import Image from 'next/image';
-import Link from 'next/link';
-import { AdminHandleBannerRequestBanners } from '@/types/banner.type';
+export default PromotionBanner;
 
 const bannerImages: AdminHandleBannerRequestBanners[] = [
   {
