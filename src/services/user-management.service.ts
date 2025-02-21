@@ -18,6 +18,7 @@ import { ReviewSchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
 import { setIsOnboarding } from '@/utils/handleToken.util';
+import { parseProgress } from '@/utils/parseProgress.util';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });
@@ -142,21 +143,28 @@ export const useGetUserCoupons = (params?: {
     queryFn: () => getUserCoupons(params),
   });
 
-export const getUser = async (options?: { isOnboarding?: boolean }) => {
+export const getUser = async ({
+  checkIsOnboarded = true,
+}: {
+  checkIsOnboarded?: boolean;
+} = {}) => {
   const res = await authInstance.get('/v2/user-management/users/me', {
     shape: {
       user: UserSchema,
     },
   });
   // 온보딩 완료 유무 확인
-  if (!options?.isOnboarding && res.user.ageRange === '연령대 미지정') {
+  if (
+    checkIsOnboarded &&
+    parseProgress(res.user.progresses) !== 'ONBOARDING_COMPLETE'
+  ) {
     setIsOnboarding();
     throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
   }
   return res.user;
 };
 
-export const useGetUser = (options?: { isOnboarding?: boolean }) =>
+export const useGetUser = (options?: { checkIsOnboarded?: boolean }) =>
   useQuery({
     queryKey: ['user'],
     queryFn: () => getUser(options),

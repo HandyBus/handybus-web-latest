@@ -23,7 +23,7 @@ interface Props {
   onboardingProgress: OnboardingProgress;
   initialPhoneNumber?: string | null;
   initialGender?: Gender | null;
-  initialAgeRange?: AgeRange | null;
+  initialAgeRange?: Exclude<AgeRange, '연령대 미지정'> | null;
 }
 
 const OnboardingFunnel = ({
@@ -49,10 +49,7 @@ const OnboardingFunnel = ({
           : initialGender === 'FEMALE'
             ? '여성'
             : undefined,
-      age:
-        initialAgeRange === '연령대 미지정' || !initialAgeRange
-          ? undefined
-          : initialAgeRange,
+      age: initialAgeRange ?? undefined,
     },
     mode: 'onBlur',
   });
@@ -65,7 +62,7 @@ const OnboardingFunnel = ({
       setIsLoggedIn();
       setFirstSignup();
       toast.success('핸디버스에 오신 것을 환영합니다!');
-      router.push('/');
+      router.replace('/');
     },
     onError: (e) => {
       console.error(e);
