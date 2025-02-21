@@ -13,7 +13,7 @@ import { DEFAULT_PROFILE_IMAGE, MAX_FILE_SIZE } from '@/constants/common';
 
 interface Props {
   handleSubmit?: () => void;
-  initialImageSrc?: string;
+  initialImageSrc?: string | null;
 }
 
 const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
