@@ -1,5 +1,7 @@
 import { z } from 'zod';
-import { authInstance } from './config';
+import { authInstance, instance } from './config';
+import { useQuery } from '@tanstack/react-query';
+import { AdminHandleBannerRequestBannersSchema } from '@/types/banner.type';
 
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
@@ -51,3 +53,19 @@ export const getImageUrl = async ({
   await uploadImageToS3(urls.presignedUrl, file);
   return urls.cdnUrl;
 };
+
+export const getBanners = async () => {
+  const res = await instance.get('/v1/core/banners', {
+    next: { revalidate: 3600 },
+    shape: {
+      banners: AdminHandleBannerRequestBannersSchema.array(),
+    },
+  });
+  return res.banners;
+};
+
+export const useGetBanners = () =>
+  useQuery({
+    queryKey: ['banners'],
+    queryFn: getBanners,
+  });
