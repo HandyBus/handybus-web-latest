@@ -15,7 +15,7 @@ const Edit = ({ searchParams }: Props) => {
   const { data: user, isLoading } = useGetUser();
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      {user && <EditForm type={searchParams.type || 'profile'} user={user} />}
+      {user && <EditForm type={searchParams.type} user={user} />}
     </DeferredSuspense>
   );
 };

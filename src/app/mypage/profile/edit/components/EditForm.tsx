@@ -23,7 +23,7 @@ import { getImageUrl } from '@/services/core.service';
 import Header from '@/components/header/Header';
 
 interface Props {
-  type: EditType;
+  type: EditType | undefined;
   user: User;
 }
 
@@ -101,7 +101,7 @@ const EditForm = ({ type, user }: Props) => {
     putUser(body);
   };
 
-  const renderStep = () => {
+  const renderStep = (type: EditType) => {
     switch (type) {
       case 'profile':
         return <ProfileInfoContent initialImageSrc={user.profileImage} />;
@@ -116,6 +116,10 @@ const EditForm = ({ type, user }: Props) => {
     }
   };
 
+  if (!type) {
+    return null;
+  }
+
   return (
     <FormProvider {...methods}>
       <form
@@ -129,7 +133,7 @@ const EditForm = ({ type, user }: Props) => {
           buttonType="submit"
           buttonText="수정하기"
         >
-          {renderStep()}
+          {renderStep(type)}
         </OnboardingFrame>
       </form>
     </FormProvider>
