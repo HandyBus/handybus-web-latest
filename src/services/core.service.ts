@@ -56,7 +56,7 @@ export const getImageUrl = async ({
 
 export const getBanners = async () => {
   const res = await instance.get('/v1/core/banners', {
-    // next: { revalidate: 3600 },
+    next: { revalidate: 3600 },
     shape: {
       banners: AdminHandleBannerRequestBannersSchema.array(),
     },
