@@ -4,7 +4,7 @@ import AboutMerit from './components/AboutMerit';
 import AsboutStats from './components/AboutStats';
 import { Metadata } from 'next';
 import Header from '@/components/header/Header';
-
+import EndSection from './components/EndSection';
 export const metadata: Metadata = {
   title: '소개',
 };
@@ -18,6 +18,7 @@ const AboutPage = () => {
         <AboutService />
         <AboutMerit />
         <AsboutStats />
+        <EndSection />
       </main>
     </>
   );
