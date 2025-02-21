@@ -96,7 +96,7 @@ const getRegionAndOpenRoutes = async (): Promise<{
 }> => {
   let userRegionId: string | null;
   try {
-    userRegionId = (await getUser()).regionId;
+    userRegionId = (await getUser({ checkIsOnboarded: false })).regionId;
   } catch {
     userRegionId = null;
   }

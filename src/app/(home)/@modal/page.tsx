@@ -37,7 +37,7 @@ const Page = () => {
   }, []);
 
   // 첫 가입 쿠폰 모달
-  const [isFirstSignupOpen, setIsFirstSignupOpen] = useState(false);
+  const [isFirstSignupOpen, setIsFirstSignupOpen] = useState(true);
   const handleIsFirstSignup = () => {
     const isFirstSignup = getFirstSignup();
     if (isFirstSignup) {
@@ -78,11 +78,15 @@ const Page = () => {
         <div className="flex w-full flex-col items-center">
           <h3 className="pb-28 pt-12 text-20 font-700">쿠폰이 도착했어요!</h3>
           <FirstSignupCoupon />
-          <p className="pb-20 pt-24 text-center text-14 font-400 text-grey-700">
+          <p className="pb-16 pt-24 text-center text-14 font-400 text-grey-700">
             핸디버스에 오신 것을 환영해요!
             <br />
             웰컴기프트로 쿠폰함에 10,000원을
             <br />쏙 넣어드렸어요.
+            <br />
+            <span className="text-10 font-400 text-grey-400">
+              * 전화번호 당 하나씩만 받을 수 있어요.
+            </span>
           </p>
           <Button onClick={handleIsFirstSignupClose}>확인</Button>
           <button

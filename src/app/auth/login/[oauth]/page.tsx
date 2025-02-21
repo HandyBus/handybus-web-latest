@@ -38,7 +38,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
 
-      const user = await getUser();
+      const user = await getUser({ checkIsOnboarded: false });
       const onboardingProgress = parseProgress(user.progresses);
 
       const redirectUrl = localStorage.getItem('redirectUrl') || '/';
@@ -47,7 +47,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
         setIsOnboarding();
         removeIsLoggedIn();
-        router.push('/onboarding');
+        router.replace('/onboarding');
       } else {
         setIsLoggedIn();
         removeIsOnboarding();
@@ -55,7 +55,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       }
     } catch (e) {
       console.error(e);
-      router.push('/login');
+      router.replace('/login');
     }
   };
 
