@@ -7,7 +7,7 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 
 const Funnel = () => {
-  const { data: user, isLoading } = useGetUser();
+  const { data: user, isLoading } = useGetUser({ checkIsOnboarded: false });
   const onboardingProgress = user?.progresses
     ? parseProgress(user.progresses)
     : null;
@@ -19,6 +19,10 @@ const Funnel = () => {
           <OnboardingFunnel
             onboardingProgress={onboardingProgress}
             initialPhoneNumber={user?.phoneNumber}
+            initialGender={user?.gender}
+            initialAgeRange={
+              user?.ageRange === '연령대 미지정' ? null : user?.ageRange
+            }
           />
         )}
       </DeferredSuspense>

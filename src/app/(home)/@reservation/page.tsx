@@ -94,11 +94,11 @@ const getRegionAndOpenRoutes = async (): Promise<{
   routes: ShuttleRoute[];
   userRegion: Region | undefined;
 }> => {
-  let userRegionId: string | undefined;
+  let userRegionId: string | null;
   try {
-    userRegionId = (await getUser()).regionId;
+    userRegionId = (await getUser({ checkIsOnboarded: false })).regionId;
   } catch {
-    userRegionId = undefined;
+    userRegionId = null;
   }
   const userRegion = userRegionId ? ID_TO_REGION[userRegionId] : undefined;
 
@@ -115,7 +115,7 @@ const getRegionAndOpenRoutes = async (): Promise<{
 
   if (regionRoutes.length > 0) {
     return {
-      region: ID_TO_REGION[userRegionId],
+      region: userRegionId ? ID_TO_REGION[userRegionId] : undefined,
       promoted: false,
       routes: regionRoutes,
       userRegion,

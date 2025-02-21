@@ -5,7 +5,7 @@ import Provider from '@/components/Provider';
 import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
 import PortalContainer from '@/components/portal-container/PortalContainer';
-import { DESCRIPTION, OG_IMAGE_URL, URL } from '@/constants/metadata';
+import { DESCRIPTION, KEYWORDS, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 import Script from 'next/script';
 
@@ -15,8 +15,7 @@ export const metadata: Metadata = {
     default: TITLE,
   },
   description: DESCRIPTION,
-  keywords:
-    '핸디버스, 수요응답형 모빌리티, 콘서트 셔틀, 공연 셔틀, 행사 셔틀, 맞춤형 셔틀, 콘서트 이동, 공연 이동, 행사 이동',
+  keywords: KEYWORDS,
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,

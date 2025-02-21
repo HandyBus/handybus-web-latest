@@ -3,7 +3,7 @@
 import EditForm from './components/EditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUserStats } from '@/services/user-management.service';
+import { useGetUser } from '@/services/user-management.service';
 
 export type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 
@@ -12,10 +12,10 @@ interface Props {
 }
 
 const Edit = ({ searchParams }: Props) => {
-  const { data: userStats, isLoading } = useGetUserStats();
+  const { data: user, isLoading } = useGetUser();
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      <EditForm type={searchParams.type} userStats={userStats!} />
+      {user && <EditForm type={searchParams.type} user={user} />}
     </DeferredSuspense>
   );
 };

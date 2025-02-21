@@ -9,11 +9,12 @@ export const generateMetadata = async ({
   params: { id: string };
 }) => {
   const event = await getEvent(params.id);
-  const metadata = createMetadataWithOG(
-    `${event.eventName} 셔틀 예약`,
-    event.eventImageUrl ?? DEFAULT_EVENT_IMAGE,
-    event.eventName,
-  );
+  const metadata = createMetadataWithOG({
+    title: `${event.eventName} 셔틀 예약`,
+    imageUrl: event.eventImageUrl ?? DEFAULT_EVENT_IMAGE,
+    location: event.eventName,
+    keywords: `${event.eventName}, ${event.eventName} 셔틀 예약, ${event.eventName} 셔틀, ${event.eventName} 버스, ${event.eventName} 차대절, ${event.eventName} 버스 대절`,
+  });
   return metadata;
 };
 
