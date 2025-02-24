@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { dateString } from '@/utils/dateString.util';
 import { Event } from '@/types/shuttle-operation.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
+import dayjs from 'dayjs';
 
 interface Props {
   event: Event;
@@ -10,6 +11,11 @@ interface Props {
 
 const DemandCard = ({ event }: Props) => {
   const dates = event.dailyEvents.map((v) => v.date);
+
+  console.log(
+    dayjs(dates[0]).tz('Asia/Seoul').format('YYYY-MM-DD'),
+    dayjs(dates[0]).tz(),
+  );
 
   return (
     <Link href={`/demand/${event.eventId}`}>
