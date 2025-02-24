@@ -49,7 +49,8 @@ const PriceStats = ({
           셔틀 가격
           {isEarlybird && earlybirdDeadline && (
             <span className="absolute -top-4 translate-x-8 text-14 font-500 text-red-600">
-              {dateString(earlybirdDeadline, false)}까지 얼리버드 🔥
+              {dateString(earlybirdDeadline, { showYear: false })}까지 얼리버드
+              🔥
             </span>
           )}
         </h2>

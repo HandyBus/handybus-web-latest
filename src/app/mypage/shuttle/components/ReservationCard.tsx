@@ -16,7 +16,6 @@ import {
 import { Reservation } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
-import { dayjsTz } from '@/utils/dayjsTz.util';
 
 type ButtonColor = 'primary' | 'grey';
 
@@ -52,12 +51,7 @@ const ReservationCard = ({
     if (!date) {
       return '';
     }
-    return dayjsTz(date).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      weekday: 'short',
-    });
+    return dateString(date);
   })();
 
   const reservationStatusText =

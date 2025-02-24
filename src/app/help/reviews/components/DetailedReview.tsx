@@ -31,7 +31,7 @@ const DetailedReview = ({
           {showUser && (
             <UserTag
               nickname={review.userNickname}
-              profileImageUrl={review.userProfileImage}
+              profileImageUrl={review.userProfileImage ?? ''}
             />
           )}
           {showCreatedAt && (
