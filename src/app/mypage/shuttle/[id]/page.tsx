@@ -14,8 +14,8 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/user-management.service';
 import { useGetShuttleBus } from '@/services/shuttle-operation.service';
-import { dayjsTz } from '@/utils/dayjsTz.util';
 import Header from '@/components/header/Header';
+import dayjs from 'dayjs';
 
 interface Props {
   params: {
@@ -41,7 +41,7 @@ const ShuttleDetail = ({ params }: Props) => {
     (dailyEvent) =>
       dailyEvent.dailyEventId === data?.reservation?.shuttleRoute.dailyEventId,
   )?.date;
-  const parsedDate = date ? dayjsTz(date) : null;
+  const parsedDate = date ? dayjs(date).tz() : null;
 
   if (isSuccess && !data) {
     router.replace('/mypage/shuttle?type=current');
@@ -112,12 +112,12 @@ const ShuttleDetail = ({ params }: Props) => {
                 <RefundInfoSection
                   requestedDate={
                     data.payment.refundRequests?.[0].createdAt
-                      ? dayjsTz(data.payment.refundRequests[0].createdAt)
+                      ? dayjs(data.payment.refundRequests[0].createdAt).tz()
                       : null
                   }
                   resolvedDate={
                     data.payment.refundRequests?.[0].refundAt
-                      ? dayjsTz(data.payment.refundRequests[0].refundAt)
+                      ? dayjs(data.payment.refundRequests[0].refundAt).tz()
                       : null
                   }
                   price={data.payment.paymentAmount}
