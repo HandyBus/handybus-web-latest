@@ -16,9 +16,6 @@ const Profile = () => {
   const gender = user?.gender === 'MALE' ? '남성' : '여성';
   const region = user?.regionId ? ID_TO_REGION[user.regionId] : undefined;
   const phoneNumber = parsePhoneNumber(user?.phoneNumber ?? '');
-  // const favoriteArtists =
-  //   userStats?.favoriteArtists?.map((artist) => artist.artistName).join(', ') ??
-  //   '';
 
   return (
     <>
