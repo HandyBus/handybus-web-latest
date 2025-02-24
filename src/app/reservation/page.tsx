@@ -27,12 +27,12 @@ dayjs.tz.setDefault('Asia/Seoul');
 dayjs.locale('ko');
 
 export const metadata: Metadata = {
-  title: '지금 예약 모집 중인 셔틀',
+  title: '예약 가능한 셔틀',
   openGraph: {
-    title: '지금 예약 모집 중인 셔틀',
+    title: '예약 가능한 셔틀',
   },
   twitter: {
-    title: '지금 예약 모집 중인 셔틀',
+    title: '예약 가능한 셔틀',
   },
 };
 

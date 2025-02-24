@@ -1,10 +1,19 @@
 import Rating from '@/components/rating/Rating';
 import Article from '@/components/article/Article';
 import { getReviewsWithPagination } from '@/services/shuttle-operation.service';
+import { STATIC_REVIEWS } from '@/app/help/reviews/review';
+import { DEFAULT_SSG_REVALIDATE_TIME } from '@/constants/common';
+
+export const revalidate = DEFAULT_SSG_REVALIDATE_TIME;
 
 const PromotionReview = async () => {
-  const paginatedReviews = await getReviewsWithPagination();
-  const top3 = paginatedReviews.reviews
+  const paginatedReviews = await getReviewsWithPagination({
+    revalidate: DEFAULT_SSG_REVALIDATE_TIME,
+  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const top3 = (paginatedReviews.reviews as any[])
+    .concat(STATIC_REVIEWS)
+    .slice(0, 10)
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 3);
 
