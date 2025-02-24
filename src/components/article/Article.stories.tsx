@@ -13,7 +13,7 @@ type Story = StoryObj<typeof Article>;
 
 export const Primary: Story = {
   args: {
-    title: '수요 확인 중인 셔틀',
+    title: '수요조사 진행 중',
     showMore: '/',
   },
 };

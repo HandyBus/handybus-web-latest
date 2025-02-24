@@ -23,7 +23,7 @@ const RoutesSwiperView = ({ routes }: Props) => {
   return (
     // NOTE slidesOffsetBefore not works with SSR
     <>
-      <div className={'relative py-16 ' + (loading ? 'pl-16' : '')}>
+      <div className={'relative py-16' + (loading ? 'pl-16' : '')}>
         <Swiper
           ref={swiper}
           pagination={true}

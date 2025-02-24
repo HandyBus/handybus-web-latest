@@ -34,7 +34,7 @@ const DemandFilterContainer = ({ length, sort, children }: Props) => {
           <div className="h-8 w-full bg-grey-50" />
           <div className="px-16 py-12">
             <span className="text-14 font-400 text-grey-500">
-              수요 확인 중인 셔틀({length})
+              수요조사 진행 중({length})
             </span>
           </div>
         </div>

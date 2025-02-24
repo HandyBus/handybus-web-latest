@@ -47,7 +47,9 @@ const Page = () => {
       {isLoading ? (
         <div className="h-408" />
       ) : (
-        <RoutesSwiperView routes={sortedRoutes} />
+        <div className="h-408">
+          <RoutesSwiperView routes={sortedRoutes} />
+        </div>
       )}
     </Bar>
   );
@@ -65,7 +67,7 @@ interface BarProp {
 const Bar = ({ regionString, children, postfix, isLoading }: BarProp) => {
   return (
     <Article
-      richTitle={`지금 예약 모집 중인 셔틀`}
+      richTitle={`예약 가능한 셔틀`}
       showMore={postfix === '' ? '/reservation' : `/reservation?${postfix}`}
     >
       <div className="flex h-20 flex-row items-center gap-[2px] px-16 text-14 font-500 text-grey-600-sub">
