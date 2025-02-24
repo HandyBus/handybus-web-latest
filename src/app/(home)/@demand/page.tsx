@@ -6,7 +6,7 @@ import { toSorted } from '@/app/demand/utils/toSorted.util';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (
-  <Article richTitle="수요 확인 중인 행사" showMore="/demand">
+  <Article richTitle="수요조사 진행 중" showMore="/demand">
     <SubPage />
   </Article>
 );

@@ -18,12 +18,12 @@ dayjs.tz.setDefault('Asia/Seoul');
 dayjs.locale('ko');
 
 export const metadata: Metadata = {
-  title: '수요 확인 중인 셔틀',
+  title: '수요조사 진행 중',
   openGraph: {
-    title: '수요 확인 중인 셔틀',
+    title: '수요조사 진행 중',
   },
   twitter: {
-    title: '수요 확인 중인 셔틀',
+    title: '수요조사 진행 중',
   },
 };
 
