@@ -83,7 +83,7 @@ export const ShuttleDemandSchema = z
     shuttleDemandId: z.string(),
     userId: z.string(),
     userNickname: z.string(),
-    userProfileImage: z.string(),
+    userProfileImage: z.string().nullable(),
     event: EventSchema,
     eventId: z.string(),
     dailyEventId: z.string(),
@@ -124,7 +124,7 @@ export const ReservationSchema = z
     userId: z.string(),
     userNickname: z.string(),
     userPhoneNumber: z.string(),
-    userProfileImage: z.string(),
+    userProfileImage: z.string().nullable(),
     shuttleRouteId: z.string(),
     type: TripTypeEnum,
     toDestinationShuttleRouteHubId: z.string().nullable(),
@@ -182,6 +182,8 @@ export const PaymentSchema = z
     createdAt: z.string(),
     updatedAt: z.string(),
     refundRequests: RefundRequestSchema.array().nullable(),
+    isConfirmed: z.boolean(),
+    userId: z.string(),
   })
   .strict();
 export type Payment = z.infer<typeof PaymentSchema>;
@@ -191,7 +193,7 @@ export const IssuedCouponSchema = z
     issuedCouponId: z.string(),
     userId: z.string(),
     userNickname: z.string(),
-    userProfileImage: z.string(),
+    userProfileImage: z.string().nullable(),
     code: z.string(),
     name: z.string(),
     discountType: z.enum(['RATE', 'AMOUNT']),
