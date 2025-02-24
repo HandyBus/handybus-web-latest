@@ -272,6 +272,7 @@ export const useGetArtists = () =>
 // ----- Review -----
 
 interface GetReviewsWithPaginationOptions {
+  revalidate?: number;
   limit: number;
   page?: string;
   eventId?: string;
@@ -283,11 +284,13 @@ export const getReviewsWithPagination = async ({
   page,
   eventId,
   userId,
+  revalidate,
 }: Partial<GetReviewsWithPaginationOptions> = {}) => {
   const searchParams = toSearchParams({ limit, page, eventId, userId });
   const res = await instance.get(
     `/v2/shuttle-operation/reviews?${searchParams.toString()}`,
     {
+      next: { revalidate },
       shape: withPagination({ reviews: ReviewSchema.array() }),
     },
   );
