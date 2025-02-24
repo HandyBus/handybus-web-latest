@@ -1,6 +1,6 @@
 import { DemandSortType } from '@/constants/demand';
 import { Event } from '@/types/shuttle-operation.type';
-import { dayjsTz } from '@/utils/dayjsTz.util';
+import dayjs from 'dayjs';
 
 export const toSorted = (events: Event[], sort: DemandSortType) => {
   let newData: Event[];
@@ -13,8 +13,8 @@ export const toSorted = (events: Event[], sort: DemandSortType) => {
     case '행사 임박순':
       newData = events.toSorted(
         (a, b) =>
-          (dayjsTz(a.dailyEvents[0].date).getTime() || 0) -
-          (dayjsTz(b.dailyEvents[0].date).getTime() || 0),
+          (dayjs(a.dailyEvents[0].date).tz().valueOf() || 0) -
+          (dayjs(b.dailyEvents[0].date).tz().valueOf() || 0),
       );
       break;
   }

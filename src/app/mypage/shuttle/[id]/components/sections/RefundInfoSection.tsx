@@ -1,9 +1,10 @@
+import { Dayjs } from 'dayjs';
 import DetailRow from '../DetailRow';
 import Section from '../Section';
 
 interface Props {
-  requestedDate: Date | null | undefined;
-  resolvedDate: Date | null | undefined;
+  requestedDate: Dayjs | null | undefined;
+  resolvedDate: Dayjs | null | undefined;
   price: number;
   refundPrice: number;
 }
@@ -20,11 +21,11 @@ const RefundInfoSection = ({
         <div className="flex flex-col gap-8">
           <DetailRow
             title="신청 일시"
-            content={requestedDate?.toLocaleString() ?? ''}
+            content={requestedDate?.format('YYYY. MM. DD. HH:mm:ss') ?? ''}
           />
           <DetailRow
             title="완료 일시"
-            content={resolvedDate?.toLocaleString() ?? ''}
+            content={resolvedDate?.format('YYYY. MM. DD. HH:mm:ss') ?? ''}
           />
         </div>
       </Section>

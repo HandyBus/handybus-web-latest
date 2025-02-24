@@ -5,6 +5,7 @@ import Section from '../Section';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyStatus, Reservation } from '@/types/user-management.type';
 import { getBoardingTime } from '../../../utils/refund.util';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   reservation: Reservation;
@@ -34,11 +35,9 @@ const ReservationInfoSection = ({
         hub.shuttleRouteHubId === reservation.fromDestinationShuttleRouteHubId,
     )?.name;
   const boardingTime = getBoardingTime(reservation);
-  const parsedBoardingTime =
-    boardingTime?.toDate().toLocaleDateString('ko-KR', {
-      hour: '2-digit',
-      minute: '2-digit',
-    }) ?? '';
+  const parsedBoardingTime = boardingTime
+    ? dateString(boardingTime, { showTime: true })
+    : '';
 
   return (
     <>
