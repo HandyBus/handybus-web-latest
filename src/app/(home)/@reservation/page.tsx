@@ -47,7 +47,9 @@ const Page = () => {
       {isLoading ? (
         <div className="h-408" />
       ) : (
-        <RoutesSwiperView routes={sortedRoutes} />
+        <div className="h-408">
+          <RoutesSwiperView routes={sortedRoutes} />
+        </div>
       )}
     </Bar>
   );

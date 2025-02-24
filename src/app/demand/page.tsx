@@ -10,6 +10,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import Header from '@/components/header/Header';
 import { toSorted } from './utils/toSorted.util';
+import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -57,6 +58,15 @@ const Page = async ({ searchParams }: Props) => {
             ))
           )}
         </DemandFilterContainer>
+      </div>
+      <div className="w-full p-16">
+        <RedirectButton
+          description="찾고 있는 행사가 없나요?"
+          href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL ?? ''}
+          target="_blank"
+        >
+          원하는 셔틀 요청하기
+        </RedirectButton>
       </div>
     </>
   );
