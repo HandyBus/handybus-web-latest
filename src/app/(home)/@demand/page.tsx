@@ -29,7 +29,7 @@ const SubPage = async () => {
     return <Empty />;
   }
 
-  const sortedEvents = toSorted(events, '셔틀 일자 빠른 순');
+  const sortedEvents = toSorted(events, '행사 임박순');
   const slicedEvents = sortedEvents.slice(0, 5);
 
   return (

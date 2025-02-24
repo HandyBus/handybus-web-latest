@@ -41,8 +41,6 @@ const Page = async ({ searchParams }: Props) => {
 
   const sortedEvents = await toSorted(events, toDemandSort(sort));
 
-  console.log(sort);
-
   return (
     <>
       <Header />
