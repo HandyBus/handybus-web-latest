@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import type { SwiperRef } from 'swiper/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,6 +27,12 @@ const PromotionBanner = ({ dynamicBannerImages }: Props) => {
         pagination={true}
         className="relative bg-white"
         onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
+        autoplay={{
+          delay: 3000,
+          pauseOnMouseEnter: true, // 마우스 호버 시 일시정지
+        }}
+        loop={true}
+        modules={[Autoplay]}
       >
         {images.map((image) => (
           <SwiperSlide key={image.title} className="aspect-[375/160]">
