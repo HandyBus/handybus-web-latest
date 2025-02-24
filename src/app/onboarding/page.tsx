@@ -6,7 +6,7 @@ import { useGetUser } from '@/services/user-management.service';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 
-const Funnel = () => {
+const Page = () => {
   const { data: user, isLoading } = useGetUser({ checkIsOnboarded: false });
   const onboardingProgress = user?.progresses
     ? parseProgress(user.progresses)
@@ -16,18 +16,11 @@ const Funnel = () => {
     <div className="relative flex h-full w-full grow flex-col pt-36">
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {onboardingProgress && (
-          <OnboardingFunnel
-            onboardingProgress={onboardingProgress}
-            initialPhoneNumber={user?.phoneNumber}
-            initialGender={user?.gender}
-            initialAgeRange={
-              user?.ageRange === '연령대 미지정' ? null : user?.ageRange
-            }
-          />
+          <OnboardingFunnel onboardingProgress={onboardingProgress} />
         )}
       </DeferredSuspense>
     </div>
   );
 };
 
-export default Funnel;
+export default Page;

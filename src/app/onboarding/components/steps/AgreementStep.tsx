@@ -10,12 +10,11 @@ import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import OnboardingTitle from '@/components/onboarding-contents/OnboardingTitle';
 import { putUser } from '@/services/user-management.service';
 import { useMutation } from '@tanstack/react-query';
+import { removeIsOnboarding, setIsLoggedIn } from '@/utils/handleToken.util';
+import { setFirstSignup } from '@/utils/localStorage';
+import { useRouter } from 'next/navigation';
 
-interface Props {
-  handleNextStep: () => void;
-}
-
-const AgreementStep = ({ handleNextStep }: Props) => {
+const AgreementStep = () => {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isServiceChecked, setIsServiceChecked] = useState(false);
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false);
@@ -62,12 +61,25 @@ const AgreementStep = ({ handleNextStep }: Props) => {
     closeBottomSheet: closeMarketingBottomSheet,
   } = useBottomSheet();
 
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const putAgreement = usePutAgreement({
-    onSuccess: handleNextStep,
-    onError: () => toast.error('약관 동의에 실패했습니다.'),
+    onSuccess: () => {
+      removeIsOnboarding();
+      setIsLoggedIn();
+      setFirstSignup();
+      toast.success('핸디버스에 오신 것을 환영합니다!');
+      router.replace('/');
+    },
+    onError: (e) => {
+      console.error(e);
+      toast.error('회원가입에 실패하였습니다.');
+      setIsSubmitting(false);
+    },
   });
 
   const handleSubmitAgreement = () => {
+    setIsSubmitting(true);
     putAgreement.mutate({
       isAgreedMarketing: isMarketingChecked,
       isAgreedServiceTerms: isServiceChecked,
@@ -76,10 +88,16 @@ const AgreementStep = ({ handleNextStep }: Props) => {
   };
 
   const disabled =
-    !(isServiceChecked && isPersonalInfoChecked) || putAgreement.isPending;
+    !(isServiceChecked && isPersonalInfoChecked) ||
+    putAgreement.isPending ||
+    isSubmitting;
 
   return (
-    <OnboardingFrame handleSubmit={handleSubmitAgreement} disabled={disabled}>
+    <OnboardingFrame
+      handleSubmit={handleSubmitAgreement}
+      disabled={disabled}
+      buttonText="핸디버스 만나러 가기"
+    >
       <OnboardingTitle
         title={
           <>
@@ -192,7 +210,7 @@ const usePutAgreement = ({
   onError,
 }: {
   onSuccess?: () => void;
-  onError?: () => void;
+  onError?: (e: unknown) => void;
 }) => {
   return useMutation({
     mutationFn: (body: {

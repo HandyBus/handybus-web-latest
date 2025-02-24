@@ -44,16 +44,12 @@ const Profile = () => {
                 <ProfileItem title="전화번호" description={phoneNumber} />
                 <ProfileItem title="성별" description={gender} />
                 <ProfileItem title="연령대" description={user.ageRange} />
-                <ProfileItem
-                  title="거주 지역"
-                  description={`${region?.bigRegion ?? ''} ${region?.smallRegion ?? ''}`}
-                />
-                {/* {favoriteArtists && (
+                {user.regionId && (
                   <ProfileItem
-                    title="최애 아티스트"
-                    description={favoriteArtists}
+                    title="거주 지역"
+                    description={`${region?.bigRegion ?? ''} ${region?.smallRegion ?? ''}`}
                   />
-                )} */}
+                )}
               </ul>
             </section>
             <div className="h-16 w-full bg-grey-50" />
@@ -62,18 +58,9 @@ const Profile = () => {
               href="/mypage/profile/edit?type=profile"
             />
             <ListButton
-              title="성별 및 연령대 수정"
-              href="/mypage/profile/edit?type=personal-info"
-            />
-            <ListButton
               title="거주 지역 수정"
               href="/mypage/profile/edit?type=region"
             />
-            {/* <ListButton
-              title="최애 아티스트 수정"
-              href="/mypage/profile/edit?type=artist"
-              replace
-            /> */}
           </main>
         )}
       </DeferredSuspense>
