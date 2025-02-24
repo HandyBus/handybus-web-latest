@@ -54,9 +54,9 @@ export const getImageUrl = async ({
   return urls.cdnUrl;
 };
 
-export const getBanners = async () => {
+export const getBanners = async (options?: { revalidate?: number }) => {
   const res = await instance.get('/v1/core/banners', {
-    next: { revalidate: 3600 },
+    next: { revalidate: options?.revalidate },
     shape: {
       banners: AdminHandleBannerRequestBannersSchema.array(),
     },
@@ -64,8 +64,8 @@ export const getBanners = async () => {
   return res.banners;
 };
 
-export const useGetBanners = () =>
+export const useGetBanners = (options?: { revalidate?: number }) =>
   useQuery({
     queryKey: ['banners'],
-    queryFn: getBanners,
+    queryFn: () => getBanners(options),
   });
