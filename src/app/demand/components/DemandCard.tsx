@@ -15,6 +15,7 @@ const DemandCard = ({ event }: Props) => {
   console.log(
     dayjs(dates[0]).tz('Asia/Seoul').format('YYYY-MM-DD'),
     dayjs(dates[0]).tz(),
+    dateString(dates[0]),
   );
 
   return (
