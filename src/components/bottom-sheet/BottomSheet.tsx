@@ -5,8 +5,8 @@ import BottomSheetPortal from './BottomSheetPortal';
 
 interface Props {
   children: ReactNode;
-  title?: string;
-  description?: string;
+  title?: ReactNode;
+  description?: ReactNode;
 }
 
 const BottomSheet = forwardRef<HTMLDivElement, Props>(
