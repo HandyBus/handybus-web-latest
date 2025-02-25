@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { CustomError } from '@/services/custom-error';
@@ -32,12 +32,10 @@ const TossPayments = ({ handlePrevStep }: Props) => {
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [tossInitialized, setTossInitialized] = useState(false);
-  const [tossWidgets, setTossWidgets] = useState<TossPaymentsWidgets | null>(
-    null,
-  );
+  const tossWidgets = useRef<TossPaymentsWidgets | null>(null);
   const [loading, setLoading] = useState(false);
   const buttonDisabled =
-    !scriptLoaded || !tossInitialized || !tossWidgets || loading;
+    !scriptLoaded || !tossInitialized || !tossWidgets.current || loading;
 
   const loadUserId = useCallback(async () => {
     try {
@@ -74,7 +72,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
       const widgets = tossPayments.widgets({
         customerKey: customerKey,
       });
-      setTossWidgets(widgets);
+      tossWidgets.current = widgets;
 
       const finalPrice = getValues('finalPrice');
       if (!finalPrice) {
@@ -116,17 +114,17 @@ const TossPayments = ({ handlePrevStep }: Props) => {
   });
 
   useEffect(() => {
-    if (!tossWidgets) {
+    if (!tossWidgets.current) {
       return;
     }
-    tossWidgets.setAmount({
+    tossWidgets.current.setAmount({
       currency: 'KRW',
       value: finalPrice,
     });
   }, [finalPrice, tossWidgets]);
 
   const handlePayment = async () => {
-    if (!tossWidgets) {
+    if (!tossWidgets.current) {
       return;
     }
     try {
@@ -160,10 +158,15 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         pathname +
         `/payments?reservationId=${postReservationResponse.reservationId}`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
+      const orderName =
+        `[${formValues.shuttleRoute.name}] ${formValues.shuttleRoute.event.eventName}`.slice(
+          0,
+          99,
+        );
 
-      await tossWidgets.requestPayment({
+      await tossWidgets.current.requestPayment({
         orderId: readyPaymentResponse.paymentId,
-        orderName: formValues.shuttleRoute.name,
+        orderName,
         successUrl,
         failUrl,
       });
