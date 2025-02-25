@@ -26,10 +26,10 @@ const PromotionBanner = ({ dynamicBannerImages }: Props) => {
         ref={swiper}
         pagination={true}
         className="relative bg-white"
-        onSlideChange={(sw) => setActiveIndex(sw?.activeIndex)}
+        onSlideChange={(sw) => setActiveIndex(sw?.realIndex)}
         autoplay={{
           delay: 3000,
-          pauseOnMouseEnter: true, // 마우스 호버 시 일시정지
+          pauseOnMouseEnter: true,
         }}
         loop={true}
         modules={[Autoplay]}
