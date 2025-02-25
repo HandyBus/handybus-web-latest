@@ -59,11 +59,6 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
             value={sort}
           />
         </div>
-        <div className="px-16 pb-16 text-12 font-400 text-grey-500">
-          현재 셔틀이 있는 지역만 보여드려요.
-          <br />
-          거주 지역에 셔틀이 없는 경우 근처 지역으로 대신 보여드려요.
-        </div>
         <div className={safeArea}>
           <div className="h-8 w-full bg-grey-50" />
           <div className="px-16 py-12">

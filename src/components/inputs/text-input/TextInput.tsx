@@ -8,6 +8,7 @@ import {
   useController,
 } from 'react-hook-form';
 import DeleteIcon from 'public/icons/delete.svg';
+import { twMerge } from 'tailwind-merge';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children?: ReactNode;
@@ -15,6 +16,7 @@ interface Props<T extends FieldValues> extends UseControllerProps<T> {
   placeholder?: string;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   value?: string;
+  inputClassName?: string;
 }
 
 const TextInput = <T extends FieldValues>({
@@ -22,6 +24,7 @@ const TextInput = <T extends FieldValues>({
   setValue,
   placeholder,
   onKeyDown,
+  inputClassName,
   ...controls
 }: Props<T>) => {
   const { field, fieldState } = useController({
@@ -47,7 +50,11 @@ const TextInput = <T extends FieldValues>({
         placeholder={placeholder}
         onKeyDown={onKeyDown}
         {...field}
-        className={`h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-main'}`}
+        className={twMerge(
+          'h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300',
+          fieldState?.error ? 'border-red-500' : 'focus:border-primary-main',
+          inputClassName,
+        )}
       />
       {field.value && (
         <button
