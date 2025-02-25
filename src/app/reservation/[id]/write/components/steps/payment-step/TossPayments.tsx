@@ -160,10 +160,15 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         pathname +
         `/payments?reservationId=${postReservationResponse.reservationId}`;
       const failUrl = window.location.origin + pathname + `/payments/fail`;
+      const orderName =
+        `[${formValues.shuttleRoute.name}] ${formValues.shuttleRoute.event.eventName}`.slice(
+          0,
+          99,
+        );
 
       await tossWidgets.requestPayment({
         orderId: readyPaymentResponse.paymentId,
-        orderName: formValues.shuttleRoute.name,
+        orderName,
         successUrl,
         failUrl,
       });
