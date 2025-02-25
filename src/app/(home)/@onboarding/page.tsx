@@ -90,12 +90,18 @@ const Page = () => {
   });
 
   const onNicknameSubmit = handleSubmit((data: { nickname: string }) => {
+    if (!editMode) {
+      handleNextStep();
+      return;
+    }
     putNickname(data.nickname);
   });
   const isNicknameInputDisabled = isPending || isSuccess || !editMode;
 
   const handleCouponLinkClick = () => {
-    router.push('/mypage/coupon');
+    removeFirstSignup();
+    closeBottomSheet();
+    router.push('/mypage/coupons');
   };
   const handleCouponConfirmClick = () => {
     removeFirstSignup();
