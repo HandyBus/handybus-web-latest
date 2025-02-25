@@ -27,6 +27,14 @@ const Page = () => {
   usePreventRefresh();
   usePreventScroll();
 
+  const handlePolling = async (reservationId: string, error: CustomError) => {
+    try {
+      await setTimeoutWithRetry(() => polling(reservationId), 3, 3000);
+    } catch {
+      router.replace(pathname + `/fail?code=${error?.statusCode}`);
+    }
+  };
+
   const callPaymentConfirmation = async () => {
     try {
       const orderId = searchParams.get('orderId');
@@ -39,9 +47,8 @@ const Page = () => {
       const res = await postPayment(orderId, paymentKey);
       router.replace(pathname + `/${res.reservationId}`);
     } catch (e) {
-      await setTimeoutWithRetry(() => polling(reservationId ?? ''), 3, 3000);
       const error = e as CustomError;
-      router.replace(pathname + `/fail?code=${error?.statusCode}`);
+      await handlePolling(reservationId ?? '', error);
     }
   };
 
