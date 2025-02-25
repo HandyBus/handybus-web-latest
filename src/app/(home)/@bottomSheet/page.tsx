@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import FirstSignupCoupon from './icons/first-signup-coupon.svg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { getFirstSignup, removeFirstSignup } from '@/utils/localStorage';
 
 const ONBOARDING_STEP = ['닉네임 설정', '첫 가입 감사 쿠폰'] as const;
 const BOTTOM_SHEET_TEXT: Record<
@@ -42,11 +43,16 @@ const Page = () => {
   const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
     preventCloseOnDrag: true,
   });
-
+  const handleIsFirstSignup = () => {
+    const isFirstSignup = getFirstSignup();
+    if (isFirstSignup) {
+      setTimeout(() => {
+        openBottomSheet();
+      }, 0);
+    }
+  };
   useEffect(() => {
-    setTimeout(() => {
-      openBottomSheet();
-    }, 0);
+    handleIsFirstSignup();
   }, []);
 
   const { Funnel, Step, stepName, handleNextStep } = useFunnel(ONBOARDING_STEP);
@@ -92,6 +98,7 @@ const Page = () => {
     router.push('/mypage/coupon');
   };
   const handleCouponConfirmClick = () => {
+    removeFirstSignup();
     closeBottomSheet();
   };
 
@@ -138,6 +145,9 @@ const Page = () => {
           <div className="mx-auto py-16">
             <FirstSignupCoupon />
           </div>
+          <span className="text-10 font-400 text-grey-400">
+            * 전화번호 당 하나씩만 받을 수 있어요.
+          </span>
           <div className="flex gap-8 py-16">
             <Button variant="secondary" onClick={handleCouponLinkClick}>
               쿠폰함 가기
