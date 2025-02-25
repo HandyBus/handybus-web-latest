@@ -9,10 +9,12 @@ import {
 } from '@/components/onboarding-contents/formValidation.constants';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import useFunnel from '@/hooks/useFunnel';
-import { useGetUser } from '@/services/user-management.service';
+import { putUser, useGetUser } from '@/services/user-management.service';
 import { ReactNode, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FirstSignupCoupon from './icons/first-signup-coupon.svg';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 const ONBOARDING_STEP = ['닉네임 설정', '첫 가입 감사 쿠폰'] as const;
 const BOTTOM_SHEET_TEXT: Record<
@@ -26,17 +28,19 @@ const BOTTOM_SHEET_TEXT: Record<
   '첫 가입 감사 쿠폰': {
     title: '여러분을 위한 작은 선물이에요.',
     description: (
-      <>
+      <p className="leading-[22px]">
         웰컴기프트로 쿠폰함에 10,000원을 쏙 넣어드렸어요.
         <br />
         셔틀 예약 시 바로 적용할 수 있어요.
-      </>
+      </p>
     ),
   },
 };
 
 const Page = () => {
-  const { bottomSheetRef, openBottomSheet } = useBottomSheet();
+  const router = useRouter();
+  const { bottomSheetRef, openBottomSheet, closeBottomSheet } =
+    useBottomSheet();
 
   useEffect(() => {
     setTimeout(() => {
@@ -44,16 +48,11 @@ const Page = () => {
     }, 0);
   }, []);
 
-  const { Funnel, Step, stepName } = useFunnel(ONBOARDING_STEP);
-
-  const handleEnter = () => {
-    console.log('enter');
-  };
-
-  const { control, setValue } = useForm<{ nickname: string }>();
-
+  const { Funnel, Step, stepName, handleNextStep } = useFunnel(ONBOARDING_STEP);
+  const { control, setValue, handleSubmit, setError, clearErrors } = useForm<{
+    nickname: string;
+  }>();
   const { data: user } = useGetUser();
-
   useEffect(() => {
     if (user) {
       setValue('nickname', user.nickname || '');
@@ -61,6 +60,39 @@ const Page = () => {
   }, [user]);
 
   const [editMode, setEditMode] = useState(false);
+
+  const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);
+  const setNicknameDuplicateError = () => {
+    setError('nickname', {
+      type: 'duplicate',
+      message: ERROR_MESSAGES.nickname.duplicate,
+    });
+    setIsNicknameDuplicate(true);
+  };
+  const handleValidStep = () => {
+    clearErrors();
+    handleNextStep();
+  };
+  const {
+    mutate: putNickname,
+    isPending,
+    isSuccess,
+  } = usePutNickname({
+    onSuccess: handleValidStep,
+    onError: setNicknameDuplicateError,
+  });
+
+  const onNicknameSubmit = handleSubmit((data: { nickname: string }) => {
+    putNickname(data.nickname);
+  });
+  const isNicknameInputDisabled = isPending || isSuccess || !editMode;
+
+  const handleCouponLinkClick = () => {
+    router.push('/mypage/coupon');
+  };
+  const handleCouponConfirmClick = () => {
+    closeBottomSheet();
+  };
 
   return (
     <BottomSheet
@@ -70,13 +102,12 @@ const Page = () => {
     >
       <Funnel>
         <Step name="닉네임 설정">
-          <form>
-            <div className="relative py-8">
+          <form onSubmit={onNicknameSubmit}>
+            <div className={`relative ${isNicknameDuplicate ? 'h-76' : ''}`}>
               <TextInput
                 name="nickname"
                 control={control}
                 setValue={setValue}
-                onKeyDown={handleEnter}
                 placeholder="영문/한글/숫자 포함 2 ~ 12자"
                 inputClassName="pr-84 disabled:bg-white"
                 rules={{
@@ -86,12 +117,14 @@ const Page = () => {
                     message: ERROR_MESSAGES.nickname.pattern,
                   },
                 }}
-                disabled={!editMode}
+                disabled={isNicknameInputDisabled}
+                defaultValue={user?.nickname || ''}
               />
               {!editMode && (
                 <button
+                  type="button"
                   onClick={() => setEditMode(true)}
-                  className="absolute right-12 top-1/2 flex h-32 w-56 -translate-y-1/2 items-center justify-center rounded-[6px] bg-[#F3F3F3] text-12 font-600"
+                  className="absolute right-12 top-8 flex h-32 w-56 items-center justify-center rounded-[6px] bg-[#F3F3F3] text-12 font-600"
                 >
                   수정
                 </button>
@@ -105,8 +138,10 @@ const Page = () => {
             <FirstSignupCoupon />
           </div>
           <div className="flex gap-8 py-16">
-            <Button variant="secondary">쿠폰함 가기</Button>
-            <Button>확인했어요</Button>
+            <Button variant="secondary" onClick={handleCouponLinkClick}>
+              쿠폰함 가기
+            </Button>
+            <Button onClick={handleCouponConfirmClick}>확인했어요</Button>
           </div>
         </Step>
       </Funnel>
@@ -115,3 +150,21 @@ const Page = () => {
 };
 
 export default Page;
+
+const usePutNickname = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (nickname: string) => putUser({ nickname }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      onSuccess?.();
+    },
+    onError,
+  });
+};
