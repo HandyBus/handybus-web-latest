@@ -39,8 +39,9 @@ const BOTTOM_SHEET_TEXT: Record<
 
 const Page = () => {
   const router = useRouter();
-  const { bottomSheetRef, openBottomSheet, closeBottomSheet } =
-    useBottomSheet();
+  const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
+    preventCloseOnDrag: true,
+  });
 
   useEffect(() => {
     setTimeout(() => {
