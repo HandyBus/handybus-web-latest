@@ -81,12 +81,14 @@ const CancelBottomSheet = ({
           </Step>
           <Step name="취소 수수료">
             <section>
-              <CancellationAndRefundContent />
-              {isRefundable && refundFee !== null && (
-                <article className="mt-16 bg-grey-50 p-8 text-center text-14 font-700 text-red-500">
-                  취소 수수료: {refundFee.toLocaleString()}원
-                </article>
-              )}
+              <div className="max-h-[55dvh] overflow-y-auto">
+                <CancellationAndRefundContent />
+                {isRefundable && refundFee !== null && (
+                  <article className="mt-16 bg-grey-50 p-8 text-center text-14 font-700 text-red-500">
+                    취소 수수료: {refundFee.toLocaleString()}원
+                  </article>
+                )}
+              </div>
               <div className="flex gap-8 py-16">
                 <Button
                   type="button"
