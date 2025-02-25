@@ -74,9 +74,6 @@ const ProgressTypeEnum = z.enum([
 ]);
 export type ProgressType = z.infer<typeof ProgressTypeEnum>;
 
-// const AuthChannelTypeEnum = z.enum(['NONE', 'kakao', 'naver']);
-// export type AuthChannelType = z.infer<typeof AuthChannelTypeEnum>;
-
 //  ----- SCHEMA -----
 export const ShuttleDemandSchema = z
   .object({
@@ -216,7 +213,6 @@ export const UserSchema = z
     phoneNumber: z.string().nullable(),
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
-    // authChannelType: AuthChannelTypeEnum,
     lastLoginAt: z.string().nullable(),
     regionId: z.string().nullable(),
     favoriteArtists: ArtistSchema.array().nullable(),

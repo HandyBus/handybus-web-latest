@@ -8,6 +8,7 @@ interface Props {
   reservation: ReactNode;
   demand: ReactNode;
   modal: ReactNode;
+  onboarding: ReactNode;
 }
 
 import dayjs from 'dayjs';
@@ -25,6 +26,7 @@ export default function WithFooterLayout({
   reservation,
   demand,
   modal,
+  onboarding,
 }: Readonly<Props>) {
   return (
     <div className="flex h-full flex-grow flex-col">
@@ -35,6 +37,7 @@ export default function WithFooterLayout({
         {reservation}
         {bot}
         {modal}
+        {onboarding}
       </main>
       <Footer />
     </div>

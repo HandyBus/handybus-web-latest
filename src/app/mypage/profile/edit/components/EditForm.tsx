@@ -9,9 +9,7 @@ import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import ProfileInfoContent from '@/components/onboarding-contents/ProfileInfoContent';
-import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoContent';
 import ResidenceContent from '@/components/onboarding-contents/ResidenceContent';
-import ArtistContent from '@/components/onboarding-contents/ArtistContent';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
@@ -105,14 +103,8 @@ const EditForm = ({ type, user }: Props) => {
     switch (type) {
       case 'profile':
         return <ProfileInfoContent initialImageSrc={user.profileImage} />;
-      case 'personal-info':
-        return <PersonalInfoContent />;
       case 'region':
         return <ResidenceContent />;
-      case 'artist':
-        return (
-          <ArtistContent initialSelectedArtists={user.favoriteArtists ?? []} />
-        );
     }
   };
 

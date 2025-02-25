@@ -22,9 +22,14 @@ interface Metrics {
 interface Props {
   onOpen?: () => void;
   onClose?: () => void;
+  preventCloseOnDrag?: boolean;
 }
 
-const useBottomSheet = ({ onOpen, onClose }: Props = {}) => {
+const useBottomSheet = ({
+  onOpen,
+  onClose,
+  preventCloseOnDrag = false,
+}: Props = {}) => {
   const bottomSheetRef = useCallback((bottomSheetElement: HTMLDivElement) => {
     if (!bottomSheetElement || !bottomSheetElement?.parentElement) {
       return;
@@ -32,14 +37,16 @@ const useBottomSheet = ({ onOpen, onClose }: Props = {}) => {
     bottomSheet.current = bottomSheetElement;
     backdrop.current = bottomSheetElement.parentElement;
 
-    bottomSheetElement.parentElement.addEventListener(
-      'mouseup',
-      closeBottomSheet,
-    );
-    bottomSheetElement.parentElement.addEventListener(
-      'touchend',
-      closeBottomSheet,
-    );
+    if (!preventCloseOnDrag) {
+      bottomSheetElement.parentElement.addEventListener(
+        'mouseup',
+        closeBottomSheet,
+      );
+      bottomSheetElement.parentElement.addEventListener(
+        'touchend',
+        closeBottomSheet,
+      );
+    }
     bottomSheetElement.addEventListener('mouseup', (e) => e.stopPropagation());
     bottomSheetElement.addEventListener('touchend', (e) => e.stopPropagation());
 
@@ -245,7 +252,7 @@ const useBottomSheet = ({ onOpen, onClose }: Props = {}) => {
     bottomSheetElement.style.transitionDuration =
       metrics.current.transformDuration;
 
-    if (finalTransformValue < closingY) {
+    if (finalTransformValue < closingY || preventCloseOnDrag) {
       bottomSheetElement.style.transform = `translateY(0px)`;
     } else {
       closeBottomSheet();

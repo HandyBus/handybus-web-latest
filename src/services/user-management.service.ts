@@ -185,7 +185,7 @@ export const usePutUser = ({
   onSuccess?: () => void;
   onError?: (e: CustomError) => void;
   onSettled?: () => void;
-}) => {
+} = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: putUser,
