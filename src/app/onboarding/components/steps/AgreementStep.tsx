@@ -68,12 +68,11 @@ const AgreementStep = () => {
       removeIsOnboarding();
       setIsLoggedIn();
       setFirstSignup();
-      toast.success('핸디버스에 오신 것을 환영합니다!');
       router.replace('/');
     },
     onError: (e) => {
       console.error(e);
-      toast.error('회원가입에 실패하였습니다.');
+      toast.error('다시 시도해주세요.');
       setIsSubmitting(false);
     },
   });

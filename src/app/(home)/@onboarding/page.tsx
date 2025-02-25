@@ -66,8 +66,6 @@ const Page = () => {
     }
   }, [user]);
 
-  const [editMode, setEditMode] = useState(false);
-
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);
   const setNicknameDuplicateError = () => {
     setError('nickname', {
@@ -90,13 +88,9 @@ const Page = () => {
   });
 
   const onNicknameSubmit = handleSubmit((data: { nickname: string }) => {
-    if (!editMode) {
-      handleNextStep();
-      return;
-    }
     putNickname(data.nickname);
   });
-  const isNicknameInputDisabled = isPending || isSuccess || !editMode;
+  const isNicknameInputDisabled = isPending || isSuccess;
 
   const handleCouponLinkClick = () => {
     removeFirstSignup();
@@ -122,7 +116,7 @@ const Page = () => {
                 name="nickname"
                 control={control}
                 setValue={setValue}
-                placeholder="영문/한글/숫자 포함 2 ~ 12자"
+                placeholder={user?.nickname || '영문/한글/숫자 포함 2 ~ 12자'}
                 inputClassName="pr-84 disabled:bg-white"
                 rules={{
                   required: ERROR_MESSAGES.nickname.required,
@@ -134,15 +128,6 @@ const Page = () => {
                 disabled={isNicknameInputDisabled}
                 defaultValue={user?.nickname || ''}
               />
-              {!editMode && (
-                <button
-                  type="button"
-                  onClick={() => setEditMode(true)}
-                  className="absolute right-12 top-8 flex h-32 w-56 items-center justify-center rounded-[6px] bg-[#F3F3F3] text-12 font-600"
-                >
-                  수정
-                </button>
-              )}
             </div>
             <Button className="my-16">이걸로 할게요</Button>
           </form>
@@ -151,9 +136,9 @@ const Page = () => {
           <div className="mx-auto py-16">
             <FirstSignupCoupon />
           </div>
-          <span className="text-10 font-400 text-grey-400">
-            * 전화번호 당 하나씩만 받을 수 있어요.
-          </span>
+          <p className="text-center text-10 font-400 text-grey-400">
+            *연락처 당 1개의 쿠폰이 제공돼요.
+          </p>
           <div className="flex gap-8 py-16">
             <Button variant="secondary" onClick={handleCouponLinkClick}>
               쿠폰함 가기
