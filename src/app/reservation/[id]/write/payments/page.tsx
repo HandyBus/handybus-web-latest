@@ -31,7 +31,12 @@ const Page = () => {
     try {
       await setTimeoutWithRetry(() => polling(reservationId), 3, 3000);
     } catch {
-      router.replace(pathname + `/fail?code=${error?.statusCode}`);
+      if (error.statusCode === 402) {
+        router.replace(
+          pathname +
+            `/fail?code=${error?.statusCode}?userExceptionMessage=${error.message}`,
+        );
+      } else router.replace(pathname + `/fail?code=${error?.statusCode}`);
     }
   };
 
