@@ -4,21 +4,20 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AgreementStep from './steps/AgreementStep';
 import { setOnboardingStatusComplete } from '@/utils/handleToken.util';
-import { OnboardingProgress } from '@/utils/parseProgress.util';
 
 interface Props {
-  onboardingProgress: OnboardingProgress;
+  isOnboardingComplete: boolean;
 }
 
-const OnboardingFunnel = ({ onboardingProgress }: Props) => {
+const OnboardingFunnel = ({ isOnboardingComplete }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (onboardingProgress === 'ONBOARDING_COMPLETE') {
+    if (isOnboardingComplete) {
       setOnboardingStatusComplete();
       router.replace('/');
     }
-  }, [onboardingProgress]);
+  }, [isOnboardingComplete]);
 
   return <AgreementStep />;
 };

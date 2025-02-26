@@ -12,7 +12,6 @@ import {
   setOnboardingStatusIncomplete,
   setRefreshToken,
 } from '@/utils/handleToken.util';
-import { parseProgress } from '@/utils/parseProgress.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
@@ -39,12 +38,15 @@ const OAuth = ({ params, searchParams }: Props) => {
       setRefreshToken(tokens.refreshToken);
 
       const user = await getUser({ skipCheckOnboarding: true });
-      const onboardingProgress = parseProgress(user.progresses);
+      const isOnboardingComplete =
+        user?.progresses?.find(
+          (el) => el.progressType === 'ONBOARDING_COMPLETE',
+        )?.isCompleted || false;
 
       const redirectUrl = localStorage.getItem('redirectUrl') || '/';
       localStorage.removeItem('redirectUrl');
 
-      if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
+      if (!isOnboardingComplete) {
         setOnboardingStatusIncomplete();
         router.replace('/onboarding');
       } else {
