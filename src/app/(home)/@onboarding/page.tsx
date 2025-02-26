@@ -43,9 +43,11 @@ const Page = () => {
   const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
     preventCloseOnDrag: true,
   });
+  const [isFirstSignup, setIsFirstSignup] = useState(false);
   const handleIsFirstSignup = () => {
     const isFirstSignup = getFirstSignup();
     if (isFirstSignup) {
+      setIsFirstSignup(true);
       setTimeout(() => {
         openBottomSheet();
       }, 0);
@@ -59,7 +61,9 @@ const Page = () => {
   const { control, setValue, handleSubmit, setError, clearErrors } = useForm<{
     nickname: string;
   }>();
-  const { data: user } = useGetUser();
+  const { data: user } = useGetUser({
+    enabled: isFirstSignup,
+  });
   useEffect(() => {
     if (user) {
       setValue('nickname', user.nickname || '');

@@ -30,7 +30,9 @@ export const postLogin = async (
 
 // CSR 환경에서만 사용 가능
 export const postUpdateToken = async () => {
+  console.log('1');
   const refreshToken = getRefreshToken();
+  console.log('2: ', refreshToken);
   const res = await instance.post('/v1/auth/refresh', undefined, {
     cache: 'no-store',
     headers: {
@@ -38,5 +40,6 @@ export const postUpdateToken = async () => {
     },
     shape: TokenShape,
   });
+  console.log('3: ', res);
   return res;
 };

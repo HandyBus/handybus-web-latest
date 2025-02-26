@@ -1,9 +1,10 @@
 'use client';
 
 import revalidateUserPath from '@/app/actions/revalidateUserPath.action';
-import { ACCESS_TOKEN, IS_ONBOARDING, REFRESH_TOKEN } from '@/constants/token';
 
 // ACCESS TOKEN
+export const ACCESS_TOKEN = 'access-token';
+
 export const getAccessToken = () => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   return accessToken;
@@ -18,6 +19,8 @@ export const removeAccessToken = () => {
 };
 
 // REFRESH TOKEN
+export const REFRESH_TOKEN = 'refresh-token';
+
 export const getRefreshToken = () => {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
   return refreshToken;
@@ -31,31 +34,38 @@ export const removeRefreshToken = () => {
   localStorage.removeItem(REFRESH_TOKEN);
 };
 
-// IS ONBOARDING
-export const getIsOnboarding = () => {
-  const isOnboarding = Boolean(localStorage.getItem(IS_ONBOARDING));
-  return isOnboarding;
+// 온보딩 상태
+export const ONBOARDING_STATUS = 'onboarding-status';
+export const ONBOARDING_STATUS_VALUES = {
+  INCOMPLETE: '0',
+  COMPLETE: '1',
 };
 
-export const setIsOnboarding = () => {
-  localStorage.setItem(IS_ONBOARDING, '1');
+export const getOnboardingStatus = () => {
+  return localStorage.getItem(ONBOARDING_STATUS);
 };
-
-export const removeIsOnboarding = () => {
-  localStorage.removeItem(IS_ONBOARDING);
+export const setOnboardingStatusComplete = () => {
+  localStorage.setItem(ONBOARDING_STATUS, ONBOARDING_STATUS_VALUES.COMPLETE);
+};
+export const setOnboardingStatusIncomplete = () => {
+  localStorage.setItem(ONBOARDING_STATUS, ONBOARDING_STATUS_VALUES.INCOMPLETE);
+};
+export const removeOnboardingStatus = () => {
+  localStorage.removeItem(ONBOARDING_STATUS);
 };
 
 // 로그인 여부
 export const getIsLoggedIn = () => {
   const hasRefreshToken = Boolean(getRefreshToken());
-  const isOnboarding = getIsOnboarding();
-  const isLoggedIn = hasRefreshToken && !isOnboarding;
+  const onboardingStatus = getOnboardingStatus();
+  const isLoggedIn =
+    hasRefreshToken && onboardingStatus === ONBOARDING_STATUS_VALUES.COMPLETE;
   return isLoggedIn;
 };
 
 // 로그아웃 (모든 토큰 삭제 및 홈으로 이동)
 export const logout = async () => {
-  removeIsOnboarding();
+  removeOnboardingStatus();
   removeAccessToken();
   removeRefreshToken();
   await revalidateUserPath();

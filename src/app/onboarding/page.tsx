@@ -7,7 +7,7 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 
 const Page = () => {
-  const { data: user, isLoading } = useGetUser({ checkIsOnboarded: false });
+  const { data: user, isLoading } = useGetUser({ skipCheckOnboarding: true });
   const onboardingProgress = user?.progresses
     ? parseProgress(user.progresses)
     : null;

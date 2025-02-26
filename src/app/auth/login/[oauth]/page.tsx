@@ -7,9 +7,9 @@ import { postLogin } from '@/services/auth.service';
 import { CustomError } from '@/services/custom-error';
 import { getUser } from '@/services/user-management.service';
 import {
-  removeIsOnboarding,
   setAccessToken,
-  setIsOnboarding,
+  setOnboardingStatusComplete,
+  setOnboardingStatusIncomplete,
   setRefreshToken,
 } from '@/utils/handleToken.util';
 import { parseProgress } from '@/utils/parseProgress.util';
@@ -38,17 +38,17 @@ const OAuth = ({ params, searchParams }: Props) => {
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
 
-      const user = await getUser({ checkIsOnboarded: false });
+      const user = await getUser({ skipCheckOnboarding: true });
       const onboardingProgress = parseProgress(user.progresses);
 
       const redirectUrl = localStorage.getItem('redirectUrl') || '/';
       localStorage.removeItem('redirectUrl');
 
       if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
-        setIsOnboarding();
+        setOnboardingStatusIncomplete();
         router.replace('/onboarding');
       } else {
-        removeIsOnboarding();
+        setOnboardingStatusComplete();
         router.replace(decodeURIComponent(redirectUrl));
       }
     } catch (e) {

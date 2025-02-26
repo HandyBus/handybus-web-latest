@@ -17,7 +17,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReviewSchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
-import { parseProgress } from '@/utils/parseProgress.util';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });
@@ -142,42 +141,40 @@ export const useGetUserCoupons = (params?: {
     queryFn: () => getUserCoupons(params),
   });
 
-const ONBOARDING_INCOMPLETE_STATUS_CODE = 477;
-
 export const getUser = async ({
-  checkIsOnboarded = true,
-}: {
-  checkIsOnboarded?: boolean;
-} = {}) => {
+  skipCheckOnboarding = false,
+}: { skipCheckOnboarding?: boolean } = {}) => {
   const res = await authInstance.get('/v2/user-management/users/me', {
     shape: {
       user: UserSchema,
     },
+    skipCheckOnboarding,
   });
-  // 온보딩 완료 유무 확인
-  if (
-    checkIsOnboarded &&
-    parseProgress(res.user.progresses) !== 'ONBOARDING_COMPLETE'
-  ) {
-    throw new CustomError(
-      ONBOARDING_INCOMPLETE_STATUS_CODE,
-      '온보딩이 완료되지 않았습니다.',
-    );
-  }
   return res.user;
 };
 
-export const useGetUser = (options?: { checkIsOnboarded?: boolean }) => {
+export const useGetUser = ({
+  skipCheckOnboarding = false,
+  enabled = true,
+}: {
+  skipCheckOnboarding?: boolean;
+  enabled?: boolean;
+} = {}) => {
   return useQuery({
     queryKey: ['user'],
-    queryFn: () => getUser(options),
+    queryFn: () => getUser({ skipCheckOnboarding }),
+    enabled,
   });
 };
 
-export const putUser = async (body: PutUserBody) => {
+export const putUser = async (
+  body: PutUserBody,
+  options?: { skipCheckOnboarding?: boolean },
+) => {
   return await authInstance.put(
     '/v1/user-management/users/me',
     silentParse(PutUserBodySchema, body),
+    options,
   );
 };
 
@@ -185,14 +182,16 @@ export const usePutUser = ({
   onSuccess,
   onError,
   onSettled,
+  options,
 }: {
   onSuccess?: () => void;
   onError?: (e: CustomError) => void;
   onSettled?: () => void;
+  options?: { skipCheckOnboarding?: boolean };
 } = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: putUser,
+    mutationFn: (body: PutUserBody) => putUser(body, options),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
       onSuccess?.();

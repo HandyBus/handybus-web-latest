@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AgreementStep from './steps/AgreementStep';
-import { removeIsOnboarding } from '@/utils/handleToken.util';
+import { setOnboardingStatusComplete } from '@/utils/handleToken.util';
 import { OnboardingProgress } from '@/utils/parseProgress.util';
 
 interface Props {
@@ -15,8 +15,8 @@ const OnboardingFunnel = ({ onboardingProgress }: Props) => {
 
   useEffect(() => {
     if (onboardingProgress === 'ONBOARDING_COMPLETE') {
-      removeIsOnboarding();
-      router.push('/');
+      setOnboardingStatusComplete();
+      router.replace('/');
     }
   }, [onboardingProgress]);
 
