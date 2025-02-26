@@ -7,14 +7,11 @@ import { postLogin } from '@/services/auth.service';
 import { CustomError } from '@/services/custom-error';
 import { getUser } from '@/services/user-management.service';
 import {
-  removeIsLoggedIn,
-  removeIsOnboarding,
   setAccessToken,
-  setIsLoggedIn,
-  setIsOnboarding,
+  setOnboardingStatusComplete,
+  setOnboardingStatusIncomplete,
   setRefreshToken,
 } from '@/utils/handleToken.util';
-import { parseProgress } from '@/utils/parseProgress.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
@@ -40,19 +37,20 @@ const OAuth = ({ params, searchParams }: Props) => {
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
 
-      const user = await getUser({ checkIsOnboarded: false });
-      const onboardingProgress = parseProgress(user.progresses);
+      const user = await getUser({ skipCheckOnboarding: true });
+      const isOnboardingComplete =
+        user?.progresses?.find(
+          (el) => el.progressType === 'ONBOARDING_COMPLETE',
+        )?.isCompleted || false;
 
       const redirectUrl = localStorage.getItem('redirectUrl') || '/';
       localStorage.removeItem('redirectUrl');
 
-      if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
-        setIsOnboarding();
-        removeIsLoggedIn();
+      if (!isOnboardingComplete) {
+        setOnboardingStatusIncomplete();
         router.replace('/onboarding');
       } else {
-        setIsLoggedIn();
-        removeIsOnboarding();
+        setOnboardingStatusComplete();
         router.replace(decodeURIComponent(redirectUrl));
       }
     } catch (e) {

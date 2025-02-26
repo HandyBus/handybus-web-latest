@@ -1,18 +1,10 @@
 'use client';
 
 import revalidateUserPath from '@/app/actions/revalidateUserPath.action';
-import {
-  ACCESS_TOKEN,
-  IS_LOGGED_IN,
-  IS_ONBOARDING,
-  COOKIE_OPTIONS,
-  REFRESH_TOKEN,
-} from '@/constants/token';
-import { Cookies } from 'react-cookie';
-
-const cookieStore = new Cookies(COOKIE_OPTIONS);
 
 // ACCESS TOKEN
+export const ACCESS_TOKEN = 'access-token';
+
 export const getAccessToken = () => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
   return accessToken;
@@ -27,6 +19,8 @@ export const removeAccessToken = () => {
 };
 
 // REFRESH TOKEN
+export const REFRESH_TOKEN = 'refresh-token';
+
 export const getRefreshToken = () => {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
   return refreshToken;
@@ -40,38 +34,38 @@ export const removeRefreshToken = () => {
   localStorage.removeItem(REFRESH_TOKEN);
 };
 
-// IS ONBOARDING
-export const getIsOnboarding = () => {
-  const isOnboarding = Boolean(cookieStore.get(IS_ONBOARDING));
-  return isOnboarding;
+// 온보딩 상태
+export const ONBOARDING_STATUS = 'onboarding-status';
+export const ONBOARDING_STATUS_VALUES = {
+  INCOMPLETE: 'b6e607dfb51b1',
+  COMPLETE: '688223f6adad3',
 };
 
-export const setIsOnboarding = () => {
-  cookieStore.set(IS_ONBOARDING, '1', COOKIE_OPTIONS);
+export const getOnboardingStatus = () => {
+  return localStorage.getItem(ONBOARDING_STATUS);
+};
+export const setOnboardingStatusComplete = () => {
+  localStorage.setItem(ONBOARDING_STATUS, ONBOARDING_STATUS_VALUES.COMPLETE);
+};
+export const setOnboardingStatusIncomplete = () => {
+  localStorage.setItem(ONBOARDING_STATUS, ONBOARDING_STATUS_VALUES.INCOMPLETE);
+};
+export const removeOnboardingStatus = () => {
+  localStorage.removeItem(ONBOARDING_STATUS);
 };
 
-export const removeIsOnboarding = () => {
-  cookieStore.remove(IS_ONBOARDING, COOKIE_OPTIONS);
-};
-
-// IS LOGGED IN
+// 로그인 여부
 export const getIsLoggedIn = () => {
-  const isLoggedIn = Boolean(cookieStore.get(IS_LOGGED_IN));
+  const hasRefreshToken = Boolean(getRefreshToken());
+  const onboardingStatus = getOnboardingStatus();
+  const isLoggedIn =
+    hasRefreshToken && onboardingStatus === ONBOARDING_STATUS_VALUES.COMPLETE;
   return isLoggedIn;
-};
-
-export const setIsLoggedIn = () => {
-  cookieStore.set(IS_LOGGED_IN, '1', COOKIE_OPTIONS);
-};
-
-export const removeIsLoggedIn = () => {
-  cookieStore.remove(IS_LOGGED_IN, COOKIE_OPTIONS);
 };
 
 // 로그아웃 (모든 토큰 삭제 및 홈으로 이동)
 export const logout = async () => {
-  removeIsLoggedIn();
-  removeIsOnboarding();
+  removeOnboardingStatus();
   removeAccessToken();
   removeRefreshToken();
   await revalidateUserPath();
