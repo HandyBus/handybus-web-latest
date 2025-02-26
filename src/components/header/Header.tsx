@@ -9,7 +9,8 @@ import { useEffect, useState } from 'react';
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   useEffect(() => {
-    setIsLoggedIn(getIsLoggedIn());
+    const isLoggedIn = getIsLoggedIn();
+    setIsLoggedIn(isLoggedIn);
   }, []);
 
   return (
@@ -25,7 +26,7 @@ const Header = () => {
           </Link>
         ) : (
           <Link
-            href="/mypage"
+            href="/login?redirectUrl=/mypage"
             className="flex h-full w-72 items-center justify-center rounded-[6px] bg-black text-14 font-400 text-white"
           >
             시작하기

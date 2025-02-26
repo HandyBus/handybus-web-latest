@@ -7,10 +7,8 @@ import { postLogin } from '@/services/auth.service';
 import { CustomError } from '@/services/custom-error';
 import { getUser } from '@/services/user-management.service';
 import {
-  removeIsLoggedIn,
   removeIsOnboarding,
   setAccessToken,
-  setIsLoggedIn,
   setIsOnboarding,
   setRefreshToken,
 } from '@/utils/handleToken.util';
@@ -48,10 +46,8 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       if (onboardingProgress !== 'ONBOARDING_COMPLETE') {
         setIsOnboarding();
-        removeIsLoggedIn();
         router.replace('/onboarding');
       } else {
-        setIsLoggedIn();
         removeIsOnboarding();
         router.replace(decodeURIComponent(redirectUrl));
       }

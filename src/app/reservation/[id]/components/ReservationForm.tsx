@@ -14,6 +14,7 @@ import {
   ShuttleRoute,
 } from '@/types/shuttle-operation.type';
 import dayjs from 'dayjs';
+import useAuthRouter from '@/hooks/useAuthRouter';
 
 interface Props {
   event: Event;
@@ -52,6 +53,7 @@ const ReservationForm = ({
   }, [routes]);
 
   const router = useRouter();
+  const authRouter = useAuthRouter();
   const searchParams = useSearchParams();
   useEffect(() => {
     if (!selectedDailyEvent || !selectedRoute) {
@@ -78,7 +80,7 @@ const ReservationForm = ({
       dailyEventId: selectedDailyEvent?.dailyEventId?.toString() ?? '',
       shuttleRouteId: selectedRoute?.shuttleRouteId?.toString() ?? '',
     });
-    router.push(`/reservation/${event.eventId}/write?${query}`);
+    authRouter.push(`/reservation/${event.eventId}/write?${query}`);
   };
 
   const sortedToDestinationHubs = useMemo(

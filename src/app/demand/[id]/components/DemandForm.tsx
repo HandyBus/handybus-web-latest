@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
 import { DailyEvent, Event } from '@/types/shuttle-operation.type';
 import dayjs from 'dayjs';
+import useAuthRouter from '@/hooks/useAuthRouter';
 
 export const DEMAND_FORM_ID = 'demand-form';
 
@@ -24,6 +25,7 @@ interface Props {
 
 const DemandForm = ({ event }: Props) => {
   const router = useRouter();
+  const authRouter = useAuthRouter();
   const searchParams = useSearchParams();
   const initialBigRegion = searchParams.get('bigRegion') as
     | BigRegionsType
@@ -66,7 +68,7 @@ const DemandForm = ({ event }: Props) => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    router.push(
+    authRouter.push(
       `/demand/${event.eventId}/write?dailyEventId=${selectedDailyEvent?.dailyEventId}&regionId=${regionId}`,
     );
   };

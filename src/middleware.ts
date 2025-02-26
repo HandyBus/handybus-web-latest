@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 
 // 로그인이 필요한 페이지들만 미들웨어 처리
 export const middleware = async (req: NextRequest) => {
+  return NextResponse.next();
   const cookieStore = cookies();
   const isLoggedIn = cookieStore.get(IS_LOGGED_IN)?.value;
   const isOnboarding = cookieStore.get(IS_ONBOARDING)?.value;

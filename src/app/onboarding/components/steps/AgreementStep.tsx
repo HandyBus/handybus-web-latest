@@ -10,7 +10,7 @@ import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import OnboardingTitle from '@/components/onboarding-contents/OnboardingTitle';
 import { putUser } from '@/services/user-management.service';
 import { useMutation } from '@tanstack/react-query';
-import { removeIsOnboarding, setIsLoggedIn } from '@/utils/handleToken.util';
+import { removeIsOnboarding } from '@/utils/handleToken.util';
 import { setFirstSignup } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
 
@@ -66,7 +66,6 @@ const AgreementStep = () => {
   const putAgreement = usePutAgreement({
     onSuccess: () => {
       removeIsOnboarding();
-      setIsLoggedIn();
       setFirstSignup();
       router.replace('/');
     },

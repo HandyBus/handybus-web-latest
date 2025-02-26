@@ -17,7 +17,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ReviewSchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
-import { setIsOnboarding } from '@/utils/handleToken.util';
 import { parseProgress } from '@/utils/parseProgress.util';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
@@ -143,6 +142,8 @@ export const useGetUserCoupons = (params?: {
     queryFn: () => getUserCoupons(params),
   });
 
+const ONBOARDING_INCOMPLETE_STATUS_CODE = 477;
+
 export const getUser = async ({
   checkIsOnboarded = true,
 }: {
@@ -158,17 +159,20 @@ export const getUser = async ({
     checkIsOnboarded &&
     parseProgress(res.user.progresses) !== 'ONBOARDING_COMPLETE'
   ) {
-    setIsOnboarding();
-    throw new CustomError(400, '온보딩이 완료되지 않았습니다.');
+    throw new CustomError(
+      ONBOARDING_INCOMPLETE_STATUS_CODE,
+      '온보딩이 완료되지 않았습니다.',
+    );
   }
   return res.user;
 };
 
-export const useGetUser = (options?: { checkIsOnboarded?: boolean }) =>
-  useQuery({
+export const useGetUser = (options?: { checkIsOnboarded?: boolean }) => {
+  return useQuery({
     queryKey: ['user'],
     queryFn: () => getUser(options),
   });
+};
 
 export const putUser = async (body: PutUserBody) => {
   return await authInstance.put(
