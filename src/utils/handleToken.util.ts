@@ -37,8 +37,8 @@ export const removeRefreshToken = () => {
 // 온보딩 상태
 export const ONBOARDING_STATUS = 'onboarding-status';
 export const ONBOARDING_STATUS_VALUES = {
-  INCOMPLETE: '0',
-  COMPLETE: '1',
+  INCOMPLETE: 'b6e607dfb51b1',
+  COMPLETE: '688223f6adad3',
 };
 
 export const getOnboardingStatus = () => {
