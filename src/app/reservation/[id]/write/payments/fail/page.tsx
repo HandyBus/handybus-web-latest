@@ -5,11 +5,34 @@ import Link from 'next/link';
 interface Props {
   searchParams: {
     code?: string;
+    userExceptionMessage?: string;
   };
 }
-
 const Page = ({ searchParams }: Props) => {
   const code = Number(searchParams.code);
+
+  if (code === 402) {
+    const userExceptionMessage =
+      searchParams.userExceptionMessage || '알 수 없는 오류입니다.';
+    return (
+      <main className="flex grow flex-col items-center justify-center gap-24">
+        <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
+        <section>
+          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
+            결제 중 문제가 생겼습니다.
+          </h1>
+          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
+            {userExceptionMessage}
+          </p>
+        </section>
+        <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">
+          <Link href="/">
+            <Button>홈으로 돌아가기</Button>
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   if (code === 409) {
     return (
