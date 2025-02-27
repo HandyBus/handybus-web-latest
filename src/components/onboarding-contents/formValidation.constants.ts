@@ -27,4 +27,7 @@ export const FORM_DEFAULT_VALUES = {
   bigRegion: undefined,
   smallRegion: undefined,
   favoriteArtists: [],
+  isAgreedServiceTerms: false,
+  isAgreedPersonalInfo: false,
+  isAgreedMarketing: false,
 };
