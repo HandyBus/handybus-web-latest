@@ -65,15 +65,6 @@ export const AgeRangeEnum = z.enum([
 ]);
 export type AgeRange = z.infer<typeof AgeRangeEnum>;
 
-const ProgressTypeEnum = z.enum([
-  'MARKETING_CONSENT',
-  'SERVICE_TERMS_AGREEMENT',
-  'PERSONAL_INFO_CONSENT',
-  'ONBOARDING_COMPLETE',
-  'PAYMENT_COMPLETE',
-]);
-export type ProgressType = z.infer<typeof ProgressTypeEnum>;
-
 //  ----- SCHEMA -----
 export const ShuttleDemandSchema = z
   .object({
@@ -216,15 +207,13 @@ export const UserSchema = z
     lastLoginAt: z.string().nullable(),
     regionId: z.string().nullable(),
     favoriteArtists: ArtistSchema.array().nullable(),
-    progresses: z
-      .object({
-        progressType: ProgressTypeEnum,
-        isCompleted: z.boolean(),
-      })
-      .array(),
     status: ActiveStatusEnum,
     isConnectedKakao: z.boolean(),
     isConnectedNaver: z.boolean(),
+    onboardingComplete: z.boolean(),
+    marketingConsent: z.boolean(),
+    serviceTermsAgreement: z.boolean(),
+    personalInfoConsent: z.boolean(),
   })
   .strict();
 export type User = z.infer<typeof UserSchema>;

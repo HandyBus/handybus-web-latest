@@ -12,4 +12,7 @@ export interface OnboardingFormValues {
   smallRegion: string | undefined;
   regionId: string | null;
   favoriteArtists: Artist[];
+  isAgreedMarketing: boolean;
+  isAgreedServiceTerms: boolean;
+  isAgreedPersonalInfo: boolean;
 }

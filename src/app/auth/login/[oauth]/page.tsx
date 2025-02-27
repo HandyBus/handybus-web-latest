@@ -38,10 +38,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       setRefreshToken(tokens.refreshToken);
 
       const user = await getUser({ skipCheckOnboarding: true });
-      const isOnboardingComplete =
-        user?.progresses?.find(
-          (el) => el.progressType === 'ONBOARDING_COMPLETE',
-        )?.isCompleted || false;
+      const isOnboardingComplete = user?.onboardingComplete || false;
 
       const redirectUrl = localStorage.getItem('redirectUrl') || '/';
       localStorage.removeItem('redirectUrl');

@@ -6,26 +6,33 @@ import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoCo
 import { useFormContext } from 'react-hook-form';
 
 interface Props {
-  handleNextStep: () => void;
   handlePrevStep: () => void;
+  triggerSubmitForm: () => void;
+  disabled: boolean;
+  isAgreementComplete: boolean;
 }
 
-const PersonalInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
+const PersonalInfoStep = ({
+  handlePrevStep,
+  triggerSubmitForm,
+  disabled,
+  isAgreementComplete,
+}: Props) => {
   const { trigger } = useFormContext<OnboardingFormValues>();
 
   const handleCheckStep = async () => {
     const isStepValid = await trigger(['gender', 'age']);
     if (isStepValid) {
-      handleNextStep();
+      triggerSubmitForm();
     }
   };
 
   return (
     <OnboardingFrame
       handleSubmit={handleCheckStep}
-      handlePrevStep={handlePrevStep}
-      indicatorMax={4}
-      indicatorValue={3}
+      handlePrevStep={isAgreementComplete ? handlePrevStep : undefined}
+      buttonText="핸디버스 만나러 가기"
+      disabled={disabled}
     >
       <PersonalInfoContent />
     </OnboardingFrame>
