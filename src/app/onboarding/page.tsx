@@ -8,17 +8,10 @@ import Loading from '@/components/loading/Loading';
 const Page = () => {
   const { data: user, isLoading } = useGetUser({ skipCheckOnboarding: true });
 
-  const isOnboardingComplete =
-    user?.progresses?.find((el) => el.progressType === 'ONBOARDING_COMPLETE')
-      ?.isCompleted || false;
+  const isOnboardingComplete = user?.onboardingComplete || false;
 
   const isAgreementComplete =
-    (user?.progresses?.find((el) => el.progressType === 'PERSONAL_INFO_CONSENT')
-      ?.isCompleted &&
-      user?.progresses?.find(
-        (el) => el.progressType === 'SERVICE_TERMS_AGREEMENT',
-      )?.isCompleted) ||
-    false;
+    (user?.personalInfoConsent && user?.serviceTermsAgreement) || false;
 
   const initialGender =
     user?.gender && user?.gender !== 'NONE' ? user.gender : null;
