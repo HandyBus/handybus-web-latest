@@ -33,15 +33,9 @@ const Page = async ({ params, searchParams }: Props) => {
         <EventImage image={shuttleRoute.event.eventImageUrl} />
         <RouteInfo route={shuttleRoute} />
         <KakaoMap
-          placeName={
-            shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.name ?? ''
-          }
-          latitude={
-            shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.latitude ?? 0
-          }
-          longitude={
-            shuttleRoute.toDestinationShuttleRouteHubs?.[0]?.longitude ?? 0
-          }
+          placeName={shuttleRoute.event.eventLocationName}
+          latitude={shuttleRoute.event.eventLocationLatitude}
+          longitude={shuttleRoute.event.eventLocationLongitude}
         />
         <ReservationForm
           event={shuttleRoute.event}
