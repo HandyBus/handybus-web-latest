@@ -5,37 +5,53 @@ import { useEffect, useState } from 'react';
 import ServiceBottomSheet from '../bottom-sheets/ServiceBottomSheet';
 import PersonalInfoBottomSheet from '../bottom-sheets/PersonalInfoBottomSheet';
 import MarketingBottomSheet from '../bottom-sheets/MarketingBottomSheet';
-import { toast } from 'react-toastify';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import OnboardingTitle from '@/components/onboarding-contents/OnboardingTitle';
-import { putUser } from '@/services/user-management.service';
-import { useMutation } from '@tanstack/react-query';
-import { setOnboardingStatusComplete } from '@/utils/handleToken.util';
-import { setFirstSignup } from '@/utils/localStorage';
-import { useRouter } from 'next/navigation';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 
-const AgreementStep = () => {
+interface Props {
+  handleNextStep: () => void;
+  triggerSubmitForm: () => void;
+  hasPersonalInfo: boolean;
+  disabled: boolean;
+}
+
+const AgreementStep = ({
+  handleNextStep,
+  triggerSubmitForm,
+  hasPersonalInfo,
+  disabled,
+}: Props) => {
+  const { control, setValue } = useFormContext<OnboardingFormValues>();
+
   const [isAllChecked, setIsAllChecked] = useState(false);
-  const [isServiceChecked, setIsServiceChecked] = useState(false);
-  const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false);
-  const [isMarketingChecked, setIsMarketingChecked] = useState(false);
+  const [isAgreedServiceTerms, isAgreedPersonalInfo, isAgreedMarketing] =
+    useWatch({
+      control,
+      name: [
+        'isAgreedServiceTerms',
+        'isAgreedPersonalInfo',
+        'isAgreedMarketing',
+      ],
+    });
 
   useEffect(() => {
     setIsAllChecked(
-      isServiceChecked && isPersonalInfoChecked && isMarketingChecked,
+      isAgreedServiceTerms && isAgreedPersonalInfo && isAgreedMarketing,
     );
-  }, [isServiceChecked, isPersonalInfoChecked, isMarketingChecked]);
+  }, [isAgreedServiceTerms, isAgreedPersonalInfo, isAgreedMarketing]);
 
   const handleSetIsAllChecked = (value: boolean) => {
     if (value) {
-      setIsServiceChecked(true);
-      setIsPersonalInfoChecked(true);
-      setIsMarketingChecked(true);
+      setValue('isAgreedServiceTerms', true);
+      setValue('isAgreedPersonalInfo', true);
+      setValue('isAgreedMarketing', true);
       setIsAllChecked(true);
     } else {
-      setIsServiceChecked(false);
-      setIsPersonalInfoChecked(false);
-      setIsMarketingChecked(false);
+      setValue('isAgreedServiceTerms', false);
+      setValue('isAgreedPersonalInfo', false);
+      setValue('isAgreedMarketing', false);
       setIsAllChecked(false);
     }
   };
@@ -61,40 +77,24 @@ const AgreementStep = () => {
     closeBottomSheet: closeMarketingBottomSheet,
   } = useBottomSheet();
 
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const putAgreement = usePutAgreement({
-    onSuccess: () => {
-      setOnboardingStatusComplete();
-      setFirstSignup();
-      router.replace('/');
-    },
-    onError: (e) => {
-      console.error(e);
-      toast.error('다시 시도해주세요.');
-      setIsSubmitting(false);
-    },
-  });
+  const buttonText = hasPersonalInfo ? '핸디버스 만나러 가기' : '다음으로';
 
-  const handleSubmitAgreement = () => {
-    setIsSubmitting(true);
-    putAgreement.mutate({
-      isAgreedMarketing: isMarketingChecked,
-      isAgreedServiceTerms: isServiceChecked,
-      isAgreedPersonalInfo: isPersonalInfoChecked,
-    });
+  const handleSubmit = () => {
+    if (hasPersonalInfo) {
+      triggerSubmitForm();
+    } else {
+      handleNextStep();
+    }
   };
 
-  const disabled =
-    !(isServiceChecked && isPersonalInfoChecked) ||
-    putAgreement.isPending ||
-    isSubmitting;
+  const buttonDisabled =
+    disabled || !isAgreedServiceTerms || !isAgreedPersonalInfo;
 
   return (
     <OnboardingFrame
-      handleSubmit={handleSubmitAgreement}
-      disabled={disabled}
-      buttonText="핸디버스 만나러 가기"
+      handleSubmit={handleSubmit}
+      buttonText={buttonText}
+      disabled={buttonDisabled}
     >
       <OnboardingTitle
         title={
@@ -122,22 +122,28 @@ const AgreementStep = () => {
           <AgreementItem
             type="필수"
             title="서비스 이용약관"
-            isChecked={isServiceChecked}
-            setIsChecked={setIsServiceChecked}
+            isChecked={isAgreedServiceTerms}
+            setIsChecked={() =>
+              setValue('isAgreedServiceTerms', !isAgreedServiceTerms)
+            }
             onClick={openServiceBottomSheet}
           />
           <AgreementItem
             type="필수"
             title="개인정보 수집 및 이용 동의"
-            isChecked={isPersonalInfoChecked}
-            setIsChecked={setIsPersonalInfoChecked}
+            isChecked={isAgreedPersonalInfo}
+            setIsChecked={() =>
+              setValue('isAgreedPersonalInfo', !isAgreedPersonalInfo)
+            }
             onClick={openPersonalInfoBottomSheet}
           />
           <AgreementItem
             type="선택"
             title="마케팅 활용/광고성 정보 수신 동의"
-            isChecked={isMarketingChecked}
-            setIsChecked={setIsMarketingChecked}
+            isChecked={isAgreedMarketing}
+            setIsChecked={() =>
+              setValue('isAgreedMarketing', !isAgreedMarketing)
+            }
             onClick={openMarketingBottomSheet}
           />
         </section>
@@ -145,19 +151,19 @@ const AgreementStep = () => {
       <ServiceBottomSheet
         bottomSheetRef={serviceBottomSheetRef}
         contentRef={serviceContentRef}
-        onAccept={() => setIsServiceChecked(true)}
+        onAccept={() => setValue('isAgreedServiceTerms', true)}
         closeBottomSheet={closeServiceBottomSheet}
       />
       <PersonalInfoBottomSheet
         bottomSheetRef={personalInfoBottomSheetRef}
         contentRef={personalInfoContentRef}
-        onAccept={() => setIsPersonalInfoChecked(true)}
+        onAccept={() => setValue('isAgreedPersonalInfo', true)}
         closeBottomSheet={closePersonalInfoBottomSheet}
       />
       <MarketingBottomSheet
         bottomSheetRef={marketingBottomSheetRef}
         contentRef={marketingContentRef}
-        onAccept={() => setIsMarketingChecked(true)}
+        onAccept={() => setValue('isAgreedMarketing', true)}
         closeBottomSheet={closeMarketingBottomSheet}
       />
     </OnboardingFrame>
@@ -201,22 +207,4 @@ const AgreementItem = ({
       <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
     </button>
   );
-};
-
-const usePutAgreement = ({
-  onSuccess,
-  onError,
-}: {
-  onSuccess?: () => void;
-  onError?: (e: unknown) => void;
-}) => {
-  return useMutation({
-    mutationFn: (body: {
-      isAgreedMarketing: boolean;
-      isAgreedServiceTerms: boolean;
-      isAgreedPersonalInfo: boolean;
-    }) => putUser(body, { skipCheckOnboarding: true }),
-    onSuccess,
-    onError,
-  });
 };

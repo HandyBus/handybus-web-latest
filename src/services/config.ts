@@ -268,9 +268,7 @@ class AuthInstance {
 
     const fetchOperation = async () => {
       const res = await instance.get(USER_URL, authOptions);
-      const isOnboardingComplete = res.user.progresses.find(
-        (progress) => progress.progressType === 'ONBOARDING_COMPLETE',
-      )?.isCompleted;
+      const isOnboardingComplete = res.user.onboardingComplete;
 
       if (!isOnboardingComplete) {
         setOnboardingStatusIncomplete();

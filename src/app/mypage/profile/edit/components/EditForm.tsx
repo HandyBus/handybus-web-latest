@@ -71,7 +71,7 @@ const EditForm = ({ type, user }: Props) => {
       key: 'users/profiles',
       file: formData.profileImage,
     });
-    if (!(formData.bigRegion && formData.smallRegion)) {
+    if (type === 'region' && !(formData.bigRegion && formData.smallRegion)) {
       methods.setError('bigRegion', {
         type: 'required',
         message: ERROR_MESSAGES.region.required,
@@ -79,8 +79,11 @@ const EditForm = ({ type, user }: Props) => {
       setIsSubmitting(false);
       return;
     }
-    const regionId = REGION_TO_ID[formData.bigRegion][formData.smallRegion];
-    if (!regionId) {
+    const regionId =
+      formData.bigRegion && formData.smallRegion
+        ? REGION_TO_ID[formData.bigRegion][formData.smallRegion]
+        : undefined;
+    if (type === 'region' && !regionId) {
       toast.error('프로필 수정에 실패하였습니다.');
       setIsSubmitting(false);
       return;
