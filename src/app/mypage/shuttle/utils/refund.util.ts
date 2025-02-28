@@ -4,15 +4,23 @@ import dayjs from 'dayjs';
 // 탑승 시간을 계산
 export const getBoardingTime = (reservation: Reservation) => {
   const type = reservation.type;
+  const sortedToDestinationShuttleRouteHubs =
+    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.toSorted(
+      (a, b) => a.sequence - b.sequence,
+    );
+  const sortedFromDestinationShuttleRouteHubs =
+    reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.toSorted(
+      (a, b) => a.sequence - b.sequence,
+    );
   const boardingHubs =
     type === 'ROUND_TRIP' || type === 'TO_DESTINATION'
       ? {
-          hubs: reservation.shuttleRoute.toDestinationShuttleRouteHubs,
+          hubs: sortedToDestinationShuttleRouteHubs,
           hubId: reservation.toDestinationShuttleRouteHubId,
         }
       : {
-          hubs: reservation.shuttleRoute.fromDestinationShuttleRouteHubs,
-          hubId: reservation.fromDestinationShuttleRouteHubId,
+          hubs: sortedFromDestinationShuttleRouteHubs,
+          hubId: sortedFromDestinationShuttleRouteHubs?.[0]?.shuttleRouteHubId,
         };
 
   const boardingTime = boardingHubs.hubs?.find(
