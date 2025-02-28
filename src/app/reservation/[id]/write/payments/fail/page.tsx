@@ -23,11 +23,6 @@ const Page = ({ searchParams }: Props) => {
     setUserExceptionMessage(searchParams.userExceptionMessage);
   }, [searchParams.code, searchParams.userExceptionMessage]);
 
-  useEffect(() => {
-    console.log('code', code);
-    console.log('userExceptionMessage', userExceptionMessage);
-  }, [code, userExceptionMessage]);
-
   if (code === '402') {
     return (
       <main className="flex grow flex-col items-center justify-center gap-24">
