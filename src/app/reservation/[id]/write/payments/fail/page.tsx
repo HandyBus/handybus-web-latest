@@ -1,6 +1,10 @@
+'use client';
+
 import Button from '@/components/buttons/button/Button';
 import LogoLargeIcon from 'public/icons/logo-large.svg';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 interface Props {
   searchParams: {
@@ -9,14 +13,21 @@ interface Props {
   };
 }
 const Page = ({ searchParams }: Props) => {
-  const code = Number(searchParams.code);
-  const userExceptionMessage = searchParams.userExceptionMessage;
+  const [code, setCode] = useState<string | undefined>(searchParams.code);
+  const [userExceptionMessage, setUserExceptionMessage] = useState<
+    string | undefined
+  >(searchParams.userExceptionMessage);
 
-  if (userExceptionMessage) {
+  useEffect(() => {
+    setCode(searchParams.code);
+    setUserExceptionMessage(searchParams.userExceptionMessage);
+  }, [searchParams.code, searchParams.userExceptionMessage]);
+
+  if (code === '402') {
     return (
       <main className="flex grow flex-col items-center justify-center gap-24">
         <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
-        <section>
+        <section className="p-16">
           <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
             결제 중 문제가 생겼습니다.
           </h1>
@@ -33,7 +44,7 @@ const Page = ({ searchParams }: Props) => {
     );
   }
 
-  if (code === 409) {
+  if (code === '409') {
     return (
       <main className="flex grow flex-col items-center justify-center gap-24">
         <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
