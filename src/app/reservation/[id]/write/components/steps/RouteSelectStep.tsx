@@ -150,6 +150,9 @@ const TypeSelect = () => {
 
   // 남아있는 좌석에 따라 선택 가능한 타입 반환
   const getAvailableTypes = (type?: TripType): TripType[] => {
+    if (watchedShuttleRoute?.remainingSeatCount === 0) {
+      return [];
+    }
     switch (type) {
       case 'ROUND_TRIP':
         return ['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION'];
@@ -244,6 +247,7 @@ const TypeSelect = () => {
           placeholder="왕복/가는 편/오는 편"
           bottomSheetTitle="왕복/가는 편/오는 편 선택"
           disabled={!watchedShuttleRoute}
+          defaultText="예약 가능한 좌석이 없어요"
         />
       )}
     />
