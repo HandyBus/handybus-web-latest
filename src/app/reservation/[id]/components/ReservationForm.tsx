@@ -29,6 +29,7 @@ const ReservationForm = ({
 }: Props) => {
   const [selectedDailyEvent, setSelectedDailyEvent] = useState<DailyEvent>();
   const [selectedRoute, setSelectedRoute] = useState<ShuttleRoute>();
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const { data: routes } = useGetShuttleRoutesOfDailyEvent(
     event.eventId,
@@ -42,6 +43,7 @@ const ReservationForm = ({
     if (selectedDailyEvent || selectedRoute || !routes) {
       return;
     }
+    setIsInitialLoading(false);
     setSelectedDailyEvent(
       event.dailyEvents.find(
         (dailyEvent) => dailyEvent.dailyEventId === initialDailyEventId,
@@ -181,8 +183,10 @@ const ReservationForm = ({
       )}
       <BottomBar
         isSelected={!!selectedRoute}
-        isNotOpen={selectedRoute?.status !== 'OPEN'}
+        isNotOpen={selectedRoute && selectedRoute.status !== 'OPEN'}
         eventName={event.eventName}
+        isLoading={isInitialLoading}
+        isSeatFull={selectedRoute?.remainingSeatCount === 0}
       />
     </form>
   );
