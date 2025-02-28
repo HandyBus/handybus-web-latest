@@ -198,7 +198,10 @@ class AuthInstance {
 
   // 토큰 만료 시 토큰을 갱신하고 다시 요청
   private async withTokenRetry<T>(
-    operation: () => Promise<T>,
+    operation: (tokens?: {
+      accessToken: string;
+      refreshToken: string;
+    }) => Promise<T>,
     { onError }: { onError?: (error: CustomError) => void } = {},
   ): Promise<T> {
     try {
@@ -206,8 +209,8 @@ class AuthInstance {
     } catch (e) {
       const error = e as CustomError;
       if (error.statusCode === 401) {
-        await this.updateToken();
-        return await operation();
+        const tokens = await this.updateToken();
+        return await operation(tokens);
       }
       onError?.(error);
       throw error;
@@ -228,8 +231,13 @@ class AuthInstance {
       await this.checkOnboarding();
     }
 
-    const fetchOperation = async () =>
-      instance.fetchWithConfig<T>(url, method, body, authOptions);
+    const fetchOperation = async (tokens?: { accessToken: string }) =>
+      instance.fetchWithConfig<T>(url, method, body, {
+        ...authOptions,
+        headers: {
+          Authorization: `Bearer ${tokens?.accessToken}`,
+        },
+      });
     return await this.withTokenRetry(fetchOperation, {
       onError: (error) => {
         if (error.statusCode === 429) {
@@ -266,8 +274,13 @@ class AuthInstance {
       },
     });
 
-    const fetchOperation = async () => {
-      const res = await instance.get(USER_URL, authOptions);
+    const fetchOperation = async (tokens?: { accessToken: string }) => {
+      const res = await instance.get(USER_URL, {
+        ...authOptions,
+        headers: {
+          Authorization: `Bearer ${tokens?.accessToken}`,
+        },
+      });
       const isOnboardingComplete = res.user.onboardingComplete;
 
       if (!isOnboardingComplete) {

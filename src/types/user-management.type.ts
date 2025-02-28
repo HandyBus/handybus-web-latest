@@ -214,6 +214,8 @@ export const UserSchema = z
     marketingConsent: z.boolean(),
     serviceTermsAgreement: z.boolean(),
     personalInfoConsent: z.boolean(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
   })
   .strict();
 export type User = z.infer<typeof UserSchema>;
