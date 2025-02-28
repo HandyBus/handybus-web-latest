@@ -34,7 +34,7 @@ const Page = () => {
       if (error.statusCode === 402) {
         router.replace(
           pathname +
-            `/fail?code=${error?.statusCode}?userExceptionMessage=${error.message}`,
+            `/fail?code=${error?.statusCode}&userExceptionMessage=${error.message}`,
         );
       } else router.replace(pathname + `/fail?code=${error?.statusCode}`);
     }
