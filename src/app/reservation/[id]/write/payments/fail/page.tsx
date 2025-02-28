@@ -10,10 +10,9 @@ interface Props {
 }
 const Page = ({ searchParams }: Props) => {
   const code = Number(searchParams.code);
+  const userExceptionMessage = searchParams.userExceptionMessage;
 
-  if (code === 402) {
-    const userExceptionMessage =
-      searchParams.userExceptionMessage || '알 수 없는 오류입니다.';
+  if (userExceptionMessage) {
     return (
       <main className="flex grow flex-col items-center justify-center gap-24">
         <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
