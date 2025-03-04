@@ -9,6 +9,7 @@ import DescriptionImage4 from './images/description-4.png';
 import CouponImage from './images/coupon.png';
 import BottomImage from './images/bottom.png';
 import Button from '@/components/buttons/button/Button';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '핸디란?',
@@ -129,11 +130,11 @@ const AboutPage = () => {
           <p className="mb-16 text-16 font-400 text-grey-700">
             핸디버스는 핸디의 노력을 절대 잊지 않아요.
             <br />
-            감사하는 마음을 담아 결제금액의 50%를 지원해 드려요.
+            감사하는 마음을 담아 결제 금액의 50%를 지원해 드려요.
           </p>
           <Image
             src={CouponImage}
-            alt="쿠폰"
+            alt="핸디에게 결제 금액의 50% 지원"
             className="mx-auto mb-16 w-full max-w-[114px]"
           />
           <p className="text-12 font-400 text-grey-400">
@@ -144,9 +145,11 @@ const AboutPage = () => {
           <Image src={BottomImage} alt="핸디버스 소개" className="w-full" />
         </section>
         <section className="flex gap-16 px-16">
-          <Button variant="secondary" className="w-full">
-            핸디 지원하기
-          </Button>
+          <Link href="/help/faq" className="w-full rounded-full">
+            <Button variant="secondary" className="w-full">
+              자주 묻는 질문
+            </Button>
+          </Link>
           <Button variant="secondary" className="w-full">
             친구에게 알려주기
           </Button>
