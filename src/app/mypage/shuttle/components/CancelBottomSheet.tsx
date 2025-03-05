@@ -4,7 +4,7 @@ import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { useEffect, useMemo } from 'react';
 import RefundPolicy from '../[id]/components/RefundPolicy';
-import { usePostRefund } from '@/services/billing.service';
+import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { calculateRefundFee } from '../utils/refund.util';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';

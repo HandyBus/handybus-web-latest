@@ -48,7 +48,7 @@ export const PaymentsViewEntitySchema = z
   .strict();
 export type PaymentsViewEntity = z.infer<typeof PaymentsViewEntitySchema>;
 
-// ----- POST & PUT -----
+// ----- POST -----
 
 export const ReserveRequestSchema = z.object({
   shuttleRouteId: z.string(),

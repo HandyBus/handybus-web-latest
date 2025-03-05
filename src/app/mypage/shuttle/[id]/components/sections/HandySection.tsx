@@ -4,7 +4,7 @@ import Button from '@/components/buttons/button/Button';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
+import { usePostUpdateReservation } from '@/services/reservation.service';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 

@@ -2,6 +2,8 @@ import { authInstance } from './config';
 import { useQuery } from '@tanstack/react-query';
 import { RegionHubsResponseModelSchema } from '@/types/hub.type';
 
+// ----- GET -----
+
 const getHubsByRegionId = async (regionId?: string | null) => {
   if (!regionId) {
     return [];

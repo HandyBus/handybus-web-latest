@@ -1,7 +1,7 @@
 'use client';
 
 import OnboardingFunnel from './components/OnboardingFunnel';
-import { useGetUser } from '@/services/user-management.service';
+import { useGetUser } from '@/services/user.service';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 

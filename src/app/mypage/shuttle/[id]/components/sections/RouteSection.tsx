@@ -8,7 +8,7 @@ import {
   ShuttleRouteHubsInShuttleRoutesViewEntity,
   TripType,
 } from '@/types/shuttleRoute.type';
-import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
+import { usePostUpdateReservation } from '@/services/reservation.service';
 import Button from '@/components/buttons/button/Button';
 import dayjs, { Dayjs } from 'dayjs';
 

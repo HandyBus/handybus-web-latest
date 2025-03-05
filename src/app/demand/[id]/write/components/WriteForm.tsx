@@ -10,7 +10,7 @@ import {
   DailyEventsInEventsViewEntity,
   EventsViewEntity,
 } from '@/types/event.type';
-import { usePostDemand } from '@/services/shuttle-operation.service';
+import { usePostDemand } from '@/services/demand.service';
 import { useRouter } from 'next/navigation';
 
 export interface FormValues {

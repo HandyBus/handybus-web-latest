@@ -1,7 +1,7 @@
 import Article from '@/components/article/Article';
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
-import { getEvents } from '@/services/shuttle-operation.service';
+import { getEvents } from '@/services/event.service';
 import { toSorted } from '@/app/demand/utils/toSorted.util';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 

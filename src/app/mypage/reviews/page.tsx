@@ -5,7 +5,7 @@ import Loading from '@/components/loading/Loading';
 import Link from 'next/link';
 import ReviewIcon from 'public/icons/review.svg';
 import DetailedReview from '@/app/help/reviews/components/DetailedReview';
-import { useGetUserReviews } from '@/services/user-management.service';
+import { useGetUserReviews } from '@/services/review.service';
 import Header from '@/components/header/Header';
 
 const Reviews = () => {

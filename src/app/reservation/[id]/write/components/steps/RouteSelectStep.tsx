@@ -9,7 +9,7 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import {
   EventsViewEntity,

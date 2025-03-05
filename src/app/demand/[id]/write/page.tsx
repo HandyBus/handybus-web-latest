@@ -4,7 +4,7 @@ import WriteForm from './components/WriteForm';
 import BannerImage from './components/BannerImage';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetEvent } from '@/services/shuttle-operation.service';
+import { useGetEvent } from '@/services/event.service';
 import Header from '@/components/header/Header';
 
 interface Props {

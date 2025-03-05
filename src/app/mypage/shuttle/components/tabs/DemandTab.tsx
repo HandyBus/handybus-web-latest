@@ -8,9 +8,9 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
-import { useGetUserDemands } from '@/services/user-management.service';
+import { useGetUserDemands } from '@/services/demand.service';
 import { ShuttleDemandsViewEntity } from '@/types/demand.type';
-import { useDeleteDemand } from '@/services/shuttle-operation.service';
+import { useDeleteDemand } from '@/services/demand.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const DemandTab = () => {

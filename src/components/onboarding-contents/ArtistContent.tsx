@@ -10,7 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
 import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
-import { useGetArtists } from '@/services/shuttle-operation.service';
+import { useGetArtists } from '@/services/artist.service';
 import { ArtistsViewEntity } from '@/types/artist.type';
 import Button from '@/components/buttons/button/Button';
 

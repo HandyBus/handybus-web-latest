@@ -58,7 +58,7 @@ export const UserStatsReadModelSchema = z
   .strict();
 export type UserStatsReadModel = z.infer<typeof UserStatsReadModelSchema>;
 
-// ----- POST & PUT BODY -----
+// ----- POST BODY -----
 
 export const UpdateMeRequestSchema = z
   .object({

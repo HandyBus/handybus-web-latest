@@ -1,5 +1,5 @@
 import SelectModal from '@/components/modals/select/SelectModal';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
 import { EventsViewEntity } from '@/types/event.type';
 import { useEffect, useState } from 'react';
 

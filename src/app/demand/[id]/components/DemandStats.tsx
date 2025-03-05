@@ -3,7 +3,7 @@
 import {
   useGetAllEventDemandStats,
   useGetEventDemandStats,
-} from '@/services/shuttle-operation.service';
+} from '@/services/demand.service';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 

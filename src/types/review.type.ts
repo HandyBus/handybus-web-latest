@@ -34,7 +34,7 @@ export const ReviewsViewEntitySchema = z
   .strict();
 export type ReviewsViewEntity = z.infer<typeof ReviewsViewEntitySchema>;
 
-// ----- POST & PUT -----
+// ----- POST -----
 
 export const CreateReviewRequestSchema = z.object({
   eventId: z.string(),

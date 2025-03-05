@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import BottomBar from './BottomBar';
 import PriceStats from './PriceStats';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import {
   EventsViewEntity,

@@ -2,7 +2,7 @@ import ReservationCard from '../ReservationCard';
 import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUserReservations } from '@/services/user-management.service';
+import { useGetUserReservations } from '@/services/reservation.service';
 import { useRouter } from 'next/navigation';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 const EmptyView = dynamic(() => import('../EmptyView'));

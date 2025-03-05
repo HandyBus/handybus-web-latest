@@ -4,7 +4,7 @@ import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import Header from '@/components/header/Header';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
-import { useDeleteUser } from '@/services/user-management.service';
+import { useDeleteUser } from '@/services/user.service';
 import { logout } from '@/utils/handleToken.util';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
