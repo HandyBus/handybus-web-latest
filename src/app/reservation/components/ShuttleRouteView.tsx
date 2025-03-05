@@ -73,8 +73,7 @@ const SeatString = ({ shuttleRoute }: Props) => {
       {prefix}{' '}
       <span className="text-primary-main">
         {shuttleRoute.remainingSeatCount}석
-      </span>{' '}
-      / {shuttleRoute.maxPassengerCount}석
+      </span>
     </>
   );
 };

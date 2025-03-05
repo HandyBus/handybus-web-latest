@@ -18,6 +18,7 @@ interface Props<T> {
   defaultText?: string;
   sort?: boolean;
   sortBy?: (a: T, b: T) => number;
+  disableOption?: (value: T) => boolean;
 }
 
 const Select = <T,>({
@@ -32,14 +33,28 @@ const Select = <T,>({
   defaultText,
   sort = false,
   sortBy,
+  disableOption,
 }: Props<T>) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
-  const sortedOptions = useMemo(
-    () => (sort ? (options.toSorted(sortBy) as T[]) : options),
-    [options, sort, sortBy],
-  );
+  // 옵션들을 sort 함수 기반으로 정렬. 이때 disabled 된 옵션들은 뒤로 모아짐.
+  const sortedOptions = useMemo(() => {
+    if (!sort) {
+      return options;
+    }
+
+    return [...options].sort((a, b) => {
+      const isADisabled = disableOption?.(a) ?? false;
+      const isBDisabled = disableOption?.(b) ?? false;
+
+      if (isADisabled === isBDisabled) {
+        return sortBy?.(a, b) ?? 0;
+      }
+
+      return isADisabled ? 1 : -1;
+    }) as T[];
+  }, [options, sort, sortBy, disableOption]);
 
   return (
     <>
@@ -47,7 +62,7 @@ const Select = <T,>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`relative w-full p-12 pr-32 text-left ${value ? 'text-grey-800' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
+        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-grey-800' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
       >
         {value
           ? renderValue
@@ -71,12 +86,13 @@ const Select = <T,>({
             sortedOptions?.map((option, index) => (
               <button
                 key={index}
-                className="py-16 text-left"
+                className="group/select-option py-16 text-left"
                 type="button"
                 onClick={() => {
                   setValue(option);
                   closeBottomSheet();
                 }}
+                disabled={disableOption?.(option) ?? false}
               >
                 {renderValue ? renderValue(option) : String(option)}
               </button>

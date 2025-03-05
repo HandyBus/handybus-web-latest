@@ -5,7 +5,6 @@ import { TripType } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
-  tripType: TripType;
   region: string;
   destination: string;
   regularPrice: {
@@ -24,11 +23,9 @@ interface Props {
     toDestination: number;
     fromDestination: number;
   };
-  maxSeat: number;
 }
 
 const PriceStats = ({
-  tripType,
   region,
   destination,
   regularPrice,
@@ -36,7 +33,6 @@ const PriceStats = ({
   earlybirdDeadline,
   earlybirdPrice,
   remainingSeat,
-  maxSeat,
 }: Props) => {
   const roundTripRemainingSeat = Math.min(
     remainingSeat.toDestination,
@@ -56,40 +52,31 @@ const PriceStats = ({
         </h2>
       </header>
       <section className="flex flex-col gap-12">
-        {tripType === 'ROUND_TRIP' && (
-          <Card
-            tripType="ROUND_TRIP"
-            regularPrice={regularPrice.roundTrip}
-            isEarlybird={isEarlybird}
-            earlybirdPrice={earlybirdPrice.roundTrip}
-            remainingSeat={roundTripRemainingSeat}
-            maxSeat={maxSeat}
-          />
-        )}
-        {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') && (
-          <Card
-            tripType="TO_DESTINATION"
-            region={region}
-            destination={destination}
-            regularPrice={regularPrice.toDestination}
-            isEarlybird={isEarlybird}
-            earlybirdPrice={earlybirdPrice.toDestination}
-            remainingSeat={remainingSeat.toDestination}
-            maxSeat={maxSeat}
-          />
-        )}
-        {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') && (
-          <Card
-            tripType="FROM_DESTINATION"
-            region={region}
-            destination={destination}
-            regularPrice={regularPrice.fromDestination}
-            isEarlybird={isEarlybird}
-            earlybirdPrice={earlybirdPrice.fromDestination}
-            remainingSeat={remainingSeat.fromDestination}
-            maxSeat={maxSeat}
-          />
-        )}
+        <Card
+          tripType="ROUND_TRIP"
+          regularPrice={regularPrice.roundTrip}
+          isEarlybird={isEarlybird}
+          earlybirdPrice={earlybirdPrice.roundTrip}
+          remainingSeat={roundTripRemainingSeat}
+        />
+        <Card
+          tripType="TO_DESTINATION"
+          region={region}
+          destination={destination}
+          regularPrice={regularPrice.toDestination}
+          isEarlybird={isEarlybird}
+          earlybirdPrice={earlybirdPrice.toDestination}
+          remainingSeat={remainingSeat.toDestination}
+        />
+        <Card
+          tripType="FROM_DESTINATION"
+          region={region}
+          destination={destination}
+          regularPrice={regularPrice.fromDestination}
+          isEarlybird={isEarlybird}
+          earlybirdPrice={earlybirdPrice.fromDestination}
+          remainingSeat={remainingSeat.fromDestination}
+        />
       </section>
     </article>
   );
@@ -105,7 +92,6 @@ interface CardProps {
   isEarlybird: boolean;
   earlybirdPrice?: number;
   remainingSeat: number;
-  maxSeat: number;
 }
 
 const Card = ({
@@ -116,7 +102,6 @@ const Card = ({
   isEarlybird,
   earlybirdPrice,
   remainingSeat,
-  maxSeat,
 }: CardProps) => {
   const parsedRegularPrice = regularPrice.toLocaleString();
   const parsedEarlybirdPrice = earlybirdPrice?.toLocaleString();
@@ -130,7 +115,7 @@ const Card = ({
         <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-grey-800">
           <span>{TRIP_STATUS_TO_STRING[tripType]}</span>
           <span className="text-12 font-400 text-grey-500">
-            ({remainingSeat}/{maxSeat}석)
+            {remainingSeat === 0 ? '매진' : `${remainingSeat}석`}
           </span>
         </p>
         {region && destination && (

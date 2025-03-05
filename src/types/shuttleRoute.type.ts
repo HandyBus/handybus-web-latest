@@ -14,9 +14,9 @@ export const ShuttleRouteStatusEnum = z.enum([
 export type ShuttleRouteStatus = z.infer<typeof ShuttleRouteStatusEnum>;
 
 export const TripTypeEnum = z.enum([
+  'ROUND_TRIP', // 왕복
   'TO_DESTINATION', // 가는 편
   'FROM_DESTINATION', // 오는 편
-  'ROUND_TRIP', // 왕복행
 ]);
 export type TripType = z.infer<typeof TripTypeEnum>;
 

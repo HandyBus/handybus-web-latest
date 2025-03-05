@@ -73,8 +73,7 @@ const SeatString = ({ route }: SeatStringProps) => {
   return (
     <div className="absolute bottom-0 w-full bg-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-white backdrop-blur-[2px]">
       {prefix}{' '}
-      <span className="text-primary-main">{route.remainingSeatCount}석</span> /{' '}
-      {route.maxPassengerCount}석
+      <span className="text-primary-main">{route.remainingSeatCount}석</span>
     </div>
   );
 };

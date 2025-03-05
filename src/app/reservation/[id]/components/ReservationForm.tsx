@@ -149,7 +149,6 @@ const ReservationForm = ({
             />
           </div>
           <PriceStats
-            tripType={selectedRoute.remainingSeatType}
             region={sortedToDestinationHubs[0].name}
             destination={
               sortedToDestinationHubs[sortedToDestinationHubs.length - 1].name
@@ -178,7 +177,6 @@ const ReservationForm = ({
                 selectedRoute.maxPassengerCount -
                 selectedRoute.fromDestinationCount,
             }}
-            maxSeat={selectedRoute.maxPassengerCount}
           />
         </>
       )}
