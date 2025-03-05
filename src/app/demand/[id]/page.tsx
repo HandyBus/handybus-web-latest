@@ -1,6 +1,6 @@
 import DemandForm from './components/DemandForm';
 import KakaoMap from '@/components/kakao-map/KakaoMap';
-import { getEvent } from '@/services/shuttle-operation.service';
+import { getEvent } from '@/services/event.service';
 import EventInfo from './components/EventInfo';
 import EventImage from '@/components/event-image/EventImage';
 import Header from '@/components/header/Header';

@@ -1,6 +1,8 @@
 import { authInstance } from './config';
 import { useQuery } from '@tanstack/react-query';
-import { RegionHubSchema } from '@/types/location.type';
+import { RegionHubsResponseModelSchema } from '@/types/hub.type';
+
+// ----- GET -----
 
 const getHubsByRegionId = async (regionId?: string | null) => {
   if (!regionId) {
@@ -8,7 +10,7 @@ const getHubsByRegionId = async (regionId?: string | null) => {
   }
   const res = await authInstance.get(`/v1/location/regions/${regionId}/hubs`, {
     shape: {
-      regionHubs: RegionHubSchema.array(),
+      regionHubs: RegionHubsResponseModelSchema.array(),
     },
   });
   return res.regionHubs;

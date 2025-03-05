@@ -7,7 +7,7 @@ import ProfileInfoContent from '@/components/onboarding-contents/ProfileInfoCont
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
-import { putUser } from '@/services/user-management.service';
+import { putUser } from '@/services/user.service';
 
 interface Props {
   handleNextStep: () => void;

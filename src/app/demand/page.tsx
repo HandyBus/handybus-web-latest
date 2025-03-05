@@ -3,7 +3,7 @@ import { fromString, toDemandSort } from './utils/param.util';
 import DemandCard from './components/DemandCard';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
-import { getEvents } from '@/services/shuttle-operation.service';
+import { getEvents } from '@/services/event.service';
 const Empty = dynamic(() => import('./components/Empty'));
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';

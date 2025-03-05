@@ -2,6 +2,8 @@ import { instance } from './config';
 import { getRefreshToken } from '@/utils/handleToken.util';
 import { TokenShape } from '@/types/auth.type';
 
+// ----- POST -----
+
 export const postLogin = async (
   method: 'kakao' | 'naver',
   { code, state }: { code: string; state?: string },

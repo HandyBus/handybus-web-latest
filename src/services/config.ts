@@ -15,7 +15,7 @@ import { CustomError } from './custom-error';
 import { z } from 'zod';
 import { replacer, silentParse } from '@/utils/config.util';
 import { postUpdateToken } from './auth.service';
-import { UserSchema } from '@/types/user-management.type';
+import { UsersViewEntitySchema } from '@/types/user.type';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -270,7 +270,7 @@ class AuthInstance {
   private async setOnboardingStatus() {
     const authOptions = this.createAuthOptions({
       shape: {
-        user: UserSchema,
+        user: UsersViewEntitySchema,
       },
     });
 

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { createMetadataWithOG } from '@/constants/metadata';
-import { getEvent } from '@/services/shuttle-operation.service';
+import { getEvent } from '@/services/event.service';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 
 export const generateMetadata = async ({

@@ -9,8 +9,11 @@ import { CustomError } from '@/services/custom-error';
 import { ReservationFormValues } from '../../Form';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
 import { generateCustomerKey } from '../../../utils/reservation.util';
-import { getUser } from '@/services/user-management.service';
-import { postReadyPayment, postReservation } from '@/services/billing.service';
+import { getUser } from '@/services/user.service';
+import {
+  postPreparePayment,
+  postReserveReservation,
+} from '@/services/payment.service';
 import Button from '@/components/buttons/button/Button';
 import { logout } from '@/utils/handleToken.util';
 
@@ -143,13 +146,14 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         isSupportingHandy: formValues.isSupportingHandy,
         passengerCount: formValues.passengerCount,
       };
-      const postReservationResponse = await postReservation(parsedFormValues);
+      const postReservationResponse =
+        await postReserveReservation(parsedFormValues);
 
       const readyPaymentFormValues = {
         reservationId: postReservationResponse.reservationId,
         issuedCouponId: formValues.issuedCouponId ?? null,
       };
-      const readyPaymentResponse = await postReadyPayment(
+      const readyPaymentResponse = await postPreparePayment(
         readyPaymentFormValues,
       );
 

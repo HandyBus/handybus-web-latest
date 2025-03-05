@@ -1,8 +1,8 @@
-import { Reservation } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 
 // 탑승 시간을 계산
-export const getBoardingTime = (reservation: Reservation) => {
+export const getBoardingTime = (reservation: ReservationsViewEntity) => {
   const type = reservation.type;
   const sortedToDestinationShuttleRouteHubs =
     reservation.shuttleRoute.toDestinationShuttleRouteHubs?.toSorted(
@@ -35,7 +35,9 @@ export const getBoardingTime = (reservation: Reservation) => {
 };
 
 // 취소 수수료를 계산
-export const calculateRefundFee = (reservation: Reservation | null) => {
+export const calculateRefundFee = (
+  reservation: ReservationsViewEntity | null,
+) => {
   if (!reservation) {
     return null;
   }

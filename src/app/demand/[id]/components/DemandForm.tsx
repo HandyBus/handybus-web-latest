@@ -13,14 +13,17 @@ import DemandStats from './DemandStats';
 import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
-import { DailyEvent, Event } from '@/types/shuttle-operation.type';
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
+import {
+  EventsViewEntity,
+  DailyEventsInEventsViewEntity,
+} from '@/types/event.type';
 
 export const DEMAND_FORM_ID = 'demand-form';
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
 }
 
 const DemandForm = ({ event }: Props) => {
@@ -40,7 +43,7 @@ const DemandForm = ({ event }: Props) => {
     string | undefined
   >(initialSmallRegion ?? undefined);
   const [selectedDailyEvent, setSelectedDailyEvent] = useState<
-    DailyEvent | undefined
+    DailyEventsInEventsViewEntity | undefined
   >(
     event.dailyEvents.find(
       (dailyEvent) => dailyEvent.dailyEventId === initialDailyEventId,

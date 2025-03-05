@@ -3,13 +3,13 @@
 import {
   useGetAllEventDemandStats,
   useGetEventDemandStats,
-} from '@/services/shuttle-operation.service';
-import { DailyEvent } from '@/types/shuttle-operation.type';
+} from '@/services/demand.service';
+import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   eventId: string;
-  dailyEvent?: DailyEvent;
+  dailyEvent?: DailyEventsInEventsViewEntity;
   location: string;
   bigRegion?: string;
   smallRegion?: string;

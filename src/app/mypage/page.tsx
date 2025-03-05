@@ -5,10 +5,7 @@ import Activity from './components/Activity';
 import Settings from './components/Settings';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import {
-  useGetUser,
-  useGetUserStats,
-} from '@/services/user-management.service';
+import { useGetUser, useGetUserStats } from '@/services/user.service';
 import Header from '@/components/header/Header';
 
 const MyPage = () => {

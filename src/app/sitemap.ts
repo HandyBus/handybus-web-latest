@@ -1,8 +1,6 @@
 import { MetadataRoute } from 'next';
-import {
-  getEvents,
-  getShuttleRoutes,
-} from '@/services/shuttle-operation.service';
+import { getShuttleRoutes } from '@/services/shuttleRoute.service';
+import { getEvents } from '@/services/event.service';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.handybus.co.kr';

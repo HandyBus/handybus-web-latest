@@ -7,7 +7,7 @@ import { ID_TO_REGION } from '@/constants/regions';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { parsePhoneNumber } from '@/utils/common.util';
-import { useGetUser } from '@/services/user-management.service';
+import { useGetUser } from '@/services/user.service';
 import Header from '@/components/header/Header';
 
 const Profile = () => {

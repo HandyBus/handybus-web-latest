@@ -1,10 +1,8 @@
 import { z } from 'zod';
 
-/// --------- ENUM ---------
 export const ActiveStatusEnum = z.enum(['ACTIVE', 'INACTIVE']);
 export type ActiveStatus = z.infer<typeof ActiveStatusEnum>;
 
-/// --------- SCHEMA ---------
 type PaginatedResponse<Shape extends z.ZodRawShape> = Shape & {
   totalCount: z.ZodNumber;
   nextPage: z.ZodNullable<z.ZodString>;

@@ -1,7 +1,11 @@
-import { ShuttleRouteHub } from '@/types/shuttle-operation.type';
+import {
+  ShuttleRouteHubsInShuttleRoutesViewEntity,
+  TripType,
+} from '@/types/shuttleRoute.type';
+
 interface Props {
-  hubs: ShuttleRouteHub[];
-  type: 'TO_DESTINATION' | 'FROM_DESTINATION';
+  hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  type: Exclude<TripType, 'ROUND_TRIP'>;
 }
 
 const RoutePoints = ({ hubs, type }: Props) => {

@@ -1,11 +1,11 @@
 'use client';
 
 import EventStatusChip from '@/components/chips/event-status-chip/EventStatusChip';
-import { Event } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 
 type Props = {
-  event: Event;
+  event: EventsViewEntity;
 };
 
 const EventInfo = ({ event }: Props) => {

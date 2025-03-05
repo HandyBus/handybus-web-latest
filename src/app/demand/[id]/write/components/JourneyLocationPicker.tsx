@@ -6,7 +6,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { FormValues } from './WriteForm';
 import { useEffect, useState } from 'react';
-import { useGetHubsByRegionId } from '@/services/location.service';
+import { useGetHubsByRegionId } from '@/services/hub.service';
 
 const JourneyLocationPicker = () => {
   const { control, setValue } = useFormContext<FormValues>();

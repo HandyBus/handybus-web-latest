@@ -3,7 +3,7 @@
 import Article from '@/components/article/Article';
 import RoutesSwiperView from './components/RoutesSwiperView';
 import { toSortedRoutes } from '@/app/reservation/util/sort.util';
-import { useGetShuttleRoutes } from '@/services/shuttle-operation.service';
+import { useGetShuttleRoutes } from '@/services/shuttleRoute.service';
 
 const Page = () => {
   const { data, isLoading } = useGetShuttleRoutes({
