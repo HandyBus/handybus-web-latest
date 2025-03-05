@@ -6,12 +6,15 @@ import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
-import { DailyEvent, Event } from '@/types/shuttle-operation.type';
+import {
+  DailyEventsInEventsViewEntity,
+  EventsViewEntity,
+} from '@/types/shuttle-operation.type';
 import { usePostDemand } from '@/services/shuttle-operation.service';
 import { useRouter } from 'next/navigation';
 
 export interface FormValues {
-  dailyEvent: DailyEvent;
+  dailyEvent: DailyEventsInEventsViewEntity;
   regionId: string | null;
   type: TripType;
   toDestinationRegionHub?: {
@@ -27,7 +30,7 @@ export interface FormValues {
 }
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
   dailyEventId: string;
   regionId: string;
 }

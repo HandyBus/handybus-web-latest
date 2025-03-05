@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { TripTypeEnum } from './shuttle-operation.type';
 import {
-  RefundRequestSchema,
+  RefundRequestsInPaymentsViewEntitySchema,
   ReservationStatusEnum,
 } from './user-management.type';
 import { CancelStatusEnum } from './user-management.type';
@@ -9,12 +9,7 @@ import { HandyStatusEnum } from './user-management.type';
 
 // ----- POST & PUT BODY -----
 
-export const PostCouponBodySchema = z.object({
-  code: z.string(),
-});
-export type PostCouponBody = z.infer<typeof PostCouponBodySchema>;
-
-export const PostReservationBodySchema = z.object({
+export const ReserveRequestSchema = z.object({
   shuttleRouteId: z.string(),
   type: TripTypeEnum,
   toDestinationShuttleRouteHubId: z.string().optional(),
@@ -23,17 +18,19 @@ export const PostReservationBodySchema = z.object({
   isSupportingHandy: z.boolean(),
   passengerCount: z.number().int(),
 });
-export type PostReservationBody = z.infer<typeof PostReservationBodySchema>;
+export type ReserveRequest = z.infer<typeof ReserveRequestSchema>;
 
-export const PostReadyPaymentBodySchema = z.object({
+export const PreparePaymentsRequestSchema = z.object({
   reservationId: z.string(),
   issuedCouponId: z.string().nullable(),
 });
-export type PostReadyPaymentBody = z.infer<typeof PostReadyPaymentBodySchema>;
+export type PreparePaymentsRequest = z.infer<
+  typeof PreparePaymentsRequestSchema
+>;
 
 // ----- 임시 타입 -----
 
-export const TempReservationSchema = z.object({
+export const ReserveResponseSchema = z.object({
   reservationId: z.string(),
   type: TripTypeEnum,
   shuttleRouteId: z.string(),
@@ -47,9 +44,9 @@ export const TempReservationSchema = z.object({
   handyStatus: HandyStatusEnum,
   createdAt: z.string(),
 });
-export type TempReservation = z.infer<typeof TempReservationSchema>;
+export type ReserveResponse = z.infer<typeof ReserveResponseSchema>;
 
-export const TempReadyPaymentSchema = z.object({
+export const PaymentsResponseModelSchema = z.object({
   paymentId: z.string(),
   reservationId: z.string(),
   issuedCouponId: z.string().nullable(),
@@ -60,12 +57,12 @@ export const TempReadyPaymentSchema = z.object({
   couponDiscountAmount: z.number(),
   discountAmount: z.number(),
   refundableAmount: z.number(),
-  refundRequests: RefundRequestSchema.array().nullable(),
+  refundRequests: RefundRequestsInPaymentsViewEntitySchema.array().nullable(),
   createdAt: z.string(),
 });
-export type TempReadyPayment = z.infer<typeof TempReadyPaymentSchema>;
+export type PaymentsResponseModel = z.infer<typeof PaymentsResponseModelSchema>;
 
-export const TempPaymentSchema = z.object({
+export const ApprovePaymentsResponseSchema = z.object({
   paymentId: z.string(),
   reservationId: z.string(),
   issuedCouponId: z.string().nullable(),
@@ -76,7 +73,9 @@ export const TempPaymentSchema = z.object({
   couponDiscountAmount: z.number().nullable(),
   discountAmount: z.number(),
   refundableAmount: z.number(),
-  refundRequests: RefundRequestSchema.array(),
+  refundRequests: RefundRequestsInPaymentsViewEntitySchema.array(),
   createdAt: z.string(),
 });
-export type TempPayment = z.infer<typeof TempPaymentSchema>;
+export type ApprovePaymentsResponse = z.infer<
+  typeof ApprovePaymentsResponseSchema
+>;

@@ -2,30 +2,42 @@
 
 import dayjs from 'dayjs';
 import RoutePoints from './RoutePoint';
-import { ShuttleRouteHub } from '@/types/shuttle-operation.type';
+import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
 
 type ToDestinationType = {
   type: 'TO_DESTINATION';
-  toDestinationHubs: ShuttleRouteHub[];
-  toDestinationHubValue: ShuttleRouteHub | undefined;
-  setToDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
+  toDestinationHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  toDestinationHubValue: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
+  setToDestinationHubValue: (
+    value: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined,
+  ) => void;
 };
 
 type FromDestinationType = {
   type: 'FROM_DESTINATION';
-  fromDestinationHubs: ShuttleRouteHub[];
-  fromDestinationHubValue: ShuttleRouteHub | undefined;
-  setFromDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
+  fromDestinationHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  fromDestinationHubValue:
+    | ShuttleRouteHubsInShuttleRoutesViewEntity
+    | undefined;
+  setFromDestinationHubValue: (
+    value: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined,
+  ) => void;
 };
 
 type RoundTripType = {
   type: 'ROUND_TRIP';
-  toDestinationHubs: ShuttleRouteHub[];
-  toDestinationHubValue: ShuttleRouteHub | undefined;
-  setToDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
-  fromDestinationHubs: ShuttleRouteHub[];
-  fromDestinationHubValue: ShuttleRouteHub | undefined;
-  setFromDestinationHubValue: (value: ShuttleRouteHub | undefined) => void;
+  toDestinationHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  toDestinationHubValue: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
+  setToDestinationHubValue: (
+    value: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined,
+  ) => void;
+  fromDestinationHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  fromDestinationHubValue:
+    | ShuttleRouteHubsInShuttleRoutesViewEntity
+    | undefined;
+  setFromDestinationHubValue: (
+    value: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined,
+  ) => void;
 };
 
 type Props = ToDestinationType | FromDestinationType | RoundTripType;
@@ -66,10 +78,12 @@ const RouteVisualizerWithSelect = (props: Props) => {
 export default RouteVisualizerWithSelect;
 
 type RouteCardProps = {
-  hubs: ShuttleRouteHub[];
+  hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
   type: 'TO_DESTINATION' | 'FROM_DESTINATION';
-  hubValue: ShuttleRouteHub | undefined;
-  setHubValue: (value: ShuttleRouteHub | undefined) => void;
+  hubValue: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
+  setHubValue: (
+    value: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined,
+  ) => void;
 };
 
 const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
@@ -127,9 +141,11 @@ const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
 
 interface HubItemProps {
   isDestination: boolean;
-  hub: ShuttleRouteHub;
-  selectedHub: ShuttleRouteHub | undefined;
-  setSelectedHub: (value: ShuttleRouteHub | undefined) => void;
+  hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
+  selectedHub: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
+  setSelectedHub: (
+    value: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined,
+  ) => void;
 }
 
 const HubItem = ({

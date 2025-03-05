@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import {
-  ArtistSchema,
-  EventSchema,
-  ShuttleRouteSchema,
+  ArtistsViewEntitySchema,
+  EventsViewEntitySchema,
+  ShuttleRoutesViewEntitySchema,
   TripTypeEnum,
 } from './shuttle-operation.type';
 import { ActiveStatusEnum } from './common.type';
@@ -66,13 +66,13 @@ export const AgeRangeEnum = z.enum([
 export type AgeRange = z.infer<typeof AgeRangeEnum>;
 
 //  ----- SCHEMA -----
-export const ShuttleDemandSchema = z
+export const ShuttleDemandsViewEntitySchema = z
   .object({
     shuttleDemandId: z.string(),
     userId: z.string(),
     userNickname: z.string(),
     userProfileImage: z.string().nullable(),
-    event: EventSchema,
+    event: EventsViewEntitySchema,
     eventId: z.string(),
     dailyEventId: z.string(),
     regionId: z.string(),
@@ -104,9 +104,11 @@ export const ShuttleDemandSchema = z
     updatedAt: z.string(),
   })
   .strict();
-export type ShuttleDemand = z.infer<typeof ShuttleDemandSchema>;
+export type ShuttleDemandsViewEntity = z.infer<
+  typeof ShuttleDemandsViewEntitySchema
+>;
 
-export const ReservationSchema = z
+export const ReservationsViewEntitySchema = z
   .object({
     reservationId: z.string(),
     userId: z.string(),
@@ -131,14 +133,16 @@ export const ReservationSchema = z
     paymentUpdatedAt: z.string().nullable(),
     shuttleBusId: z.string().nullable(),
     passengerCount: z.number().int(),
-    shuttleRoute: ShuttleRouteSchema,
+    shuttleRoute: ShuttleRoutesViewEntitySchema,
     createdAt: z.string(),
     updatedAt: z.string(),
   })
   .strict();
-export type Reservation = z.infer<typeof ReservationSchema>;
+export type ReservationsViewEntity = z.infer<
+  typeof ReservationsViewEntitySchema
+>;
 
-export const RefundRequestSchema = z
+export const RefundRequestsInPaymentsViewEntitySchema = z
   .object({
     refundRequestId: z.string(), // 환불 요청 PK
     paymentId: z.string(),
@@ -154,9 +158,11 @@ export const RefundRequestSchema = z
     status: z.enum(['REQUESTED', 'COMPLETED', 'FAILED']),
   })
   .strict();
-export type RefundRequest = z.infer<typeof RefundRequestSchema>;
+export type RefundRequestsInPaymentsViewEntity = z.infer<
+  typeof RefundRequestsInPaymentsViewEntitySchema
+>;
 
-export const PaymentSchema = z
+export const PaymentsViewEntitySchema = z
   .object({
     paymentId: z.string(), // 결제 PK
     principalAmount: z.number(), // 원금 (할인 전 금액)
@@ -169,14 +175,14 @@ export const PaymentSchema = z
     reservationId: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
-    refundRequests: RefundRequestSchema.array().nullable(),
+    refundRequests: RefundRequestsInPaymentsViewEntitySchema.array().nullable(),
     isConfirmed: z.boolean(),
     userId: z.string(),
   })
   .strict();
-export type Payment = z.infer<typeof PaymentSchema>;
+export type PaymentsViewEntity = z.infer<typeof PaymentsViewEntitySchema>;
 
-export const IssuedCouponSchema = z
+export const IssuedCouponsViewEntitySchema = z
   .object({
     issuedCouponId: z.string(),
     userId: z.string(),
@@ -194,9 +200,11 @@ export const IssuedCouponSchema = z
     status: IssuedCouponStatusEnum,
   })
   .strict();
-export type IssuedCoupon = z.infer<typeof IssuedCouponSchema>;
+export type IssuedCouponsViewEntity = z.infer<
+  typeof IssuedCouponsViewEntitySchema
+>;
 
-export const UserSchema = z
+export const UsersViewEntitySchema = z
   .object({
     userId: z.string(),
     nickname: z.string().nullable(),
@@ -206,7 +214,7 @@ export const UserSchema = z
     ageRange: AgeRangeEnum,
     lastLoginAt: z.string().nullable(),
     regionId: z.string().nullable(),
-    favoriteArtists: ArtistSchema.array().nullable(),
+    favoriteArtists: ArtistsViewEntitySchema.array().nullable(),
     status: ActiveStatusEnum,
     isConnectedKakao: z.boolean(),
     isConnectedNaver: z.boolean(),
@@ -218,9 +226,9 @@ export const UserSchema = z
     updatedAt: z.string(),
   })
   .strict();
-export type User = z.infer<typeof UserSchema>;
+export type UsersViewEntity = z.infer<typeof UsersViewEntitySchema>;
 
-export const UserStatsSchema = z
+export const UserStatsReadModelSchema = z
   .object({
     userId: z.string(),
     currentReservationCount: z.number(),
@@ -230,11 +238,11 @@ export const UserStatsSchema = z
     shuttleDemandCount: z.number(),
   })
   .strict();
-export type UserStats = z.infer<typeof UserStatsSchema>;
+export type UserStatsReadModel = z.infer<typeof UserStatsReadModelSchema>;
 
 // ----- POST & PUT BODY -----
 
-export const PutUserBodySchema = z
+export const UpdateMeRequestSchema = z
   .object({
     profileImage: z.string().nullable(),
     nickname: z.string(),
@@ -248,4 +256,4 @@ export const PutUserBodySchema = z
     isAgreedPersonalInfo: z.boolean(),
   })
   .partial();
-export type PutUserBody = z.infer<typeof PutUserBodySchema>;
+export type UpdateMeRequest = z.infer<typeof UpdateMeRequestSchema>;

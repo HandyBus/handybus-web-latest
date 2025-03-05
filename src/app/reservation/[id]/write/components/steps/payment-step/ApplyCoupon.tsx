@@ -11,7 +11,7 @@ import CouponBottomSheet from './CouponBottomSheet';
 import { useEffect, useMemo, useState } from 'react';
 import Coupon from '@/components/coupon/Coupon';
 import XIcon from 'public/icons/x.svg';
-import { IssuedCoupon } from '@/types/user-management.type';
+import { IssuedCouponsViewEntity } from '@/types/user-management.type';
 
 const ApplyCoupon = () => {
   const { openBottomSheet, closeBottomSheet, bottomSheetRef, contentRef } =
@@ -19,9 +19,8 @@ const ApplyCoupon = () => {
 
   const { getValues, setValue } = useFormContext<ReservationFormValues>();
 
-  const [selectedCoupon, setSelectedCoupon] = useState<IssuedCoupon | null>(
-    null,
-  );
+  const [selectedCoupon, setSelectedCoupon] =
+    useState<IssuedCouponsViewEntity | null>(null);
 
   const {
     passengerCount,

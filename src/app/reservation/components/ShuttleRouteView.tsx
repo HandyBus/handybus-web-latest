@@ -1,11 +1,11 @@
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
-  shuttleRoute: ShuttleRoute;
+  shuttleRoute: ShuttleRoutesViewEntity;
 }
 
 const ShuttleRouteView = ({ shuttleRoute }: Props) => {

@@ -10,7 +10,11 @@ import { FORM_DEFAULT_VALUES } from '@/components/onboarding-contents/formValida
 import AgreementStep from './steps/AgreementStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import { usePutUser } from '@/services/user-management.service';
-import { AgeRange, Gender, PutUserBody } from '@/types/user-management.type';
+import {
+  AgeRange,
+  Gender,
+  UpdateMeRequest,
+} from '@/types/user-management.type';
 import { setFirstSignup } from '@/utils/localStorage';
 import { setOnboardingStatusComplete } from '@/utils/handleToken.util';
 
@@ -78,7 +82,7 @@ const OnboardingFunnel = ({
 
   const submitForm: SubmitHandler<OnboardingFormValues> = async (formData) => {
     setIsSubmitting(true);
-    const body: PutUserBody = {
+    const body: UpdateMeRequest = {
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),

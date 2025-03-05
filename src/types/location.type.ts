@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const RegionHubSchema = z.object({
+export const RegionHubsResponseModelSchema = z.object({
   regionHubId: z.string(),
   regionId: z.string(),
   name: z.string(),
@@ -8,4 +8,6 @@ export const RegionHubSchema = z.object({
   latitude: z.number(),
   longitude: z.number(),
 });
-export type RegionHub = z.infer<typeof RegionHubSchema>;
+export type RegionHubsResponseModel = z.infer<
+  typeof RegionHubsResponseModelSchema
+>;

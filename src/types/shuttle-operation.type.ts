@@ -46,24 +46,26 @@ export type ShuttleBusType = z.infer<typeof ShuttleBusTypeEnum>;
 
 //  ----- SCHEMA -----
 
-export const ArtistSchema = z
+export const ArtistsViewEntitySchema = z
   .object({
     artistId: z.string(),
     artistName: z.string(),
   })
   .strict();
-export type Artist = z.infer<typeof ArtistSchema>;
+export type ArtistsViewEntity = z.infer<typeof ArtistsViewEntitySchema>;
 
-export const DailyEventSchema = z
+export const DailyEventsInEventsViewEntitySchema = z
   .object({
     dailyEventId: z.string(),
     date: z.string(),
     status: EventStatusEnum,
   })
   .strict();
-export type DailyEvent = z.infer<typeof DailyEventSchema>;
+export type DailyEventsInEventsViewEntity = z.infer<
+  typeof DailyEventsInEventsViewEntitySchema
+>;
 
-export const EventSchema = z
+export const EventsViewEntitySchema = z
   .object({
     eventId: z.string(),
     eventName: z.string(),
@@ -76,17 +78,17 @@ export const EventSchema = z
     eventLocationAddress: z.string(),
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
-    eventArtists: ArtistSchema.array().nullable(),
-    dailyEvents: DailyEventSchema.array(),
+    eventArtists: ArtistsViewEntitySchema.array().nullable(),
+    dailyEvents: DailyEventsInEventsViewEntitySchema.array(),
     startDate: z.string(),
     endDate: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
   })
   .strict();
-export type Event = z.infer<typeof EventSchema>;
+export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;
 
-export const ShuttleRouteHubSchema = z
+export const ShuttleRouteHubsInShuttleRoutesViewEntitySchema = z
   .object({
     shuttleRouteHubId: z.string(),
     regionHubId: z.string(),
@@ -101,9 +103,11 @@ export const ShuttleRouteHubSchema = z
     regionId: z.string(),
   })
   .strict();
-export type ShuttleRouteHub = z.infer<typeof ShuttleRouteHubSchema>;
+export type ShuttleRouteHubsInShuttleRoutesViewEntity = z.infer<
+  typeof ShuttleRouteHubsInShuttleRoutesViewEntitySchema
+>;
 
-export const ShuttleRouteSchema = z
+export const ShuttleRoutesViewEntitySchema = z
   .object({
     shuttleRouteId: z.string(),
     eventId: z.string(),
@@ -124,16 +128,20 @@ export const ShuttleRouteSchema = z
     remainingSeatCount: z.number(),
     remainingSeatType: TripTypeEnum,
     status: ShuttleRouteStatusEnum,
-    toDestinationShuttleRouteHubs: ShuttleRouteHubSchema.array().nullable(),
-    fromDestinationShuttleRouteHubs: ShuttleRouteHubSchema.array().nullable(),
-    event: EventSchema,
+    toDestinationShuttleRouteHubs:
+      ShuttleRouteHubsInShuttleRoutesViewEntitySchema.array().nullable(),
+    fromDestinationShuttleRouteHubs:
+      ShuttleRouteHubsInShuttleRoutesViewEntitySchema.array().nullable(),
+    event: EventsViewEntitySchema,
     createdAt: z.string(),
     updatedAt: z.string(),
   })
   .strict();
-export type ShuttleRoute = z.infer<typeof ShuttleRouteSchema>;
+export type ShuttleRoutesViewEntity = z.infer<
+  typeof ShuttleRoutesViewEntitySchema
+>;
 
-export const ShuttleBusSchema = z
+export const ShuttleBusesViewEntitySchema = z
   .object({
     shuttleBusId: z.string(),
     shuttleRouteId: z.string(),
@@ -145,9 +153,11 @@ export const ShuttleBusSchema = z
     openChatLink: z.string().nullable(),
   })
   .strict();
-export type ShuttleBus = z.infer<typeof ShuttleBusSchema>;
+export type ShuttleBusesViewEntity = z.infer<
+  typeof ShuttleBusesViewEntitySchema
+>;
 
-export const ReviewSchema = z
+export const ReviewsViewEntitySchema = z
   .object({
     reviewId: z.string(),
     reservationId: z.string(),
@@ -164,7 +174,7 @@ export const ReviewSchema = z
     eventType: EventTypeEnum,
     eventLocationName: z.string(),
     eventImageUrl: z.string().url(),
-    eventArtists: ArtistSchema.array().nullable(),
+    eventArtists: ArtistsViewEntitySchema.array().nullable(),
     reviewImages: z
       .object({
         imageUrl: z.string().url(),
@@ -174,20 +184,22 @@ export const ReviewSchema = z
       .nullable(),
   })
   .strict();
-export type Review = z.infer<typeof ReviewSchema>;
+export type ReviewsViewEntity = z.infer<typeof ReviewsViewEntitySchema>;
 
-export const EventDemandStatsSchema = z.object({
-  fromDestinationCount: z.number(),
+export const ShuttleDemandStatisticsReadModelSchema = z.object({
   roundTripCount: z.number(),
   toDestinationCount: z.number(),
+  fromDestinationCount: z.number(),
 });
-export type EventDemandStats = z.infer<typeof EventDemandStatsSchema>;
+export type ShuttleDemandStatisticsReadModel = z.infer<
+  typeof ShuttleDemandStatisticsReadModelSchema
+>;
 
 // ----- POST & PUT BODY -----
 
-export const PostDemandBodySchema = z.object({
+export const CreateShuttleDemandRequestSchema = z.object({
   regionId: z.string(),
-  type: z.enum(['TO_DESTINATION', 'FROM_DESTINATION', 'ROUND_TRIP']),
+  type: TripTypeEnum,
   passengerCount: z.number(),
   toDestinationRegionHub: z
     .object({
@@ -202,14 +214,11 @@ export const PostDemandBodySchema = z.object({
     })
     .optional(),
 });
-export type PostDemandBody = z.infer<typeof PostDemandBodySchema>;
+export type CreateShuttleDemandRequest = z.infer<
+  typeof CreateShuttleDemandRequestSchema
+>;
 
-export const PutShuttleBusBodySchema = z.object({
-  openChatLink: z.string().url(),
-});
-export type PutShuttleBusBody = z.infer<typeof PutShuttleBusBodySchema>;
-
-export const PostReviewBodySchema = z.object({
+export const CreateReviewRequestSchema = z.object({
   eventId: z.string(),
   reservationId: z.string(),
   rating: z.number().int().min(1).max(5),
@@ -221,4 +230,4 @@ export const PostReviewBodySchema = z.object({
     .array()
     .nullable(),
 });
-export type PostReviewBody = z.infer<typeof PostReviewBodySchema>;
+export type CreateReviewRequest = z.infer<typeof CreateReviewRequestSchema>;

@@ -9,15 +9,15 @@ import BottomBar from './BottomBar';
 import PriceStats from './PriceStats';
 import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
 import {
-  DailyEvent,
-  Event,
-  ShuttleRoute,
+  DailyEventsInEventsViewEntity,
+  EventsViewEntity,
+  ShuttleRoutesViewEntity,
 } from '@/types/shuttle-operation.type';
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
   initialDailyEventId: string;
   initialRouteId: string;
 }
@@ -27,8 +27,9 @@ const ReservationForm = ({
   initialDailyEventId,
   initialRouteId,
 }: Props) => {
-  const [selectedDailyEvent, setSelectedDailyEvent] = useState<DailyEvent>();
-  const [selectedRoute, setSelectedRoute] = useState<ShuttleRoute>();
+  const [selectedDailyEvent, setSelectedDailyEvent] =
+    useState<DailyEventsInEventsViewEntity>();
+  const [selectedRoute, setSelectedRoute] = useState<ShuttleRoutesViewEntity>();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const { data: routes } = useGetShuttleRoutesOfDailyEvent(

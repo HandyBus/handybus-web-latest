@@ -8,12 +8,12 @@ import { MouseEvent, MouseEventHandler } from 'react';
 import { dateString } from '@/utils/dateString.util';
 import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { ShuttleDemand } from '@/types/user-management.type';
+import { ShuttleDemandsViewEntity } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { getDemandStatusStyle } from '../utils/status.util';
 
 interface Props {
-  demand: ShuttleDemand;
+  demand: ShuttleDemandsViewEntity;
   href?: string;
   buttonText?: string;
   buttonHref?: string;

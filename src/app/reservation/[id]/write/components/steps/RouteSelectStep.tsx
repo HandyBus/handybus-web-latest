@@ -11,14 +11,14 @@ import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
 import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
 import {
-  DailyEvent,
-  Event,
-  ShuttleRoute,
+  DailyEventsInEventsViewEntity,
+  EventsViewEntity,
+  ShuttleRoutesViewEntity,
 } from '@/types/shuttle-operation.type';
 
 interface Props {
   handleNextStep: () => void;
-  event: Event;
+  event: EventsViewEntity;
   initialDailyShuttleId?: string;
   initialShuttleRouteId?: string;
 }
@@ -33,7 +33,7 @@ const RouteSelectStep = ({
     useFormContext<ReservationFormValues>();
 
   const [selectedDailyShuttle, setSelectedDailyShuttle] = useState<
-    DailyEvent | undefined
+    DailyEventsInEventsViewEntity | undefined
   >(
     event.dailyEvents.find(
       (dailyEvent) => dailyEvent.dailyEventId === initialDailyShuttleId,
@@ -58,7 +58,9 @@ const RouteSelectStep = ({
     }
   }, [routes, initialShuttleRouteId]);
 
-  const handleDailyShuttleChange = (dailyEvent: DailyEvent) => {
+  const handleDailyShuttleChange = (
+    dailyEvent: DailyEventsInEventsViewEntity,
+  ) => {
     setSelectedDailyShuttle(dailyEvent);
     setValue('shuttleRoute', undefined);
     setValue('type', undefined);
@@ -69,7 +71,7 @@ const RouteSelectStep = ({
   };
 
   // 노선 변경에 따라 기존 타입 및 허브 값 초기화
-  const handleRouteChange = (route: ShuttleRoute) => {
+  const handleRouteChange = (route: ShuttleRoutesViewEntity) => {
     setValue('shuttleRoute', route);
     setValue('type', undefined);
     setValue('hub', {

@@ -1,5 +1,5 @@
 import { BigRegionsType } from '@/constants/regions';
-import { Artist } from '@/types/shuttle-operation.type';
+import { ArtistsViewEntity } from '@/types/shuttle-operation.type';
 import { AgeRange } from '@/types/user-management.type';
 
 export interface OnboardingFormValues {
@@ -11,7 +11,7 @@ export interface OnboardingFormValues {
   bigRegion: BigRegionsType;
   smallRegion: string | undefined;
   regionId: string | null;
-  favoriteArtists: Artist[];
+  favoriteArtists: ArtistsViewEntity[];
   isAgreedMarketing: boolean;
   isAgreedServiceTerms: boolean;
   isAgreedPersonalInfo: boolean;

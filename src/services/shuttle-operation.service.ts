@@ -1,15 +1,15 @@
 import {
-  ArtistSchema,
-  EventDemandStatsSchema,
-  EventSchema,
+  ArtistsViewEntitySchema,
+  ShuttleDemandStatisticsReadModelSchema,
+  EventsViewEntitySchema,
   EventStatus,
-  PostDemandBody,
-  PostDemandBodySchema,
-  PostReviewBody,
-  PostReviewBodySchema,
-  ReviewSchema,
-  ShuttleBusSchema,
-  ShuttleRouteSchema,
+  CreateShuttleDemandRequest,
+  CreateShuttleDemandRequestSchema,
+  CreateReviewRequest,
+  CreateReviewRequestSchema,
+  ReviewsViewEntitySchema,
+  ShuttleBusesViewEntitySchema,
+  ShuttleRoutesViewEntitySchema,
   ShuttleRouteStatus,
 } from '@/types/shuttle-operation.type';
 import { authInstance, instance } from './config';
@@ -37,7 +37,7 @@ export const getEvents = async (status?: EventStatus) => {
     `/v2/shuttle-operation/events?${searchParams.toString()}`,
     {
       shape: withPagination({
-        events: EventSchema.array(),
+        events: EventsViewEntitySchema.array(),
       }),
     },
   );
@@ -54,7 +54,7 @@ export const useGetEvents = (status?: EventStatus) =>
 export const getEvent = async (eventId: string) => {
   const res = await instance.get(`/v2/shuttle-operation/events/${eventId}`, {
     shape: {
-      event: EventSchema,
+      event: EventsViewEntitySchema,
     },
   });
   return res.event;
@@ -78,7 +78,7 @@ export const getShuttleRoutes = async (params?: {
     `/v2/shuttle-operation/events/all/dates/all/routes?${searchParams.toString()}`,
     {
       shape: withPagination({
-        shuttleRoutes: ShuttleRouteSchema.array(),
+        shuttleRoutes: ShuttleRoutesViewEntitySchema.array(),
       }),
     },
   );
@@ -110,7 +110,7 @@ export const getShuttleRoutesOfDailyEvent = async (
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes?${searchParams.toString()}`,
     {
       shape: withPagination({
-        shuttleRoutes: ShuttleRouteSchema.array(),
+        shuttleRoutes: ShuttleRoutesViewEntitySchema.array(),
       }),
     },
   );
@@ -141,7 +141,7 @@ export const getShuttleRoute = async (
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}`,
     {
       shape: {
-        shuttleRoute: ShuttleRouteSchema,
+        shuttleRoute: ShuttleRoutesViewEntitySchema,
       },
     },
   );
@@ -170,7 +170,7 @@ export const getShuttleBus = async (
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/buses/${shuttleBusId}`,
     {
       shape: {
-        shuttleBus: ShuttleBusSchema.nullable(),
+        shuttleBus: ShuttleBusesViewEntitySchema.nullable(),
       },
     },
   );
@@ -257,7 +257,7 @@ export const usePutShuttleBus = (
 export const getArtists = async () => {
   const res = await instance.get('/v2/shuttle-operation/artists', {
     shape: {
-      artists: ArtistSchema.array(),
+      artists: ArtistsViewEntitySchema.array(),
     },
   });
   return res.artists;
@@ -291,7 +291,7 @@ export const getReviewsWithPagination = async ({
     `/v2/shuttle-operation/reviews?${searchParams.toString()}`,
     {
       next: { revalidate },
-      shape: withPagination({ reviews: ReviewSchema.array() }),
+      shape: withPagination({ reviews: ReviewsViewEntitySchema.array() }),
     },
   );
   return res;
@@ -313,10 +313,10 @@ export const useGetReviewsWithPagination = (
     }),
   });
 
-export const postReview = async (body: PostReviewBody) => {
+export const postReview = async (body: CreateReviewRequest) => {
   return await authInstance.post(
     '/v2/shuttle-operation/reviews',
-    silentParse(PostReviewBodySchema, body),
+    silentParse(CreateReviewRequestSchema, body),
   );
 };
 
@@ -347,11 +347,11 @@ export const usePostReview = ({
 export const postDemand = async (
   eventId: string,
   dailyEventId: string,
-  body: PostDemandBody,
+  body: CreateShuttleDemandRequest,
 ) => {
   return await authInstance.post(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands`,
-    silentParse(PostDemandBodySchema, body),
+    silentParse(CreateShuttleDemandRequestSchema, body),
   );
 };
 
@@ -365,7 +365,7 @@ export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
     }: {
       eventId: string;
       dailyEventId: string;
-      body: PostDemandBody;
+      body: CreateShuttleDemandRequest;
     }) => postDemand(eventId, dailyEventId, body),
     onSuccess: async () => {
       await Promise.all([
@@ -423,7 +423,7 @@ export const getAllEventDemandStats = async (eventId: string) => {
     `/v2/shuttle-operation/events/${eventId}/dates/all/demands/all/stats`,
     {
       shape: {
-        statistic: EventDemandStatsSchema,
+        statistic: ShuttleDemandStatisticsReadModelSchema,
       },
     },
   );
@@ -450,7 +450,7 @@ export const getEventDemandStats = async (
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/all/stats?${searchParams.toString()}`,
     {
       shape: {
-        statistic: EventDemandStatsSchema,
+        statistic: ShuttleDemandStatisticsReadModelSchema,
       },
     },
   );

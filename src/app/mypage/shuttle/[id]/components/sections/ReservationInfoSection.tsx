@@ -3,12 +3,15 @@
 import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { HandyStatus, Reservation } from '@/types/user-management.type';
+import {
+  HandyStatus,
+  ReservationsViewEntity,
+} from '@/types/user-management.type';
 import { getBoardingTime } from '../../../utils/refund.util';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
-  reservation: Reservation;
+  reservation: ReservationsViewEntity;
   handyStatus?: HandyStatus;
   isExpandable?: boolean;
   hideApplyHandy?: boolean;

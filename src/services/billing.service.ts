@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
 import { silentParse } from '@/utils/config.util';
 import {
-  PostReadyPaymentBody,
-  PostReadyPaymentBodySchema,
-  PostReservationBody,
-  PostReservationBodySchema,
-  TempPaymentSchema,
-  TempReadyPaymentSchema,
-  TempReservationSchema,
+  PreparePaymentsRequest,
+  PreparePaymentsRequestSchema,
+  ReserveRequest,
+  ReserveRequestSchema,
+  ApprovePaymentsResponseSchema,
+  PaymentsResponseModelSchema,
+  ReserveResponseSchema,
 } from '@/types/billing.type';
 
 export const postCoupon = async (code: string) => {
@@ -76,26 +76,26 @@ export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
 };
 
 // TODO: v2 적용 후 타입 정리
-export const postReservation = async (body: PostReservationBody) => {
+export const postReservation = async (body: ReserveRequest) => {
   const res = await authInstance.post(
     '/v2/shuttle-operation/reservations',
-    silentParse(PostReservationBodySchema, body),
+    silentParse(ReserveRequestSchema, body),
     {
       shape: {
-        reservation: TempReservationSchema,
+        reservation: ReserveResponseSchema,
       },
     },
   );
   return res.reservation;
 };
 
-export const postReadyPayment = async (body: PostReadyPaymentBody) => {
+export const postReadyPayment = async (body: PreparePaymentsRequest) => {
   const res = await authInstance.post(
     '/v1/billing/payments',
-    silentParse(PostReadyPaymentBodySchema, body),
+    silentParse(PreparePaymentsRequestSchema, body),
     {
       shape: {
-        payment: TempReadyPaymentSchema,
+        payment: PaymentsResponseModelSchema,
       },
     },
   );
@@ -112,7 +112,7 @@ export const postPayment = async (paymentId: string, paymentKey: string) => {
     },
     {
       shape: {
-        payments: TempPaymentSchema,
+        payments: ApprovePaymentsResponseSchema,
       },
     },
   );

@@ -1,20 +1,20 @@
 import {
-  IssuedCouponSchema,
+  IssuedCouponsViewEntitySchema,
   IssuedCouponStatus,
-  PaymentSchema,
-  PutUserBody,
-  PutUserBodySchema,
-  ReservationSchema,
+  PaymentsViewEntitySchema,
+  UpdateMeRequest,
+  UpdateMeRequestSchema,
+  ReservationsViewEntitySchema,
   ReservationStatus,
-  ShuttleDemandSchema,
+  ShuttleDemandsViewEntitySchema,
   ShuttleDemandStatus,
-  UserSchema,
-  UserStatsSchema,
+  UsersViewEntitySchema,
+  UserStatsReadModelSchema,
 } from '@/types/user-management.type';
 import { authInstance } from './config';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ReviewSchema } from '@/types/shuttle-operation.type';
+import { ReviewsViewEntitySchema } from '@/types/shuttle-operation.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
 
@@ -24,7 +24,7 @@ export const getUserDemands = async (status?: ShuttleDemandStatus) => {
     `/v2/user-management/users/me/demands?${searchParams.toString()}`,
     {
       shape: {
-        shuttleDemands: ShuttleDemandSchema.array(),
+        shuttleDemands: ShuttleDemandsViewEntitySchema.array(),
       },
     },
   );
@@ -46,7 +46,7 @@ export const getUserReservations = async (params?: {
     `/v2/user-management/users/me/reservations?${searchParams.toString()}`,
     {
       shape: {
-        reservations: ReservationSchema.array(),
+        reservations: ReservationsViewEntitySchema.array(),
       },
     },
   );
@@ -67,8 +67,8 @@ export const getUserReservation = async (reservationId: string) => {
     `/v2/user-management/users/me/reservations/${reservationId}`,
     {
       shape: {
-        reservation: ReservationSchema,
-        payment: PaymentSchema,
+        reservation: ReservationsViewEntitySchema,
+        payment: PaymentsViewEntitySchema,
       },
     },
   );
@@ -86,7 +86,7 @@ export const getUserPayment = async (paymentId: string) => {
     `/v2/user-management/users/me/payments/${paymentId}`,
     {
       shape: {
-        payments: PaymentSchema,
+        payments: PaymentsViewEntitySchema,
       },
     },
   );
@@ -102,7 +102,7 @@ export const useGetUserPayment = (paymentId: string) =>
 export const getUserReviews = async () => {
   const res = await authInstance.get('/v2/user-management/users/me/reviews', {
     shape: {
-      reviews: ReviewSchema.array(),
+      reviews: ReviewsViewEntitySchema.array(),
     },
   });
   return res.reviews;
@@ -124,7 +124,7 @@ export const getUserCoupons = async (params?: {
     `/v2/user-management/users/me/coupons?${searchParams.toString()}`,
     {
       shape: {
-        issuedCoupons: IssuedCouponSchema.array(),
+        issuedCoupons: IssuedCouponsViewEntitySchema.array(),
       },
     },
   );
@@ -146,7 +146,7 @@ export const getUser = async ({
 }: { skipCheckOnboarding?: boolean } = {}) => {
   const res = await authInstance.get('/v2/user-management/users/me', {
     shape: {
-      user: UserSchema,
+      user: UsersViewEntitySchema,
     },
     skipCheckOnboarding,
   });
@@ -168,12 +168,12 @@ export const useGetUser = ({
 };
 
 export const putUser = async (
-  body: PutUserBody,
+  body: UpdateMeRequest,
   options?: { skipCheckOnboarding?: boolean },
 ) => {
   return await authInstance.put(
     '/v1/user-management/users/me',
-    silentParse(PutUserBodySchema, body),
+    silentParse(UpdateMeRequestSchema, body),
     options,
   );
 };
@@ -191,7 +191,7 @@ export const usePutUser = ({
 } = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (body: PutUserBody) => putUser(body, options),
+    mutationFn: (body: UpdateMeRequest) => putUser(body, options),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
       onSuccess?.();
@@ -204,7 +204,7 @@ export const usePutUser = ({
 const getUserStats = async () => {
   const res = await authInstance.get('/v1/user-management/users/me/stats', {
     shape: {
-      userStats: UserStatsSchema,
+      userStats: UserStatsReadModelSchema,
     },
   });
   return res.userStats;

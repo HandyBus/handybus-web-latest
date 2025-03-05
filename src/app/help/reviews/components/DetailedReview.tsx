@@ -7,10 +7,13 @@ import ArtistIcon from '../icons/artist.svg';
 import LocateIcon from '../icons/locate.svg';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { dateString } from '@/utils/dateString.util';
-import { Artist, Review } from '@/types/shuttle-operation.type';
+import {
+  ArtistsViewEntity,
+  ReviewsViewEntity,
+} from '@/types/shuttle-operation.type';
 
 interface Props {
-  review: Review;
+  review: ReviewsViewEntity;
   showUser?: boolean;
   showCreatedAt?: boolean;
 }
@@ -159,7 +162,7 @@ const UserTag = ({ nickname, profileImageUrl }: UserTagProps) => (
 
 interface EventTagProps {
   title: string;
-  artists: Artist[];
+  artists: ArtistsViewEntity[];
   location: string;
   posterImageUrl: string;
 }

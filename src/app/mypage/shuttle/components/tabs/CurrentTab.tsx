@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelBottomSheet from '../CancelBottomSheet';
-import { Reservation } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/user-management.type';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const CurrentTab = () => {
@@ -22,9 +22,13 @@ const CurrentTab = () => {
     router.push(`/mypage/shuttle/${reservationId}`);
   };
 
-  const [reservation, setReservation] = useState<Reservation | null>(null);
+  const [reservation, setReservation] = useState<ReservationsViewEntity | null>(
+    null,
+  );
 
-  const handleReservationCancelClick = (reservation: Reservation | null) => {
+  const handleReservationCancelClick = (
+    reservation: ReservationsViewEntity | null,
+  ) => {
     if (!reservation) {
       console.error('예약이 존재하지 않습니다.');
       return;

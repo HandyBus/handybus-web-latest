@@ -7,19 +7,19 @@ import RouteSelectStep from './steps/RouteSelectStep';
 import PassengerInfoStep from './steps/PassengerInfoStep';
 import PaymentStep from './steps/payment-step/PaymentStep';
 import {
-  Event,
-  ShuttleRoute,
-  ShuttleRouteHub,
+  EventsViewEntity,
+  ShuttleRoutesViewEntity,
+  ShuttleRouteHubsInShuttleRoutesViewEntity,
 } from '@/types/shuttle-operation.type';
 
 const STEPS = ['노선 선택', '탑승 정보 입력', '결제'] as const;
 
 export interface ReservationFormValues {
-  shuttleRoute: ShuttleRoute | undefined;
+  shuttleRoute: ShuttleRoutesViewEntity | undefined;
   type: TripType | undefined;
   hub: {
-    toDestinationHub: ShuttleRouteHub | undefined;
-    fromDestinationHub: ShuttleRouteHub | undefined;
+    toDestinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
+    fromDestinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
   };
   passengerCount: number;
   issuedCouponId: string | undefined;
@@ -28,7 +28,7 @@ export interface ReservationFormValues {
 }
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
   initialDailyShuttleId: string;
   initialShuttleRouteId: string;
 }

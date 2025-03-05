@@ -1,10 +1,10 @@
-import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
 import type { ShuttleSortType } from '../constants/params';
 import dayjs from 'dayjs';
 
 export const toSortedRoutes = (
   sort: ShuttleSortType,
-  routes: ShuttleRoute[],
+  routes: ShuttleRoutesViewEntity[],
 ) => {
   switch (sort) {
     case '콘서트 이름 가나다 순':

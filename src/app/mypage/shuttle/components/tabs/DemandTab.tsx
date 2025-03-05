@@ -9,7 +9,7 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
 import { useGetUserDemands } from '@/services/user-management.service';
-import { ShuttleDemand } from '@/types/user-management.type';
+import { ShuttleDemandsViewEntity } from '@/types/user-management.type';
 import { useDeleteDemand } from '@/services/shuttle-operation.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
@@ -32,7 +32,7 @@ const DemandTab = () => {
 
   const { mutate: deleteDemand } = useDeleteDemand();
   const [isOpen, setIsOpen] = useState(false);
-  const [demand, setDemand] = useState<ShuttleDemand | null>(null);
+  const [demand, setDemand] = useState<ShuttleDemandsViewEntity | null>(null);
 
   return (
     <>

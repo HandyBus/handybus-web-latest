@@ -16,13 +16,13 @@ import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { EditType } from '../page';
 import { CustomError } from '@/services/custom-error';
 import { usePutUser } from '@/services/user-management.service';
-import { User } from '@/types/user-management.type';
+import { UsersViewEntity } from '@/types/user-management.type';
 import { getImageUrl } from '@/services/core.service';
 import Header from '@/components/header/Header';
 
 interface Props {
   type: EditType;
-  user: User;
+  user: UsersViewEntity;
 }
 
 const EditForm = ({ type, user }: Props) => {

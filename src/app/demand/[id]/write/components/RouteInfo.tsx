@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { TripType } from '@/types/shuttle-operation.type';
 import { FormValues } from './WriteForm';
 import { dateString } from '@/utils/dateString.util';
-import { Event } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/shuttle-operation.type';
 
 const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
   ROUND_TRIP: '왕복',
@@ -22,7 +22,7 @@ const TRIP_TYPE_TO_STRING: Record<TripType, string> = {
 };
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
   regionId: string;
 }
 

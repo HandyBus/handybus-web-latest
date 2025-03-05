@@ -13,14 +13,14 @@ import {
   RESERVATION_STATUS_TO_STRING,
   TRIP_STATUS_TO_STRING,
 } from '@/constants/status';
-import { Reservation } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/user-management.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { SyntheticEvent } from 'react';
 
 type ButtonColor = 'primary' | 'grey';
 
 interface Props {
-  reservation: Reservation;
+  reservation: ReservationsViewEntity;
   buttonText?: string;
   onButtonClick?: () => void;
   buttonDisabled?: boolean;

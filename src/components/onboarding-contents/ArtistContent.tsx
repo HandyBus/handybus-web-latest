@@ -11,11 +11,11 @@ import { OnboardingFormValues } from '@/components/onboarding-contents/onboardin
 import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
 import { useGetArtists } from '@/services/shuttle-operation.service';
-import { Artist } from '@/types/shuttle-operation.type';
+import { ArtistsViewEntity } from '@/types/shuttle-operation.type';
 import Button from '@/components/buttons/button/Button';
 
 interface Props {
-  initialSelectedArtists?: Artist[];
+  initialSelectedArtists?: ArtistsViewEntity[];
 }
 
 const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
@@ -27,16 +27,16 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
   const [isListOpen, setIsListOpen] = useState(false);
 
   // 수정 off
-  const [selectedArtists, setSelectedArtists] = useState<Artist[]>(
+  const [selectedArtists, setSelectedArtists] = useState<ArtistsViewEntity[]>(
     initialSelectedArtists,
   );
 
   // 수정 on
   const [editingFilteredArtists, setEditingFilteredArtists] = useState<
-    Artist[]
+    ArtistsViewEntity[]
   >([]);
   const [editingSelectedArtists, setEditingSelectedArtists] = useState<
-    Artist[]
+    ArtistsViewEntity[]
   >([]);
 
   const filterArtist = useDebounce(() => {
@@ -50,7 +50,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
     filterArtist();
   }, [searchValue, artists]);
 
-  const handleSelectArtist = (artist: Artist) =>
+  const handleSelectArtist = (artist: ArtistsViewEntity) =>
     setEditingSelectedArtists((prev) =>
       prev.find((selectedArtist) => selectedArtist.artistId === artist.artistId)
         ? prev.filter(

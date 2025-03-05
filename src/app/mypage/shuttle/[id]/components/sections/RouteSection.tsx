@@ -4,7 +4,10 @@ import Divider from '../Divider';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisualizerWithSelect';
-import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
+import {
+  ShuttleRouteHubsInShuttleRoutesViewEntity,
+  TripType,
+} from '@/types/shuttle-operation.type';
 import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 import Button from '@/components/buttons/button/Button';
 import dayjs, { Dayjs } from 'dayjs';
@@ -12,8 +15,8 @@ import dayjs, { Dayjs } from 'dayjs';
 interface Props {
   reservationId: string;
   tripType: TripType;
-  toDestinationHubs: ShuttleRouteHub[];
-  fromDestinationHubs: ShuttleRouteHub[];
+  toDestinationHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  fromDestinationHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
   toDestinationHubId: string;
   fromDestinationHubId: string;
   date: Dayjs | null;
@@ -31,9 +34,9 @@ const RouteSection = ({
   const [isEdit, setIsEdit] = useState(false);
 
   const [toDestinationHubValue, setToDestinationHubValue] =
-    useState<ShuttleRouteHub>();
+    useState<ShuttleRouteHubsInShuttleRoutesViewEntity>();
   const [fromDestinationHubValue, setFromDestinationHubValue] =
-    useState<ShuttleRouteHub>();
+    useState<ShuttleRouteHubsInShuttleRoutesViewEntity>();
 
   const setInitialHubValue = () => {
     const selectedToDestination = toDestinationHubs.find(

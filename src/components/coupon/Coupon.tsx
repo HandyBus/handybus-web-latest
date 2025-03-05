@@ -1,8 +1,8 @@
-import { IssuedCoupon } from '@/types/user-management.type';
+import { IssuedCouponsViewEntity } from '@/types/user-management.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
-  coupon: IssuedCoupon;
+  coupon: IssuedCouponsViewEntity;
 }
 
 const Coupon = ({ coupon }: Props) => {

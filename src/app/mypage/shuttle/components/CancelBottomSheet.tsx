@@ -5,14 +5,14 @@ import useFunnel from '@/hooks/useFunnel';
 import { useEffect, useMemo } from 'react';
 import RefundPolicy from '../[id]/components/RefundPolicy';
 import { usePostRefund } from '@/services/billing.service';
-import { Reservation } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/user-management.type';
 import { calculateRefundFee } from '../utils/refund.util';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 
 const CANCEL_STEP = ['취소 및 환불 안내', '취소 수수료'] as const;
 
 interface Props extends BottomSheetRefs {
-  reservation: Reservation | null;
+  reservation: ReservationsViewEntity | null;
   isOpen: boolean;
   closeBottomSheet: () => void;
 }

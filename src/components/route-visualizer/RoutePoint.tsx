@@ -1,6 +1,6 @@
-import { ShuttleRouteHub } from '@/types/shuttle-operation.type';
+import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
 interface Props {
-  hubs: ShuttleRouteHub[];
+  hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
   type: 'TO_DESTINATION' | 'FROM_DESTINATION';
 }
 

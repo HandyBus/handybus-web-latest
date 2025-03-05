@@ -3,14 +3,14 @@ import ChevronRight from 'public/icons/quill-chevron-right.svg';
 import Button from '@/components/buttons/button/Button';
 import { dateString } from '@/utils/dateString.util';
 import Link from 'next/link';
-import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
 
 interface Props {
   isOpen: boolean;
   onClosed: () => void;
   date: string;
   region: string;
-  routes: ShuttleRoute[];
+  routes: ShuttleRoutesViewEntity[];
 }
 
 const SelectModal = ({ isOpen, onClosed, date, region, routes }: Props) => {
@@ -35,7 +35,7 @@ export default SelectModal;
 interface SelectModalContentProps {
   date: string;
   region: string;
-  routes: ShuttleRoute[];
+  routes: ShuttleRoutesViewEntity[];
   onClosed: () => void;
 }
 
@@ -74,7 +74,7 @@ const SelectModalContent = ({
 };
 
 interface SelectModalButtonProps {
-  route: ShuttleRoute;
+  route: ShuttleRoutesViewEntity;
 }
 
 const SelectModalButton = ({ route }: SelectModalButtonProps) => {
