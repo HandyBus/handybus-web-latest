@@ -1,6 +1,6 @@
 'use client';
 
-import { TripType } from '@/types/shuttle-operation.type';
+import { TripType } from '@/types/shuttleRoute.type';
 import { FormProvider, useForm } from 'react-hook-form';
 import RouteInfo from './RouteInfo';
 import JourneyLocationPicker from './JourneyLocationPicker';
@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import {
   DailyEventsInEventsViewEntity,
   EventsViewEntity,
-} from '@/types/shuttle-operation.type';
+} from '@/types/event.type';
 import { usePostDemand } from '@/services/shuttle-operation.service';
 import { useRouter } from 'next/navigation';
 

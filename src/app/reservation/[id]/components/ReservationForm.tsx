@@ -8,11 +8,11 @@ import RouteVisualizer from '@/components/route-visualizer/RouteVisualizer';
 import BottomBar from './BottomBar';
 import PriceStats from './PriceStats';
 import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import {
-  DailyEventsInEventsViewEntity,
   EventsViewEntity,
-  ShuttleRoutesViewEntity,
-} from '@/types/shuttle-operation.type';
+  DailyEventsInEventsViewEntity,
+} from '@/types/event.type';
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
 

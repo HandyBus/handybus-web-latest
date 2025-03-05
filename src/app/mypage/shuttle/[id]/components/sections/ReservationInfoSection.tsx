@@ -3,10 +3,7 @@
 import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import {
-  HandyStatus,
-  ReservationsViewEntity,
-} from '@/types/user-management.type';
+import { HandyStatus, ReservationsViewEntity } from '@/types/reservation.type';
 import { getBoardingTime } from '../../../utils/refund.util';
 import { dateString } from '@/utils/dateString.util';
 

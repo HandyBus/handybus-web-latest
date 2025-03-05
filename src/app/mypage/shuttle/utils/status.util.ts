@@ -1,8 +1,5 @@
-import {
-  HandyStatus,
-  ReservationStatus,
-  ShuttleDemandStatus,
-} from '@/types/user-management.type';
+import { HandyStatus, ReservationStatus } from '@/types/reservation.type';
+import { ShuttleDemandStatus } from '@/types/demand.type';
 
 const STATUS_STYLE = {
   fullGreen: {

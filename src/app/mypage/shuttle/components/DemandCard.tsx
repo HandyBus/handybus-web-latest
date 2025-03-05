@@ -8,7 +8,7 @@ import { MouseEvent, MouseEventHandler } from 'react';
 import { dateString } from '@/utils/dateString.util';
 import { DEMAND_STATUS_TO_STRING } from '@/constants/status';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { ShuttleDemandsViewEntity } from '@/types/user-management.type';
+import { ShuttleDemandsViewEntity } from '@/types/demand.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { getDemandStatusStyle } from '../utils/status.util';
 

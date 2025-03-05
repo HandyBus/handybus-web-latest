@@ -11,7 +11,7 @@ import { OnboardingFormValues } from '@/components/onboarding-contents/onboardin
 import useDebounce from '@/hooks/useDebounce';
 import OnboardingTitle from './OnboardingTitle';
 import { useGetArtists } from '@/services/shuttle-operation.service';
-import { ArtistsViewEntity } from '@/types/shuttle-operation.type';
+import { ArtistsViewEntity } from '@/types/artist.type';
 import Button from '@/components/buttons/button/Button';
 
 interface Props {

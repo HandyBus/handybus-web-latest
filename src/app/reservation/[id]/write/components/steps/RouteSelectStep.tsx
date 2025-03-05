@@ -1,6 +1,6 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { TripType } from '@/types/shuttle-operation.type';
+import { TripType } from '@/types/shuttleRoute.type';
 import { compareToNow, dateString } from '@/utils/dateString.util';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
@@ -10,11 +10,11 @@ import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
 import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import {
-  DailyEventsInEventsViewEntity,
   EventsViewEntity,
-  ShuttleRoutesViewEntity,
-} from '@/types/shuttle-operation.type';
+  DailyEventsInEventsViewEntity,
+} from '@/types/event.type';
 
 interface Props {
   handleNextStep: () => void;

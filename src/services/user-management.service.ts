@@ -1,22 +1,28 @@
 import {
-  IssuedCouponsViewEntitySchema,
-  IssuedCouponStatus,
-  PaymentsViewEntitySchema,
   UpdateMeRequest,
   UpdateMeRequestSchema,
-  ReservationsViewEntitySchema,
-  ReservationStatus,
-  ShuttleDemandsViewEntitySchema,
-  ShuttleDemandStatus,
   UsersViewEntitySchema,
   UserStatsReadModelSchema,
-} from '@/types/user-management.type';
+} from '@/types/user.type';
 import { authInstance } from './config';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ReviewsViewEntitySchema } from '@/types/shuttle-operation.type';
+import { ReviewsViewEntitySchema } from '@/types/review.type';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
+import {
+  ShuttleDemandStatus,
+  ShuttleDemandsViewEntitySchema,
+} from '@/types/demand.type';
+import {
+  ReservationStatus,
+  ReservationsViewEntitySchema,
+} from '@/types/reservation.type';
+import { PaymentsViewEntitySchema } from '@/types/payment.type';
+import {
+  IssuedCouponStatus,
+  IssuedCouponsViewEntitySchema,
+} from '@/types/coupon.type';
 
 export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });

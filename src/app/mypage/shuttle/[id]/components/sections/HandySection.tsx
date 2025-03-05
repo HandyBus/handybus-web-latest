@@ -1,5 +1,5 @@
 import Section from '../Section';
-import { HandyStatus } from '@/types/user-management.type';
+import { HandyStatus } from '@/types/reservation.type';
 import Button from '@/components/buttons/button/Button';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
 import { useState } from 'react';

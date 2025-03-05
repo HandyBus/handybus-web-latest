@@ -6,7 +6,7 @@ import TextInput from '@/components/inputs/text-input/TextInput';
 import { RefObject } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGetUserCoupons } from '@/services/user-management.service';
-import { IssuedCouponsViewEntity } from '@/types/user-management.type';
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { usePostCoupon } from '@/services/billing.service';
 
 interface Props {

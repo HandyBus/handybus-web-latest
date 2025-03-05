@@ -13,12 +13,12 @@ import DemandStats from './DemandStats';
 import BottomBar from './BottomBar';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RouteModal from './RouteModal';
-import {
-  DailyEventsInEventsViewEntity,
-  EventsViewEntity,
-} from '@/types/shuttle-operation.type';
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
+import {
+  EventsViewEntity,
+  DailyEventsInEventsViewEntity,
+} from '@/types/event.type';
 
 export const DEMAND_FORM_ID = 'demand-form';
 

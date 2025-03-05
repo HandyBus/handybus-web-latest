@@ -1,4 +1,4 @@
-import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import type { ShuttleSortType } from '../constants/params';
 import dayjs from 'dayjs';
 

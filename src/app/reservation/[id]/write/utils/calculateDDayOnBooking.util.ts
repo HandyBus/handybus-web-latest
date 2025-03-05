@@ -1,4 +1,4 @@
-import { TripType } from '@/types/shuttle-operation.type';
+import { TripType } from '@/types/shuttleRoute.type';
 import dayjs from 'dayjs';
 
 import 'dayjs/locale/ko';

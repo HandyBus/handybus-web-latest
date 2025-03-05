@@ -7,11 +7,8 @@ import ArtistIcon from '../icons/artist.svg';
 import LocateIcon from '../icons/locate.svg';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { dateString } from '@/utils/dateString.util';
-import {
-  ArtistsViewEntity,
-  ReviewsViewEntity,
-} from '@/types/shuttle-operation.type';
-
+import { ReviewsViewEntity } from '@/types/review.type';
+import { ArtistsViewEntity } from '@/types/artist.type';
 interface Props {
   review: ReviewsViewEntity;
   showUser?: boolean;

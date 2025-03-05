@@ -15,7 +15,7 @@ import { CustomError } from './custom-error';
 import { z } from 'zod';
 import { replacer, silentParse } from '@/utils/config.util';
 import { postUpdateToken } from './auth.service';
-import { UsersViewEntitySchema } from '@/types/user-management.type';
+import { UsersViewEntitySchema } from '@/types/user.type';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

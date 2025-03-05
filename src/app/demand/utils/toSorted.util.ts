@@ -1,5 +1,5 @@
 import { DemandSortType } from '@/constants/demand';
-import { EventsViewEntity } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/event.type';
 import dayjs from 'dayjs';
 
 export const toSorted = (events: EventsViewEntity[], sort: DemandSortType) => {

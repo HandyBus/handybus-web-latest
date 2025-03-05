@@ -6,7 +6,7 @@ import RoutePoints from './RoutePoint';
 import {
   ShuttleRouteHubsInShuttleRoutesViewEntity,
   TripType,
-} from '@/types/shuttle-operation.type';
+} from '@/types/shuttleRoute.type';
 
 type Props = {
   type: TripType;

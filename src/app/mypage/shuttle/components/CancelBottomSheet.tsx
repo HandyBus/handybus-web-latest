@@ -5,7 +5,7 @@ import useFunnel from '@/hooks/useFunnel';
 import { useEffect, useMemo } from 'react';
 import RefundPolicy from '../[id]/components/RefundPolicy';
 import { usePostRefund } from '@/services/billing.service';
-import { ReservationsViewEntity } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 import { calculateRefundFee } from '../utils/refund.util';
 import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
 

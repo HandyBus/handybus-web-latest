@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import dynamic from 'next/dynamic';
-import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 const Empty = dynamic(() => import('@/app/reservation/components/Empty'));
 
 interface Props {

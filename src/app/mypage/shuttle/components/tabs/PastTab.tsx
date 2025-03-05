@@ -4,7 +4,7 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservations } from '@/services/user-management.service';
 import { useRouter } from 'next/navigation';
-import { ReservationsViewEntity } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const PastTab = () => {

@@ -1,16 +1,16 @@
 import BannerImage from '@/app/demand/[id]/write/components/BannerImage';
 import ProgressBar from '@/components/progress-bar/ProgressBar';
 import useFunnel from '@/hooks/useFunnel';
-import { TripType } from '@/types/shuttle-operation.type';
+import { TripType } from '@/types/shuttleRoute.type';
 import { FormProvider, useForm } from 'react-hook-form';
 import RouteSelectStep from './steps/RouteSelectStep';
 import PassengerInfoStep from './steps/PassengerInfoStep';
 import PaymentStep from './steps/payment-step/PaymentStep';
 import {
-  EventsViewEntity,
   ShuttleRoutesViewEntity,
   ShuttleRouteHubsInShuttleRoutesViewEntity,
-} from '@/types/shuttle-operation.type';
+} from '@/types/shuttleRoute.type';
+import { EventsViewEntity } from '@/types/event.type';
 
 const STEPS = ['노선 선택', '탑승 정보 입력', '결제'] as const;
 

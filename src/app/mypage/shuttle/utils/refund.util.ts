@@ -1,4 +1,4 @@
-import { ReservationsViewEntity } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 
 // 탑승 시간을 계산

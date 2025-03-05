@@ -1,5 +1,4 @@
-import { TripType } from '@/types/shuttle-operation.type';
-import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
 
 export const checkIsEarlybird = (

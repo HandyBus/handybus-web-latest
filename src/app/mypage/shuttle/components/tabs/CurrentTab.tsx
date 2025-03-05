@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelBottomSheet from '../CancelBottomSheet';
-import { ReservationsViewEntity } from '@/types/user-management.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const CurrentTab = () => {

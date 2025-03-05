@@ -1,7 +1,7 @@
 'use client';
 
 import RouteStatusChip from '@/components/chips/route-status-chip/RouteStatusChip';
-import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 
 type Props = {

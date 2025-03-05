@@ -1,4 +1,4 @@
-import { IssuedCouponsViewEntity } from '@/types/user-management.type';
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {

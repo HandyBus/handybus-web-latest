@@ -1,5 +1,5 @@
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import { ShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
 import Link from 'next/link';

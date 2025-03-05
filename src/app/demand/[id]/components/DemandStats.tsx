@@ -4,7 +4,7 @@ import {
   useGetAllEventDemandStats,
   useGetEventDemandStats,
 } from '@/services/shuttle-operation.service';
-import { DailyEventsInEventsViewEntity } from '@/types/shuttle-operation.type';
+import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {

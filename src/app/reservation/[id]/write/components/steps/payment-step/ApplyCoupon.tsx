@@ -11,7 +11,7 @@ import CouponBottomSheet from './CouponBottomSheet';
 import { useEffect, useMemo, useState } from 'react';
 import Coupon from '@/components/coupon/Coupon';
 import XIcon from 'public/icons/x.svg';
-import { IssuedCouponsViewEntity } from '@/types/user-management.type';
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 
 const ApplyCoupon = () => {
   const { openBottomSheet, closeBottomSheet, bottomSheetRef, contentRef } =

@@ -7,7 +7,7 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import {
   ShuttleRouteHubsInShuttleRoutesViewEntity,
   TripType,
-} from '@/types/shuttle-operation.type';
+} from '@/types/shuttleRoute.type';
 import { usePostUpdateReservation } from '@/services/shuttle-operation.service';
 import Button from '@/components/buttons/button/Button';
 import dayjs, { Dayjs } from 'dayjs';

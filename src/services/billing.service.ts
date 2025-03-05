@@ -11,7 +11,7 @@ import {
   ApprovePaymentsResponseSchema,
   PaymentsResponseModelSchema,
   ReserveResponseSchema,
-} from '@/types/billing.type';
+} from '@/types/payment.type';
 
 export const postCoupon = async (code: string) => {
   return await authInstance.post('/v1/billing/coupons', { code });

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+//  ----- GET -----
+
 export const RegionHubsResponseModelSchema = z.object({
   regionHubId: z.string(),
   regionId: z.string(),

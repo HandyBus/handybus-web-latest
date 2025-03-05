@@ -1,6 +1,6 @@
 import SelectModal from '@/components/modals/select/SelectModal';
 import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
-import { EventsViewEntity } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { useEffect, useState } from 'react';
 
 interface Props {

@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import RoutePoints from './RoutePoint';
-import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttle-operation.type';
+import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
 type ToDestinationType = {
   type: 'TO_DESTINATION';

@@ -1,17 +1,20 @@
 import {
-  ArtistsViewEntitySchema,
   ShuttleDemandStatisticsReadModelSchema,
-  EventsViewEntitySchema,
-  EventStatus,
   CreateShuttleDemandRequest,
   CreateShuttleDemandRequestSchema,
-  CreateReviewRequest,
-  CreateReviewRequestSchema,
+} from '@/types/demand.type';
+import {
   ReviewsViewEntitySchema,
-  ShuttleBusesViewEntitySchema,
+  CreateReviewRequestSchema,
+  CreateReviewRequest,
+} from '@/types/review.type';
+import { ShuttleBusesViewEntitySchema } from '@/types/shuttleBus.type';
+import {
   ShuttleRoutesViewEntitySchema,
   ShuttleRouteStatus,
-} from '@/types/shuttle-operation.type';
+} from '@/types/shuttleRoute.type';
+import { EventStatus } from '@/types/event.type';
+import { EventsViewEntitySchema } from '@/types/event.type';
 import { authInstance, instance } from './config';
 import {
   useInfiniteQuery,
@@ -25,6 +28,7 @@ import { withPagination } from '@/types/common.type';
 import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
 import { silentParse } from '@/utils/config.util';
+import { ArtistsViewEntitySchema } from '@/types/artist.type';
 
 // ----- Event -----
 
