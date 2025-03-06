@@ -19,6 +19,7 @@ interface Props<T> {
   sort?: boolean;
   sortBy?: (a: T, b: T) => number;
   disableOption?: (value: T) => boolean;
+  extraContent?: ReactNode;
 }
 
 const Select = <T,>({
@@ -34,6 +35,7 @@ const Select = <T,>({
   sort = false,
   sortBy,
   disableOption,
+  extraContent,
 }: Props<T>) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
@@ -74,30 +76,30 @@ const Select = <T,>({
         </div>
       </button>
       <BottomSheet ref={bottomSheetRef} title={bottomSheetTitle}>
-        <div
-          ref={contentRef}
-          className="flex h-full w-full flex-col overflow-y-auto bg-white"
-        >
-          {sortedOptions?.length === 0 ? (
-            <div className="py-16 text-left text-16 font-400 text-grey-400">
-              {defaultText}
-            </div>
-          ) : (
-            sortedOptions?.map((option, index) => (
-              <button
-                key={index}
-                className="group/select-option py-16 text-left"
-                type="button"
-                onClick={() => {
-                  setValue(option);
-                  closeBottomSheet();
-                }}
-                disabled={disableOption?.(option) ?? false}
-              >
-                {renderValue ? renderValue(option) : String(option)}
-              </button>
-            ))
-          )}
+        <div ref={contentRef} className="h-full w-full bg-white">
+          <section className="flex flex-col">
+            {sortedOptions?.length === 0 ? (
+              <div className="py-16 text-left text-16 font-400 text-grey-400">
+                {defaultText}
+              </div>
+            ) : (
+              sortedOptions?.map((option, index) => (
+                <button
+                  key={index}
+                  className="group/select-option py-16 text-left"
+                  type="button"
+                  onClick={() => {
+                    setValue(option);
+                    closeBottomSheet();
+                  }}
+                  disabled={disableOption?.(option) ?? false}
+                >
+                  {renderValue ? renderValue(option) : String(option)}
+                </button>
+              ))
+            )}
+          </section>
+          {extraContent}
         </div>
       </BottomSheet>
     </>

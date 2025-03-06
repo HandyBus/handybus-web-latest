@@ -9,7 +9,10 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
+import {
+  useGetShuttleRoutesOfDailyEvent,
+  usePostShuttleRouteDemand,
+} from '@/services/shuttleRoute.service';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import {
   EventsViewEntity,
@@ -212,6 +215,22 @@ const TypeSelect = () => {
     });
   };
 
+  const { mutate: postShuttleRouteDemand } = usePostShuttleRouteDemand();
+
+  const handleShuttleRouteDemandClick = () => {
+    if (!watchedShuttleRoute) {
+      return;
+    }
+    postShuttleRouteDemand({
+      eventId: watchedShuttleRoute.eventId,
+      dailyEventId: watchedShuttleRoute.dailyEventId,
+      shuttleRouteId: watchedShuttleRoute.shuttleRouteId,
+      shuttleRouteHubId:
+        watchedShuttleRoute.toDestinationShuttleRouteHubs?.[0]
+          .shuttleRouteHubId ?? '',
+    });
+  };
+
   return (
     <Controller
       control={control}
@@ -240,6 +259,15 @@ const TypeSelect = () => {
                 </div>
               </p>
             )}
+            extraContent={
+              <button
+                onClick={handleShuttleRouteDemandClick}
+                type="button"
+                className="-mx-32 flex w-[calc(100%+64px)] items-center justify-center border-t border-grey-100 py-[10px] text-14 font-600 text-[#5A5A5A]"
+              >
+                추가 셔틀 요청하기
+              </button>
+            }
             sort
             disabled={!watchedShuttleRoute}
             disableOption={(option) => getRemainingSeatCount(option) === 0}
