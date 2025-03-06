@@ -1,6 +1,6 @@
 import Select from '@/components/select/Select';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { TripType } from '@/types/shuttleRoute.type';
+import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
 import { compareToNow, dateString } from '@/utils/dateString.util';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
@@ -9,7 +9,10 @@ import RouteVisualizerWithSelect from '@/components/route-visualizer/RouteVisual
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import NoticeSection from '@/components/notice-section/NoticeSection';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
+import {
+  useGetShuttleRoutesOfDailyEvent,
+  usePostShuttleRouteDemand,
+} from '@/services/shuttleRoute.service';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import {
   EventsViewEntity,
@@ -150,33 +153,22 @@ const TypeSelect = () => {
     useFormContext<ReservationFormValues>();
   const watchedShuttleRoute = useWatch({ control, name: 'shuttleRoute' });
 
-  // 남아있는 좌석에 따라 선택 가능한 타입 반환
-  const getAvailableTypes = (type?: TripType): TripType[] => {
-    if (watchedShuttleRoute?.remainingSeatCount === 0) {
-      return [];
-    }
-    switch (type) {
-      case 'ROUND_TRIP':
-        return ['ROUND_TRIP', 'TO_DESTINATION', 'FROM_DESTINATION'];
-      case 'TO_DESTINATION':
-        return ['TO_DESTINATION'];
-      case 'FROM_DESTINATION':
-        return ['FROM_DESTINATION'];
-      default:
-        return [];
-    }
-  };
-
   // 남아있는 좌석 수 반환
   const getRemainingSeatCount = (type?: TripType): number => {
     const maxSeatCount = watchedShuttleRoute?.maxPassengerCount ?? 0;
+    const toDestinationCount =
+      maxSeatCount - (watchedShuttleRoute?.toDestinationCount ?? 0);
+    const fromDestinationCount =
+      maxSeatCount - (watchedShuttleRoute?.fromDestinationCount ?? 0);
+    const roundTripCount = Math.min(toDestinationCount, fromDestinationCount);
+
     switch (type) {
       case 'ROUND_TRIP':
-        return watchedShuttleRoute?.remainingSeatCount ?? 0;
+        return roundTripCount;
       case 'TO_DESTINATION':
-        return maxSeatCount - (watchedShuttleRoute?.toDestinationCount ?? 0);
+        return toDestinationCount;
       case 'FROM_DESTINATION':
-        return maxSeatCount - (watchedShuttleRoute?.fromDestinationCount ?? 0);
+        return fromDestinationCount;
       default:
         return 0;
     }
@@ -223,35 +215,69 @@ const TypeSelect = () => {
     });
   };
 
+  const { mutate: postShuttleRouteDemand } = usePostShuttleRouteDemand();
+
+  const handleShuttleRouteDemandClick = () => {
+    if (!watchedShuttleRoute) {
+      return;
+    }
+    postShuttleRouteDemand({
+      eventId: watchedShuttleRoute.eventId,
+      dailyEventId: watchedShuttleRoute.dailyEventId,
+      shuttleRouteId: watchedShuttleRoute.shuttleRouteId,
+      shuttleRouteHubId:
+        watchedShuttleRoute.toDestinationShuttleRouteHubs?.[0]
+          .shuttleRouteHubId ?? '',
+    });
+  };
+
   return (
     <Controller
       control={control}
       name="type"
-      render={({ field: { value } }) => (
-        <Select
-          options={getAvailableTypes(watchedShuttleRoute?.remainingSeatType)}
-          value={value}
-          setValue={handleTypeChange}
-          renderValue={(value) => (
-            <p className="flex items-center justify-between">
-              <span>{TRIP_STATUS_TO_STRING[value]}</span>
-              <div className="flex gap-12">
-                <span className="text-14 text-grey-500">
-                  {getRemainingSeatCount(value)}석
+      render={({ field: { value } }) => {
+        return (
+          <Select
+            options={TripTypeEnum.options}
+            value={value}
+            setValue={handleTypeChange}
+            renderValue={(value) => (
+              <p className="flex items-center justify-between">
+                <span className="font-600 text-grey-800 group-default/is-selected:font-400 group-disabled/select-option:font-400 group-disabled/select-option:text-grey-400 group-[.is-selected]:font-400">
+                  {TRIP_STATUS_TO_STRING[value]}
                 </span>
-                <span className="text-14 text-grey-700">
-                  {getPrice(value).toLocaleString()}원
-                </span>
-              </div>
-            </p>
-          )}
-          isUnderLined
-          placeholder="왕복/가는 편/오는 편"
-          bottomSheetTitle="왕복/가는 편/오는 편 선택"
-          disabled={!watchedShuttleRoute}
-          defaultText="예약 가능한 좌석이 없어요"
-        />
-      )}
+                <div className="flex items-center gap-12 group-[.is-selected]:hidden">
+                  <span className="text-12 font-400 text-grey-800 group-disabled/select-option:hidden">
+                    {getRemainingSeatCount(value)}석
+                  </span>
+                  <span className="hidden text-12 font-400 text-red-500 group-disabled/select-option:inline-block">
+                    매진
+                  </span>
+                  <span className="text-14 font-600 text-grey-800 group-disabled/select-option:hidden">
+                    {getPrice(value).toLocaleString()}원
+                  </span>
+                </div>
+              </p>
+            )}
+            extraContent={
+              <button
+                onClick={handleShuttleRouteDemandClick}
+                type="button"
+                className="-mx-32 flex w-[calc(100%+64px)] items-center justify-center border-t border-grey-100 py-[10px] text-14 font-600 text-[#5A5A5A]"
+              >
+                추가 셔틀 요청하기
+              </button>
+            }
+            sort
+            disabled={!watchedShuttleRoute}
+            disableOption={(option) => getRemainingSeatCount(option) === 0}
+            isUnderLined
+            defaultText="예약 가능한 좌석이 없어요"
+            placeholder="왕복 / 가는 편 / 오는 편"
+            bottomSheetTitle="왕복 / 가는 편 / 오는 편 선택"
+          />
+        );
+      }}
     />
   );
 };

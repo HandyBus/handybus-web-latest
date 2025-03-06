@@ -16,6 +16,8 @@ import {
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
 
+export const RESERVATION_DETAIL_FORM_ID = 'reservation-form';
+
 interface Props {
   event: EventsViewEntity;
   initialDailyEventId: string;
@@ -95,7 +97,7 @@ const ReservationForm = ({
   );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id={RESERVATION_DETAIL_FORM_ID}>
       <section className="flex flex-col gap-16 p-16">
         <h5 className="text-16 font-400 text-grey-600-sub">
           일자를 선택해주세요
@@ -149,7 +151,6 @@ const ReservationForm = ({
             />
           </div>
           <PriceStats
-            tripType={selectedRoute.remainingSeatType}
             region={sortedToDestinationHubs[0].name}
             destination={
               sortedToDestinationHubs[sortedToDestinationHubs.length - 1].name
@@ -178,7 +179,6 @@ const ReservationForm = ({
                 selectedRoute.maxPassengerCount -
                 selectedRoute.fromDestinationCount,
             }}
-            maxSeat={selectedRoute.maxPassengerCount}
           />
         </>
       )}
@@ -188,6 +188,7 @@ const ReservationForm = ({
         eventName={event.eventName}
         isLoading={isInitialLoading}
         isSeatFull={selectedRoute?.remainingSeatCount === 0}
+        selectedRoute={selectedRoute}
       />
     </form>
   );

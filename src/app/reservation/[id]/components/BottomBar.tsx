@@ -3,6 +3,9 @@
 import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
+import { usePostShuttleRouteDemand } from '@/services/shuttleRoute.service';
+import { RESERVATION_DETAIL_FORM_ID } from './ReservationForm';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
 interface Props {
   eventName: string;
@@ -10,6 +13,7 @@ interface Props {
   isSelected?: boolean;
   isLoading?: boolean;
   isSeatFull?: boolean;
+  selectedRoute?: ShuttleRoutesViewEntity;
 }
 
 const BottomBar = ({
@@ -18,6 +22,7 @@ const BottomBar = ({
   eventName,
   isLoading = false,
   isSeatFull = false,
+  selectedRoute,
 }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
@@ -28,7 +33,7 @@ const BottomBar = ({
     } else if (isSelected && !isSeatFull) {
       return '셔틀 예약하러 가기';
     } else if (isSelected && isSeatFull) {
-      return '자리가 다 찼어요';
+      return '추가 셔틀 요청하기';
     } else if (!isSelected) {
       return '노선을 선택해주세요';
     } else {
@@ -36,6 +41,29 @@ const BottomBar = ({
     }
   };
   const buttonText = getButtonText();
+
+  const { mutate: postShuttleRouteDemand } = usePostShuttleRouteDemand();
+
+  const handleClick = () => {
+    if (!isSeatFull) {
+      const form = document.getElementById(
+        RESERVATION_DETAIL_FORM_ID,
+      ) as HTMLFormElement;
+      form?.requestSubmit();
+      return;
+    }
+    if (!selectedRoute) {
+      return;
+    }
+    postShuttleRouteDemand({
+      eventId: selectedRoute.eventId,
+      dailyEventId: selectedRoute.dailyEventId,
+      shuttleRouteId: selectedRoute.shuttleRouteId,
+      shuttleRouteHubId:
+        selectedRoute.toDestinationShuttleRouteHubs?.[0].shuttleRouteHubId ??
+        '',
+    });
+  };
 
   return (
     <>
@@ -55,7 +83,16 @@ const BottomBar = ({
                 >
                   친구에게 알리기
                 </Button>
-                <Button disabled={isNotOpen || !isSelected || isSeatFull}>
+                <Button
+                  type="button"
+                  onClick={handleClick}
+                  disabled={isNotOpen || !isSelected}
+                  className={
+                    isSeatFull
+                      ? 'bg-[#E6FFF7] text-[#00C896] active:bg-[#d8fbf0]'
+                      : ''
+                  }
+                >
                   {buttonText}
                 </Button>
               </>

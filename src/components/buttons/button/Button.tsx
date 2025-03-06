@@ -1,5 +1,6 @@
 import type { HTMLProps } from 'react';
 import Spinner from 'public/icons/spinner.svg';
+import { twMerge } from 'tailwind-merge';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   loading?: boolean;
@@ -35,7 +36,7 @@ const Button = ({
   return (
     <button
       disabled={disabled}
-      className={`${buttonClass} ${className}`}
+      className={twMerge(buttonClass, className)}
       {...rest}
     >
       {loading ? (
