@@ -2,7 +2,7 @@ import { NOTICE_TYPE } from '@/components/notice-section/NoticeSection';
 import NoticeSection from '@/components/notice-section/NoticeSection';
 import ReservationForm from './components/ReservationForm';
 import KakaoMap from '@/components/kakao-map/KakaoMap';
-import { getShuttleRoute } from '@/services/shuttle-operation.service';
+import { getShuttleRoute } from '@/services/shuttleRoute.service';
 import RouteInfo from './components/RouteInfo';
 import EventImage from '@/components/event-image/EventImage';
 import Header from '@/components/header/Header';

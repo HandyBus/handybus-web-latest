@@ -1,9 +1,9 @@
 import { DemandSortType } from '@/constants/demand';
-import { Event } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/event.type';
 import dayjs from 'dayjs';
 
-export const toSorted = (events: Event[], sort: DemandSortType) => {
-  let newData: Event[];
+export const toSorted = (events: EventsViewEntity[], sort: DemandSortType) => {
+  let newData: EventsViewEntity[];
   switch (sort) {
     case '이름순':
       newData = events.toSorted((a, b) =>

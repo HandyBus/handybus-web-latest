@@ -1,10 +1,10 @@
 import SelectModal from '@/components/modals/select/SelectModal';
-import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttle-operation.service';
-import { Event } from '@/types/shuttle-operation.type';
+import { useGetShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
+import { EventsViewEntity } from '@/types/event.type';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
   dailyEventId: string;
   bigRegion: string;
   smallRegion: string;

@@ -5,7 +5,7 @@ import usePreventRefresh from '@/hooks/usePreventRefresh';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { postLogin } from '@/services/auth.service';
 import { CustomError } from '@/services/custom-error';
-import { getUser } from '@/services/user-management.service';
+import { getUser } from '@/services/user.service';
 import {
   setAccessToken,
   setOnboardingStatusComplete,

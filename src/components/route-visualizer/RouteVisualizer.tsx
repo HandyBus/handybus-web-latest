@@ -3,15 +3,18 @@
 import SpinnerIcon from '/public/icons/spinner.svg';
 import dayjs from 'dayjs';
 import RoutePoints from './RoutePoint';
-import { ShuttleRouteHub, TripType } from '@/types/shuttle-operation.type';
+import {
+  ShuttleRouteHubsInShuttleRoutesViewEntity,
+  TripType,
+} from '@/types/shuttleRoute.type';
 
 type Props = {
   type: TripType;
-  toDestinationHubs?: ShuttleRouteHub[];
-  fromDestinationHubs?: ShuttleRouteHub[];
+  toDestinationHubs?: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  fromDestinationHubs?: ShuttleRouteHubsInShuttleRoutesViewEntity[];
   isSelected?: boolean;
-  selectedToDestinationHub?: ShuttleRouteHub;
-  selectedFromDestinationHub?: ShuttleRouteHub;
+  selectedToDestinationHub?: ShuttleRouteHubsInShuttleRoutesViewEntity;
+  selectedFromDestinationHub?: ShuttleRouteHubsInShuttleRoutesViewEntity;
   isLoading?: boolean;
 };
 
@@ -86,11 +89,11 @@ export default RouteVisualizer;
 
 type RouteCardProps = {
   type: 'TO_DESTINATION' | 'FROM_DESTINATION';
-  hubs: ShuttleRouteHub[];
+  hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
 } & (
   | {
       isSelected: true;
-      selectedHub: ShuttleRouteHub;
+      selectedHub: ShuttleRouteHubsInShuttleRoutesViewEntity;
     }
   | {
       isSelected: false;
@@ -180,11 +183,11 @@ const RouteCard = (props: RouteCardProps) => {
 
 type HubItemProps = {
   isDestination: boolean;
-  hub: ShuttleRouteHub;
+  hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
 } & (
   | {
       isSelected: true;
-      selectedHub: ShuttleRouteHub;
+      selectedHub: ShuttleRouteHubsInShuttleRoutesViewEntity;
     }
   | {
       isSelected: false;

@@ -1,6 +1,6 @@
 import { BigRegionsType } from '@/constants/regions';
-import { Artist } from '@/types/shuttle-operation.type';
-import { AgeRange } from '@/types/user-management.type';
+import { ArtistsViewEntity } from '@/types/artist.type';
+import { AgeRange } from '@/types/user.type';
 
 export interface OnboardingFormValues {
   nickname: string;
@@ -11,7 +11,7 @@ export interface OnboardingFormValues {
   bigRegion: BigRegionsType;
   smallRegion: string | undefined;
   regionId: string | null;
-  favoriteArtists: Artist[];
+  favoriteArtists: ArtistsViewEntity[];
   isAgreedMarketing: boolean;
   isAgreedServiceTerms: boolean;
   isAgreedPersonalInfo: boolean;

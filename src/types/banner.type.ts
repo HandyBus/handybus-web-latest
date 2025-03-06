@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+// ----- GET -----
+
 export const AdminHandleBannerRequestBannersSchema = z.object({
   id: z.string().optional(),
   title: z.string(),
@@ -10,7 +12,6 @@ export const AdminHandleBannerRequestBannersSchema = z.object({
   updatedAt: z.string().optional(),
   deletedAt: z.string().optional().nullable(),
 });
-
 export type AdminHandleBannerRequestBanners = z.infer<
   typeof AdminHandleBannerRequestBannersSchema
 >;

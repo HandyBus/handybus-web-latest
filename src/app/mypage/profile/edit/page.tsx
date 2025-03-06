@@ -3,7 +3,7 @@
 import EditForm from './components/EditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUser } from '@/services/user-management.service';
+import { useGetUser } from '@/services/user.service';
 import { useEffect, useState } from 'react';
 
 export type EditType = 'profile' | 'personal-info' | 'region' | 'artist';

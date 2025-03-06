@@ -1,13 +1,13 @@
 'use client';
 
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString, ddayString } from '@/utils/dateString.util';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
-  route: ShuttleRoute;
+  route: ShuttleRoutesViewEntity;
 }
 
 const Shuttle = ({ route }: Props) => {
@@ -53,7 +53,7 @@ const Shuttle = ({ route }: Props) => {
 export default Shuttle;
 
 interface SeatStringProps {
-  route: ShuttleRoute;
+  route: ShuttleRoutesViewEntity;
 }
 
 const SeatString = ({ route }: SeatStringProps) => {

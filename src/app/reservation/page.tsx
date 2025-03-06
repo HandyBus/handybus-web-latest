@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic';
 import { toSortedRoutes } from './util/sort.util';
 import { Metadata } from 'next';
 import ShuttleRouteView from './components/ShuttleRouteView';
-import { getShuttleRoutes } from '@/services/shuttle-operation.service';
+import { getShuttleRoutes } from '@/services/shuttleRoute.service';
 import getFirstSearchParam from '@/utils/getFirstSearchParam.util';
 const Empty = dynamic(() => import('./components/Empty'));
 import dayjs from 'dayjs';

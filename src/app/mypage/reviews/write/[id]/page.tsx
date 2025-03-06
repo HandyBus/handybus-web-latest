@@ -10,8 +10,8 @@ import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
 import ReservationCard from '@/app/mypage/shuttle/components/ReservationCard';
 import Loading from '@/components/loading/Loading';
-import { useGetUserReservation } from '@/services/user-management.service';
-import { usePostReview } from '@/services/shuttle-operation.service';
+import { useGetUserReservation } from '@/services/reservation.service';
+import { usePostReview } from '@/services/review.service';
 import { getImageUrl } from '@/services/core.service';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
@@ -33,18 +33,26 @@ const WriteReview = ({ params }: Props) => {
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(e.target.files || []);
-    if (newFiles.length > 3) {
+    if (files.length + newFiles.length > 3) {
       toast.error('최대 3개의 사진만 첨부할 수 있습니다.');
       return;
     }
-    newFiles.forEach((file) => {
+
+    const isValidSize = newFiles.every((file) => {
       if (file.size > MAX_FILE_SIZE) {
         toast.error('10MB 이하의 파일만 업로드 할 수 있습니다.');
-        return;
+        return false;
       }
+      return true;
     });
 
-    setFiles(newFiles);
+    if (!isValidSize) return;
+
+    setFiles((prev) => [...prev, ...newFiles]);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleFileRemove = (file: File) => {

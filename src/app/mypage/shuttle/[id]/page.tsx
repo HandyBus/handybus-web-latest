@@ -12,8 +12,8 @@ import RouteSection from './components/sections/RouteSection';
 import { useRouter } from 'next/navigation';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useGetUserReservation } from '@/services/user-management.service';
-import { useGetShuttleBus } from '@/services/shuttle-operation.service';
+import { useGetUserReservation } from '@/services/reservation.service';
+import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import Header from '@/components/header/Header';
 import dayjs from 'dayjs';
 

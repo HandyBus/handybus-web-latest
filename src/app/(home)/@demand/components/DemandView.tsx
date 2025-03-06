@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { dateString } from '@/utils/dateString.util';
-import { Event } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
 }
 
 const DemandView = ({ event }: Props) => {

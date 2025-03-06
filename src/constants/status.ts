@@ -1,14 +1,11 @@
-import {
-  EventStatus,
-  ShuttleRouteStatus,
-  TripType,
-} from '@/types/shuttle-operation.type';
+import { ShuttleRouteStatus, TripType } from '@/types/shuttleRoute.type';
 import {
   CancelStatus,
   HandyStatus,
   ReservationStatus,
-  ShuttleDemandStatus,
-} from '@/types/user-management.type';
+} from '@/types/reservation.type';
+import { ShuttleDemandStatus } from '@/types/demand.type';
+import { EventStatus } from '@/types/event.type';
 
 export const EVENT_STATUS_TO_STRING: Record<EventStatus, string> = {
   OPEN: '수요 확인 중',

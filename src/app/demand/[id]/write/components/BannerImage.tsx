@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import GroupIcon from 'public/icons/group.svg';
 import BxIcon from 'public/icons/bx-map.svg';
-import { Event } from '@/types/shuttle-operation.type';
+import { EventsViewEntity } from '@/types/event.type';
 
 interface Props {
-  event: Event;
+  event: EventsViewEntity;
 }
 
 const BannerImage = ({ event }: Props) => {

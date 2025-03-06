@@ -3,6 +3,8 @@ import { authInstance, instance } from './config';
 import { useQuery } from '@tanstack/react-query';
 import { AdminHandleBannerRequestBannersSchema } from '@/types/banner.type';
 
+// ----- GET -----
+
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
 

@@ -1,13 +1,13 @@
 'use client';
 
 import { CustomError } from '@/services/custom-error';
-import { postPayment } from '@/services/billing.service';
+import { postApprovePayment } from '@/services/payment.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { BeatLoader } from 'react-spinners';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
-import { getUserReservation } from '@/services/user-management.service';
+import { getUserReservation } from '@/services/reservation.service';
 import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
 
 const Page = () => {
@@ -49,7 +49,7 @@ const Page = () => {
         throw new CustomError(400, '구매키가 존재하지 않습니다.');
       }
 
-      const res = await postPayment(orderId, paymentKey);
+      const res = await postApprovePayment(orderId, paymentKey);
       router.replace(pathname + `/${res.reservationId}`);
     } catch (e) {
       const error = e as CustomError;

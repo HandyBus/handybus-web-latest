@@ -1,11 +1,11 @@
 'use client';
 
 import RouteStatusChip from '@/components/chips/route-status-chip/RouteStatusChip';
-import { ShuttleRoute } from '@/types/shuttle-operation.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 
 type Props = {
-  route: ShuttleRoute;
+  route: ShuttleRoutesViewEntity;
 };
 
 const RouteInfo = ({ route }: Props) => {

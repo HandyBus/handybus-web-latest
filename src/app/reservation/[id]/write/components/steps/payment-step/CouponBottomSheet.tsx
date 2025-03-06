@@ -5,15 +5,15 @@ import NoCoupon from '@/components/coupon/NoCoupon';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import { RefObject } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGetUserCoupons } from '@/services/user-management.service';
-import { IssuedCoupon } from '@/types/user-management.type';
-import { usePostCoupon } from '@/services/billing.service';
+import { useGetUserCoupons } from '@/services/coupon.service';
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
+import { usePostCoupon } from '@/services/coupon.service';
 
 interface Props {
   bottomSheetRef: (node: HTMLDivElement) => void;
   contentRef: RefObject<HTMLDivElement> | undefined;
   closeBottomSheet: () => void;
-  setSelectedCoupon: (coupon: IssuedCoupon | null) => void;
+  setSelectedCoupon: (coupon: IssuedCouponsViewEntity | null) => void;
 }
 
 const CouponBottomSheet = ({

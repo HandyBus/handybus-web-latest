@@ -2,7 +2,7 @@
 
 import Button from '@/components/buttons/button/Button';
 import TextInput from '@/components/inputs/text-input/TextInput';
-import { usePostCoupon } from '@/services/billing.service';
+import { usePostCoupon } from '@/services/coupon.service';
 import { useForm } from 'react-hook-form';
 
 const RegisterCoupon = () => {

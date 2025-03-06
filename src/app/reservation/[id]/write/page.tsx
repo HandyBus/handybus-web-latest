@@ -3,7 +3,7 @@
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Form from './components/Form';
-import { useGetEvent } from '@/services/shuttle-operation.service';
+import { useGetEvent } from '@/services/event.service';
 import Header from '@/components/header/Header';
 
 interface Props {

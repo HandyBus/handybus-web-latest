@@ -9,7 +9,7 @@ import {
 } from '@/components/onboarding-contents/formValidation.constants';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import useFunnel from '@/hooks/useFunnel';
-import { putUser, useGetUser } from '@/services/user-management.service';
+import { putUser, useGetUser } from '@/services/user.service';
 import { ReactNode, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FirstSignupCoupon from './icons/first-signup-coupon.svg';
