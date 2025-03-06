@@ -124,7 +124,7 @@ export const usePostShuttleRouteDemand = ({
 }: {
   onSuccess?: () => void;
   onError?: () => void;
-}) =>
+} = {}) =>
   useMutation({
     mutationFn: postShuttleRouteDemand,
     onSuccess: () => {
@@ -133,10 +133,11 @@ export const usePostShuttleRouteDemand = ({
     },
     onError: (error: CustomError) => {
       if (error.statusCode === 409) {
-        toast.error('이미 신청된 셔틀입니다.');
+        toast.error('이미 요청된 셔틀입니다.');
         return;
       }
       toast.error('잠시 후 다시 시도해주세요.');
+      console.error(error);
       onError?.();
     },
   });

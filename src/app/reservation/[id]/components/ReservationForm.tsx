@@ -16,6 +16,8 @@ import {
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
 
+export const RESERVATION_DETAIL_FORM_ID = 'reservation-form';
+
 interface Props {
   event: EventsViewEntity;
   initialDailyEventId: string;
@@ -186,6 +188,7 @@ const ReservationForm = ({
         eventName={event.eventName}
         isLoading={isInitialLoading}
         isSeatFull={selectedRoute?.remainingSeatCount === 0}
+        selectedRoute={selectedRoute}
       />
     </form>
   );
