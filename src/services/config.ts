@@ -232,12 +232,19 @@ class AuthInstance {
     }
 
     const fetchOperation = async (tokens?: { accessToken: string }) =>
-      instance.fetchWithConfig<T>(url, method, body, {
-        ...authOptions,
-        headers: {
-          Authorization: `Bearer ${tokens?.accessToken}`,
-        },
-      });
+      instance.fetchWithConfig<T>(
+        url,
+        method,
+        body,
+        tokens?.accessToken
+          ? {
+              ...authOptions,
+              headers: {
+                Authorization: `Bearer ${tokens?.accessToken}`,
+              },
+            }
+          : authOptions,
+      );
     return await this.withTokenRetry(fetchOperation, {
       onError: (error) => {
         if (error.statusCode === 429) {
@@ -275,12 +282,17 @@ class AuthInstance {
     });
 
     const fetchOperation = async (tokens?: { accessToken: string }) => {
-      const res = await instance.get(USER_URL, {
-        ...authOptions,
-        headers: {
-          Authorization: `Bearer ${tokens?.accessToken}`,
-        },
-      });
+      const res = await instance.get(
+        USER_URL,
+        tokens?.accessToken
+          ? {
+              ...authOptions,
+              headers: {
+                Authorization: `Bearer ${tokens?.accessToken}`,
+              },
+            }
+          : authOptions,
+      );
       const isOnboardingComplete = res.user.onboardingComplete;
 
       if (!isOnboardingComplete) {
