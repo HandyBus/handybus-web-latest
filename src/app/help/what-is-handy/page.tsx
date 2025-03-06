@@ -144,15 +144,12 @@ const AboutPage = () => {
         <section>
           <Image src={BottomImage} alt="핸디버스 소개" className="w-full" />
         </section>
-        <section className="flex gap-16 px-16">
+        <section className="px-16">
           <Link href="/help/faq" className="w-full rounded-full">
             <Button variant="secondary" className="w-full">
               자주 묻는 질문
             </Button>
           </Link>
-          <Button variant="secondary" className="w-full">
-            친구에게 알려주기
-          </Button>
         </section>
         <section className="bg-grey-100 px-16 py-24">
           <h3 className="mb-8 text-18 font-700 text-grey-700">유의사항</h3>
