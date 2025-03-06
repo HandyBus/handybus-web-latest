@@ -70,10 +70,20 @@ const SeatString = ({ route }: SeatStringProps) => {
       break;
   }
 
+  const isSoldOut = route.remainingSeatCount === 0;
+
   return (
     <div className="absolute bottom-0 w-full bg-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-white backdrop-blur-[2px]">
-      {prefix}{' '}
-      <span className="text-primary-main">{route.remainingSeatCount}석</span>
+      {isSoldOut ? (
+        <span className="text-grey-100">매진</span>
+      ) : (
+        <>
+          {prefix}{' '}
+          <span className="text-primary-main">
+            {route.remainingSeatCount}석
+          </span>
+        </>
+      )}
     </div>
   );
 };

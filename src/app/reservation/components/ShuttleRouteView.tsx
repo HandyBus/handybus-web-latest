@@ -68,12 +68,20 @@ const SeatString = ({ shuttleRoute }: Props) => {
       break;
   }
 
+  const isSoldOut = shuttleRoute.remainingSeatCount === 0;
+
   return (
     <>
-      {prefix}{' '}
-      <span className="text-primary-main">
-        {shuttleRoute.remainingSeatCount}석
-      </span>
+      {isSoldOut ? (
+        <span className="text-grey-700">매진</span>
+      ) : (
+        <>
+          {prefix}{' '}
+          <span className="text-primary-main">
+            {shuttleRoute.remainingSeatCount}석
+          </span>
+        </>
+      )}
     </>
   );
 };
