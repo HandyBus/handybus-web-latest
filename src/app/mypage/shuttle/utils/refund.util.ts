@@ -1,38 +1,6 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
+import { getBoardingTime } from '@/utils/common.util';
 import dayjs from 'dayjs';
-
-// 탑승 시간을 계산
-export const getBoardingTime = (reservation: ReservationsViewEntity) => {
-  const type = reservation.type;
-  const sortedToDestinationShuttleRouteHubs =
-    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.toSorted(
-      (a, b) => a.sequence - b.sequence,
-    );
-  const sortedFromDestinationShuttleRouteHubs =
-    reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.toSorted(
-      (a, b) => a.sequence - b.sequence,
-    );
-  const boardingHubs =
-    type === 'ROUND_TRIP' || type === 'TO_DESTINATION'
-      ? {
-          hubs: sortedToDestinationShuttleRouteHubs,
-          hubId: reservation.toDestinationShuttleRouteHubId,
-        }
-      : {
-          hubs: sortedFromDestinationShuttleRouteHubs,
-          hubId: sortedFromDestinationShuttleRouteHubs?.[0]?.shuttleRouteHubId,
-        };
-
-  const boardingTime = boardingHubs.hubs?.find(
-    (hub) => hub.shuttleRouteHubId === boardingHubs.hubId,
-  )?.arrivalTime;
-
-  if (!boardingTime) {
-    return null;
-  }
-
-  return dayjs(boardingTime).tz();
-};
 
 // 취소 수수료를 계산
 export const calculateRefundFee = (
@@ -50,7 +18,15 @@ export const calculateRefundFee = (
   }
 
   const paymentAmount = reservation.paymentAmount ?? 0;
-  const boardingTime = getBoardingTime(reservation);
+  const boardingTime = getBoardingTime({
+    tripType: reservation.type,
+    toDestinationShuttleRouteHubs:
+      reservation.shuttleRoute.toDestinationShuttleRouteHubs ?? [],
+    fromDestinationShuttleRouteHubs:
+      reservation.shuttleRoute.fromDestinationShuttleRouteHubs ?? [],
+    toDestinationShuttleRouteHubId:
+      reservation.toDestinationShuttleRouteHubId ?? '',
+  });
   if (!boardingTime) {
     return null;
   }
