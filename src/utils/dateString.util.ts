@@ -76,21 +76,6 @@ export const dateString = (
   return `${singleDateString(min)} ~ ${singleDateString(max)}`;
 };
 
-export const ddayString = (date: string | null | undefined) => {
-  if (!date) {
-    return '';
-  }
-
-  const target = typeof date === 'string' ? dayjs(date).tz('Asia/Seoul') : date;
-
-  const nowKST = dayjs().tz('Asia/Seoul');
-  const diff = target.diff(nowKST, 'day');
-
-  if (diff > 0) return `D-${diff}`;
-  else if (diff < 0) return `D+${Math.abs(diff)}`;
-  return 'D-Day';
-};
-
 export const compareToNow = (
   date: string | Dayjs,
   callback: (a: Dayjs, b: Dayjs) => boolean,

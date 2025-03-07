@@ -2,7 +2,7 @@
 
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { dateString, ddayString } from '@/utils/dateString.util';
+import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -23,9 +23,6 @@ const Shuttle = ({ route }: Props) => {
             alt={`${route.event.eventName}의 포스터`}
             fill
           />
-          <div className="absolute left-8 top-8 rounded-full bg-white px-8 py-[1px] text-12 font-500 text-grey-600-sub">
-            {ddayString(route.reservationDeadline)}
-          </div>
           <SeatString route={route} />
         </div>
         <div className="flex flex-col gap-4 pl-4">

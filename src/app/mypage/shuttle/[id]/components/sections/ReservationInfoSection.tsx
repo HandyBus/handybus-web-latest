@@ -4,7 +4,7 @@ import DetailRow from '../DetailRow';
 import Section from '../Section';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyStatus, ReservationsViewEntity } from '@/types/reservation.type';
-import { getBoardingTime } from '../../../utils/refund.util';
+import { getBoardingTime } from '@/utils/common.util';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
@@ -34,7 +34,15 @@ const ReservationInfoSection = ({
       (hub) =>
         hub.shuttleRouteHubId === reservation.fromDestinationShuttleRouteHubId,
     )?.name;
-  const boardingTime = getBoardingTime(reservation);
+  const boardingTime = getBoardingTime({
+    tripType: reservation.type,
+    toDestinationShuttleRouteHubs:
+      reservation.shuttleRoute.toDestinationShuttleRouteHubs ?? [],
+    fromDestinationShuttleRouteHubs:
+      reservation.shuttleRoute.fromDestinationShuttleRouteHubs ?? [],
+    toDestinationShuttleRouteHubId:
+      reservation.toDestinationShuttleRouteHubId ?? '',
+  });
   const parsedBoardingTime = boardingTime
     ? dateString(boardingTime, { showTime: true })
     : '';
