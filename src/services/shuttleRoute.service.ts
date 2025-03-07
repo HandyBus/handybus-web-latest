@@ -3,9 +3,13 @@ import {
   ShuttleRoutesViewEntitySchema,
 } from '@/types/shuttleRoute.type';
 import { toSearchParams } from '@/utils/searchParams.util';
-import { instance } from './config';
+import { authInstance, instance } from './config';
 import { withPagination } from '@/types/common.type';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { CustomError } from './custom-error';
+import { toast } from 'react-toastify';
+
+// ----- GET -----
 
 export const getShuttleRoutes = async (params?: {
   provinceFullName?: string;
@@ -95,4 +99,45 @@ export const useGetShuttleRoute = (
   useQuery({
     queryKey: ['shuttle-route', eventId, dailyEventId, shuttleRouteId],
     queryFn: () => getShuttleRoute(eventId, dailyEventId, shuttleRouteId),
+  });
+
+// ----- POST -----
+
+export const postShuttleRouteDemand = async (params: {
+  eventId: string;
+  dailyEventId: string;
+  shuttleRouteId: string;
+  shuttleRouteHubId: string;
+}) => {
+  const { eventId, dailyEventId, shuttleRouteId, shuttleRouteHubId } = params;
+  return await authInstance.post(
+    `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/demands`,
+    {
+      shuttleRouteHubId,
+    },
+  );
+};
+
+export const usePostShuttleRouteDemand = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void;
+  onError?: () => void;
+} = {}) =>
+  useMutation({
+    mutationFn: postShuttleRouteDemand,
+    onSuccess: () => {
+      toast.success('추가 셔틀이 신청되었습니다!');
+      onSuccess?.();
+    },
+    onError: (error: CustomError) => {
+      if (error.statusCode === 409) {
+        toast.error('이미 요청된 셔틀입니다.');
+        return;
+      }
+      toast.error('잠시 후 다시 시도해주세요.');
+      console.error(error);
+      onError?.();
+    },
   });
