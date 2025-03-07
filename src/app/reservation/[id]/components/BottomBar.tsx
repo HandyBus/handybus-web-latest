@@ -6,6 +6,8 @@ import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
 import { usePostShuttleRouteDemand } from '@/services/shuttleRoute.service';
 import { RESERVATION_DETAIL_FORM_ID } from './ReservationForm';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { toast } from 'react-toastify';
 
 interface Props {
   eventName: string;
@@ -53,6 +55,11 @@ const BottomBar = ({
       return;
     }
     if (!selectedRoute) {
+      return;
+    }
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      toast.error('로그인 후 사용 가능한 기능입니다.');
       return;
     }
     postShuttleRouteDemand({
