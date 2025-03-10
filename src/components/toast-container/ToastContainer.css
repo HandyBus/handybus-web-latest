@@ -2,15 +2,14 @@
   --toastify-color-light: #fff;
   --toastify-color-dark: #121212;
   --toastify-color-info: rgb(var(--blue-800));
-  --toastify-color-success: rgb(var(--primary-800));
+  --toastify-color-success: rgb(var(--newBlack));
   --toastify-color-warning: rgb(var(--grey-800));
-  --toastify-color-error: rgb(var(--red-800));
+  --toastify-color-error: rgb(var(--newBlack));
   --toastify-color-transparent: rgba(255, 255, 255, 0.7);
   --toastify-icon-color-info: var(--toastify-color-info);
   --toastify-icon-color-success: var(--toastify-color-success);
   --toastify-icon-color-warning: var(--toastify-color-warning);
   --toastify-icon-color-error: var(--toastify-color-error);
-  --toastify-toast-width: 343px;
   --toastify-toast-offset: 100px;
   --toastify-toast-top: max(
     var(--toastify-toast-offset),
@@ -29,10 +28,11 @@
     env(safe-area-inset-bottom)
   );
   --toastify-toast-background: #fff;
+  --toastify-toast-max-width: 343px;
   --toastify-toast-min-height: 46px;
   --toastify-toast-max-height: 800px;
-  --toastify-toast-bd-radius: 8px;
-  --toastify-font-family: sans-serif;
+  --toastify-toast-bd-radius: 100px;
+  --toastify-font-family: Pretendard-Regular;
   --toastify-z-index: 9999;
   --toastify-text-color-light: #757575;
   --toastify-text-color-dark: #fff;
@@ -121,12 +121,12 @@
 } */
 .Toastify__toast {
   --y: 0;
-  position: relative;
+  position: relative !important;
   -ms-touch-action: none;
   touch-action: none;
   min-height: var(--toastify-toast-min-height);
   box-sizing: border-box;
-  margin-bottom: 1rem;
+  margin-bottom: -3rem;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 16px;
@@ -139,12 +139,16 @@
   justify-content: space-between;
   max-height: var(--toastify-toast-max-height);
   font-family: var(--toastify-font-family);
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22.4px;
   cursor: default;
   direction: ltr;
   /* webkit only issue #791 */
   z-index: 0;
   overflow: hidden;
+  width: auto !important;
+  white-space: nowrap !important;
 }
 .Toastify__toast--stacked {
   position: absolute;
@@ -314,6 +318,12 @@
   fill: currentColor;
   height: 16px;
   width: 14px;
+}
+.Toastify__toast--success .Toastify__toast-icon svg {
+  fill: #00c896 !important;
+}
+.Toastify__toast--error .Toastify__toast-icon svg {
+  fill: #f45353 !important;
 }
 .Toastify__close-button:hover,
 .Toastify__close-button:focus {
