@@ -92,12 +92,12 @@ export const usePostUpdateReservation = (
       await queryClient.invalidateQueries({
         queryKey: ['user', 'reservation', reservationId],
       });
-      toast.success('탑승지 변경이 완료되었습니다.');
+      toast.success('탑승지를 변경했어요.');
       onSuccess?.();
     },
     onError: (e) => {
       const error = e as CustomError;
-      toast.error('탑승지 변경에 실패했습니다.');
+      toast.error('탑승지를 변경하지 못했어요.');
       onError?.(error);
     },
   });

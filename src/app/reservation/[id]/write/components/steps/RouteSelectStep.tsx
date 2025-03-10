@@ -97,7 +97,7 @@ const RouteSelectStep = ({
       (type === 'ROUND_TRIP' &&
         (!hub.toDestinationHub || !hub.fromDestinationHub))
     ) {
-      toast.error('모든 항목을 기입해주세요');
+      toast.error('모든 항목을 기입해 주세요.');
       return;
     }
     handleNextStep();

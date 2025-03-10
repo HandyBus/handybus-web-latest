@@ -32,9 +32,9 @@ export const useShare = ({ eventName, closeBottomSheet }: Props) => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(currentUrl);
-      toast.success('링크가 복사되었습니다.');
+      toast.success('링크를 복사했어요.');
     } catch {
-      toast.error('링크 복사에 실패했습니다.');
+      toast.error('링크를 복사하지 못했어요.');
     } finally {
       closeBottomSheet?.();
     }

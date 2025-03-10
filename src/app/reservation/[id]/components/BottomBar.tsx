@@ -60,7 +60,7 @@ const BottomBar = ({
     }
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
-      toast.error('로그인 후 사용 가능한 기능입니다.');
+      toast.error('로그인이 필요해요.');
       return;
     }
     postShuttleRouteDemand({

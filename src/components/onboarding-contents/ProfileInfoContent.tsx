@@ -41,7 +41,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
     if (!file) {
       return;
     } else if (file.size > MAX_FILE_SIZE) {
-      toast.error('10MB 이하의 파일만 업로드 할 수 있습니다.');
+      toast.error('10MB 이하의 파일만 업로드 할 수 있어요.');
       return;
     }
     showImagePreview(file);

@@ -101,7 +101,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
     } catch (e) {
       const error = e as CustomError;
       console.error(error);
-      toast.error('잠시 후 다시 시도해주세요.');
+      toast.error('잠시 후 다시 시도해 주세요.');
     }
   }, []);
 
@@ -180,10 +180,10 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         return;
       }
       if (e.statusCode === 403) {
-        toast.error('예약이 마감되었습니다.');
+        toast.error('예약이 마감되었어요.');
         return;
       }
-      toast.error('잠시 후 다시 시도해주세요.');
+      toast.error('잠시 후 다시 시도해 주세요.');
     } finally {
       setLoading(false);
     }
