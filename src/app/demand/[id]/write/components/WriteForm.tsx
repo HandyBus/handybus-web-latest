@@ -57,15 +57,15 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
 
   const handleSubmit = (formValues: FormValues) => {
     if (!formValues.dailyEvent) {
-      toast.error('일자를 선택해주세요.');
+      toast.error('일자를 선택해 주세요.');
       return;
     }
     if (!formValues.regionId) {
-      toast.error('지역을 선택해주세요.');
+      toast.error('지역을 선택해 주세요.');
       return;
     }
     if (!formValues.type) {
-      toast.error('탑승 방향을 선택해주세요.');
+      toast.error('탑승 방향을 선택해 주세요.');
       return;
     }
     if (
@@ -77,7 +77,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
         (!formValues.toDestinationRegionHub.regionHubId &&
           !formValues.toDestinationDesiredRegionHub)
       ) {
-        toast.error('탑승 장소를 선택해주세요.');
+        toast.error('탑승 장소를 선택해 주세요.');
         return;
       }
     }
@@ -90,7 +90,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
         (!formValues.fromDestinationRegionHub.regionHubId &&
           !formValues.fromDestinationDesiredRegionHub)
       ) {
-        toast.error('하차 장소를 선택해주세요.');
+        toast.error('하차 장소를 선택해 주세요.');
         return;
       }
     }

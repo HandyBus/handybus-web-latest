@@ -34,13 +34,13 @@ const WriteReview = ({ params }: Props) => {
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(e.target.files || []);
     if (files.length + newFiles.length > 3) {
-      toast.error('최대 3개의 사진만 첨부할 수 있습니다.');
+      toast.error('최대 3개의 사진만 첨부할 수 있어요.');
       return;
     }
 
     const isValidSize = newFiles.every((file) => {
       if (file.size > MAX_FILE_SIZE) {
-        toast.error('10MB 이하의 파일만 업로드 할 수 있습니다.');
+        toast.error('10MB 이하의 파일만 업로드 할 수 있어요.');
         return false;
       }
       return true;
@@ -69,11 +69,11 @@ const WriteReview = ({ params }: Props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (text.length < 20) {
-      toast.error('20자 이상 작성해주세요.');
+      toast.error('20자 이상 작성해 주세요.');
       return;
     }
     if (!data) {
-      toast.error('잠시 후 다시 시도해주세요.');
+      toast.error('잠시 후 다시 시도해 주세요.');
       return;
     }
 

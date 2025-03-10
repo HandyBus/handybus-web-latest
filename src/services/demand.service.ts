@@ -118,18 +118,16 @@ export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
           queryKey: ['demand'],
         }),
       ]);
-      toast.success(
-        '해당 셔틀이 개설되면 마이페이지에서 확인해보실 수 있어요!',
-      );
+      toast.success('셔틀이 개설되면 마이페이지에서 확인해보실 수 있어요.');
       onSuccess?.();
     },
     onError: (e) => {
       const error = e as CustomError;
       if (error.statusCode === 409) {
-        toast.error('해당 일자와 경로의 수요조사를 이미 신청완료했어요.');
+        toast.error('이미 참여한 수요조사예요.');
         return;
       }
-      toast.error('수요조사 신청에 실패했습니다.');
+      toast.error('수요조사에 참여하지 못했어요.');
     },
   });
 };
@@ -154,10 +152,10 @@ export const useDeleteDemand = () => {
     mutationFn: deleteDemand,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'demand'] });
-      toast.success('수요조사를 취소했습니다.');
+      toast.success('수요조사 참여를 취소했어요.');
     },
     onError: () => {
-      toast.error('수요조사 취소에 실패했습니다.');
+      toast.error('수요조사를 취소하지 못했어요.');
     },
   });
 };

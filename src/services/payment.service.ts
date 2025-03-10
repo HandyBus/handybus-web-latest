@@ -55,16 +55,16 @@ export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
       await queryClient.invalidateQueries({
         queryKey: ['user', 'reservation'],
       });
-      toast.success('예약이 취소되었습니다.');
+      toast.success('예약을 취소했어요.');
       onSuccess?.();
     },
     onError: (error: CustomError) => {
       if (error.statusCode === 409) {
-        toast.error('이미 환불이 신청되었습니다.');
+        toast.error('이미 환불을 신청한 셔틀이에요.');
       } else if (error.statusCode === 403) {
-        toast.error('환불 날짜가 지나서 환불 요청을 할 수 없습니다.');
+        toast.error('환불 날짜가 지나서 환불이 어려워요.');
       } else {
-        toast.error('예약 취소에 실패했습니다.');
+        toast.error('예약을 취소하지 못했어요.');
       }
     },
   });

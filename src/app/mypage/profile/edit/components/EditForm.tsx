@@ -44,15 +44,15 @@ const EditForm = ({ type, user }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
-      toast.success('프로필을 수정하였습니다.');
+      toast.success('프로필이 수정되었어요.');
       router.replace('/mypage/profile');
     },
     onError: (e: CustomError) => {
       if (e.statusCode === 409) {
-        toast.error('이미 사용중인 닉네임입니다.');
+        toast.error('이미 사용중인 닉네임이에요.');
         return;
       }
-      toast.error('프로필 수정에 실패하였습니다.');
+      toast.error('프로필을 수정하지 못했어요.');
     },
     onSettled: () => {
       setIsSubmitting(false);
@@ -84,7 +84,7 @@ const EditForm = ({ type, user }: Props) => {
         ? REGION_TO_ID[formData.bigRegion][formData.smallRegion]
         : undefined;
     if (type === 'region' && !regionId) {
-      toast.error('프로필 수정에 실패하였습니다.');
+      toast.error('프로필을 수정하지 못했어요.');
       setIsSubmitting(false);
       return;
     }

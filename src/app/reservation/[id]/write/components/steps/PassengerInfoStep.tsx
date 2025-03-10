@@ -23,7 +23,7 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
 
   const checkValidAndGoNextStep = async () => {
     if (watchedPassengerCount === 0) {
-      toast.error('탑승객을 최소 1명 이상 입력해주세요');
+      toast.error('탑승객을 최소 1명 이상 입력해 주세요.');
       return;
     }
     handleNextStep();
