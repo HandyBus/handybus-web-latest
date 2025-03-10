@@ -55,7 +55,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       console.error(error);
       router.replace('/login');
       if (error.statusCode === 422) {
-        toast.error('전화번호가 등록된 계정으로만 회원가입이 가능합니다.');
+        toast.error('전화번호가 등록된 계정으로만 가입할 수 있어요.');
       }
     }
   };

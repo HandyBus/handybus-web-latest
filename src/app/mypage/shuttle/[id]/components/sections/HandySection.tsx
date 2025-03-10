@@ -52,13 +52,13 @@ const HandySection = ({ reservationId, name, handyStatus }: Props) => {
 
   const onSuccess = () => {
     if (handyStatus === 'NOT_SUPPORTED') {
-      toast.success('핸디에 지원해주셔서 감사합니다!');
+      toast.success('핸디에 지원해 주셔서 감사해요!');
     } else {
-      toast.success('핸디 지원이 취소되었습니다.');
+      toast.success('핸디 지원이 취소되었어요.');
     }
   };
   const onError = () => {
-    toast.error('핸디 지원/취소에 실패했습니다.');
+    toast.error('핸디 지원/취소에 실패했어요.');
   };
   const { mutate: updateReservation } = usePostUpdateReservation(
     reservationId,

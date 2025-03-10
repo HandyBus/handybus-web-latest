@@ -71,7 +71,7 @@ const OnboardingFunnel = ({
     },
     onError: (e) => {
       console.error(e);
-      toast.error('회원가입에 실패하였습니다.');
+      toast.error('회원가입에 실패했어요.');
       setIsSubmitting(false);
     },
   });
