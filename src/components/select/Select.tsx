@@ -76,7 +76,10 @@ const Select = <T,>({
         </div>
       </button>
       <BottomSheet ref={bottomSheetRef} title={bottomSheetTitle}>
-        <div ref={contentRef} className="h-full w-full bg-white">
+        <div
+          ref={contentRef}
+          className="h-full w-full overflow-y-auto bg-white"
+        >
           <section className="flex flex-col">
             {sortedOptions?.length === 0 ? (
               <div className="py-16 text-left text-16 font-400 text-grey-400">
