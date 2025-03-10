@@ -1,3 +1,16 @@
+// 로그인 시 리다이렉트 될 주소
+export const REDIRECT_URL = 'redirect-url';
+export const setRedirectUrl = (url: string) => {
+  localStorage.setItem(REDIRECT_URL, encodeURIComponent(url));
+};
+export const getRedirectUrl = () => {
+  const redirectUrl = localStorage.getItem(REDIRECT_URL);
+  return redirectUrl ? decodeURIComponent(redirectUrl) : null;
+};
+export const removeRedirectUrl = () => {
+  localStorage.removeItem(REDIRECT_URL);
+};
+
 // 예약 완료
 export const IS_RESERVATION_COMPLETED = 'is-reservation-completed';
 export const setReservationCompleted = () => {

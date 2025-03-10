@@ -8,7 +8,12 @@ import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getLastLogin, setLastLogin } from '@/utils/localStorage';
+import {
+  getLastLogin,
+  removeRedirectUrl,
+  setLastLogin,
+  setRedirectUrl,
+} from '@/utils/localStorage';
 
 const Login = () => {
   usePreventScroll();
@@ -18,9 +23,9 @@ const Login = () => {
   const handleRedirectUrl = () => {
     const redirectUrl = searchParams.get('redirectUrl');
     if (redirectUrl) {
-      localStorage.setItem('redirectUrl', encodeURIComponent(redirectUrl));
+      setRedirectUrl(redirectUrl);
     } else {
-      localStorage.removeItem('redirectUrl');
+      removeRedirectUrl();
     }
   };
 
