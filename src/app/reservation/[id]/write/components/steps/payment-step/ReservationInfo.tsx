@@ -1,7 +1,8 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ReservationFormValues } from '../../Form';
 import { useFormContext } from 'react-hook-form';
-import { calculateDDayOnBooking } from '../../../utils/calculateDDayOnBooking.util';
+import { dateString } from '@/utils/dateString.util';
+import { getBoardingTime } from '@/utils/common.util';
 
 const ReservationInfo = () => {
   const { getValues } = useFormContext<ReservationFormValues>();
@@ -12,11 +13,18 @@ const ReservationInfo = () => {
     'hub',
   ]);
 
-  const parsedDate = calculateDDayOnBooking({
-    type,
-    toDestinationArrivalTime: hub.toDestinationHub?.arrivalTime,
-    fromDestinationArrivalTime: hub.fromDestinationHub?.arrivalTime,
+  const boardingTime = getBoardingTime({
+    tripType: type ?? 'ROUND_TRIP',
+    toDestinationShuttleRouteHubs:
+      shuttleRoute?.toDestinationShuttleRouteHubs ?? [],
+    fromDestinationShuttleRouteHubs:
+      shuttleRoute?.fromDestinationShuttleRouteHubs ?? [],
+    toDestinationShuttleRouteHubId:
+      hub.toDestinationHub?.shuttleRouteHubId ?? '',
   });
+  const parsedBoardingTime = boardingTime
+    ? dateString(boardingTime, { showTime: true })
+    : '';
 
   return (
     <>
@@ -25,7 +33,7 @@ const ReservationInfo = () => {
           신청 정보를 확인해주세요
         </h2>
         <div className="grid grid-cols-[80px_1fr] gap-x-32 gap-y-12">
-          <Item label="탑승일" value={parsedDate ?? ''} />
+          <Item label="탑승 시간" value={parsedBoardingTime ?? ''} />
           <Item label="노선 종류" value={shuttleRoute?.name ?? ''} />
           <Item
             label="왕복 여부"

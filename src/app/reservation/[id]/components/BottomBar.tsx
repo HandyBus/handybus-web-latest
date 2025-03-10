@@ -6,6 +6,9 @@ import ShareSheet from '@/components/bottom-sheet/share-sheet/ShareSheet';
 import { usePostShuttleRouteDemand } from '@/services/shuttleRoute.service';
 import { RESERVATION_DETAIL_FORM_ID } from './ReservationForm';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { toast } from 'react-toastify';
+import { twMerge } from 'tailwind-merge';
 
 interface Props {
   eventName: string;
@@ -55,6 +58,11 @@ const BottomBar = ({
     if (!selectedRoute) {
       return;
     }
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      toast.error('로그인 후 사용 가능한 기능입니다.');
+      return;
+    }
     postShuttleRouteDemand({
       eventId: selectedRoute.eventId,
       dailyEventId: selectedRoute.dailyEventId,
@@ -67,9 +75,19 @@ const BottomBar = ({
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto h-60 max-w-500 bg-white shadow-bottomBar">
+      <div
+        className={twMerge(
+          'fixed bottom-0 left-0 right-0 z-10 mx-auto h-60 max-w-500 bg-white px-16 py-8 shadow-bottomBar',
+          isSeatFull && 'h-82',
+        )}
+      >
+        {isSeatFull && (
+          <p className="pb-4 text-12 font-500 text-grey-500">
+            앗, 셔틀 자리가 다 찼어요. 추가 셔틀을 요청해 보세요!
+          </p>
+        )}
         {!isLoading && (
-          <div className="flex justify-between gap-12 px-16 py-8 font-600">
+          <div className="flex justify-between gap-12 font-600">
             {isNotOpen ? (
               <>
                 <Button disabled>{buttonText}</Button>
