@@ -26,7 +26,7 @@ const Header = () => {
           </Link>
         ) : (
           <Link
-            href="/login?redirectUrl=/mypage"
+            href="/login"
             className="flex h-full w-72 items-center justify-center rounded-[6px] bg-black text-14 font-400 text-white"
           >
             시작하기

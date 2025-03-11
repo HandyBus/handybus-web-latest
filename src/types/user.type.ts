@@ -73,6 +73,7 @@ export const UpdateMeRequestSchema = z
     isAgreedMarketing: z.boolean(),
     isAgreedServiceTerms: z.boolean(),
     isAgreedPersonalInfo: z.boolean(),
+    entryGreetingChecked: z.boolean(),
   })
   .partial();
 export type UpdateMeRequest = z.infer<typeof UpdateMeRequestSchema>;

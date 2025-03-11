@@ -11,7 +11,6 @@ import AgreementStep from './steps/AgreementStep';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import { usePutUser } from '@/services/user.service';
 import { AgeRange, Gender, UpdateMeRequest } from '@/types/user.type';
-import { setFirstSignup } from '@/utils/localStorage';
 import { setOnboardingStatusComplete } from '@/utils/handleToken.util';
 
 const ONBOARDING_STEPS = ['약관 동의', '개인 정보'] as const;
@@ -66,7 +65,6 @@ const OnboardingFunnel = ({
     },
     onSuccess: async () => {
       setOnboardingStatusComplete();
-      setFirstSignup();
       router.replace('/');
     },
     onError: (e) => {

@@ -10,15 +10,20 @@ import {
 import useBottomSheet from '@/hooks/useBottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { putUser, useGetUser } from '@/services/user.service';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FirstSignupCoupon from './icons/first-signup-coupon.svg';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { getFirstSignup, removeFirstSignup } from '@/utils/localStorage';
+import {
+  getEntryGreetingIncomplete,
+  removeEntryGreetingIncomplete,
+} from '@/utils/localStorage';
 import Link from 'next/link';
 import { CustomError } from '@/services/custom-error';
 import { toast } from 'react-toastify';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import CheckIcon from './icons/check.svg';
 
 const GREETING_STEP = [
   '마케팅 약관 동의',
@@ -54,29 +59,37 @@ const Page = () => {
   const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
     preventCloseOnDrag: true,
   });
-  const [isFirstSignup, setIsFirstSignup] = useState(false);
-  const handleIsFirstSignup = () => {
-    const isFirstSignup = getFirstSignup();
-    if (isFirstSignup) {
-      setIsFirstSignup(true);
+
+  const [isEntryGreetingIncomplete, setIsEntryGreetingIncomplete] =
+    useState(false);
+  const checkAndHandleEntryGreeting = () => {
+    const isEntryGreetingIncomplete = getEntryGreetingIncomplete();
+    const isLoggedIn = getIsLoggedIn();
+    if (isEntryGreetingIncomplete && isLoggedIn) {
+      setIsEntryGreetingIncomplete(true);
       setTimeout(() => {
         openBottomSheet();
       }, 0);
     }
   };
   useEffect(() => {
-    handleIsFirstSignup();
+    checkAndHandleEntryGreeting();
   }, []);
 
   const { Funnel, Step, stepName, handleNextStep } = useFunnel(GREETING_STEP);
 
   // 마케팅 약관 동의
-  const { mutateAsync: putMarketingAgreement } = usePutMarketingAgreement();
-  const [isMarketingAgreed, setIsMarketingAgreed] = useState(false);
+  const {
+    mutateAsync: putMarketingAgreement,
+    isPending: isMarketingAgreementPending,
+    isSuccess: isMarketingAgreementSuccess,
+  } = usePutMarketingAgreement();
+  const [isMarketingAgreed, setIsMarketingAgreed] = useState(true);
   const handleMarketingAgreementClick = () => {
     setIsMarketingAgreed(!isMarketingAgreed);
   };
-  const handleMarketingAgreementSubmit = async () => {
+  const handleMarketingAgreementSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
     try {
       await putMarketingAgreement(isMarketingAgreed);
       handleNextStep();
@@ -85,13 +98,15 @@ const Page = () => {
       console.error(error);
     }
   };
+  const isMarketingAgreementButtonDisabled =
+    isMarketingAgreementPending || isMarketingAgreementSuccess;
 
   // 닉네임 설정
-  const { control, setValue, handleSubmit, setError, clearErrors } = useForm<{
+  const { control, setValue, handleSubmit, setError } = useForm<{
     nickname: string;
   }>();
   const { data: user } = useGetUser({
-    enabled: isFirstSignup,
+    enabled: isEntryGreetingIncomplete,
   });
   useEffect(() => {
     if (user) {
@@ -99,7 +114,11 @@ const Page = () => {
     }
   }, [user]);
 
-  const { mutateAsync: putNickname, isPending, isSuccess } = usePutNickname();
+  const {
+    mutateAsync: putNickname,
+    isPending: isNicknamePending,
+    isSuccess: isNicknameSuccess,
+  } = usePutNickname();
 
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);
   const setNicknameDuplicateError = () => {
@@ -113,29 +132,36 @@ const Page = () => {
   const onNicknameSubmit = handleSubmit(async (data: { nickname: string }) => {
     try {
       await putNickname(data.nickname);
-      clearErrors();
       handleNextStep();
     } catch (e) {
       const error = e as CustomError;
       if (error.statusCode === 409) {
         setNicknameDuplicateError();
+        return;
       }
       toast.error('잠시 후 다시 시도해주세요.');
       console.error(error);
     }
   });
-  const isNicknameInputDisabled = isPending || isSuccess;
+  const isNicknameButtonDisabled = isNicknamePending || isNicknameSuccess;
 
   // 첫 가입 감사 쿠폰
-  const handleCouponLinkClick = () => {
-    removeFirstSignup();
+  const {
+    mutateAsync: putEntryGreetingChecked,
+    isPending: isEntryGreetingCheckedPending,
+    isSuccess: isEntryGreetingCheckedSuccess,
+  } = useEntryGreetingToChecked();
+  const handleCouponConfirmClick = async () => {
+    await putEntryGreetingChecked();
+    removeEntryGreetingIncomplete();
     closeBottomSheet();
+  };
+  const handleCouponLinkClick = () => {
+    handleCouponConfirmClick();
     router.push('/mypage/coupons');
   };
-  const handleCouponConfirmClick = () => {
-    removeFirstSignup();
-    closeBottomSheet();
-  };
+  const isEntryGreetingCheckedButtonDisabled =
+    isEntryGreetingCheckedPending || isEntryGreetingCheckedSuccess;
 
   return (
     <BottomSheet
@@ -148,17 +174,25 @@ const Page = () => {
           <form onSubmit={handleMarketingAgreementSubmit} className="mt-4">
             <button
               onClick={handleMarketingAgreementClick}
-              className="w-full px-16 py-12"
+              className="flex w-full items-center justify-between rounded-[6px] bg-grey-50 px-16 py-12"
             >
               <Link
                 href="/policy"
                 target="_blank"
-                className="text-14 font-600 underline underline-offset-2"
+                className="line-clamp-1 text-14 font-600 underline underline-offset-2"
               >
-                마케팅 약관 동의
+                마케팅 활용/광고성 정보 수신 동의
               </Link>
+              <CheckIcon
+                className={`${isMarketingAgreed ? 'text-[#00C896]' : 'text-[#CCCCCC]'}`}
+              />
             </button>
-            <Button className="my-16">확인했어요</Button>
+            <Button
+              className="my-16"
+              disabled={isMarketingAgreementButtonDisabled}
+            >
+              확인했어요
+            </Button>
           </form>
         </Step>
         <Step name="닉네임 설정">
@@ -177,11 +211,11 @@ const Page = () => {
                     message: ERROR_MESSAGES.nickname.pattern,
                   },
                 }}
-                disabled={isNicknameInputDisabled}
-                defaultValue={user?.nickname || ''}
               />
             </div>
-            <Button className="my-16">이걸로 할게요</Button>
+            <Button className="my-16" disabled={isNicknameButtonDisabled}>
+              이걸로 할게요
+            </Button>
           </form>
         </Step>
         <Step name="첫 가입 감사 쿠폰">
@@ -195,7 +229,12 @@ const Page = () => {
             <Button variant="secondary" onClick={handleCouponLinkClick}>
               쿠폰함 가기
             </Button>
-            <Button onClick={handleCouponConfirmClick}>확인했어요</Button>
+            <Button
+              onClick={handleCouponConfirmClick}
+              disabled={isEntryGreetingCheckedButtonDisabled}
+            >
+              확인했어요
+            </Button>
           </div>
         </Step>
       </Funnel>
@@ -214,5 +253,11 @@ const usePutNickname = () => {
 const usePutMarketingAgreement = () => {
   return useMutation({
     mutationFn: (isAgreedMarketing: boolean) => putUser({ isAgreedMarketing }),
+  });
+};
+
+const useEntryGreetingToChecked = () => {
+  return useMutation({
+    mutationFn: () => putUser({ entryGreetingChecked: true }),
   });
 };

@@ -12,7 +12,11 @@ import {
   setOnboardingStatusIncomplete,
   setRefreshToken,
 } from '@/utils/handleToken.util';
-import { removeRedirectUrl } from '@/utils/localStorage';
+import {
+  removeEntryGreetingIncomplete,
+  removeRedirectUrl,
+  setEntryGreetingIncomplete,
+} from '@/utils/localStorage';
 import { getRedirectUrl } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -41,9 +45,18 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       const user = await getUser({ skipCheckOnboarding: true });
       const isOnboardingComplete = user?.onboardingComplete || false;
+      const isEntryGreetingChecked = user?.entryGreetingChecked || false;
 
-      const redirectUrl = getRedirectUrl() || '/';
+      const redirectUrl = isEntryGreetingChecked
+        ? getRedirectUrl() || '/'
+        : '/';
       removeRedirectUrl();
+
+      if (isEntryGreetingChecked) {
+        removeEntryGreetingIncomplete();
+      } else {
+        setEntryGreetingIncomplete();
+      }
 
       if (!isOnboardingComplete) {
         setOnboardingStatusIncomplete();

@@ -11,6 +11,18 @@ export const removeRedirectUrl = () => {
   localStorage.removeItem(REDIRECT_URL);
 };
 
+// entry greeting (첫 가입)
+export const IS_ENTRY_GREETING_INCOMPLETE = 'is-entry-greeting-incomplete';
+export const setEntryGreetingIncomplete = () => {
+  localStorage.setItem(IS_ENTRY_GREETING_INCOMPLETE, '1');
+};
+export const getEntryGreetingIncomplete = () => {
+  return Boolean(localStorage.getItem(IS_ENTRY_GREETING_INCOMPLETE));
+};
+export const removeEntryGreetingIncomplete = () => {
+  localStorage.removeItem(IS_ENTRY_GREETING_INCOMPLETE);
+};
+
 // 예약 완료
 export const IS_RESERVATION_COMPLETED = 'is-reservation-completed';
 export const setReservationCompleted = () => {
@@ -21,18 +33,6 @@ export const getReservationCompleted = () => {
 };
 export const removeReservationCompleted = () => {
   localStorage.removeItem(IS_RESERVATION_COMPLETED);
-};
-
-// 첫 가입
-export const IS_FIRST_SIGNUP = 'is-first-signup';
-export const setFirstSignup = () => {
-  localStorage.setItem(IS_FIRST_SIGNUP, '1');
-};
-export const getFirstSignup = () => {
-  return Boolean(localStorage.getItem(IS_FIRST_SIGNUP));
-};
-export const removeFirstSignup = () => {
-  localStorage.removeItem(IS_FIRST_SIGNUP);
 };
 
 // 최근 로그인
