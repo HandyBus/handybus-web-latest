@@ -31,6 +31,8 @@ export const UsersViewEntitySchema = z
     gender: GenderEnum,
     ageRange: AgeRangeEnum,
     lastLoginAt: z.string().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
     regionId: z.string().nullable(),
     favoriteArtists: ArtistsViewEntitySchema.array().nullable(),
     status: ActiveStatusEnum,
@@ -40,8 +42,7 @@ export const UsersViewEntitySchema = z
     marketingConsent: z.boolean(),
     serviceTermsAgreement: z.boolean(),
     personalInfoConsent: z.boolean(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    entryGreetingChecked: z.boolean(),
   })
   .strict();
 export type UsersViewEntity = z.infer<typeof UsersViewEntitySchema>;

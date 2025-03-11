@@ -20,13 +20,13 @@ import Link from 'next/link';
 import { CustomError } from '@/services/custom-error';
 import { toast } from 'react-toastify';
 
-const ONBOARDING_STEP = [
+const GREETING_STEP = [
   '마케팅 약관 동의',
   '닉네임 설정',
   '첫 가입 감사 쿠폰',
 ] as const;
 const BOTTOM_SHEET_TEXT: Record<
-  (typeof ONBOARDING_STEP)[number],
+  (typeof GREETING_STEP)[number],
   { title: ReactNode; description: ReactNode }
 > = {
   '마케팅 약관 동의': {
@@ -68,7 +68,7 @@ const Page = () => {
     handleIsFirstSignup();
   }, []);
 
-  const { Funnel, Step, stepName, handleNextStep } = useFunnel(ONBOARDING_STEP);
+  const { Funnel, Step, stepName, handleNextStep } = useFunnel(GREETING_STEP);
 
   // 마케팅 약관 동의
   const { mutateAsync: putMarketingAgreement } = usePutMarketingAgreement();
