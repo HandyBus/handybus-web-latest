@@ -38,11 +38,11 @@ const BottomBar = ({
       return;
     }
     if (!isDailyEventSelected) {
-      toast.error('일자와 지역을 선택해주세요.');
+      toast.error('일자와 지역을 선택해 주세요.');
     } else if (!isBigRegionSelected) {
-      toast.error('지역을 선택해주세요.');
+      toast.error('지역을 선택해 주세요.');
     } else if (!isSmallRegionSelected) {
-      toast.error('시/군/구를 선택해주세요.');
+      toast.error('시/군/구를 선택해 주세요.');
     }
     if (isDailyEventSelected && isBigRegionSelected && isSmallRegionSelected) {
       demandForm.requestSubmit();

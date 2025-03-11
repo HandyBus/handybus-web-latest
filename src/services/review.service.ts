@@ -96,11 +96,11 @@ export const usePostReview = ({
     mutationFn: postReview,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
-      toast.success('후기가 등록되었습니다!');
+      toast.success('후기가 등록되었어요!');
       onSuccess?.();
     },
     onError: () => {
-      toast.error('후기 등록에 실패하였습니다.');
+      toast.error('후기를 등록하지 못했어요.');
     },
     onSettled: onSettled,
   });

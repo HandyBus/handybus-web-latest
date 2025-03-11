@@ -5,8 +5,9 @@ import HandyRequestModal from '@/components/modals/handy-request/HandyRequestMod
 import { useState } from 'react';
 
 const ApplyHandy = () => {
-  const { control } = useFormContext<ReservationFormValues>();
+  const { control, getValues } = useFormContext<ReservationFormValues>();
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
+  const isRoundTrip = getValues('type') === 'ROUND_TRIP';
 
   return (
     <>
@@ -14,7 +15,9 @@ const ApplyHandy = () => {
         <div>
           <h3 className="text-22 font-700 text-grey-900">핸디 지원하기</h3>
           <p className="text-14 font-400 text-grey-500">
-            핸디는 50% 셔틀비를 지원받을 수 있어요!
+            {isRoundTrip
+              ? '핸디는 50% 셔틀비를 지원받을 수 있어요!'
+              : '아쉽게도 핸디는 왕복 셔틀만 지원이 가능해요.'}
           </p>
         </div>
         <div className="flex gap-8">
@@ -30,6 +33,7 @@ const ApplyHandy = () => {
                   onClick={() => {
                     onChange(false);
                   }}
+                  disabled={!isRoundTrip}
                 >
                   안 할래요
                 </Button>
@@ -44,6 +48,7 @@ const ApplyHandy = () => {
                   onClick={() => {
                     onChange(true);
                   }}
+                  disabled={!isRoundTrip}
                 >
                   지원 할래요
                 </Button>

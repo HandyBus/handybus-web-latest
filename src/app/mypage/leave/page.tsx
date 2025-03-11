@@ -21,11 +21,11 @@ const Leave = () => {
     onSuccess: async () => {
       removeLastLogin();
       await logout();
-      toast.success('핸디버스를 이용해주셔서 감사합니다.');
+      toast.success('핸디버스를 이용해 주셔서 감사합니다.');
     },
     onError: (e) => {
       console.error(e);
-      toast.error('잠시 후 다시 시도해주세요.');
+      toast.error('잠시 후 다시 시도해 주세요.');
     },
   });
 

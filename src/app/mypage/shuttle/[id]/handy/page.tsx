@@ -59,14 +59,14 @@ const Handy = ({ params }: Props) => {
   const { data, isLoading } = useGetUserReservation(id);
   const { mutate: putShuttleBus } = usePutShuttleBus(id, {
     onSuccess: () => {
-      toast.success('오픈채팅방 링크가 제출되었습니다.');
+      toast.success('오픈채팅방 링크가 제출되었어요.');
       router.push(`/mypage/shuttle/${id}`);
     },
     onError: (error: CustomError) => {
       if (error.statusCode === 400) {
-        toast.error('오픈채팅방 링크가 올바르지 않습니다.');
+        toast.error('오픈채팅방 링크가 올바르지 않아요.');
       } else {
-        toast.error('오픈채팅방 링크 제출에 실패했습니다.');
+        toast.error('오픈채팅방 링크를 제출하지 못했어요.');
       }
     },
   });
@@ -79,7 +79,7 @@ const Handy = ({ params }: Props) => {
 
   const onSubmit = (formValues: FormValues) => {
     if (!data || !data.reservation.shuttleBusId) {
-      toast.error('예약 정보를 불러오는데 실패했습니다.');
+      toast.error('예약 정보를 불러오지 못했어요.');
       return;
     }
     putShuttleBus({

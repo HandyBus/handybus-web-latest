@@ -128,15 +128,15 @@ export const usePostShuttleRouteDemand = ({
   useMutation({
     mutationFn: postShuttleRouteDemand,
     onSuccess: () => {
-      toast.success('추가 셔틀이 신청되었습니다!');
+      toast.success('추가 셔틀을 요청했어요!');
       onSuccess?.();
     },
     onError: (error: CustomError) => {
       if (error.statusCode === 409) {
-        toast.error('이미 요청된 셔틀입니다.');
+        toast.error('이미 요청한 셔틀이에요.');
         return;
       }
-      toast.error('잠시 후 다시 시도해주세요.');
+      toast.error('잠시 후 다시 시도해 주세요.');
       console.error(error);
       onError?.();
     },
