@@ -6,7 +6,7 @@ import { RefObject } from 'react';
 interface Props {
   bottomSheetRef: ((node: HTMLDivElement) => void) | undefined;
   contentRef: RefObject<HTMLDivElement> | undefined;
-  onAccept: () => void;
+  onAccept?: () => void;
   closeBottomSheet: () => void;
   primaryButtonText?: string;
   secondaryButtonText?: string;
@@ -43,7 +43,7 @@ const MarketingBottomSheet = ({
             onClick={
               onPrimaryButtonClick ??
               (() => {
-                onAccept();
+                onAccept?.();
                 closeBottomSheet();
               })
             }
