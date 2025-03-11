@@ -20,7 +20,7 @@ jobs:
             // 타입 패턴 정의 (정규식으로 확장 가능)
             const typePatterns = {
               'release': ['🔖 release'],
-              'feat': ['✨ feature'],
+              'feat': ['✨ feature', 'feature'],
               'fix': ['🐛 fix'],
               'hotfix': ['🔥 hotfix'],
               'design': ['🎨 design', '🎨 ui', '🎨 ux'],
