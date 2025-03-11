@@ -6,6 +6,7 @@ import Header from '@/components/header/Header';
 import ConfirmModal from '@/components/modals/confirm/ConfirmModal';
 import { useDeleteUser } from '@/services/user.service';
 import { logout } from '@/utils/handleToken.util';
+import { removeLastLogin } from '@/utils/localStorage';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -18,6 +19,7 @@ const Leave = () => {
     isSuccess,
   } = useDeleteUser({
     onSuccess: async () => {
+      removeLastLogin();
       await logout();
       toast.success('핸디버스를 이용해주셔서 감사합니다.');
     },
