@@ -177,6 +177,7 @@ const Page = () => {
               className="flex w-full items-center justify-between rounded-[6px] bg-grey-50 px-16 py-12"
             >
               <Link
+                onClick={(e) => e.stopPropagation()}
                 href="/policy"
                 target="_blank"
                 className="line-clamp-1 text-14 font-600 underline underline-offset-2"
