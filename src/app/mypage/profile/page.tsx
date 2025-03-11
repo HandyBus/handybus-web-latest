@@ -58,6 +58,10 @@ const Profile = () => {
               title="거주 지역 수정"
               href="/mypage/profile/edit?type=region"
             />
+            <ListButton
+              title="마케팅 수신 동의"
+              href="/mypage/profile/edit/marketing"
+            />
           </main>
         )}
       </DeferredSuspense>
