@@ -71,8 +71,6 @@ export const UpdateMeRequestSchema = z
     regionId: z.string(),
     favoriteArtistsIds: z.string().array(),
     isAgreedMarketing: z.boolean(),
-    isAgreedServiceTerms: z.boolean(),
-    isAgreedPersonalInfo: z.boolean(),
     entryGreetingChecked: z.boolean(),
   })
   .partial();
