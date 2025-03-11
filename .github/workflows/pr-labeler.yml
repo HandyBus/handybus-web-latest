@@ -1,0 +1,64 @@
+name: PR Labeler
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  label-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Label PR based on title
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prTitle = context.payload.pull_request.title.toLowerCase();
+            const prBody = context.payload.pull_request.body ? context.payload.pull_request.body.toLowerCase() : '';
+            
+            // 타입 패턴 정의 (정규식으로 확장 가능)
+            const typePatterns = {
+              'release': ['🔖 release'],
+              'feat': ['✨ feature'],
+              'fix': ['🐛 fix'],
+              'hotfix': ['🔥 hotfix'],
+              'design': ['🎨 design', '🎨 ui', '🎨 ux'],
+              'docs': ['📚 docs', '📚 documentation'],
+              'chore': ['🧹 chore'],
+              'refactor': ['🔄 refactor'],
+              'test': ['🧪 test'],
+              'init': ['🌱 init'],
+              'build': ['🔨 build'],
+              'ci': ['🔄 ci'],
+              'perf': ['🏎️ perf'],
+              'style': ['💄 style'],
+              'rename': ['🔄 rename'],
+            };
+            
+            // 타입에 맞는 라벨 찾기
+            const labelsToAdd = [];
+            for (const [label, patterns] of Object.entries(typePatterns)) {
+              if (patterns.some(pattern => 
+                prTitle.includes(pattern) || 
+                (prTitle.startsWith(pattern + ':') || prTitle.startsWith(pattern + '(')) ||
+                prBody.includes(pattern + ':')
+              )) {
+                labelsToAdd.push(label);
+              }
+            }
+            
+            // 라벨 추가
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labelsToAdd
+              });
+              console.log(`Added labels: ${labelsToAdd.join(', ')}`);
+            } else {
+              console.log('No matching labels found');
+            }
+
+// 이모지 참조 : https://inpa.tistory.com/entry/GIT-%E2%9A%A1%EF%B8%8F-Gitmoji-%EC%82%AC%EC%9A%A9%EB%B2%95-Gitmoji-cli
