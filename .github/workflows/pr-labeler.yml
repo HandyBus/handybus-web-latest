@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Label PR based on title
         uses: actions/github-script@v6
         with:
@@ -16,26 +16,20 @@ jobs:
           script: |
             const prTitle = context.payload.pull_request.title.toLowerCase();
             const prBody = context.payload.pull_request.body ? context.payload.pull_request.body.toLowerCase() : '';
-            
+
             // 타입 패턴 정의 (정규식으로 확장 가능)
             const typePatterns = {
-              'release': ['🔖 release'],
-              'feat': ['✨ feature', 'feature'],
-              'fix': ['🐛 fix'],
-              'hotfix': ['🔥 hotfix'],
-              'design': ['🎨 design', '🎨 ui', '🎨 ux'],
-              'docs': ['📚 docs', '📚 documentation'],
-              'chore': ['🧹 chore'],
-              'refactor': ['🔄 refactor'],
-              'test': ['🧪 test'],
-              'init': ['🌱 init'],
-              'build': ['🔨 build'],
-              'ci': ['🔄 ci'],
-              'perf': ['🏎️ perf'],
-              'style': ['💄 style'],
-              'rename': ['🔄 rename'],
+              '🔖 release': ['release'],
+              '✨ feature': ['feat'],
+              '🐛 fix': ['fix', 'bugfix'],
+              '🔥 hotfix': ['hotfix'],
+              '🎨 design': ['design', 'ui', 'ux'],
+              'documentation': ['docs', 'documentation'],
+              '🧹 chore': ['chore'],
+              '🔄 refactor': ['refactor'],
+              '🧪 test': ['test']
             };
-            
+
             // 타입에 맞는 라벨 찾기
             const labelsToAdd = [];
             for (const [label, patterns] of Object.entries(typePatterns)) {
@@ -47,7 +41,7 @@ jobs:
                 labelsToAdd.push(label);
               }
             }
-            
+
             // 라벨 추가
             if (labelsToAdd.length > 0) {
               await github.rest.issues.addLabels({
