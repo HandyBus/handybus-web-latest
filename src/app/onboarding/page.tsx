@@ -10,9 +10,6 @@ const Page = () => {
 
   const isOnboardingComplete = user?.onboardingComplete || false;
 
-  const isAgreementComplete =
-    (user?.personalInfoConsent && user?.serviceTermsAgreement) || false;
-
   const initialGender =
     user?.gender && user?.gender !== 'NONE' ? user.gender : null;
   const initialAgeRange =
@@ -24,7 +21,6 @@ const Page = () => {
         {user && (
           <OnboardingFunnel
             isOnboardingComplete={isOnboardingComplete}
-            isAgreementComplete={isAgreementComplete}
             initialGender={initialGender}
             initialAgeRange={initialAgeRange}
           />

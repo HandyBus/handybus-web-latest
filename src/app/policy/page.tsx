@@ -11,7 +11,7 @@ const Page = () => {
         <Wrapper title="서비스 이용 약관">
           <PolicyViewer type="서비스이용약관" />
         </Wrapper>
-        <Wrapper title="개인정보처리방침">
+        <Wrapper title="개인정보 처리 방침">
           <PolicyViewer type="개인정보처리방침" />
         </Wrapper>
         <Wrapper title="마케팅 활용 동의">

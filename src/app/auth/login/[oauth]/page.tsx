@@ -12,6 +12,12 @@ import {
   setOnboardingStatusIncomplete,
   setRefreshToken,
 } from '@/utils/handleToken.util';
+import {
+  removeEntryGreetingIncomplete,
+  removeRedirectUrl,
+  setEntryGreetingIncomplete,
+} from '@/utils/localStorage';
+import { getRedirectUrl } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
@@ -39,16 +45,25 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       const user = await getUser({ skipCheckOnboarding: true });
       const isOnboardingComplete = user?.onboardingComplete || false;
+      const isEntryGreetingChecked = user?.entryGreetingChecked || false;
 
-      const redirectUrl = localStorage.getItem('redirectUrl') || '/';
-      localStorage.removeItem('redirectUrl');
+      const redirectUrl = isEntryGreetingChecked
+        ? getRedirectUrl() || '/'
+        : '/';
+      removeRedirectUrl();
+
+      if (isEntryGreetingChecked) {
+        removeEntryGreetingIncomplete();
+      } else {
+        setEntryGreetingIncomplete();
+      }
 
       if (!isOnboardingComplete) {
         setOnboardingStatusIncomplete();
         router.replace('/onboarding');
       } else {
         setOnboardingStatusComplete();
-        router.replace(decodeURIComponent(redirectUrl));
+        router.replace(redirectUrl);
       }
     } catch (e) {
       const error = e as CustomError;
