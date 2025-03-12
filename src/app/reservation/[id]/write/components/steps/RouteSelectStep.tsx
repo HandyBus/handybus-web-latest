@@ -267,7 +267,7 @@ const TypeSelect = () => {
                 <button
                   onClick={handleShuttleRouteDemandClick}
                   type="button"
-                  className="flex w-full items-center justify-center border-t border-grey-100 py-12 text-14 font-600 text-[#5A5A5A]"
+                  className="flex w-full items-center justify-center border-t border-[#F3F3F3] py-[14px] text-14 font-600 text-[#5A5A5A]"
                 >
                   추가 셔틀 요청하기
                 </button>
