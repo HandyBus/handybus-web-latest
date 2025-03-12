@@ -5,7 +5,7 @@ import { ReactNode, useEffect, useState } from 'react';
 const DEFERRED_MS = 200;
 
 interface Props {
-  fallback: ReactNode;
+  fallback?: ReactNode;
   isLoading: boolean;
   children: ReactNode;
 }
@@ -25,7 +25,7 @@ const DeferredSuspense = ({ fallback, isLoading, children }: Props) => {
     return <div className="h-[100dvh]" />;
   }
   if (isLoading && isDeferred) {
-    return fallback;
+    return fallback ?? <div />;
   }
 
   return children;

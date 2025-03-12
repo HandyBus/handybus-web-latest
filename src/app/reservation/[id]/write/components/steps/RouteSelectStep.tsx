@@ -231,6 +231,9 @@ const TypeSelect = () => {
     });
   };
 
+  const showShuttleRouteDemandButton =
+    watchedShuttleRoute && getRemainingSeatCount('ROUND_TRIP') === 0;
+
   return (
     <Controller
       control={control}
@@ -260,13 +263,15 @@ const TypeSelect = () => {
               </p>
             )}
             extraContent={
-              <button
-                onClick={handleShuttleRouteDemandClick}
-                type="button"
-                className="-mx-32 flex w-[calc(100%+64px)] items-center justify-center border-t border-grey-100 py-[10px] text-14 font-600 text-[#5A5A5A]"
-              >
-                추가 셔틀 요청하기
-              </button>
+              showShuttleRouteDemandButton ? (
+                <button
+                  onClick={handleShuttleRouteDemandClick}
+                  type="button"
+                  className="flex w-full items-center justify-center border-t border-[#F3F3F3] py-[14px] text-14 font-600 text-[#5A5A5A]"
+                >
+                  추가 셔틀 요청하기
+                </button>
+              ) : null
             }
             sort
             disabled={!watchedShuttleRoute}

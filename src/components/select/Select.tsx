@@ -78,7 +78,7 @@ const Select = <T,>({
       <BottomSheet ref={bottomSheetRef} title={bottomSheetTitle}>
         <div
           ref={contentRef}
-          className="h-full w-full overflow-y-auto bg-white"
+          className="relative h-full w-full overflow-y-auto overflow-x-hidden bg-white"
         >
           <section className="flex flex-col">
             {sortedOptions?.length === 0 ? (
