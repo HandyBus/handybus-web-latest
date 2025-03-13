@@ -3,8 +3,8 @@ import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
 import { getEvents } from '@/services/event.service';
 import { toSorted } from '@/app/demand/utils/toSorted.util';
-import Button from '@/components/buttons/button/Button';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
+import Link from 'next/link';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (
@@ -17,13 +17,13 @@ const Page = () => (
       <SubPage />
     </Article>
     <div className="px-16">
-      <Button
-        className="text-16 font-500 leading-[25.6px] "
-        variant="secondary"
+      <Link
+        href="/demand"
+        className="flex h-44 w-full flex-row items-center justify-center gap-[2px] whitespace-nowrap rounded-full bg-grey-50 p-12 py-8 text-center text-16 font-500 leading-[25.6px] text-grey-700 active:bg-grey-100 "
       >
         모든 수요조사 보기
         <ChevronRightEm className="h-16 w-16 stroke-2" />
-      </Button>
+      </Link>
     </div>
   </section>
 );
