@@ -3,12 +3,29 @@ import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
 import { getEvents } from '@/services/event.service';
 import { toSorted } from '@/app/demand/utils/toSorted.util';
+import Button from '@/components/buttons/button/Button';
+import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (
-  <Article richTitle="수요조사 진행 중" showMore="/demand">
-    <SubPage />
-  </Article>
+  <section className="flex flex-col gap-12">
+    <Article
+      richTitle="수요조사 진행 중"
+      titleSize="text-20"
+      showMore="/demand"
+    >
+      <SubPage />
+    </Article>
+    <div className="px-16">
+      <Button
+        className="text-16 font-500 leading-[25.6px] "
+        variant="secondary"
+      >
+        모든 수요조사 보기
+        <ChevronRightEm className="h-16 w-16 stroke-2" />
+      </Button>
+    </div>
+  </section>
 );
 
 export default Page;

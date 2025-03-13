@@ -39,10 +39,10 @@ const Title = ({ title, titleSize, showMore }: TitleProps) => {
       <h2 className={`${titleSize} font-700`}>{title}</h2>
       {showMore && (
         <Link href={showMore}>
-          <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-12 font-400 text-grey-600-sub">
+          <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-14 font-400 text-grey-600-sub">
             전체보기
             <span className="inline-block stroke-1">
-              <ChevronRightEm />
+              <ChevronRightEm className="h-16 w-16" />
             </span>
           </span>
         </Link>
