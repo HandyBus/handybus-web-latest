@@ -24,7 +24,7 @@ const FAQPage = async () => (
           </p>
         </div>
       }
-      titleSize="text-28"
+      titleClassName="text-28"
       className="mb-28 flex flex-col gap-24"
     >
       <div>

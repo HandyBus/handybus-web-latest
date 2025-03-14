@@ -18,7 +18,7 @@ const Page = () => {
   return (
     <Article
       richTitle={`예약 가능한 셔틀`}
-      titleSize="text-20"
+      titleClassName="text-20"
       showMore="/reservation"
     >
       {isLoading ? (

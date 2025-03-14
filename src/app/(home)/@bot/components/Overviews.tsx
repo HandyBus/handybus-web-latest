@@ -18,7 +18,7 @@ const Overviews = () => {
   };
 
   return (
-    <Article richTitle="핸디버스를 더 자세하게" titleSize="text-20">
+    <Article richTitle="핸디버스를 더 자세하게" titleClassName="text-20">
       <div className="px-16 py-[10px]">
         <Tabs
           items={[

@@ -20,7 +20,7 @@ const PromotionReview = async () => {
   return (
     <Article
       richTitle="핸디버스의 생생한 후기"
-      titleSize="text-20"
+      titleClassName="text-20"
       showMore="/help/reviews"
     >
       {top3.map((review) => (
