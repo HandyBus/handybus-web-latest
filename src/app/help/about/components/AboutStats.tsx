@@ -5,7 +5,6 @@ import HandyTransparent from '../images/handy-transparent.png';
 const AboutStats = () => (
   <Article
     richTitle="지금까지 핸디버스는"
-    titleSize="small"
     className="flex flex-col items-center"
   >
     <div className="mt-28 flex h-[152px] flex-col items-center justify-start rounded-[12px] px-[13px] py-[14px] shadow-md">

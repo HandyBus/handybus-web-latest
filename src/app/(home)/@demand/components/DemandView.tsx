@@ -10,7 +10,7 @@ interface Props {
 
 const DemandView = ({ event }: Props) => {
   return (
-    <Link href={`/demand/${event.eventId}`} className="px-16 py-12">
+    <Link href={`/demand/${event.eventId}`} className="px-16 py-8">
       <article className="flex flex-row gap-16">
         <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-[8px] bg-grey-300">
           <Image
