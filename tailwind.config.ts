@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
+import { extendTailwindMerge } from 'tailwind-merge';
+
 const createPxEntries = (size: number) => {
   return {
     0: '0',
@@ -128,3 +130,27 @@ const config: Config = {
   plugins: [hideScrollbar],
 };
 export default config;
+
+const flattenColors = (colors: object, prefix = ''): string[] => {
+  return Object.entries(colors).reduce((acc: string[], [key, value]) => {
+    if (typeof value === 'object') {
+      return [
+        ...acc,
+        ...flattenColors(value, prefix ? `${prefix}.${key}` : key),
+      ];
+    }
+    return [...acc, prefix ? `${prefix}.${key}` : key];
+  }, []);
+};
+
+export const customTwMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      'font-size': [{ text: Object.keys(config.theme?.fontSize ?? {}) }],
+      'font-weight': [{ font: Object.keys(config.theme?.fontWeight ?? {}) }],
+      'bg-color': [{ bg: flattenColors(config.theme?.colors ?? {}) }],
+      'text-color': [{ text: flattenColors(config.theme?.colors ?? {}) }],
+      'border-color': [{ border: flattenColors(config.theme?.colors ?? {}) }],
+    },
+  },
+});

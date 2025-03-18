@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react';
 import Spinner from 'public/icons/spinner.svg';
-import { twMerge } from 'tailwind-merge';
+import { customTwMerge } from 'tailwind.config';
 
 // NOTE: p-destructive는 primary destructive 버전, s-destructive는 secondary destructive 버전
 
@@ -33,7 +33,7 @@ const Button = ({
   return (
     <button
       disabled={disabled}
-      className={twMerge(
+      className={customTwMerge(
         DEFAULT_STYLE,
         SIZE_STYLE[size],
         VARIANT_STYLE[variant],

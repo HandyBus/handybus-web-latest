@@ -8,7 +8,7 @@ import { RESERVATION_DETAIL_FORM_ID } from './ReservationForm';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { toast } from 'react-toastify';
-import { twMerge } from 'tailwind-merge';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props {
   eventName: string;
@@ -76,7 +76,7 @@ const BottomBar = ({
   return (
     <>
       <div
-        className={twMerge(
+        className={customTwMerge(
           'fixed bottom-0 left-0 right-0 z-10 mx-auto h-60 max-w-500 bg-basic-white px-16 py-8 shadow-bottomBar',
           isSeatFull && 'h-82',
         )}

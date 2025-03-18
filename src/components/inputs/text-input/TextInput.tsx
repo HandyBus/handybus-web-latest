@@ -8,7 +8,7 @@ import {
   useController,
 } from 'react-hook-form';
 import DeleteIcon from 'public/icons/delete.svg';
-import { twMerge } from 'tailwind-merge';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children?: ReactNode;
@@ -50,7 +50,7 @@ const TextInput = <T extends FieldValues>({
         placeholder={placeholder}
         onKeyDown={onKeyDown}
         {...field}
-        className={twMerge(
+        className={customTwMerge(
           'h-48 w-full border-b border-brand-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-brand-grey-300',
           fieldState?.error
             ? 'border-basic-red-500'
