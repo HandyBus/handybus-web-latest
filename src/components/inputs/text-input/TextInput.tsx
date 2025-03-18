@@ -40,7 +40,7 @@ const TextInput = <T extends FieldValues>({
       {children && (
         <label
           htmlFor={field.name}
-          className="block h-[26px] text-16 font-500 text-grey-600-sub"
+          className="block h-[26px] text-16 font-500 text-grey-600"
         >
           {children}
         </label>

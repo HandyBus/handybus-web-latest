@@ -9,7 +9,7 @@ interface Props {
 const PassengerCount = ({ count, setCount }: Props) => {
   return (
     <section className="flex flex-col gap-[16px] px-16 py-28">
-      <h2 className="text-22 font-700 leading-[30.8px] text-grey-900">
+      <h2 className="text-22 font-700 leading-[30.8px] text-grey-700">
         탑승객 수를 입력해주세요 <span className="text-red-500">*</span>
       </h2>
       <Counter

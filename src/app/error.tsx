@@ -12,7 +12,7 @@ export const Error = ({
   console.error(error);
   return (
     <div className="flex grow flex-col px-20 py-28">
-      <h2 className="pb-[10px] text-26 font-700 text-grey-900">
+      <h2 className="pb-[10px] text-26 font-700 text-grey-700">
         알 수 없는 오류가 발생했어요
       </h2>
       <p className="pb-28 text-14 font-600 text-grey-500">

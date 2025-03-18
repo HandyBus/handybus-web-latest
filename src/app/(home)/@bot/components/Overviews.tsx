@@ -120,8 +120,8 @@ const Card = ({ title, description, children }: CardProps) => {
     >
       <div>{children}</div>
       <div className="flex flex-col items-start gap-4 p-24 ">
-        <h2 className="text-18 font-700 text-grey-900">{title}</h2>
-        <p className="text-14 font-400 text-grey-600-sub">{description}</p>
+        <h2 className="text-18 font-700 text-grey-700">{title}</h2>
+        <p className="text-14 font-400 text-grey-600">{description}</p>
       </div>
     </section>
   );

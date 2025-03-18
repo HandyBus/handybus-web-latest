@@ -73,13 +73,13 @@ const DemandCard = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="pb-4 text-16 font-500 text-grey-900">
+          <span className="pb-4 text-16 font-500 text-grey-700">
             {demand.event.eventName}
           </span>
-          <span className="text-12 font-400 text-grey-900">
+          <span className="text-12 font-400 text-grey-700">
             {demand.event.eventLocationName}
           </span>
-          <span className="text-12 font-400 text-grey-900">
+          <span className="text-12 font-400 text-grey-700">
             {parsedDailyEventDate} 셔틀
           </span>
           <span className="flex gap-12 text-12 font-400 text-grey-500">
@@ -95,7 +95,7 @@ const DemandCard = ({
               onClick={handleButtonClick(buttonHref)}
               disabled={buttonDisabled}
               type="button"
-              className="flex h-40 w-full items-center justify-center rounded-full bg-primary-main text-14 font-500 text-white active:bg-primary-700 disabled:bg-grey-50 disabled:text-grey-300"
+              className="bg-primary-main flex h-40 w-full items-center justify-center rounded-full text-14 font-500 text-white active:bg-primary-600 disabled:bg-grey-50 disabled:text-grey-300"
             >
               {buttonText}
             </button>

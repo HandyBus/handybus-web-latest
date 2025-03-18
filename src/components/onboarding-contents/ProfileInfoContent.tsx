@@ -111,7 +111,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
           <button
             type="button"
             onClick={clearSelectedFile}
-            className="h-[18px] text-14 font-500 text-grey-600-sub underline underline-offset-2"
+            className="h-[18px] text-14 font-500 text-grey-600 underline underline-offset-2"
           >
             프로필 사진 지우기
           </button>

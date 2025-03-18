@@ -64,7 +64,7 @@ const Select = <T,>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-grey-800' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
+        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-grey-700' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
       >
         {value
           ? renderValue

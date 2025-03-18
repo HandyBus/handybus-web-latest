@@ -23,14 +23,14 @@ const DemandCard = ({ event }: Props) => {
           />
         </div>
         <div className="flex h-[110px] flex-col gap-4 overflow-hidden">
-          <div className="line-clamp-2 text-16 font-500 text-grey-900">
+          <div className="line-clamp-2 text-16 font-500 text-grey-700">
             {event.eventName}
           </div>
           <div className="text-12 font-400">
-            <div className="line-clamp-1 text-grey-900">
+            <div className="line-clamp-1 text-grey-700">
               {event.eventLocationName}
             </div>
-            <div className="line-clamp-1 text-grey-900">
+            <div className="line-clamp-1 text-grey-700">
               {dateString(dates)}
             </div>
             <div className="line-clamp-1 text-grey-500">

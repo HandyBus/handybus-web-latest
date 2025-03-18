@@ -200,7 +200,7 @@ const HubItem = (props: HubItemProps) => {
   return (
     <div className="flex w-full justify-between ">
       <div className="flex items-center gap-16 ">
-        <p className="w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px] text-grey-600-sub">
+        <p className="w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px] text-grey-600">
           {dayjs(hub.arrivalTime).format('HH:mm')}
         </p>
         <p
@@ -209,9 +209,9 @@ const HubItem = (props: HubItemProps) => {
               ? isDestination
                 ? 'text-grey-700'
                 : props.selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
-                  ? 'text-grey-900'
+                  ? 'text-grey-700'
                   : 'text-grey-300'
-              : 'text-grey-900'
+              : 'text-grey-700'
           }`}
         >
           {hub.name}

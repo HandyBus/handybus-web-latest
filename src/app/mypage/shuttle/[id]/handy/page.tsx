@@ -126,7 +126,7 @@ const Handy = ({ params }: Props) => {
               </p>
               <Button
                 onClick={openHandyGuide}
-                className="mx-auto mt-[60px] block w-fit rounded-full bg-grey-100 px-16 text-grey-600-sub"
+                className="mx-auto mt-[60px] block w-fit rounded-full bg-grey-100 px-16 text-grey-600"
               >
                 핸디 가이드 보러가기
               </Button>

@@ -45,8 +45,8 @@ interface BoxButtonProps {
 const BoxButton = ({ number, title, href }: BoxButtonProps) => {
   return (
     <Link href={href} className="flex grow flex-col items-center gap-8">
-      <span className="text-22 font-500 text-grey-900">{number}</span>
-      <span className="text-12 font-400 text-grey-800">{title}</span>
+      <span className="text-22 font-500 text-grey-700">{number}</span>
+      <span className="text-12 font-400 text-grey-700">{title}</span>
     </Link>
   );
 };

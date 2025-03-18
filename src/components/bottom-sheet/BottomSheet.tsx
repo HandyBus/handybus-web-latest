@@ -23,7 +23,7 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
             {(title || description) && (
               <div className="py-12">
                 {title && (
-                  <h2 className="w-full text-22 font-700 text-grey-900">
+                  <h2 className="w-full text-22 font-700 text-grey-700">
                     {title}
                   </h2>
                 )}

@@ -13,7 +13,7 @@ const ApplyHandy = () => {
     <>
       <section className="flex flex-col gap-12 py-32">
         <div>
-          <h3 className="text-22 font-700 text-grey-900">핸디 지원하기</h3>
+          <h3 className="text-22 font-700 text-grey-700">핸디 지원하기</h3>
           <p className="text-14 font-400 text-grey-500">
             {isRoundTrip
               ? '핸디는 50% 셔틀비를 지원받을 수 있어요!'

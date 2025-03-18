@@ -22,14 +22,14 @@ const DemandView = ({ event }: Props) => {
         </figure>
 
         <div className="max-h-[110px] overflow-hidden">
-          <h1 className="line-clamp-2 overflow-hidden overflow-ellipsis  text-16 font-500 text-grey-900">
+          <h1 className="line-clamp-2 overflow-hidden overflow-ellipsis  text-16 font-500 text-grey-700">
             {event.eventName}
           </h1>
           <div className="flex flex-col gap-4">
-            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-grey-900">
+            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-grey-700">
               {event.eventLocationName}
             </span>
-            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-grey-900">
+            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-grey-700">
               {dateString(
                 event.dailyEvents?.map((dailyEvent) => dailyEvent.date),
               )}

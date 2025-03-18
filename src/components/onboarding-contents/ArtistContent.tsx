@@ -92,7 +92,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
             아티스트 이름으로 검색
           </SearchBar>
         </div>
-        <div className="px-28 py-12 text-16 font-600 text-grey-600-sub">
+        <div className="px-28 py-12 text-16 font-600 text-grey-600">
           나의 최애 아티스트
         </div>
         {selectedArtists.length !== 0 ? (
@@ -102,7 +102,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
                 key={artist.artistId}
                 className="flex items-center justify-between gap-16 px-32 py-12"
               >
-                <span className="line-clamp-1 text-16 font-400 text-grey-800">
+                <span className="line-clamp-1 text-16 font-400 text-grey-700">
                   {artist.artistName}
                 </span>
                 <button
@@ -156,7 +156,7 @@ const ArtistContent = ({ initialSelectedArtists = [] }: Props) => {
                   }
                   setIsChecked={() => handleSelectArtist(artist)}
                 />
-                <span className="text-16 font-400 text-grey-800">
+                <span className="text-16 font-400 text-grey-700">
                   {artist.artistName}
                 </span>
               </button>

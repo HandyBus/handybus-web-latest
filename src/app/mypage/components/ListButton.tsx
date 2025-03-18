@@ -24,7 +24,7 @@ const ListButton = ({
 }: Props) => {
   const content = (
     <>
-      <span className="grow text-left text-16 font-400 text-grey-800">
+      <span className="grow text-left text-16 font-400 text-grey-700">
         {title}
       </span>
       <span className="text-14 font-400 text-grey-500">{description}</span>

@@ -133,7 +133,7 @@ const ReservationOngoingWrapper = ({
         <SmallBusIcon />
         <span className="text-12 font-500 text-grey-600">
           수요신청 하신 셔틀 중{' '}
-          <span className="font-600 text-grey-800">{count}개</span>의 셔틀이
+          <span className="font-600 text-grey-700">{count}개</span>의 셔틀이
           예약 진행 중입니다.
         </span>
       </div>

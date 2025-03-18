@@ -99,9 +99,7 @@ const ReservationForm = ({
   return (
     <form onSubmit={handleSubmit} id={RESERVATION_DETAIL_FORM_ID}>
       <section className="flex flex-col gap-16 p-16">
-        <h5 className="text-16 font-400 text-grey-600-sub">
-          일자를 선택해주세요
-        </h5>
+        <h5 className="text-16 font-400 text-grey-600">일자를 선택해주세요</h5>
         <Select
           options={event.dailyEvents}
           value={selectedDailyEvent}
@@ -118,7 +116,7 @@ const ReservationForm = ({
         />
       </section>
       <section className="flex flex-col gap-16 p-16">
-        <h5 className="text-16 font-400 text-grey-600-sub">
+        <h5 className="text-16 font-400 text-grey-600">
           노선 종류를 선택해주세요
         </h5>
         <Select

@@ -10,7 +10,7 @@ const Empty = async () => {
         수요 확인 중인 콘서트가 없어요
       </span>
       <Link href={newShuttleFormUrl}>
-        <span className="text-14 font-500 text-grey-600-sub underline">
+        <span className="text-14 font-500 text-grey-600 underline">
           원하는 셔틀 요청하러 가기
         </span>
       </Link>

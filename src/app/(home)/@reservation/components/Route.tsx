@@ -26,13 +26,13 @@ const Shuttle = ({ route }: Props) => {
           <SeatString route={route} />
         </div>
         <div className="flex flex-col gap-4 pl-4">
-          <span className="line-clamp-2 text-16 font-600 text-grey-900">
+          <span className="line-clamp-2 text-16 font-600 text-grey-700">
             [{route.name}]{' '}
             <span className="font-500">{route.event.eventName}</span>
           </span>
           <div className="flex flex-col text-12 font-400">
             <span className="text-black">{route.event.eventLocationName}</span>
-            <span className="text-grey-900">
+            <span className="text-grey-700">
               {dateString(
                 route.event.dailyEvents.find(
                   (v) => v.dailyEventId === route.dailyEventId,

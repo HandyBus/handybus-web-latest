@@ -91,13 +91,13 @@ const Page = () => {
                 <button
                   onClick={handleSwitchClick}
                   className={`flex h-[14px] w-32 rounded-full bg-grey-50 transition-all duration-200 ${
-                    isMarketingAgreed ? 'bg-primary-sub' : 'bg-grey-50'
+                    isMarketingAgreed ? 'bg-primary-100' : 'bg-grey-50'
                   }`}
                 >
                   <div
                     className={`h-20 w-20 -translate-y-[3px] rounded-full transition-all duration-200 ${
                       isMarketingAgreed
-                        ? 'translate-x-[12px] bg-primary-main'
+                        ? 'bg-primary-main translate-x-[12px]'
                         : 'bg-grey-200'
                     }`}
                   />

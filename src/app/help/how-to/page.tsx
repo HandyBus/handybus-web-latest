@@ -16,7 +16,7 @@ const HowToPage = () => {
         <h1 className="text-28 font-700 leading-[39.2px] text-black">
           이용 절차
         </h1>
-        <p className="mt-4 text-16 font-500 leading-[25.6px] text-grey-900">
+        <p className="mt-4 text-16 font-500 leading-[25.6px] text-grey-700">
           핸디버스를 통한 콘서트 여정은 이렇게 진행돼요.
         </p>
         <figure className="mt-8 ">
@@ -28,15 +28,15 @@ const HowToPage = () => {
         </figure>
       </article>
       <Article richTitle="1. 수요조사">
-        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
+        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-700">
           여러분의 관심도를 체크해요
         </p>
-        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-900">
+        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-700">
           <li>
             <p className="py-[2px]">
               수요조사를 통해 목적지로 가는 셔틀 수요를 확인해요
             </p>
-            <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
+            <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600">
               <li>
                 <p className="py-[2px]">
                   보통 콘서트 선예매 당일까지 수요를 살펴봐요
@@ -55,10 +55,10 @@ const HowToPage = () => {
         </ul>
       </Article>
       <Article richTitle="2. 운행 확정">
-        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
+        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-700">
           노선 운행을 결정해요
         </p>
-        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-900">
+        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-700">
           <li>
             <p className="py-[2px]">
               충분한 수요가 모이면 노선 운행을 확정해요
@@ -67,10 +67,10 @@ const HowToPage = () => {
         </ul>
       </Article>
       <Article richTitle="3. 셔틀 예약" className="pb-28">
-        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
+        <p className="ml-36 text-16 font-500 leading-[26px] text-grey-700">
           30초만에 간편하게 예약하세요
         </p>
-        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16  font-500 leading-[26px] text-grey-900">
+        <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16  font-500 leading-[26px] text-grey-700">
           <li>
             <p className="py-[2px]">
               확정된 노선은 자리가 다 찰 때까지 예약할 수 있어요
@@ -84,7 +84,7 @@ const HowToPage = () => {
               &apos;핸디&apos;가 오픈채팅방을 만들어 소통해요
             </p>
           </li>
-          <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
+          <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600">
             <li>
               <p className="py-[2px]">
                 콘서트 당일, 오픈채팅방에서 함께 이야기 나누며 즐거운 시간

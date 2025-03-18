@@ -58,7 +58,7 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
   return (
     <>
       <section className="flex flex-col gap-16 py-28">
-        <h3 className="text-22 font-700 text-grey-900">
+        <h3 className="text-22 font-700 text-grey-700">
           탑승객 수를 입력해주세요
         </h3>
         <Controller
@@ -90,10 +90,10 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
       </section>
       <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-12 bg-white px-16 py-8 shadow-bottomBar">
         <section className="flex items-center justify-between py-4">
-          <h5 className="text-14 font-400 text-grey-900">총 금액</h5>
-          <p className="flex items-center gap-12 text-22 font-700 text-grey-900">
+          <h5 className="text-14 font-400 text-grey-700">총 금액</h5>
+          <p className="flex items-center gap-12 text-22 font-700 text-grey-700">
             {watchedPassengerCount > 1 && (
-              <span className="text-14 font-400 text-grey-600-sub">
+              <span className="text-14 font-400 text-grey-600">
                 ({price?.toLocaleString()}원 * {watchedPassengerCount}인)
               </span>
             )}

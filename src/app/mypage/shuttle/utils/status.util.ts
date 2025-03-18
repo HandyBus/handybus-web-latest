@@ -23,8 +23,8 @@ const STATUS_STYLE = {
     text: 'text-black',
   },
   red: {
-    dot: 'bg-red-700',
-    text: 'text-red-700',
+    dot: 'bg-red-500',
+    text: 'text-red-500',
   },
 };
 
@@ -57,7 +57,7 @@ export const getReservationStatusStyle = (status: ReservationStatus) => {
 export const getHandyStatusStyle = (status: HandyStatus) => {
   switch (status) {
     case 'ACCEPTED':
-      return 'text-blue-500';
+      return 'text-blue-1000';
     case 'DECLINED':
       return 'text-grey-400';
     case 'SUPPORTED':

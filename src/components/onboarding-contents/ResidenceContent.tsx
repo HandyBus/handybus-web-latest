@@ -49,7 +49,7 @@ const ResidenceContent = () => {
         description="해당 지역의 셔틀 정보를 먼저 알려드릴게요."
       />
       <div className="flex flex-col gap-16 p-28">
-        <div className="text-16 font-500 text-grey-600-sub">
+        <div className="text-16 font-500 text-grey-600">
           거주 지역을 선택해주세요
         </div>
         <Select

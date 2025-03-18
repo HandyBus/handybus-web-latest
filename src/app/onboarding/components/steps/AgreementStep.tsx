@@ -112,7 +112,7 @@ const AgreementStep = ({
       />
       <div className="absolute bottom-[50px] flex w-full flex-col items-center bg-white">
         <section className="w-full px-28 pb-16">
-          <div className="flex w-full items-center justify-between border-b border-grey-100 py-16 text-16 font-600 text-grey-800">
+          <div className="flex w-full items-center justify-between border-b border-grey-100 py-16 text-16 font-600 text-grey-700">
             <span>약관 전체 동의</span>
             <CheckBox
               isChecked={isAllChecked}
@@ -190,16 +190,16 @@ const AgreementItem = ({
   return (
     <button
       type="button"
-      className="flex w-full items-center justify-between gap-8 py-16 text-14 text-grey-800"
+      className="flex w-full items-center justify-between gap-8 py-16 text-14 text-grey-700"
       onClick={onClick}
     >
       <div className="flex items-center">
         <span
-          className={`shrink-0 pr-32 font-600 ${type === '필수' ? 'text-primary-main' : 'text-grey-800'}`}
+          className={`shrink-0 pr-32 font-600 ${type === '필수' ? 'text-primary-main' : 'text-grey-700'}`}
         >
           {type}
         </span>
-        <span className="line-clamp-1 pr-8 font-400 text-grey-800">
+        <span className="line-clamp-1 pr-8 font-400 text-grey-700">
           {title}
         </span>
         <RightArrowIcon />

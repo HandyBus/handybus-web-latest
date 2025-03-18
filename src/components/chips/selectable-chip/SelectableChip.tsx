@@ -23,9 +23,9 @@ const SelectableChip = ({
       ${isPrimary && !disabled && !selected ? 'bg-grey-50 text-grey-700' : ''}
       ${isPrimary && disabled && selected ? 'bg-grey-700 text-white opacity-50' : ''}
       ${isPrimary && disabled && !selected ? 'bg-grey-50 text-grey-300' : ''}
-      ${!isPrimary && !disabled && selected ? 'border border-grey-600-sub bg-transparent text-grey-700' : ''}
+      ${!isPrimary && !disabled && selected ? 'border border-grey-600 bg-transparent text-grey-700' : ''}
       ${!isPrimary && !disabled && !selected ? 'bg-grey-50 text-grey-700' : ''}
-      ${!isPrimary && disabled && selected ? 'border border-grey-600-sub bg-transparent text-grey-700 opacity-50' : ''}
+      ${!isPrimary && disabled && selected ? 'border border-grey-600 bg-transparent text-grey-700 opacity-50' : ''}
       ${!isPrimary && disabled && !selected ? 'bg-grey-50 text-grey-300' : ''}`}
       disabled={disabled}
       {...rest}

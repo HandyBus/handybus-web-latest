@@ -79,7 +79,7 @@ const RatingForm = ({ size = 'medium', value = 0, onChange }: Props) => {
                 ? 'text-primary-main'
                 : 'text-grey-100'
               : hoverValue >= n
-                ? 'text-primary-700'
+                ? 'text-primary-600'
                 : 'text-grey-100'
           } cursor-pointer touch-pan-y`}
         >

@@ -29,7 +29,7 @@ const DeadZonePopup = () => {
       >
         <div className="flex items-center gap-4">
           <ChatSolidIcon viewBox="0 0 24 24" />
-          <div className="text-16 font-600 leading-[22.4px] tracking-[-0.5px] text-grey-800 ">
+          <div className="text-16 font-600 leading-[22.4px] tracking-[-0.5px] text-grey-700 ">
             의견남기기
           </div>
         </div>

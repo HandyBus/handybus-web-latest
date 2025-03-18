@@ -38,7 +38,7 @@ const DemandStats = ({
   return (
     <article className="px-16 py-24">
       <header className="flex flex-col gap-4 py-16">
-        <h2 className="text-22 font-700 leading-[30.8px] text-grey-900">
+        <h2 className="text-22 font-700 leading-[30.8px] text-grey-700">
           수요 신청한 사람들
         </h2>
         <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-grey-500">
@@ -94,7 +94,7 @@ const EventCard = ({ tripType, count, region, location }: EventCardProps) => {
     <div className="flex items-center justify-between rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
         <span>
-          <p className="text-16 font-600 leading-[25.6px] text-grey-800">
+          <p className="text-16 font-600 leading-[25.6px] text-grey-700">
             {tripType}
           </p>
         </span>
@@ -108,10 +108,10 @@ const EventCard = ({ tripType, count, region, location }: EventCardProps) => {
       </div>
       {count !== undefined && (
         <div className="flex items-baseline gap-4">
-          <span className="text-24 font-700 leading-[38.4px] text-grey-900">
+          <span className="text-24 font-700 leading-[38.4px] text-grey-700">
             {count}
           </span>
-          <span className="text-14 font-400 leading-[22.4px] text-grey-600-sub">
+          <span className="text-14 font-400 leading-[22.4px] text-grey-600">
             명
           </span>
         </div>

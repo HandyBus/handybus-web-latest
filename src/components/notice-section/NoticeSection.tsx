@@ -21,7 +21,7 @@ const NoticeSection = ({ type, noPadding = false }: Props) => {
       } [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden`}
     >
       <summary className="flex cursor-pointer list-none items-center justify-between">
-        <h2 className="text-22 font-700 leading-[30.8px] text-grey-800">
+        <h2 className="text-22 font-700 leading-[30.8px] text-grey-700">
           {type === NOTICE_TYPE.CANCELLATION_AND_REFUND
             ? '취소 및 환불 안내'
             : '유의사항'}

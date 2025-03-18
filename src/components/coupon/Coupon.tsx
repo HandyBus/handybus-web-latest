@@ -34,7 +34,7 @@ const Coupon = ({ coupon }: Props) => {
           </span>
         )}
       </h4>
-      <p className="line-clamp-1 pb-4 pt-[2px] text-16 font-500 text-grey-800">
+      <p className="line-clamp-1 pb-4 pt-[2px] text-16 font-500 text-grey-700">
         {coupon.name}
       </p>
       <p className="line-clamp-1 text-12 font-400 text-grey-500">

@@ -21,7 +21,7 @@ const DemandFilterContainer = ({ length, sort, children }: Props) => {
     <main className="relative flex w-full flex-col">
       <div ref={navRef} className="sticky top-44 z-[1] w-full bg-white">
         <div className="flex flex-col px-16 py-12">
-          <span className="text-14 font-500 text-grey-600-sub">정렬 기준</span>
+          <span className="text-14 font-500 text-grey-600">정렬 기준</span>
           <Select
             options={DEMAND_SORT}
             value={sort}

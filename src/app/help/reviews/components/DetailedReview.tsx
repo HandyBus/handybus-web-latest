@@ -93,7 +93,7 @@ const ContentArea = ({ rating, content }: ContentAreaProps) => {
       <Rating size="medium" value={rating} />
       <p
         ref={ref}
-        className={`${useClamp ? 'line-clamp-2' : ''} overflow-hidden pt-12 text-16 font-500 text-grey-600-sub`}
+        className={`${useClamp ? 'line-clamp-2' : ''} overflow-hidden pt-12 text-16 font-500 text-grey-600`}
       >
         {content}
       </p>

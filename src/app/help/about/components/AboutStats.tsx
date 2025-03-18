@@ -16,7 +16,7 @@ const AboutStats = () => (
           height={55}
         />
       </figure>
-      <ul className="mt-16 list-outside list-disc pl-16 text-[14px] font-500 text-grey-600-sub">
+      <ul className="mt-16 list-outside list-disc pl-16 text-[14px] font-500 text-grey-600">
         <li>
           <p>누적 탑승객 5,000명</p>
         </li>

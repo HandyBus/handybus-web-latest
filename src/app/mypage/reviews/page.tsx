@@ -50,7 +50,7 @@ const NoReview = () => {
       </span>
       <Link
         href="/mypage/shuttle?type=past"
-        className="text-14 font-500 text-grey-600-sub underline underline-offset-[3px]"
+        className="text-14 font-500 text-grey-600 underline underline-offset-[3px]"
       >
         지난 콘서트 보러가기
       </Link>

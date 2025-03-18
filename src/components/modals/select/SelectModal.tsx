@@ -83,7 +83,7 @@ const SelectModalButton = ({ route }: SelectModalButtonProps) => {
       href={`/reservation/${route.eventId}?dailyEventId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
       className="h-58 flex w-252 items-center justify-between rounded-[11px] border border-grey-200 px-24 py-16"
     >
-      <p className="text-16 font-500 leading-[25.6px] text-grey-900">
+      <p className="text-16 font-500 leading-[25.6px] text-grey-700">
         {route.name}
       </p>
       <ChevronRight color="#999999" />

@@ -49,7 +49,7 @@ const ShareSheet = ({
       >
         <div
           ref={contentRef}
-          className="w-full overflow-y-hidden text-16 font-400 leading-[24px] text-grey-800"
+          className="w-full overflow-y-hidden text-16 font-400 leading-[24px] text-grey-700"
         >
           {SHARE_BUTTONS.map((button) => (
             <button

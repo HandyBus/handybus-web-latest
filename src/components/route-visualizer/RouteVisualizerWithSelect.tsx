@@ -157,7 +157,7 @@ const HubItem = ({
   return (
     <div className="flex w-full justify-between ">
       <div className="flex items-center gap-16 ">
-        <p className="w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px] text-grey-600-sub">
+        <p className="w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px] text-grey-600">
           {dayjs(hub.arrivalTime).format('HH:mm')}
         </p>
         <p
@@ -165,7 +165,7 @@ const HubItem = ({
             isDestination
               ? 'text-grey-600'
               : selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
-                ? 'text-grey-900'
+                ? 'text-grey-700'
                 : 'text-grey-300'
           }`}
         >
@@ -179,7 +179,7 @@ const HubItem = ({
           onChange={() => {
             setSelectedHub(hub);
           }}
-          className="h-20 w-20 cursor-pointer accent-grey-800"
+          className="h-20 w-20 cursor-pointer accent-grey-700"
         />
       )}
     </div>

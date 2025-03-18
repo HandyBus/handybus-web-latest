@@ -30,7 +30,7 @@ const Counter = ({ count, setCount, min = 0, max = 9 }: Props) => {
         type="text"
         value={count}
         onChange={handleChange}
-        className="w-full text-16 font-400 leading-[24px] text-grey-800 outline-none"
+        className="w-full text-16 font-400 leading-[24px] text-grey-700 outline-none"
       />
       <CounterButton
         onClick={() => setCount(count - 1)}

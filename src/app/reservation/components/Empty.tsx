@@ -11,7 +11,7 @@ const Empty = () => {
         예약이 시작되면 알림톡을 보내드려요!
       </span>
       <Link href="/login">
-        <span className="text-14 font-500 text-grey-600-sub underline">
+        <span className="text-14 font-500 text-grey-600 underline">
           가입하고 알림받기
         </span>
       </Link>

@@ -33,7 +33,7 @@ const Profile = () => {
                     className="object-cover"
                   />
                 </div>
-                <span className="text-18 font-500 text-grey-900">
+                <span className="text-18 font-500 text-grey-700">
                   {user.nickname}
                 </span>
               </div>
@@ -78,7 +78,7 @@ interface ProfileItemProps {
 
 const ProfileItem = ({ title, description }: ProfileItemProps) => {
   return (
-    <li className="flex items-center gap-16 text-grey-600-sub">
+    <li className="flex items-center gap-16 text-grey-600">
       <div className="flex h-20 w-[78px] shrink-0 items-center justify-center rounded-full border border-grey-100 text-12 font-500">
         {title}
       </div>

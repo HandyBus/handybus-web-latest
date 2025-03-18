@@ -46,7 +46,7 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
           onClose={handleClose}
         />
         <div className="flex flex-col px-16 py-12">
-          <span className="text-14 font-500 text-grey-600-sub">정렬 기준</span>
+          <span className="text-14 font-500 text-grey-600">정렬 기준</span>
           <Select
             setValue={(s) => {
               const postfix = toSearchParams({

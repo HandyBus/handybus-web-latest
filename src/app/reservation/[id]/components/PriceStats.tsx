@@ -41,10 +41,10 @@ const PriceStats = ({
   return (
     <article className="px-16 py-24">
       <header className="flex flex-col gap-4 py-16">
-        <h2 className="relative text-22 font-700 leading-[30.8px] text-grey-900">
+        <h2 className="relative text-22 font-700 leading-[30.8px] text-grey-700">
           셔틀 가격
           {isEarlybird && earlybirdDeadline && (
-            <span className="absolute -top-4 translate-x-8 text-14 font-500 text-red-600">
+            <span className="absolute -top-4 translate-x-8 text-14 font-500 text-red-500">
               {dateString(earlybirdDeadline, { showYear: false })}까지 얼리버드
               🔥
             </span>
@@ -112,7 +112,7 @@ const Card = ({
   return (
     <div className="flex items-center justify-between gap-8 rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
-        <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-grey-800">
+        <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-grey-700">
           <span>{TRIP_STATUS_TO_STRING[tripType]}</span>
           <span className="text-12 font-400 text-grey-500">
             {remainingSeat === 0 ? '매진' : `${remainingSeat}석`}
@@ -129,8 +129,8 @@ const Card = ({
       <div className="flex shrink-0 flex-col items-end">
         {isEarlybird && (
           <div>
-            <span className="text-14 font-600 text-red-700">얼리버드 </span>
-            <span className="text-16 font-700 text-red-600">
+            <span className="text-14 font-600 text-red-500">얼리버드 </span>
+            <span className="text-16 font-700 text-red-500">
               {discountRate}%
             </span>
             <span className="pl-[5px] text-12 font-400 text-grey-500 line-through">
@@ -139,10 +139,10 @@ const Card = ({
           </div>
         )}
         <div className="flex items-baseline gap-4">
-          <span className="text-24 font-700 leading-[38.4px] text-grey-900">
+          <span className="text-24 font-700 leading-[38.4px] text-grey-700">
             {isEarlybird ? parsedEarlybirdPrice : parsedRegularPrice}
           </span>
-          <span className="text-14 font-400 leading-[22.4px] text-grey-600-sub">
+          <span className="text-14 font-400 leading-[22.4px] text-grey-600">
             원
           </span>
         </div>

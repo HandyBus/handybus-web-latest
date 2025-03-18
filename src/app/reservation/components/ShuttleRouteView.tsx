@@ -32,18 +32,18 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
         />
       </div>
       <div className="flex h-[110px] flex-col gap-4 overflow-hidden">
-        <div className="line-clamp-1 text-16 font-500 text-grey-900">
+        <div className="line-clamp-1 text-16 font-500 text-grey-700">
           [{shuttleRoute.name}] {shuttleRoute.event.eventName}
         </div>
         <div className="text-12 font-400">
-          <div className="line-clamp-1 text-grey-900">
+          <div className="line-clamp-1 text-grey-700">
             {shuttleRoute.event.eventLocationName}
           </div>
-          <div className="line-clamp-1 text-grey-900">
+          <div className="line-clamp-1 text-grey-700">
             {dateString(dailyEvent.date)} 셔틀
           </div>
         </div>
-        <div className="line-clamp-1 text-14 font-500 text-grey-900">
+        <div className="line-clamp-1 text-14 font-500 text-grey-700">
           <SeatString shuttleRoute={shuttleRoute} />
         </div>
       </div>
