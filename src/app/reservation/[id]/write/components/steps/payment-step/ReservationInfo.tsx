@@ -29,7 +29,7 @@ const ReservationInfo = () => {
   return (
     <>
       <section className="flex flex-col gap-16 py-28">
-        <h2 className="text-22 font-700 text-grey-700">
+        <h2 className="text-22 font-700 text-brand-grey-700">
           신청 정보를 확인해주세요
         </h2>
         <div className="grid grid-cols-[80px_1fr] gap-x-32 gap-y-12">
@@ -65,10 +65,10 @@ interface ItemProps {
 const Item = ({ label, value }: ItemProps) => {
   return (
     <>
-      <div className="text-16 font-400 leading-[24px] text-grey-600">
+      <div className="text-16 font-400 leading-[24px] text-brand-grey-600">
         {label}
       </div>
-      <div className="text-16 font-400 leading-[24px] text-grey-700">
+      <div className="text-16 font-400 leading-[24px] text-brand-grey-700">
         {value}
       </div>
     </>

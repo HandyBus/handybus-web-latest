@@ -101,14 +101,14 @@ const HandySection = ({ reservationId, name, handyStatus }: Props) => {
               href="/help/what-is-handy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-14 font-500 text-grey-500 underline underline-offset-2"
+              className="text-14 font-500 text-brand-grey-500 underline underline-offset-2"
             >
               핸디란?
             </Link>
           </div>
         }
       >
-        <p className="text-14 font-400 text-grey-500">
+        <p className="text-14 font-400 text-brand-grey-500">
           {typeof TEXT[handyStatus].description === 'function'
             ? TEXT[handyStatus].description(name)
             : TEXT[handyStatus].description}

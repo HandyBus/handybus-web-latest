@@ -25,12 +25,12 @@ const Counter = ({ count, setCount, min = 0, max = 9 }: Props) => {
   };
 
   return (
-    <div className="flex w-full items-center justify-center gap-12 border-b border-grey-100 p-12">
+    <div className="flex w-full items-center justify-center gap-12 border-b border-brand-grey-100 p-12">
       <input
         type="text"
         value={count}
         onChange={handleChange}
-        className="w-full text-16 font-400 leading-[24px] text-grey-700 outline-none"
+        className="w-full text-16 font-400 leading-[24px] text-brand-grey-700 outline-none"
       />
       <CounterButton
         onClick={() => setCount(count - 1)}
@@ -68,7 +68,7 @@ const CounterButton = ({
   disabled = false,
 }: CounterButtonProps) => (
   <button
-    className="rounded-full bg-grey-50 p-12"
+    className="rounded-full bg-brand-grey-50 p-12"
     onClick={onClick}
     type="button"
     disabled={disabled}

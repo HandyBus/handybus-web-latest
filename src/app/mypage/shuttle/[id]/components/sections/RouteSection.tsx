@@ -128,7 +128,7 @@ const RouteSection = ({
                 <Button type="button" onClick={() => setIsEdit(true)}>
                   탑승지 변경
                 </Button>
-                <p className="text-12 font-400 text-grey-500">
+                <p className="text-12 font-400 text-brand-grey-500">
                   탑승지 변경은 행사 일자 기준 2일 전까지 가능합니다.
                 </p>
               </>

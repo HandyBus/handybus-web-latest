@@ -11,7 +11,7 @@ const Indicator = ({ variant = 'primary', value, max }: Props) => {
         <span
           key={index}
           className={`min-h-[6px] rounded-full
-            ${index + 1 === value ? (variant === 'primary' ? 'min-w-[14px] bg-primary-main' : 'min-w-[14px] bg-black') : 'min-w-[6px] bg-grey-100'}
+            ${index + 1 === value ? (variant === 'primary' ? 'min-w-[14px] bg-brand-primary-400' : 'min-w-[14px] bg-basic-black') : 'min-w-[6px] bg-brand-grey-100'}
             `}
         />
       ))}

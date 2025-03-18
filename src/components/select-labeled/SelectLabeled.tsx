@@ -33,7 +33,7 @@ const SelectLabeled = <T extends string | number>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`relative w-full p-12 pr-32 text-left ${value?.label ? 'text-grey-700' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
+        className={`relative w-full p-12 pr-32 text-left ${value?.label ? 'text-brand-grey-700' : 'text-brand-grey-300'} ${isUnderLined ? 'border-b border-brand-grey-100' : ''}`}
       >
         {value?.label || placeholder}
         <div className="absolute right-12 top-16">
@@ -43,7 +43,7 @@ const SelectLabeled = <T extends string | number>({
       <BottomSheet ref={bottomSheetRef} title={bottomSheetTitle}>
         <div
           ref={contentRef}
-          className="flex h-full w-full flex-col overflow-y-auto bg-white"
+          className="flex h-full w-full flex-col overflow-y-auto bg-basic-white"
         >
           {options?.map((option) => (
             <button

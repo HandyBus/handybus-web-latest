@@ -3,43 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --primary-50: 230 255 247;
-  --primary-100: 193 246 235;
-  --primary-200: 138 237 215;
-  --primary-300: 84 228 197;
-  --primary-400: 0 200 150;
-  --primary-500: 0 153 119;
-  --primary-600: 0 118 92;
+  --brand-primary-50: 230 255 247;
+  --brand-primary-100: 193 246 235;
+  --brand-primary-200: 138 237 215;
+  --brand-primary-300: 84 228 197;
+  --brand-primary-400: 0 200 150;
+  --brand-primary-500: 0 153 119;
+  --brand-primary-600: 0 118 92;
 
-  --white: 255 255 255;
-  --black: 24 31 41;
+  --brand-grey-50: 247 248 249;
+  --brand-grey-100: 243 243 243;
+  --brand-grey-200: 230 230 230;
+  --brand-grey-300: 204 204 204;
+  --brand-grey-400: 179 179 179;
+  --brand-grey-500: 153 153 153;
+  --brand-grey-600: 128 128 128;
+  --brand-grey-700: 77 77 77;
 
-  --grey-50: 247 248 249;
-  --grey-100: 193 246 235;
-  --grey-200: 230 230 230;
-  --grey-300: 204 204 204;
-  --grey-400: 179 179 179;
-  --grey-500: 153 153 153;
-  --grey-600: 128 128 128;
-  --grey-700: 77 77 77;
+  --basic-white: 255 255 255;
+  --basic-black: 24 31 41;
 
-  --red-100: 253 234 234;
-  --red-200: 248 157 157;
-  --red-300: 244 83 83;
-  --red-400: 239 43 42;
-  --red-500: 217 39 38;
+  --basic-red-100: 253 234 234;
+  --basic-red-200: 248 157 157;
+  --basic-red-300: 244 83 83;
+  --basic-red-400: 239 43 42;
+  --basic-red-500: 217 39 38;
 
-  --blue-100: 234 244 255;
-  --blue-200: 140 195 254;
-  --blue-300: 56 151 253;
-  --blue-400: 0 104 231;
+  --basic-blue-100: 234 244 255;
+  --basic-blue-200: 140 195 254;
+  --basic-blue-300: 56 151 253;
+  --basic-blue-400: 0 104 231;
 
-  --yellow-50: 252 249 233;
-  --yellow-100: 255 220 64;
-  --pink-50: 255 239 246;
-  --pink-100: 241 162 197;
-  --orange-50: 255 235 226;
-  --orange-100: 244 137 83;
+  --basic-yellow-50: 252 249 233;
+  --basic-yellow-100: 255 220 64;
+  --basic-pink-50: 255 239 246;
+  --basic-pink-100: 241 162 197;
+  --basic-orange-50: 255 235 226;
+  --basic-orange-100: 244 137 83;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

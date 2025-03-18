@@ -8,7 +8,7 @@ const Page = () => {
       <Header />
       <main className="flex grow flex-col">
         <RegisterCoupon />
-        <div className="h-8 bg-grey-50" />
+        <div className="h-8 bg-brand-grey-50" />
         <CouponList />
       </main>
     </>

@@ -56,8 +56,8 @@ const Login = () => {
       </section>
       <section className="p-16">
         <p className="mb-16 text-center text-16 font-600 text-[#181F29]">
-          지금 가입하면 <span className="text-primary-main">1만원</span> 쿠폰
-          즉시 제공!
+          지금 가입하면 <span className="text-brand-primary-400">1만원</span>{' '}
+          쿠폰 즉시 제공!
         </p>
         <button
           onClick={() => setLastLogin('kakao')}
@@ -67,7 +67,7 @@ const Login = () => {
           <Link
             href={OAUTH.kakao()}
             replace
-            className="relative mb-12 flex h-52 items-center justify-center gap-8 rounded-[8px] bg-[#FEE500] text-16 font-600 text-black/85"
+            className="relative mb-12 flex h-52 items-center justify-center gap-8 rounded-[8px] bg-[#FEE500] text-16 font-600 text-basic-black/85"
           >
             <Kakao />
             카카오로 시작하기
@@ -82,7 +82,7 @@ const Login = () => {
           <Link
             href={OAUTH.naver()}
             replace
-            className="relative flex h-52 items-center justify-center gap-8 rounded-[8px] bg-[#03C75A] text-16 font-600 text-white"
+            className="relative flex h-52 items-center justify-center gap-8 rounded-[8px] bg-[#03C75A] text-16 font-600 text-basic-white"
           >
             <Naver />
             네이버로 시작하기
@@ -91,7 +91,7 @@ const Login = () => {
         </button>
       </section>
       <section className="flex flex-1 grow flex-col">
-        <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-grey-400">
+        <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-brand-grey-400">
           로그인은{' '}
           <Link href="/policy" className="underline">
             개인정보 처리 방침
@@ -113,7 +113,7 @@ export default Login;
 
 const LastLoginChip = () => {
   return (
-    <div className="absolute -top-[5px] right-8 flex h-[26px] items-center justify-center rounded-full bg-[#181F29] px-8 text-10 font-600 text-white">
+    <div className="absolute -top-[5px] right-8 flex h-[26px] items-center justify-center rounded-full bg-[#181F29] px-8 text-10 font-600 text-basic-white">
       최근 로그인
     </div>
   );

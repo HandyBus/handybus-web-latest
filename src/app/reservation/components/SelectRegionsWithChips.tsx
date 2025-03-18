@@ -49,7 +49,9 @@ const SelectRegionsWithChips = ({
           setShowFirstRegion((prev) => !prev);
         }}
       >
-        <div className="text-12 font-500 text-grey-500">도/광역시 선택</div>
+        <div className="text-12 font-500 text-brand-grey-500">
+          도/광역시 선택
+        </div>
         <div className="flex flex-row items-center justify-start gap-8">
           <span className="">
             {region.bigRegion === undefined ? '전체' : region.bigRegion}
@@ -60,7 +62,7 @@ const SelectRegionsWithChips = ({
         </div>
       </button>
       {showFirstRegion && (
-        <div className="flex w-full flex-row flex-wrap gap-x-[6px] gap-y-[8px] bg-white px-16 pb-16 pt-4">
+        <div className="flex w-full flex-row flex-wrap gap-x-[6px] gap-y-[8px] bg-basic-white px-16 pb-16 pt-4">
           <SelectableChip
             variant="secondary"
             selected={region.bigRegion === undefined}
@@ -98,7 +100,9 @@ const SelectRegionsWithChips = ({
           setShowSecondRegion((prev) => !prev);
         }}
       >
-        <div className="text-12 font-500 text-grey-500">시/군/구 선택</div>
+        <div className="text-12 font-500 text-brand-grey-500">
+          시/군/구 선택
+        </div>
         <div className="flex flex-row items-center justify-start gap-8">
           <span>
             {region.bigRegion === undefined
@@ -113,7 +117,7 @@ const SelectRegionsWithChips = ({
         </div>
       </button>
       {showSecondRegion && region.bigRegion && (
-        <div className="flex w-full flex-row flex-wrap gap-x-[6px] gap-y-[8px] bg-white px-16 pb-16 pt-4">
+        <div className="flex w-full flex-row flex-wrap gap-x-[6px] gap-y-[8px] bg-basic-white px-16 pb-16 pt-4">
           <SelectableChip
             variant="secondary"
             selected={region.smallRegion === undefined}

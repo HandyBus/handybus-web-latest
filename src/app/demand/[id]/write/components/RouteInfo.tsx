@@ -55,7 +55,7 @@ const RouteInfo = ({ event, regionId }: Props) => {
       aria-label="demand request by date, location, and route"
       className="flex flex-col gap-[16px] px-16 py-28"
     >
-      <h2 className="text-22 font-700 leading-[30.8px] text-grey-700">
+      <h2 className="text-22 font-700 leading-[30.8px] text-brand-grey-700">
         수요 신청 정보를 입력해주세요
       </h2>
       <Controller

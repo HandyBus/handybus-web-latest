@@ -95,7 +95,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="absolute bottom-[calc(50%-78px)] right-[calc(50%-78px)] flex h-[34px] w-[34px] items-center justify-center rounded-full bg-black/30"
+          className="absolute bottom-[calc(50%-78px)] right-[calc(50%-78px)] flex h-[34px] w-[34px] items-center justify-center rounded-full bg-basic-black/30"
         >
           <CameraIcon />
           <input
@@ -111,7 +111,7 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
           <button
             type="button"
             onClick={clearSelectedFile}
-            className="h-[18px] text-14 font-500 text-grey-600 underline underline-offset-2"
+            className="h-[18px] text-14 font-500 text-brand-grey-600 underline underline-offset-2"
           >
             프로필 사진 지우기
           </button>

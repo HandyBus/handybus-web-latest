@@ -14,7 +14,7 @@ const EventInfo = ({ event }: Props) => {
   return (
     <article className="px-16 py-24">
       <EventStatusChip status={event.eventStatus} />
-      <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-grey-700">
+      <h1 className="pb-24 pt-8 text-24 font-700 leading-[33.6px] text-brand-grey-700">
         {event.eventName}
       </h1>
       <dl className="flex flex-col gap-8">
@@ -44,10 +44,10 @@ const Badge = ({ label, value }: BadgeProps) => {
   }
   return (
     <div className="flex gap-12">
-      <dt className="h-[21px] w-72 rounded-xl border border-grey-100 text-center text-12 font-500 leading-[21px] text-grey-600">
+      <dt className="h-[21px] w-72 rounded-xl border border-brand-grey-100 text-center text-12 font-500 leading-[21px] text-brand-grey-600">
         {label}
       </dt>
-      <dd className="text-14 font-400 leading-[22.4px] text-grey-600">
+      <dd className="text-14 font-400 leading-[22.4px] text-brand-grey-600">
         {value}
       </dd>
     </div>

@@ -26,17 +26,17 @@ const AboutService = () => (
     </div>
     <div>
       <div className="flex w-full flex-col items-center gap-4 pb-16">
-        <span className="h-[6px] w-[6px] rounded bg-grey-50" />
-        <span className="h-[6px] w-[6px] rounded bg-grey-50" />
-        <span className="h-[6px] w-[6px] rounded bg-grey-50" />
+        <span className="h-[6px] w-[6px] rounded bg-brand-grey-50" />
+        <span className="h-[6px] w-[6px] rounded bg-brand-grey-50" />
+        <span className="h-[6px] w-[6px] rounded bg-brand-grey-50" />
       </div>
-      <p className="w-full text-center text-16 font-500 text-grey-700">
+      <p className="w-full text-center text-16 font-500 text-brand-grey-700">
         그래서 핸디버스는
         <br />
         콘서트장까지 이동 시 편리함을 제공하기 위해
         <br />
         {/* TODO betther highlighting/mark */}
-        <b className="after:bg-primary-main relative inline overflow-visible font-600 after:absolute after:bottom-[0.33em] after:left-0 after:right-0 after:-z-10 after:h-[0.6em] after:bg-opacity-35 after:px-4 after:content-['']">
+        <b className="relative inline overflow-visible font-600 after:absolute after:bottom-[0.33em] after:left-0 after:right-0 after:-z-10 after:h-[0.6em] after:bg-brand-primary-400 after:bg-opacity-35 after:px-4 after:content-['']">
           직행으로 이동하는 셔틀 버스를 제공
         </b>
         합니다.
@@ -64,7 +64,7 @@ const Saying = ({ orient, img, children }: PropsWithChildren<SubProps>) => {
   );
 
   const balloon = (
-    <p className=" rounded-[10px] bg-white p-8 text-12 font-500 text-grey-600 shadow-md shadow-grey-100 [&>b]:font-600 ">
+    <p className=" rounded-[10px] bg-basic-white p-8 text-12 font-500 text-brand-grey-600 shadow-md shadow-brand-grey-100 [&>b]:font-600 ">
       “{children}”
     </p>
   );

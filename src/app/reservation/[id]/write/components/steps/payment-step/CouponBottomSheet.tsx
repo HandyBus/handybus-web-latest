@@ -48,7 +48,7 @@ const CouponBottomSheet = ({
           </TextInput>
           <Button>쿠폰 등록하기</Button>
         </form>
-        <div className="mx-[-32px] h-[8px] bg-grey-50" />
+        <div className="mx-[-32px] h-[8px] bg-brand-grey-50" />
         <section className="overflow-x-hidden py-28">
           <div className="flex flex-col gap-16">
             {!coupons?.length ? (

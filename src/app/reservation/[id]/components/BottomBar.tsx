@@ -77,12 +77,12 @@ const BottomBar = ({
     <>
       <div
         className={twMerge(
-          'fixed bottom-0 left-0 right-0 z-10 mx-auto h-60 max-w-500 bg-white px-16 py-8 shadow-bottomBar',
+          'fixed bottom-0 left-0 right-0 z-10 mx-auto h-60 max-w-500 bg-basic-white px-16 py-8 shadow-bottomBar',
           isSeatFull && 'h-82',
         )}
       >
         {isSeatFull && (
-          <p className="pb-4 text-12 font-500 text-grey-500">
+          <p className="pb-4 text-12 font-500 text-brand-grey-500">
             앗, 셔틀 자리가 다 찼어요. 추가 셔틀을 요청해 보세요!
           </p>
         )}

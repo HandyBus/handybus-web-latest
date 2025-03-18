@@ -7,7 +7,7 @@
   line-height: 1;
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.storybook-button--primary {
+.storybook-button--brand-primary {
   background-color: #1ea7fd;
   color: white;
 }

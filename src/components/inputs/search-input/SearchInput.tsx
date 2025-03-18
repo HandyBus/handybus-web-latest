@@ -21,12 +21,12 @@ const SearchInput = ({ value, setValue, handleBack, placeholder }: Props) => {
   };
 
   return (
-    <div className="relative flex h-48 w-full shrink-0 items-center border-b border-grey-100">
+    <div className="relative flex h-48 w-full shrink-0 items-center border-b border-brand-grey-100">
       <input
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="h-full w-full py-12 pl-[50px] pr-[46px] outline-none placeholder:text-grey-300"
+        className="h-full w-full py-12 pl-[50px] pr-[46px] outline-none placeholder:text-brand-grey-300"
       />
       <button
         type="button"

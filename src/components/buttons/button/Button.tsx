@@ -19,17 +19,19 @@ const Button = ({
   const disabled = rest.disabled || loading;
 
   const variantClasses: { [key: string]: string } = {
-    primary: 'bg-primary-main text-white active:bg-primary-600',
-    secondary: 'bg-grey-50 text-grey-700 active:bg-grey-100',
-    alert: 'bg-red-500 text-14 leading-[22.4px] text-white active:bg-[#EF5350]',
+    primary:
+      'bg-brand-primary-400 text-basic-white active:bg-brand-primary-600',
+    secondary: 'bg-brand-grey-50 text-brand-grey-700 active:bg-brand-grey-100',
+    alert:
+      'bg-basic-red-500 text-14 leading-[22.4px] text-basic-white active:bg-[#EF5350]',
     modalSecondary:
-      'bg-grey-50 text-14 font-500 leading-[22.4px] text-grey-700 active:bg-grey-100',
+      'bg-brand-grey-50 text-14 font-500 leading-[22.4px] text-brand-grey-700 active:bg-brand-grey-100',
     none: '',
   };
 
   const buttonClass = `
     flex h-44 w-full flex-row items-center justify-center whitespace-nowrap rounded-full p-12 text-center 
-    disabled:cursor-not-allowed disabled:bg-grey-50 disabled:text-grey-300 
+    disabled:cursor-not-allowed disabled:bg-brand-grey-50 disabled:text-brand-grey-300 
     ${variantClasses[variant] || ''}
   `;
 

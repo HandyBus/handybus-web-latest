@@ -21,10 +21,10 @@ const TextArea = <T extends FieldValues>({
       <textarea
         {...field}
         placeholder={placeholder}
-        className={`h-[136px] w-full resize-none rounded-xl border border-grey-100 p-12 text-16 font-400 outline-none placeholder:text-grey-300 ${fieldState?.error ? 'border-red-500' : 'focus:border-primary-100'}`}
+        className={`h-[136px] w-full resize-none rounded-xl border border-brand-grey-100 p-12 text-16 font-400 outline-none placeholder:text-brand-grey-300 ${fieldState?.error ? 'border-basic-red-500' : 'focus:border-brand-primary-100'}`}
       />
       {fieldState?.error?.message && (
-        <div className="h-[20px] pl-12 text-12 font-400 text-red-100">
+        <div className="h-[20px] pl-12 text-12 font-400 text-basic-red-100">
           {fieldState?.error?.message}
         </div>
       )}

@@ -35,7 +35,7 @@ const CirclePoint = ({
 }) => {
   return (
     <div
-      className={`h-12 w-12 rounded-full border-[2px] ${type === 'TO_DESTINATION' ? 'border-primary-main' : 'border-grey-500'} bg-white`}
+      className={`h-12 w-12 rounded-full border-[2px] ${type === 'TO_DESTINATION' ? 'border-brand-primary-400' : 'border-brand-grey-500'} bg-basic-white`}
     />
   );
 };
@@ -47,9 +47,9 @@ const ArrivalPoint = ({
 }) => {
   return (
     <div
-      className={`relative flex h-24 w-24 items-center justify-center rounded-full ${type === 'TO_DESTINATION' ? 'bg-primary-main' : 'bg-grey-500'}`}
+      className={`relative flex h-24 w-24 items-center justify-center rounded-full ${type === 'TO_DESTINATION' ? 'bg-brand-primary-400' : 'bg-brand-grey-500'}`}
     >
-      <span className="text-[8px] font-700 leading-[9.55px] text-white">
+      <span className="text-[8px] font-700 leading-[9.55px] text-basic-white">
         {type === 'TO_DESTINATION' ? '도착' : '출발'}
       </span>
     </div>

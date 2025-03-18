@@ -1,9 +1,9 @@
 :root {
   --toastify-color-light: #fff;
   --toastify-color-dark: #121212;
-  --toastify-color-info: rgb(var(--blue-400));
+  --toastify-color-info: rgb(var(--basic-blue-400));
   --toastify-color-success: #181f29;
-  --toastify-color-warning: rgb(var(--grey-700));
+  --toastify-color-warning: rgb(var(--brand-grey-700));
   --toastify-color-error: #181f29;
   --toastify-color-transparent: rgba(255, 255, 255, 0.7);
   --toastify-icon-color-info: var(--toastify-color-info);

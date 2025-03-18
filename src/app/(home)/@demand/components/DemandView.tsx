@@ -12,7 +12,7 @@ const DemandView = ({ event }: Props) => {
   return (
     <Link href={`/demand/${event.eventId}`} className="px-16 py-8">
       <article className="flex flex-row gap-16">
-        <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-[8px] bg-grey-300">
+        <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-[8px] bg-brand-grey-300">
           <Image
             className="object-cover"
             src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
@@ -22,19 +22,19 @@ const DemandView = ({ event }: Props) => {
         </figure>
 
         <div className="max-h-[110px] overflow-hidden">
-          <h1 className="line-clamp-2 overflow-hidden overflow-ellipsis  text-16 font-500 text-grey-700">
+          <h1 className="line-clamp-2 overflow-hidden overflow-ellipsis  text-16 font-500 text-brand-grey-700">
             {event.eventName}
           </h1>
           <div className="flex flex-col gap-4">
-            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-grey-700">
+            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-brand-grey-700">
               {event.eventLocationName}
             </span>
-            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-grey-700">
+            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400 text-brand-grey-700">
               {dateString(
                 event.dailyEvents?.map((dailyEvent) => dailyEvent.date),
               )}
             </span>
-            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400  text-grey-500">
+            <span className="line-clamp-1 overflow-hidden overflow-ellipsis text-12 font-400  text-brand-grey-500">
               {event.eventArtists
                 ?.map((artist) => artist.artistName)
                 .join(', ')}

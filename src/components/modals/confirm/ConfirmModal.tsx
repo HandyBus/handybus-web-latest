@@ -33,7 +33,7 @@ const ConfirmModal = ({
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
-      styles="fixed top-50 left-50 z-[101] flex h-[210px] w-280 flex-col items-center justify-center gap-32 rounded-xl bg-white p-24"
+      styles="fixed top-50 left-50 z-[101] flex h-[210px] w-280 flex-col items-center justify-center gap-32 rounded-xl bg-basic-white p-24"
     >
       <ConfirmModalContent
         onClosed={onClosed}
@@ -80,7 +80,7 @@ const ConfirmModalContent = ({
         </h2>
         <p
           id="modal-description"
-          className="break-keep text-16 font-400 leading-6 text-grey-500"
+          className="break-keep text-16 font-400 leading-6 text-brand-grey-500"
         >
           {description}
         </p>

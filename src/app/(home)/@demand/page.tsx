@@ -18,7 +18,7 @@ const Page = () => (
     </Article>
     <Link
       href="/demand"
-      className="mx-[16px] flex h-44 w-[calc(100%-32px)] flex-row items-center justify-center gap-[2px] whitespace-nowrap rounded-full bg-grey-50 p-12 py-8 text-center text-16 font-500 leading-[25.6px] text-grey-700 active:bg-grey-100 "
+      className="mx-[16px] flex h-44 w-[calc(100%-32px)] flex-row items-center justify-center gap-[2px] whitespace-nowrap rounded-full bg-brand-grey-50 p-12 py-8 text-center text-16 font-500 leading-[25.6px] text-brand-grey-700 active:bg-brand-grey-100 "
     >
       모든 수요조사 보기
       <ChevronRightEm className="h-16 w-16 stroke-2" />

@@ -38,7 +38,7 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
 
   return (
     <main className="w-full">
-      <div ref={navRef} className="sticky top-44 z-[1] w-full bg-white">
+      <div ref={navRef} className="sticky top-44 z-[1] w-full bg-basic-white">
         <SelectRegionsWithChips
           region={region}
           setRegion={setRegion}
@@ -46,7 +46,9 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
           onClose={handleClose}
         />
         <div className="flex flex-col px-16 py-12">
-          <span className="text-14 font-500 text-grey-600">정렬 기준</span>
+          <span className="text-14 font-500 text-brand-grey-600">
+            정렬 기준
+          </span>
           <Select
             setValue={(s) => {
               const postfix = toSearchParams({
@@ -60,12 +62,12 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
           />
         </div>
         <div className={safeArea}>
-          <div className="h-8 w-full bg-grey-50" />
+          <div className="h-8 w-full bg-brand-grey-50" />
           <div className="px-16 py-12">
-            <span className="text-14 font-500 text-grey-500">
+            <span className="text-14 font-500 text-brand-grey-500">
               {regionToString(region)}
             </span>
-            <span className="text-14 font-400 text-grey-500">
+            <span className="text-14 font-400 text-brand-grey-500">
               에서 예약 모집 중인 셔틀({length})
             </span>
           </div>

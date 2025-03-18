@@ -40,7 +40,7 @@ const TextInput = <T extends FieldValues>({
       {children && (
         <label
           htmlFor={field.name}
-          className="block h-[26px] text-16 font-500 text-grey-600"
+          className="block h-[26px] text-16 font-500 text-brand-grey-600"
         >
           {children}
         </label>
@@ -51,8 +51,10 @@ const TextInput = <T extends FieldValues>({
         onKeyDown={onKeyDown}
         {...field}
         className={twMerge(
-          'h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300',
-          fieldState?.error ? 'border-red-500' : 'focus:border-primary-main',
+          'h-48 w-full border-b border-brand-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-brand-grey-300',
+          fieldState?.error
+            ? 'border-basic-red-500'
+            : 'focus:border-brand-primary-400',
           inputClassName,
         )}
       />
@@ -68,7 +70,7 @@ const TextInput = <T extends FieldValues>({
         </button>
       )}
       {fieldState?.error?.message && (
-        <p className="h-[20px] text-12 font-400 text-red-500">
+        <p className="h-[20px] text-12 font-400 text-basic-red-500">
           {fieldState?.error?.message}
         </p>
       )}

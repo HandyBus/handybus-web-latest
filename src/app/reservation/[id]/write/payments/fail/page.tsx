@@ -28,10 +28,10 @@ const Page = ({ searchParams }: Props) => {
       <main className="flex grow flex-col items-center justify-center gap-24">
         <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
         <section className="p-16">
-          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
+          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
             결제 중 문제가 생겼습니다.
           </h1>
-          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
+          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-brand-grey-500">
             {userExceptionMessage}
           </p>
         </section>
@@ -49,10 +49,10 @@ const Page = ({ searchParams }: Props) => {
       <main className="flex grow flex-col items-center justify-center gap-24">
         <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
         <section>
-          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
+          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
             이미 완료된 예약결제입니다.
           </h1>
-          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
+          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-brand-grey-500">
             내 예약 페이지에서 확인해주세요.
           </p>
         </section>
@@ -69,10 +69,10 @@ const Page = ({ searchParams }: Props) => {
     <main className="flex grow flex-col items-center justify-center gap-24">
       <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
       <section>
-        <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-black">
+        <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
           결제 중 문제가 생겼습니다.
         </h1>
-        <p className="flex justify-center text-16 font-500 leading-[25.6px] text-grey-500">
+        <p className="flex justify-center text-16 font-500 leading-[25.6px] text-brand-grey-500">
           마이페이지에서 결제 내역을 확인한 후 다시 시도해주세요.
         </p>
       </section>
