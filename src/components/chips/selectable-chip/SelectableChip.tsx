@@ -1,10 +1,9 @@
-import type { HTMLProps } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 
-interface Props extends HTMLProps<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
   selected?: boolean;
-  type?: 'button' | 'submit' | 'reset';
 }
 
 const SelectableChip = ({

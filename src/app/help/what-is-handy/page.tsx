@@ -146,7 +146,7 @@ const AboutPage = () => {
         </section>
         <section className="px-16">
           <Link href="/help/faq" className="w-full rounded-full">
-            <Button variant="secondary" className="w-full">
+            <Button variant="tertiary" className="w-full">
               자주 묻는 질문
             </Button>
           </Link>

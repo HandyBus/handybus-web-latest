@@ -76,7 +76,7 @@ const config: Config = {
           200: 'rgb(var(--basic-red-200) / <alpha-value>)',
           300: 'rgb(var(--basic-red-300) / <alpha-value>)',
           400: 'rgb(var(--basic-red-400) / <alpha-value>)',
-          500: 'rgb(var(--basic-red-100) / <alpha-value>)',
+          500: 'rgb(var(--basic-red-500) / <alpha-value>)',
         },
         blue: {
           100: 'rgb(var(--basic-blue-100) / <alpha-value>)',

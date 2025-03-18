@@ -68,7 +68,7 @@ const SelectModalContent = ({
         ))}
       </div>
       <div className="flex w-[100%] flex-col gap-8">
-        <Button variant="secondary" onClick={onClosed}>
+        <Button variant="tertiary" onClick={onClosed}>
           이동 안 할래요
         </Button>
       </div>

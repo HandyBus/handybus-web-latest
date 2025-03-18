@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/buttons/button/Button';
+import Button, { ButtonVariant } from '@/components/buttons/button/Button';
 import CustomModal from '../CustomModal';
 
 interface ButtonLabels {
@@ -16,7 +16,7 @@ interface Props {
   isOpen: boolean;
   onClosed: () => void;
   disabled?: boolean;
-  variant?: 'alert' | 'primary' | 'secondary' | 'modalSecondary' | 'none';
+  variant?: ButtonVariant;
 }
 
 const ConfirmModal = ({
@@ -27,7 +27,6 @@ const ConfirmModal = ({
   isOpen,
   onClosed,
   disabled = false,
-  variant,
 }: Props) => {
   return (
     <CustomModal
@@ -42,7 +41,6 @@ const ConfirmModal = ({
         description={description}
         buttonLabels={buttonLabels}
         disabled={disabled}
-        variant={variant}
       />
     </CustomModal>
   );
@@ -57,7 +55,7 @@ interface ConfirmModalContentProps {
   description: string;
   buttonLabels: ButtonLabels;
   disabled?: boolean;
-  variant?: 'alert' | 'primary' | 'secondary' | 'modalSecondary' | 'none';
+  variant?: ButtonVariant;
 }
 
 const ConfirmModalContent = ({
@@ -67,7 +65,7 @@ const ConfirmModalContent = ({
   description,
   buttonLabels,
   disabled = false,
-  variant = 'alert',
+  variant = 'p-destructive',
 }: ConfirmModalContentProps) => {
   return (
     <>
@@ -86,7 +84,7 @@ const ConfirmModalContent = ({
         </p>
       </div>
       <div className="flex w-[100%] gap-8">
-        <Button variant="modalSecondary" onClick={onClosed}>
+        <Button variant="tertiary" onClick={onClosed}>
           {buttonLabels.back}
         </Button>
         <Button variant={variant} onClick={onConfirm} disabled={disabled}>

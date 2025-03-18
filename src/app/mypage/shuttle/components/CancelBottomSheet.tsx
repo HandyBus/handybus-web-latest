@@ -71,7 +71,7 @@ const CancelBottomSheet = ({
                 <Button
                   type="button"
                   onClick={handleNextStep}
-                  variant="secondary"
+                  variant="tertiary"
                 >
                   다음
                 </Button>
@@ -93,14 +93,14 @@ const CancelBottomSheet = ({
                 <Button
                   type="button"
                   onClick={handlePrevStep}
-                  variant="secondary"
+                  variant="tertiary"
                 >
                   이전
                 </Button>
                 <Button
                   type="button"
                   onClick={handleSubmit}
-                  variant="alert"
+                  variant="p-destructive"
                   disabled={!isRefundable || isPending}
                 >
                   예약 취소

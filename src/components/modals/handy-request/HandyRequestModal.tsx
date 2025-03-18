@@ -75,7 +75,7 @@ const ModalContent = ({
         <Button variant="primary" onClick={onConfirm} type="button">
           {buttonText}
         </Button>
-        <Button variant="secondary" onClick={onClosed} type="button">
+        <Button variant="tertiary" onClick={onClosed} type="button">
           {subButtonText}
         </Button>
       </div>

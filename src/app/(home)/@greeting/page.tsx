@@ -227,7 +227,7 @@ const Page = () => {
             *연락처 당 1개의 쿠폰이 제공돼요.
           </p>
           <div className="flex gap-8 py-16">
-            <Button variant="secondary" onClick={handleCouponLinkClick}>
+            <Button variant="tertiary" onClick={handleCouponLinkClick}>
               쿠폰함 가기
             </Button>
             <Button

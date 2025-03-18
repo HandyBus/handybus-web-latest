@@ -96,7 +96,7 @@ const BottomBar = ({
               <>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="tertiary"
                   onClick={openBottomSheet}
                 >
                   친구에게 알리기

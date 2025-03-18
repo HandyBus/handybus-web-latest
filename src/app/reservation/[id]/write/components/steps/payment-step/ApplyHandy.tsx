@@ -29,7 +29,7 @@ const ApplyHandy = () => {
             render={({ field: { value, onChange } }) => (
               <>
                 <Button
-                  variant="none"
+                  variant="custom"
                   type="button"
                   className={`h-[42px] px-32 ${value === false ? 'bg-brand-grey-700 text-basic-white active:bg-brand-grey-500' : 'bg-brand-grey-50 text-brand-grey-700 active:bg-brand-grey-100'}`}
                   onClick={() => {
@@ -40,7 +40,7 @@ const ApplyHandy = () => {
                   안 할래요
                 </Button>
                 <Button
-                  variant="none"
+                  variant="custom"
                   type="button"
                   className={`h-[42px] px-32 ${
                     value === true

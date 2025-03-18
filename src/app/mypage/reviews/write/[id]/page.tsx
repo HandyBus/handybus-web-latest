@@ -2,7 +2,7 @@
 
 import Rating from '@/components/rating/Rating';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import CameraIcon from 'public/icons/camera-basic-black.svg';
+import CameraIcon from 'public/icons/camera-black.svg';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
 import Image from 'next/image';

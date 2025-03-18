@@ -54,3 +54,9 @@ html {
 html::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
 }
+
+@layer base {
+  body {
+    @apply text-14 font-400;
+  }
+}

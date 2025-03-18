@@ -115,7 +115,7 @@ const RouteSection = ({
                 <Button
                   type="button"
                   onClick={() => setIsEdit(false)}
-                  variant="secondary"
+                  variant="tertiary"
                 >
                   취소
                 </Button>

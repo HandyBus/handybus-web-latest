@@ -101,7 +101,7 @@ const PassengerInfoStep = ({ handleNextStep, handlePrevStep }: Props) => {
           </p>
         </section>
         <div className="grid grid-cols-[76px_1fr] gap-8">
-          <Button type="button" variant="secondary" onClick={handlePrevStep}>
+          <Button type="button" variant="tertiary" onClick={handlePrevStep}>
             이전
           </Button>
           <Button type="button" onClick={checkValidAndGoNextStep}>

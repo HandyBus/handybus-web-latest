@@ -23,10 +23,3 @@ export const Secondary: Story = {
     variant: 'secondary',
   },
 };
-
-export const Loading: Story = {
-  args: {
-    loading: true,
-    children: 'Loading',
-  },
-};

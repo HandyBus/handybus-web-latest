@@ -1,49 +1,50 @@
-import type { HTMLProps } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import Spinner from 'public/icons/spinner.svg';
 import { twMerge } from 'tailwind-merge';
 
-interface Props extends HTMLProps<HTMLButtonElement> {
-  loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'alert' | 'modalSecondary' | 'none';
-  type?: 'button' | 'submit' | 'reset';
+// NOTE: p-destructive는 primary destructive 버전, s-destructive는 secondary destructive 버전
+
+export type ButtonSize = 'large' | 'medium' | 'small';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'p-destructive'
+  | 's-destructive'
+  | 'custom';
+
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isLoading?: boolean;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
   className?: string;
 }
 
 const Button = ({
   children,
+  size = 'large',
   variant = 'primary',
-  loading,
+  isLoading = false,
   className,
   ...rest
 }: Props) => {
-  const disabled = rest.disabled || loading;
-
-  const variantClasses: { [key: string]: string } = {
-    primary:
-      'bg-brand-primary-400 text-basic-white active:bg-brand-primary-600',
-    secondary: 'bg-brand-grey-50 text-brand-grey-700 active:bg-brand-grey-100',
-    alert:
-      'bg-basic-red-500 text-14 leading-[22.4px] text-basic-white active:bg-[#EF5350]',
-    modalSecondary:
-      'bg-brand-grey-50 text-14 font-500 leading-[22.4px] text-brand-grey-700 active:bg-brand-grey-100',
-    none: '',
-  };
-
-  const buttonClass = `
-    flex h-44 w-full flex-row items-center justify-center whitespace-nowrap rounded-full p-12 text-center 
-    disabled:cursor-not-allowed disabled:bg-brand-grey-50 disabled:text-brand-grey-300 
-    ${variantClasses[variant] || ''}
-  `;
+  const disabled = rest.disabled || isLoading;
 
   return (
     <button
       disabled={disabled}
-      className={twMerge(buttonClass, className)}
+      className={twMerge(
+        DEFAULT_STYLE,
+        SIZE_STYLE[size],
+        VARIANT_STYLE[variant],
+        isLoading && LOADING_STYLE,
+        className,
+      )}
       {...rest}
     >
-      {loading ? (
+      {isLoading ? (
         <>
-          <span className="mr-4 animate-spin">
+          <span className="mr-[10px] animate-spin">
             <Spinner />
           </span>
           {children}
@@ -56,3 +57,28 @@ const Button = ({
 };
 
 export default Button;
+
+const DEFAULT_STYLE =
+  'flex items-center justify-center whitespace-nowrap break-keep';
+
+const SIZE_STYLE = {
+  large: 'w-full h-[50px] rounded-[8px] text-16 font-600',
+  medium: 'w-[87px] h-[50px] rounded-[8px] text-16 font-600',
+  small: 'w-[57px] h-[31px] rounded-[6px] text-12 font-600',
+};
+
+const VARIANT_STYLE = {
+  primary:
+    'bg-brand-primary-400 text-basic-white active:bg-brand-primary-500 disabled:bg-brand-primary-100',
+  secondary:
+    'bg-brand-primary-50 text-brand-primary-400 active:bg-brand-primary-100',
+  tertiary:
+    'bg-brand-grey-100 text-brand-grey-700 active:bg-brand-grey-200 disabled:bg-brand-grey-50 disabled:text-brand-grey-300',
+  'p-destructive': 'bg-basic-red-400 text-basic-white active:bg-basic-red-500',
+  's-destructive':
+    'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200',
+  custom: '',
+};
+
+const LOADING_STYLE =
+  'bg-brand-grey-50 text-brand-grey-400 disabled:bg-brand-grey-50';
