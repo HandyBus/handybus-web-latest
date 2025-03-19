@@ -65,7 +65,7 @@ const ModalContent = ({
       </h2>
       <p
         id="modal-description"
-        className="text-center text-16 font-400 leading-6 text-brand-grey-500"
+        className="text-basic-grey-500 text-center text-16 font-400 leading-6"
       >
         이번 기회에 핸디를 체험해보고 <br />
         특별한 경험을 만들어보세요. <br />

@@ -10,7 +10,7 @@ const Chip = ({ children, onClick }: Props) => {
     <button
       type="button"
       onClick={onClick}
-      className="flex h-32 items-center justify-center whitespace-nowrap break-keep rounded-full bg-brand-grey-100 px-16 text-16 font-600 text-brand-grey-700 active:bg-brand-grey-200"
+      className="bg-basic-grey-100 text-basic-grey-700 active:bg-basic-grey-200 flex h-32 items-center justify-center whitespace-nowrap break-keep rounded-full px-16 text-16 font-600"
     >
       {children}
     </button>

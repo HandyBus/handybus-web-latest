@@ -84,7 +84,7 @@ const CancelBottomSheet = ({
               <div className="max-h-[55dvh] overflow-y-auto">
                 <CancellationAndRefundContent />
                 {isRefundable && refundFee !== null && (
-                  <article className="mt-16 bg-brand-grey-50 p-8 text-center text-14 font-700 text-basic-red-500">
+                  <article className="mt-16 bg-basic-grey-50 p-8 text-center text-14 font-700 text-basic-red-500">
                     취소 수수료: {refundFee.toLocaleString()}원
                   </article>
                 )}

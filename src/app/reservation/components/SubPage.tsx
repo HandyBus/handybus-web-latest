@@ -46,7 +46,7 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
           onClose={handleClose}
         />
         <div className="flex flex-col px-16 py-12">
-          <span className="text-14 font-500 text-brand-grey-600">
+          <span className="text-basic-grey-600 text-14 font-500">
             정렬 기준
           </span>
           <Select
@@ -62,12 +62,12 @@ const SubPage = ({ region: initialRegion, sort, length, children }: Props) => {
           />
         </div>
         <div className={safeArea}>
-          <div className="h-8 w-full bg-brand-grey-50" />
+          <div className="bg-basic-grey-50 h-8 w-full" />
           <div className="px-16 py-12">
-            <span className="text-14 font-500 text-brand-grey-500">
+            <span className="text-basic-grey-500 text-14 font-500">
               {regionToString(region)}
             </span>
-            <span className="text-14 font-400 text-brand-grey-500">
+            <span className="text-basic-grey-500 text-14 font-400">
               에서 예약 모집 중인 셔틀({length})
             </span>
           </div>

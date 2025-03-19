@@ -49,7 +49,7 @@ const SelectRegionsWithChips = ({
           setShowFirstRegion((prev) => !prev);
         }}
       >
-        <div className="text-12 font-500 text-brand-grey-500">
+        <div className="text-basic-grey-500 text-12 font-500">
           도/광역시 선택
         </div>
         <div className="flex flex-row items-center justify-start gap-8">
@@ -100,7 +100,7 @@ const SelectRegionsWithChips = ({
           setShowSecondRegion((prev) => !prev);
         }}
       >
-        <div className="text-12 font-500 text-brand-grey-500">
+        <div className="text-basic-grey-500 text-12 font-500">
           시/군/구 선택
         </div>
         <div className="flex flex-row items-center justify-start gap-8">

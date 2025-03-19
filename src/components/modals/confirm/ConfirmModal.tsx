@@ -78,7 +78,7 @@ const ConfirmModalContent = ({
         </h2>
         <p
           id="modal-description"
-          className="break-keep text-16 font-400 leading-6 text-brand-grey-500"
+          className="text-basic-grey-500 break-keep text-16 font-400 leading-6"
         >
           {description}
         </p>

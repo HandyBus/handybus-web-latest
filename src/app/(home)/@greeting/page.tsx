@@ -174,7 +174,7 @@ const Page = () => {
           <form onSubmit={handleMarketingAgreementSubmit} className="mt-4">
             <button
               onClick={handleMarketingAgreementClick}
-              className="flex w-full items-center justify-between rounded-[6px] bg-brand-grey-50 px-16 py-12"
+              className="bg-basic-grey-50 flex w-full items-center justify-between rounded-[6px] px-16 py-12"
             >
               <Link
                 onClick={(e) => e.stopPropagation()}
@@ -223,7 +223,7 @@ const Page = () => {
           <div className="mx-auto py-16">
             <FirstSignupCoupon />
           </div>
-          <p className="text-center text-10 font-400 text-brand-grey-400">
+          <p className="text-basic-grey-400 text-center text-10 font-400">
             *연락처 당 1개의 쿠폰이 제공돼요.
           </p>
           <div className="flex gap-8 py-16">

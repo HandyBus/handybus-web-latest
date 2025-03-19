@@ -30,7 +30,7 @@ const RefundInfoSection = ({
         </div>
       </Section>
       <Section title="환불 정보">
-        <div className="flex flex-col gap-8 text-brand-grey-700">
+        <div className="flex flex-col gap-8 text-basic-grey-700">
           <div className="flex w-full gap-4">
             <div>결제 금액</div>
             <div className="grow text-right">{price.toLocaleString()}원</div>

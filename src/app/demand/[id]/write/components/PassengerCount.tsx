@@ -9,7 +9,7 @@ interface Props {
 const PassengerCount = ({ count, setCount }: Props) => {
   return (
     <section className="flex flex-col gap-[16px] px-16 py-28">
-      <h2 className="text-22 font-700 leading-[30.8px] text-brand-grey-700">
+      <h2 className="text-22 font-700 leading-[30.8px] text-basic-grey-700">
         탑승객 수를 입력해주세요 <span className="text-basic-red-500">*</span>
       </h2>
       <Counter
@@ -18,7 +18,7 @@ const PassengerCount = ({ count, setCount }: Props) => {
           setCount(newValue);
         }}
       />
-      <p className="text-12 font-400 leading-[19.2px] text-brand-grey-500">
+      <p className="text-12 font-400 leading-[19.2px] text-basic-grey-500">
         10명 이상 예약하는 경우,{' '}
         <a
           href="http://pf.kakao.com/_AxncxhG"

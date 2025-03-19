@@ -36,18 +36,18 @@ const Leave = () => {
       <Header />
       <main className="relative w-full grow">
         <section className="px-32 py-8 pt-28">
-          <h2 className="pb-[6px] text-26 font-700 text-brand-grey-700">
+          <h2 className="text-basic-grey-700 pb-[6px] text-26 font-700">
             핸디버스를 떠나신다니
             <br />
             너무 아쉬워요
           </h2>
-          <p className="pb-44 text-16 font-600 text-brand-grey-500">
+          <p className="text-basic-grey-500 pb-44 text-16 font-600">
             탈퇴 전 다음 사항을 확인해주세요
           </p>
-          <h4 className="pb-[6px] text-18 font-600 text-brand-grey-700">
+          <h4 className="text-basic-grey-700 pb-[6px] text-18 font-600">
             개인 정보 삭제
           </h4>
-          <p className="text-14 font-400 text-brand-grey-600">
+          <p className="text-basic-grey-600 text-14 font-400">
             계정을 삭제하면 계정 정보(연동 계정으로부터 제공받은 정보), 회원
             정보(프로필, 성별, 연령대, 거주 지역, 최애 아티스트), 작성한 셔틀
             후기 등 핸디버스에서 활동한 모든 정보가 삭제돼요. 다시 가입하더라도

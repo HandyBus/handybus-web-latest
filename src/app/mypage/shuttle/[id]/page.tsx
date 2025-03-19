@@ -59,7 +59,7 @@ const ShuttleDetail = ({ params }: Props) => {
           <main className="grow">
             <ReservationCard reservation={data.reservation} />
             {!isShuttleBusAssigned && !isCanceled && !isHandyAssigned && (
-              <section className="m-16 rounded-[10px] bg-brand-primary-50 p-16 text-14 font-400 text-brand-grey-700">
+              <section className="m-16 rounded-[10px] bg-brand-primary-50 p-16 text-14 font-400 text-basic-grey-700">
                 <p>
                   현재 셔틀 정보, 기사님 정보, 핸디 정보 등을 결정하고 있어요.
                   확정되면 알림톡을 전송해드릴게요.

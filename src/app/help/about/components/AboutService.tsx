@@ -26,11 +26,11 @@ const AboutService = () => (
     </div>
     <div>
       <div className="flex w-full flex-col items-center gap-4 pb-16">
-        <span className="h-[6px] w-[6px] rounded bg-brand-grey-50" />
-        <span className="h-[6px] w-[6px] rounded bg-brand-grey-50" />
-        <span className="h-[6px] w-[6px] rounded bg-brand-grey-50" />
+        <span className="bg-basic-grey-50 h-[6px] w-[6px] rounded" />
+        <span className="bg-basic-grey-50 h-[6px] w-[6px] rounded" />
+        <span className="bg-basic-grey-50 h-[6px] w-[6px] rounded" />
       </div>
-      <p className="w-full text-center text-16 font-500 text-brand-grey-700">
+      <p className="text-basic-grey-700 w-full text-center text-16 font-500">
         그래서 핸디버스는
         <br />
         콘서트장까지 이동 시 편리함을 제공하기 위해
@@ -64,7 +64,7 @@ const Saying = ({ orient, img, children }: PropsWithChildren<SubProps>) => {
   );
 
   const balloon = (
-    <p className=" rounded-[10px] bg-basic-white p-8 text-12 font-500 text-brand-grey-600 shadow-md shadow-brand-grey-100 [&>b]:font-600 ">
+    <p className=" text-basic-grey-600 shadow-basic-grey-100 rounded-[10px] bg-basic-white p-8 text-12 font-500 shadow-md [&>b]:font-600 ">
       “{children}”
     </p>
   );

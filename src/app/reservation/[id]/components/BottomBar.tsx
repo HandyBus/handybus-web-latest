@@ -82,7 +82,7 @@ const BottomBar = ({
         )}
       >
         {isSeatFull && (
-          <p className="pb-4 text-12 font-500 text-brand-grey-500">
+          <p className="pb-4 text-12 font-500 text-basic-grey-500">
             앗, 셔틀 자리가 다 찼어요. 추가 셔틀을 요청해 보세요!
           </p>
         )}

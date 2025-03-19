@@ -12,7 +12,7 @@ const Activity = ({
   shuttleDemandCount,
 }: Props) => {
   return (
-    <section className="m-16 flex h-[94px] rounded-[12px] bg-brand-grey-50 py-16">
+    <section className="bg-basic-grey-50 m-16 flex h-[94px] rounded-[12px] py-16">
       <BoxButton
         number={reservationCount}
         title="예약 현황"
@@ -45,12 +45,12 @@ interface BoxButtonProps {
 const BoxButton = ({ number, title, href }: BoxButtonProps) => {
   return (
     <Link href={href} className="flex grow flex-col items-center gap-8">
-      <span className="text-22 font-500 text-brand-grey-700">{number}</span>
-      <span className="text-12 font-400 text-brand-grey-700">{title}</span>
+      <span className="text-basic-grey-700 text-22 font-500">{number}</span>
+      <span className="text-basic-grey-700 text-12 font-400">{title}</span>
     </Link>
   );
 };
 
 const Divider = () => {
-  return <div className="h-full w-[1px] rounded-full bg-brand-grey-100" />;
+  return <div className="bg-basic-grey-100 h-full w-[1px] rounded-full" />;
 };

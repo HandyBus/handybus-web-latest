@@ -23,7 +23,7 @@ const CouponList = () => {
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
       {coupons && (
         <section className="px-16 py-28">
-          <div className="mb-16 flex items-center justify-between font-400 text-brand-grey-500">
+          <div className="mb-16 flex items-center justify-between font-400 text-basic-grey-500">
             <span>보유한 쿠폰 ({usableCouponsLength})</span>
             <button
               onClick={() => setShowUnusableCoupons((prev) => !prev)}

@@ -43,7 +43,7 @@ const RouteVisualizer = ({
     <section className="flex flex-col gap-16">
       <header>
         <h2 className="text-22 font-700 leading-[30.8px]">셔틀 노선</h2>
-        <p className="text-14 font-500 leading-[22.4px] text-brand-grey-500">
+        <p className="text-basic-grey-500 text-14 font-500 leading-[22.4px]">
           예약 현황에 따라 추가 경유지가 발생하거나 시각이 변동될 수 있습니다.
         </p>
       </header>
@@ -126,7 +126,7 @@ const RouteCard = (props: RouteCardProps) => {
       <h3 className="text-16 font-700 leading-[22.4px]">
         {type === 'TO_DESTINATION' ? '가는 편' : '오는 편'}
         {type === 'FROM_DESTINATION' && (
-          <p className="text-12 font-400 leading-[19.2px] text-brand-grey-500">
+          <p className="text-basic-grey-500 text-12 font-400 leading-[19.2px]">
             오는 편 노선의 출발 시각은 콘서트 앵콜 종료 시각으로부터 약 30분
             이후로 책정하였으며, 변동될 수 있습니다.
           </p>
@@ -170,7 +170,7 @@ const RouteCard = (props: RouteCardProps) => {
         </ul>
       </section>
       {isSelected && (
-        <p className="text-12 font-500 leading-[19.2px] text-brand-grey-500">
+        <p className="text-basic-grey-500 text-12 font-500 leading-[19.2px]">
           {type === 'TO_DESTINATION'
             ? `${destinationHub.name}에서 `
             : `${destinationHub.name}까지 `}
@@ -200,18 +200,18 @@ const HubItem = (props: HubItemProps) => {
   return (
     <div className="flex w-full justify-between ">
       <div className="flex items-center gap-16 ">
-        <p className="w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px] text-brand-grey-600">
+        <p className="text-basic-grey-600 w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px]">
           {dayjs(hub.arrivalTime).format('HH:mm')}
         </p>
         <p
           className={`text-16 font-400 leading-[24px] ${
             isSelected
               ? isDestination
-                ? 'text-brand-grey-700'
+                ? 'text-basic-grey-700'
                 : props.selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
-                  ? 'text-brand-grey-700'
-                  : 'text-brand-grey-300'
-              : 'text-brand-grey-700'
+                  ? 'text-basic-grey-700'
+                  : 'text-basic-grey-300'
+              : 'text-basic-grey-700'
           }`}
         >
           {hub.name}

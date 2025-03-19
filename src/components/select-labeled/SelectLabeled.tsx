@@ -33,7 +33,7 @@ const SelectLabeled = <T extends string | number>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`relative w-full p-12 pr-32 text-left ${value?.label ? 'text-brand-grey-700' : 'text-brand-grey-300'} ${isUnderLined ? 'border-b border-brand-grey-100' : ''}`}
+        className={`relative w-full p-12 pr-32 text-left ${value?.label ? 'text-basic-grey-700' : 'text-basic-grey-300'} ${isUnderLined ? 'border-basic-grey-100 border-b' : ''}`}
       >
         {value?.label || placeholder}
         <div className="absolute right-12 top-16">

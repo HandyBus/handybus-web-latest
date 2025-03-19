@@ -23,7 +23,7 @@ const EventStatusChip = ({ status }: Props) => {
       );
     case 'INACTIVE':
       return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-brand-grey-100 px-[14px] py-[3px] text-12 text-basic-black">
+        <div className="bg-basic-grey-100 w-fit whitespace-nowrap rounded-full px-[14px] py-[3px] text-12 text-basic-black">
           {statusString}
         </div>
       );

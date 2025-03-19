@@ -23,7 +23,7 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
       href={`/reservation/${shuttleRoute.event.eventId}?dailyEventId=${shuttleRoute.dailyEventId}&shuttleRouteId=${shuttleRoute.shuttleRouteId}`}
       className="flex flex-row gap-16 px-16 py-12"
     >
-      <div className="relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px] bg-brand-grey-50">
+      <div className="bg-basic-grey-50 relative max-h-[110px] min-h-[110px] min-w-[80px] max-w-[80px] overflow-hidden rounded-[8px]">
         <Image
           className="object-cover"
           src={shuttleRoute.event.eventImageUrl || DEFAULT_EVENT_IMAGE}
@@ -32,18 +32,18 @@ const ShuttleRouteView = ({ shuttleRoute }: Props) => {
         />
       </div>
       <div className="flex h-[110px] flex-col gap-4 overflow-hidden">
-        <div className="line-clamp-1 text-16 font-500 text-brand-grey-700">
+        <div className="text-basic-grey-700 line-clamp-1 text-16 font-500">
           [{shuttleRoute.name}] {shuttleRoute.event.eventName}
         </div>
         <div className="text-12 font-400">
-          <div className="line-clamp-1 text-brand-grey-700">
+          <div className="text-basic-grey-700 line-clamp-1">
             {shuttleRoute.event.eventLocationName}
           </div>
-          <div className="line-clamp-1 text-brand-grey-700">
+          <div className="text-basic-grey-700 line-clamp-1">
             {dateString(dailyEvent.date)} 셔틀
           </div>
         </div>
-        <div className="line-clamp-1 text-14 font-500 text-brand-grey-700">
+        <div className="text-basic-grey-700 line-clamp-1 text-14 font-500">
           <SeatString shuttleRoute={shuttleRoute} />
         </div>
       </div>
@@ -73,7 +73,7 @@ const SeatString = ({ shuttleRoute }: Props) => {
   return (
     <>
       {isSoldOut ? (
-        <span className="text-brand-grey-700">매진</span>
+        <span className="text-basic-grey-700">매진</span>
       ) : (
         <>
           {prefix}{' '}

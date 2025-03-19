@@ -21,7 +21,7 @@ const DemandFilterContainer = ({ length, sort, children }: Props) => {
     <main className="relative flex w-full flex-col">
       <div ref={navRef} className="sticky top-44 z-[1] w-full bg-basic-white">
         <div className="flex flex-col px-16 py-12">
-          <span className="text-14 font-500 text-brand-grey-600">
+          <span className="text-basic-grey-600 text-14 font-500">
             정렬 기준
           </span>
           <Select
@@ -33,9 +33,9 @@ const DemandFilterContainer = ({ length, sort, children }: Props) => {
           />
         </div>
         <div className={safeArea}>
-          <div className="h-8 w-full bg-brand-grey-50" />
+          <div className="bg-basic-grey-50 h-8 w-full" />
           <div className="px-16 py-12">
-            <span className="text-14 font-400 text-brand-grey-500">
+            <span className="text-basic-grey-500 text-14 font-400">
               수요조사 진행 중({length})
             </span>
           </div>

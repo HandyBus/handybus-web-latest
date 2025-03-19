@@ -44,7 +44,7 @@ const OnboardingFrame = ({
           <button
             type="button"
             onClick={handlePrevStep}
-            className="text-center text-12 text-brand-grey-400 underline underline-offset-2"
+            className="text-basic-grey-400 text-center text-12 underline underline-offset-2"
           >
             이전으로
           </button>

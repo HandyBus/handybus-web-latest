@@ -73,7 +73,7 @@ const VARIANT_STYLE = {
   secondary:
     'bg-brand-primary-50 text-brand-primary-400 active:bg-brand-primary-100',
   tertiary:
-    'bg-brand-grey-100 text-brand-grey-700 active:bg-brand-grey-200 disabled:bg-brand-grey-50 disabled:text-brand-grey-300',
+    'bg-basic-grey-100 text-basic-grey-700 active:bg-basic-grey-200 disabled:bg-basic-grey-50 disabled:text-basic-grey-300',
   'p-destructive': 'bg-basic-red-400 text-basic-white active:bg-basic-red-500',
   's-destructive':
     'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200',
@@ -81,4 +81,4 @@ const VARIANT_STYLE = {
 };
 
 const LOADING_STYLE =
-  'bg-brand-grey-50 text-brand-grey-400 disabled:bg-brand-grey-50';
+  'bg-basic-grey-50 text-basic-grey-400 disabled:bg-basic-grey-50';

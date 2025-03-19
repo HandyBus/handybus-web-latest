@@ -61,7 +61,7 @@ const DemandCard = ({
       <div className="flex items-center gap-8 text-12">
         <div className={`h-[10px] w-[10px] rounded-full ${statusStyle.dot}`} />
         <span className={`font-600 ${statusStyle.text}`}>{status}</span>
-        <span className="font-500 text-brand-grey-500">
+        <span className="font-500 text-basic-grey-500">
           {parsedDemandDate} 신청
         </span>
       </div>
@@ -75,16 +75,16 @@ const DemandCard = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="pb-4 text-16 font-500 text-brand-grey-700">
+          <span className="pb-4 text-16 font-500 text-basic-grey-700">
             {demand.event.eventName}
           </span>
-          <span className="text-12 font-400 text-brand-grey-700">
+          <span className="text-12 font-400 text-basic-grey-700">
             {demand.event.eventLocationName}
           </span>
-          <span className="text-12 font-400 text-brand-grey-700">
+          <span className="text-12 font-400 text-basic-grey-700">
             {parsedDailyEventDate} 셔틀
           </span>
-          <span className="flex gap-12 text-12 font-400 text-brand-grey-500">
+          <span className="flex gap-12 text-12 font-400 text-basic-grey-500">
             <span>{routeText}</span>
             <span>{demand.passengerCount}인</span>
           </span>
@@ -97,7 +97,7 @@ const DemandCard = ({
               onClick={handleButtonClick(buttonHref)}
               disabled={buttonDisabled}
               type="button"
-              className="flex h-40 w-full items-center justify-center rounded-full bg-brand-primary-400 text-14 font-500 text-basic-white active:bg-brand-primary-600 disabled:bg-brand-grey-50 disabled:text-brand-grey-300"
+              className="flex h-40 w-full items-center justify-center rounded-full bg-brand-primary-400 text-14 font-500 text-basic-white active:bg-brand-primary-600 disabled:bg-basic-grey-50 disabled:text-basic-grey-300"
             >
               {buttonText}
             </button>
@@ -110,7 +110,7 @@ const DemandCard = ({
               }
               disabled={subButtonDisabled}
               type="button"
-              className="flex h-40 w-full items-center justify-center rounded-full bg-brand-grey-50 text-14 font-500 text-brand-grey-700 disabled:bg-brand-grey-50 disabled:text-brand-grey-300"
+              className="flex h-40 w-full items-center justify-center rounded-full bg-basic-grey-50 text-14 font-500 text-basic-grey-700 disabled:bg-basic-grey-50 disabled:text-basic-grey-300"
             >
               {subButtonText}
             </button>

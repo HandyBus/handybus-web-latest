@@ -25,7 +25,7 @@ const PersonalInfoContent = () => {
     <>
       <OnboardingTitle title="성별과 연령대를 알려주세요" />
       <div className="w-full px-28">
-        <div className="mb-16 text-16 font-500 text-brand-grey-600">
+        <div className="text-basic-grey-600 mb-16 text-16 font-500">
           성별을 선택해주세요
         </div>
         <RadioButtons
@@ -39,7 +39,7 @@ const PersonalInfoContent = () => {
         />
       </div>
       <div className="w-full px-28">
-        <div className="mb-16 text-16 font-500 text-brand-grey-600">
+        <div className="text-basic-grey-600 mb-16 text-16 font-500">
           연령대를 선택해주세요
         </div>
         <RadioButtons

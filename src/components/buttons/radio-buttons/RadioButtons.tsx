@@ -62,7 +62,7 @@ const RadioButton = ({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`h-[42px] shrink-0 rounded-full border border-brand-grey-100 px-32 text-16 font-500 disabled:opacity-50 ${selected ? 'bg-brand-grey-700 text-basic-white' : 'bg-basic-white text-brand-grey-600 active:bg-brand-grey-50'}`}
+      className={`border-basic-grey-100 h-[42px] shrink-0 rounded-full border px-32 text-16 font-500 disabled:opacity-50 ${selected ? 'bg-basic-grey-700 text-basic-white' : 'text-basic-grey-600 active:bg-basic-grey-50 bg-basic-white'}`}
     >
       {children}
     </button>

@@ -106,7 +106,7 @@ const RouteSelectStep = ({
   return (
     <>
       <section className="flex flex-col gap-16 py-28">
-        <h3 className="text-22 font-700 text-brand-grey-700">
+        <h3 className="text-22 font-700 text-basic-grey-700">
           원하는 셔틀을 선택해주세요
         </h3>
         <Select
@@ -246,17 +246,17 @@ const TypeSelect = () => {
             setValue={handleTypeChange}
             renderValue={(value) => (
               <p className="flex items-center justify-between">
-                <span className="font-600 text-brand-grey-700 group-default/is-selected:font-400 group-disabled/select-option:font-400 group-disabled/select-option:text-brand-grey-400 group-[.is-selected]:font-400">
+                <span className="font-600 text-basic-grey-700 group-default/is-selected:font-400 group-disabled/select-option:font-400 group-disabled/select-option:text-basic-grey-400 group-[.is-selected]:font-400">
                   {TRIP_STATUS_TO_STRING[value]}
                 </span>
                 <div className="flex items-center gap-12 group-[.is-selected]:hidden">
-                  <span className="text-12 font-400 text-brand-grey-700 group-disabled/select-option:hidden">
+                  <span className="text-12 font-400 text-basic-grey-700 group-disabled/select-option:hidden">
                     {getRemainingSeatCount(value)}석
                   </span>
                   <span className="hidden text-12 font-400 text-basic-red-100 group-disabled/select-option:inline-block">
                     매진
                   </span>
-                  <span className="text-14 font-600 text-brand-grey-700 group-disabled/select-option:hidden">
+                  <span className="text-14 font-600 text-basic-grey-700 group-disabled/select-option:hidden">
                     {getPrice(value).toLocaleString()}원
                   </span>
                 </div>

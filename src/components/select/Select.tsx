@@ -64,7 +64,7 @@ const Select = <T,>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-brand-grey-700' : 'text-brand-grey-300'} ${isUnderLined ? 'border-b border-brand-grey-100' : ''}`}
+        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-basic-grey-700' : 'text-basic-grey-300'} ${isUnderLined ? 'border-basic-grey-100 border-b' : ''}`}
       >
         {value
           ? renderValue
@@ -82,7 +82,7 @@ const Select = <T,>({
         >
           <section className="flex flex-col">
             {sortedOptions?.length === 0 ? (
-              <div className="py-16 text-left text-16 font-400 text-brand-grey-400">
+              <div className="text-basic-grey-400 py-16 text-left text-16 font-400">
                 {defaultText}
               </div>
             ) : (

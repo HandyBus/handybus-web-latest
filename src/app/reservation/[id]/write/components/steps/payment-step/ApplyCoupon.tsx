@@ -98,7 +98,7 @@ const ApplyCoupon = () => {
   return (
     <>
       <section className="flex flex-col gap-16 py-28">
-        <h2 className="text-22 font-700 leading-[30.8px] text-brand-grey-700">
+        <h2 className="text-22 font-700 leading-[30.8px] text-basic-grey-700">
           할인 쿠폰이 있으신가요?
         </h2>
         {selectedCoupon ? (
@@ -126,30 +126,30 @@ const ApplyCoupon = () => {
           <dl className="flex flex-col gap-16">
             {/* 일반 금액 */}
             <div className="flex h-[42px] flex-row justify-between">
-              <dt className="text-16 font-400 leading-[24px] text-brand-grey-700">
+              <dt className="text-16 font-400 leading-[24px] text-basic-grey-700">
                 예약금액
               </dt>
               <div>
-                <dd className="text-right text-16 font-400 leading-[24px] text-brand-grey-700">
+                <dd className="text-right text-16 font-400 leading-[24px] text-basic-grey-700">
                   {(singlePrice * passengerCount).toLocaleString()} 원
                 </dd>
-                <dd className="text-right text-12 font-400 leading-[19.2px] text-brand-grey-600">
+                <dd className="text-right text-12 font-400 leading-[19.2px] text-basic-grey-600">
                   {singlePrice.toLocaleString()} 원 * {passengerCount}인
                 </dd>
               </div>
             </div>
             <div className="flex flex-row justify-between">
-              <dt className="text-16 font-400 leading-[24px] text-brand-grey-700">
+              <dt className="text-16 font-400 leading-[24px] text-basic-grey-700">
                 할인금액
               </dt>
               <div>
                 {isEarlybird && (
                   <>
                     {/* 얼리버드 할인 금액 */}
-                    <dd className="text-right text-16 font-400 leading-[22px] text-brand-grey-700">
+                    <dd className="text-right text-16 font-400 leading-[22px] text-basic-grey-700">
                       - {earlybirdDiscount.toLocaleString()} 원
                     </dd>
-                    <dd className="pb-4 text-right text-12 font-400 leading-[19px] text-brand-grey-600">
+                    <dd className="pb-4 text-right text-12 font-400 leading-[19px] text-basic-grey-600">
                       얼리버드 할인
                     </dd>
                   </>
@@ -157,10 +157,10 @@ const ApplyCoupon = () => {
                 {/* 쿠폰 할인 금액 */}
                 {selectedCoupon && (
                   <>
-                    <dd className="text-right text-16 font-400 leading-[22px] text-brand-grey-700">
+                    <dd className="text-right text-16 font-400 leading-[22px] text-basic-grey-700">
                       - {couponDiscount.toLocaleString()} 원
                     </dd>
-                    <dd className="text-right text-12 font-400 leading-[19px] text-brand-grey-600">
+                    <dd className="text-right text-12 font-400 leading-[19px] text-basic-grey-600">
                       쿠폰 할인
                     </dd>
                   </>
@@ -168,10 +168,10 @@ const ApplyCoupon = () => {
               </div>
             </div>
             <div className="flex h-[42px] flex-row justify-between">
-              <dt className="text-18 font-500 leading-[28.8px] text-brand-grey-700">
+              <dt className="text-18 font-500 leading-[28.8px] text-basic-grey-700">
                 최종 결제 금액
               </dt>
-              <dd className="text-22 font-600 leading-[35.2px] text-brand-grey-700">
+              <dd className="text-22 font-600 leading-[35.2px] text-basic-grey-700">
                 {finalPrice.toLocaleString()} 원
               </dd>
             </div>

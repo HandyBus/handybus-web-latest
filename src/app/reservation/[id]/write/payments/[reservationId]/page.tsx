@@ -22,7 +22,7 @@ const PaymentsCompleted = () => {
           <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
             결제가 완료되었습니다!
           </h1>
-          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-brand-grey-500">
+          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-basic-grey-500">
             마이페이지에서 예약 내역을 확인하실 수 있습니다.
           </p>
         </section>

@@ -22,7 +22,7 @@ const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
             onClick={() => onSelect?.(v.value)}
           />
           <div
-            className={`border-b-2 border-b-brand-grey-100 ${len - 1 === i ? 'w-full' : 'w-[7px]'}`}
+            className={`border-b-basic-grey-100 border-b-2 ${len - 1 === i ? 'w-full' : 'w-[7px]'}`}
           />
         </Fragment>
       ))}
@@ -49,7 +49,7 @@ const Tab = ({
   return (
     <button
       className={`whitespace-nowrap p-8 text-14 font-600
-        ${selected ? 'border-b-2 border-b-basic-black' : 'border-b-2 border-b-brand-grey-100 text-brand-grey-500'}`}
+        ${selected ? 'border-b-2 border-b-basic-black' : 'border-b-basic-grey-100 text-basic-grey-500 border-b-2'}`}
       onClick={onClick}
     >
       {label}

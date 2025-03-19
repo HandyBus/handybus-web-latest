@@ -22,7 +22,7 @@ const ReviewPage = () => {
   return (
     <>
       <div className="flex flex-col gap-16">
-        <div className="mt-8 w-full text-center text-16 font-500 text-brand-grey-600">
+        <div className="text-basic-grey-600 mt-8 w-full text-center text-16 font-500">
           총 후기{' '}
           <span className="font-800 text-brand-primary-400">
             {reviewTotalCount}

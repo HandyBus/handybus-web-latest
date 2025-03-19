@@ -38,17 +38,17 @@ const DemandStats = ({
   return (
     <article className="px-16 py-24">
       <header className="flex flex-col gap-4 py-16">
-        <h2 className="text-22 font-700 leading-[30.8px] text-brand-grey-700">
+        <h2 className="text-22 font-700 leading-[30.8px] text-basic-grey-700">
           수요 신청한 사람들
         </h2>
-        <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-brand-grey-500">
+        <p className="pb-16 pt-4 text-14 font-500 leading-[22.4px] text-basic-grey-500">
           이번 콘서트를 위해{' '}
-          <span className="text-brand-grey-700">
+          <span className="text-basic-grey-700">
             {dailyEvent ? dateString(dailyEvent.date) : '전체'}
           </span>
           {region ? (
             <>
-              에 <span className="text-brand-grey-700">{region}</span>를 지나는{' '}
+              에 <span className="text-basic-grey-700">{region}</span>를 지나는{' '}
             </>
           ) : (
             ' '
@@ -94,13 +94,13 @@ const EventCard = ({ tripType, count, region, location }: EventCardProps) => {
     <div className="flex items-center justify-between rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
         <span>
-          <p className="text-16 font-600 leading-[25.6px] text-brand-grey-700">
+          <p className="text-16 font-600 leading-[25.6px] text-basic-grey-700">
             {tripType}
           </p>
         </span>
         {region && location && (
           <span>
-            <p className="text-12 font-400 leading-[19.2px] text-brand-grey-500">
+            <p className="text-12 font-400 leading-[19.2px] text-basic-grey-500">
               {displayRouteInfo(tripType, location, region)}
             </p>
           </span>
@@ -108,10 +108,10 @@ const EventCard = ({ tripType, count, region, location }: EventCardProps) => {
       </div>
       {count !== undefined && (
         <div className="flex items-baseline gap-4">
-          <span className="text-24 font-700 leading-[38.4px] text-brand-grey-700">
+          <span className="text-24 font-700 leading-[38.4px] text-basic-grey-700">
             {count}
           </span>
-          <span className="text-14 font-400 leading-[22.4px] text-brand-grey-600">
+          <span className="text-14 font-400 leading-[22.4px] text-basic-grey-600">
             명
           </span>
         </div>

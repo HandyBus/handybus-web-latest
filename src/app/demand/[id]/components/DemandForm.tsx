@@ -80,7 +80,7 @@ const DemandForm = ({ event }: Props) => {
     <>
       <form onSubmit={handleSubmit} id={DEMAND_FORM_ID}>
         <section className="flex flex-col gap-16 p-16">
-          <h5 className="text-16 font-400 text-brand-grey-600">
+          <h5 className="text-16 font-400 text-basic-grey-600">
             일자를 선택해주세요
           </h5>
           <Select
@@ -105,7 +105,7 @@ const DemandForm = ({ event }: Props) => {
           />
         </section>
         <section className="flex flex-col gap-16 p-16">
-          <h5 className="text-16 font-400 text-brand-grey-600">
+          <h5 className="text-16 font-400 text-basic-grey-600">
             지역을 선택해주세요
           </h5>
           <Select
@@ -141,7 +141,7 @@ const DemandForm = ({ event }: Props) => {
           />
         </section>
       </form>
-      <div id="divider" className="my-16 h-[8px] bg-brand-grey-50" />
+      <div id="divider" className="my-16 h-[8px] bg-basic-grey-50" />
       <DemandStats
         eventId={event.eventId}
         dailyEvent={selectedDailyEvent}

@@ -53,13 +53,13 @@ const SelectModalContent = ({
       </h2>
       <p
         id="modal-description"
-        className="text-16 font-500 leading-6 text-brand-grey-500"
+        className="text-basic-grey-500 text-16 font-500 leading-6"
       >
-        <span className="leading-[25.6px] text-brand-grey-700">
+        <span className="text-basic-grey-700 leading-[25.6px]">
           {parsedDate}
         </span>
         에{' '}
-        <span className="leading-[25.6px] text-brand-grey-700">{region}</span>
+        <span className="text-basic-grey-700 leading-[25.6px]">{region}</span>
         에서 탈 만한 노선을 알려드릴게요.
       </p>
       <div id="shuttle-bus-route-information" className="flex flex-col gap-8">
@@ -84,9 +84,9 @@ const SelectModalButton = ({ route }: SelectModalButtonProps) => {
   return (
     <Link
       href={`/reservation/${route.eventId}?dailyEventId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
-      className="h-58 flex w-252 items-center justify-between rounded-[11px] border border-brand-grey-200 px-24 py-16"
+      className="h-58 border-basic-grey-200 flex w-252 items-center justify-between rounded-[11px] border px-24 py-16"
     >
-      <p className="text-16 font-500 leading-[25.6px] text-brand-grey-700">
+      <p className="text-basic-grey-700 text-16 font-500 leading-[25.6px]">
         {route.name}
       </p>
       <ChevronRight color="#999999" />

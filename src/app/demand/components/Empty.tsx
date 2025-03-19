@@ -6,11 +6,11 @@ const Empty = async () => {
   return (
     <div className="flex w-full flex-col items-center gap-4 px-16 py-56">
       <DemandingEmpty />
-      <span className="text-16 font-400 text-brand-grey-300">
+      <span className="text-basic-grey-300 text-16 font-400">
         수요 확인 중인 콘서트가 없어요
       </span>
       <Link href={newShuttleFormUrl}>
-        <span className="text-14 font-500 text-brand-grey-600 underline">
+        <span className="text-basic-grey-600 text-14 font-500 underline">
           원하는 셔틀 요청하러 가기
         </span>
       </Link>

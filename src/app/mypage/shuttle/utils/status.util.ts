@@ -11,12 +11,12 @@ const STATUS_STYLE = {
     text: 'text-brand-primary-400',
   },
   darkGrey: {
-    dot: 'bg-brand-grey-700',
-    text: 'text-brand-grey-700',
+    dot: 'bg-basic-grey-700',
+    text: 'text-basic-grey-700',
   },
   lightGrey: {
-    dot: 'bg-brand-grey-500',
-    text: 'text-brand-grey-500',
+    dot: 'bg-basic-grey-500',
+    text: 'text-basic-grey-500',
   },
   black: {
     dot: 'bg-basic-black',
@@ -59,10 +59,10 @@ export const getHandyStatusStyle = (status: HandyStatus) => {
     case 'ACCEPTED':
       return 'text-basic-blue-1000';
     case 'DECLINED':
-      return 'text-brand-grey-400';
+      return 'text-basic-grey-400';
     case 'SUPPORTED':
       return 'text-brand-primary-400';
     default:
-      return 'text-brand-grey-400';
+      return 'text-basic-grey-400';
   }
 };

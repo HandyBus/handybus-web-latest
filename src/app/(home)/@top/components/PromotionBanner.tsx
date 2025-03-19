@@ -43,7 +43,7 @@ const PromotionBanner = ({ dynamicBannerImages }: Props) => {
           {images.map((image, index) => (
             <span
               key={image.title}
-              className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-brand-grey-700' : 'w-[6px] bg-brand-grey-100'}`}
+              className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-basic-grey-700' : 'w-[6px] bg-basic-grey-100'}`}
               onClick={() => {
                 swiper.current?.swiper.slideTo(index);
               }}

@@ -12,10 +12,10 @@ export const Error = ({
   console.error(error);
   return (
     <div className="flex grow flex-col px-20 py-28">
-      <h2 className="pb-[10px] text-26 font-700 text-brand-grey-700">
+      <h2 className="text-basic-grey-700 pb-[10px] text-26 font-700">
         알 수 없는 오류가 발생했어요
       </h2>
-      <p className="pb-28 text-14 font-600 text-brand-grey-500">
+      <p className="text-basic-grey-500 pb-28 text-14 font-600">
         홈으로 돌아가거나 입력하신 주소가 맞는지 확인해주세요. 오류가 반복되면
         하단 ‘카카오톡 문의하기’를 통해 문의를 남겨주세요.
       </p>
@@ -28,13 +28,13 @@ export const Error = ({
         />
       </div>
       <button
-        className="mb-20 h-44 w-full rounded-full bg-brand-grey-50 text-16 font-400 text-brand-grey-700"
+        className="bg-basic-grey-50 text-basic-grey-700 mb-20 h-44 w-full rounded-full text-16 font-400"
         onClick={() => reset()}
       >
         다시 시도하기
       </button>
       <button
-        className="h-44 w-full rounded-full bg-brand-grey-50 text-16 font-400 text-brand-grey-700"
+        className="bg-basic-grey-50 text-basic-grey-700 h-44 w-full rounded-full text-16 font-400"
         onClick={() => logout()}
       >
         홈으로 돌아가기

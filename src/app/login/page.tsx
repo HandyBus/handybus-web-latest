@@ -91,7 +91,7 @@ const Login = () => {
         </button>
       </section>
       <section className="flex flex-1 grow flex-col">
-        <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-brand-grey-400">
+        <p className="text-basic-grey-400 mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500">
           로그인은{' '}
           <Link href="/policy" className="underline">
             개인정보 처리 방침

@@ -122,13 +122,13 @@ const WriteReview = ({ params }: Props) => {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="자유로운 후기를 작성해주세요. 핸디버스 발전에 도움이 됩니다. (장단점, 건의사항 등)"
-            className="h-160 w-full resize-none rounded-[12px] border border-brand-grey-100 p-12 text-16 font-400 outline-none placeholder:text-brand-grey-300"
+            className="h-160 w-full resize-none rounded-[12px] border border-basic-grey-100 p-12 text-16 font-400 outline-none placeholder:text-basic-grey-300"
           />
           <div className="flex gap-12">
             <button
               onClick={() => fileInputRef.current?.click()}
               type="button"
-              className="flex h-80 w-80 flex-col items-center justify-center gap-4 rounded-[8px] bg-brand-grey-50 text-14 font-400 text-brand-grey-700"
+              className="flex h-80 w-80 flex-col items-center justify-center gap-4 rounded-[8px] bg-basic-grey-50 text-14 font-400 text-basic-grey-700"
             >
               <CameraIcon />
               <span>사진 첨부</span>
@@ -156,7 +156,7 @@ const WriteReview = ({ params }: Props) => {
                 <button
                   type="button"
                   onClick={() => handleFileRemove(file)}
-                  className="absolute right-4 top-4 flex h-20 w-20 items-center justify-center rounded-full bg-brand-grey-500"
+                  className="absolute right-4 top-4 flex h-20 w-20 items-center justify-center rounded-full bg-basic-grey-500"
                 >
                   <XIcon color="white" />
                 </button>

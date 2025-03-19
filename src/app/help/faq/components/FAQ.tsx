@@ -18,19 +18,19 @@ const FAQ = ({ title, children }: Props) => {
   return (
     <article>
       <header
-        className={`flex cursor-pointer items-center justify-between gap-8 p-16 ${fold ? 'text-16 font-500' : 'text-20 font-700'} text-brand-grey-700`}
+        className={`flex cursor-pointer items-center justify-between gap-8 p-16 ${fold ? 'text-16 font-500' : 'text-20 font-700'} text-basic-grey-700`}
         onClick={onClick}
       >
         <h2>{title}</h2>
         <span
-          className={`text-16 text-brand-grey-600 ${fold ? 'rotate-180' : ''}`}
+          className={`text-basic-grey-600 text-16 ${fold ? 'rotate-180' : ''}`}
         >
           <ChevronUp />
         </span>
       </header>
       <div className={`px-16 pb-16 ${fold ? 'hidden' : ''}`}>
         <div
-          className={`flex flex-col gap-16 rounded-[12px] bg-brand-grey-50 p-16 text-14 font-400 text-brand-grey-700 [&>p>a]:text-brand-primary-400 [&>p>a]:underline`}
+          className={`bg-basic-grey-50 text-basic-grey-700 flex flex-col gap-16 rounded-[12px] p-16 text-14 font-400 [&>p>a]:text-brand-primary-400 [&>p>a]:underline`}
         >
           {children}
         </div>

@@ -23,7 +23,7 @@ const TextArea = <T extends FieldValues>({
         {...field}
         placeholder={placeholder}
         className={customTwMerge(
-          'h-160 rounded-[12px] border border-brand-grey-200 p-12 text-16 font-500 outline-none placeholder:text-brand-grey-400 disabled:text-brand-grey-300',
+          'border-basic-grey-200 placeholder:text-basic-grey-400 disabled:text-basic-grey-300 h-160 rounded-[12px] border p-12 text-16 font-500 outline-none',
           fieldState?.error
             ? 'border-basic-red-500'
             : 'focus:border-brand-primary-100',

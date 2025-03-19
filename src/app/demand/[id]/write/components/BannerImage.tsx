@@ -22,7 +22,7 @@ const BannerImage = ({ event }: Props) => {
         <h2 className="line-clamp-2 text-18 font-700 leading-[25.2px] text-basic-white">
           {event.eventName}
         </h2>
-        <div className="flex flex-col gap-[5px] text-12 font-400 leading-[14.32px] text-brand-grey-200">
+        <div className="flex flex-col gap-[5px] text-12 font-400 leading-[14.32px] text-basic-grey-200">
           <p className="flex gap-[2px]">
             <span>
               <GroupIcon aria-hidden="true" />

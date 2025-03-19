@@ -41,7 +41,7 @@ const PriceStats = ({
   return (
     <article className="px-16 py-24">
       <header className="flex flex-col gap-4 py-16">
-        <h2 className="relative text-22 font-700 leading-[30.8px] text-brand-grey-700">
+        <h2 className="relative text-22 font-700 leading-[30.8px] text-basic-grey-700">
           셔틀 가격
           {isEarlybird && earlybirdDeadline && (
             <span className="absolute -top-4 translate-x-8 text-14 font-500 text-basic-red-500">
@@ -112,15 +112,15 @@ const Card = ({
   return (
     <div className="flex items-center justify-between gap-8 rounded-xl bg-[#F8F8F8] px-16 py-20">
       <div>
-        <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-brand-grey-700">
+        <p className="flex gap-8 text-16 font-600 leading-[25.6px] text-basic-grey-700">
           <span>{TRIP_STATUS_TO_STRING[tripType]}</span>
-          <span className="text-12 font-400 text-brand-grey-500">
+          <span className="text-12 font-400 text-basic-grey-500">
             {remainingSeat === 0 ? '매진' : `${remainingSeat}석`}
           </span>
         </p>
         {region && destination && (
           <span>
-            <p className="break-keep text-12 font-400 leading-[19.2px] text-brand-grey-500">
+            <p className="break-keep text-12 font-400 leading-[19.2px] text-basic-grey-500">
               {displayRouteInfo(tripType, destination, region)}
             </p>
           </span>
@@ -135,16 +135,16 @@ const Card = ({
             <span className="text-16 font-700 text-basic-red-500">
               {discountRate}%
             </span>
-            <span className="pl-[5px] text-12 font-400 text-brand-grey-500 line-through">
+            <span className="pl-[5px] text-12 font-400 text-basic-grey-500 line-through">
               {parsedRegularPrice} 원
             </span>
           </div>
         )}
         <div className="flex items-baseline gap-4">
-          <span className="text-24 font-700 leading-[38.4px] text-brand-grey-700">
+          <span className="text-24 font-700 leading-[38.4px] text-basic-grey-700">
             {isEarlybird ? parsedEarlybirdPrice : parsedRegularPrice}
           </span>
-          <span className="text-14 font-400 leading-[22.4px] text-brand-grey-600">
+          <span className="text-14 font-400 leading-[22.4px] text-basic-grey-600">
             원
           </span>
         </div>
