@@ -20,27 +20,29 @@ const findMinMaxDate = (dates: Dayjs[]) => {
 
 const singleDateString = (
   date: Dayjs | null,
-  options?: { showYear?: boolean; showTime?: boolean },
+  options?: { showYear?: boolean; showTime?: boolean; showWeekday?: boolean },
 ) => {
   if (!date) {
     return '';
   }
-  const { showYear = true, showTime = false } = options || {};
-  const weekday = WEEKDAYS[date.day()];
-  const time = date
-    .format('A hh:mm')
-    .replace('AM', '오전')
-    .replace('PM', '오후');
+  const {
+    showYear = true,
+    showTime = false,
+    showWeekday = true,
+  } = options || {};
 
-  return date.format(
-    showYear && showTime
-      ? `YYYY. MM. DD. (${weekday}) ${time}`
-      : showYear
-        ? `YYYY. MM. DD. (${weekday})`
-        : showTime
-          ? `MM. DD. HH:mm (${weekday})`
-          : `MM. DD. (${weekday})`,
-  );
+  const yearDateString = showYear
+    ? date.format('YYYY.MM.DD')
+    : date.format('MM.DD');
+  const weekdayString = showWeekday ? `(${WEEKDAYS[date.day()]})` : null;
+  const timeString = showTime
+    ? date.format('A hh:mm').replace('AM', '오전').replace('PM', '오후')
+    : null;
+
+  const resultString = [yearDateString, weekdayString, timeString]
+    .filter((item) => item !== null)
+    .join(' ');
+  return resultString;
 };
 
 // 날짜 및 날짜 배열을 받아 형식에 맞추어 리턴
@@ -73,7 +75,13 @@ export const dateString = (
   );
 
   const { min, max } = findMinMaxDate(targetDates);
-  return `${singleDateString(min)} ~ ${singleDateString(max)}`;
+  return `${singleDateString(min, { showYear: true, showWeekday: false })} - ${singleDateString(
+    max,
+    {
+      showYear: false,
+      showWeekday: false,
+    },
+  )}`;
 };
 
 export const compareToNow = (

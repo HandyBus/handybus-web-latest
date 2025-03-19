@@ -63,8 +63,8 @@ const DEFAULT_STYLE =
 
 const SIZE_STYLE = {
   large: 'w-full h-[50px] rounded-8 text-16 font-600',
-  medium: 'w-[87px] h-[50px] rounded-8 text-16 font-600',
-  small: 'w-[57px] h-[31px] rounded-6 text-12 font-600',
+  medium: 'w-[87px] h-[50px] rounded-8 text-16 font-600 shrink-0',
+  small: 'w-[57px] h-[31px] rounded-6 text-12 font-600 shrink-0',
 };
 
 const VARIANT_STYLE = {
