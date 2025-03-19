@@ -27,7 +27,7 @@ const HowToPage = () => {
           />
         </figure>
       </article>
-      <Article richTitle="1. 수요조사" titleSize="small">
+      <Article richTitle="1. 수요조사">
         <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
           여러분의 관심도를 체크해요
         </p>
@@ -54,7 +54,7 @@ const HowToPage = () => {
           </li>
         </ul>
       </Article>
-      <Article richTitle="2. 운행 확정" titleSize="small">
+      <Article richTitle="2. 운행 확정">
         <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
           노선 운행을 결정해요
         </p>
@@ -66,7 +66,7 @@ const HowToPage = () => {
           </li>
         </ul>
       </Article>
-      <Article richTitle="3. 셔틀 예약" titleSize="small" className="pb-28">
+      <Article richTitle="3. 셔틀 예약" className="pb-28">
         <p className="ml-36 text-16 font-500 leading-[26px] text-grey-900">
           30초만에 간편하게 예약하세요
         </p>

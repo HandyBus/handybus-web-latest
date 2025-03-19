@@ -9,7 +9,6 @@ import Person3 from '../images/person3.png';
 const AboutService = () => (
   <Article
     richTitle="이런 고민 해본 적 있나요?"
-    titleSize="small"
     className="flex w-full flex-col gap-[26px]"
   >
     <div className="flex w-full flex-col px-36">

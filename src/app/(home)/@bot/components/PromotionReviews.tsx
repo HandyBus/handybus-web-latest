@@ -18,7 +18,11 @@ const PromotionReview = async () => {
     .slice(0, 3);
 
   return (
-    <Article richTitle="핸디버스의 생생한 후기" showMore="/help/reviews">
+    <Article
+      richTitle="핸디버스의 생생한 후기"
+      titleClassName="text-20"
+      showMore="/help/reviews"
+    >
       {top3.map((review) => (
         <div
           key={review.reviewId}
