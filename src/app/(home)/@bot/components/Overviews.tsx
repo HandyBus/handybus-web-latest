@@ -115,7 +115,7 @@ type CardProps = {
 const Card = ({ title, description, children }: CardProps) => {
   return (
     <section
-      className="overflow-hidden rounded-[10px] shadow-sm"
+      className="overflow-hidden rounded-10 shadow-sm"
       style={{ boxShadow: '0px 1px 9px rgba(0, 0, 0, 0.12)' }}
     >
       <div>{children}</div>

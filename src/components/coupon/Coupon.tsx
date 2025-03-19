@@ -21,7 +21,7 @@ const Coupon = ({ coupon }: Props) => {
 
   return (
     <div
-      className={`bg-basic-grey-50 rounded-[12px] p-16 ${usable ? '' : 'opacity-50'}`}
+      className={`rounded-12 bg-basic-grey-50 p-16 ${usable ? '' : 'opacity-50'}`}
     >
       {!usable && (
         <p className="pb-4 text-12 font-600 text-basic-red-500">
@@ -31,20 +31,20 @@ const Coupon = ({ coupon }: Props) => {
       <h4 className="text-22 font-600">
         {title} 할인{' '}
         {coupon.discountType === 'RATE' && (
-          <span className="text-basic-grey-500 text-12 font-400">
+          <span className="text-12 font-400 text-basic-grey-500">
             최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
           </span>
         )}
       </h4>
-      <p className="text-basic-grey-700 line-clamp-1 pb-4 pt-[2px] text-16 font-500">
+      <p className="line-clamp-1 pb-4 pt-[2px] text-16 font-500 text-basic-grey-700">
         {coupon.name}
       </p>
-      <p className="text-basic-grey-500 line-clamp-1 text-12 font-400">
+      <p className="line-clamp-1 text-12 font-400 text-basic-grey-500">
         {coupon.maxApplicablePeople === 0
           ? '모든 탑승객에게 적용 가능'
           : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`}
       </p>
-      <p className="text-basic-grey-500 text-12 font-400">
+      <p className="text-12 font-400 text-basic-grey-500">
         {parsedValidTo}까지 사용 가능
       </p>
     </div>

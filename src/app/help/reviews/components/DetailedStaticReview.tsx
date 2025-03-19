@@ -23,7 +23,7 @@ interface Props {
 
 const DetailedStaticReview = ({ review }: Props) => {
   return (
-    <article className="bg-basic-grey-50 flex flex-col rounded-[16px] p-16 px-28 py-28">
+    <article className="flex flex-col rounded-16 bg-basic-grey-50 p-16 px-28 py-28">
       <ContentArea rating={review.rating} content={review.content} />
       <div className="flex flex-col gap-12 pb-12 pt-16">
         <ImagesArea images={review.reviewImages ?? []} />
@@ -31,8 +31,8 @@ const DetailedStaticReview = ({ review }: Props) => {
           <UserTag nickname={review.userNickname} />
         </div>
       </div>
-      <div className="border-t-basic-grey-100 flex flex-col gap-8 border-t-[1.5px] pt-8">
-        <span className="text-basic-grey-700 text-14 font-600">
+      <div className="flex flex-col gap-8 border-t-[1.5px] border-t-basic-grey-100 pt-8">
+        <span className="text-14 font-600 text-basic-grey-700">
           다녀온 콘서트
         </span>
         <EventTag
@@ -85,14 +85,14 @@ const ContentArea = ({ rating, content }: ContentAreaProps) => {
       <Rating size="medium" value={rating} />
       <p
         ref={ref}
-        className={`${useClamp ? 'line-clamp-2' : ''} text-basic-grey-600 overflow-hidden pt-12 text-16 font-500`}
+        className={`${useClamp ? 'line-clamp-2' : ''} overflow-hidden pt-12 text-16 font-500 text-basic-grey-600`}
       >
         {content}
       </p>
       {clamped && (
         <span
           aria-hidden={true}
-          className="text-basic-grey-400 cursor-pointer text-12 font-500"
+          className="cursor-pointer text-12 font-500 text-basic-grey-400"
           onClick={() => setUseClamp((b) => !b)}
         >
           {useClamp ? '더 보기' : '접기'}
@@ -121,7 +121,7 @@ const ImagesArea = ({ images }: ImagesAreaProps) => {
           <Image
             src={image}
             alt="review"
-            className="rounded-[20px] object-cover"
+            className="rounded-20 object-cover"
             fill
           />
         </figure>
@@ -136,7 +136,7 @@ interface UserTagProps {
 
 const UserTag = ({ nickname }: UserTagProps) => (
   <div className="flex items-center gap-[6px]">
-    <span className="text-basic-grey-500 text-12 font-500">{nickname}</span>
+    <span className="text-12 font-500 text-basic-grey-500">{nickname}</span>
   </div>
 );
 
@@ -148,7 +148,7 @@ interface EventTagProps {
 }
 
 const EventTag = ({ title, artists, location, posterImage }: EventTagProps) => (
-  <div className="relative h-[97px] overflow-hidden rounded-[12px] text-basic-white">
+  <div className="relative h-[97px] overflow-hidden rounded-12 text-basic-white">
     <Image className="object-cover" src={posterImage} alt="행사 포스터" fill />
     <div className="absolute left-0 top-0 flex h-full w-full flex-col items-start justify-between bg-basic-black bg-opacity-50 p-12">
       <div className="line-clamp-2 text-14 font-700 text-basic-white">
@@ -158,14 +158,14 @@ const EventTag = ({ title, artists, location, posterImage }: EventTagProps) => (
         {artists.length !== 0 && (
           <div className="flex flex-row items-center justify-start gap-4">
             <ArtistIcon />
-            <span className="text-basic-grey-200 line-clamp-1 text-10 font-400 ">
+            <span className="line-clamp-1 text-10 font-400 text-basic-grey-200 ">
               {artists.join(', ')}
             </span>
           </div>
         )}
         <div className="flex flex-row items-center justify-start gap-4">
           <LocateIcon />
-          <span className="text-basic-grey-200 line-clamp-1 text-10 font-400 ">
+          <span className="line-clamp-1 text-10 font-400 text-basic-grey-200 ">
             {location}
           </span>
         </div>

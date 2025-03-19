@@ -9,11 +9,11 @@ interface Props {
 
 const BannerImage = ({ event }: Props) => {
   return (
-    <figure className="relative m-16 h-[150px] overflow-hidden rounded-[10px] p-20">
+    <figure className="relative m-16 h-[150px] overflow-hidden rounded-10 p-20">
       <Image
         src={event.eventImageUrl || '/images/concert-sample.png'} // NOTES: temporary image
         alt="event banner image"
-        className="absolute rounded-[10px] object-cover"
+        className="absolute rounded-10 object-cover"
         fill
       />
       <div className="absolute inset-0 bg-basic-black/70" />

@@ -62,12 +62,12 @@ const Login = () => {
         <button
           onClick={() => setLastLogin('kakao')}
           type="button"
-          className="w-full rounded-[8px]"
+          className="w-full rounded-8"
         >
           <Link
             href={OAUTH.kakao()}
             replace
-            className="relative mb-12 flex h-52 items-center justify-center gap-8 rounded-[8px] bg-[#FEE500] text-16 font-600 text-basic-black/85"
+            className="relative mb-12 flex h-52 items-center justify-center gap-8 rounded-8 bg-[#FEE500] text-16 font-600 text-basic-black/85"
           >
             <Kakao />
             카카오로 시작하기
@@ -77,12 +77,12 @@ const Login = () => {
         <button
           onClick={() => setLastLogin('naver')}
           type="button"
-          className="w-full rounded-[8px]"
+          className="w-full rounded-8"
         >
           <Link
             href={OAUTH.naver()}
             replace
-            className="relative flex h-52 items-center justify-center gap-8 rounded-[8px] bg-[#03C75A] text-16 font-600 text-basic-white"
+            className="relative flex h-52 items-center justify-center gap-8 rounded-8 bg-[#03C75A] text-16 font-600 text-basic-white"
           >
             <Naver />
             네이버로 시작하기
@@ -91,7 +91,7 @@ const Login = () => {
         </button>
       </section>
       <section className="flex flex-1 grow flex-col">
-        <p className="text-basic-grey-400 mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500">
+        <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-basic-grey-400">
           로그인은{' '}
           <Link href="/policy" className="underline">
             개인정보 처리 방침

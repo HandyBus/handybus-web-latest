@@ -12,7 +12,7 @@ const DemandView = ({ event }: Props) => {
   return (
     <Link href={`/demand/${event.eventId}`} className="px-16 py-8">
       <article className="flex flex-row gap-16">
-        <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-[8px] bg-basic-grey-300">
+        <figure className="relative min-h-[110px] min-w-[80px] overflow-hidden rounded-8 bg-basic-grey-300">
           <Image
             className="object-cover"
             src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}

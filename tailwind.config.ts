@@ -121,6 +121,17 @@ const config: Config = {
     fontFamily: {
       sans: ['Pretendard', 'Arial'],
     },
+    borderRadius: {
+      4: '4px',
+      6: '6px',
+      8: '8px',
+      10: '10px',
+      12: '12px',
+      16: '16px',
+      20: '20px',
+      24: '24px',
+      full: '9999px',
+    },
     extend: {
       boxShadow: {
         bottomBar: '0 -4px 6px -1px rgba(0,0,0,0.1)',

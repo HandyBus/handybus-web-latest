@@ -27,7 +27,7 @@ const Header = () => {
         ) : (
           <Link
             href="/login"
-            className="flex h-full w-72 items-center justify-center rounded-[6px] bg-basic-black text-14 font-400 text-basic-white"
+            className="flex h-full w-72 items-center justify-center rounded-6 bg-basic-black text-14 font-400 text-basic-white"
           >
             시작하기
           </Link>

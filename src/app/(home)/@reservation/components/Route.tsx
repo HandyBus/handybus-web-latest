@@ -16,7 +16,7 @@ const Shuttle = ({ route }: Props) => {
       href={`/reservation/${route.eventId}?dailyEventId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
     >
       <div className="flex w-220 flex-col gap-8">
-        <div className="relative h-280 w-220 overflow-hidden rounded-[12px] bg-basic-grey-600">
+        <div className="relative h-280 w-220 overflow-hidden rounded-12 bg-basic-grey-600">
           <Image
             className="animate-fade object-cover"
             src={route.event.eventImageUrl || DEFAULT_EVENT_IMAGE}

@@ -39,7 +39,7 @@ const Modal = ({
       >
         <section
           onClick={(e) => e.stopPropagation()}
-          className="absolute left-1/2 top-1/2 w-[327px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-basic-white"
+          className="absolute left-1/2 top-1/2 w-[327px] -translate-x-1/2 -translate-y-1/2 rounded-16 bg-basic-white"
         >
           {title && (
             <h2 className="px-24 pb-12 pt-24 text-16 font-600 text-basic-grey-700">

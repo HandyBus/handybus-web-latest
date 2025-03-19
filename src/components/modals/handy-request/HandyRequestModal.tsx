@@ -21,7 +21,7 @@ const HandyRequestModal = ({
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
-      styles="fixed top-50 left-50 z-[101] flex h-[393px] w-280 flex-col items-center justify-center gap-12 bg-basic-white px-24 py-20 rounded-[20px]"
+      styles="fixed top-50 left-50 z-[101] flex h-[393px] w-280 flex-col items-center justify-center gap-12 bg-basic-white px-24 py-20 rounded-20"
     >
       <ModalContent
         onConfirm={onConfirm}
@@ -65,7 +65,7 @@ const ModalContent = ({
       </h2>
       <p
         id="modal-description"
-        className="text-basic-grey-500 text-center text-16 font-400 leading-6"
+        className="text-center text-16 font-400 leading-6 text-basic-grey-500"
       >
         이번 기회에 핸디를 체험해보고 <br />
         특별한 경험을 만들어보세요. <br />

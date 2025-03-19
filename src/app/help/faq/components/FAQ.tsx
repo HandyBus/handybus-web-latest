@@ -23,14 +23,14 @@ const FAQ = ({ title, children }: Props) => {
       >
         <h2>{title}</h2>
         <span
-          className={`text-basic-grey-600 text-16 ${fold ? 'rotate-180' : ''}`}
+          className={`text-16 text-basic-grey-600 ${fold ? 'rotate-180' : ''}`}
         >
           <ChevronUp />
         </span>
       </header>
       <div className={`px-16 pb-16 ${fold ? 'hidden' : ''}`}>
         <div
-          className={`bg-basic-grey-50 text-basic-grey-700 flex flex-col gap-16 rounded-[12px] p-16 text-14 font-400 [&>p>a]:text-brand-primary-400 [&>p>a]:underline`}
+          className={`flex flex-col gap-16 rounded-12 bg-basic-grey-50 p-16 text-14 font-400 text-basic-grey-700 [&>p>a]:text-brand-primary-400 [&>p>a]:underline`}
         >
           {children}
         </div>
