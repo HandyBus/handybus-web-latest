@@ -1,8 +1,11 @@
+import { MODAL_PORTAL_ID } from '../modals/ModalPortal';
+import { BOTTOM_SHEET_PORTAL_ID } from '../bottom-sheet/BottomSheetPortal';
+
 const PortalContainer = () => {
   return (
     <>
-      <div id="bottom-sheet" />
-      <div id="bottom-bar-root" />
+      <div id={BOTTOM_SHEET_PORTAL_ID} />
+      <div id={MODAL_PORTAL_ID} />
     </>
   );
 };

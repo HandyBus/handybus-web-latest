@@ -59,7 +59,7 @@ const Button = ({
 export default Button;
 
 const DEFAULT_STYLE =
-  'flex items-center justify-center whitespace-nowrap break-keep';
+  'flex items-center justify-center whitespace-nowrap break-keep grow';
 
 const SIZE_STYLE = {
   large: 'w-full h-[50px] rounded-[8px] text-16 font-600',

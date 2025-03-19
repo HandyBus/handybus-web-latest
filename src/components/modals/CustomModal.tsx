@@ -20,7 +20,7 @@ const CustomModal = ({ isOpen, onClosed, children, styles }: Props) => {
       onClick={(e) => {
         if (e.target === backgroundRef.current) onClosed();
       }}
-      role="dialog" // 접근성 : 스크린 리더가 모달을 인식할 수 있도록 하고 포커스를 이동
+      role="dialog"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
