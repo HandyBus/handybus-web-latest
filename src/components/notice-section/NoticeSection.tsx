@@ -21,7 +21,7 @@ const NoticeSection = ({ type, noPadding = false }: Props) => {
       } [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden`}
     >
       <summary className="flex cursor-pointer list-none items-center justify-between">
-        <h2 className="text-22 font-700 leading-[30.8px] text-grey-800">
+        <h2 className="text-22 font-700 leading-[30.8px] text-basic-grey-700">
           {type === NOTICE_TYPE.CANCELLATION_AND_REFUND
             ? '취소 및 환불 안내'
             : '유의사항'}
@@ -35,7 +35,7 @@ const NoticeSection = ({ type, noPadding = false }: Props) => {
           <CancellationAndRefundContent />
         </Wrapper>
       ) : (
-        <Wrapper className="text-14 font-400 leading-[22.4px] text-grey-500">
+        <Wrapper className="text-14 font-400 leading-[22.4px] text-basic-grey-500">
           <TermAndConditionContent />
         </Wrapper>
       )}
@@ -54,7 +54,7 @@ const Wrapper = ({
 }) => {
   return (
     <article className="pt-16">
-      <section className={`rounded-[10px] bg-grey-50 p-16 ${className}`}>
+      <section className={`rounded-10 bg-basic-grey-50 p-16 ${className}`}>
         {children}
       </section>
     </article>
@@ -64,7 +64,7 @@ const Wrapper = ({
 export const CancellationAndRefundContent = () => {
   return (
     <>
-      <ul className="mb-16 list-disc space-y-8 pl-16 text-14 font-400 leading-[22.4px] text-grey-500 ">
+      <ul className="mb-16 list-disc space-y-8 pl-16 text-14 font-400 leading-[22.4px] text-basic-grey-500 ">
         <li>
           탑승 시간을 기준으로 환불 신청 시점에 따라 수수료가 발생합니다. 정확한
           탑승일은 예약 상세에서 확인할 수 있습니다.
@@ -76,45 +76,53 @@ export const CancellationAndRefundContent = () => {
         <li>시간대는 한국 기준으로 적용됩니다.</li>
       </ul>
 
-      <section className="overflow-hidden rounded-[5px] border border-grey-300 text-grey-500">
+      <section className="overflow-hidden rounded-[5px] border border-basic-grey-300 text-basic-grey-500">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-grey-100 text-left text-grey-700">
-              <th className="border-b border-r border-grey-300 p-12">
+            <tr className="bg-basic-grey-100 text-left text-basic-grey-700">
+              <th className="border-b border-r border-basic-grey-300 p-12">
                 환불 신청 시점
               </th>
-              <th className="border-b border-grey-300 p-12 text-left">
+              <th className="border-b border-basic-grey-300 p-12 text-left">
                 수수료
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border-b border-r border-grey-300 p-12">
+              <td className="border-b border-r border-basic-grey-300 p-12">
                 예약 24시간 이내
               </td>
-              <td className="border-b border-grey-300 p-12">수수료 없음</td>
+              <td className="border-b border-basic-grey-300 p-12">
+                수수료 없음
+              </td>
             </tr>
             <tr>
-              <td className="border-b border-r border-grey-300 p-12">
+              <td className="border-b border-r border-basic-grey-300 p-12">
                 ~ 탑승 D-8 23:59
               </td>
-              <td className="border-b border-grey-300 p-12">수수료 없음</td>
+              <td className="border-b border-basic-grey-300 p-12">
+                수수료 없음
+              </td>
             </tr>
             <tr>
-              <td className="border-b border-r border-grey-300 p-12">
+              <td className="border-b border-r border-basic-grey-300 p-12">
                 ~ 탑승 D-7 23:59
               </td>
-              <td className="border-b border-grey-300 p-12">결제 금액의 25%</td>
+              <td className="border-b border-basic-grey-300 p-12">
+                결제 금액의 25%
+              </td>
             </tr>
             <tr>
-              <td className="border-b border-r border-grey-300 p-12">
+              <td className="border-b border-r border-basic-grey-300 p-12">
                 ~ 탑승 D-6 23:59
               </td>
-              <td className="border-b border-grey-300 p-12">결제 금액의 50%</td>
+              <td className="border-b border-basic-grey-300 p-12">
+                결제 금액의 50%
+              </td>
             </tr>
             <tr>
-              <td className="border-r border-grey-300 p-12">
+              <td className="border-r border-basic-grey-300 p-12">
                 탑승 D-5 00:00 ~
               </td>
               <td className="p-12">취소 / 환불 불가</td>

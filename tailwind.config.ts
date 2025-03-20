@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
+import { extendTailwindMerge } from 'tailwind-merge';
+
 const createPxEntries = (size: number) => {
   return {
     0: '0',
@@ -47,59 +49,55 @@ const config: Config = {
     spacing: PX_ENTRIES,
     colors: {
       transparent: 'transparent',
-      primary: {
-        50: 'rgb(var(--primary-50) / <alpha-value>)',
-        100: 'rgb(var(--primary-100) / <alpha-value>)',
-        200: 'rgb(var(--primary-200) / <alpha-value>)',
-        300: 'rgb(var(--primary-300) / <alpha-value>)',
-        400: 'rgb(var(--primary-400) / <alpha-value>)',
-        main: 'rgb(var(--primary-main) / <alpha-value>)',
-        sub: 'rgb(var(--primary-sub) / <alpha-value>)',
-        600: 'rgb(var(--primary-600) / <alpha-value>)',
-        700: 'rgb(var(--primary-700) / <alpha-value>)',
-        800: 'rgb(var(--primary-800) / <alpha-value>)',
-        900: 'rgb(var(--primary-900) / <alpha-value>)',
-      },
-      white: 'rgb(var(--white) / <alpha-value>)',
-      black: 'rgb(var(--black) / <alpha-value>)',
-      grey: {
-        50: 'rgb(var(--grey-50) / <alpha-value>)',
-        100: 'rgb(var(--grey-100) / <alpha-value>)',
-        200: 'rgb(var(--grey-200) / <alpha-value>)',
-        300: 'rgb(var(--grey-300) / <alpha-value>)',
-        400: 'rgb(var(--grey-400) / <alpha-value>)',
-        500: 'rgb(var(--grey-500) / <alpha-value>)',
-        600: {
-          DEFAULT: 'rgb(var(--grey-600) / <alpha-value>)',
-          sub: 'rgb(var(--grey-600-sub) / <alpha-value>)',
+      brand: {
+        primary: {
+          50: 'rgb(var(--brand-primary-50) / <alpha-value>)',
+          100: 'rgb(var(--brand-primary-100) / <alpha-value>)',
+          200: 'rgb(var(--brand-primary-200) / <alpha-value>)',
+          300: 'rgb(var(--brand-primary-300) / <alpha-value>)',
+          400: 'rgb(var(--brand-primary-400) / <alpha-value>)',
+          500: 'rgb(var(--brand-primary-500) / <alpha-value>)',
+          600: 'rgb(var(--brand-primary-600) / <alpha-value>)',
         },
-        700: 'rgb(var(--grey-700) / <alpha-value>)',
-        800: 'rgb(var(--grey-800) / <alpha-value>)',
-        900: 'rgb(var(--grey-900) / <alpha-value>)',
       },
-      red: {
-        50: 'rgb(var(--red-50) / <alpha-value>)',
-        100: 'rgb(var(--red-100) / <alpha-value>)',
-        200: 'rgb(var(--red-200) / <alpha-value>)',
-        300: 'rgb(var(--red-300) / <alpha-value>)',
-        400: 'rgb(var(--red-400) / <alpha-value>)',
-        500: 'rgb(var(--red-500) / <alpha-value>)',
-        600: 'rgb(var(--red-600) / <alpha-value>)',
-        700: 'rgb(var(--red-700) / <alpha-value>)',
-        800: 'rgb(var(--red-800) / <alpha-value>)',
-        900: 'rgb(var(--red-900) / <alpha-value>)',
-      },
-      blue: {
-        50: 'rgb(var(--blue-50) / <alpha-value>)',
-        100: 'rgb(var(--blue-100) / <alpha-value>)',
-        200: 'rgb(var(--blue-200) / <alpha-value>)',
-        300: 'rgb(var(--blue-300) / <alpha-value>)',
-        400: 'rgb(var(--blue-400) / <alpha-value>)',
-        500: 'rgb(var(--blue-500) / <alpha-value>)',
-        600: 'rgb(var(--blue-600) / <alpha-value>)',
-        700: 'rgb(var(--blue-700) / <alpha-value>)',
-        800: 'rgb(var(--blue-800) / <alpha-value>)',
-        900: 'rgb(var(--blue-900) / <alpha-value>)',
+      basic: {
+        white: 'rgb(var(--basic-white) / <alpha-value>)',
+        black: 'rgb(var(--basic-black) / <alpha-value>)',
+        grey: {
+          50: 'rgb(var(--basic-grey-50) / <alpha-value>)',
+          100: 'rgb(var(--basic-grey-100) / <alpha-value>)',
+          200: 'rgb(var(--basic-grey-200) / <alpha-value>)',
+          300: 'rgb(var(--basic-grey-300) / <alpha-value>)',
+          400: 'rgb(var(--basic-grey-400) / <alpha-value>)',
+          500: 'rgb(var(--basic-grey-500) / <alpha-value>)',
+          600: 'rgb(var(--basic-grey-600) / <alpha-value>)',
+          700: 'rgb(var(--basic-grey-700) / <alpha-value>)',
+        },
+        red: {
+          100: 'rgb(var(--basic-red-100) / <alpha-value>)',
+          200: 'rgb(var(--basic-red-200) / <alpha-value>)',
+          300: 'rgb(var(--basic-red-300) / <alpha-value>)',
+          400: 'rgb(var(--basic-red-400) / <alpha-value>)',
+          500: 'rgb(var(--basic-red-500) / <alpha-value>)',
+        },
+        blue: {
+          100: 'rgb(var(--basic-blue-100) / <alpha-value>)',
+          200: 'rgb(var(--basic-blue-200) / <alpha-value>)',
+          300: 'rgb(var(--basic-blue-300) / <alpha-value>)',
+          400: 'rgb(var(--basic-blue-400) / <alpha-value>)',
+        },
+        yellow: {
+          50: 'rgb(var(--basic-yellow-50) / <alpha-value>)',
+          100: 'rgb(var(--basic-yellow-100) / <alpha-value>)',
+        },
+        pink: {
+          50: 'rgb(var(--basic-pink-50) / <alpha-value>)',
+          100: 'rgb(var(--basic-pink-100) / <alpha-value>)',
+        },
+        orange: {
+          50: 'rgb(var(--basic-orange-50) / <alpha-value>)',
+          100: 'rgb(var(--basic-orange-100) / <alpha-value>)',
+        },
       },
     },
     fontSize: {
@@ -123,6 +121,17 @@ const config: Config = {
     fontFamily: {
       sans: ['Pretendard', 'Arial'],
     },
+    borderRadius: {
+      4: '4px',
+      6: '6px',
+      8: '8px',
+      10: '10px',
+      12: '12px',
+      16: '16px',
+      20: '20px',
+      24: '24px',
+      full: '9999px',
+    },
     extend: {
       boxShadow: {
         bottomBar: '0 -4px 6px -1px rgba(0,0,0,0.1)',
@@ -132,3 +141,27 @@ const config: Config = {
   plugins: [hideScrollbar],
 };
 export default config;
+
+const flattenColors = (colors: object, prefix = ''): string[] => {
+  return Object.entries(colors).reduce((acc: string[], [key, value]) => {
+    if (typeof value === 'object') {
+      return [
+        ...acc,
+        ...flattenColors(value, prefix ? `${prefix}.${key}` : key),
+      ];
+    }
+    return [...acc, prefix ? `${prefix}.${key}` : key];
+  }, []);
+};
+
+export const customTwMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      'font-size': [{ text: Object.keys(config.theme?.fontSize ?? {}) }],
+      'font-weight': [{ font: Object.keys(config.theme?.fontWeight ?? {}) }],
+      'bg-color': [{ bg: flattenColors(config.theme?.colors ?? {}) }],
+      'text-color': [{ text: flattenColors(config.theme?.colors ?? {}) }],
+      'border-color': [{ border: flattenColors(config.theme?.colors ?? {}) }],
+    },
+  },
+});

@@ -19,7 +19,7 @@ const Rating = ({ size = 'medium', value = 0, onChange }: Props) => {
       {[1, 2, 3, 4, 5].map((n) => (
         <span
           key={n}
-          className={`${value >= n ? 'text-primary-main' : 'text-grey-100'} `}
+          className={`${value >= n ? 'text-brand-primary-400' : 'text-basic-grey-100'} `}
         >
           <Star />
         </span>

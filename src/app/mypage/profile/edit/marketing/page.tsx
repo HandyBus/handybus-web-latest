@@ -90,20 +90,22 @@ const Page = () => {
                 <span className="text-14 font-400">마케팅 수신 알림</span>
                 <button
                   onClick={handleSwitchClick}
-                  className={`flex h-[14px] w-32 rounded-full bg-grey-50 transition-all duration-200 ${
-                    isMarketingAgreed ? 'bg-primary-sub' : 'bg-grey-50'
+                  className={`flex h-[14px] w-32 rounded-full bg-basic-grey-50 transition-all duration-200 ${
+                    isMarketingAgreed
+                      ? 'bg-brand-primary-100'
+                      : 'bg-basic-grey-50'
                   }`}
                 >
                   <div
                     className={`h-20 w-20 -translate-y-[3px] rounded-full transition-all duration-200 ${
                       isMarketingAgreed
-                        ? 'translate-x-[12px] bg-primary-main'
-                        : 'bg-grey-200'
+                        ? 'translate-x-[12px] bg-brand-primary-400'
+                        : 'bg-basic-grey-200'
                     }`}
                   />
                 </button>
               </div>
-              <div className="h-8 w-full bg-grey-50" />
+              <div className="h-8 w-full bg-basic-grey-50" />
             </main>
             <MarketingBottomSheet
               bottomSheetRef={bottomSheetRef}

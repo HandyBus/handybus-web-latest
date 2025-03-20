@@ -26,7 +26,7 @@ const PersonalInfoBottomSheet = ({
         </div>
       </div>
       <div className="flex gap-8 pb-16 pt-8">
-        <Button type="button" variant="secondary" onClick={closeBottomSheet}>
+        <Button type="button" variant="tertiary" onClick={closeBottomSheet}>
           닫기
         </Button>
         <Button

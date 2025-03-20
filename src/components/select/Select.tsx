@@ -14,6 +14,8 @@ interface Props<T> {
   placeholder?: string;
   disabled?: boolean;
   bottomSheetTitle?: string;
+  bottomSheetDescription?: string;
+  bottomSheetOnBack?: () => void;
   isUnderLined?: boolean;
   defaultText?: string;
   sort?: boolean;
@@ -30,6 +32,8 @@ const Select = <T,>({
   placeholder,
   disabled,
   bottomSheetTitle,
+  bottomSheetDescription,
+  bottomSheetOnBack,
   isUnderLined,
   defaultText,
   sort = false,
@@ -64,7 +68,7 @@ const Select = <T,>({
         onClick={openBottomSheet}
         type="button"
         disabled={disabled}
-        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-grey-800' : 'text-grey-300'} ${isUnderLined ? 'border-b border-grey-100' : ''}`}
+        className={`is-selected group relative w-full p-12 pr-32 text-left font-400 ${value ? 'text-basic-grey-700' : 'text-basic-grey-300'} ${isUnderLined ? 'border-b border-basic-grey-100' : ''}`}
       >
         {value
           ? renderValue
@@ -75,14 +79,19 @@ const Select = <T,>({
           {disabled ? <ChevronDisabledIcon /> : <ChevronEnabledIcon />}
         </div>
       </button>
-      <BottomSheet ref={bottomSheetRef} title={bottomSheetTitle}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        title={bottomSheetTitle}
+        description={bottomSheetDescription}
+        onBack={bottomSheetOnBack}
+      >
         <div
           ref={contentRef}
-          className="relative h-full w-full overflow-y-auto overflow-x-hidden bg-white"
+          className="relative h-full w-full overflow-y-auto overflow-x-hidden bg-basic-white"
         >
           <section className="flex flex-col">
             {sortedOptions?.length === 0 ? (
-              <div className="py-16 text-left text-16 font-400 text-grey-400">
+              <div className="py-16 text-left text-16 font-400 text-basic-grey-400">
                 {defaultText}
               </div>
             ) : (

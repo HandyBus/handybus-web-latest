@@ -3,28 +3,28 @@ import { ShuttleDemandStatus } from '@/types/demand.type';
 
 const STATUS_STYLE = {
   fullGreen: {
-    dot: 'bg-primary-main',
-    text: 'text-primary-main',
+    dot: 'bg-brand-primary-400',
+    text: 'text-brand-primary-400',
   },
   emptyGreen: {
-    dot: 'border-2 border-primary-main',
-    text: 'text-primary-main',
+    dot: 'border-2 border-brand-primary-400',
+    text: 'text-brand-primary-400',
   },
   darkGrey: {
-    dot: 'bg-grey-700',
-    text: 'text-grey-700',
+    dot: 'bg-basic-grey-700',
+    text: 'text-basic-grey-700',
   },
   lightGrey: {
-    dot: 'bg-grey-500',
-    text: 'text-grey-500',
+    dot: 'bg-basic-grey-500',
+    text: 'text-basic-grey-500',
   },
   black: {
-    dot: 'bg-black',
-    text: 'text-black',
+    dot: 'bg-basic-black',
+    text: 'text-basic-black',
   },
   red: {
-    dot: 'bg-red-700',
-    text: 'text-red-700',
+    dot: 'bg-basic-red-500',
+    text: 'text-basic-red-500',
   },
 };
 
@@ -57,12 +57,12 @@ export const getReservationStatusStyle = (status: ReservationStatus) => {
 export const getHandyStatusStyle = (status: HandyStatus) => {
   switch (status) {
     case 'ACCEPTED':
-      return 'text-blue-500';
+      return 'text-basic-blue-1000';
     case 'DECLINED':
-      return 'text-grey-400';
+      return 'text-basic-grey-400';
     case 'SUPPORTED':
-      return 'text-primary-main';
+      return 'text-brand-primary-400';
     default:
-      return 'text-grey-400';
+      return 'text-basic-grey-400';
   }
 };

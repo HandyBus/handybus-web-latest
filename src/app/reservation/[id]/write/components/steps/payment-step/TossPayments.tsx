@@ -229,8 +229,8 @@ const BottomBar = ({
   });
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-white px-16 py-8 shadow-bottomBar">
-      <Button type="button" variant="secondary" onClick={handlePrevStep}>
+    <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto grid max-w-500 grid-cols-[76px_1fr] gap-8 bg-basic-white px-16 py-8 shadow-bottomBar">
+      <Button type="button" variant="tertiary" onClick={handlePrevStep}>
         이전
       </Button>
       <Button type="button" disabled={disabled} onClick={handlePayment}>

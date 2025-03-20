@@ -49,7 +49,7 @@ const RouteVisualizerWithSelect = (props: Props) => {
         <h2 className="text-22 font-700 leading-[30.8px]">
           탑승/하차 장소를 선택해주세요
         </h2>
-        <p className="text-14 font-500 leading-[22.4px] text-grey-500">
+        <p className="text-basic-grey-500 text-14 font-500 leading-[22.4px]">
           예약 현황에 따라 추가 경유지가 발생하거나 시각이 변동될 수 있습니다.
         </p>
       </header>
@@ -97,7 +97,7 @@ const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
     >
       <h3 className="flex items-center justify-between text-16 font-700 leading-[22.4px]">
         {type === 'TO_DESTINATION' ? '가는 편' : '오는 편'}
-        <span className="text-12 font-400 leading-[19.2px] text-grey-500">
+        <span className="text-basic-grey-500 text-12 font-400 leading-[19.2px]">
           선택
         </span>
       </h3>
@@ -107,7 +107,7 @@ const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
           className={`relative flex flex-col items-center ${type === 'TO_DESTINATION' ? 'pt-[6px]' : 'pb-[6px]'}`}
         >
           <hr
-            className={`absolute h-[calc(100%-12px)] w-[2px] bg-${type === 'TO_DESTINATION' ? 'primary-main' : 'grey-500'} `}
+            className={`absolute h-[calc(100%-12px)] w-[2px] bg-${type === 'TO_DESTINATION' ? 'primary-400' : 'grey-500'} `}
           />
           <ol className="relative flex h-full flex-col items-center justify-between ">
             <RoutePoints hubs={sortedHubs} type={type} />
@@ -130,7 +130,7 @@ const RouteCard = ({ hubs, type, hubValue, setHubValue }: RouteCardProps) => {
           ))}
         </ul>
       </section>
-      <p className="text-12 font-500 leading-[19.2px] text-grey-500">
+      <p className="text-basic-grey-500 text-12 font-500 leading-[19.2px]">
         {type === 'TO_DESTINATION'
           ? '탑승장소를 선택해주세요'
           : '하차장소를 선택해주세요'}
@@ -157,16 +157,16 @@ const HubItem = ({
   return (
     <div className="flex w-full justify-between ">
       <div className="flex items-center gap-16 ">
-        <p className="w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px] text-grey-600-sub">
+        <p className="text-basic-grey-600 w-[36px] flex-shrink-0 text-12 font-400 leading-[19.2px]">
           {dayjs(hub.arrivalTime).format('HH:mm')}
         </p>
         <p
           className={`text-16 font-400 leading-[24px] ${
             isDestination
-              ? 'text-grey-600'
+              ? 'text-basic-grey-600'
               : selectedHub?.shuttleRouteHubId === hub.shuttleRouteHubId
-                ? 'text-grey-900'
-                : 'text-grey-300'
+                ? 'text-basic-grey-700'
+                : 'text-basic-grey-300'
           }`}
         >
           {hub.name}
@@ -179,7 +179,7 @@ const HubItem = ({
           onChange={() => {
             setSelectedHub(hub);
           }}
-          className="h-20 w-20 cursor-pointer accent-grey-800"
+          className="accent-basic-grey-700 h-20 w-20 cursor-pointer"
         />
       )}
     </div>

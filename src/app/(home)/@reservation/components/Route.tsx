@@ -16,7 +16,7 @@ const Shuttle = ({ route }: Props) => {
       href={`/reservation/${route.eventId}?dailyEventId=${route.dailyEventId}&shuttleRouteId=${route.shuttleRouteId}`}
     >
       <div className="flex w-220 flex-col gap-8">
-        <div className="relative h-280 w-220 overflow-hidden rounded-[12px] bg-grey-600">
+        <div className="relative h-280 w-220 overflow-hidden rounded-12 bg-basic-grey-600">
           <Image
             className="animate-fade object-cover"
             src={route.event.eventImageUrl || DEFAULT_EVENT_IMAGE}
@@ -26,13 +26,15 @@ const Shuttle = ({ route }: Props) => {
           <SeatString route={route} />
         </div>
         <div className="flex flex-col gap-4 pl-4">
-          <span className="line-clamp-2 text-16 font-600 text-grey-900">
+          <span className="line-clamp-2 text-16 font-600 text-basic-grey-700">
             [{route.name}]{' '}
             <span className="font-500">{route.event.eventName}</span>
           </span>
           <div className="flex flex-col text-12 font-400">
-            <span className="text-black">{route.event.eventLocationName}</span>
-            <span className="text-grey-900">
+            <span className="text-basic-black">
+              {route.event.eventLocationName}
+            </span>
+            <span className="text-basic-grey-700">
               {dateString(
                 route.event.dailyEvents.find(
                   (v) => v.dailyEventId === route.dailyEventId,
@@ -70,13 +72,13 @@ const SeatString = ({ route }: SeatStringProps) => {
   const isSoldOut = route.remainingSeatCount === 0;
 
   return (
-    <div className="absolute bottom-0 w-full bg-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-white backdrop-blur-[2px]">
+    <div className="absolute bottom-0 w-full bg-basic-black bg-opacity-70 px-16 py-12 text-right text-14 font-500 text-basic-white backdrop-blur-[2px]">
       {isSoldOut ? (
-        <span className="text-grey-100">매진</span>
+        <span className="text-basic-grey-100">매진</span>
       ) : (
         <>
           {prefix}{' '}
-          <span className="text-primary-main">
+          <span className="text-brand-primary-400">
             {route.remainingSeatCount}석
           </span>
         </>

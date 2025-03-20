@@ -120,7 +120,7 @@ const KakaoMapContent = ({
         </p>
         <ChevronRightIcon viewBox="0 0 24 24" width="12px" height="12px" />
       </div>
-      <div className="rounded-[12px] shadow-[0_4px_4px_0_rgba(0,0,0,0.075)]">
+      <div className="rounded-12 shadow-[0_4px_4px_0_rgba(0,0,0,0.075)]">
         <div ref={mapRef} className="z-0 h-[140px] w-full rounded-t-[12px]" />
         <div className="flex h-[65px] w-full items-center gap-[6px] rounded-b-[12px] p-12">
           <span className="flex h-[40px] w-[40px] items-center justify-center">

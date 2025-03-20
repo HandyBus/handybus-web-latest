@@ -71,12 +71,12 @@ const CancelBottomSheet = ({
                 <Button
                   type="button"
                   onClick={handleNextStep}
-                  variant="secondary"
+                  variant="tertiary"
                 >
                   다음
                 </Button>
               </div>
-              <div className="fixed -mx-32 h-400 w-full bg-white" />
+              <div className="fixed -mx-32 h-400 w-full bg-basic-white" />
             </section>
           </Step>
           <Step name="취소 수수료">
@@ -84,7 +84,7 @@ const CancelBottomSheet = ({
               <div className="max-h-[55dvh] overflow-y-auto">
                 <CancellationAndRefundContent />
                 {isRefundable && refundFee !== null && (
-                  <article className="mt-16 bg-grey-50 p-8 text-center text-14 font-700 text-red-500">
+                  <article className="mt-16 bg-basic-grey-50 p-8 text-center text-14 font-700 text-basic-red-500">
                     취소 수수료: {refundFee.toLocaleString()}원
                   </article>
                 )}
@@ -93,14 +93,14 @@ const CancelBottomSheet = ({
                 <Button
                   type="button"
                   onClick={handlePrevStep}
-                  variant="secondary"
+                  variant="tertiary"
                 >
                   이전
                 </Button>
                 <Button
                   type="button"
                   onClick={handleSubmit}
-                  variant="alert"
+                  variant="p-destructive"
                   disabled={!isRefundable || isPending}
                 >
                   예약 취소

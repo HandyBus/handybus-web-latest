@@ -49,7 +49,7 @@ const ResidenceContent = () => {
         description="해당 지역의 셔틀 정보를 먼저 알려드릴게요."
       />
       <div className="flex flex-col gap-16 p-28">
-        <div className="text-16 font-500 text-grey-600-sub">
+        <div className="text-basic-grey-600 text-16 font-500">
           거주 지역을 선택해주세요
         </div>
         <Select
@@ -72,7 +72,7 @@ const ResidenceContent = () => {
           bottomSheetTitle="시/군/구 선택"
           sort
         />
-        <p className="h-[20px] text-12 font-400 text-red-500">
+        <p className="h-[20px] text-12 font-400 text-basic-red-500">
           {formState.errors.bigRegion?.message}
         </p>
       </div>

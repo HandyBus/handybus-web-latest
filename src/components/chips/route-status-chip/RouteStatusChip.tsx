@@ -10,13 +10,13 @@ const RouteStatusChip = ({ status }: Props) => {
   switch (status) {
     case 'OPEN':
       return (
-        <div className="w-fit whitespace-nowrap  rounded-full bg-primary-main px-[14px] py-[3px] text-12 text-white">
+        <div className="w-fit whitespace-nowrap  rounded-full bg-brand-primary-400 px-[14px] py-[3px] text-12 text-basic-white">
           {statusString}
         </div>
       );
     case 'CLOSED':
       return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-black px-[14px] py-[3px] text-12 text-white">
+        <div className="w-fit whitespace-nowrap rounded-full bg-basic-black px-[14px] py-[3px] text-12 text-basic-white">
           {statusString}
         </div>
       );
@@ -24,7 +24,7 @@ const RouteStatusChip = ({ status }: Props) => {
     case 'CANCELLED':
     case 'INACTIVE':
       return (
-        <div className="w-fit whitespace-nowrap rounded-full bg-grey-100 px-[14px] py-[3px] text-12 text-black">
+        <div className="bg-basic-grey-100 w-fit whitespace-nowrap rounded-full px-[14px] py-[3px] text-12 text-basic-black">
           {statusString}
         </div>
       );

@@ -1,7 +1,7 @@
 'use client';
 
 import type { MouseEventHandler } from 'react';
-import { Fragment } from 'react';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props<T> {
   items: TabItem<T>[];
@@ -10,22 +10,24 @@ interface Props<T> {
 }
 
 const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
-  const len = items.length;
-
   return (
-    <div className="flex w-full flex-row overflow-x-scroll scrollbar-hidden">
-      {items.flatMap((v, i) => (
-        <Fragment key={v.label}>
-          <Tab
-            label={v.label}
-            selected={v.value === selected}
-            onClick={() => onSelect?.(v.value)}
-          />
-          <div
-            className={`border-b-2 border-b-grey-100 ${len - 1 === i ? 'w-full' : 'w-[7px]'}`}
-          />
-        </Fragment>
+    <div className="relative flex w-full flex-row overflow-x-scroll scrollbar-hidden">
+      {items.flatMap((v) => (
+        <Tab
+          key={v.label}
+          label={v.label}
+          selected={v.value === selected}
+          onClick={() => onSelect?.(v.value)}
+        />
       ))}
+      <div className="absolute bottom-0 h-[1px] w-full bg-basic-grey-200" />
+      <div
+        className="absolute bottom-0 h-[2px] bg-basic-black transition-all duration-300 ease-in-out"
+        style={{
+          left: `${items.findIndex((item) => item.value === selected) * (100 / items.length)}%`,
+          width: `${100 / items.length}%`,
+        }}
+      />
     </div>
   );
 };
@@ -48,8 +50,10 @@ const Tab = ({
 }) => {
   return (
     <button
-      className={`whitespace-nowrap p-8 text-14 font-600
-        ${selected ? 'border-b-2 border-b-black' : 'border-b-2 border-b-grey-100 text-grey-500'}`}
+      className={customTwMerge(
+        'flex-1 whitespace-nowrap p-8 text-16 font-500 text-basic-grey-500 transition-all duration-100 ease-in-out',
+        selected && 'font-700 text-basic-black',
+      )}
       onClick={onClick}
     >
       {label}

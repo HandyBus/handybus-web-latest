@@ -38,7 +38,7 @@ const RadioButtons = <T extends FieldValues, U extends string>({
           </RadioButton>
         ))}
       </div>
-      <p className="mt-8 h-[20px] text-12 font-400 text-red-500">
+      <p className="mt-8 h-[20px] text-12 font-400 text-basic-red-500">
         {fieldState?.error?.message}
       </p>
     </section>
@@ -62,7 +62,7 @@ const RadioButton = ({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`h-[42px] shrink-0 rounded-full border border-grey-100 px-32 text-16 font-500 disabled:opacity-50 ${selected ? 'bg-grey-700 text-white' : 'bg-white text-grey-600-sub active:bg-grey-50'}`}
+      className={`border-basic-grey-100 h-[42px] shrink-0 rounded-full border px-32 text-16 font-500 disabled:opacity-50 ${selected ? 'bg-basic-grey-700 text-basic-white' : 'text-basic-grey-600 active:bg-basic-grey-50 bg-basic-white'}`}
     >
       {children}
     </button>

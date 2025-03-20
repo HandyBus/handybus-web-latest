@@ -24,10 +24,12 @@ const ListButton = ({
 }: Props) => {
   const content = (
     <>
-      <span className="grow text-left text-16 font-400 text-grey-800">
+      <span className="text-basic-grey-700 grow text-left text-16 font-400">
         {title}
       </span>
-      <span className="text-14 font-400 text-grey-500">{description}</span>
+      <span className="text-basic-grey-500 text-14 font-400">
+        {description}
+      </span>
       {!hideArrow && (
         <ArrowRight
           color="#5A5A5A"

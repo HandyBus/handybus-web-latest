@@ -115,13 +115,13 @@ type CardProps = {
 const Card = ({ title, description, children }: CardProps) => {
   return (
     <section
-      className="overflow-hidden rounded-[10px] shadow-sm"
+      className="overflow-hidden rounded-10 shadow-sm"
       style={{ boxShadow: '0px 1px 9px rgba(0, 0, 0, 0.12)' }}
     >
       <div>{children}</div>
       <div className="flex flex-col items-start gap-4 p-24 ">
-        <h2 className="text-18 font-700 text-grey-900">{title}</h2>
-        <p className="text-14 font-400 text-grey-600-sub">{description}</p>
+        <h2 className="text-18 font-700 text-basic-grey-700">{title}</h2>
+        <p className="text-14 font-400 text-basic-grey-600">{description}</p>
       </div>
     </section>
   );

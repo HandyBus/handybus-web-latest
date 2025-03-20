@@ -129,16 +129,16 @@ const ReservationOngoingWrapper = ({
 }: ReservationOngoingWrapperProps) => {
   return (
     <>
-      <div className="line-clamp-1 flex h-40 w-full items-center gap-8 bg-grey-50 px-24">
+      <div className="line-clamp-1 flex h-40 w-full items-center gap-8 bg-basic-grey-50 px-24">
         <SmallBusIcon />
-        <span className="text-12 font-500 text-grey-600">
+        <span className="text-12 font-500 text-basic-grey-600">
           수요신청 하신 셔틀 중{' '}
-          <span className="font-600 text-grey-800">{count}개</span>의 셔틀이
-          예약 진행 중입니다.
+          <span className="font-600 text-basic-grey-700">{count}개</span>의
+          셔틀이 예약 진행 중입니다.
         </span>
       </div>
       {children}
-      <div className="mt-12 h-8 w-full bg-grey-50" />
+      <div className="mt-12 h-8 w-full bg-basic-grey-50" />
     </>
   );
 };

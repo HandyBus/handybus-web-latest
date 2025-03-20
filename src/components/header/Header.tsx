@@ -14,7 +14,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 flex h-48 w-full items-center justify-between bg-white px-16 py-12">
+    <header className="sticky top-0 z-50 flex h-48 w-full items-center justify-between bg-basic-white px-16 py-12">
       <h1 className="sr-only">핸디버스</h1>
       <Link href="/">
         <LogoIcon fill="black" />
@@ -27,7 +27,7 @@ const Header = () => {
         ) : (
           <Link
             href="/login"
-            className="flex h-full w-72 items-center justify-center rounded-[6px] bg-black text-14 font-400 text-white"
+            className="flex h-full w-72 items-center justify-center rounded-6 bg-basic-black text-14 font-400 text-basic-white"
           >
             시작하기
           </Link>

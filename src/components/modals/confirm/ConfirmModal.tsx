@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/buttons/button/Button';
+import Button, { ButtonVariant } from '@/components/buttons/button/Button';
 import CustomModal from '../CustomModal';
 
 interface ButtonLabels {
@@ -16,7 +16,7 @@ interface Props {
   isOpen: boolean;
   onClosed: () => void;
   disabled?: boolean;
-  variant?: 'alert' | 'primary' | 'secondary' | 'modalSecondary' | 'none';
+  variant?: ButtonVariant;
 }
 
 const ConfirmModal = ({
@@ -27,13 +27,12 @@ const ConfirmModal = ({
   isOpen,
   onClosed,
   disabled = false,
-  variant,
 }: Props) => {
   return (
     <CustomModal
       isOpen={isOpen}
       onClosed={onClosed}
-      styles="fixed top-50 left-50 z-[101] flex h-[210px] w-280 flex-col items-center justify-center gap-32 rounded-xl bg-white p-24"
+      styles="fixed top-50 left-50 z-[101] flex h-[210px] w-280 flex-col items-center justify-center gap-32 rounded-xl bg-basic-white p-24"
     >
       <ConfirmModalContent
         onClosed={onClosed}
@@ -42,7 +41,6 @@ const ConfirmModal = ({
         description={description}
         buttonLabels={buttonLabels}
         disabled={disabled}
-        variant={variant}
       />
     </CustomModal>
   );
@@ -57,7 +55,7 @@ interface ConfirmModalContentProps {
   description: string;
   buttonLabels: ButtonLabels;
   disabled?: boolean;
-  variant?: 'alert' | 'primary' | 'secondary' | 'modalSecondary' | 'none';
+  variant?: ButtonVariant;
 }
 
 const ConfirmModalContent = ({
@@ -67,7 +65,7 @@ const ConfirmModalContent = ({
   description,
   buttonLabels,
   disabled = false,
-  variant = 'alert',
+  variant = 'p-destructive',
 }: ConfirmModalContentProps) => {
   return (
     <>
@@ -80,13 +78,13 @@ const ConfirmModalContent = ({
         </h2>
         <p
           id="modal-description"
-          className="break-keep text-16 font-400 leading-6 text-grey-500"
+          className="text-basic-grey-500 break-keep text-16 font-400 leading-6"
         >
           {description}
         </p>
       </div>
       <div className="flex w-[100%] gap-8">
-        <Button variant="modalSecondary" onClick={onClosed}>
+        <Button variant="tertiary" onClick={onClosed}>
           {buttonLabels.back}
         </Button>
         <Button variant={variant} onClick={onConfirm} disabled={disabled}>

@@ -76,11 +76,11 @@ const RatingForm = ({ size = 'medium', value = 0, onChange }: Props) => {
           className={`${
             hoverValue === null || hoverValue === value
               ? value >= n
-                ? 'text-primary-main'
-                : 'text-grey-100'
+                ? 'text-brand-primary-400'
+                : 'text-basic-grey-100'
               : hoverValue >= n
-                ? 'text-primary-700'
-                : 'text-grey-100'
+                ? 'text-brand-primary-600'
+                : 'text-basic-grey-100'
           } cursor-pointer touch-pan-y`}
         >
           <Star />

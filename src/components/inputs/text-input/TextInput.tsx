@@ -8,7 +8,7 @@ import {
   useController,
 } from 'react-hook-form';
 import DeleteIcon from 'public/icons/delete.svg';
-import { twMerge } from 'tailwind-merge';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props<T extends FieldValues> extends UseControllerProps<T> {
   children?: ReactNode;
@@ -40,7 +40,7 @@ const TextInput = <T extends FieldValues>({
       {children && (
         <label
           htmlFor={field.name}
-          className="block h-[26px] text-16 font-500 text-grey-600-sub"
+          className="text-basic-grey-600 block h-[26px] text-16 font-500"
         >
           {children}
         </label>
@@ -50,9 +50,11 @@ const TextInput = <T extends FieldValues>({
         placeholder={placeholder}
         onKeyDown={onKeyDown}
         {...field}
-        className={twMerge(
-          'h-48 w-full border-b border-grey-100 p-12 pr-44 text-16 font-400 outline-none placeholder:text-grey-300',
-          fieldState?.error ? 'border-red-500' : 'focus:border-primary-main',
+        className={customTwMerge(
+          'border-basic-grey-100 placeholder:text-basic-grey-300 h-48 w-full border-b p-12 pr-44 text-16 font-400 outline-none',
+          fieldState?.error
+            ? 'border-basic-red-500'
+            : 'focus:border-brand-primary-400',
           inputClassName,
         )}
       />
@@ -68,7 +70,7 @@ const TextInput = <T extends FieldValues>({
         </button>
       )}
       {fieldState?.error?.message && (
-        <p className="h-[20px] text-12 font-400 text-red-500">
+        <p className="h-[20px] text-12 font-400 text-basic-red-500">
           {fieldState?.error?.message}
         </p>
       )}

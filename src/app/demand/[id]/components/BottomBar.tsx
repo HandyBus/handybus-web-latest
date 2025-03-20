@@ -79,9 +79,9 @@ const BottomBar = ({
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto max-w-500 bg-white shadow-bottomBar">
+      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto max-w-500 bg-basic-white shadow-bottomBar">
         <div className="flex flex-col gap-4 px-16 py-8">
-          <p className="text-12 font-400 leading-[19.2px] text-grey-500">
+          <p className="text-12 font-400 leading-[19.2px] text-basic-grey-500">
             수요 신청은 <span className="font-700">무료</span>이며, 수요 신청
             결과를 노선 개설에 활용합니다.
           </p>
@@ -94,7 +94,7 @@ const BottomBar = ({
               <>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="tertiary"
                   onClick={openBottomSheet}
                 >
                   친구에게 알리기

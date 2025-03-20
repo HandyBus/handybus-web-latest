@@ -33,7 +33,7 @@ const Profile = () => {
                     className="object-cover"
                   />
                 </div>
-                <span className="text-18 font-500 text-grey-900">
+                <span className="text-basic-grey-700 text-18 font-500">
                   {user.nickname}
                 </span>
               </div>
@@ -49,7 +49,7 @@ const Profile = () => {
                 )}
               </ul>
             </section>
-            <div className="h-16 w-full bg-grey-50" />
+            <div className="bg-basic-grey-50 h-16 w-full" />
             <ListButton
               title="프로필 수정"
               href="/mypage/profile/edit?type=profile"
@@ -78,8 +78,8 @@ interface ProfileItemProps {
 
 const ProfileItem = ({ title, description }: ProfileItemProps) => {
   return (
-    <li className="flex items-center gap-16 text-grey-600-sub">
-      <div className="flex h-20 w-[78px] shrink-0 items-center justify-center rounded-full border border-grey-100 text-12 font-500">
+    <li className="text-basic-grey-600 flex items-center gap-16">
+      <div className="border-basic-grey-100 flex h-20 w-[78px] shrink-0 items-center justify-center rounded-full border text-12 font-500">
         {title}
       </div>
       <span className="text-14 font-400">{description}</span>

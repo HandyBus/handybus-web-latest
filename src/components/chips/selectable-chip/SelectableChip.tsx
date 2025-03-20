@@ -1,10 +1,9 @@
-import type { HTMLProps } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 
-interface Props extends HTMLProps<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
   selected?: boolean;
-  type?: 'button' | 'submit' | 'reset';
 }
 
 const SelectableChip = ({
@@ -19,14 +18,14 @@ const SelectableChip = ({
   return (
     <button
       className={`whitespace-nowrap rounded-full px-12 py-4 text-14
-      ${isPrimary && !disabled && selected ? 'bg-grey-700 text-white' : ''}
-      ${isPrimary && !disabled && !selected ? 'bg-grey-50 text-grey-700' : ''}
-      ${isPrimary && disabled && selected ? 'bg-grey-700 text-white opacity-50' : ''}
-      ${isPrimary && disabled && !selected ? 'bg-grey-50 text-grey-300' : ''}
-      ${!isPrimary && !disabled && selected ? 'border border-grey-600-sub bg-transparent text-grey-700' : ''}
-      ${!isPrimary && !disabled && !selected ? 'bg-grey-50 text-grey-700' : ''}
-      ${!isPrimary && disabled && selected ? 'border border-grey-600-sub bg-transparent text-grey-700 opacity-50' : ''}
-      ${!isPrimary && disabled && !selected ? 'bg-grey-50 text-grey-300' : ''}`}
+      ${isPrimary && !disabled && selected ? 'bg-basic-grey-700 text-basic-white' : ''}
+      ${isPrimary && !disabled && !selected ? 'bg-basic-grey-50 text-basic-grey-700' : ''}
+      ${isPrimary && disabled && selected ? 'bg-basic-grey-700 text-basic-white opacity-50' : ''}
+      ${isPrimary && disabled && !selected ? 'bg-basic-grey-50 text-basic-grey-300' : ''}
+      ${!isPrimary && !disabled && selected ? 'border-basic-grey-600 text-basic-grey-700 border bg-transparent' : ''}
+      ${!isPrimary && !disabled && !selected ? 'bg-basic-grey-50 text-basic-grey-700' : ''}
+      ${!isPrimary && disabled && selected ? 'border-basic-grey-600 text-basic-grey-700 border bg-transparent opacity-50' : ''}
+      ${!isPrimary && disabled && !selected ? 'bg-basic-grey-50 text-basic-grey-300' : ''}`}
       disabled={disabled}
       {...rest}
     >

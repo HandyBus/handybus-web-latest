@@ -75,12 +75,12 @@ const ReservationCard = ({
         <span className={`font-600 ${reservationStatusStyle.text}`}>
           {reservationStatusText}
         </span>
-        <span className="font-500 text-grey-500">
+        <span className="font-500 text-basic-grey-500">
           {parsedReservationDate} 예약
         </span>
       </div>
       <div className="flex h-[130px] w-full gap-16">
-        <div className="relative h-full w-92 shrink-0 overflow-hidden rounded-[8px]">
+        <div className="relative h-full w-92 shrink-0 overflow-hidden rounded-8">
           <Image
             src={
               reservation.shuttleRoute.event.eventImageUrl ||
@@ -92,21 +92,21 @@ const ReservationCard = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="line-clamp-1 pb-4 text-16 font-500 text-grey-900">
+          <span className="line-clamp-1 pb-4 text-16 font-500 text-basic-grey-700">
             [{reservation.shuttleRoute.name}]{' '}
             {reservation.shuttleRoute.event.eventName}
           </span>
-          <span className="text-12 font-400 text-grey-900">
+          <span className="text-12 font-400 text-basic-grey-700">
             {reservation.shuttleRoute.event.eventLocationName}
           </span>
-          <span className="text-12 font-400 text-grey-900">
+          <span className="text-12 font-400 text-basic-grey-700">
             {parsedShuttleDate}
           </span>
-          <span className="flex gap-8 text-12 font-400 text-grey-500">
+          <span className="flex gap-8 text-12 font-400 text-basic-grey-500">
             <span>{TRIP_STATUS_TO_STRING[reservation.type]}</span>
             <span>{reservation.passengerCount}인</span>
           </span>
-          <span className="pt-4 text-14 font-500 text-grey-900">
+          <span className="pt-4 text-14 font-500 text-basic-grey-700">
             {reservation.paymentAmount?.toLocaleString()}{' '}
             <span className="text-12">원</span>
           </span>
@@ -165,7 +165,7 @@ const Button = ({ text, onClick, disabled, color }: ButtonProps) => {
       onClick={handleButtonClick}
       disabled={disabled}
       type="button"
-      className={`flex h-40 w-full items-center justify-center rounded-full text-14 font-500 disabled:bg-grey-50 disabled:text-grey-300 ${color === 'primary' ? 'bg-primary-main text-white active:bg-primary-700' : 'bg-grey-50 text-grey-700 active:bg-grey-100'}`}
+      className={`flex h-40 w-full items-center justify-center rounded-full text-14 font-500 disabled:bg-basic-grey-50 disabled:text-basic-grey-300 ${color === 'primary' ? 'bg-brand-primary-400 text-basic-white active:bg-brand-primary-600' : 'bg-basic-grey-50 text-basic-grey-700 active:bg-basic-grey-100'}`}
     >
       {text}
     </button>

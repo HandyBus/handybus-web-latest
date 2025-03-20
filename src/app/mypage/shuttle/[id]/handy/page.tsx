@@ -113,7 +113,7 @@ const Handy = ({ params }: Props) => {
               <h2 className="pb-12 text-28 font-700">
                 ‘핸디’ 가이드를 전달드려요
               </h2>
-              <p className="pb-12 text-16 font-400 text-grey-700">
+              <p className="pb-12 text-16 font-400 text-basic-grey-700">
                 이번 셔틀 운행 간 <span className="font-600">‘핸디’</span>로
                 지원해주셔서 감사드리며, 선정을 축하합니다!
                 <br />
@@ -126,14 +126,14 @@ const Handy = ({ params }: Props) => {
               </p>
               <Button
                 onClick={openHandyGuide}
-                className="mx-auto mt-[60px] block w-fit rounded-full bg-grey-100 px-16 text-grey-600-sub"
+                className="mx-auto mt-[60px] block w-fit rounded-full bg-basic-grey-100 px-16 text-basic-grey-600"
               >
                 핸디 가이드 보러가기
               </Button>
             </section>
             <section className="py-[60px]">
               <h2 className="pb-12 text-28 font-700">오픈채팅방 링크 입력</h2>
-              <p className="pb-24 text-16 font-400 text-grey-700">
+              <p className="pb-24 text-16 font-400 text-basic-grey-700">
                 {isBusAssigned
                   ? TEXT.busAssigned.description
                   : TEXT.busNotAssigned.description}

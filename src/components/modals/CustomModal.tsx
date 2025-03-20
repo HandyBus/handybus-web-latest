@@ -15,12 +15,12 @@ const CustomModal = ({ isOpen, onClosed, children, styles }: Props) => {
   if (!isOpen) return;
   return (
     <div
-      className="fixed left-0 top-0 z-[100] flex h-full w-full items-center justify-center bg-black bg-opacity-50"
+      className="fixed left-0 top-0 z-[100] flex h-full w-full items-center justify-center bg-basic-black bg-opacity-50"
       ref={backgroundRef}
       onClick={(e) => {
         if (e.target === backgroundRef.current) onClosed();
       }}
-      role="dialog" // 접근성 : 스크린 리더가 모달을 인식할 수 있도록 하고 포커스를 이동
+      role="dialog"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >

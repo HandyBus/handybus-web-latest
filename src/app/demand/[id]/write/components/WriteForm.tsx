@@ -135,7 +135,7 @@ const WriteForm = ({ event, dailyEventId, regionId }: Props) => {
       <form onSubmit={methods.handleSubmit(handleSubmit)}>
         <RouteInfo event={event} regionId={regionId} />
         <JourneyLocationPicker />
-        <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-white px-16 py-20">
+        <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 bg-basic-white px-16 py-20">
           <Button disabled={isPending}>수요조사 신청하기</Button>
         </div>
       </form>

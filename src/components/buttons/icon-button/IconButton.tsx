@@ -10,10 +10,10 @@ const IconButton = ({ children, disabled, className, ...rest }: Props) => {
     <button
       disabled={disabled}
       className={`
-        flex aspect-square flex-row
-        items-center justify-center whitespace-nowrap
-        rounded-full bg-grey-50 text-18 text-grey-700
-        active:bg-grey-100 disabled:cursor-not-allowed disabled:bg-grey-50 disabled:text-grey-300 ${className}
+        bg-basic-grey-50 text-basic-grey-700 active:bg-basic-grey-100
+        disabled:bg-basic-grey-50 disabled:text-basic-grey-300 flex
+        aspect-square flex-row items-center justify-center
+        whitespace-nowrap rounded-full text-18 disabled:cursor-not-allowed ${className}
       `}
       {...rest}
     >

@@ -8,13 +8,13 @@ interface Props extends HTMLProps<HTMLButtonElement> {
 const SearchBar = ({ children, ...rest }: Props) => {
   return (
     <button
-      className="flex h-52 w-full items-center justify-start gap-[10px] overflow-hidden overflow-ellipsis whitespace-nowrap rounded-full border border-grey-100 px-16"
+      className="border-basic-grey-100 flex h-52 w-full items-center justify-start gap-[10px] overflow-hidden overflow-ellipsis whitespace-nowrap rounded-full border px-16"
       {...rest}
     >
-      <div className="self-center text-[22px] text-grey-400">
+      <div className="text-basic-grey-400 self-center text-[22px]">
         <Magnify />
       </div>
-      <span className="my-12 overflow-hidden overflow-ellipsis whitespace-nowrap text-16 font-400 text-grey-300">
+      <span className="text-basic-grey-300 my-12 overflow-hidden overflow-ellipsis whitespace-nowrap text-16 font-400">
         {children}
       </span>
     </button>

@@ -25,7 +25,7 @@ const PromotionBanner = ({ dynamicBannerImages }: Props) => {
       <Swiper
         ref={swiper}
         pagination={true}
-        className="relative bg-white"
+        className="relative bg-basic-white"
         onSlideChange={(sw) => setActiveIndex(sw?.realIndex)}
         autoplay={{
           delay: 3000,
@@ -43,7 +43,7 @@ const PromotionBanner = ({ dynamicBannerImages }: Props) => {
           {images.map((image, index) => (
             <span
               key={image.title}
-              className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-grey-700' : 'w-[6px] bg-grey-100'}`}
+              className={`pointer-events-auto h-[6px] cursor-pointer rounded-full ${index == activeIndex ? 'w-[14px] bg-basic-grey-700' : 'w-[6px] bg-basic-grey-100'}`}
               onClick={() => {
                 swiper.current?.swiper.slideTo(index);
               }}
