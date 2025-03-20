@@ -21,7 +21,7 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
             role="dialog"
             className="fixed -bottom-60 left-0 right-0 z-[101] mx-auto hidden max-h-[90dvh] min-h-100 w-full max-w-500 -translate-x-1/2 flex-col rounded-t-[20px] bg-basic-white px-24 pb-60 transition-transform duration-0 ease-out"
           >
-            <div className="mx-auto my-8 h-4 w-[70px] shrink-0 rounded-full bg-basic-grey-100" />
+            <div className="mx-auto my-8 h-4 w-[70px] shrink-0 rounded-full bg-basic-grey-200" />
             {(title || description) && (
               <div className="flex flex-col gap-4 break-keep pb-16 pt-12">
                 {title && (
@@ -42,6 +42,7 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
               </div>
             )}
             {children}
+            <div className="h-16" />
           </div>
         </div>
       </BottomSheetPortal>
