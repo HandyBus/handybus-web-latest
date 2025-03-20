@@ -27,7 +27,8 @@ jobs:
               '📚 docs': ['docs', 'documentation'],
               '🧹 chore': ['chore'],
               '🔄 refactor': ['refactor'],
-              '🧪 test': ['test']
+              '🧪 test': ['test'],
+              '🖋️ style': ['style']
             };
 
             // 타입에 맞는 라벨 찾기
