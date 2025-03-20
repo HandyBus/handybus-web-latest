@@ -9,12 +9,12 @@ import FAQReservation6 from './reservation-6-sold-out-additional-shuttle.mdx';
 import FAQReservation7 from './reservation-7-check-reservation-details.mdx';
 import FAQReservation8 from './reservation-8-change-boarding-location.mdx';
 import FAQReservation9 from './reservation-9-cancel-reservation.mdx';
-import FAQOnboarding1 from './onboarding-1-does-shuttle-stop-at-rest-area.mdx';
-import FAQOnboarding2 from './onboarding-2-what-bus-is-used-for-service.mdx';
-import FAQOnboarding3 from './onboarding-3-how-are-seats-assigned.mdx';
-import FAQOnboarding4 from './onboarding-4-leave-luggage-on-shuttle.mdx';
-import FAQOnboarding5 from './onboarding-5-change-one-way-to-round-trip.mdx';
-import FAQOnboarding6 from './onboarding-6-use-one-way-from-round-trip.mdx';
+import FAQBoarding1 from './boarding-1-does-shuttle-stop-at-rest-area.mdx';
+import FAQBoarding2 from './boarding-2-what-bus-is-used-for-service.mdx';
+import FAQBoarding3 from './boarding-3-how-are-seats-assigned.mdx';
+import FAQBoarding4 from './boarding-4-leave-luggage-on-shuttle.mdx';
+import FAQBoarding5 from './boarding-5-change-one-way-to-round-trip.mdx';
+import FAQBoarding6 from './boarding-6-use-one-way-from-round-trip.mdx';
 import FAQEtc1 from './etc-1-did-not-receive-signup-coupon.mdx';
 import FAQEtc2 from './etc-2-what-is-handy.mdx';
 
@@ -37,12 +37,12 @@ export const faqs: FAQ[] = (
     [FAQReservation7, '[예약하기] 예약 내역을 확인하고 싶어요.'],
     [FAQReservation8, '[예약하기] 탑승지를 변경하고 싶어요.'],
     [FAQReservation9, '[예약하기] 예약을 취소하고 싶어요'],
-    [FAQOnboarding1, '[탑승하기] 운행 시 휴게소에 들르나요?'],
-    [FAQOnboarding2, '[탑승하기] 어떤 버스로 운행되나요?'],
-    [FAQOnboarding3, '[탑승하기] 좌석은 어떻게 정해지나요?'],
-    [FAQOnboarding4, '[탑승하기] 셔틀버스에 짐을 놓고 내려도 되나요?'],
-    [FAQOnboarding5, '[탑승하기] 편도 예매 후, 왕복으로 바꾸고 싶어요.'],
-    [FAQOnboarding6, '[탑승하기] 왕복 예매 후, 편도만 탑승해도 되나요?'],
+    [FAQBoarding1, '[탑승하기] 운행 시 휴게소에 들르나요?'],
+    [FAQBoarding2, '[탑승하기] 어떤 버스로 운행되나요?'],
+    [FAQBoarding3, '[탑승하기] 좌석은 어떻게 정해지나요?'],
+    [FAQBoarding4, '[탑승하기] 셔틀버스에 짐을 놓고 내려도 되나요?'],
+    [FAQBoarding5, '[탑승하기] 편도 예매 후, 왕복으로 바꾸고 싶어요.'],
+    [FAQBoarding6, '[탑승하기] 왕복 예매 후, 편도만 탑승해도 되나요?'],
     [FAQEtc1, '[그외] 가입 쿠폰을 받지 못했어요.'],
     [FAQEtc2, '[그외] 핸디가 뭐에요?'],
   ] as const
