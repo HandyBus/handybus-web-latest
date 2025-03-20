@@ -50,5 +50,7 @@ jobs:
             The subject must start with a letter or a Korean character and not end with a period.
           wip: false
           validateSingleCommit: false
-          ignoreLabels:
-            - 'release'
+          ignoreLabels: |
+            release
+            wip
+            draft
