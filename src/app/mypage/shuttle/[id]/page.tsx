@@ -42,6 +42,16 @@ const ShuttleDetail = ({ params }: Props) => {
       dailyEvent.dailyEventId === data?.reservation?.shuttleRoute.dailyEventId,
   )?.date;
   const parsedDate = date ? dayjs(date).tz() : null;
+  const handyStatusWithNotQualified = () => {
+    if (
+      data?.reservation.handyStatus === 'NOT_SUPPORTED' &&
+      data?.reservation.type !== 'ROUND_TRIP'
+    ) {
+      return 'NOT_QUALIFIED';
+    }
+
+    return data?.reservation.handyStatus;
+  };
 
   if (isSuccess && !data) {
     router.replace('/mypage/shuttle?type=current');
@@ -78,7 +88,10 @@ const ShuttleDetail = ({ params }: Props) => {
                 <HandySection
                   reservationId={data.reservation.reservationId}
                   name={data.reservation.userNickname ?? ''}
-                  handyStatus={data.reservation.handyStatus}
+                  handyStatus={
+                    handyStatusWithNotQualified() ??
+                    data.reservation.handyStatus
+                  }
                 />
                 <RouteSection
                   reservationId={data.reservation.reservationId}
@@ -128,7 +141,6 @@ const ShuttleDetail = ({ params }: Props) => {
                 <ReservationInfoSection
                   reservation={data.reservation}
                   isExpandable
-                  hideApplyHandy={true}
                 />
                 <RefundGuideSection />
               </>

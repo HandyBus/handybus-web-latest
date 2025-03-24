@@ -8,14 +8,12 @@ import { usePostUpdateReservation } from '@/services/reservation.service';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-const TEXT: Record<
-  HandyStatus,
-  {
-    title: string;
-    description: string | ((name: string) => string);
-    button: string;
-  }
-> = {
+const TEXT = {
+  NOT_QUALIFIED: {
+    title: '핸디 지원불가',
+    description: '아쉽게도 핸디는 왕복 셔틀만 지원이 가능해요.',
+    button: '',
+  },
   NOT_SUPPORTED: {
     title: '핸디 지원',
     description: '핸디는 신청자만 지원이 가능합니다.',
@@ -39,12 +37,12 @@ const TEXT: Record<
       '아쉽게도 핸디에 선정되지 않았어요. 다음 기회에 꼭 핸디로 함께 해요!',
     button: '',
   },
-};
+} as const;
 
 interface Props {
   reservationId: string;
   name: string;
-  handyStatus: HandyStatus;
+  handyStatus: HandyStatus | 'NOT_QUALIFIED';
 }
 
 const HandySection = ({ reservationId, name, handyStatus }: Props) => {
@@ -113,7 +111,7 @@ const HandySection = ({ reservationId, name, handyStatus }: Props) => {
             ? TEXT[handyStatus].description(name)
             : TEXT[handyStatus].description}
         </p>
-        {handyStatus !== 'DECLINED' && (
+        {handyStatus !== 'DECLINED' && handyStatus !== 'NOT_QUALIFIED' && (
           <Button type="button" onClick={handleButtonClick} className="mt-16">
             {TEXT[handyStatus].button}
           </Button>
