@@ -40,7 +40,7 @@ const BOTTOM_SHEET_TEXT: Record<
   },
   '닉네임 설정': {
     title: '환영합니다! 어떻게 불러드릴까요?',
-    description: '닉네임은 마이페이지에서 언제든지 변경할 수 있어요.',
+    description: '버스 탑승 시 작성하신 닉네임으로 불러드려요!',
   },
   '첫 가입 감사 쿠폰': {
     title: '여러분을 위한 작은 선물이에요.',
