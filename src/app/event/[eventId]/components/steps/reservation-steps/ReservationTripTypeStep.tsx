@@ -130,23 +130,5 @@ const calculateTripType = (shuttleRoute: ShuttleRoutesViewEntity) => {
     },
   ];
 
-  const sortedCalculatedTripType = calculatedTripType.sort((a, b) => {
-    if (a.remainingSeatCount === 0 && b.remainingSeatCount === 0) {
-      const typeOrder = {
-        TO_DESTINATION: 0,
-        FROM_DESTINATION: 1,
-        ROUND_TRIP: 2,
-      };
-      return typeOrder[a.type] - typeOrder[b.type];
-    }
-    if (a.remainingSeatCount === 0) {
-      return 1;
-    }
-    if (b.remainingSeatCount === 0) {
-      return -1;
-    }
-    return 0;
-  });
-
-  return sortedCalculatedTripType;
+  return calculatedTripType;
 };

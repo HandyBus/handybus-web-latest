@@ -11,10 +11,13 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 // import ReservationHubsStep from './steps/reservation-steps/ReservationHubsStep';
 // import ReservationTripTypeStep from './steps/reservation-steps/ReservationTripTypeStep';
 // import ReservationInfoStep from './steps/reservation-steps/ReservationInfoStep';
-// import DemandHubInfoStep from './steps/demand-steps/DemandHubInfoStep';
+import DemandHubInfoStep from './steps/demand-steps/DemandHubInfoStep';
 // import ExtraSidoInfoStep from './steps/extra-steps/ExtraSidoInfoStep';
 // import ExtraOpenSidoStep from './steps/extra-steps/ExtraOpenSidoStep';
-import DemandHubsStep from './steps/demand-steps/DemandHubsStep';
+// import DemandHubsStep from './steps/demand-steps/DemandHubsStep';
+// import ExtraDuplicateHubStep from './steps/extra-steps/ExtraDuplicateHubStep';
+// import ExtraSeatAlarmStep from './steps/extra-steps/ExtraSeatAlarmStep';
+// import DemandTripTypeStep from './steps/demand-steps/DemandTripTypeStep';
 
 const EventForm = () => {
   const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
@@ -42,10 +45,13 @@ const EventForm = () => {
             {/* <ReservationHubsStep /> */}
             {/* <ReservationTripTypeStep /> */}
             {/* <ReservationInfoStep /> */}
-            <DemandHubsStep />
-            {/* <DemandHubInfoStep /> */}
+            {/* <DemandHubsStep /> */}
+            {/* <DemandTripTypeStep /> */}
+            <DemandHubInfoStep />
             {/* <ExtraSidoInfoStep /> */}
             {/* <ExtraOpenSidoStep /> */}
+            {/* <ExtraDuplicateHubStep /> */}
+            {/* <ExtraSeatAlarmStep /> */}
           </div>
         </BottomSheet>
       </form>
@@ -61,6 +67,7 @@ export default EventForm;
 //   '[공통] 시/도 선택',
 //   // 수요조사
 //   '[수요조사] 정류장 선택',
+//   '[수요조사] 좌석 선택',
 //   '[수요조사] 정류장 정보',
 //   // 예약
 //   '[예약] 정류장 선택',
