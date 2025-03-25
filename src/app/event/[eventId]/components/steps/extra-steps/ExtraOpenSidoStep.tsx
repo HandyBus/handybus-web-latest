@@ -3,14 +3,15 @@
 import { BIG_REGIONS } from '@/constants/regions';
 import SidoButton from '../../SidoButton';
 
-const CommonSidoStep = () => {
+const ExtraOpenSidoStep = () => {
+  const openRegions = BIG_REGIONS.slice(0, 8);
   return (
     <section className="grid grid-cols-3 gap-8">
-      {BIG_REGIONS.map((sido) => (
+      {openRegions.map((sido) => (
         <SidoButton key={sido} sido={sido} onClick={() => {}} />
       ))}
     </section>
   );
 };
 
-export default CommonSidoStep;
+export default ExtraOpenSidoStep;

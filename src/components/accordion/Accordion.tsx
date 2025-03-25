@@ -6,20 +6,20 @@ interface Props {
   title: string;
   children: ReactNode;
   containerClassName?: string;
-  openedByDefault?: boolean;
+  open?: boolean;
 }
 
 const Accordion = ({
   title,
   children,
   containerClassName,
-  openedByDefault = false,
+  open = false,
 }: Props) => {
   return (
     <details
-      open={openedByDefault}
+      open={open}
       className={customTwMerge(
-        'group flex flex-col px-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden',
+        'group flex w-full flex-col px-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden',
         containerClassName,
       )}
     >

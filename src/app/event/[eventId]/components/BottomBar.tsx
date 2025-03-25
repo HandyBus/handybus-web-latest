@@ -10,7 +10,7 @@ const BottomBar = () => {
       <Button variant="secondary" size="medium" type="button">
         공유하기
       </Button>
-      <Button variant="primary" size="large">
+      <Button variant="primary" size="large" type="button">
         수요조사 참여하기
       </Button>
       <NotificationBubble />

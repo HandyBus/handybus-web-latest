@@ -12,6 +12,7 @@ const EventImage = ({ eventImageUrl, eventName }: Props) => {
         src={eventImageUrl ?? ''}
         alt={eventName}
         fill
+        priority
         className="object-cover"
       />
     </section>
