@@ -1,13 +1,18 @@
 'use client';
 
-const CommonDateStep = () => {
+interface Props {
+  toNextStep: () => void;
+}
+
+const CommonDateStep = ({ toNextStep }: Props) => {
   return (
     <section>
       {MOCK_DATE.map((date) => (
         <button
           key={date}
           type="button"
-          className="block py-12 text-left text-16 font-600 text-basic-grey-700"
+          onClick={toNextStep}
+          className="block w-full py-12 text-left text-16 font-600 text-basic-grey-700"
         >
           {date}
         </button>

@@ -16,7 +16,7 @@ const ReservationInfoStep = () => {
       <Container className="flex flex-col gap-12">
         <div className="flex h-[31px] w-full items-center justify-between">
           <span className="text-16 font-600">[왕복] 가는 편</span>
-          <Button variant="tertiary" size="small">
+          <Button variant="tertiary" size="small" type="button">
             변경
           </Button>
         </div>
@@ -44,14 +44,14 @@ const ReservationInfoStep = () => {
       <Container className="flex items-center justify-between p-8">
         <button
           type="button"
-          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50"
+          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 active:bg-basic-grey-200"
         >
           <SubtractIcon />
         </button>
         <span className="text-16 font-500">1</span>
         <button
           type="button"
-          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50"
+          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 active:bg-basic-grey-200"
         >
           <AddIcon />
         </button>

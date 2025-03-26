@@ -1,10 +1,16 @@
 'use client';
 
-const ExtraDuplicateHubStep = () => {
+import Badge from '@/components/badge/Badge';
+
+interface Props {
+  toNextStep: () => void;
+}
+
+const ExtraDuplicateHubStep = ({ toNextStep }: Props) => {
   return (
     <section className="flex w-full flex-col gap-8">
       {[1, 2, 3].map((_, index) => (
-        <Hub key={index} />
+        <Hub key={index} toNextStep={toNextStep} />
       ))}
     </section>
   );
@@ -12,13 +18,19 @@ const ExtraDuplicateHubStep = () => {
 
 export default ExtraDuplicateHubStep;
 
-const Hub = () => {
+interface HubProps {
+  toNextStep: () => void;
+}
+
+const Hub = ({ toNextStep }: HubProps) => {
   return (
-    <article className="flex flex-col gap-12 rounded-8 bg-basic-grey-50 p-16">
+    <button
+      type="button"
+      onClick={toNextStep}
+      className="flex flex-col gap-12 rounded-8 bg-basic-grey-50 p-16 text-left"
+    >
       <div className="flex gap-8">
-        <div className="flex h-24 w-44 shrink-0 items-center justify-center rounded-full bg-basic-white text-10 font-600 text-basic-grey-700">
-          가는 편
-        </div>
+        <Badge className="bg-basic-white text-basic-grey-700">가는 편</Badge>
         <div className="flex-1">
           <p className="text-14 font-500 text-basic-grey-700">오전 09:30</p>
           <p className="text-16 font-500">갈매순환삼거리·갈매6단지</p>
@@ -28,9 +40,7 @@ const Hub = () => {
         </div>
       </div>
       <div className="flex gap-8">
-        <div className="flex h-24 w-44 shrink-0 items-center justify-center rounded-full bg-basic-grey-200 text-10 font-600 text-basic-grey-700">
-          오는 편
-        </div>
+        <Badge className="bg-basic-grey-200 text-basic-grey-700">오는 편</Badge>
         <div className="flex-1">
           <p className="text-14 font-500 text-basic-grey-700">오후 10:30</p>
           <p className="text-16 font-500">KSPO DOME</p>
@@ -39,6 +49,6 @@ const Hub = () => {
           20석 남음
         </div>
       </div>
-    </article>
+    </button>
   );
 };

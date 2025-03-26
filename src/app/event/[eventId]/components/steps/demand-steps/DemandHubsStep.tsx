@@ -2,7 +2,11 @@
 
 import PinIcon from '../../../icons/pin-small.svg';
 
-const DemandHubsStep = () => {
+interface Props {
+  toNextStep: () => void;
+}
+
+const DemandHubsStep = ({ toNextStep }: Props) => {
   const regionsWithHubs = MOCK_REGIONS_WITH_HUBS;
 
   return (
@@ -22,7 +26,7 @@ const DemandHubsStep = () => {
             {regionWithHubs.hubs.map((hub) => (
               <button
                 key={hub.shuttleRouteHubId}
-                onClick={() => {}}
+                onClick={toNextStep}
                 type="button"
                 className="flex h-[55px] w-full items-center justify-between gap-8 py-12"
               >
