@@ -4,7 +4,7 @@ import HubButton from './HubButton';
 import DateButton from './DateButton';
 import BottomBar from './BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import CommonDateStep from './steps/common-steps/CommonDateStep';
 import CommonSidoStep from './steps/common-steps/CommonSidoStep';
@@ -31,6 +31,26 @@ const EventForm = () => {
     }, 0);
   }, []);
 
+  // stack 구조로 바텀시트 이동 기록 관리
+  const [history, setHistory] = useState<(typeof EVENT_STEPS)[number][]>([]);
+
+  const setHistoryAndStep = (nextStep: (typeof EVENT_STEPS)[number]) => {
+    const currStep = stepName;
+    setHistory((prev) => [currStep, ...prev]);
+    setStep(nextStep);
+  };
+
+  const handleBack = () => {
+    const step = history[0];
+    if (!step) {
+      return;
+    }
+    setStep(step);
+    setHistory((prev) => prev.slice(1));
+  };
+
+  const isBackButtonVisible = history.length > 0;
+
   return (
     <section className="px-16 py-24">
       <h6 className="mb-4 text-20 font-700">노선을 확인해 보세요</h6>
@@ -45,31 +65,39 @@ const EventForm = () => {
           ref={bottomSheetRef}
           title={EVENT_STEPS_TO_TEXT[stepName].title}
           description={EVENT_STEPS_TO_TEXT[stepName].description}
+          showBackButton={isBackButtonVisible}
+          onBack={handleBack}
         >
           <div ref={contentRef}>
             <Funnel>
               {/* 공통 */}
               <Step name="[공통] 일자 선택">
                 <CommonDateStep
-                  toNextStep={() => setStep('[공통] 시/도 선택')}
+                  toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
                 />
               </Step>
               <Step name="[공통] 시/도 선택">
                 <CommonSidoStep
-                  toDemandHubsStep={() => setStep('[수요조사] 정류장 선택')}
-                  toReservationHubsStep={() => setStep('[예약] 정류장 선택')}
-                  toExtraSidoInfoStep={() => setStep('[기타] 시/도 정보')}
+                  toDemandHubsStep={() =>
+                    setHistoryAndStep('[수요조사] 정류장 선택')
+                  }
+                  toReservationHubsStep={() =>
+                    setHistoryAndStep('[예약] 정류장 선택')
+                  }
+                  toExtraSidoInfoStep={() =>
+                    setHistoryAndStep('[기타] 시/도 정보')
+                  }
                 />
               </Step>
               {/* 수요조사 */}
               <Step name="[수요조사] 정류장 선택">
                 <DemandHubsStep
-                  toNextStep={() => setStep('[수요조사] 좌석 선택')}
+                  toNextStep={() => setHistoryAndStep('[수요조사] 좌석 선택')}
                 />
               </Step>
               <Step name="[수요조사] 좌석 선택">
                 <DemandTripTypeStep
-                  toNextStep={() => setStep('[수요조사] 정류장 정보')}
+                  toNextStep={() => setHistoryAndStep('[수요조사] 정류장 정보')}
                 />
               </Step>
               <Step name="[수요조사] 정류장 정보">
@@ -78,16 +106,28 @@ const EventForm = () => {
               {/* 예약 */}
               <Step name="[예약] 정류장 선택">
                 <ReservationHubsStep
-                  toReservationTripTypeStep={() => setStep('[예약] 좌석 선택')}
-                  toExtraDuplicateHubStep={() => setStep('[기타] 복수 노선')}
-                  toExtraSeatAlarmStep={() => setStep('[기타] 빈자리 알림')}
-                  toDemandHubsStep={() => setStep('[수요조사] 정류장 선택')}
+                  toReservationTripTypeStep={() =>
+                    setHistoryAndStep('[예약] 좌석 선택')
+                  }
+                  toExtraDuplicateHubStep={() =>
+                    setHistoryAndStep('[기타] 복수 노선')
+                  }
+                  toExtraSeatAlarmStep={() =>
+                    setHistoryAndStep('[기타] 빈자리 알림')
+                  }
+                  toDemandHubsStep={() =>
+                    setHistoryAndStep('[수요조사] 정류장 선택')
+                  }
                 />
               </Step>
               <Step name="[예약] 좌석 선택">
                 <ReservationTripTypeStep
-                  toReservationInfoStep={() => setStep('[예약] 예약 정보')}
-                  toExtraSeatAlarmStep={() => setStep('[기타] 빈자리 알림')}
+                  toReservationInfoStep={() =>
+                    setHistoryAndStep('[예약] 예약 정보')
+                  }
+                  toExtraSeatAlarmStep={() =>
+                    setHistoryAndStep('[기타] 빈자리 알림')
+                  }
                 />
               </Step>
               <Step name="[예약] 예약 정보">
@@ -96,18 +136,22 @@ const EventForm = () => {
               {/* 기타 */}
               <Step name="[기타] 시/도 정보">
                 <ExtraSidoInfoStep
-                  toExtraOpenSidoStep={() => setStep('[기타] 예약 가능 시/도')}
-                  toDemandHubsStep={() => setStep('[수요조사] 정류장 선택')}
+                  toExtraOpenSidoStep={() =>
+                    setHistoryAndStep('[기타] 예약 가능 시/도')
+                  }
+                  toDemandHubsStep={() =>
+                    setHistoryAndStep('[수요조사] 정류장 선택')
+                  }
                 />
               </Step>
               <Step name="[기타] 예약 가능 시/도">
                 <ExtraOpenSidoStep
-                  toNextStep={() => setStep('[예약] 정류장 선택')}
+                  toNextStep={() => setHistoryAndStep('[예약] 정류장 선택')}
                 />
               </Step>
               <Step name="[기타] 복수 노선">
                 <ExtraDuplicateHubStep
-                  toNextStep={() => setStep('[예약] 좌석 선택')}
+                  toNextStep={() => setHistoryAndStep('[예약] 좌석 선택')}
                 />
               </Step>
               <Step name="[기타] 빈자리 알림">

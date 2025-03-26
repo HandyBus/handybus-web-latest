@@ -8,11 +8,12 @@ interface Props {
   children: ReactNode;
   title?: ReactNode;
   description?: ReactNode;
+  showBackButton?: boolean;
   onBack?: () => void;
 }
 
 const BottomSheet = forwardRef<HTMLDivElement, Props>(
-  ({ children, title, description, onBack }, ref) => {
+  ({ children, title, description, showBackButton = false, onBack }, ref) => {
     return (
       <BottomSheetPortal>
         <div className="fixed bottom-0 left-0 right-0 top-0 z-[100] hidden bg-basic-black/50">
@@ -27,7 +28,7 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
               <div className="flex flex-col gap-4 break-keep pb-16 pt-12">
                 {title && (
                   <h2 className="flex w-full items-center gap-4 text-20 font-700">
-                    {onBack && (
+                    {showBackButton && (
                       <button type="button" onClick={onBack}>
                         <BackIcon />
                       </button>
