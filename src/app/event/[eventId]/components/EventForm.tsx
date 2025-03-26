@@ -151,7 +151,12 @@ const EventForm = () => {
               </Step>
               <Step name="[기타] 복수 노선">
                 <ExtraDuplicateHubStep
-                  toNextStep={() => setHistoryAndStep('[예약] 좌석 선택')}
+                  toReservationTripTypeStep={() =>
+                    setHistoryAndStep('[예약] 좌석 선택')
+                  }
+                  toExtraSeatAlarmStep={() =>
+                    setHistoryAndStep('[기타] 빈자리 알림')
+                  }
                 />
               </Step>
               <Step name="[기타] 빈자리 알림">
