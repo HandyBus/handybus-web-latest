@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
+import { Provider as JotaiProvider } from 'jotai';
 import DeadZone from './dead-zone/DeadZone';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -22,8 +23,10 @@ const Provider = ({ children }: Props) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DeadZone>{children}</DeadZone>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <JotaiProvider>
+        <DeadZone>{children}</DeadZone>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </JotaiProvider>
     </QueryClientProvider>
   );
 };
