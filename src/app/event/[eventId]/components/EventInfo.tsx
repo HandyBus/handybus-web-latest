@@ -1,12 +1,12 @@
 'use client';
 
 import Badge from '@/components/badge/Badge';
-import { EventsViewEntity } from '@/types/event.type';
+import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { checkIsReservationOpen } from '../event.util';
 
 interface Props {
-  event: EventsViewEntity;
+  event: EventWithRoutesViewEntity;
 }
 
 const EventInfo = ({ event }: Props) => {

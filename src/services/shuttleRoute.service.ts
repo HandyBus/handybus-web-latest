@@ -48,6 +48,7 @@ export const getShuttleRoutesOfDailyEvent = async (
     status?: ShuttleRouteStatus;
   },
 ) => {
+  console.log('LOAD');
   const searchParams = toSearchParams(params);
   const res = await instance.get(
     `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes?${searchParams.toString()}`,

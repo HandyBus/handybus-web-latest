@@ -30,7 +30,7 @@ export const ShuttleRouteHubsInShuttleRoutesViewEntitySchema = z
     address: z.string(),
     latitude: z.number(),
     longitude: z.number(),
-    type: TripTypeEnum,
+    type: TripTypeEnum.exclude(['ROUND_TRIP']),
     sequence: z.number(),
     arrivalTime: z.string(),
     status: ActiveStatusEnum,
@@ -62,6 +62,7 @@ export const ShuttleRoutesViewEntitySchema = z
     remainingSeatCount: z.number(),
     remainingSeatType: TripTypeEnum,
     status: ShuttleRouteStatusEnum,
+    // 가는편과 오는편의 정류장들은 미러링이 보장됨
     toDestinationShuttleRouteHubs:
       ShuttleRouteHubsInShuttleRoutesViewEntitySchema.array().nullable(),
     fromDestinationShuttleRouteHubs:

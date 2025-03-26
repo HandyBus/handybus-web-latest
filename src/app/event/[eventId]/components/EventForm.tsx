@@ -20,14 +20,48 @@ import ExtraSeatAlarmStep from './steps/extra-steps/ExtraSeatAlarmStep';
 import DemandTripTypeStep from './steps/demand-steps/DemandTripTypeStep';
 import useFunnel from '@/hooks/useFunnel';
 import { EVENT_STEPS, EVENT_STEPS_TO_TEXT } from '../form.const';
-import { EventsViewEntity } from '@/types/event.type';
+import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { checkIsReservationOpen } from '../event.util';
+import { Provider as JotaiProvider, useSetAtom } from 'jotai';
+import { eventAtom } from '../store/eventAtom';
 
 interface Props {
-  event: EventsViewEntity;
+  event: EventWithRoutesViewEntity;
 }
 
 const EventForm = ({ event }: Props) => {
+  const isReservationOpen = checkIsReservationOpen(event);
+  const { title, description } = useMemo(
+    () => getInputSectionText(isReservationOpen),
+    [isReservationOpen],
+  );
+
+  return (
+    <section className="px-16 py-24">
+      <h6 className="mb-4 text-20 font-700">{title}</h6>
+      <p className="mb-16 text-16 font-500 text-basic-grey-600">
+        {description}
+      </p>
+      <JotaiProvider>
+        <Form event={event} isReservationOpen={isReservationOpen} />
+      </JotaiProvider>
+    </section>
+  );
+};
+
+export default EventForm;
+
+interface FormProps {
+  event: EventWithRoutesViewEntity;
+  isReservationOpen: boolean;
+}
+
+const Form = ({ event, isReservationOpen }: FormProps) => {
+  const setEvent = useSetAtom(eventAtom);
+  useEffect(() => {
+    setEvent(event);
+  }, []);
+
   const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
   const { Funnel, Step, setStep, stepName } = useFunnel(EVENT_STEPS);
 
@@ -57,132 +91,118 @@ const EventForm = ({ event }: Props) => {
 
   const isBackButtonVisible = history.length > 0;
 
-  const isReservationOpen = checkIsReservationOpen(event);
-  const { title, description } = useMemo(
-    () => getInputSectionText(isReservationOpen),
-    [isReservationOpen],
-  );
-
   return (
-    <section className="px-16 py-24">
-      <h6 className="mb-4 text-20 font-700">{title}</h6>
-      <p className="mb-16 text-16 font-500 text-basic-grey-600">
-        {description}
-      </p>
-      <form className="flex flex-col gap-8">
-        <DateButton disabled={!isReservationOpen} />
-        <HubButton disabled={!isReservationOpen} />
-        <BottomBar isReservationOpen={isReservationOpen} />
-        <BottomSheet
-          ref={bottomSheetRef}
-          title={EVENT_STEPS_TO_TEXT[stepName].title}
-          description={EVENT_STEPS_TO_TEXT[stepName].description}
-          showBackButton={isBackButtonVisible}
-          onBack={handleBack}
-        >
-          <div ref={contentRef}>
-            <Funnel>
-              {/* 공통 */}
-              <Step name="[공통] 일자 선택">
-                <CommonDateStep
-                  toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
-                />
-              </Step>
-              <Step name="[공통] 시/도 선택">
-                <CommonSidoStep
-                  toDemandHubsStep={() =>
-                    setHistoryAndStep('[수요조사] 정류장 선택')
-                  }
-                  toReservationHubsStep={() =>
-                    setHistoryAndStep('[예약] 정류장 선택')
-                  }
-                  toExtraSidoInfoStep={() =>
-                    setHistoryAndStep('[기타] 시/도 정보')
-                  }
-                />
-              </Step>
-              {/* 수요조사 */}
-              <Step name="[수요조사] 정류장 선택">
-                <DemandHubsStep
-                  toNextStep={() => setHistoryAndStep('[수요조사] 좌석 선택')}
-                />
-              </Step>
-              <Step name="[수요조사] 좌석 선택">
-                <DemandTripTypeStep
-                  toNextStep={() => setHistoryAndStep('[수요조사] 정류장 정보')}
-                />
-              </Step>
-              <Step name="[수요조사] 정류장 정보">
-                <DemandHubInfoStep />
-              </Step>
-              {/* 예약 */}
-              <Step name="[예약] 정류장 선택">
-                <ReservationHubsStep
-                  toReservationTripTypeStep={() =>
-                    setHistoryAndStep('[예약] 좌석 선택')
-                  }
-                  toExtraDuplicateHubStep={() =>
-                    setHistoryAndStep('[기타] 복수 노선')
-                  }
-                  toExtraSeatAlarmStep={() =>
-                    setHistoryAndStep('[기타] 빈자리 알림')
-                  }
-                  toDemandHubsStep={() =>
-                    setHistoryAndStep('[수요조사] 정류장 선택')
-                  }
-                />
-              </Step>
-              <Step name="[예약] 좌석 선택">
-                <ReservationTripTypeStep
-                  toReservationInfoStep={() =>
-                    setHistoryAndStep('[예약] 예약 정보')
-                  }
-                  toExtraSeatAlarmStep={() =>
-                    setHistoryAndStep('[기타] 빈자리 알림')
-                  }
-                />
-              </Step>
-              <Step name="[예약] 예약 정보">
-                <ReservationInfoStep />
-              </Step>
-              {/* 기타 */}
-              <Step name="[기타] 시/도 정보">
-                <ExtraSidoInfoStep
-                  toExtraOpenSidoStep={() =>
-                    setHistoryAndStep('[기타] 예약 가능 시/도')
-                  }
-                  toDemandHubsStep={() =>
-                    setHistoryAndStep('[수요조사] 정류장 선택')
-                  }
-                />
-              </Step>
-              <Step name="[기타] 예약 가능 시/도">
-                <ExtraOpenSidoStep
-                  toNextStep={() => setHistoryAndStep('[예약] 정류장 선택')}
-                />
-              </Step>
-              <Step name="[기타] 복수 노선">
-                <ExtraDuplicateHubStep
-                  toReservationTripTypeStep={() =>
-                    setHistoryAndStep('[예약] 좌석 선택')
-                  }
-                  toExtraSeatAlarmStep={() =>
-                    setHistoryAndStep('[기타] 빈자리 알림')
-                  }
-                />
-              </Step>
-              <Step name="[기타] 빈자리 알림">
-                <ExtraSeatAlarmStep />
-              </Step>
-            </Funnel>
-          </div>
-        </BottomSheet>
-      </form>
-    </section>
+    <form className="flex flex-col gap-8">
+      <DateButton disabled={!isReservationOpen} />
+      <HubButton disabled={!isReservationOpen} />
+      <BottomBar isReservationOpen={isReservationOpen} />
+      <BottomSheet
+        ref={bottomSheetRef}
+        title={EVENT_STEPS_TO_TEXT[stepName].title}
+        description={EVENT_STEPS_TO_TEXT[stepName].description}
+        showBackButton={isBackButtonVisible}
+        onBack={handleBack}
+      >
+        <div ref={contentRef}>
+          <Funnel>
+            {/* 공통 */}
+            <Step name="[공통] 일자 선택">
+              <CommonDateStep
+                toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
+              />
+            </Step>
+            <Step name="[공통] 시/도 선택">
+              <CommonSidoStep
+                toDemandHubsStep={() =>
+                  setHistoryAndStep('[수요조사] 정류장 선택')
+                }
+                toReservationHubsStep={() =>
+                  setHistoryAndStep('[예약] 정류장 선택')
+                }
+                toExtraSidoInfoStep={() =>
+                  setHistoryAndStep('[기타] 시/도 정보')
+                }
+              />
+            </Step>
+            {/* 수요조사 */}
+            <Step name="[수요조사] 정류장 선택">
+              <DemandHubsStep
+                toNextStep={() => setHistoryAndStep('[수요조사] 좌석 선택')}
+              />
+            </Step>
+            <Step name="[수요조사] 좌석 선택">
+              <DemandTripTypeStep
+                toNextStep={() => setHistoryAndStep('[수요조사] 정류장 정보')}
+              />
+            </Step>
+            <Step name="[수요조사] 정류장 정보">
+              <DemandHubInfoStep />
+            </Step>
+            {/* 예약 */}
+            <Step name="[예약] 정류장 선택">
+              <ReservationHubsStep
+                toReservationTripTypeStep={() =>
+                  setHistoryAndStep('[예약] 좌석 선택')
+                }
+                toExtraDuplicateHubStep={() =>
+                  setHistoryAndStep('[기타] 복수 노선')
+                }
+                toExtraSeatAlarmStep={() =>
+                  setHistoryAndStep('[기타] 빈자리 알림')
+                }
+                toDemandHubsStep={() =>
+                  setHistoryAndStep('[수요조사] 정류장 선택')
+                }
+              />
+            </Step>
+            <Step name="[예약] 좌석 선택">
+              <ReservationTripTypeStep
+                toReservationInfoStep={() =>
+                  setHistoryAndStep('[예약] 예약 정보')
+                }
+                toExtraSeatAlarmStep={() =>
+                  setHistoryAndStep('[기타] 빈자리 알림')
+                }
+              />
+            </Step>
+            <Step name="[예약] 예약 정보">
+              <ReservationInfoStep />
+            </Step>
+            {/* 기타 */}
+            <Step name="[기타] 시/도 정보">
+              <ExtraSidoInfoStep
+                toExtraOpenSidoStep={() =>
+                  setHistoryAndStep('[기타] 예약 가능 시/도')
+                }
+                toDemandHubsStep={() =>
+                  setHistoryAndStep('[수요조사] 정류장 선택')
+                }
+              />
+            </Step>
+            <Step name="[기타] 예약 가능 시/도">
+              <ExtraOpenSidoStep
+                toNextStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+              />
+            </Step>
+            <Step name="[기타] 복수 노선">
+              <ExtraDuplicateHubStep
+                toReservationTripTypeStep={() =>
+                  setHistoryAndStep('[예약] 좌석 선택')
+                }
+                toExtraSeatAlarmStep={() =>
+                  setHistoryAndStep('[기타] 빈자리 알림')
+                }
+              />
+            </Step>
+            <Step name="[기타] 빈자리 알림">
+              <ExtraSeatAlarmStep />
+            </Step>
+          </Funnel>
+        </div>
+      </BottomSheet>
+    </form>
   );
 };
-
-export default EventForm;
 
 const getInputSectionText = (isReservationOpen: boolean) => {
   if (isReservationOpen) {

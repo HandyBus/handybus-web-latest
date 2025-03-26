@@ -46,7 +46,13 @@ export const EventsViewEntitySchema = z
     endDate: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
-    minRoutePrice: z.number().nullable(),
   })
   .strict();
 export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;
+
+export const EventWithRoutesViewEntitySchema = EventsViewEntitySchema.extend({
+  minRoutePrice: z.number().nullable(),
+});
+export type EventWithRoutesViewEntity = z.infer<
+  typeof EventWithRoutesViewEntitySchema
+>;
