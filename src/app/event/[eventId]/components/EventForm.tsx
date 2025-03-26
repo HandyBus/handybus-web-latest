@@ -4,7 +4,7 @@ import HubButton from './HubButton';
 import DateButton from './DateButton';
 import BottomBar from './BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import CommonDateStep from './steps/common-steps/CommonDateStep';
 import CommonSidoStep from './steps/common-steps/CommonSidoStep';
@@ -20,8 +20,14 @@ import ExtraSeatAlarmStep from './steps/extra-steps/ExtraSeatAlarmStep';
 import DemandTripTypeStep from './steps/demand-steps/DemandTripTypeStep';
 import useFunnel from '@/hooks/useFunnel';
 import { EVENT_STEPS, EVENT_STEPS_TO_TEXT } from '../form.const';
+import { EventsViewEntity } from '@/types/event.type';
+import { checkIsReservationOpen } from '../event.util';
 
-const EventForm = () => {
+interface Props {
+  event: EventsViewEntity;
+}
+
+const EventForm = ({ event }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
   const { Funnel, Step, setStep, stepName } = useFunnel(EVENT_STEPS);
 
@@ -51,16 +57,22 @@ const EventForm = () => {
 
   const isBackButtonVisible = history.length > 0;
 
+  const isReservationOpen = checkIsReservationOpen(event);
+  const { title, description } = useMemo(
+    () => getInputSectionText(isReservationOpen),
+    [isReservationOpen],
+  );
+
   return (
     <section className="px-16 py-24">
-      <h6 className="mb-4 text-20 font-700">노선을 확인해 보세요</h6>
+      <h6 className="mb-4 text-20 font-700">{title}</h6>
       <p className="mb-16 text-16 font-500 text-basic-grey-600">
-        셔틀 예약 전 노선별 정류장을 확인하세요!
+        {description}
       </p>
       <form className="flex flex-col gap-8">
-        <DateButton />
-        <HubButton />
-        <BottomBar />
+        <DateButton disabled={!isReservationOpen} />
+        <HubButton disabled={!isReservationOpen} />
+        <BottomBar isReservationOpen={isReservationOpen} />
         <BottomSheet
           ref={bottomSheetRef}
           title={EVENT_STEPS_TO_TEXT[stepName].title}
@@ -171,3 +183,17 @@ const EventForm = () => {
 };
 
 export default EventForm;
+
+const getInputSectionText = (isReservationOpen: boolean) => {
+  if (isReservationOpen) {
+    return {
+      title: '노선을 확인해 보세요',
+      description: '셔틀 예약 전 노선별 정류장을 확인하세요!',
+    };
+  }
+  return {
+    title: '확정된 노선이 없어요',
+    description:
+      '지금은 수요조사 기간이에요. 수요조사가 끝나면 요청이 많은 정류장을 선정해서 노선을 만들어 드릴게요.',
+  };
+};

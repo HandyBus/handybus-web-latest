@@ -1,14 +1,23 @@
 'use client';
 
+import Badge from '@/components/badge/Badge';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
+import { checkIsReservationOpen } from '../event.util';
 
 interface Props {
   event: EventsViewEntity;
 }
 
 const EventInfo = ({ event }: Props) => {
-  const parsedDateString = dateString(event.dailyEvents.map((v) => v.date));
+  const parsedDateString = dateString(
+    event.dailyEvents.map((v) => v.date),
+    {
+      showWeekday: false,
+    },
+  );
+
+  const isReservationOpen = checkIsReservationOpen(event);
 
   return (
     <>
@@ -20,8 +29,20 @@ const EventInfo = ({ event }: Props) => {
         <h4 className="mb-4 text-14 font-500 text-basic-grey-500">
           {event.eventLocationName}
         </h4>
-        {/* TODO: 추후 최소 가격 api 연동 */}
-        <h5 className="text-20 font-600">32,000원~</h5>
+        {isReservationOpen ? (
+          <h5 className="text-20 font-600">
+            {event.minRoutePrice?.toLocaleString()}원~
+          </h5>
+        ) : (
+          <div className="flex items-center gap-4">
+            <span className="text-20 font-600 text-basic-grey-500">
+              판매 대기
+            </span>
+            <Badge className="bg-basic-blue-100 text-basic-blue-400">
+              수요조사 진행 중
+            </Badge>
+          </div>
+        )}
       </section>
       <div className="h-8 w-full bg-basic-grey-50" />
     </>

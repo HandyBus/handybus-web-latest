@@ -82,7 +82,10 @@ export const dateString = (
   );
 
   const { min, max } = findMinMaxDate(targetDates);
-  return `${singleDateString(min, options)} - ${singleDateString(max, options)}`;
+  return `${singleDateString(min, options)} - ${singleDateString(max, {
+    showYear: false,
+    ...options,
+  })}`;
 };
 
 export const compareToNow = (

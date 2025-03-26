@@ -46,6 +46,7 @@ export const EventsViewEntitySchema = z
     endDate: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
+    minRoutePrice: z.number().nullable(),
   })
   .strict();
 export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;

@@ -1,12 +1,18 @@
 import Header from '@/components/header/Header';
-import { MOCK_EVENT } from './mock.const';
 import EventImage from './components/EventImage';
 import EventInfo from './components/EventInfo';
 import EventForm from './components/EventForm';
 import EventGuidelines from './components/EventGuidelines';
+import { getEvent } from '@/services/event.service';
 
-const Page = () => {
-  const event = MOCK_EVENT;
+interface Props {
+  params: {
+    eventId: string;
+  };
+}
+
+const Page = async ({ params }: Props) => {
+  const event = await getEvent(params.eventId);
 
   return (
     <>
@@ -17,7 +23,7 @@ const Page = () => {
           eventName={event.eventName}
         />
         <EventInfo event={event} />
-        <EventForm />
+        <EventForm event={event} />
         <EventGuidelines />
         <div className="h-100 bg-basic-grey-50" />
       </main>
