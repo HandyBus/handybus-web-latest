@@ -50,7 +50,7 @@ const ReservationHubsStep = ({
                     type="button"
                     onClick={() => handleHubClick({ isDuplicate })}
                     disabled={isSoldOut}
-                    className="flex h-[55px] w-full items-center justify-between gap-8 py-12"
+                    className={`flex w-full justify-between gap-8 py-12 text-left ${!isDuplicate && isSoldOut && 'pr-[166px]'}`}
                   >
                     <span className="text-16 font-600 text-basic-grey-700">
                       {hub.name}
@@ -60,7 +60,7 @@ const ReservationHubsStep = ({
                     )}
                     {!isDuplicate && !isSoldOut && (
                       <span
-                        className={`text-14 font-500 ${
+                        className={`shrink-0 text-14 font-500 ${
                           hub.remainingSeat > DANGER_SEAT_THRESHOLD
                             ? 'text-basic-grey-500'
                             : 'text-basic-red-400'
@@ -71,10 +71,12 @@ const ReservationHubsStep = ({
                     )}
                   </button>
                   {!isDuplicate && isSoldOut && (
-                    <RequestSeatAlarmButton
-                      toStep={toExtraSeatAlarmStep}
-                      className="absolute right-0 top-1/2 -translate-y-1/2"
-                    />
+                    <div className="absolute right-0 top-12 flex w-[158px] items-center gap-8">
+                      <RequestSeatAlarmButton toStep={toExtraSeatAlarmStep} />
+                      <span className="text-14 font-600 text-basic-grey-300">
+                        전석 매진
+                      </span>
+                    </div>
                   )}
                 </div>
               );
@@ -109,7 +111,7 @@ const MOCK_HUBS = [
   {
     shuttleRouteHubId: '1',
     regionHubId: '1',
-    name: '삼성역',
+    name: '갈매순환삼거리·갈매6단지갈매순환삼거리·갈매6단지',
     address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
     latitude: 37.494444,
     longitude: 126.860833,
@@ -151,7 +153,7 @@ const MOCK_HUBS = [
   {
     shuttleRouteHubId: '4',
     regionHubId: '1',
-    name: '역삼역',
+    name: '갈매순환삼거리·갈매8단지',
     address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
     latitude: 37.494444,
     longitude: 126.860833,
