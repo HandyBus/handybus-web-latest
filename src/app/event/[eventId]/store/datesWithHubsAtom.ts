@@ -2,17 +2,16 @@ import { atomWithCache } from 'jotai-cache';
 import {
   ShuttleRouteHubsInShuttleRoutesViewEntity,
   ShuttleRoutesViewEntity,
-  TripType,
 } from '@/types/shuttleRoute.type';
 import { BigRegionsType, ID_TO_REGION } from '@/constants/regions';
 import { datesWithRoutesAtom } from './datesWithRoutesAtom';
+import { getRemainingSeat, RemainingSeat } from '../event.util';
 
-interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
+export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
   shuttleRouteId: string;
   sido: BigRegionsType;
   gungu: string;
-  remainingSeatType: TripType;
-  remainingSeatCount: number;
+  remainingSeat: RemainingSeat;
 }
 
 interface DatesWithHubs {
@@ -71,8 +70,7 @@ const getHubsWithInfoInRoute = (
   route: ShuttleRoutesViewEntity,
 ): HubWithInfo[] => {
   const shuttleRouteId = route.shuttleRouteId;
-  const { type: remainingSeatType, count: remainingSeatCount } =
-    getRemainingSeatTypeAndCount(route);
+  const remainingSeat = getRemainingSeat(route);
 
   const toDestinationHubs = route.toDestinationShuttleRouteHubs
     ? route.toDestinationShuttleRouteHubs.slice(0, -1)
@@ -89,31 +87,9 @@ const getHubsWithInfoInRoute = (
       shuttleRouteId,
       sido: hubRegion.bigRegion,
       gungu: hubRegion.smallRegion,
-      remainingSeatType,
-      remainingSeatCount,
+      remainingSeat,
     };
   });
 
   return hubsWithInfo;
-};
-
-const getRemainingSeatTypeAndCount = (
-  route: ShuttleRoutesViewEntity,
-): {
-  type: TripType;
-  count: number;
-} => {
-  const maxSeatCount = route.maxPassengerCount ?? 0;
-  const toDestinationCount = maxSeatCount - (route?.toDestinationCount ?? 0);
-  const fromDestinationCount =
-    maxSeatCount - (route?.fromDestinationCount ?? 0);
-  const roundTripCount = Math.min(toDestinationCount, fromDestinationCount);
-
-  if (roundTripCount > 0) {
-    return { type: 'ROUND_TRIP', count: roundTripCount };
-  }
-  if (toDestinationCount > 0) {
-    return { type: 'TO_DESTINATION', count: toDestinationCount };
-  }
-  return { type: 'FROM_DESTINATION', count: fromDestinationCount };
 };

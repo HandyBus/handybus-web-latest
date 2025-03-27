@@ -24,6 +24,26 @@ import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { checkIsReservationOpen } from '../event.util';
 import { Provider as JotaiProvider, useSetAtom } from 'jotai';
 import { eventAtom } from '../store/eventAtom';
+import {
+  DefaultValues,
+  FormProvider,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
+import { BigRegionsType } from '@/constants/regions';
+import { HubWithInfo } from '../store/datesWithHubsAtom';
+
+export interface EventFormValues {
+  date: string;
+  sido: BigRegionsType;
+  hubsWithInfo: HubWithInfo[];
+}
+
+const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
+  date: undefined,
+  sido: undefined,
+  hubsWithInfo: [],
+};
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -36,15 +56,21 @@ const EventForm = ({ event }: Props) => {
     [isReservationOpen],
   );
 
+  const methods = useForm<EventFormValues>({
+    defaultValues: EVENT_FORM_DEFAULT_VALUES,
+  });
+
   return (
     <section className="px-16 py-24">
       <h6 className="mb-4 text-20 font-700">{title}</h6>
       <p className="mb-16 text-16 font-500 text-basic-grey-600">
         {description}
       </p>
-      <JotaiProvider>
-        <Form event={event} isReservationOpen={isReservationOpen} />
-      </JotaiProvider>
+      <FormProvider {...methods}>
+        <JotaiProvider>
+          <Form event={event} isReservationOpen={isReservationOpen} />
+        </JotaiProvider>
+      </FormProvider>
     </section>
   );
 };
@@ -62,17 +88,16 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
     setEvent(event);
   }, []);
 
-  const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet();
-  const { Funnel, Step, setStep, stepName } = useFunnel(EVENT_STEPS);
-
-  useEffect(() => {
-    setTimeout(() => {
-      openBottomSheet();
-    }, 0);
-  }, []);
+  const initialStep = EVENT_STEPS[0];
+  const { Funnel, Step, setStep, stepName } = useFunnel(
+    EVENT_STEPS,
+    initialStep,
+  );
+  const { reset } = useFormContext<EventFormValues>();
 
   // stack 구조로 바텀시트 이동 기록 관리
   const [history, setHistory] = useState<(typeof EVENT_STEPS)[number][]>([]);
+  const isBackButtonVisible = history.length > 0;
 
   const setHistoryAndStep = (nextStep: (typeof EVENT_STEPS)[number]) => {
     const currStep = stepName;
@@ -89,13 +114,30 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
     setHistory((prev) => prev.slice(1));
   };
 
-  const isBackButtonVisible = history.length > 0;
+  const onBottomSheetClose = () => {
+    setStep(initialStep);
+    setHistory([]);
+    reset(EVENT_FORM_DEFAULT_VALUES);
+  };
+
+  const { bottomSheetRef, contentRef, openBottomSheet } = useBottomSheet({
+    onClose: onBottomSheetClose,
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      openBottomSheet();
+    }, 0);
+  }, []);
 
   return (
     <form className="flex flex-col gap-8">
       <DateButton disabled={!isReservationOpen} />
       <HubButton disabled={!isReservationOpen} />
-      <BottomBar isReservationOpen={isReservationOpen} />
+      <BottomBar
+        isReservationOpen={isReservationOpen}
+        onClick={openBottomSheet}
+      />
       <BottomSheet
         ref={bottomSheetRef}
         title={EVENT_STEPS_TO_TEXT[stepName].title}
@@ -109,6 +151,7 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
             <Step name="[공통] 일자 선택">
               <CommonDateStep
                 toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
+                isReservationOpen={isReservationOpen}
               />
             </Step>
             <Step name="[공통] 시/도 선택">
@@ -122,6 +165,7 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
                 toExtraSidoInfoStep={() =>
                   setHistoryAndStep('[기타] 시/도 정보')
                 }
+                isReservationOpen={isReservationOpen}
               />
             </Step>
             {/* 수요조사 */}

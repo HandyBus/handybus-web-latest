@@ -3,27 +3,30 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { eventAtom } from '../../../store/eventAtom';
 import { dateString } from '@/utils/dateString.util';
-import { checkIsReservationOpen } from '../../../event.util';
 import { getShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
 import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useState } from 'react';
+import { EventFormValues } from '../../EventForm';
+import { useFormContext } from 'react-hook-form';
 
 interface Props {
   toNextStep: () => void;
+  isReservationOpen: boolean;
 }
 
-const CommonDateStep = ({ toNextStep }: Props) => {
+const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
   const event = useAtomValue(eventAtom);
   const dailyEvents = event?.dailyEvents ?? [];
 
   const [datesWithRoutes, setDatesWithRoutes] = useAtom(datesWithRoutesAtom);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { setValue } = useFormContext<EventFormValues>();
+
   const loadRoutesAndToNextStep = async (
     dailyEvent: DailyEventsInEventsViewEntity,
   ) => {
-    const isReservationOpen = checkIsReservationOpen(event);
     if (!isReservationOpen || !event) {
       toNextStep();
       return;
@@ -47,6 +50,7 @@ const CommonDateStep = ({ toNextStep }: Props) => {
         date: dailyEvent.date,
         routes,
       });
+      setValue('date', dailyEvent.date);
       toNextStep();
     } catch (error) {
       console.error(error);
