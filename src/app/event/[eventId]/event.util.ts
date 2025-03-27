@@ -49,3 +49,11 @@ export const getPriorityRemainingSeat = (
       return null;
   }
 };
+
+export const checkIsSoldOut = (remainingSeat: RemainingSeat) => {
+  return (
+    remainingSeat.ROUND_TRIP === 0 &&
+    remainingSeat.TO_DESTINATION === 0 &&
+    remainingSeat.FROM_DESTINATION === 0
+  );
+};

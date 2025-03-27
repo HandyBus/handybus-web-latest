@@ -6,6 +6,15 @@ import Tooltip from '@/components/tooltip/Tooltip';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import Badge from '@/components/badge/Badge';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
+import {
+  datesWithHubsAtom,
+  HubWithInfo,
+} from '../../../store/datesWithHubsAtom';
+import { useAtomValue } from 'jotai';
+import { EventFormValues } from '../../EventForm';
+import { useFormContext } from 'react-hook-form';
+import { useMemo } from 'react';
+import { checkIsSoldOut, getPriorityRemainingSeat } from '../../../event.util';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -20,35 +29,66 @@ const ReservationHubsStep = ({
   toExtraSeatAlarmStep,
   toDemandHubsStep,
 }: Props) => {
-  const regionsWithHubs = MOCK_REGIONS_WITH_HUBS;
+  const { getValues, setValue } = useFormContext<EventFormValues>();
+  const datesWithHubs = useAtomValue(datesWithHubsAtom);
+  const gungusWithHubs = useMemo(() => {
+    const [date, sido] = getValues(['date', 'sido']);
+    const gungusWithHubsAsObject = datesWithHubs?.[date]?.[sido] ?? {};
+    const gungusWithHubsAsArray = Object.entries(gungusWithHubsAsObject)
+      .map(([gungu, hubs]) => {
+        const sortedHubs = hubs.sort((a, b) =>
+          a[0].name.localeCompare(b[0].name),
+        );
+        return {
+          gungu,
+          hubs: sortedHubs,
+        };
+      })
+      .sort((a, b) => a.gungu.localeCompare(b.gungu));
+    return gungusWithHubsAsArray;
+  }, [datesWithHubs, getValues]);
 
-  const handleHubClick = ({ isDuplicate }: { isDuplicate: boolean }) => {
-    if (isDuplicate) {
-      toExtraDuplicateHubStep();
-    } else {
+  const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
+    setValue('hubsWithInfo', hubsWithInfo);
+    if (hubsWithInfo.length === 1) {
       toReservationTripTypeStep();
+    } else {
+      toExtraDuplicateHubStep();
     }
   };
 
   return (
     <section>
-      {regionsWithHubs.map((regionWithHubs) => (
-        <article key={regionWithHubs.name}>
+      {gungusWithHubs.map((gunguWithHubs) => (
+        <article key={gunguWithHubs.gungu}>
           <div className="mb-4 flex h-[26px] items-center gap-[2px]">
             <PinIcon />
             <h6 className="text-14 font-700 text-basic-grey-600">
-              {regionWithHubs.name}
+              {gunguWithHubs.gungu}
             </h6>
           </div>
           <ul>
-            {regionWithHubs.hubs.map((hub, index) => {
-              const isDuplicate = index === 1;
-              const isSoldOut = hub.remainingSeat === 0;
+            {gunguWithHubs.hubs.map((possibleHubs) => {
+              const isDuplicate = possibleHubs.length > 1;
+              const isSoldOut = possibleHubs.every((hub) =>
+                checkIsSoldOut(hub.remainingSeat),
+              );
+              const hub = possibleHubs[0];
+              const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
+              const remainingSeatCount = remainingSeat?.count ?? 0;
+              const remainingSeatTypeText =
+                remainingSeat &&
+                (remainingSeat.type === 'ROUND_TRIP'
+                  ? null
+                  : remainingSeat.type === 'TO_DESTINATION'
+                    ? '가는 편'
+                    : '오는 편');
+
               return (
-                <div key={hub.shuttleRouteHubId} className="relative w-full">
+                <div key={hub.regionHubId} className="relative w-full">
                   <button
                     type="button"
-                    onClick={() => handleHubClick({ isDuplicate })}
+                    onClick={() => handleHubClick(possibleHubs)}
                     disabled={isSoldOut}
                     className={`flex w-full justify-between gap-8 py-12 text-left ${!isDuplicate && isSoldOut && 'pr-[166px]'}`}
                   >
@@ -59,15 +99,19 @@ const ReservationHubsStep = ({
                       <Badge className="bg-basic-grey-50">복수 노선</Badge>
                     )}
                     {!isDuplicate && !isSoldOut && (
-                      <span
-                        className={`shrink-0 text-14 font-500 ${
-                          hub.remainingSeat > DANGER_SEAT_THRESHOLD
+                      <p
+                        className={`flex shrink-0 items-center gap-8 text-14 font-500 ${
+                          remainingSeatCount > DANGER_SEAT_THRESHOLD
                             ? 'text-basic-grey-500'
                             : 'text-basic-red-400'
                         }`}
                       >
-                        {hub.remainingSeat}석 남음
-                      </span>
+                        <span>{remainingSeatTypeText}</span>
+                        {remainingSeatTypeText && (
+                          <div className="h-12 w-[1px] bg-basic-grey-300" />
+                        )}
+                        <span>{remainingSeatCount}석 남음</span>
+                      </p>
                     )}
                   </button>
                   {!isDuplicate && isSoldOut && (
@@ -106,73 +150,3 @@ const ReservationHubsStep = ({
 };
 
 export default ReservationHubsStep;
-
-const MOCK_HUBS = [
-  {
-    shuttleRouteHubId: '1',
-    regionHubId: '1',
-    name: '갈매순환삼거리·갈매6단지갈매순환삼거리·갈매6단지',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 20,
-  },
-  {
-    shuttleRouteHubId: '2',
-    regionHubId: '1',
-    name: '신논현역',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 19,
-  },
-  {
-    shuttleRouteHubId: '3',
-    regionHubId: '1',
-    name: '강남역',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 3,
-  },
-  {
-    shuttleRouteHubId: '4',
-    regionHubId: '1',
-    name: '갈매순환삼거리·갈매8단지',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 0,
-  },
-];
-
-const MOCK_REGIONS_WITH_HUBS = [
-  {
-    name: '강남구',
-    hubs: MOCK_HUBS,
-  },
-  {
-    name: '마포구',
-    hubs: MOCK_HUBS,
-  },
-];

@@ -23,7 +23,7 @@ const CommonSidoStep = ({
   const datesWithHubs = useAtomValue(datesWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
 
-  const handleClick = (sido: BigRegionsType) => {
+  const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
 
     if (!isReservationOpen) {
@@ -48,7 +48,7 @@ const CommonSidoStep = ({
           key={sido}
           sido={sido}
           onClick={() => {
-            handleClick(sido);
+            handleSidoClick(sido);
           }}
         />
       ))}

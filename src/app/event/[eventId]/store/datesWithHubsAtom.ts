@@ -42,13 +42,13 @@ export const datesWithHubsAtom = atomWithCache<DatesWithHubs>((get) => {
 const groupHubsByRegion = (hubsWithInfo: HubWithInfo[]) => {
   return hubsWithInfo.reduce(
     (acc, hub) => {
-      if (!acc[hub.sido]) {
+      if (!acc?.[hub.sido]) {
         acc[hub.sido] = {};
       }
-      if (!acc[hub.sido][hub.gungu]) {
+      if (!acc[hub.sido]?.[hub.gungu]) {
         acc[hub.sido][hub.gungu] = [];
       }
-      const existingGroup = acc[hub.sido][hub.gungu].find(
+      const existingGroup = acc[hub.sido][hub.gungu]?.find(
         (group) => group?.[0]?.regionHubId === hub.regionHubId,
       );
       if (existingGroup) {
