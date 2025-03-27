@@ -27,7 +27,12 @@ const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
   const loadRoutesAndToNextStep = async (
     dailyEvent: DailyEventsInEventsViewEntity,
   ) => {
-    if (!isReservationOpen || !event) {
+    if (!event) {
+      return;
+    }
+
+    setValue('date', dailyEvent.date);
+    if (!isReservationOpen) {
       toNextStep();
       return;
     }
@@ -50,7 +55,6 @@ const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
         date: dailyEvent.date,
         routes,
       });
-      setValue('date', dailyEvent.date);
       toNextStep();
     } catch (error) {
       console.error(error);

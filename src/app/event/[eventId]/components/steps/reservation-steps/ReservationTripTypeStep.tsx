@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  ShuttleRoutesViewEntity,
-  TripType,
-  TripTypeEnum,
-} from '@/types/shuttleRoute.type';
-import { compareToNow } from '@/utils/dateString.util';
+import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
@@ -14,7 +9,7 @@ import { EventFormValues } from '../../EventForm';
 import { getRouteOfHubWithInfo } from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
 import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
-import { checkIsSoldOut } from '../../../event.util';
+import { calculatePriceOfTripType, checkIsSoldOut } from '../../../event.util';
 
 interface Props {
   toReservationInfoStep: () => void;
@@ -131,54 +126,4 @@ const SeatText = ({
       </div>
     </div>
   );
-};
-
-const calculatePriceOfTripType = (
-  route: ShuttleRoutesViewEntity | null | undefined,
-):
-  | {
-      [tripType in TripType]: {
-        isEarlybird: boolean;
-        regularPrice: number;
-        earlybirdPrice: number | null;
-      };
-    }
-  | null => {
-  if (!route) {
-    return null;
-  }
-
-  const isEarlybird =
-    route?.hasEarlybird && route?.earlybirdDeadline
-      ? compareToNow(route.earlybirdDeadline, (a, b) => a > b)
-      : false;
-
-  const {
-    regularPriceRoundTrip = 0,
-    regularPriceToDestination = 0,
-    regularPriceFromDestination = 0,
-    earlybirdPriceRoundTrip = 0,
-    earlybirdPriceToDestination = 0,
-    earlybirdPriceFromDestination = 0,
-  } = route;
-
-  const calculatedTripType = {
-    ROUND_TRIP: {
-      isEarlybird,
-      regularPrice: regularPriceRoundTrip,
-      earlybirdPrice: earlybirdPriceRoundTrip,
-    },
-    TO_DESTINATION: {
-      isEarlybird,
-      regularPrice: regularPriceToDestination,
-      earlybirdPrice: earlybirdPriceToDestination,
-    },
-    FROM_DESTINATION: {
-      isEarlybird,
-      regularPrice: regularPriceFromDestination,
-      earlybirdPrice: earlybirdPriceFromDestination,
-    },
-  };
-
-  return calculatedTripType;
 };

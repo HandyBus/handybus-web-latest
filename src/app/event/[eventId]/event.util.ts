@@ -1,5 +1,6 @@
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
+import { compareToNow } from '@/utils/dateString.util';
 
 export const checkIsReservationOpen = (
   event: EventWithRoutesViewEntity | null,
@@ -56,4 +57,54 @@ export const checkIsSoldOut = (remainingSeat: RemainingSeat) => {
     remainingSeat.TO_DESTINATION === 0 &&
     remainingSeat.FROM_DESTINATION === 0
   );
+};
+
+export const calculatePriceOfTripType = (
+  route: ShuttleRoutesViewEntity | null | undefined,
+):
+  | {
+      [tripType in TripType]: {
+        isEarlybird: boolean;
+        regularPrice: number;
+        earlybirdPrice: number | null;
+      };
+    }
+  | null => {
+  if (!route) {
+    return null;
+  }
+
+  const isEarlybird =
+    route?.hasEarlybird && route?.earlybirdDeadline
+      ? compareToNow(route.earlybirdDeadline, (a, b) => a > b)
+      : false;
+
+  const {
+    regularPriceRoundTrip = 0,
+    regularPriceToDestination = 0,
+    regularPriceFromDestination = 0,
+    earlybirdPriceRoundTrip = 0,
+    earlybirdPriceToDestination = 0,
+    earlybirdPriceFromDestination = 0,
+  } = route;
+
+  const calculatedTripType = {
+    ROUND_TRIP: {
+      isEarlybird,
+      regularPrice: regularPriceRoundTrip,
+      earlybirdPrice: earlybirdPriceRoundTrip,
+    },
+    TO_DESTINATION: {
+      isEarlybird,
+      regularPrice: regularPriceToDestination,
+      earlybirdPrice: earlybirdPriceToDestination,
+    },
+    FROM_DESTINATION: {
+      isEarlybird,
+      regularPrice: regularPriceFromDestination,
+      earlybirdPrice: earlybirdPriceFromDestination,
+    },
+  };
+
+  return calculatedTripType;
 };

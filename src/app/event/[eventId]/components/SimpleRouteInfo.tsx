@@ -19,15 +19,15 @@ type HubType = 'eventLocation' | 'primary' | 'secondary' | 'tertiary';
 interface Props {
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
-  selectedHubId: string;
+  selectedRegionHubId: string;
 }
 
-const SimpleRouteInfo = ({ tripType, hubs, selectedHubId }: Props) => {
+const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
   const [showDetail, setShowDetail] = useState(false);
 
   const selectedHubIndex = useMemo(
-    () => hubs.findIndex((hub) => hub.shuttleRouteHubId === selectedHubId),
-    [hubs, selectedHubId],
+    () => hubs.findIndex((hub) => hub.regionHubId === selectedRegionHubId),
+    [hubs, selectedRegionHubId],
   );
 
   return (
