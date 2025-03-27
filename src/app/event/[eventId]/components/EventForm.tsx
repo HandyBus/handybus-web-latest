@@ -36,13 +36,15 @@ import { HubWithInfo } from '../store/datesWithHubsAtom';
 export interface EventFormValues {
   date: string;
   sido: BigRegionsType;
-  hubsWithInfo: HubWithInfo[];
+  selectedHubWithInfo: HubWithInfo;
+  hubsWithInfoForDuplicates?: HubWithInfo[];
 }
 
 const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
   date: undefined,
   sido: undefined,
-  hubsWithInfo: [],
+  selectedHubWithInfo: undefined,
+  hubsWithInfoForDuplicates: undefined,
 };
 
 interface Props {

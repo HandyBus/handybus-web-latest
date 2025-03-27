@@ -29,7 +29,7 @@ const ReservationHubsStep = ({
   toExtraSeatAlarmStep,
   toDemandHubsStep,
 }: Props) => {
-  const { getValues, setValue } = useFormContext<EventFormValues>();
+  const { getValues, setValue, resetField } = useFormContext<EventFormValues>();
   const datesWithHubs = useAtomValue(datesWithHubsAtom);
   const gungusWithHubs = useMemo(() => {
     const [date, sido] = getValues(['date', 'sido']);
@@ -49,10 +49,13 @@ const ReservationHubsStep = ({
   }, [datesWithHubs, getValues]);
 
   const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
-    setValue('hubsWithInfo', hubsWithInfo);
     if (hubsWithInfo.length === 1) {
+      setValue('selectedHubWithInfo', hubsWithInfo[0]);
+      resetField('hubsWithInfoForDuplicates');
       toReservationTripTypeStep();
     } else {
+      setValue('hubsWithInfoForDuplicates', hubsWithInfo);
+      resetField('selectedHubWithInfo');
       toExtraDuplicateHubStep();
     }
   };
