@@ -9,6 +9,7 @@ import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useState } from 'react';
 import { EventFormValues } from '../../EventForm';
 import { useFormContext } from 'react-hook-form';
+import dayjs from 'dayjs';
 
 interface Props {
   toNextStep: () => void;
@@ -17,7 +18,8 @@ interface Props {
 
 const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
   const event = useAtomValue(eventAtom);
-  const dailyEvents = event?.dailyEvents ?? [];
+  const dailyEvents =
+    event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
 
   const [datesWithRoutes, setDatesWithRoutes] = useAtom(datesWithRoutesAtom);
   const [isLoading, setIsLoading] = useState(false);

@@ -24,17 +24,21 @@ interface Props {
 
 const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
   const [showDetail, setShowDetail] = useState(false);
+  const sortedHubs = useMemo(() => {
+    return hubs.toSorted((a, b) => a.sequence - b.sequence);
+  }, [hubs]);
 
   const selectedHubIndex = useMemo(
-    () => hubs.findIndex((hub) => hub.regionHubId === selectedRegionHubId),
-    [hubs, selectedRegionHubId],
+    () =>
+      sortedHubs.findIndex((hub) => hub.regionHubId === selectedRegionHubId),
+    [sortedHubs, selectedRegionHubId],
   );
 
   return (
     <div className="flex w-full gap-12">
       <div className="flex w-12 shrink-0 flex-col items-center pt-[7px]">
         <RouteLine
-          length={hubs.length}
+          length={sortedHubs.length}
           selectedHubIndex={selectedHubIndex}
           tripType={tripType}
           showDetail={showDetail}
@@ -42,7 +46,7 @@ const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
       </div>
       <div className="flex flex-1 flex-col gap-12">
         <Hubs
-          hubs={hubs}
+          hubs={sortedHubs}
           selectedHubIndex={selectedHubIndex}
           tripType={tripType}
           showDetail={showDetail}
