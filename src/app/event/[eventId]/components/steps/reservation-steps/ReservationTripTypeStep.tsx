@@ -1,20 +1,20 @@
 'use client';
 
-import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
-import { MOCK_SHUTTLE_ROUTE } from '../../../mock.const';
+import {
+  ShuttleRoutesViewEntity,
+  TripType,
+  TripTypeEnum,
+} from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
-import { useMemo } from 'react';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
-
-interface TripTypeWithValues {
-  type: TripType;
-  remainingSeatCount: number;
-  isEarlybird: boolean;
-  regularPrice: number;
-  earlybirdPrice: number | null;
-}
+import { useFormContext } from 'react-hook-form';
+import { EventFormValues } from '../../EventForm';
+import { getRouteOfHubWithInfo } from '../../../store/datesWithHubsAtom';
+import { useAtomValue } from 'jotai';
+import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
+import { checkIsSoldOut } from '../../../event.util';
 
 interface Props {
   toReservationInfoStep: () => void;
@@ -25,29 +25,49 @@ const ReservationTripTypeStep = ({
   toReservationInfoStep,
   toExtraSeatAlarmStep,
 }: Props) => {
-  const shuttleRoute = MOCK_SHUTTLE_ROUTE;
+  const { getValues, setValue } = useFormContext<EventFormValues>();
+  const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
+  const [selectedHubWithInfo, date] = getValues([
+    'selectedHubWithInfo',
+    'date',
+  ]);
 
-  const tripTypeWithValues = useMemo(
-    () => calculateTripType(shuttleRoute),
-    [shuttleRoute],
-  );
+  const route = getRouteOfHubWithInfo({
+    hubWithInfo: selectedHubWithInfo,
+    datesWithRoutes,
+    date,
+  });
+  const { remainingSeat } = selectedHubWithInfo;
+  const isSoldOut = checkIsSoldOut(remainingSeat);
+  const priceOfTripType = calculatePriceOfTripType(route);
+
+  const handleTripTypeClick = (tripType: TripType) => {
+    setValue('tripType', tripType);
+    toReservationInfoStep();
+  };
 
   return (
     <section>
-      {tripTypeWithValues.map((trip) => {
-        const isSoldOut = trip.remainingSeatCount === 0;
+      {TripTypeEnum.options.map((tripType) => {
         return (
-          <div key={trip.type} className="relative w-full">
+          <div key={tripType} className="relative w-full">
             <button
               type="button"
               disabled={isSoldOut}
-              onClick={toReservationInfoStep}
+              onClick={() => handleTripTypeClick(tripType)}
               className="flex w-full items-center justify-between gap-8 py-12"
             >
               <span className="text-16 font-600 text-basic-grey-700">
-                {TRIP_STATUS_TO_STRING[trip.type]}
+                {TRIP_STATUS_TO_STRING[tripType]}
               </span>
-              {!isSoldOut && <SeatText trip={trip} />}
+              {!isSoldOut && (
+                <SeatText
+                  remainingSeatCount={remainingSeat[tripType]}
+                  isEarlybird={priceOfTripType?.[tripType].isEarlybird}
+                  regularPrice={priceOfTripType?.[tripType].regularPrice}
+                  earlybirdPrice={priceOfTripType?.[tripType].earlybirdPrice}
+                />
+              )}
             </button>
             {isSoldOut && (
               <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-8">
@@ -67,34 +87,45 @@ const ReservationTripTypeStep = ({
 export default ReservationTripTypeStep;
 
 interface SeatTextProps {
-  trip: TripTypeWithValues;
+  remainingSeatCount: number;
+  isEarlybird: boolean;
+  regularPrice: number;
+  earlybirdPrice: number | null;
 }
 
-const SeatText = ({ trip }: SeatTextProps) => {
+const SeatText = ({
+  remainingSeatCount,
+  isEarlybird,
+  regularPrice,
+  earlybirdPrice,
+}: Partial<SeatTextProps>) => {
+  if (!remainingSeatCount || !regularPrice) {
+    return null;
+  }
   return (
     <div className="flex items-center gap-8">
       <span
         className={`text-14 font-500 ${
-          trip.remainingSeatCount > DANGER_SEAT_THRESHOLD
+          remainingSeatCount > DANGER_SEAT_THRESHOLD
             ? 'text-basic-grey-500'
             : 'text-basic-red-400'
         }`}
       >
-        {trip.remainingSeatCount}석 남음
+        {remainingSeatCount}석 남음
       </span>
       <div className="flex items-center gap-4">
-        {trip.isEarlybird ? (
+        {isEarlybird ? (
           <>
             <span className="text-12 font-600 text-basic-grey-300 line-through">
-              {trip.regularPrice.toLocaleString()}원
+              {regularPrice.toLocaleString()}원
             </span>
             <span className="text-16 font-600 text-basic-grey-700">
-              {trip.earlybirdPrice?.toLocaleString()}원
+              {earlybirdPrice?.toLocaleString()}원
             </span>
           </>
         ) : (
           <span className="text-16 font-600 text-basic-grey-700">
-            {trip.regularPrice.toLocaleString()}원
+            {regularPrice.toLocaleString()}원
           </span>
         )}
       </div>
@@ -102,22 +133,26 @@ const SeatText = ({ trip }: SeatTextProps) => {
   );
 };
 
-const calculateTripType = (
-  shuttleRoute: ShuttleRoutesViewEntity,
-): TripTypeWithValues[] => {
-  // 남은 좌석 수 계산
-  const maxSeatCount = shuttleRoute?.maxPassengerCount ?? 0;
-  const toDestinationCount =
-    maxSeatCount - (shuttleRoute?.toDestinationCount ?? 0);
-  const fromDestinationCount =
-    maxSeatCount - (shuttleRoute?.fromDestinationCount ?? 0);
-  const roundTripCount = Math.min(toDestinationCount, fromDestinationCount);
+const calculatePriceOfTripType = (
+  route: ShuttleRoutesViewEntity | null | undefined,
+):
+  | {
+      [tripType in TripType]: {
+        isEarlybird: boolean;
+        regularPrice: number;
+        earlybirdPrice: number | null;
+      };
+    }
+  | null => {
+  if (!route) {
+    return null;
+  }
 
-  // 가격 계산
   const isEarlybird =
-    shuttleRoute?.hasEarlybird && shuttleRoute?.earlybirdDeadline
-      ? compareToNow(shuttleRoute.earlybirdDeadline, (a, b) => a > b)
+    route?.hasEarlybird && route?.earlybirdDeadline
+      ? compareToNow(route.earlybirdDeadline, (a, b) => a > b)
       : false;
+
   const {
     regularPriceRoundTrip = 0,
     regularPriceToDestination = 0,
@@ -125,37 +160,25 @@ const calculateTripType = (
     earlybirdPriceRoundTrip = 0,
     earlybirdPriceToDestination = 0,
     earlybirdPriceFromDestination = 0,
-  } = shuttleRoute;
+  } = route;
 
-  const calculatedTripType: {
-    type: TripType;
-    remainingSeatCount: number;
-    isEarlybird: boolean;
-    regularPrice: number;
-    earlybirdPrice: number | null;
-  }[] = [
-    {
-      type: 'ROUND_TRIP',
-      remainingSeatCount: roundTripCount,
+  const calculatedTripType = {
+    ROUND_TRIP: {
       isEarlybird,
       regularPrice: regularPriceRoundTrip,
       earlybirdPrice: earlybirdPriceRoundTrip,
     },
-    {
-      type: 'TO_DESTINATION',
-      remainingSeatCount: toDestinationCount,
+    TO_DESTINATION: {
       isEarlybird,
       regularPrice: regularPriceToDestination,
       earlybirdPrice: earlybirdPriceToDestination,
     },
-    {
-      type: 'FROM_DESTINATION',
-      remainingSeatCount: fromDestinationCount,
+    FROM_DESTINATION: {
       isEarlybird,
       regularPrice: regularPriceFromDestination,
       earlybirdPrice: earlybirdPriceFromDestination,
     },
-  ];
+  };
 
   return calculatedTripType;
 };

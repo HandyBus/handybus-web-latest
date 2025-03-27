@@ -32,12 +32,14 @@ import {
 } from 'react-hook-form';
 import { BigRegionsType } from '@/constants/regions';
 import { HubWithInfo } from '../store/datesWithHubsAtom';
+import { TripType } from '@/types/shuttleRoute.type';
 
 export interface EventFormValues {
   date: string;
   sido: BigRegionsType;
   selectedHubWithInfo: HubWithInfo;
   hubsWithInfoForDuplicates?: HubWithInfo[];
+  tripType: TripType;
 }
 
 const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
@@ -45,6 +47,7 @@ const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
   sido: undefined,
   selectedHubWithInfo: undefined,
   hubsWithInfoForDuplicates: undefined,
+  tripType: undefined,
 };
 
 interface Props {

@@ -4,7 +4,7 @@ import {
   ShuttleRoutesViewEntity,
 } from '@/types/shuttleRoute.type';
 import { BigRegionsType, ID_TO_REGION } from '@/constants/regions';
-import { datesWithRoutesAtom } from './datesWithRoutesAtom';
+import { DatesWithRoutes, datesWithRoutesAtom } from './datesWithRoutesAtom';
 import { getRemainingSeat, RemainingSeat } from '../event.util';
 
 export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
@@ -92,4 +92,22 @@ const getHubsWithInfoInRoute = (
   });
 
   return hubsWithInfo;
+};
+
+export const getRouteOfHubWithInfo = ({
+  hubWithInfo,
+  datesWithRoutes,
+  date,
+}: {
+  hubWithInfo: HubWithInfo;
+  datesWithRoutes: DatesWithRoutes;
+  date: string;
+}) => {
+  const routes = datesWithRoutes[date];
+  if (!routes) {
+    return null;
+  }
+  return routes.find(
+    (route) => route.shuttleRouteId === hubWithInfo.shuttleRouteId,
+  );
 };

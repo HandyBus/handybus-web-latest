@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
-interface DatesWithRoutes {
+export interface DatesWithRoutes {
   [date: string]: ShuttleRoutesViewEntity[];
 }
 
