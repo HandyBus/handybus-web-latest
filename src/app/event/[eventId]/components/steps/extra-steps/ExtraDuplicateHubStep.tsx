@@ -81,12 +81,17 @@ const Hub = ({
   const fromDestinationExists = !!route.fromDestinationShuttleRouteHubs;
 
   const toDestinationDepartureTime = toDestinationExists
-    ? dateString(route.toDestinationShuttleRouteHubs?.[0]?.arrivalTime, {
-        showYear: false,
-        showDate: false,
-        showWeekday: false,
-        showTime: true,
-      })
+    ? dateString(
+        route.toDestinationShuttleRouteHubs?.find(
+          (hub) => hub.regionHubId === hubWithInfo.regionHubId,
+        )?.arrivalTime,
+        {
+          showYear: false,
+          showDate: false,
+          showWeekday: false,
+          showTime: true,
+        },
+      )
     : null;
 
   const fromDestinationDepartureTime = fromDestinationExists
