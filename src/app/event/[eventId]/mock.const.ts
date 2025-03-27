@@ -56,6 +56,7 @@ export const MOCK_EVENT: EventsViewEntity = {
   endDate: '2025-04-24T15:00:00.000Z',
   createdAt: '2025-03-11T03:42:17.000Z',
   updatedAt: '2025-03-12T07:53:17.000Z',
+  minRoutePrice: 30000,
 };
 
 export const MOCK_SHUTTLE_ROUTE: ShuttleRoutesViewEntity = {
@@ -200,5 +201,6 @@ export const MOCK_SHUTTLE_ROUTE: ShuttleRoutesViewEntity = {
     endDate: '2025-03-24T15:00:00.000Z',
     createdAt: '2025-03-19T08:43:16.000Z',
     updatedAt: '2025-03-19T09:00:02.000Z',
+    minRoutePrice: 39000,
   },
 };

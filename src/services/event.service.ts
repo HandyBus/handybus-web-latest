@@ -28,7 +28,7 @@ export const useGetEvents = (status?: EventStatus) =>
   });
 
 export const getEvent = async (eventId: string) => {
-  const res = await instance.get(`/v2/shuttle-operation/events/${eventId}`, {
+  const res = await instance.get(`/v3/shuttle-operation/events/${eventId}`, {
     shape: {
       event: EventsViewEntitySchema,
     },
