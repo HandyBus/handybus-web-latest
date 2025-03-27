@@ -26,10 +26,7 @@ const Header = () => {
             <UserProfile />
           </Link>
         ) : (
-          <Link
-            href="/login"
-            className="flex h-full w-72 items-center justify-center rounded-6 bg-basic-black text-14 font-400 text-basic-white"
-          >
+          <Link href="/login">
             <UserIcon />
           </Link>
         ))}
