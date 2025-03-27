@@ -12,7 +12,7 @@ const Badge = ({ children, className }: Props) => {
   return (
     <div
       className={customTwMerge(
-        'flex h-24 items-center justify-center rounded-full px-12 text-10 font-600',
+        'flex h-24 shrink-0 items-center justify-center rounded-full px-8 text-10 font-600',
         className,
       )}
     >
