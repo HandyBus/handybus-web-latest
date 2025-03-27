@@ -36,6 +36,8 @@ const TossPayments = ({ handlePrevStep }: Props) => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [tossInitialized, setTossInitialized] = useState(false);
   const tossWidgets = useRef<TossPaymentsWidgets | null>(null);
+
+  const isAgreementAccepted = useRef(false);
   const [loading, setLoading] = useState(false);
   const buttonDisabled =
     !scriptLoaded || !tossInitialized || !tossWidgets.current || loading;
@@ -82,7 +84,11 @@ const TossPayments = ({ handlePrevStep }: Props) => {
         throw new CustomError(400, '최종 가격이 존재하지 않습니다..');
       }
 
-      await Promise.all([
+      const [agreementWidget] = await Promise.all([
+        widgets.renderAgreement({
+          selector: '#agreement',
+          variantKey: 'AGREEMENT',
+        }),
         widgets.setAmount({
           value: finalPrice,
           currency: 'KRW',
@@ -91,11 +97,15 @@ const TossPayments = ({ handlePrevStep }: Props) => {
           selector: '#payment-method',
           variantKey: 'DEFAULT',
         }),
-        widgets.renderAgreement({
-          selector: '#agreement',
-          variantKey: 'AGREEMENT',
-        }),
       ]);
+
+      agreementWidget.on('agreementStatusChange', (agreementStatus) => {
+        if (agreementStatus.agreedRequiredTerms) {
+          isAgreementAccepted.current = true;
+        } else {
+          isAgreementAccepted.current = false;
+        }
+      });
 
       setTossInitialized(true);
     } catch (e) {
@@ -130,6 +140,11 @@ const TossPayments = ({ handlePrevStep }: Props) => {
     if (!tossWidgets.current) {
       return;
     }
+    if (!isAgreementAccepted.current) {
+      toast.error('이용약관에 동의해주세요.');
+      return;
+    }
+
     try {
       setLoading(true);
       const formValues = getValues();
