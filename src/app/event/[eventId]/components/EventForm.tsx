@@ -109,12 +109,6 @@ const Form = ({ event, phase, enabledStatus }: FormProps) => {
   const { title: inputSectionTitle, description: inputSectionDescription } =
     useMemo(() => getInputSectionText(isReservationOpen), [isReservationOpen]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      openBottomSheet();
-    }, 0);
-  }, []);
-
   return (
     <form className="flex flex-col gap-8">
       {enabledStatus === 'enabled' && (
