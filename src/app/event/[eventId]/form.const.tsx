@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export const EVENT_STEPS = [
   // 공통
   '[공통] 일자 선택',
@@ -20,8 +22,8 @@ export const EVENT_STEPS = [
 export const EVENT_STEPS_TO_TEXT: Record<
   (typeof EVENT_STEPS)[number],
   {
-    title: string;
-    description?: string;
+    title: ReactNode | ((input: string) => ReactNode);
+    description?: ReactNode | ((input: string) => ReactNode);
   }
 > = {
   // 공통
@@ -54,15 +56,25 @@ export const EVENT_STEPS_TO_TEXT: Record<
   },
   // 기타
   '[기타] 시/도 정보': {
-    title: '00은 수요조사 진행 중',
+    title: (input) => {
+      const lastChar = input[input.length - 1];
+      const hasBatchim = (lastChar.charCodeAt(0) - 44032) % 28 !== 0; // 받침 여부 체크
+      return (
+        <>
+          {`${input}${hasBatchim ? '은 ' : '는 '}`}{' '}
+          <span className="text-brand-primary-400">수요조사</span> 진행 중
+        </>
+      );
+    },
     description: '셔틀이 필요한 인원과 정류장을 확인하고 있어요.',
   },
   '[기타] 예약 가능 시/도': {
     title: '현재 예약이 가능한 지역이에요',
   },
   '[기타] 복수 노선': {
-    title: '0개의 노선이 있어요',
-    description: '00 정류장을 지나는 셔틀 중 원하는 시간을 선택하세요.',
+    title: (input) => `${input}개의 노선이 있어요`,
+    description: (input) =>
+      `${input} 정류장을 지나는 셔틀 중 원하는 시간을 선택하세요.`,
   },
   '[기타] 빈자리 알림': {
     title: '알림이 신청되었어요!',

@@ -25,7 +25,7 @@ import { checkIsReservationOpen } from '../event.util';
 import { Provider as JotaiProvider, useSetAtom } from 'jotai';
 import { eventAtom } from '../store/eventAtom';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
-import { BigRegionsType } from '@/constants/regions';
+import { BIG_REGIONS_TO_SHORT_NAME, BigRegionsType } from '@/constants/regions';
 import { HubWithInfo } from '../store/datesWithHubsAtom';
 import { TripType } from '@/types/shuttleRoute.type';
 
@@ -124,6 +124,38 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
     onClose: onBottomSheetClose,
   });
 
+  const { title, description } = useMemo(() => {
+    const text = EVENT_STEPS_TO_TEXT[stepName];
+
+    let titleInput = '';
+    let descriptionInput = '';
+
+    switch (stepName) {
+      case '[기타] 시/도 정보':
+        const sido = methods.getValues('sido');
+        titleInput = BIG_REGIONS_TO_SHORT_NAME[sido];
+        break;
+      case '[기타] 복수 노선':
+        const hubsWithInfoForDuplicates = methods.getValues(
+          'hubsWithInfoForDuplicates',
+        );
+        titleInput = hubsWithInfoForDuplicates?.length.toString() ?? '';
+        descriptionInput = hubsWithInfoForDuplicates?.[0].name ?? '';
+        break;
+    }
+
+    const title =
+      typeof text.title === 'function' ? text.title(titleInput) : text.title;
+    const description =
+      typeof text.description === 'function'
+        ? text.description(descriptionInput)
+        : text.description;
+    return {
+      title,
+      description,
+    };
+  }, [stepName]);
+
   useEffect(() => {
     setTimeout(() => {
       openBottomSheet();
@@ -140,8 +172,8 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
       />
       <BottomSheet
         ref={bottomSheetRef}
-        title={EVENT_STEPS_TO_TEXT[stepName].title}
-        description={EVENT_STEPS_TO_TEXT[stepName].description}
+        title={title}
+        description={description}
         showBackButton={isBackButtonVisible}
         onBack={handleBack}
       >
