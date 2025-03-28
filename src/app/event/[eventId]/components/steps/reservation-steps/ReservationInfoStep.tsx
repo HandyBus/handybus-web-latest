@@ -49,6 +49,7 @@ const ReservationInfoStep = () => {
       : priceOfTripType?.[tripType].regularPrice) ?? 0;
 
   const handleReservationClick = () => {
+    console.log(selectedHubWithInfo, tripType, passengerCount);
     toast.success('개발 중 . . .');
   };
 
