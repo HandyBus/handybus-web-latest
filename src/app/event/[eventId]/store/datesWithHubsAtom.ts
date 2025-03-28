@@ -39,7 +39,11 @@ export const datesWithHubsAtom = atomWithCache<DatesWithHubs>((get) => {
   return Object.fromEntries(datesWithHubs);
 });
 
-const groupHubsByRegion = (hubsWithInfo: HubWithInfo[]) => {
+export const groupHubsByRegion = <
+  T extends { sido: BigRegionsType; gungu: string; regionHubId: string },
+>(
+  hubsWithInfo: T[],
+) => {
   return hubsWithInfo.reduce(
     (acc, hub) => {
       if (!acc?.[hub.sido]) {
@@ -60,13 +64,13 @@ const groupHubsByRegion = (hubsWithInfo: HubWithInfo[]) => {
     },
     {} as {
       [sido in BigRegionsType]: {
-        [gungu: string]: HubWithInfo[][];
+        [gungu: string]: T[][];
       };
     },
   );
 };
 
-const getHubsWithInfoInRoute = (
+export const getHubsWithInfoInRoute = (
   route: ShuttleRoutesViewEntity,
 ): HubWithInfo[] => {
   const shuttleRouteId = route.shuttleRouteId;

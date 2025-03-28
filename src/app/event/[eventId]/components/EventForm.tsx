@@ -37,12 +37,12 @@ interface Props {
 }
 
 const EventForm = ({ event }: Props) => {
-  const { type, status } = getPhaseAndEnabledStatus(event);
-  const isDisabled = status === 'disabled';
+  const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
+  const isDisabled = enabledStatus === 'disabled';
   return (
     <section className={isDisabled ? '' : 'px-16 py-24'}>
       <JotaiProvider>
-        <Form event={event} phase={type} enabledStatus={status} />
+        <Form event={event} phase={phase} enabledStatus={enabledStatus} />
       </JotaiProvider>
     </section>
   );
@@ -117,7 +117,7 @@ const Form = ({ event, phase, enabledStatus }: FormProps) => {
 
   return (
     <form className="flex flex-col gap-8">
-      {status === 'enabled' && (
+      {enabledStatus === 'enabled' && (
         <>
           <div className="h-8 w-full bg-basic-grey-50" />
           <h6 className="mb-4 text-20 font-700">{inputSectionTitle}</h6>

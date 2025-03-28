@@ -22,3 +22,14 @@ export const PresignedUrlSchema = z.object({
   cdnUrl: z.string().url(),
 });
 export type PresignedUrl = z.infer<typeof PresignedUrlSchema>;
+
+type Join<K, P> = K extends string
+  ? P extends string
+    ? `${K}${'' extends P ? '' : ','}${P}`
+    : never
+  : never;
+
+export type Combinations<
+  T extends string,
+  U extends string = T,
+> = T extends string ? T | Join<T, Combinations<Exclude<U, T>>> : never;

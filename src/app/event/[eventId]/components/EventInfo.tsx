@@ -17,7 +17,7 @@ const EventInfo = ({ event }: Props) => {
     },
   );
 
-  const { type, status } = getPhaseAndEnabledStatus(event);
+  const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
 
   return (
     <section className="flex flex-col px-16 py-24">
@@ -28,8 +28,8 @@ const EventInfo = ({ event }: Props) => {
       <h4 className="mb-4 text-16 font-500 text-basic-grey-500">
         {event.eventLocationName}
       </h4>
-      {status === 'enabled' &&
-        (type === 'reservation' ? (
+      {enabledStatus === 'enabled' &&
+        (phase === 'reservation' ? (
           <h5 className="text-20 font-600">
             {event.minRoutePrice?.toLocaleString()}원~
           </h5>
@@ -44,7 +44,7 @@ const EventInfo = ({ event }: Props) => {
           </div>
         ))}
       {status === 'disabled' &&
-        (type === 'reservation' ? (
+        (phase === 'reservation' ? (
           <span className="text-20 font-600 text-basic-grey-500">
             예약 마감
           </span>

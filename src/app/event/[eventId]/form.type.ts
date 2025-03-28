@@ -1,6 +1,7 @@
 import { TripType } from '@/types/shuttleRoute.type';
 import { BigRegionsType } from '@/constants/regions';
 import { HubWithInfo } from './store/datesWithHubsAtom';
+import { RegionHubsResponseModel } from '@/types/hub.type';
 
 export interface EventFormValues {
   date: string;
@@ -9,6 +10,7 @@ export interface EventFormValues {
   selectedHubWithInfo: HubWithInfo;
   hubsWithInfoForDuplicates?: HubWithInfo[];
   tripType: TripType;
+  selectedHubForDemand: RegionHubsResponseModel;
 }
 
 export type EventPhase = 'demand' | 'reservation';

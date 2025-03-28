@@ -1,32 +1,80 @@
 'use client';
 
+import { useGetHubsWithPagination } from '@/services/hub.service';
 import PinIcon from '../../../icons/pin-small.svg';
+import { useMemo } from 'react';
+import { groupHubsByRegion } from '../../../store/datesWithHubsAtom';
+import { ID_TO_REGION } from '@/constants/regions';
+import { EventFormValues } from '../../../form.type';
+import { useFormContext } from 'react-hook-form';
+import { RegionHubsResponseModel } from '@/types/hub.type';
 
 interface Props {
   toNextStep: () => void;
 }
 
 const DemandHubsStep = ({ toNextStep }: Props) => {
-  const regionsWithHubs = MOCK_REGIONS_WITH_HUBS;
+  const { getValues, setValue } = useFormContext<EventFormValues>();
+  const sido = getValues('sido');
+
+  const { data: regionsWithHubs } = useGetHubsWithPagination(
+    {
+      // TODO: 장소 태깅 완료하고 주석 해제하기
+      // usageType: 'SHUTTLE_HUB',
+      provinceFullName: sido,
+    },
+    { enabled: !!sido },
+  );
+
+  const gungusWithHubs = useMemo(() => {
+    const hubs = regionsWithHubs?.pages?.[0]?.regionHubs;
+    if (!hubs) {
+      return [];
+    }
+    const hubsWithRegion = hubs.map((hub) => {
+      const hubRegion = ID_TO_REGION[hub.regionId];
+      return {
+        ...hub,
+        sido: hubRegion.bigRegion,
+        gungu: hubRegion.smallRegion,
+      };
+    });
+    const groupedHubs = groupHubsByRegion(hubsWithRegion);
+    const gungusWithHubs = groupedHubs?.[sido] ?? [];
+    const gungusWithFlattenedHubs = Object.entries(gungusWithHubs)
+      .map(([gungu, hubs]) => {
+        return {
+          gungu,
+          hubs: hubs.flat(),
+        };
+      })
+      .toSorted((a, b) => a.gungu.localeCompare(b.gungu));
+    return gungusWithFlattenedHubs;
+  }, [regionsWithHubs]);
+
+  const handleHubClick = (hub: RegionHubsResponseModel) => {
+    setValue('selectedHubForDemand', hub);
+    toNextStep();
+  };
 
   return (
     <section>
-      {regionsWithHubs.map((regionWithHubs, index) => (
-        <article key={regionWithHubs.name}>
+      {gungusWithHubs.map((gunguWithHubs, index) => (
+        <article key={gunguWithHubs.gungu}>
           <div className="mb-4 flex h-[26px] items-center gap-[2px]">
             <PinIcon />
             <h6 className="text-14 font-700 text-basic-grey-600">
-              {regionWithHubs.name}
+              {gunguWithHubs.gungu}
             </h6>
             <p className="ml-auto text-14 font-500 text-brand-primary-400">
               NN명이 요청했어요
             </p>
           </div>
           <ul>
-            {regionWithHubs.hubs.map((hub) => (
+            {gunguWithHubs.hubs.map((hub) => (
               <button
-                key={hub.shuttleRouteHubId}
-                onClick={toNextStep}
+                key={hub.regionHubId}
+                onClick={() => handleHubClick(hub)}
                 type="button"
                 className="flex h-[55px] w-full items-center justify-between gap-8 py-12"
               >
@@ -36,69 +84,14 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
               </button>
             ))}
           </ul>
-          {index !== regionsWithHubs.length - 1 && (
+          {index !== gungusWithHubs.length - 1 && (
             <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
           )}
         </article>
       ))}
+      {gungusWithHubs.length === 0 && <div className="h-148" />}
     </section>
   );
 };
 
 export default DemandHubsStep;
-
-const MOCK_HUBS = [
-  {
-    shuttleRouteHubId: '1',
-    regionHubId: '1',
-    name: '삼성역',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 20,
-  },
-  {
-    shuttleRouteHubId: '2',
-    regionHubId: '1',
-    name: '강남역',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 3,
-  },
-  {
-    shuttleRouteHubId: '3',
-    regionHubId: '1',
-    name: '역삼역',
-    address: '서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층',
-    latitude: 37.494444,
-    longitude: 126.860833,
-    type: 'TO_DESTINATION',
-    sequence: 1,
-    arrivalTime: '10:00',
-    status: 'ACTIVE',
-    regionId: '1',
-    remainingSeat: 0,
-  },
-];
-
-const MOCK_REGIONS_WITH_HUBS = [
-  {
-    name: '강남구',
-    hubs: MOCK_HUBS,
-  },
-  {
-    name: '마포구',
-    hubs: MOCK_HUBS,
-  },
-];

@@ -104,11 +104,11 @@ export const calculatePriceOfTripType = (
 export const getPhaseAndEnabledStatus = (
   event: EventWithRoutesViewEntity | null | undefined,
 ): {
-  type: EventPhase;
-  status: EventEnabledStatus;
+  phase: EventPhase;
+  enabledStatus: EventEnabledStatus;
 } => {
   if (!event) {
-    return { type: 'demand', status: 'disabled' };
+    return { phase: 'demand', enabledStatus: 'disabled' };
   }
   const isDemandOver = event.eventStatus === 'CLOSED';
   const isReservationOpen = event.minRoutePrice !== null;
@@ -116,13 +116,13 @@ export const getPhaseAndEnabledStatus = (
 
   switch (true) {
     case !isDemandOver && !isReservationOpen:
-      return { type: 'demand', status: 'enabled' };
+      return { phase: 'demand', enabledStatus: 'enabled' };
     case isDemandOver && !isReservationOpen:
-      return { type: 'demand', status: 'disabled' };
+      return { phase: 'demand', enabledStatus: 'disabled' };
     case isReservationOpen && isReservationOngoing:
-      return { type: 'reservation', status: 'enabled' };
+      return { phase: 'reservation', enabledStatus: 'enabled' };
     case isReservationOpen && !isReservationOngoing:
     default:
-      return { type: 'reservation', status: 'disabled' };
+      return { phase: 'reservation', enabledStatus: 'disabled' };
   }
 };
