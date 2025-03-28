@@ -11,10 +11,10 @@ import {
   HubWithInfo,
 } from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
-import { EventFormValues } from '../../EventForm';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';
 import { checkIsSoldOut, getPriorityRemainingSeat } from '../../../event.util';
+import { EventFormValues } from '../../../form.type';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -47,7 +47,7 @@ const ReservationHubsStep = ({
       })
       .sort((a, b) => a.gungu.localeCompare(b.gungu));
     return gungusWithHubsAsArray;
-  }, [datesWithHubs, getValues]);
+  }, [datesWithHubs]);
 
   const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
     if (hubsWithInfo.length === 1) {

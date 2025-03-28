@@ -5,11 +5,11 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useFormContext } from 'react-hook-form';
-import { EventFormValues } from '../../EventForm';
 import { getRouteOfHubWithInfo } from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
 import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { calculatePriceOfTripType, checkIsSoldOut } from '../../../event.util';
+import { EventFormValues } from '../../../form.type';
 
 interface Props {
   toReservationInfoStep: () => void;

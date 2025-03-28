@@ -1,4 +1,15 @@
 import { ReactNode } from 'react';
+import { DefaultValues } from 'react-hook-form';
+import { EventFormValues } from './form.type';
+
+export const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
+  date: undefined,
+  sido: undefined,
+  openSido: undefined,
+  selectedHubWithInfo: undefined,
+  hubsWithInfoForDuplicates: undefined,
+  tripType: undefined,
+};
 
 export const EVENT_STEPS = [
   // 공통

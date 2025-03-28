@@ -6,13 +6,13 @@ import { customTwMerge } from 'tailwind.config';
 import SimpleRouteInfo from '../../SimpleRouteInfo';
 import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
-import { EventFormValues } from '../../EventForm';
 import { useFormContext } from 'react-hook-form';
 import { getRouteOfHubWithInfo } from '../../../store/datesWithHubsAtom';
 import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { useAtomValue } from 'jotai';
 import { calculatePriceOfTripType } from '../../../event.util';
 import { toast } from 'react-toastify';
+import { EventFormValues } from '../../../form.type';
 
 const ROUND_TRIP_TEXT = '[왕복]';
 const MAX_PASSENGER_COUNT = 9;

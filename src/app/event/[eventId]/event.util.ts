@@ -1,15 +1,7 @@
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
-
-export const checkIsReservationOpen = (
-  event: EventWithRoutesViewEntity | null,
-) => {
-  if (!event) {
-    return false;
-  }
-  return event.minRoutePrice !== null;
-};
+import { EventEnabledStatus, EventPhase } from './form.type';
 
 export interface RemainingSeat {
   ROUND_TRIP: number;
@@ -107,4 +99,30 @@ export const calculatePriceOfTripType = (
   };
 
   return calculatedTripType;
+};
+
+export const getPhaseAndEnabledStatus = (
+  event: EventWithRoutesViewEntity | null | undefined,
+): {
+  type: EventPhase;
+  status: EventEnabledStatus;
+} => {
+  if (!event) {
+    return { type: 'demand', status: 'disabled' };
+  }
+  const isDemandOver = event.eventStatus === 'CLOSED';
+  const isReservationOpen = event.minRoutePrice !== null;
+  const isReservationOngoing = event.hasOpenRoute;
+
+  switch (true) {
+    case !isDemandOver && !isReservationOpen:
+      return { type: 'demand', status: 'enabled' };
+    case isDemandOver && !isReservationOpen:
+      return { type: 'demand', status: 'disabled' };
+    case isReservationOpen && isReservationOngoing:
+      return { type: 'reservation', status: 'enabled' };
+    case isReservationOpen && !isReservationOngoing:
+    default:
+      return { type: 'reservation', status: 'disabled' };
+  }
 };

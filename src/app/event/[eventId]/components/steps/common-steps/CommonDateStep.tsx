@@ -7,9 +7,9 @@ import { getShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
 import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useState } from 'react';
-import { EventFormValues } from '../../EventForm';
 import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { EventFormValues } from '../../../form.type';
 
 interface Props {
   toNextStep: () => void;

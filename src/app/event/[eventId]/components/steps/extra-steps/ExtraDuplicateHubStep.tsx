@@ -3,13 +3,13 @@
 import Badge from '@/components/badge/Badge';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { useFormContext } from 'react-hook-form';
-import { EventFormValues } from '../../EventForm';
 import { dateString } from '@/utils/dateString.util';
 import { useAtomValue } from 'jotai';
 import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { useMemo } from 'react';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { HubWithInfo } from '../../../store/datesWithHubsAtom';
+import { EventFormValues } from '../../../form.type';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -27,7 +27,7 @@ const ExtraDuplicateHubStep = ({
   const routes = useMemo(() => {
     const date = getValues('date');
     return datesWithRoutes?.[date] ?? [];
-  }, [datesWithRoutes, getValues]);
+  }, [datesWithRoutes]);
 
   const handleHubClick = (hubWithInfo: HubWithInfo) => {
     setValue('selectedHubWithInfo', hubWithInfo);

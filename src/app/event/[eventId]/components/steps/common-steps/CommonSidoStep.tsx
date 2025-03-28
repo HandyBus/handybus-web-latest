@@ -5,7 +5,7 @@ import SidoButton from '../../SidoButton';
 import { datesWithHubsAtom } from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
 import { useFormContext } from 'react-hook-form';
-import { EventFormValues } from '../../EventForm';
+import { EventFormValues } from '../../../form.type';
 
 interface Props {
   toDemandHubsStep: () => void;

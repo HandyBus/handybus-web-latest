@@ -19,54 +19,30 @@ import ExtraDuplicateHubStep from './steps/extra-steps/ExtraDuplicateHubStep';
 import ExtraSeatAlarmStep from './steps/extra-steps/ExtraSeatAlarmStep';
 import DemandTripTypeStep from './steps/demand-steps/DemandTripTypeStep';
 import useFunnel from '@/hooks/useFunnel';
-import { EVENT_STEPS, EVENT_STEPS_TO_TEXT } from '../form.const';
+import {
+  EVENT_FORM_DEFAULT_VALUES,
+  EVENT_STEPS,
+  EVENT_STEPS_TO_TEXT,
+} from '../form.const';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
-import { checkIsReservationOpen } from '../event.util';
+import { getPhaseAndEnabledStatus } from '../event.util';
 import { Provider as JotaiProvider, useSetAtom } from 'jotai';
 import { eventAtom } from '../store/eventAtom';
-import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
-import { BIG_REGIONS_TO_SHORT_NAME, BigRegionsType } from '@/constants/regions';
-import { HubWithInfo } from '../store/datesWithHubsAtom';
-import { TripType } from '@/types/shuttleRoute.type';
-
-export interface EventFormValues {
-  date: string;
-  sido: BigRegionsType;
-  openSido?: BigRegionsType;
-  selectedHubWithInfo: HubWithInfo;
-  hubsWithInfoForDuplicates?: HubWithInfo[];
-  tripType: TripType;
-}
-
-const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
-  date: undefined,
-  sido: undefined,
-  openSido: undefined,
-  selectedHubWithInfo: undefined,
-  hubsWithInfoForDuplicates: undefined,
-  tripType: undefined,
-};
+import { FormProvider, useForm, UseFormGetValues } from 'react-hook-form';
+import { BIG_REGIONS_TO_SHORT_NAME } from '@/constants/regions';
+import { EventEnabledStatus, EventFormValues, EventPhase } from '../form.type';
 
 interface Props {
   event: EventWithRoutesViewEntity;
 }
 
 const EventForm = ({ event }: Props) => {
-  const isReservationOpen = checkIsReservationOpen(event);
-  const { title, description } = useMemo(
-    () => getInputSectionText(isReservationOpen),
-    [isReservationOpen],
-  );
-
+  const { type, status } = getPhaseAndEnabledStatus(event);
+  const isDisabled = status === 'disabled';
   return (
-    <section className="px-16 py-24">
-      <h6 className="mb-4 text-20 font-700">{title}</h6>
-      <p className="mb-16 text-16 font-500 text-basic-grey-600">
-        {description}
-      </p>
-
+    <section className={isDisabled ? '' : 'px-16 py-24'}>
       <JotaiProvider>
-        <Form event={event} isReservationOpen={isReservationOpen} />
+        <Form event={event} phase={type} enabledStatus={status} />
       </JotaiProvider>
     </section>
   );
@@ -76,10 +52,11 @@ export default EventForm;
 
 interface FormProps {
   event: EventWithRoutesViewEntity;
-  isReservationOpen: boolean;
+  phase: EventPhase;
+  enabledStatus: EventEnabledStatus;
 }
 
-const Form = ({ event, isReservationOpen }: FormProps) => {
+const Form = ({ event, phase, enabledStatus }: FormProps) => {
   const setEvent = useSetAtom(eventAtom);
   useEffect(() => {
     setEvent(event);
@@ -124,37 +101,13 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
     onClose: onBottomSheetClose,
   });
 
-  const { title, description } = useMemo(() => {
-    const text = EVENT_STEPS_TO_TEXT[stepName];
+  const { title: bottomSheetTitle, description: bottomSheetDescription } =
+    useMemo(() => getBottomSheetText(stepName, methods.getValues), [stepName]);
 
-    let titleInput = '';
-    let descriptionInput = '';
-
-    switch (stepName) {
-      case '[기타] 시/도 정보':
-        const sido = methods.getValues('sido');
-        titleInput = BIG_REGIONS_TO_SHORT_NAME[sido];
-        break;
-      case '[기타] 복수 노선':
-        const hubsWithInfoForDuplicates = methods.getValues(
-          'hubsWithInfoForDuplicates',
-        );
-        titleInput = hubsWithInfoForDuplicates?.length.toString() ?? '';
-        descriptionInput = hubsWithInfoForDuplicates?.[0].name ?? '';
-        break;
-    }
-
-    const title =
-      typeof text.title === 'function' ? text.title(titleInput) : text.title;
-    const description =
-      typeof text.description === 'function'
-        ? text.description(descriptionInput)
-        : text.description;
-    return {
-      title,
-      description,
-    };
-  }, [stepName]);
+  const isReservationOpen =
+    phase === 'reservation' && enabledStatus === 'enabled';
+  const { title: inputSectionTitle, description: inputSectionDescription } =
+    useMemo(() => getInputSectionText(isReservationOpen), [isReservationOpen]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -164,16 +117,26 @@ const Form = ({ event, isReservationOpen }: FormProps) => {
 
   return (
     <form className="flex flex-col gap-8">
-      <DateButton disabled={!isReservationOpen} />
-      <HubButton disabled={!isReservationOpen} />
+      {status === 'enabled' && (
+        <>
+          <div className="h-8 w-full bg-basic-grey-50" />
+          <h6 className="mb-4 text-20 font-700">{inputSectionTitle}</h6>
+          <p className="mb-16 text-16 font-500 text-basic-grey-600">
+            {inputSectionDescription}
+          </p>
+          <DateButton disabled={!isReservationOpen} />
+          <HubButton disabled={!isReservationOpen} />
+        </>
+      )}
       <BottomBar
-        isReservationOpen={isReservationOpen}
+        phase={phase}
+        enabledStatus={enabledStatus}
         onClick={openBottomSheet}
       />
       <BottomSheet
         ref={bottomSheetRef}
-        title={title}
-        description={description}
+        title={bottomSheetTitle}
+        description={bottomSheetDescription}
         showBackButton={isBackButtonVisible}
         onBack={handleBack}
       >
@@ -293,5 +256,38 @@ const getInputSectionText = (isReservationOpen: boolean) => {
     title: '확정된 노선이 없어요',
     description:
       '지금은 수요조사 기간이에요. 수요조사가 끝나면 요청이 많은 정류장을 선정해서 노선을 만들어 드릴게요.',
+  };
+};
+
+const getBottomSheetText = (
+  stepName: (typeof EVENT_STEPS)[number],
+  getValues: UseFormGetValues<EventFormValues>,
+) => {
+  const text = EVENT_STEPS_TO_TEXT[stepName];
+
+  let titleInput = '';
+  let descriptionInput = '';
+
+  switch (stepName) {
+    case '[기타] 시/도 정보':
+      const sido = getValues('sido');
+      titleInput = BIG_REGIONS_TO_SHORT_NAME[sido];
+      break;
+    case '[기타] 복수 노선':
+      const hubsWithInfoForDuplicates = getValues('hubsWithInfoForDuplicates');
+      titleInput = hubsWithInfoForDuplicates?.length.toString() ?? '';
+      descriptionInput = hubsWithInfoForDuplicates?.[0].name ?? '';
+      break;
+  }
+
+  const title =
+    typeof text.title === 'function' ? text.title(titleInput) : text.title;
+  const description =
+    typeof text.description === 'function'
+      ? text.description(descriptionInput)
+      : text.description;
+  return {
+    title,
+    description,
   };
 };
