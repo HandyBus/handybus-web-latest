@@ -58,7 +58,7 @@ export const EVENT_STEPS_TO_TEXT: Record<
     description: '셔틀이 필요한 인원과 정류장을 확인하고 있어요.',
   },
   '[기타] 예약 가능 시/도': {
-    title: '예약 가능 시/도',
+    title: '현재 예약이 가능한 지역이에요',
   },
   '[기타] 복수 노선': {
     title: '0개의 노선이 있어요',

@@ -26,7 +26,7 @@ const EventInfo = ({ event }: Props) => {
         <h3 className="mb-[2px] text-16 font-500 text-basic-grey-700">
           {parsedDateString}
         </h3>
-        <h4 className="mb-4 text-14 font-500 text-basic-grey-500">
+        <h4 className="mb-4 text-16 font-500 text-basic-grey-500">
           {event.eventLocationName}
         </h4>
         {isReservationOpen ? (

@@ -198,6 +198,7 @@ const RouteLine = ({
 
         const Line = (
           <div
+            key={index}
             className={customTwMerge(
               'my-[-2px] h-[31.2px] w-[2px]',
               type === 'tertiary'

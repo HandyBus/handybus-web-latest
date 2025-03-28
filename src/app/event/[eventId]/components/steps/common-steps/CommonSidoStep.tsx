@@ -25,6 +25,7 @@ const CommonSidoStep = ({
 
   const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
+    setValue('openSido', undefined);
 
     if (!isReservationOpen) {
       toDemandHubsStep();
