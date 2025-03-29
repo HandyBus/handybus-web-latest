@@ -66,7 +66,10 @@ const ReservationTripTypeStep = ({
             </button>
             {isSoldOut && (
               <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-8">
-                <RequestSeatAlarmButton toStep={toExtraSeatAlarmStep} />
+                <RequestSeatAlarmButton
+                  toStep={toExtraSeatAlarmStep}
+                  hubWithInfo={selectedHubWithInfo}
+                />
                 <span className="text-14 font-600 text-basic-grey-500">
                   매진
                 </span>

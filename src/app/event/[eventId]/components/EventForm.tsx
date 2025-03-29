@@ -155,7 +155,6 @@ const Form = ({ event, phase, enabledStatus }: FormProps) => {
                   toExtraSidoInfoStep={() =>
                     setHistoryAndStep('[기타] 시/도 정보')
                   }
-                  isReservationOpen={isReservationOpen}
                 />
               </Step>
               {/* 수요조사 */}

@@ -11,6 +11,7 @@ export interface EventFormValues {
   hubsWithInfoForDuplicates?: HubWithInfo[];
   tripType: TripType;
   selectedHubForDemand: RegionHubsResponseModel;
+  selectedHubForSeatAlarm: HubWithInfo;
 }
 
 export type EventPhase = 'demand' | 'reservation';

@@ -43,7 +43,7 @@ const EventInfo = ({ event }: Props) => {
             </Badge>
           </div>
         ))}
-      {status === 'disabled' &&
+      {enabledStatus === 'disabled' &&
         (phase === 'reservation' ? (
           <span className="text-20 font-600 text-basic-grey-500">
             예약 마감

@@ -152,13 +152,19 @@ const Hub = ({
       </button>
       {isToDestinationSoldOut && (
         <div className="absolute right-16 top-16 flex items-center gap-8">
-          <RequestSeatAlarmButton toStep={toExtraSeatAlarmStep} />
+          <RequestSeatAlarmButton
+            toStep={toExtraSeatAlarmStep}
+            hubWithInfo={hubWithInfo}
+          />
           <span className="text-14 font-500 text-basic-grey-500">매진</span>
         </div>
       )}
       {isFromDestinationSoldOut && (
         <div className="absolute bottom-16 right-16 flex items-center gap-8">
-          <RequestSeatAlarmButton toStep={toExtraSeatAlarmStep} />
+          <RequestSeatAlarmButton
+            toStep={toExtraSeatAlarmStep}
+            hubWithInfo={hubWithInfo}
+          />
           <span className="text-14 font-500 text-basic-grey-500">매진</span>
         </div>
       )}

@@ -11,14 +11,12 @@ interface Props {
   toDemandHubsStep: () => void;
   toReservationHubsStep: () => void;
   toExtraSidoInfoStep: () => void;
-  isReservationOpen: boolean;
 }
 
 const CommonSidoStep = ({
   toDemandHubsStep,
   toReservationHubsStep,
   toExtraSidoInfoStep,
-  isReservationOpen,
 }: Props) => {
   const datesWithHubs = useAtomValue(datesWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
@@ -26,15 +24,17 @@ const CommonSidoStep = ({
   const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
     setValue('openSido', undefined);
-
+    const date = getValues('date');
+    const sidosWithGungus = datesWithHubs?.[date];
+    const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
     if (!isReservationOpen) {
       toDemandHubsStep();
       return;
     }
 
-    const date = getValues('date');
-    const hubsWithInfo = datesWithHubs?.[date]?.[sido];
-    if (!hubsWithInfo) {
+    const gungusWithHubs = sidosWithGungus?.[sido];
+    const isRoutesAvailable = Object.keys(gungusWithHubs ?? {}).length > 0;
+    if (!isRoutesAvailable) {
       toExtraSidoInfoStep();
       return;
     }
