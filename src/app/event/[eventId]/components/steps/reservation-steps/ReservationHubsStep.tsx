@@ -32,9 +32,14 @@ const ReservationHubsStep = ({
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const datesWithHubs = useAtomValue(datesWithHubsAtom);
   const gungusWithHubs = useMemo(() => {
-    const [date, sido, openSido] = getValues(['date', 'sido', 'openSido']);
+    const [dailyEvent, sido, openSido] = getValues([
+      'dailyEvent',
+      'sido',
+      'openSido',
+    ]);
     const prioritySido = openSido ?? sido;
-    const gungusWithHubsAsObject = datesWithHubs?.[date]?.[prioritySido] ?? {};
+    const gungusWithHubsAsObject =
+      datesWithHubs?.[dailyEvent.date]?.[prioritySido] ?? {};
     const gungusWithHubsAsArray = Object.entries(gungusWithHubsAsObject)
       .map(([gungu, hubs]) => {
         const sortedHubs = hubs.sort((a, b) =>

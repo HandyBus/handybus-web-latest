@@ -33,7 +33,7 @@ const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
       return;
     }
 
-    setValue('date', dailyEvent.date);
+    setValue('dailyEvent', dailyEvent);
     if (!isReservationOpen) {
       toNextStep();
       return;
@@ -52,6 +52,9 @@ const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
       const routes = await getShuttleRoutesOfDailyEvent(
         event.eventId,
         dailyEvent.dailyEventId,
+        {
+          status: 'OPEN',
+        },
       );
       setDatesWithRoutes({
         date: dailyEvent.date,

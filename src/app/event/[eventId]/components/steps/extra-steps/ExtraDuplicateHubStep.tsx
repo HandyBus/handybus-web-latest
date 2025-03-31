@@ -25,8 +25,8 @@ const ExtraDuplicateHubStep = ({
 
   const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
   const routes = useMemo(() => {
-    const date = getValues('date');
-    return datesWithRoutes?.[date] ?? [];
+    const dailyEvent = getValues('dailyEvent');
+    return datesWithRoutes?.[dailyEvent.date] ?? [];
   }, [datesWithRoutes]);
 
   const handleHubClick = (hubWithInfo: HubWithInfo) => {

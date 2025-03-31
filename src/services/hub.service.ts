@@ -1,13 +1,10 @@
 import { authInstance } from './config';
-import {
-  keepPreviousData,
-  useInfiniteQuery,
-  useQuery,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { RegionHubsResponseModelSchema } from '@/types/hub.type';
 import { Combinations, withPagination } from '@/types/common.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { BigRegionsType } from '@/constants/regions';
+import { LONG_QUERY_STALE_TIME } from '@/constants/common';
 
 // ----- GET -----
 
@@ -72,10 +69,9 @@ export const useGetHubsWithPagination = (
     queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
       getHubs({ ...options, page: pageParam }),
     initialPageParam: undefined,
-    initialData: { pages: [], pageParams: [] },
     getNextPageParam: (lastPage) => {
       return lastPage.nextPage;
     },
-    placeholderData: keepPreviousData,
     enabled,
+    staleTime: LONG_QUERY_STALE_TIME,
   });

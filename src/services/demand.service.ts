@@ -11,6 +11,7 @@ import { toSearchParams } from '@/utils/searchParams.util';
 import { silentParse } from '@/utils/config.util';
 import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
+import { LONG_QUERY_STALE_TIME } from '@/constants/common';
 
 // ----- GET -----
 
@@ -81,9 +82,49 @@ export const useGetEventDemandStats = (
   },
 ) =>
   useQuery({
-    queryKey: ['demand', 'stats', eventId, dailyEventId, params],
+    queryKey: ['demand', 'event-stats', eventId, dailyEventId, params],
     queryFn: () => getEventDemandStats(eventId, dailyEventId, params),
     enabled: Boolean(eventId && dailyEventId),
+  });
+
+interface GetDemandStatsOptions {
+  groupBy:
+    | 'EVENT'
+    | 'DAILY_EVENT'
+    | 'PROVINCE'
+    | 'CITY'
+    | 'TO_DESTINATION_REGION_HUB'
+    | 'FROM_DESTINATION_REGION_HUB';
+  provinceFullName?: string;
+  provinceShortName?: string;
+  cityFullName?: string;
+  cityShortName?: string;
+  dailyEventId?: string;
+  eventId?: string;
+}
+
+export const getDemandStats = async (options: GetDemandStatsOptions) => {
+  const searchParams = toSearchParams(options);
+  const res = await instance.get(
+    `/v2/shuttle-operation/demands/all/stats?${searchParams.toString()}`,
+    {
+      shape: {
+        statistics: ShuttleDemandStatisticsReadModelSchema.array(),
+      },
+    },
+  );
+  return res.statistics;
+};
+
+export const useGetDemandStats = (
+  options: GetDemandStatsOptions,
+  { enabled = true }: { enabled?: boolean } = {},
+) =>
+  useQuery({
+    queryKey: ['demand', 'stats', options],
+    queryFn: () => getDemandStats(options),
+    enabled,
+    staleTime: LONG_QUERY_STALE_TIME,
   });
 
 // ----- POST -----

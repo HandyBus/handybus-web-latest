@@ -17,8 +17,8 @@ const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
 
   const datesWithHubs = useAtomValue(datesWithHubsAtom);
   const openRegions = useMemo(() => {
-    const date = getValues('date');
-    const sidosWithHubs = datesWithHubs?.[date];
+    const dailyEvent = getValues('dailyEvent');
+    const sidosWithHubs = datesWithHubs?.[dailyEvent.date];
     if (!sidosWithHubs) {
       return [];
     }

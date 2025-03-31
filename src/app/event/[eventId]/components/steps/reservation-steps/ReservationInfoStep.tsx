@@ -19,17 +19,17 @@ const MAX_PASSENGER_COUNT = 9;
 
 const ReservationInfoStep = () => {
   const { getValues } = useFormContext<EventFormValues>();
-  const [selectedHubWithInfo, tripType, date] = getValues([
+  const [selectedHubWithInfo, tripType, dailyEvent] = getValues([
     'selectedHubWithInfo',
     'tripType',
-    'date',
+    'dailyEvent',
   ]);
 
   const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
     datesWithRoutes,
-    date,
+    date: dailyEvent.date,
   });
   const toDestinationHubs = route?.toDestinationShuttleRouteHubs ?? [];
   const fromDestinationHubs = route?.fromDestinationShuttleRouteHubs ?? [];

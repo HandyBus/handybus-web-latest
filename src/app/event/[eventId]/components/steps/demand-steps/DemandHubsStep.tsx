@@ -8,14 +8,19 @@ import { ID_TO_REGION } from '@/constants/regions';
 import { EventFormValues } from '../../../form.type';
 import { useFormContext } from 'react-hook-form';
 import { RegionHubsResponseModel } from '@/types/hub.type';
+import { useGetDemandStats } from '@/services/demand.service';
+import { eventAtom } from '../../../store/eventAtom';
+import { useAtomValue } from 'jotai';
 
 interface Props {
   toNextStep: () => void;
 }
 
 const DemandHubsStep = ({ toNextStep }: Props) => {
+  const event = useAtomValue(eventAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const sido = getValues('sido');
+  const [sido, dailyEvent] = getValues(['sido', 'dailyEvent']);
+  const enabled = !!sido && !!event?.eventId && !!dailyEvent.dailyEventId;
 
   const { data: regionsWithHubs } = useGetHubsWithPagination(
     {
@@ -23,12 +28,22 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
       // usageType: 'SHUTTLE_HUB',
       provinceFullName: sido,
     },
-    { enabled: !!sido },
+    { enabled },
+  );
+
+  const { data: demandStats } = useGetDemandStats(
+    {
+      groupBy: 'CITY',
+      eventId: event?.eventId,
+      dailyEventId: dailyEvent.dailyEventId,
+      provinceFullName: sido,
+    },
+    { enabled },
   );
 
   const gungusWithHubs = useMemo(() => {
     const hubs = regionsWithHubs?.pages?.[0]?.regionHubs;
-    if (!hubs) {
+    if (!hubs || !demandStats) {
       return [];
     }
     const hubsWithRegion = hubs.map((hub) => {
@@ -49,8 +64,17 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
         };
       })
       .toSorted((a, b) => a.gungu.localeCompare(b.gungu));
-    return gungusWithFlattenedHubs;
-  }, [regionsWithHubs]);
+    const gungusWithDemandStats = gungusWithFlattenedHubs.map((gungu) => {
+      const demandStat = demandStats.find(
+        (stat) => stat.cityFullName === gungu.gungu,
+      );
+      return {
+        ...gungu,
+        demandCount: demandStat?.totalCount ?? 0,
+      };
+    });
+    return gungusWithDemandStats;
+  }, [regionsWithHubs, demandStats]);
 
   const handleHubClick = (hub: RegionHubsResponseModel) => {
     setValue('selectedHubForDemand', hub);
@@ -67,7 +91,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
               {gunguWithHubs.gungu}
             </h6>
             <p className="ml-auto text-14 font-500 text-brand-primary-400">
-              NN명이 요청했어요
+              {gunguWithHubs.demandCount}명이 요청했어요
             </p>
           </div>
           <ul>
@@ -89,7 +113,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
           )}
         </article>
       ))}
-      {gungusWithHubs.length === 0 && <div className="h-148" />}
+      {gungusWithHubs.length === 0 && <div className="h-340" />}
     </section>
   );
 };

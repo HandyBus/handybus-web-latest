@@ -22,15 +22,15 @@ const ReservationTripTypeStep = ({
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
-  const [selectedHubWithInfo, date] = getValues([
+  const [selectedHubWithInfo, dailyEvent] = getValues([
     'selectedHubWithInfo',
-    'date',
+    'dailyEvent',
   ]);
 
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
     datesWithRoutes,
-    date,
+    date: dailyEvent.date,
   });
   const { remainingSeat } = selectedHubWithInfo;
   const isSoldOut = checkIsSoldOut(remainingSeat);

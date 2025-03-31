@@ -40,7 +40,7 @@ const EventForm = ({ event }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
   return (
-    <section className={isDisabled ? '' : 'px-16 py-24'}>
+    <section className={isDisabled ? '' : 'px-16 pb-24'}>
       <JotaiProvider>
         <Form event={event} phase={phase} enabledStatus={enabledStatus} />
       </JotaiProvider>
@@ -113,7 +113,7 @@ const Form = ({ event, phase, enabledStatus }: FormProps) => {
     <form className="flex flex-col gap-8">
       {enabledStatus === 'enabled' && (
         <>
-          <div className="h-8 w-full bg-basic-grey-50" />
+          <div className="-mx-16 mb-16 h-8 w-[calc(100%+32px)] bg-basic-grey-50" />
           <h6 className="mb-4 text-20 font-700">{inputSectionTitle}</h6>
           <p className="mb-16 text-16 font-500 text-basic-grey-600">
             {inputSectionDescription}

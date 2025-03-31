@@ -2,9 +2,10 @@ import { TripType } from '@/types/shuttleRoute.type';
 import { BigRegionsType } from '@/constants/regions';
 import { HubWithInfo } from './store/datesWithHubsAtom';
 import { RegionHubsResponseModel } from '@/types/hub.type';
+import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 
 export interface EventFormValues {
-  date: string;
+  dailyEvent: DailyEventsInEventsViewEntity;
   sido: BigRegionsType;
   openSido?: BigRegionsType;
   selectedHubWithInfo: HubWithInfo;

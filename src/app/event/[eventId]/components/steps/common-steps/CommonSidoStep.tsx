@@ -24,8 +24,8 @@ const CommonSidoStep = ({
   const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
     setValue('openSido', undefined);
-    const date = getValues('date');
-    const sidosWithGungus = datesWithHubs?.[date];
+    const dailyEvent = getValues('dailyEvent');
+    const sidosWithGungus = datesWithHubs?.[dailyEvent.date];
     const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
     if (!isReservationOpen) {
       toDemandHubsStep();

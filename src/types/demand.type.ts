@@ -57,11 +57,26 @@ export type ShuttleDemandsViewEntity = z.infer<
   typeof ShuttleDemandsViewEntitySchema
 >;
 
-export const ShuttleDemandStatisticsReadModelSchema = z.object({
-  roundTripCount: z.number(),
-  toDestinationCount: z.number(),
-  fromDestinationCount: z.number(),
-});
+export const ShuttleDemandStatisticsReadModelSchema = z
+  .object({
+    eventId: z.string().nullable(),
+    eventName: z.string().nullable(),
+    eventImageUrl: z.string().nullable(),
+    dailyEventId: z.string().nullable(),
+    provinceFullName: z.string().nullable(),
+    provinceShortName: z.string().nullable(),
+    cityFullName: z.string().nullable(),
+    cityShortName: z.string().nullable(),
+    regionHubName: z.string().nullable(),
+    regionHubId: z.string().nullable(),
+    regionHubLatitude: z.number().nullable(),
+    regionHubLongitude: z.number().nullable(),
+    totalCount: z.number(),
+    roundTripCount: z.number(),
+    toDestinationCount: z.number(),
+    fromDestinationCount: z.number(),
+  })
+  .strict();
 export type ShuttleDemandStatisticsReadModel = z.infer<
   typeof ShuttleDemandStatisticsReadModelSchema
 >;
