@@ -4,7 +4,7 @@ import HubButton from './HubButton';
 import DateButton from './DateButton';
 import BottomBar from './BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import CommonDateStep from './steps/common-steps/CommonDateStep';
 import CommonSidoStep from './steps/common-steps/CommonSidoStep';
@@ -66,9 +66,14 @@ interface FormProps {
 }
 
 const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
+  const isInitialized = useRef(false);
   const setEvent = useSetAtom(eventAtom);
   const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdWithRoutesAtom);
   useEffect(() => {
+    if (isInitialized.current) {
+      return;
+    }
+    isInitialized.current = true;
     setEvent(event);
     setDailyEventIdWithRoutes(routes);
   }, []);

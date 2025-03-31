@@ -9,11 +9,18 @@ const primitiveDailyEventIdWithRoutesAtom = atom<DailyEventIdWithRoutes>({});
 
 export const dailyEventIdWithRoutesAtom = atom(
   (get) => get(primitiveDailyEventIdWithRoutesAtom),
-  (get, set, update: ShuttleRoutesViewEntity[]) => {
+  (get, set, routes: ShuttleRoutesViewEntity[]) => {
     const prev = get(primitiveDailyEventIdWithRoutesAtom);
-    const newDailyEventIdWithRoutes = update.reduce((acc, route) => {
+    const newDailyEventIdWithRoutes = routes.reduce((acc, route) => {
       const dailyEventId = route.dailyEventId;
-      acc[dailyEventId] = [...(acc[dailyEventId] || []), route];
+      const prevRoutes = acc[dailyEventId] || [];
+      const isDuplicate = prevRoutes.some(
+        (prevRoute) => prevRoute.shuttleRouteId === route.shuttleRouteId,
+      );
+      if (isDuplicate) {
+        return acc;
+      }
+      acc[dailyEventId] = [...prevRoutes, route];
       return acc;
     }, prev);
     set(primitiveDailyEventIdWithRoutesAtom, newDailyEventIdWithRoutes);

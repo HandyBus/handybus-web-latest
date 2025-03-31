@@ -52,7 +52,7 @@ const ReservationTripTypeStep = ({
               onClick={() => handleTripTypeClick(tripType)}
               className="flex w-full items-center justify-between gap-8 py-12"
             >
-              <span className="text-16 font-600 text-basic-grey-700">
+              <span className="text-16 font-600 text-basic-grey-700 disabled:text-basic-grey-300">
                 {TRIP_STATUS_TO_STRING[tripType]}
               </span>
               {!isSoldOut && (

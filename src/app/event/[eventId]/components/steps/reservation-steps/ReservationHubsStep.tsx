@@ -100,25 +100,29 @@ const ReservationHubsStep = ({
                     disabled={isSoldOut}
                     className={`flex w-full justify-between gap-8 py-12 text-left ${!isDuplicate && isSoldOut && 'pr-[166px]'}`}
                   >
-                    <span className="text-16 font-600 text-basic-grey-700">
+                    <span className="text-16 font-600 text-basic-grey-700 disabled:text-basic-grey-300">
                       {hub.name}
                     </span>
                     {isDuplicate && (
                       <Badge className="bg-basic-grey-50">복수 노선</Badge>
                     )}
                     {!isDuplicate && !isSoldOut && (
-                      <p
-                        className={`flex shrink-0 items-center gap-8 text-14 font-500 ${
-                          remainingSeatCount > DANGER_SEAT_THRESHOLD
-                            ? 'text-basic-grey-500'
-                            : 'text-basic-red-400'
-                        }`}
-                      >
-                        <span>{remainingSeatTypeText}</span>
+                      <p className="flex shrink-0 items-center gap-8 text-14 font-500">
+                        <span className="text-basic-grey-500">
+                          {remainingSeatTypeText}
+                        </span>
                         {remainingSeatTypeText && (
                           <div className="h-12 w-[1px] bg-basic-grey-300" />
                         )}
-                        <span>{remainingSeatCount}석 남음</span>
+                        <span
+                          className={
+                            remainingSeatCount > DANGER_SEAT_THRESHOLD
+                              ? 'text-basic-grey-500'
+                              : 'text-basic-red-400'
+                          }
+                        >
+                          {remainingSeatCount}석 남음
+                        </span>
                       </p>
                     )}
                   </button>
