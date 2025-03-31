@@ -45,7 +45,7 @@ const NotificationBubble = () => {
 };
 
 const BUTTON_TEXT = {
-  reservation: { enabled: '예약하기', disabled: '예약 마감' },
+  reservation: { enabled: '예약 가능한 셔틀 보기', disabled: '예약 마감' },
   demand: {
     enabled: '수요조사 참여하기',
     disabled: '신청 인원이 부족한 행사에요',

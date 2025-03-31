@@ -32,7 +32,7 @@ const ExtraSeatAlarmStep = () => {
         >
           확인했어요
         </Button>
-        <Button variant="tertiary" size="large" className="bg-white w-full">
+        <Button variant="text" size="large" onClick={handleClick}>
           의견 보내기
         </Button>
       </div>

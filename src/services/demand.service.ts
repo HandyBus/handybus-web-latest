@@ -140,7 +140,9 @@ export const postDemand = async (
   );
 };
 
-export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
+export const usePostDemand = ({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
@@ -159,16 +161,12 @@ export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
           queryKey: ['demand'],
         }),
       ]);
-      toast.success('셔틀이 개설되면 마이페이지에서 확인해보실 수 있어요.');
       onSuccess?.();
     },
     onError: (e) => {
       const error = e as CustomError;
-      if (error.statusCode === 409) {
-        toast.error('이미 참여한 수요조사예요.');
-        return;
-      }
-      toast.error('수요조사에 참여하지 못했어요.');
+      console.error(error);
+      // 409일 시 이미 요청한 수요조사
     },
   });
 };
