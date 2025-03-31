@@ -1,7 +1,11 @@
 import { authInstance } from './config';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { RegionHubsResponseModelSchema } from '@/types/hub.type';
-import { Combinations, withPagination } from '@/types/common.type';
+import {
+  Combinations,
+  PaginationParams,
+  withPagination,
+} from '@/types/common.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { BigRegionsType } from '@/constants/regions';
 import { LONG_QUERY_STALE_TIME } from '@/constants/common';
@@ -28,7 +32,7 @@ export const useGetHubsByRegionId = (regionId?: string | null) =>
     initialData: [],
   });
 
-interface GetHubsOptions {
+interface GetHubsParams {
   provinceFullName?: BigRegionsType;
   provinceShortName?: string;
   cityFullName?: string;
@@ -36,14 +40,11 @@ interface GetHubsOptions {
   name?: string;
   address?: string;
   usageType?: Combinations<'EVENT_DESTINATION' | 'SHUTTLE_HUB'>;
-}
-
-interface GetHubsOptionsWithPagination extends GetHubsOptions {
   page?: string;
   limit?: number;
 }
 
-const getHubs = async (options?: GetHubsOptionsWithPagination) => {
+const getHubs = async (options?: PaginationParams<GetHubsParams>) => {
   const searchParams = toSearchParams({ ...options });
   const res = await authInstance.get(
     `/v2/location/regions/all/hubs?${searchParams}`,
@@ -57,7 +58,7 @@ const getHubs = async (options?: GetHubsOptionsWithPagination) => {
 };
 
 export const useGetHubsWithPagination = (
-  options?: GetHubsOptionsWithPagination,
+  params?: PaginationParams<GetHubsParams>,
   {
     enabled = true,
   }: {
@@ -65,9 +66,9 @@ export const useGetHubsWithPagination = (
   } = {},
 ) =>
   useInfiniteQuery({
-    queryKey: ['hub', options],
+    queryKey: ['hub', params],
     queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
-      getHubs({ ...options, page: pageParam }),
+      getHubs({ ...params, page: pageParam }),
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => {
       return lastPage.nextPage;

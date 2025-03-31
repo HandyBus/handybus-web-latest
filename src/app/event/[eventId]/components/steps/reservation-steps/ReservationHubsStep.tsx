@@ -6,15 +6,15 @@ import Tooltip from '@/components/tooltip/Tooltip';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import Badge from '@/components/badge/Badge';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
-import {
-  datesWithHubsAtom,
-  HubWithInfo,
-} from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';
 import { checkIsSoldOut, getPriorityRemainingSeat } from '../../../event.util';
 import { EventFormValues } from '../../../form.type';
+import {
+  dailyEventIdWithHubsAtom,
+  HubWithInfo,
+} from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -30,7 +30,7 @@ const ReservationHubsStep = ({
   toDemandHubsStep,
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const datesWithHubs = useAtomValue(datesWithHubsAtom);
+  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
   const gungusWithHubs = useMemo(() => {
     const [dailyEvent, sido, openSido] = getValues([
       'dailyEvent',
@@ -39,7 +39,7 @@ const ReservationHubsStep = ({
     ]);
     const prioritySido = openSido ?? sido;
     const gungusWithHubsAsObject =
-      datesWithHubs?.[dailyEvent.date]?.[prioritySido] ?? {};
+      dailyEventIdWithHubs?.[dailyEvent.dailyEventId]?.[prioritySido] ?? {};
     const gungusWithHubsAsArray = Object.entries(gungusWithHubsAsObject)
       .map(([gungu, hubs]) => {
         const sortedHubs = hubs.sort((a, b) =>
@@ -52,7 +52,7 @@ const ReservationHubsStep = ({
       })
       .sort((a, b) => a.gungu.localeCompare(b.gungu));
     return gungusWithHubsAsArray;
-  }, [datesWithHubs]);
+  }, [dailyEventIdWithHubs]);
 
   const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
     if (hubsWithInfo.length === 1) {

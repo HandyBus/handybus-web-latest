@@ -4,7 +4,10 @@ import {
   ShuttleRoutesViewEntity,
 } from '@/types/shuttleRoute.type';
 import { BigRegionsType, ID_TO_REGION } from '@/constants/regions';
-import { DatesWithRoutes, datesWithRoutesAtom } from './datesWithRoutesAtom';
+import {
+  DailyEventIdWithRoutes,
+  dailyEventIdWithRoutesAtom,
+} from './dailyEventIdWithRoutesAtom';
 import { getRemainingSeat, RemainingSeat } from '../event.util';
 
 export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
@@ -14,30 +17,32 @@ export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
   remainingSeat: RemainingSeat;
 }
 
-interface DatesWithHubs {
-  [date: string]: {
+interface DailyEventIdWithHubs {
+  [dailyEventId: string]: {
     [sido in BigRegionsType]: {
       [gungu: string]: HubWithInfo[][];
     };
   };
 }
 
-export const datesWithHubsAtom = atomWithCache<DatesWithHubs>((get) => {
-  const datesWithRoutes = get(datesWithRoutesAtom);
-  const datesWithHubs = Object.entries(datesWithRoutes).map(
-    ([date, routes]) => {
-      const hubsWithInfo = routes.reduce((acc, route) => {
-        const newHubsWithInfo = getHubsWithInfoInRoute(route);
-        return [...acc, ...newHubsWithInfo];
-      }, [] as HubWithInfo[]);
+export const dailyEventIdWithHubsAtom = atomWithCache<DailyEventIdWithHubs>(
+  (get) => {
+    const dailyEventIdWithRoutes = get(dailyEventIdWithRoutesAtom);
+    const dailyEventIdWithHubs = Object.entries(dailyEventIdWithRoutes).map(
+      ([dailyEventId, routes]) => {
+        const hubsWithInfo = routes.reduce((acc, route) => {
+          const newHubsWithInfo = getHubsWithInfoInRoute(route);
+          return [...acc, ...newHubsWithInfo];
+        }, [] as HubWithInfo[]);
 
-      const groupedHubs = groupHubsByRegion(hubsWithInfo);
+        const groupedHubs = groupHubsByRegion(hubsWithInfo);
 
-      return [date, groupedHubs];
-    },
-  );
-  return Object.fromEntries(datesWithHubs);
-});
+        return [dailyEventId, groupedHubs];
+      },
+    );
+    return Object.fromEntries(dailyEventIdWithHubs);
+  },
+);
 
 export const groupHubsByRegion = <
   T extends { sido: BigRegionsType; gungu: string; regionHubId: string },
@@ -100,14 +105,14 @@ export const getHubsWithInfoInRoute = (
 
 export const getRouteOfHubWithInfo = ({
   hubWithInfo,
-  datesWithRoutes,
-  date,
+  dailyEventIdWithRoutes,
+  dailyEventId,
 }: {
   hubWithInfo: HubWithInfo;
-  datesWithRoutes: DatesWithRoutes;
-  date: string;
+  dailyEventIdWithRoutes: DailyEventIdWithRoutes;
+  dailyEventId: string;
 }) => {
-  const routes = datesWithRoutes[date];
+  const routes = dailyEventIdWithRoutes[dailyEventId];
   if (!routes) {
     return null;
   }

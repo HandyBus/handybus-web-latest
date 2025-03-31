@@ -2,10 +2,10 @@
 
 import { BIG_REGIONS, BigRegionsType } from '@/constants/regions';
 import SidoButton from '../../SidoButton';
-import { datesWithHubsAtom } from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
 import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
+import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toDemandHubsStep: () => void;
@@ -18,14 +18,14 @@ const CommonSidoStep = ({
   toReservationHubsStep,
   toExtraSidoInfoStep,
 }: Props) => {
-  const datesWithHubs = useAtomValue(datesWithHubsAtom);
+  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
 
   const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
     setValue('openSido', undefined);
     const dailyEvent = getValues('dailyEvent');
-    const sidosWithGungus = datesWithHubs?.[dailyEvent.date];
+    const sidosWithGungus = dailyEventIdWithHubs?.[dailyEvent.dailyEventId];
     const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
     if (!isReservationOpen) {
       toDemandHubsStep();

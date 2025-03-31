@@ -87,7 +87,7 @@ export const useGetEventDemandStats = (
     enabled: Boolean(eventId && dailyEventId),
   });
 
-interface GetDemandStatsOptions {
+interface GetDemandStatsParams {
   groupBy:
     | 'EVENT'
     | 'DAILY_EVENT'
@@ -103,8 +103,8 @@ interface GetDemandStatsOptions {
   eventId?: string;
 }
 
-export const getDemandStats = async (options: GetDemandStatsOptions) => {
-  const searchParams = toSearchParams(options);
+export const getDemandStats = async (params: GetDemandStatsParams) => {
+  const searchParams = toSearchParams(params);
   const res = await instance.get(
     `/v2/shuttle-operation/demands/all/stats?${searchParams.toString()}`,
     {
@@ -117,12 +117,12 @@ export const getDemandStats = async (options: GetDemandStatsOptions) => {
 };
 
 export const useGetDemandStats = (
-  options: GetDemandStatsOptions,
+  params: GetDemandStatsParams,
   { enabled = true }: { enabled?: boolean } = {},
 ) =>
   useQuery({
-    queryKey: ['demand', 'stats', options],
-    queryFn: () => getDemandStats(options),
+    queryKey: ['demand', 'stats', params],
+    queryFn: () => getDemandStats(params),
     enabled,
     staleTime: LONG_QUERY_STALE_TIME,
   });

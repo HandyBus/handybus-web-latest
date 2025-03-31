@@ -4,9 +4,9 @@ import { BIG_REGIONS, BigRegionsType } from '@/constants/regions';
 import SidoButton from '../../SidoButton';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
-import { datesWithHubsAtom } from '../../../store/datesWithHubsAtom';
 import { useMemo } from 'react';
 import { EventFormValues } from '../../../form.type';
+import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toNextStep: () => void;
@@ -15,10 +15,10 @@ interface Props {
 const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
   const { setValue, getValues } = useFormContext<EventFormValues>();
 
-  const datesWithHubs = useAtomValue(datesWithHubsAtom);
+  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
   const openRegions = useMemo(() => {
     const dailyEvent = getValues('dailyEvent');
-    const sidosWithHubs = datesWithHubs?.[dailyEvent.date];
+    const sidosWithHubs = dailyEventIdWithHubs?.[dailyEvent.dailyEventId];
     if (!sidosWithHubs) {
       return [];
     }
@@ -31,7 +31,7 @@ const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
       return aIndex - bIndex;
     });
     return sortedSidos;
-  }, [datesWithHubs]);
+  }, [dailyEventIdWithHubs]);
 
   const handleOpenSidoClick = (sido: BigRegionsType) => {
     setValue('openSido', sido);

@@ -5,11 +5,11 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useFormContext } from 'react-hook-form';
-import { getRouteOfHubWithInfo } from '../../../store/datesWithHubsAtom';
 import { useAtomValue } from 'jotai';
-import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { calculatePriceOfTripType, checkIsSoldOut } from '../../../event.util';
 import { EventFormValues } from '../../../form.type';
+import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
+import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toReservationInfoStep: () => void;
@@ -21,7 +21,7 @@ const ReservationTripTypeStep = ({
   toExtraSeatAlarmStep,
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
+  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
   const [selectedHubWithInfo, dailyEvent] = getValues([
     'selectedHubWithInfo',
     'dailyEvent',
@@ -29,8 +29,8 @@ const ReservationTripTypeStep = ({
 
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
-    datesWithRoutes,
-    date: dailyEvent.date,
+    dailyEventIdWithRoutes,
+    dailyEventId: dailyEvent.dailyEventId,
   });
   const { remainingSeat } = selectedHubWithInfo;
   const isSoldOut = checkIsSoldOut(remainingSeat);

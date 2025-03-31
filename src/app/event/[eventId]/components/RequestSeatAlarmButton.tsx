@@ -1,9 +1,9 @@
 import Button from '@/components/buttons/button/Button';
 import { SyntheticEvent } from 'react';
 import { customTwMerge } from 'tailwind.config';
-import { HubWithInfo } from '../store/datesWithHubsAtom';
 import { EventFormValues } from '../form.type';
 import { useFormContext } from 'react-hook-form';
+import { HubWithInfo } from '../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toStep: () => void;

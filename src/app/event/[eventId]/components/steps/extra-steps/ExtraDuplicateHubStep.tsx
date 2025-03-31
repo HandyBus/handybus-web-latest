@@ -5,11 +5,13 @@ import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { useFormContext } from 'react-hook-form';
 import { dateString } from '@/utils/dateString.util';
 import { useAtomValue } from 'jotai';
-import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
-import { useMemo } from 'react';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { HubWithInfo } from '../../../store/datesWithHubsAtom';
 import { EventFormValues } from '../../../form.type';
+import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
+import {
+  getRouteOfHubWithInfo,
+  HubWithInfo,
+} from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -21,13 +23,11 @@ const ExtraDuplicateHubStep = ({
   toExtraSeatAlarmStep,
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const hubsWithInfoForDuplicates = getValues('hubsWithInfoForDuplicates');
-
-  const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
-  const routes = useMemo(() => {
-    const dailyEvent = getValues('dailyEvent');
-    return datesWithRoutes?.[dailyEvent.date] ?? [];
-  }, [datesWithRoutes]);
+  const [hubsWithInfoForDuplicates, dailyEvent] = getValues([
+    'hubsWithInfoForDuplicates',
+    'dailyEvent',
+  ]);
+  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
 
   const handleHubClick = (hubWithInfo: HubWithInfo) => {
     setValue('selectedHubWithInfo', hubWithInfo);
@@ -37,9 +37,11 @@ const ExtraDuplicateHubStep = ({
   return (
     <section className="flex w-full flex-col gap-8">
       {hubsWithInfoForDuplicates?.map((hubWithInfo) => {
-        const route = routes.find(
-          (route) => route.shuttleRouteId === hubWithInfo.shuttleRouteId,
-        );
+        const route = getRouteOfHubWithInfo({
+          hubWithInfo,
+          dailyEventIdWithRoutes,
+          dailyEventId: dailyEvent.dailyEventId,
+        });
         if (!route) {
           return null;
         }

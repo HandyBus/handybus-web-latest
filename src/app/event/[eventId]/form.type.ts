@@ -1,6 +1,6 @@
 import { TripType } from '@/types/shuttleRoute.type';
 import { BigRegionsType } from '@/constants/regions';
-import { HubWithInfo } from './store/datesWithHubsAtom';
+import { HubWithInfo } from './store/dailyEventIdWithHubsAtom';
 import { RegionHubsResponseModel } from '@/types/hub.type';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 

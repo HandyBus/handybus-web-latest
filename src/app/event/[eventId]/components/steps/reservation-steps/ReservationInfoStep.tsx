@@ -7,12 +7,12 @@ import SimpleRouteInfo from '../../SimpleRouteInfo';
 import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
 import { useFormContext } from 'react-hook-form';
-import { getRouteOfHubWithInfo } from '../../../store/datesWithHubsAtom';
-import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { useAtomValue } from 'jotai';
 import { calculatePriceOfTripType } from '../../../event.util';
 import { toast } from 'react-toastify';
 import { EventFormValues } from '../../../form.type';
+import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdWithHubsAtom';
+import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
 
 const ROUND_TRIP_TEXT = '[왕복]';
 const MAX_PASSENGER_COUNT = 9;
@@ -25,11 +25,11 @@ const ReservationInfoStep = () => {
     'dailyEvent',
   ]);
 
-  const datesWithRoutes = useAtomValue(datesWithRoutesAtom);
+  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
-    datesWithRoutes,
-    date: dailyEvent.date,
+    dailyEventIdWithRoutes,
+    dailyEventId: dailyEvent.dailyEventId,
   });
   const toDestinationHubs = route?.toDestinationShuttleRouteHubs ?? [];
   const fromDestinationHubs = route?.fromDestinationShuttleRouteHubs ?? [];

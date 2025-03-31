@@ -31,18 +31,26 @@ import { eventAtom } from '../store/eventAtom';
 import { FormProvider, useForm, UseFormGetValues } from 'react-hook-form';
 import { BIG_REGIONS_TO_SHORT_NAME } from '@/constants/regions';
 import { EventEnabledStatus, EventFormValues, EventPhase } from '../form.type';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { dailyEventIdWithRoutesAtom } from '../store/dailyEventIdWithRoutesAtom';
 
 interface Props {
   event: EventWithRoutesViewEntity;
+  routes: ShuttleRoutesViewEntity[];
 }
 
-const EventForm = ({ event }: Props) => {
+const EventForm = ({ event, routes }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
   return (
     <section className={isDisabled ? '' : 'px-16 pb-24'}>
       <JotaiProvider>
-        <Form event={event} phase={phase} enabledStatus={enabledStatus} />
+        <Form
+          event={event}
+          routes={routes}
+          phase={phase}
+          enabledStatus={enabledStatus}
+        />
       </JotaiProvider>
     </section>
   );
@@ -52,14 +60,17 @@ export default EventForm;
 
 interface FormProps {
   event: EventWithRoutesViewEntity;
+  routes: ShuttleRoutesViewEntity[];
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
 }
 
-const Form = ({ event, phase, enabledStatus }: FormProps) => {
+const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   const setEvent = useSetAtom(eventAtom);
+  const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdWithRoutesAtom);
   useEffect(() => {
     setEvent(event);
+    setDailyEventIdWithRoutes(routes);
   }, []);
 
   const methods = useForm<EventFormValues>({
@@ -141,7 +152,6 @@ const Form = ({ event, phase, enabledStatus }: FormProps) => {
               <Step name="[공통] 일자 선택">
                 <CommonDateStep
                   toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
-                  isReservationOpen={isReservationOpen}
                 />
               </Step>
               <Step name="[공통] 시/도 선택">

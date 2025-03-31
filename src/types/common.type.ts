@@ -17,6 +17,11 @@ export const withPagination = <Shape extends z.ZodRawShape>(
     nextPage: z.string().nullable(),
   }) satisfies PaginatedResponse<Shape>;
 
+export type PaginationParams<T> = T & {
+  page?: string;
+  limit?: number;
+};
+
 export const PresignedUrlSchema = z.object({
   presignedUrl: z.string().url(),
   cdnUrl: z.string().url(),

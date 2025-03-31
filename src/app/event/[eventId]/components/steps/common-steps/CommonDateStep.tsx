@@ -1,71 +1,37 @@
 'use client';
 
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { eventAtom } from '../../../store/eventAtom';
 import { dateString } from '@/utils/dateString.util';
-import { getShuttleRoutesOfDailyEvent } from '@/services/shuttleRoute.service';
-import { datesWithRoutesAtom } from '../../../store/datesWithRoutesAtom';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { EventFormValues } from '../../../form.type';
+import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
+import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
   toNextStep: () => void;
-  isReservationOpen: boolean;
 }
 
-const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
+const CommonDateStep = ({ toNextStep }: Props) => {
   const event = useAtomValue(eventAtom);
   const dailyEvents =
     event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
 
-  const [datesWithRoutes, setDatesWithRoutes] = useAtom(datesWithRoutesAtom);
-  const [isLoading, setIsLoading] = useState(false);
+  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
+  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
+  console.log(dailyEventIdWithRoutes);
+  console.log(dailyEventIdWithHubs);
 
   const { setValue } = useFormContext<EventFormValues>();
 
-  const loadRoutesAndToNextStep = async (
-    dailyEvent: DailyEventsInEventsViewEntity,
-  ) => {
+  const handleDateClick = (dailyEvent: DailyEventsInEventsViewEntity) => {
     if (!event) {
       return;
     }
-
     setValue('dailyEvent', dailyEvent);
-    if (!isReservationOpen) {
-      toNextStep();
-      return;
-    }
-
-    setIsLoading(true);
-    const isRoutesLoaded = Object.keys(datesWithRoutes).find(
-      (date) => date === dailyEvent.date,
-    );
-    if (isRoutesLoaded) {
-      toNextStep();
-      return;
-    }
-
-    try {
-      const routes = await getShuttleRoutesOfDailyEvent(
-        event.eventId,
-        dailyEvent.dailyEventId,
-        {
-          status: 'OPEN',
-        },
-      );
-      setDatesWithRoutes({
-        date: dailyEvent.date,
-        routes,
-      });
-      toNextStep();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    toNextStep();
   };
 
   return (
@@ -74,8 +40,7 @@ const CommonDateStep = ({ toNextStep, isReservationOpen }: Props) => {
         <button
           key={dailyEvent.dailyEventId}
           type="button"
-          disabled={isLoading}
-          onClick={() => loadRoutesAndToNextStep(dailyEvent)}
+          onClick={() => handleDateClick(dailyEvent)}
           className="block w-full py-12 text-left text-16 font-600 text-basic-grey-700"
         >
           {formatFullDate(dailyEvent.date)}
