@@ -7,7 +7,6 @@ import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { EventFormValues } from '../../../form.type';
-import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
 import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
 
 interface Props {
@@ -18,11 +17,7 @@ const CommonDateStep = ({ toNextStep }: Props) => {
   const event = useAtomValue(eventAtom);
   const dailyEvents =
     event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
-
-  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
   const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
-  console.log(dailyEventIdWithRoutes);
-  console.log(dailyEventIdWithHubs);
 
   const { setValue } = useFormContext<EventFormValues>();
 
@@ -36,16 +31,32 @@ const CommonDateStep = ({ toNextStep }: Props) => {
 
   return (
     <section>
-      {dailyEvents.map((dailyEvent) => (
-        <button
-          key={dailyEvent.dailyEventId}
-          type="button"
-          onClick={() => handleDateClick(dailyEvent)}
-          className="block w-full py-12 text-left text-16 font-600 text-basic-grey-700"
-        >
-          {formatFullDate(dailyEvent.date)}
-        </button>
-      ))}
+      {dailyEvents.map((dailyEvent) => {
+        const isDemandOpen = dailyEvent.status === 'OPEN';
+        const isReservationOpen = Object.keys(dailyEventIdWithHubs).includes(
+          dailyEvent.dailyEventId,
+        );
+        const isEventEnded = !isDemandOpen && !isReservationOpen;
+
+        return (
+          <button
+            key={dailyEvent.dailyEventId}
+            type="button"
+            onClick={() => handleDateClick(dailyEvent)}
+            disabled={isEventEnded}
+            className="flex w-full items-center justify-between py-12 text-left text-16 font-600 text-basic-grey-700 disabled:text-basic-grey-300"
+          >
+            <span>{formatFullDate(dailyEvent.date)}</span>
+            <span className="text-14 font-500 text-basic-grey-500">
+              {isEventEnded
+                ? '마감'
+                : isDemandOpen && !isReservationOpen
+                  ? '전지역 수요조사 중'
+                  : null}
+            </span>
+          </button>
+        );
+      })}
     </section>
   );
 };
