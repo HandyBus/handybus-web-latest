@@ -36,7 +36,6 @@ export const dailyEventIdWithHubsAtom = atomWithCache<DailyEventIdWithHubs>(
         }, [] as HubWithInfo[]);
 
         const groupedHubs = groupHubsByRegion(hubsWithInfo);
-
         return [dailyEventId, groupedHubs];
       },
     );

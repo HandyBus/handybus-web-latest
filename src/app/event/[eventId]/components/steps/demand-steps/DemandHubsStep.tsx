@@ -60,7 +60,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
       .map(([gungu, hubs]) => {
         return {
           gungu,
-          hubs: hubs.flat(),
+          hubs: hubs.flat().toSorted((a, b) => a.name.localeCompare(b.name)),
         };
       })
       .toSorted((a, b) => a.gungu.localeCompare(b.gungu));
