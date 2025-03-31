@@ -36,6 +36,7 @@ import { dailyEventIdWithRoutesAtom } from '../store/dailyEventIdWithRoutesAtom'
 import DemandCompleteScreen, {
   DemandCompleteStatus,
 } from './demand-complete-screen/DemandCompleteScreen';
+import ExtraUnreservableRegionStep from './steps/extra-steps/ExtraUnreservableRegionStep';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -184,6 +185,9 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                     toExtraSidoInfoStep={() =>
                       setHistoryAndStep('[기타] 시/도 정보')
                     }
+                    toExtraUnreservableRegionStep={() =>
+                      setHistoryAndStep('[기타] 예약 불가 지역')
+                    }
                   />
                 </Step>
                 {/* 수요조사 */}
@@ -243,6 +247,13 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                     }
                     toDemandHubsStep={() =>
                       setHistoryAndStep('[수요조사] 정류장 선택')
+                    }
+                  />
+                </Step>
+                <Step name="[기타] 예약 불가 지역">
+                  <ExtraUnreservableRegionStep
+                    toExtraOpenSidoStep={() =>
+                      setHistoryAndStep('[기타] 예약 가능 시/도')
                     }
                   />
                 </Step>

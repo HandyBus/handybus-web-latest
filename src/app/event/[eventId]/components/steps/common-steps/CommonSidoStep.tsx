@@ -11,12 +11,14 @@ interface Props {
   toDemandHubsStep: () => void;
   toReservationHubsStep: () => void;
   toExtraSidoInfoStep: () => void;
+  toExtraUnreservableRegionStep: () => void;
 }
 
 const CommonSidoStep = ({
   toDemandHubsStep,
   toReservationHubsStep,
   toExtraSidoInfoStep,
+  toExtraUnreservableRegionStep,
 }: Props) => {
   const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
@@ -24,18 +26,29 @@ const CommonSidoStep = ({
   const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
     setValue('openSido', undefined);
+
     const dailyEvent = getValues('dailyEvent');
+    const isDemandOpen = dailyEvent.status === 'OPEN';
     const sidosWithGungus = dailyEventIdWithHubs?.[dailyEvent.dailyEventId];
     const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
-    if (!isReservationOpen) {
+
+    if (!isReservationOpen && !isDemandOpen) {
+      return;
+    }
+
+    if (!isReservationOpen && isDemandOpen) {
       toDemandHubsStep();
       return;
     }
 
     const gungusWithHubs = sidosWithGungus?.[sido];
     const isRoutesAvailable = Object.keys(gungusWithHubs ?? {}).length > 0;
-    if (!isRoutesAvailable) {
+
+    if (!isRoutesAvailable && isDemandOpen) {
       toExtraSidoInfoStep();
+      return;
+    } else if (!isRoutesAvailable && !isDemandOpen) {
+      toExtraUnreservableRegionStep();
       return;
     }
 
