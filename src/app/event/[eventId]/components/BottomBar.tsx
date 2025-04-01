@@ -5,14 +5,30 @@ import NotificationIcon from '../icons/notification.svg';
 import TriangleIcon from '../icons/triangle.svg';
 import { EventEnabledStatus } from '../form.type';
 import { EventPhase } from '../form.type';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
+import { useRouter } from 'next/navigation';
 
 interface Props {
+  eventId: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
 }
 
-const BottomBar = ({ phase, enabledStatus, onClick }: Props) => {
+const BottomBar = ({ eventId, phase, enabledStatus, onClick }: Props) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      const redirectUrl = createLoginRedirectPath(`/event/${eventId}`);
+      router.push(redirectUrl);
+      return;
+    }
+    onClick();
+  };
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
       <Button variant="secondary" size="medium" type="button">
@@ -22,7 +38,7 @@ const BottomBar = ({ phase, enabledStatus, onClick }: Props) => {
         variant="primary"
         size="large"
         type="button"
-        onClick={onClick}
+        onClick={handleClick}
         disabled={enabledStatus === 'disabled'}
       >
         {BUTTON_TEXT[phase][enabledStatus]}

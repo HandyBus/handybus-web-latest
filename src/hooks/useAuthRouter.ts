@@ -32,6 +32,8 @@ const useAuthRouter = () => {
 
 export default useAuthRouter;
 
+export const LOGIN_REDIRECT_URL_KEY = 'redirectUrl';
+
 export const createLoginRedirectPath = (href: string) => {
-  return `/login?redirectUrl=${href}`;
+  return `/login?${LOGIN_REDIRECT_URL_KEY}=${href}`;
 };
