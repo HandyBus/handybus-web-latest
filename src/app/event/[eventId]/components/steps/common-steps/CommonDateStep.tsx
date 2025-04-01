@@ -44,9 +44,11 @@ const CommonDateStep = ({ toNextStep }: Props) => {
             type="button"
             onClick={() => handleDateClick(dailyEvent)}
             disabled={isEventEnded}
-            className="flex w-full items-center justify-between py-12 text-left text-16 font-600 text-basic-grey-700 disabled:text-basic-grey-300"
+            className="group flex w-full items-center justify-between py-12 text-left"
           >
-            <span>{formatFullDate(dailyEvent.date)}</span>
+            <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+              {formatFullDate(dailyEvent.date)}
+            </span>
             <span className="text-14 font-500 text-basic-grey-500">
               {isEventEnded
                 ? '마감'

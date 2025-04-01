@@ -98,9 +98,9 @@ const ReservationHubsStep = ({
                     type="button"
                     onClick={() => handleHubClick(possibleHubs)}
                     disabled={isSoldOut}
-                    className={`flex w-full justify-between gap-8 py-12 text-left ${!isDuplicate && isSoldOut && 'pr-[166px]'}`}
+                    className={`group flex w-full justify-between gap-8 py-12 text-left ${!isDuplicate && isSoldOut && 'pr-[166px]'}`}
                   >
-                    <span className="text-16 font-600 text-basic-grey-700 disabled:text-basic-grey-300">
+                    <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
                       {hub.name}
                     </span>
                     {isDuplicate && (

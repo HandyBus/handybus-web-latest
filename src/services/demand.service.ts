@@ -6,16 +6,23 @@ import {
   ShuttleDemandsViewEntitySchema,
 } from '@/types/demand.type';
 import { authInstance, instance } from './config';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { silentParse } from '@/utils/config.util';
 import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
 import { LONG_QUERY_STALE_TIME } from '@/constants/common';
+import { PaginationParams, withPagination } from '@/types/common.type';
 
 // ----- GET -----
 
-export const getUserDemands = async (status?: ShuttleDemandStatus) => {
+// TODO: 추후 마이페이지 작업 진행 시 삭제
+export const getUserDemandsV2 = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });
   const res = await authInstance.get(
     `/v2/user-management/users/me/demands?${searchParams.toString()}`,
@@ -28,10 +35,46 @@ export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   return res.shuttleDemands;
 };
 
-export const useGetUserDemands = (status?: ShuttleDemandStatus) =>
+export const useGetUserDemandsV2 = (status?: ShuttleDemandStatus) =>
   useQuery({
     queryKey: ['user', 'demand', status],
-    queryFn: () => getUserDemands(status),
+    queryFn: () => getUserDemandsV2(status),
+  });
+
+interface GetUserDemandsParams {
+  eventId?: string;
+  dailyEventId?: string;
+  regionId?: string;
+  status?: ShuttleDemandStatus;
+  hasShuttleRoute?: boolean;
+}
+
+export const getUserDemands = async (
+  params: PaginationParams<GetUserDemandsParams>,
+) => {
+  const searchParams = toSearchParams(params);
+  const res = await authInstance.get(
+    `/v3/user-management/users/me/demands?${searchParams.toString()}`,
+    {
+      shape: withPagination({
+        shuttleDemands: ShuttleDemandsViewEntitySchema.array(),
+      }),
+    },
+  );
+  return res;
+};
+
+export const useGetUserDemandsWithPagination = (
+  params: PaginationParams<GetUserDemandsParams>,
+) =>
+  useInfiniteQuery({
+    queryKey: ['user', 'demand', params],
+    queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
+      getUserDemands({ ...params, page: pageParam }),
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextPage;
+    },
   });
 
 export const getAllEventDemandStats = async (eventId: string) => {

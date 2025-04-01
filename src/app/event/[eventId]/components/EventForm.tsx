@@ -37,6 +37,9 @@ import DemandCompleteScreen, {
   DemandCompleteStatus,
 } from './demand-complete-screen/DemandCompleteScreen';
 import ExtraUnreservableRegionStep from './steps/extra-steps/ExtraUnreservableRegionStep';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { getUserDemands } from '@/services/demand.service';
+import { userDemandsAtom } from '../store/userDemandsAtom';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -70,10 +73,23 @@ interface FormProps {
 }
 
 const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
-  // 행사와 노선 상태 관리
+  // 행사, 노선, 수요조사 상태 관리
   const isInitialized = useRef(false);
   const setEvent = useSetAtom(eventAtom);
   const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdWithRoutesAtom);
+  const setUserDemands = useSetAtom(userDemandsAtom);
+  const getAndSetUserDemands = async () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      return;
+    }
+    const userDemands = await getUserDemands({
+      eventId: event.eventId,
+      status: 'OPEN',
+    });
+    console.log(userDemands.shuttleDemands);
+    setUserDemands(userDemands.shuttleDemands);
+  };
   useEffect(() => {
     if (isInitialized.current) {
       return;
@@ -81,6 +97,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     isInitialized.current = true;
     setEvent(event);
     setDailyEventIdWithRoutes(routes);
+    getAndSetUserDemands();
   }, []);
 
   // 폼 상태 관리

@@ -8,13 +8,13 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { ID_TO_REGION } from '@/constants/regions';
-import { useGetUserDemands } from '@/services/demand.service';
+import { useGetUserDemandsV2 } from '@/services/demand.service';
 import { ShuttleDemandsViewEntity } from '@/types/demand.type';
 import { useDeleteDemand } from '@/services/demand.service';
 const EmptyView = dynamic(() => import('../EmptyView'));
 
 const DemandTab = () => {
-  const { data: demands, isLoading } = useGetUserDemands();
+  const { data: demands, isLoading } = useGetUserDemandsV2();
 
   const demandsWithReservationOngoing = useMemo(
     () =>
