@@ -3,7 +3,7 @@
 import { useGetHubsWithPagination } from '@/services/hub.service';
 import PinIcon from '../../../icons/pin-small.svg';
 import { useMemo } from 'react';
-import { groupHubsByRegion } from '../../../store/dailyEventIdWithHubsAtom';
+import { groupHubsByRegion } from '../../../store/dailyEventIdsWithHubsAtom';
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
 import { EventFormValues } from '../../../form.type';
 import { useFormContext } from 'react-hook-form';

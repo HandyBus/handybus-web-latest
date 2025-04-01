@@ -32,7 +32,7 @@ import { FormProvider, useForm, UseFormGetValues } from 'react-hook-form';
 import { BIG_REGIONS_TO_SHORT_NAME } from '@/constants/regions';
 import { EventEnabledStatus, EventFormValues, EventPhase } from '../form.type';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { dailyEventIdWithRoutesAtom } from '../store/dailyEventIdWithRoutesAtom';
+import { dailyEventIdsWithRoutesAtom } from '../store/dailyEventIdsWithRoutesAtom';
 import DemandCompleteScreen, {
   DemandCompleteStatus,
 } from './demand-complete-screen/DemandCompleteScreen';
@@ -77,7 +77,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   // 행사, 노선, 수요조사 상태 관리
   const isInitialized = useRef(false);
   const setEvent = useSetAtom(eventAtom);
-  const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdWithRoutesAtom);
+  const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdsWithRoutesAtom);
   const setUserDemands = useSetAtom(userDemandsAtom);
   const getAndSetUserDemands = async () => {
     const isLoggedIn = getIsLoggedIn();

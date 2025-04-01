@@ -11,8 +11,8 @@ import { useAtomValue } from 'jotai';
 import { calculatePriceOfTripType } from '../../../event.util';
 import { toast } from 'react-toastify';
 import { EventFormValues } from '../../../form.type';
-import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdWithHubsAtom';
-import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
+import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
+import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 
 const ROUND_TRIP_TEXT = '[왕복]';
 const MAX_PASSENGER_COUNT = 9;
@@ -25,10 +25,10 @@ const ReservationInfoStep = () => {
     'dailyEvent',
   ]);
 
-  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
+  const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
-    dailyEventIdWithRoutes,
+    dailyEventIdsWithRoutes,
     dailyEventId: dailyEvent.dailyEventId,
   });
   const toDestinationHubs = route?.toDestinationShuttleRouteHubs ?? [];

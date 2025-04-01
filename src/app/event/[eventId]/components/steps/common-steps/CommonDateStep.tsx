@@ -7,7 +7,7 @@ import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { EventFormValues } from '../../../form.type';
-import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
+import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 
 interface Props {
   toNextStep: () => void;
@@ -17,7 +17,7 @@ const CommonDateStep = ({ toNextStep }: Props) => {
   const event = useAtomValue(eventAtom);
   const dailyEvents =
     event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
-  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
+  const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
 
   const { setValue } = useFormContext<EventFormValues>();
 
@@ -33,7 +33,7 @@ const CommonDateStep = ({ toNextStep }: Props) => {
     <section>
       {dailyEvents.map((dailyEvent) => {
         const isDemandOpen = dailyEvent.status === 'OPEN';
-        const isReservationOpen = Object.keys(dailyEventIdWithHubs).includes(
+        const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
           dailyEvent.dailyEventId,
         );
         const isEventEnded = !isDemandOpen && !isReservationOpen;

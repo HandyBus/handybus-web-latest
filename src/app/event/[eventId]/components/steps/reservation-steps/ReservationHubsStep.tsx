@@ -12,9 +12,9 @@ import { useMemo } from 'react';
 import { checkIsSoldOut, getPriorityRemainingSeat } from '../../../event.util';
 import { EventFormValues } from '../../../form.type';
 import {
-  dailyEventIdWithHubsAtom,
+  dailyEventIdsWithHubsAtom,
   HubWithInfo,
-} from '../../../store/dailyEventIdWithHubsAtom';
+} from '../../../store/dailyEventIdsWithHubsAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -30,7 +30,7 @@ const ReservationHubsStep = ({
   toDemandHubsStep,
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
+  const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const gungusWithHubs = useMemo(() => {
     const [dailyEvent, sido, openSido] = getValues([
       'dailyEvent',
@@ -39,7 +39,7 @@ const ReservationHubsStep = ({
     ]);
     const prioritySido = openSido ?? sido;
     const gungusWithHubsAsObject =
-      dailyEventIdWithHubs?.[dailyEvent.dailyEventId]?.[prioritySido] ?? {};
+      dailyEventIdsWithHubs?.[dailyEvent.dailyEventId]?.[prioritySido] ?? {};
     const gungusWithHubsAsArray = Object.entries(gungusWithHubsAsObject)
       .map(([gungu, hubs]) => {
         const sortedHubs = hubs.sort((a, b) =>
@@ -52,7 +52,7 @@ const ReservationHubsStep = ({
       })
       .sort((a, b) => a.gungu.localeCompare(b.gungu));
     return gungusWithHubsAsArray;
-  }, [dailyEventIdWithHubs]);
+  }, [dailyEventIdsWithHubs]);
 
   const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
     if (hubsWithInfo.length === 1) {

@@ -6,8 +6,8 @@ import { useFormContext } from 'react-hook-form';
 import {
   getRouteOfHubWithInfo,
   HubWithInfo,
-} from '../store/dailyEventIdWithHubsAtom';
-import { dailyEventIdWithRoutesAtom } from '../store/dailyEventIdWithRoutesAtom';
+} from '../store/dailyEventIdsWithHubsAtom';
+import { dailyEventIdsWithRoutesAtom } from '../store/dailyEventIdsWithRoutesAtom';
 import { useAtomValue } from 'jotai';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
-  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
+  const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const handleClick = (e: SyntheticEvent) => {
     e.stopPropagation();
@@ -25,7 +25,7 @@ const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
     const { dailyEventId } = getValues('dailyEvent');
     const route = getRouteOfHubWithInfo({
       hubWithInfo,
-      dailyEventIdWithRoutes,
+      dailyEventIdsWithRoutes,
       dailyEventId,
     });
     if (!route) {

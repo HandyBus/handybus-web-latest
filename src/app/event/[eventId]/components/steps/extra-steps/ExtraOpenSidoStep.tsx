@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
 import { EventFormValues } from '../../../form.type';
-import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
+import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 
 interface Props {
   toNextStep: () => void;
@@ -15,10 +15,10 @@ interface Props {
 const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
   const { setValue, getValues } = useFormContext<EventFormValues>();
 
-  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
+  const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const openRegions = useMemo(() => {
     const dailyEvent = getValues('dailyEvent');
-    const sidosWithHubs = dailyEventIdWithHubs?.[dailyEvent.dailyEventId];
+    const sidosWithHubs = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
     if (!sidosWithHubs) {
       return [];
     }
@@ -31,7 +31,7 @@ const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
       return aIndex - bIndex;
     });
     return sortedSidos;
-  }, [dailyEventIdWithHubs]);
+  }, [dailyEventIdsWithHubs]);
 
   const handleOpenSidoClick = (sido: BigRegionsType) => {
     setValue('openSido', sido);

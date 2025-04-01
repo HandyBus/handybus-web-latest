@@ -7,11 +7,11 @@ import { dateString } from '@/utils/dateString.util';
 import { useAtomValue } from 'jotai';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { EventFormValues } from '../../../form.type';
-import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
+import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import {
   getRouteOfHubWithInfo,
   HubWithInfo,
-} from '../../../store/dailyEventIdWithHubsAtom';
+} from '../../../store/dailyEventIdsWithHubsAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -27,7 +27,7 @@ const ExtraDuplicateHubStep = ({
     'hubsWithInfoForDuplicates',
     'dailyEvent',
   ]);
-  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
+  const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
 
   const handleHubClick = (hubWithInfo: HubWithInfo) => {
     setValue('selectedHubWithInfo', hubWithInfo);
@@ -39,7 +39,7 @@ const ExtraDuplicateHubStep = ({
       {hubsWithInfoForDuplicates?.map((hubWithInfo) => {
         const route = getRouteOfHubWithInfo({
           hubWithInfo,
-          dailyEventIdWithRoutes,
+          dailyEventIdsWithRoutes,
           dailyEventId: dailyEvent.dailyEventId,
         });
         if (!route) {

@@ -5,9 +5,9 @@ import {
 } from '@/types/shuttleRoute.type';
 import { BigRegionsType, ID_TO_REGION } from '@/constants/regions';
 import {
-  DailyEventIdWithRoutes,
-  dailyEventIdWithRoutesAtom,
-} from './dailyEventIdWithRoutesAtom';
+  DailyEventIdsWithRoutes,
+  dailyEventIdsWithRoutesAtom,
+} from './dailyEventIdsWithRoutesAtom';
 import { getRemainingSeat, RemainingSeat } from '../event.util';
 
 export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
@@ -17,7 +17,7 @@ export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
   remainingSeat: RemainingSeat;
 }
 
-interface DailyEventIdWithHubs {
+interface DailyEventIdsWithHubs {
   [dailyEventId: string]: {
     [sido in BigRegionsType]: {
       [gungu: string]: HubWithInfo[][];
@@ -25,10 +25,10 @@ interface DailyEventIdWithHubs {
   };
 }
 
-export const dailyEventIdWithHubsAtom = atomWithCache<DailyEventIdWithHubs>(
+export const dailyEventIdsWithHubsAtom = atomWithCache<DailyEventIdsWithHubs>(
   (get) => {
-    const dailyEventIdWithRoutes = get(dailyEventIdWithRoutesAtom);
-    const dailyEventIdWithHubs = Object.entries(dailyEventIdWithRoutes).map(
+    const dailyEventIdsWithRoutes = get(dailyEventIdsWithRoutesAtom);
+    const dailyEventIdsWithHubs = Object.entries(dailyEventIdsWithRoutes).map(
       ([dailyEventId, routes]) => {
         const hubsWithInfo = routes.reduce((acc, route) => {
           const newHubsWithInfo = getHubsWithInfoInRoute(route);
@@ -39,7 +39,7 @@ export const dailyEventIdWithHubsAtom = atomWithCache<DailyEventIdWithHubs>(
         return [dailyEventId, groupedHubs];
       },
     );
-    return Object.fromEntries(dailyEventIdWithHubs);
+    return Object.fromEntries(dailyEventIdsWithHubs);
   },
 );
 
@@ -104,14 +104,14 @@ export const getHubsWithInfoInRoute = (
 
 export const getRouteOfHubWithInfo = ({
   hubWithInfo,
-  dailyEventIdWithRoutes,
+  dailyEventIdsWithRoutes,
   dailyEventId,
 }: {
   hubWithInfo: HubWithInfo;
-  dailyEventIdWithRoutes: DailyEventIdWithRoutes;
+  dailyEventIdsWithRoutes: DailyEventIdsWithRoutes;
   dailyEventId: string;
 }) => {
-  const routes = dailyEventIdWithRoutes[dailyEventId];
+  const routes = dailyEventIdsWithRoutes[dailyEventId];
   if (!routes) {
     return null;
   }

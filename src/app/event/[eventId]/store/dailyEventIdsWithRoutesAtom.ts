@@ -1,16 +1,16 @@
 import { atom } from 'jotai';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
-export interface DailyEventIdWithRoutes {
+export interface DailyEventIdsWithRoutes {
   [dailyEventId: string]: ShuttleRoutesViewEntity[];
 }
 
-const primitiveDailyEventIdWithRoutesAtom = atom<DailyEventIdWithRoutes>({});
+const primitiveDailyEventIdsWithRoutesAtom = atom<DailyEventIdsWithRoutes>({});
 
-export const dailyEventIdWithRoutesAtom = atom(
-  (get) => get(primitiveDailyEventIdWithRoutesAtom),
+export const dailyEventIdsWithRoutesAtom = atom(
+  (get) => get(primitiveDailyEventIdsWithRoutesAtom),
   (get, set, routes: ShuttleRoutesViewEntity[]) => {
-    const prev = get(primitiveDailyEventIdWithRoutesAtom);
+    const prev = get(primitiveDailyEventIdsWithRoutesAtom);
     const newDailyEventIdWithRoutes = routes.reduce((acc, route) => {
       const dailyEventId = route.dailyEventId;
       const prevRoutes = acc[dailyEventId] || [];
@@ -23,6 +23,6 @@ export const dailyEventIdWithRoutesAtom = atom(
       acc[dailyEventId] = [...prevRoutes, route];
       return acc;
     }, prev);
-    set(primitiveDailyEventIdWithRoutesAtom, newDailyEventIdWithRoutes);
+    set(primitiveDailyEventIdsWithRoutesAtom, newDailyEventIdWithRoutes);
   },
 );

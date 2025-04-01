@@ -5,7 +5,7 @@ import SidoButton from '../../SidoButton';
 import { useAtomValue } from 'jotai';
 import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
-import { dailyEventIdWithHubsAtom } from '../../../store/dailyEventIdWithHubsAtom';
+import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 
 interface Props {
   toDemandHubsStep: () => void;
@@ -20,7 +20,7 @@ const CommonSidoStep = ({
   toExtraSidoInfoStep,
   toExtraUnreservableRegionStep,
 }: Props) => {
-  const dailyEventIdWithHubs = useAtomValue(dailyEventIdWithHubsAtom);
+  const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
 
   const handleSidoClick = (sido: BigRegionsType) => {
@@ -29,7 +29,7 @@ const CommonSidoStep = ({
 
     const dailyEvent = getValues('dailyEvent');
     const isDemandOpen = dailyEvent.status === 'OPEN';
-    const sidosWithGungus = dailyEventIdWithHubs?.[dailyEvent.dailyEventId];
+    const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
     const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
 
     if (!isReservationOpen && !isDemandOpen) {

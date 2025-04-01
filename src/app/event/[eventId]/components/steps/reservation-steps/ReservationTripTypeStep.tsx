@@ -8,8 +8,8 @@ import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
 import { calculatePriceOfTripType } from '../../../event.util';
 import { EventFormValues } from '../../../form.type';
-import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
-import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdWithHubsAtom';
+import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
+import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 
 interface Props {
   toReservationInfoStep: () => void;
@@ -21,7 +21,7 @@ const ReservationTripTypeStep = ({
   toExtraSeatAlarmStep,
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const dailyEventIdWithRoutes = useAtomValue(dailyEventIdWithRoutesAtom);
+  const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
   const [selectedHubWithInfo, dailyEvent] = getValues([
     'selectedHubWithInfo',
     'dailyEvent',
@@ -29,7 +29,7 @@ const ReservationTripTypeStep = ({
 
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
-    dailyEventIdWithRoutes,
+    dailyEventIdsWithRoutes,
     dailyEventId: dailyEvent.dailyEventId,
   });
   const { remainingSeat } = selectedHubWithInfo;
