@@ -1,3 +1,5 @@
+'use client';
+
 import { useGetUser } from '@/services/user.service';
 import Image from 'next/image';
 import { useCallback } from 'react';
@@ -10,13 +12,13 @@ const UserProfile = () => {
   const generateBackgroundColor = useCallback(
     (nickname: string | null | undefined) => {
       if (!nickname) {
-        return profileColor[0];
+        return PROFILE_COLOR[0];
       }
 
       // 닉네임 첫 글자의 유니코드를 사용하여 색상 인덱스 계산
       const char = nickname.charCodeAt(0);
-      const colorIndex = char % profileColor.length;
-      return profileColor[colorIndex];
+      const colorIndex = char % PROFILE_COLOR.length;
+      return PROFILE_COLOR[colorIndex];
     },
     [nickname],
   );
@@ -47,7 +49,7 @@ const UserProfile = () => {
 
 export default UserProfile;
 
-const profileColor = [
+const PROFILE_COLOR = [
   '#181F29',
   '#EFD807',
   '#F6951E',
