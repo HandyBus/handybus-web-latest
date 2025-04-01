@@ -1,4 +1,4 @@
-import { TripType } from '@/types/shuttleRoute.type';
+import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { BigRegionsType } from '@/constants/regions';
 import { HubWithInfo } from './store/dailyEventIdWithHubsAtom';
 import { RegionHubsResponseModel } from '@/types/hub.type';
@@ -13,6 +13,7 @@ export interface EventFormValues {
   tripType: TripType;
   selectedHubForDemand: RegionHubsResponseModel;
   selectedHubForSeatAlarm: HubWithInfo;
+  selectedRouteForSeatAlarm: ShuttleRoutesViewEntity;
 }
 
 export type EventPhase = 'demand' | 'reservation';

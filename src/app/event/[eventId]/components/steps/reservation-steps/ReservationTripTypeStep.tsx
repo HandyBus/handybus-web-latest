@@ -6,7 +6,7 @@ import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
-import { calculatePriceOfTripType, checkIsSoldOut } from '../../../event.util';
+import { calculatePriceOfTripType } from '../../../event.util';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdWithRoutesAtom } from '../../../store/dailyEventIdWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdWithHubsAtom';
@@ -33,7 +33,6 @@ const ReservationTripTypeStep = ({
     dailyEventId: dailyEvent.dailyEventId,
   });
   const { remainingSeat } = selectedHubWithInfo;
-  const isSoldOut = checkIsSoldOut(remainingSeat);
   const priceOfTripType = calculatePriceOfTripType(route);
 
   const handleTripTypeClick = (tripType: TripType) => {
@@ -44,6 +43,9 @@ const ReservationTripTypeStep = ({
   return (
     <section>
       {TripTypeEnum.options.map((tripType) => {
+        const remainingSeatCount = remainingSeat[tripType];
+        const price = priceOfTripType?.[tripType];
+        const isSoldOut = remainingSeatCount === 0;
         return (
           <div key={tripType} className="relative w-full">
             <button
@@ -57,10 +59,10 @@ const ReservationTripTypeStep = ({
               </span>
               {!isSoldOut && (
                 <SeatText
-                  remainingSeatCount={remainingSeat[tripType]}
-                  isEarlybird={priceOfTripType?.[tripType].isEarlybird}
-                  regularPrice={priceOfTripType?.[tripType].regularPrice}
-                  earlybirdPrice={priceOfTripType?.[tripType].earlybirdPrice}
+                  remainingSeatCount={remainingSeatCount}
+                  isEarlybird={price?.isEarlybird}
+                  regularPrice={price?.regularPrice}
+                  earlybirdPrice={price?.earlybirdPrice}
                 />
               )}
             </button>

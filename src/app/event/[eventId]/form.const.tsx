@@ -29,6 +29,7 @@ export const EVENT_STEPS = [
   '[기타] 예약 가능 시/도',
   '[기타] 복수 노선',
   '[기타] 빈자리 알림',
+  '[기타] 노선 내 정류장',
 ] as const;
 
 export const EVENT_STEPS_TO_TEXT: Record<
@@ -95,7 +96,11 @@ export const EVENT_STEPS_TO_TEXT: Record<
   },
   '[기타] 빈자리 알림': {
     title: '알림이 신청되었어요!',
-    description: '빈자리를 예약할 수 있을 때 바로 알려드릴게요.',
+    description: (input) =>
+      `이 정류장은 [${input}]을 지나요. 이 노선을 지나는 모든 정류장은 따로 알림을 신청하지 않아도 돼요.`,
+  },
+  '[기타] 노선 내 정류장': {
+    title: '노선 내 정류장',
   },
 } as const;
 

@@ -40,6 +40,7 @@ import ExtraUnreservableRegionStep from './steps/extra-steps/ExtraUnreservableRe
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { getUserDemands } from '@/services/demand.service';
 import { userDemandsAtom } from '../store/userDemandsAtom';
+import ExtraHubsInRouteStep from './steps/extra-steps/ExtraHubsInRouteStep';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -292,7 +293,14 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                   />
                 </Step>
                 <Step name="[기타] 빈자리 알림">
-                  <ExtraSeatAlarmStep />
+                  <ExtraSeatAlarmStep
+                    toExtraHubsInRouteStep={() =>
+                      setHistoryAndStep('[기타] 노선 내 정류장')
+                    }
+                  />
+                </Step>
+                <Step name="[기타] 노선 내 정류장">
+                  <ExtraHubsInRouteStep />
                 </Step>
               </Funnel>
             </div>
@@ -341,6 +349,10 @@ const getBottomSheetText = (
       const hubsWithInfoForDuplicates = getValues('hubsWithInfoForDuplicates');
       titleInput = hubsWithInfoForDuplicates?.length.toString() ?? '';
       descriptionInput = hubsWithInfoForDuplicates?.[0].name ?? '';
+      break;
+    case '[기타] 빈자리 알림':
+      const selectedRouteForSeatAlarm = getValues('selectedRouteForSeatAlarm');
+      descriptionInput = selectedRouteForSeatAlarm?.name ?? '';
       break;
   }
 
