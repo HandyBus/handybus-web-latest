@@ -87,7 +87,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
       eventId: event.eventId,
       status: 'OPEN',
     });
-    console.log(userDemands.shuttleDemands);
+    console.log('userDemands', userDemands.shuttleDemands);
     setUserDemands(userDemands.shuttleDemands);
   };
   useEffect(() => {
@@ -224,6 +224,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                   <DemandHubInfoStep
                     closeBottomSheet={closeBottomSheet}
                     setDemandCompleteStatus={setDemandCompleteStatus}
+                    updateUserDemands={getAndSetUserDemands}
                   />
                 </Step>
                 {/* 예약 */}

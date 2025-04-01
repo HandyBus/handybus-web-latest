@@ -3,6 +3,14 @@ import { atom } from 'jotai';
 
 export const userDemandsAtom = atom<ShuttleDemandsViewEntity[]>([]);
 
+export const writeSingleUserDemandAtom = atom(
+  null,
+  (get, set, update: ShuttleDemandsViewEntity) => {
+    const prevUserDemands = get(userDemandsAtom);
+    set(userDemandsAtom, [...prevUserDemands, update]);
+  },
+);
+
 export const checkIsUserDemandAvailableInRegion = (
   demands: ShuttleDemandsViewEntity[],
   {

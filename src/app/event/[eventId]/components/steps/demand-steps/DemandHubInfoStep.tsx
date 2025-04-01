@@ -8,14 +8,17 @@ import { usePostDemand } from '@/services/demand.service';
 import { eventAtom } from '../../../store/eventAtom';
 import { useAtomValue } from 'jotai';
 import { DemandCompleteStatus } from '../../demand-complete-screen/DemandCompleteScreen';
+
 interface Props {
   closeBottomSheet: () => void;
   setDemandCompleteStatus: (status: DemandCompleteStatus) => void;
+  updateUserDemands: () => void;
 }
 
 const DemandHubInfoStep = ({
   closeBottomSheet,
   setDemandCompleteStatus,
+  updateUserDemands,
 }: Props) => {
   const event = useAtomValue(eventAtom);
   const { getValues } = useFormContext<EventFormValues>();
@@ -60,6 +63,7 @@ const DemandHubInfoStep = ({
         body,
       });
       setDemandCompleteStatus('success');
+      updateUserDemands();
     } catch {
       setDemandCompleteStatus('fail');
     } finally {
