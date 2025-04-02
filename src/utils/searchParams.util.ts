@@ -1,6 +1,5 @@
-export const toSearchParams = (
-  params: Record<string, string | number | undefined> | undefined,
-) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const toSearchParams = (params: Record<any, any> | undefined) => {
   const searchParams = new URLSearchParams();
   if (!params) {
     return searchParams;

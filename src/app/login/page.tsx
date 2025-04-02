@@ -14,6 +14,7 @@ import {
   setLastLogin,
   setRedirectUrl,
 } from '@/utils/localStorage';
+import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
 
 const Login = () => {
   usePreventScroll();
@@ -21,7 +22,7 @@ const Login = () => {
   const searchParams = useSearchParams();
 
   const handleRedirectUrl = () => {
-    const redirectUrl = searchParams.get('redirectUrl');
+    const redirectUrl = searchParams.get(LOGIN_REDIRECT_URL_KEY);
     if (redirectUrl) {
       setRedirectUrl(redirectUrl);
     } else {

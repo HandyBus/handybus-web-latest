@@ -1,30 +1,78 @@
 'use client';
 
+import { useAtomValue } from 'jotai';
+import { eventAtom } from '../../../store/eventAtom';
+import { dateString } from '@/utils/dateString.util';
+import { DailyEventsInEventsViewEntity } from '@/types/event.type';
+import { useFormContext } from 'react-hook-form';
+import dayjs from 'dayjs';
+import { EventFormValues } from '../../../form.type';
+import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
+
 interface Props {
   toNextStep: () => void;
 }
 
 const CommonDateStep = ({ toNextStep }: Props) => {
+  const event = useAtomValue(eventAtom);
+  const dailyEvents =
+    event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
+  const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
+
+  const { setValue } = useFormContext<EventFormValues>();
+
+  const handleDateClick = (dailyEvent: DailyEventsInEventsViewEntity) => {
+    if (!event) {
+      return;
+    }
+    setValue('dailyEvent', dailyEvent);
+    toNextStep();
+  };
+
   return (
     <section>
-      {MOCK_DATE.map((date) => (
-        <button
-          key={date}
-          type="button"
-          onClick={toNextStep}
-          className="block w-full py-12 text-left text-16 font-600 text-basic-grey-700"
-        >
-          {date}
-        </button>
-      ))}
+      {dailyEvents.map((dailyEvent) => {
+        const isDemandOpen = dailyEvent.status === 'OPEN';
+        const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
+          dailyEvent.dailyEventId,
+        );
+        const isEventEnded = !isDemandOpen && !isReservationOpen;
+
+        return (
+          <button
+            key={dailyEvent.dailyEventId}
+            type="button"
+            onClick={() => handleDateClick(dailyEvent)}
+            disabled={isEventEnded}
+            className="group flex w-full items-center justify-between py-12 text-left"
+          >
+            <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+              {formatFullDate(dailyEvent.date)}
+            </span>
+            <span className="text-14 font-500 text-basic-grey-500">
+              {isEventEnded
+                ? '마감'
+                : isDemandOpen && !isReservationOpen
+                  ? '전지역 수요조사 중'
+                  : null}
+            </span>
+          </button>
+        );
+      })}
     </section>
   );
 };
 
-export default CommonDateStep;
+const formatFullDate = (date: string) => {
+  const tokens = dateString(date, {
+    showYear: true,
+    showDate: true,
+    showWeekday: true,
+  }).split('.');
+  const lastToken = tokens[2].split(' ');
+  return (
+    tokens[0] + '년 ' + tokens[1] + '월 ' + lastToken[0] + '일 ' + lastToken[1]
+  );
+};
 
-const MOCK_DATE = [
-  '2025년 3월 21일 (금)',
-  '2025년 3월 22일 (토)',
-  '2025년 3월 23일 (일)',
-];
+export default CommonDateStep;

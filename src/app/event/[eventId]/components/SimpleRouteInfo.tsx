@@ -19,22 +19,26 @@ type HubType = 'eventLocation' | 'primary' | 'secondary' | 'tertiary';
 interface Props {
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
-  selectedHubId: string;
+  selectedRegionHubId: string;
 }
 
-const SimpleRouteInfo = ({ tripType, hubs, selectedHubId }: Props) => {
+const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
   const [showDetail, setShowDetail] = useState(false);
+  const sortedHubs = useMemo(() => {
+    return hubs.toSorted((a, b) => a.sequence - b.sequence);
+  }, [hubs]);
 
   const selectedHubIndex = useMemo(
-    () => hubs.findIndex((hub) => hub.shuttleRouteHubId === selectedHubId),
-    [hubs, selectedHubId],
+    () =>
+      sortedHubs.findIndex((hub) => hub.regionHubId === selectedRegionHubId),
+    [sortedHubs, selectedRegionHubId],
   );
 
   return (
     <div className="flex w-full gap-12">
       <div className="flex w-12 shrink-0 flex-col items-center pt-[7px]">
         <RouteLine
-          length={hubs.length}
+          length={sortedHubs.length}
           selectedHubIndex={selectedHubIndex}
           tripType={tripType}
           showDetail={showDetail}
@@ -42,7 +46,7 @@ const SimpleRouteInfo = ({ tripType, hubs, selectedHubId }: Props) => {
       </div>
       <div className="flex flex-1 flex-col gap-12">
         <Hubs
-          hubs={hubs}
+          hubs={sortedHubs}
           selectedHubIndex={selectedHubIndex}
           tripType={tripType}
           showDetail={showDetail}
@@ -194,6 +198,7 @@ const RouteLine = ({
 
         const Line = (
           <div
+            key={index}
             className={customTwMerge(
               'my-[-2px] h-[31.2px] w-[2px]',
               type === 'tertiary'

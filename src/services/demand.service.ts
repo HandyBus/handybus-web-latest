@@ -6,15 +6,23 @@ import {
   ShuttleDemandsViewEntitySchema,
 } from '@/types/demand.type';
 import { authInstance, instance } from './config';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { silentParse } from '@/utils/config.util';
 import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
+import { LONG_QUERY_STALE_TIME } from '@/constants/common';
+import { PaginationParams, withPagination } from '@/types/common.type';
 
 // ----- GET -----
 
-export const getUserDemands = async (status?: ShuttleDemandStatus) => {
+// TODO: 추후 마이페이지 작업 진행 시 삭제
+export const getUserDemandsV2 = async (status?: ShuttleDemandStatus) => {
   const searchParams = toSearchParams({ status });
   const res = await authInstance.get(
     `/v2/user-management/users/me/demands?${searchParams.toString()}`,
@@ -27,10 +35,46 @@ export const getUserDemands = async (status?: ShuttleDemandStatus) => {
   return res.shuttleDemands;
 };
 
-export const useGetUserDemands = (status?: ShuttleDemandStatus) =>
+export const useGetUserDemandsV2 = (status?: ShuttleDemandStatus) =>
   useQuery({
     queryKey: ['user', 'demand', status],
-    queryFn: () => getUserDemands(status),
+    queryFn: () => getUserDemandsV2(status),
+  });
+
+interface GetUserDemandsParams {
+  eventId?: string;
+  dailyEventId?: string;
+  regionId?: string;
+  status?: ShuttleDemandStatus;
+  hasShuttleRoute?: boolean;
+}
+
+export const getUserDemands = async (
+  params: PaginationParams<GetUserDemandsParams>,
+) => {
+  const searchParams = toSearchParams(params);
+  const res = await authInstance.get(
+    `/v3/user-management/users/me/demands?${searchParams.toString()}`,
+    {
+      shape: withPagination({
+        shuttleDemands: ShuttleDemandsViewEntitySchema.array(),
+      }),
+    },
+  );
+  return res;
+};
+
+export const useGetUserDemandsWithPagination = (
+  params: PaginationParams<GetUserDemandsParams>,
+) =>
+  useInfiniteQuery({
+    queryKey: ['user', 'demand', params],
+    queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
+      getUserDemands({ ...params, page: pageParam }),
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextPage;
+    },
   });
 
 export const getAllEventDemandStats = async (eventId: string) => {
@@ -81,9 +125,49 @@ export const useGetEventDemandStats = (
   },
 ) =>
   useQuery({
-    queryKey: ['demand', 'stats', eventId, dailyEventId, params],
+    queryKey: ['demand', 'event-stats', eventId, dailyEventId, params],
     queryFn: () => getEventDemandStats(eventId, dailyEventId, params),
     enabled: Boolean(eventId && dailyEventId),
+  });
+
+interface GetDemandStatsParams {
+  groupBy:
+    | 'EVENT'
+    | 'DAILY_EVENT'
+    | 'PROVINCE'
+    | 'CITY'
+    | 'TO_DESTINATION_REGION_HUB'
+    | 'FROM_DESTINATION_REGION_HUB';
+  provinceFullName?: string;
+  provinceShortName?: string;
+  cityFullName?: string;
+  cityShortName?: string;
+  dailyEventId?: string;
+  eventId?: string;
+}
+
+export const getDemandStats = async (params: GetDemandStatsParams) => {
+  const searchParams = toSearchParams(params);
+  const res = await instance.get(
+    `/v2/shuttle-operation/demands/all/stats?${searchParams.toString()}`,
+    {
+      shape: {
+        statistics: ShuttleDemandStatisticsReadModelSchema.array(),
+      },
+    },
+  );
+  return res.statistics;
+};
+
+export const useGetDemandStats = (
+  params: GetDemandStatsParams,
+  { enabled = true }: { enabled?: boolean } = {},
+) =>
+  useQuery({
+    queryKey: ['demand', 'stats', params],
+    queryFn: () => getDemandStats(params),
+    enabled,
+    staleTime: LONG_QUERY_STALE_TIME,
   });
 
 // ----- POST -----
@@ -99,7 +183,9 @@ export const postDemand = async (
   );
 };
 
-export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
+export const usePostDemand = ({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
@@ -118,16 +204,12 @@ export const usePostDemand = ({ onSuccess }: { onSuccess?: () => void }) => {
           queryKey: ['demand'],
         }),
       ]);
-      toast.success('셔틀이 개설되면 마이페이지에서 확인해보실 수 있어요.');
       onSuccess?.();
     },
     onError: (e) => {
       const error = e as CustomError;
-      if (error.statusCode === 409) {
-        toast.error('이미 참여한 수요조사예요.');
-        return;
-      }
-      toast.error('수요조사에 참여하지 못했어요.');
+      console.error(error);
+      // 409일 시 이미 요청한 수요조사
     },
   });
 };
