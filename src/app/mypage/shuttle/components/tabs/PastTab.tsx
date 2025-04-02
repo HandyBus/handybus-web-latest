@@ -45,6 +45,7 @@ const PastTab = () => {
                 }
                 onSubButtonClick={() => handleReviewClick(reservation)}
                 subButtonColor={reservation.hasReview ? 'grey' : 'primary'}
+                subButtonDisabled={reservation.reservationStatus === 'CANCEL'}
               />
             ))}
           </ul>
