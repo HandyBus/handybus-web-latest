@@ -1,6 +1,7 @@
 'use client';
 
 import { toast } from 'react-toastify';
+import Script from 'next/script';
 
 declare global {
   interface Window {
@@ -17,33 +18,32 @@ declare global {
 
 interface Props {
   eventName: string;
-  closeBottomSheet?: () => void;
 }
 
-export const useShare = ({ eventName, closeBottomSheet }: Props) => {
+export const useShare = ({ eventName }: Props) => {
+  const initializeKakao = () => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
+    }
+  };
+
+  const KakaoScript = () => {
+    return (
+      <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
+        integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8"
+        crossOrigin="anonymous"
+        onLoad={initializeKakao}
+        strategy="afterInteractive"
+      />
+    );
+  };
+
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   const shareToTwitter = () => {
     const text = encodeURIComponent(currentUrl);
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-    closeBottomSheet?.();
-  };
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(currentUrl);
-      toast.success('링크를 복사했어요.');
-    } catch {
-      toast.error('링크를 복사하지 못했어요.');
-    } finally {
-      closeBottomSheet?.();
-    }
-  };
-
-  const initializeKakao = () => {
-    if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
-    }
   };
 
   const shareToKakao = () => {
@@ -59,14 +59,21 @@ export const useShare = ({ eventName, closeBottomSheet }: Props) => {
         path: currentUrl,
       },
     });
+  };
 
-    closeBottomSheet?.();
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      toast.success('링크를 복사했어요.');
+    } catch {
+      toast.error('링크를 복사하지 못했어요.');
+    }
   };
 
   return {
-    shareToTwitter,
     copyToClipboard,
-    initializeKakao,
+    shareToTwitter,
     shareToKakao,
+    KakaoScript,
   };
 };
