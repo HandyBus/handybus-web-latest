@@ -34,8 +34,6 @@ const ReservationInfoStep = () => {
   const toDestinationHubs = route?.toDestinationShuttleRouteHubs ?? [];
   const fromDestinationHubs = route?.fromDestinationShuttleRouteHubs ?? [];
 
-  const isRoundTrip = tripType === 'ROUND_TRIP';
-
   const [passengerCount, setPassengerCount] = useState(1);
   const maxPassengerCount = Math.min(
     selectedHubWithInfo.remainingSeat[tripType] ?? 0,
@@ -43,10 +41,15 @@ const ReservationInfoStep = () => {
   );
 
   const priceOfTripType = calculatePriceOfTripType(route);
-  const singlePrice =
-    (priceOfTripType?.[tripType].isEarlybird
-      ? priceOfTripType?.[tripType].earlybirdPrice
-      : priceOfTripType?.[tripType].regularPrice) ?? 0;
+  const price = priceOfTripType?.[tripType];
+  const regularPrice = price?.regularPrice ?? 0;
+  const earlybirdPrice = price?.earlybirdPrice ?? 0;
+  const discountRate = Math.floor(
+    ((regularPrice - earlybirdPrice) / regularPrice) * 100,
+  );
+
+  const isRoundTrip = tripType === 'ROUND_TRIP';
+  const isEarlybird = price?.isEarlybird;
 
   const handleReservationClick = () => {
     console.log(selectedHubWithInfo, tripType, passengerCount);
@@ -110,13 +113,30 @@ const ReservationInfoStep = () => {
           <AddIcon />
         </button>
       </Container>
-      <article className="flex h-[26px] items-center justify-between">
-        <span className="text-14 font-500 text-basic-grey-700">
-          {singlePrice.toLocaleString()}원 x {passengerCount}
-        </span>
-        <span className="text-16 font-500">
-          {(singlePrice * passengerCount).toLocaleString()}원
-        </span>
+      <article>
+        <p className="flex h-[22px] items-center justify-between">
+          <span className="text-14 font-500 text-basic-grey-700">
+            {regularPrice.toLocaleString()}원 x {passengerCount}
+          </span>
+          <span
+            className={`font-600 ${isEarlybird ? 'text-14 text-basic-grey-300 line-through' : 'text-16'}`}
+          >
+            {(regularPrice * passengerCount).toLocaleString()} 원
+          </span>
+        </p>
+        {isEarlybird && (
+          <p className="flex h-[26px] items-center justify-end gap-4">
+            <span className="text-10 font-600 text-basic-grey-700">
+              얼리버드 할인
+            </span>
+            <span className="text-16 font-600 text-basic-red-400">
+              {discountRate}%
+            </span>
+            <span className="text-16 font-600">
+              {(earlybirdPrice * passengerCount).toLocaleString()}원
+            </span>
+          </p>
+        )}
       </article>
       <Button
         variant="primary"
