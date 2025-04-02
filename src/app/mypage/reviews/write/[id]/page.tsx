@@ -72,6 +72,10 @@ const WriteReview = ({ params }: Props) => {
       toast.error('20자 이상 작성해 주세요.');
       return;
     }
+    if (text.length > 1000) {
+      toast.error('1000자 이하로 작성해 주세요.');
+      return;
+    }
     if (!data) {
       toast.error('잠시 후 다시 시도해 주세요.');
       return;
@@ -116,14 +120,17 @@ const WriteReview = ({ params }: Props) => {
             <Rating size="large" value={rating} onChange={setRating} />
           </div>
         </section>
-        <section className="flex w-full flex-col gap-16 p-28">
-          <h5>후기를 작성해주세요 (20자 이상)</h5>
+        <section className="relative flex w-full flex-col p-28">
+          <h5 className="mb-16">
+            후기를 작성해주세요 (최소 20자, 최대 1000자)
+          </h5>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="자유로운 후기를 작성해주세요. 핸디버스 발전에 도움이 됩니다. (장단점, 건의사항 등)"
-            className="h-160 w-full resize-none rounded-[12px] border border-grey-100 p-12 text-16 font-400 outline-none placeholder:text-grey-300"
+            className="mb-8 h-160 w-full resize-none rounded-[12px] border border-grey-100 p-12 pb-8 text-16 font-400 outline-none placeholder:text-grey-300"
           />
+          <div className="mb-8 text-10 text-grey-400">{text.length} / 1000</div>
           <div className="flex gap-12">
             <button
               onClick={() => fileInputRef.current?.click()}
