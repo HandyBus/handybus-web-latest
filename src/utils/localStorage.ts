@@ -69,3 +69,15 @@ export const getRecentlyViewedBigRegion = (): BigRegionsType | null => {
 export const removeRecentlyViewedBigRegion = () => {
   localStorage.removeItem(RECENTLY_VIEWED_BIG_REGION);
 };
+
+// 최근에 본 정류장
+export const RECENTLY_VIEWED_HUB_ID = 'recently-viewed-hub-id';
+export const setRecentlyViewedHubId = (hubId: string) => {
+  localStorage.setItem(RECENTLY_VIEWED_HUB_ID, hubId);
+};
+export const getRecentlyViewedHubId = () => {
+  return localStorage.getItem(RECENTLY_VIEWED_HUB_ID);
+};
+export const removeRecentlyViewedHubId = () => {
+  localStorage.removeItem(RECENTLY_VIEWED_HUB_ID);
+};
