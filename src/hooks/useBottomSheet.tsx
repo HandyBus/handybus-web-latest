@@ -294,5 +294,5 @@ export interface BottomSheetRefs {
   bottomSheetRef: (
     bottomSheetElement: HTMLDivElement,
   ) => (() => void) | undefined;
-  contentRef: RefObject<HTMLDivElement>;
+  contentRef?: RefObject<HTMLDivElement>;
 }

@@ -173,6 +173,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
         )}
         <BottomBar
           eventId={event.eventId}
+          eventName={event.eventName}
           phase={phase}
           enabledStatus={enabledStatus}
           onClick={openBottomSheet}
