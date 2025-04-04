@@ -17,16 +17,9 @@ interface Props {
   image: string | null;
   order?: number;
   isSaleStarted?: boolean;
-  isDemandStarted?: boolean;
 }
 
-const Card = ({
-  variant,
-  image,
-  order = 1,
-  isSaleStarted = true,
-  isDemandStarted = true,
-}: Props) => {
+const Card = ({ variant, image, order = 1, isSaleStarted = true }: Props) => {
   return (
     <div
       className={`${cardSize[variant]} relative border-[1px] border-[#181F29] border-opacity-[0.08] ${cardRounded[variant]}`}
@@ -56,7 +49,7 @@ const Card = ({
               >
                 {isSaleStarted ? '32,000원~' : '판매대기'}
               </p>
-              {isDemandStarted && (
+              {!isSaleStarted && (
                 <div className="rounded-[42px] bg-basic-blue-100 px-8 py-4 text-10 font-600 leading-[160%] text-basic-blue-400">
                   수요조사 진행 중
                 </div>
