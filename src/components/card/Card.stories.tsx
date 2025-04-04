@@ -11,21 +11,22 @@ export default meta;
 
 type Story = StoryObj<typeof Card>;
 
-export const Primary: Story = {
+export const LARGE: Story = {
   args: {
     variant: 'LARGE',
     image: null,
+    isSaleStarted: false,
   },
 };
 
-export const Secondary: Story = {
+export const MEDIUM: Story = {
   args: {
     variant: 'MEDIUM',
     image: null,
   },
 };
 
-export const Loading: Story = {
+export const SMALL: Story = {
   args: {
     variant: 'SMALL',
     image: null,

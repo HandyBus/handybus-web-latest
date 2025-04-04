@@ -11,7 +11,7 @@ export default meta;
 
 type Story = StoryObj<typeof ViewAllButton>;
 
-export const Primary: Story = {
+export const Default: Story = {
   args: {
     onClick: () => {},
   },

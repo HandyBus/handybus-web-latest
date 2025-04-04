@@ -11,14 +11,14 @@ export default meta;
 
 type Story = StoryObj<typeof EventTypeChip>;
 
-export const Primary: Story = {
+export const CONCERT: Story = {
   args: {
     isSelected: true,
     children: '콘서트',
   },
 };
 
-export const Secondary: Story = {
+export const FESTIVAL: Story = {
   args: {
     isSelected: false,
     children: '페스티벌',
