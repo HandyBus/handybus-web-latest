@@ -83,7 +83,7 @@ const ReservationHubsStep = ({
     <section>
       {recentlyViewedPossibleHubs && (
         <div>
-          <h6 className="mb-4 text-16 font-600 text-basic-grey-700">
+          <h6 className="mb-4 text-16 font-600 text-basic-grey-600">
             최근에 본 정류장
           </h6>
           <Hub
@@ -99,11 +99,11 @@ const ReservationHubsStep = ({
           <article key={gunguWithHubs.gungu}>
             <div className="mb-4 flex h-[26px] items-center gap-[2px]">
               <PinIcon />
-              <h6 className="text-14 font-700 text-basic-grey-600">
+              <h6 className="text-14 font-600 text-basic-grey-400">
                 {gunguWithHubs.gungu}
               </h6>
             </div>
-            <ul>
+            <ul className="flex flex-col gap-8">
               {gunguWithHubs.hubs.map((possibleHubs) => (
                 <Hub
                   key={possibleHubs[0].regionHubId}

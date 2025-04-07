@@ -36,7 +36,6 @@ import { dailyEventIdsWithRoutesAtom } from '../store/dailyEventIdsWithRoutesAto
 import DemandCompleteScreen, {
   DemandCompleteStatus,
 } from './demand-complete-screen/DemandCompleteScreen';
-import ExtraUnreservableRegionStep from './steps/extra-steps/ExtraUnreservableRegionStep';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { getUserDemands } from '@/services/demand.service';
 import { userDemandsAtom } from '../store/userDemandsAtom';
@@ -88,7 +87,6 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
       eventId: event.eventId,
       status: 'OPEN',
     });
-    console.log('userDemands', userDemands.shuttleDemands);
     setUserDemands(userDemands.shuttleDemands);
   };
   useEffect(() => {
@@ -205,9 +203,6 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                     toExtraSidoInfoStep={() =>
                       setHistoryAndStep('[기타] 시/도 정보')
                     }
-                    toExtraUnreservableRegionStep={() =>
-                      setHistoryAndStep('[기타] 예약 불가 지역')
-                    }
                   />
                 </Step>
                 {/* 수요조사 */}
@@ -268,13 +263,6 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                     }
                     toDemandHubsStep={() =>
                       setHistoryAndStep('[수요조사] 정류장 선택')
-                    }
-                  />
-                </Step>
-                <Step name="[기타] 예약 불가 지역">
-                  <ExtraUnreservableRegionStep
-                    toExtraOpenSidoStep={() =>
-                      setHistoryAndStep('[기타] 예약 가능 시/도')
                     }
                   />
                 </Step>

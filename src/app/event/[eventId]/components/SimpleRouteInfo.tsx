@@ -34,6 +34,10 @@ const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
     [sortedHubs, selectedRegionHubId],
   );
 
+  const isExpandable = useMemo(() => {
+    return hubs.length >= 3;
+  }, [hubs]);
+
   return (
     <div className="flex w-full gap-12">
       <div className="flex w-12 shrink-0 flex-col items-center pt-[7px]">
@@ -52,17 +56,19 @@ const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
           showDetail={showDetail}
         />
       </div>
-      <div className="shrink-0">
-        <button
-          type="button"
-          onClick={() => setShowDetail(!showDetail)}
-          className={`transition-transform duration-100 ease-in-out ${
-            showDetail ? 'rotate-180' : ''
-          }`}
-        >
-          <ChevronDownIcon />
-        </button>
-      </div>
+      {isExpandable && (
+        <div className="shrink-0">
+          <button
+            type="button"
+            onClick={() => setShowDetail(!showDetail)}
+            className={`transition-transform duration-100 ease-in-out ${
+              showDetail ? 'rotate-180' : ''
+            }`}
+          >
+            <ChevronDownIcon />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
