@@ -33,16 +33,16 @@ const mock_help_data = [
   {
     id: 1,
     title: '핸디버스가 처음이라면',
-    url: '/help/first',
+    url: '/help/about',
   },
   {
     id: 2,
     title: '자주 묻는 질문',
-    url: '/help/how-to-use',
+    url: '/help/faq',
   },
   {
     id: 3,
     title: '이 행사, 셔틀 운행 해주세요',
-    url: '/help/how-to-use',
+    url: `${process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL}`,
   },
 ];

@@ -4,7 +4,7 @@ import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 const NoticeBoard = () => {
   return (
-    <ArticleV2 richTitle="공지사항" showMore="/bot/notice">
+    <ArticleV2 richTitle="공지사항" showMore="/notice">
       <div className="flex flex-col">
         {mock_notice_data.map((v) => (
           <Link key={v.id} href={v.url} className="flex items-center py-12">
@@ -31,12 +31,12 @@ const mock_notice_data = [
     id: 1,
     title: '[공지] 콜드플레이 지방 추가 노선 개설 안내',
     date: '2021.01.01',
-    url: '/bot/notice',
+    url: '/notice/1',
   },
   {
     id: 2,
     title: '[공지] 콜드플레이 지방 추가 노선 개설 안내',
     date: '2021.01.02',
-    url: '/bot/notice',
+    url: '/notice/2',
   },
 ];

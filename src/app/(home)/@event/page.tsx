@@ -26,7 +26,7 @@ const TrendShuttleCard = () => {
         showMore={'/event'}
       >
         {isLoading ? (
-          <div className="h-408" />
+          <div className="h-309" />
         ) : (
           <div className="">
             <EventsSwiperView events={mock_event_data} type="TREND" />
@@ -48,7 +48,7 @@ const RecommendedEventCard = () => {
         showMore={'/event'}
       >
         {isLoading ? (
-          <div className="h-408" />
+          <div className="h-324" />
         ) : (
           <div className="">
             <EventsSwiperView events={mock_event_data} type="RECOMMAND" />
