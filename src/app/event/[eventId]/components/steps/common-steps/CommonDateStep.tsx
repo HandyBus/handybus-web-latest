@@ -6,15 +6,16 @@ import { dateString } from '@/utils/dateString.util';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { EventFormValues } from '../../../form.type';
+import { EventFormValues, EventPhase } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import Button from '@/components/buttons/button/Button';
 
 interface Props {
   toNextStep: () => void;
+  phase: EventPhase;
 }
 
-const CommonDateStep = ({ toNextStep }: Props) => {
+const CommonDateStep = ({ toNextStep, phase }: Props) => {
   const event = useAtomValue(eventAtom);
   const dailyEvents =
     event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
@@ -39,7 +40,7 @@ const CommonDateStep = ({ toNextStep }: Props) => {
         );
         const isEventEnded = !isDemandOpen && !isReservationOpen;
         const isDemandOpenAndReservationClosed =
-          isDemandOpen && !isReservationOpen;
+          isDemandOpen && !isReservationOpen && phase === 'reservation';
         return (
           <div key={dailyEvent.dailyEventId} className="relative">
             <button

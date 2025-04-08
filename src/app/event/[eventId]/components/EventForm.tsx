@@ -190,6 +190,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                 <Step name="[공통] 일자 선택">
                   <CommonDateStep
                     toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
+                    phase={phase}
                   />
                 </Step>
                 <Step name="[공통] 시/도 선택">
