@@ -8,25 +8,27 @@ interface Props {
   children: ReactNode;
   title?: ReactNode;
   description?: ReactNode;
+  showBackButton?: boolean;
   onBack?: () => void;
 }
 
 const BottomSheet = forwardRef<HTMLDivElement, Props>(
-  ({ children, title, description, onBack }, ref) => {
+  ({ children, title, description, showBackButton = false, onBack }, ref) => {
     return (
       <BottomSheetPortal>
         <div className="fixed bottom-0 left-0 right-0 top-0 z-[100] hidden bg-basic-black/50">
           <div
             ref={ref}
             role="dialog"
-            className="fixed -bottom-60 left-0 right-0 z-[101] mx-auto hidden max-h-[90dvh] min-h-100 w-full max-w-500 -translate-x-1/2 flex-col rounded-t-[20px] bg-basic-white px-24 pb-60 transition-transform duration-0 ease-out"
+            // 현재 바텀시트 하단의 여백은 60dvh (bottom, max-h, pb 속성으로 제어)
+            className="fixed -bottom-[60dvh] left-0 right-0 z-[101] mx-auto hidden max-h-[calc(90dvh+60dvh)] min-h-100 w-full max-w-500 -translate-x-1/2 flex-col rounded-t-[20px] bg-basic-white px-24 pb-[60dvh] transition-transform duration-0 ease-out"
           >
-            <div className="mx-auto my-8 h-4 w-[70px] shrink-0 rounded-full bg-basic-grey-100" />
+            <div className="mx-auto my-8 h-4 w-[70px] shrink-0 rounded-full bg-basic-grey-200" />
             {(title || description) && (
               <div className="flex flex-col gap-4 break-keep pb-16 pt-12">
                 {title && (
-                  <h2 className="flex w-full items-center gap-4 text-20 font-700 text-basic-grey-700">
-                    {onBack && (
+                  <h2 className="flex w-full items-center gap-4 text-20 font-700">
+                    {showBackButton && (
                       <button type="button" onClick={onBack}>
                         <BackIcon />
                       </button>
@@ -42,6 +44,7 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
               </div>
             )}
             {children}
+            <div className="h-16" />
           </div>
         </div>
       </BottomSheetPortal>

@@ -49,3 +49,11 @@ export const EventsViewEntitySchema = z
   })
   .strict();
 export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;
+
+export const EventWithRoutesViewEntitySchema = EventsViewEntitySchema.extend({
+  minRoutePrice: z.number().nullable(),
+  hasOpenRoute: z.boolean(),
+});
+export type EventWithRoutesViewEntity = z.infer<
+  typeof EventWithRoutesViewEntitySchema
+>;

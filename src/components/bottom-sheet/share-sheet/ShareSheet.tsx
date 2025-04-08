@@ -2,7 +2,6 @@
 
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import { RefObject } from 'react';
-import Script from 'next/script';
 import { useShare } from '@/hooks/useShare';
 import KakaoIcon from 'public/icons/kakao-colored.svg';
 import TwitterIcon from 'public/icons/twitter-colored.svg';
@@ -23,19 +22,24 @@ const ShareSheet = ({
   closeBottomSheet,
   eventName,
 }: ShareSheetProps) => {
-  const { shareToTwitter, copyToClipboard, shareToKakao, initializeKakao } =
-    useShare({ closeBottomSheet, eventName });
+  const { shareToTwitter, copyToClipboard, shareToKakao, KakaoScript } =
+    useShare({
+      eventName,
+    });
 
   const handleShare = (platform: SharePlatform) => {
     switch (platform) {
       case SHARE_PLATFORM.KAKAO:
         shareToKakao();
+        closeBottomSheet();
         break;
       case SHARE_PLATFORM.TWITTER:
         shareToTwitter();
+        closeBottomSheet();
         break;
       case SHARE_PLATFORM.LINK:
         copyToClipboard();
+        closeBottomSheet();
         break;
     }
   };
@@ -49,7 +53,7 @@ const ShareSheet = ({
       >
         <div
           ref={contentRef}
-          className="text-basic-grey-700 w-full overflow-y-hidden text-16 font-400 leading-[24px]"
+          className="w-full overflow-y-hidden text-16 font-400 leading-[24px] text-basic-grey-700"
         >
           {SHARE_BUTTONS.map((button) => (
             <button
@@ -78,13 +82,7 @@ const ShareSheet = ({
           <div className="h-[21px]" />
         </div>
       </BottomSheet>
-      <Script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
-        integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8"
-        crossOrigin="anonymous"
-        onLoad={initializeKakao}
-        strategy="afterInteractive"
-      />
+      <KakaoScript />
     </>
   );
 };

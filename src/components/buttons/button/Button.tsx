@@ -11,6 +11,7 @@ export type ButtonVariant =
   | 'tertiary'
   | 'p-destructive'
   | 's-destructive'
+  | 'text'
   | 'custom';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -59,12 +60,12 @@ const Button = ({
 export default Button;
 
 const DEFAULT_STYLE =
-  'flex items-center justify-center whitespace-nowrap break-keep grow';
+  'flex items-center justify-center whitespace-nowrap break-keep';
 
 const SIZE_STYLE = {
-  large: 'w-full h-[50px] rounded-8 text-16 font-600',
-  medium: 'w-[87px] h-[50px] rounded-8 text-16 font-600',
-  small: 'w-[57px] h-[31px] rounded-6 text-12 font-600',
+  large: 'w-full h-[50px] rounded-8 text-16 font-600 grow',
+  medium: 'w-[87px] h-[50px] rounded-8 text-16 font-600 shrink-0',
+  small: 'w-[57px] h-[31px] rounded-6 text-12 font-600 shrink-0',
 };
 
 const VARIANT_STYLE = {
@@ -77,6 +78,7 @@ const VARIANT_STYLE = {
   'p-destructive': 'bg-basic-red-400 text-basic-white active:bg-basic-red-500',
   's-destructive':
     'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200',
+  text: 'bg-transparent text-basic-grey-700 active:text-basic-grey-600',
   custom: '',
 };
 

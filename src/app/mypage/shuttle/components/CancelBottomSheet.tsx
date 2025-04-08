@@ -7,7 +7,7 @@ import RefundPolicy from '../[id]/components/RefundPolicy';
 import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { calculateRefundFee } from '../utils/refund.util';
-import { CancellationAndRefundContent } from '@/components/notice-section/NoticeSection';
+import Guideline from '@/components/guidelines/Guideline';
 
 const CANCEL_STEP = ['취소 및 환불 안내', '취소 수수료'] as const;
 
@@ -82,7 +82,7 @@ const CancelBottomSheet = ({
           <Step name="취소 수수료">
             <section>
               <div className="max-h-[55dvh] overflow-y-auto">
-                <CancellationAndRefundContent />
+                <Guideline type="취소 및 환불 안내" />
                 {isRefundable && refundFee !== null && (
                   <article className="mt-16 bg-basic-grey-50 p-8 text-center text-14 font-700 text-basic-red-500">
                     취소 수수료: {refundFee.toLocaleString()}원

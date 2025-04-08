@@ -1,3 +1,5 @@
+import { BIG_REGIONS, BigRegionsType } from '@/constants/regions';
+
 // 로그인 시 리다이렉트 될 주소
 export const REDIRECT_URL = 'redirect-url';
 export const setRedirectUrl = (url: string) => {
@@ -45,4 +47,37 @@ export const getLastLogin = () => {
 };
 export const removeLastLogin = () => {
   localStorage.removeItem(LAST_LOGIN);
+};
+
+// 최근에 본 지역
+export const RECENTLY_VIEWED_BIG_REGION = 'recently-viewed-big-region';
+export const setRecentlyViewedBigRegion = (bigRegion: BigRegionsType) => {
+  localStorage.setItem(RECENTLY_VIEWED_BIG_REGION, bigRegion);
+};
+export const getRecentlyViewedBigRegion = (): BigRegionsType | null => {
+  const recentlyViewedBigRegion = localStorage.getItem(
+    RECENTLY_VIEWED_BIG_REGION,
+  );
+  const isBigRegion = BIG_REGIONS.includes(
+    recentlyViewedBigRegion as BigRegionsType,
+  );
+  if (!isBigRegion) {
+    return null;
+  }
+  return recentlyViewedBigRegion as BigRegionsType;
+};
+export const removeRecentlyViewedBigRegion = () => {
+  localStorage.removeItem(RECENTLY_VIEWED_BIG_REGION);
+};
+
+// 최근에 본 정류장
+export const RECENTLY_VIEWED_HUB_ID = 'recently-viewed-hub-id';
+export const setRecentlyViewedHubId = (hubId: string) => {
+  localStorage.setItem(RECENTLY_VIEWED_HUB_ID, hubId);
+};
+export const getRecentlyViewedHubId = () => {
+  return localStorage.getItem(RECENTLY_VIEWED_HUB_ID);
+};
+export const removeRecentlyViewedHubId = () => {
+  localStorage.removeItem(RECENTLY_VIEWED_HUB_ID);
 };

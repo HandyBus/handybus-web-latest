@@ -4,8 +4,8 @@ import {
 } from '@/types/shuttleRoute.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { authInstance, instance } from './config';
-import { withPagination } from '@/types/common.type';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { PaginationParams, withPagination } from '@/types/common.type';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { CustomError } from './custom-error';
 import { toast } from 'react-toastify';
 
@@ -73,6 +73,51 @@ export const useGetShuttleRoutesOfDailyEvent = (
   useQuery({
     queryKey: ['shuttle-route', eventId, dailyEventId, params],
     queryFn: () => getShuttleRoutesOfDailyEvent(eventId, dailyEventId, params),
+  });
+
+interface GetShuttleRouteDemandOfEventParams {
+  eventId: string;
+  provinceFullName?: string;
+  provinceShortName?: string;
+  cityFullName?: string;
+  cityShortName?: string;
+  status?: ShuttleRouteStatus;
+  name?: string;
+  orderBy?:
+    | 'name'
+    | 'earlybirdDeadline'
+    | 'reservationDeadline'
+    | 'maxPassengerCount'
+    | 'remainingSeatCount';
+  additionalOrderOptions?: 'ASC' | 'DESC';
+}
+
+export const getShuttleRoutesOfEvent = async (
+  params: PaginationParams<GetShuttleRouteDemandOfEventParams>,
+) => {
+  const searchParams = toSearchParams(params);
+  const res = await instance.get(
+    `/v2/shuttle-operation/events/${params.eventId}/dates/all/routes?${searchParams.toString()}`,
+    {
+      shape: withPagination({
+        shuttleRoutes: ShuttleRoutesViewEntitySchema.array(),
+      }),
+    },
+  );
+  return res;
+};
+
+export const useGetShuttleRoutesOfEventWithPagination = (
+  params: PaginationParams<GetShuttleRouteDemandOfEventParams>,
+) =>
+  useInfiniteQuery({
+    queryKey: ['shuttle-route', params],
+    queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
+      getShuttleRoutesOfEvent({ ...params, page: pageParam }),
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextPage;
+    },
   });
 
 export const getShuttleRoute = async (
