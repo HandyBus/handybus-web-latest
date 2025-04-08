@@ -1,13 +1,11 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
-import dynamic from 'next/dynamic';
 import Card from '@/components/card/Card';
-
-const Empty = dynamic(() => import('@/app/reservation/components/Empty'));
+import ViewAllButton from '@/components/buttons/view-all-button/ViewAllButton';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,26 +14,17 @@ interface Props {
 }
 
 const EventsSwiperView = ({ events, type }: Props) => {
-  const [loading, setLoading] = useState(true);
   const swiper = useRef<SwiperRef>(null);
 
-  if (events.length === 0) {
-    return <Empty />;
-  }
-
   return (
-    // NOTE slidesOffsetBefore not works with SSR
     <>
-      <div className={'relative py-16' + (loading ? 'pl-16' : '')}>
+      <div className={'relative py-16'}>
         <Swiper
           ref={swiper}
           pagination={true}
           slidesPerView="auto"
           navigation={true}
           className="relative w-full"
-          slidesOffsetBefore={16}
-          slidesOffsetAfter={10}
-          onAfterInit={() => setLoading(false)}
         >
           {events?.map((v) => (
             <SwiperSlide
@@ -56,6 +45,16 @@ const EventsSwiperView = ({ events, type }: Props) => {
               </div>
             </SwiperSlide>
           ))}
+          {type === 'RECOMMAND' && (
+            <SwiperSlide style={{ width: 'fit-content' }}>
+              <div className="flex h-[193px] w-92 flex-col items-center justify-center gap-[18px] pr-[6px]">
+                <ViewAllButton onClick={() => {}} />
+                <p className="text-14 font-600 leading-[160%] text-basic-grey-600">
+                  전체보기
+                </p>
+              </div>
+            </SwiperSlide>
+          )}
         </Swiper>
       </div>
     </>
