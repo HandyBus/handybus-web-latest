@@ -22,7 +22,7 @@ const PromotionReview = async () => {
   return (
     <ArticleV2 richTitle="솔직한 이용 후기" showMore="/help/reviews">
       {top3.map((review: ReviewsViewEntity) => (
-        <div key={review.reviewId} className="flex flex-col p-8">
+        <div key={review.reviewId} className="flex flex-col py-8 pr-8">
           <div className="flex flex-col gap-[2px]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-[6px]">

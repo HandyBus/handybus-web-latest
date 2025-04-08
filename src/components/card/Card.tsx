@@ -129,7 +129,7 @@ const MediumCard = ({
   price = '32,000원~',
 }: Props) => {
   return (
-    <div className="h-[193px] w-[145px]">
+    <div className=" w-[145px]">
       <div
         className={`${cardSize[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${cardRounded[variant]}`}
       >
