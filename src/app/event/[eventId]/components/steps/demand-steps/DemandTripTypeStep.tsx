@@ -18,7 +18,7 @@ const DemandTripTypeStep = ({ toNextStep }: Props) => {
   };
 
   return (
-    <section>
+    <section className="flex flex-col gap-8">
       {TripTypeEnum.options.map((tripType) => (
         <button
           key={tripType}

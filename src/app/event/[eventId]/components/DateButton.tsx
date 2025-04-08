@@ -13,7 +13,7 @@ const DateButton = ({ disabled = true, onClick }: Props) => {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="flex h-[78px] w-full flex-col gap-8 bg-basic-grey-50 p-12"
+      className="flex h-[78px] w-full flex-col gap-8 rounded-8 bg-basic-grey-50 p-12"
     >
       <div
         className={`flex items-center gap-4 text-12 font-600 ${

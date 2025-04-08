@@ -41,7 +41,7 @@ const ReservationTripTypeStep = ({
   };
 
   return (
-    <section>
+    <section className="flex flex-col gap-8">
       {TripTypeEnum.options.map((tripType) => {
         const remainingSeatCount = remainingSeat[tripType];
         const price = priceOfTripType?.[tripType];

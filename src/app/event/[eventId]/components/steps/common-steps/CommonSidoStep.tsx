@@ -15,27 +15,24 @@ interface Props {
   toDemandHubsStep: () => void;
   toReservationHubsStep: () => void;
   toExtraSidoInfoStep: () => void;
-  toExtraUnreservableRegionStep: () => void;
 }
 
 const CommonSidoStep = ({
   toDemandHubsStep,
   toReservationHubsStep,
   toExtraSidoInfoStep,
-  toExtraUnreservableRegionStep,
 }: Props) => {
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
+  const dailyEvent = getValues('dailyEvent');
+  const isDemandOpen = dailyEvent.status === 'OPEN';
+  const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
+  const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
 
   const handleSidoClick = (sido: BigRegionsType) => {
     setValue('sido', sido);
     setValue('openSido', undefined);
     setRecentlyViewedBigRegion(sido);
-
-    const dailyEvent = getValues('dailyEvent');
-    const isDemandOpen = dailyEvent.status === 'OPEN';
-    const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
-    const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
 
     if (!isReservationOpen && !isDemandOpen) {
       return;
@@ -52,9 +49,6 @@ const CommonSidoStep = ({
     if (!isRoutesAvailable && isDemandOpen) {
       toExtraSidoInfoStep();
       return;
-    } else if (!isRoutesAvailable && !isDemandOpen) {
-      toExtraUnreservableRegionStep();
-      return;
     }
 
     toReservationHubsStep();
@@ -62,17 +56,29 @@ const CommonSidoStep = ({
 
   const recentlyViewedSido = getRecentlyViewedBigRegion();
 
+  const checkIsSidoDisabled = (sido: BigRegionsType) => {
+    if (isDemandOpen) {
+      return false;
+    }
+
+    const gungusWithHubs = sidosWithGungus?.[sido];
+    const isRoutesAvailable = Object.keys(gungusWithHubs ?? {}).length > 0;
+
+    return !isRoutesAvailable;
+  };
+
   return (
     <section>
       {recentlyViewedSido && (
         <article>
-          <h4 className="mb-8 text-16 font-600 text-basic-grey-700">
+          <h4 className="mb-8 text-16 font-600 text-basic-grey-600">
             최근에 본 지역
           </h4>
           <div className="grid grid-cols-3 gap-8">
             <SidoButton
               key={recentlyViewedSido}
               sido={recentlyViewedSido}
+              disabled={checkIsSidoDisabled(recentlyViewedSido)}
               onClick={() => {
                 handleSidoClick(recentlyViewedSido);
               }}
@@ -86,6 +92,7 @@ const CommonSidoStep = ({
           <SidoButton
             key={sido}
             sido={sido}
+            disabled={checkIsSidoDisabled(sido)}
             onClick={() => {
               handleSidoClick(sido);
             }}

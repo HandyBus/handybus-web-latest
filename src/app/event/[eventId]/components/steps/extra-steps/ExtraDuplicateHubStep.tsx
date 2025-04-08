@@ -115,7 +115,7 @@ const Hub = ({
       >
         {toDestinationExists && (
           <div
-            className={`flex h-[31px] items-center gap-8 ${
+            className={`flex h-[31px] w-full items-center gap-8 ${
               isToDestinationSoldOut && 'pr-124'
             }`}
           >
@@ -134,7 +134,7 @@ const Hub = ({
         )}
         {fromDestinationExists && (
           <div
-            className={`flex h-[31px] items-center gap-8 ${
+            className={`flex h-[31px] w-full items-center gap-8 ${
               isFromDestinationSoldOut && 'pr-124'
             }`}
           >
