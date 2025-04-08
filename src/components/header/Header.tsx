@@ -6,9 +6,14 @@ import Link from 'next/link';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { useEffect, useState } from 'react';
 import UserProfile from './UserProfile';
+import { useGetUser } from '@/services/user.service';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const { data: user } = useGetUser();
+  const profileImage = user?.profileImage;
+  const nickname = user?.nickname;
+
   useEffect(() => {
     const isLoggedIn = getIsLoggedIn();
     setIsLoggedIn(isLoggedIn);
@@ -23,7 +28,7 @@ const Header = () => {
       {isLoggedIn != null &&
         (isLoggedIn ? (
           <Link href="/mypage">
-            <UserProfile />
+            <UserProfile nickname={nickname} profileImage={profileImage} />
           </Link>
         ) : (
           <Link href="/login">
