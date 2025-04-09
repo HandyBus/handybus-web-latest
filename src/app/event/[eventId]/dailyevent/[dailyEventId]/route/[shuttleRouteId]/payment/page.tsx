@@ -10,11 +10,18 @@ import PriceSection from './components/sections/PriceSection';
 import BottomBar from './components/BottomBar';
 import PaymentSection from './components/sections/PaymentSection';
 import { useSearchParams } from 'next/navigation';
-import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
+import {
+  ShuttleRoutesViewEntity,
+  TripType,
+  TripTypeEnum,
+} from '@/types/shuttleRoute.type';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetShuttleRoute } from '@/services/shuttleRoute.service';
 import { useGetEvent } from '@/services/event.service';
+import { getRemainingSeat } from '@/utils/event.util';
+import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { CustomError } from '@/services/custom-error';
 
 interface Props {
   params: {
@@ -56,22 +63,14 @@ const Page = ({ params }: Props) => {
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {event && shuttleRoute && (
-          <main className="pb-100">
-            <EventInfoSection event={event} />
-            <ShuttleRouteInfoSection
-              tripType={tripType}
-              shuttleRoute={shuttleRoute}
-              fromDestinationHubId={fromDestinationHubId}
-              toDestinationHubId={toDestinationHubId}
-              passengerCount={passengerCount}
-            />
-            <ClientInfoSection />
-            <HandySection />
-            <CouponSection />
-            <PriceSection />
-            <PaymentSection />
-            <BottomBar />
-          </main>
+          <Content
+            event={event}
+            shuttleRoute={shuttleRoute}
+            tripType={tripType}
+            toDestinationHubId={toDestinationHubId}
+            fromDestinationHubId={fromDestinationHubId}
+            passengerCount={passengerCount}
+          />
         )}
       </DeferredSuspense>
     </>
@@ -79,3 +78,48 @@ const Page = ({ params }: Props) => {
 };
 
 export default Page;
+
+interface ContentProps {
+  event: EventWithRoutesViewEntity;
+  shuttleRoute: ShuttleRoutesViewEntity;
+  tripType: TripType;
+  toDestinationHubId: string | null;
+  fromDestinationHubId: string | null;
+  passengerCount: number;
+}
+
+const Content = ({
+  event,
+  shuttleRoute,
+  tripType,
+  toDestinationHubId,
+  fromDestinationHubId,
+  passengerCount,
+}: ContentProps) => {
+  const remainingSeat = getRemainingSeat(shuttleRoute);
+
+  if (remainingSeat[tripType] < passengerCount) {
+    throw new CustomError(404, '좌석이 부족합니다.');
+  } else if (passengerCount === 0 || passengerCount > 9) {
+    throw new CustomError(404, '인원 수가 올바르지 않습니다.');
+  }
+
+  return (
+    <main className="pb-100">
+      <EventInfoSection event={event} />
+      <ShuttleRouteInfoSection
+        tripType={tripType}
+        shuttleRoute={shuttleRoute}
+        fromDestinationHubId={fromDestinationHubId}
+        toDestinationHubId={toDestinationHubId}
+        passengerCount={passengerCount}
+      />
+      <ClientInfoSection />
+      <HandySection />
+      <CouponSection />
+      <PriceSection />
+      <PaymentSection />
+      <BottomBar />
+    </main>
+  );
+};
