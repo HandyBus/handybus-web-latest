@@ -84,7 +84,7 @@ const FeedbackCard = ({
   text: FeedbackText;
 }) => {
   return (
-    <div className="gap-2 flex items-center gap-4">
+    <div className="flex items-center gap-4">
       <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
         {type}
       </p>

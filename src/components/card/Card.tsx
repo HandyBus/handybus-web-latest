@@ -1,17 +1,20 @@
 import Image from 'next/image';
-import { twMerge } from 'tailwind-merge';
+import Badge from '../badge/Badge';
 
-const cardSize = {
+const CARD_SIZE = {
   LARGE: 'w-[232px] h-[309px]',
   MEDIUM: 'w-[145px] h-[193px]',
   SMALL: 'w-[100px] h-[133px]',
 } as const;
 
-const cardRounded = {
+const CARD_ROUNDED = {
   LARGE: 'rounded-[14px]',
   MEDIUM: 'rounded-8',
   SMALL: 'rounded-8',
 } as const;
+
+const DEMAND_ONGOING_BADGE_CLASS_NAME =
+  'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
 
 interface Props {
   variant: 'LARGE' | 'MEDIUM' | 'SMALL';
@@ -84,13 +87,13 @@ const LargeCard = ({
 }: Props) => {
   return (
     <div
-      className={`${cardSize[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${cardRounded[variant]}`}
+      className={`${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
     >
       <Image
         src={image || '/images/default-event.png'}
         alt="card"
         fill
-        className={`object-cover ${cardRounded[variant]}`}
+        className={`object-cover ${CARD_ROUNDED[variant]}`}
       />
       {variant === 'LARGE' && (
         <>
@@ -111,7 +114,11 @@ const LargeCard = ({
               >
                 {isSaleStarted ? price : '판매대기'}
               </p>
-              {!isSaleStarted && <DemandOngoingChip />}
+              {!isSaleStarted && (
+                <Badge className={`${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
+                  수요조사 진행 중
+                </Badge>
+              )}
             </div>
           </div>
         </>
@@ -131,13 +138,13 @@ const MediumCard = ({
   return (
     <div className=" w-[145px]">
       <div
-        className={`${cardSize[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${cardRounded[variant]}`}
+        className={`${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
       >
         <Image
           src={image || '/images/default-event.png'}
           alt="card"
           fill
-          className={`object-cover ${cardRounded[variant]}`}
+          className={`object-cover ${CARD_ROUNDED[variant]}`}
         />
       </div>
       <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black">
@@ -153,7 +160,11 @@ const MediumCard = ({
       >
         {isSaleStarted ? price : '판매대기'}
       </p>
-      {!isSaleStarted && <DemandOngoingChip className="mt-4" />}
+      {!isSaleStarted && (
+        <Badge className={`mt-4 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
+          수요조사 진행 중
+        </Badge>
+      )}
     </div>
   );
 };
@@ -170,17 +181,21 @@ const SmallCard = ({
   return (
     <div className="flex gap-12">
       <div
-        className={`${cardSize[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${cardRounded[variant]}`}
+        className={`${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
       >
         <Image
           src={image || '/images/default-event.png'}
           alt="card"
           fill
-          className={`object-cover ${cardRounded[variant]}`}
+          className={`object-cover ${CARD_ROUNDED[variant]}`}
         />
       </div>
       <div>
-        {!isSaleStarted && <DemandOngoingChip className="mb-4" />}
+        {!isSaleStarted && (
+          <Badge className={`mb-4 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
+            수요조사 진행 중
+          </Badge>
+        )}
         <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black ">
           {title}
         </p>
@@ -198,23 +213,6 @@ const SmallCard = ({
           {isSaleStarted ? price : '판매대기'}
         </p>
       </div>
-    </div>
-  );
-};
-
-interface DemandOngoingChipProps {
-  className?: string;
-}
-
-const DemandOngoingChip = ({ className }: DemandOngoingChipProps) => {
-  return (
-    <div
-      className={twMerge(
-        'w-fit rounded-[42px] bg-basic-blue-100 px-8 py-4 text-[10px] font-600 leading-[160%] text-basic-blue-400',
-        className,
-      )}
-    >
-      수요조사 진행 중
     </div>
   );
 };

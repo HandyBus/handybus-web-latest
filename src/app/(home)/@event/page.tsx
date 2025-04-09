@@ -1,5 +1,5 @@
 import ArticleV2 from '@/components/article/ArticleV2';
-import EventsSwiperView from './EventsSwiperView';
+import EventsSwiperView from './components/EventsSwiperView';
 import dayjs from 'dayjs';
 
 const Page = () => {
@@ -26,7 +26,7 @@ const TrendShuttleCard = () => {
         showMore={'/event'}
       >
         {isLoading ? (
-          <div className="h-309" />
+          <div className="h-[309px]" />
         ) : (
           <div className="">
             <EventsSwiperView events={mock_event_data} type="TREND" />
@@ -51,7 +51,7 @@ const RecommendedEventCard = () => {
           <div className="h-324" />
         ) : (
           <div className="">
-            <EventsSwiperView events={mock_event_data} type="RECOMMAND" />
+            <EventsSwiperView events={mock_event_data} type="RECOMMEND" />
           </div>
         )}
       </ArticleV2>

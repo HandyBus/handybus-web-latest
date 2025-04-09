@@ -10,7 +10,7 @@ import ViewAllButton from '@/components/buttons/view-all-button/ViewAllButton';
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   events: any[];
-  type: 'TREND' | 'RECOMMAND';
+  type: 'TREND' | 'RECOMMEND';
 }
 
 const EventsSwiperView = ({ events, type }: Props) => {
@@ -45,7 +45,7 @@ const EventsSwiperView = ({ events, type }: Props) => {
               </div>
             </SwiperSlide>
           ))}
-          {type === 'RECOMMAND' && (
+          {type === 'RECOMMEND' && (
             <SwiperSlide style={{ width: 'fit-content' }}>
               <div className="flex h-[193px] w-92 flex-col items-center justify-center gap-[18px] pr-[6px]">
                 <ViewAllButton onClick={() => {}} />
