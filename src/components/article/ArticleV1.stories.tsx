@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import Article from './Article';
+import Article from './ArticleV1';
 
 const meta: Meta<typeof Article> = {
   title: 'Components/Section',

@@ -1,6 +1,6 @@
 'use client';
 
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import RoutesSwiperView from './components/RoutesSwiperView';
 import { toSortedRoutes } from '@/app/reservation/util/sort.util';
 import { useGetShuttleRoutes } from '@/services/shuttleRoute.service';
@@ -16,7 +16,7 @@ const Page = () => {
   );
 
   return (
-    <Article
+    <ArticleV1
       richTitle={`예약 가능한 셔틀`}
       titleClassName="text-20"
       showMore="/reservation"
@@ -28,7 +28,7 @@ const Page = () => {
           <RoutesSwiperView routes={sortedRoutes} />
         </div>
       )}
-    </Article>
+    </ArticleV1>
   );
 };
 

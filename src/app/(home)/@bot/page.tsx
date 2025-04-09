@@ -1,9 +1,13 @@
-import Overviews from './components/Overviews';
+import Divider from '@/components/divider/Divider';
+import Help from './components/Help';
+import NoticeBoard from './components/NoticeBoard';
 import PromotionReview from './components/PromotionReviews';
 
 const Page = () => (
   <>
-    <Overviews />
+    <Help />
+    <Divider />
+    <NoticeBoard />
     <PromotionReview />
   </>
 );

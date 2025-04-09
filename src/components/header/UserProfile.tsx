@@ -1,14 +1,14 @@
 'use client';
 
-import { useGetUser } from '@/services/user.service';
 import Image from 'next/image';
 import { useCallback } from 'react';
 
-const UserProfile = () => {
-  const { data: user } = useGetUser();
-  const profileImage = user?.profileImage;
-  const nickname = user?.nickname;
+interface Props {
+  profileImage: string | undefined | null;
+  nickname: string | undefined | null;
+}
 
+const UserProfile = ({ profileImage, nickname }: Props) => {
   const generateBackgroundColor = useCallback(
     (nickname: string | null | undefined) => {
       if (!nickname) {
@@ -23,7 +23,7 @@ const UserProfile = () => {
     [nickname],
   );
 
-  if (!user) return null;
+  if (!nickname && !profileImage) return null;
   return (
     <>
       {profileImage ? (

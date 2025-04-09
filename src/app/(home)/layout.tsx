@@ -5,10 +5,10 @@ import Footer from '@/components/footer/Footer';
 interface Props {
   top: ReactNode;
   bot: ReactNode;
-  reservation: ReactNode;
-  demand: ReactNode;
+  event: ReactNode;
   modal: ReactNode;
   greeting: ReactNode;
+  help: ReactNode;
 }
 
 import dayjs from 'dayjs';
@@ -23,18 +23,18 @@ dayjs.locale('ko');
 export default function WithFooterLayout({
   top,
   bot,
-  reservation,
-  demand,
+  event,
   modal,
   greeting,
+  help,
 }: Readonly<Props>) {
   return (
     <div className="flex h-full flex-grow flex-col">
       <Header />
       <main className="w-full flex-grow pb-12">
         {top}
-        {demand}
-        {reservation}
+        {event}
+        {help}
         {bot}
         {modal}
         {greeting}

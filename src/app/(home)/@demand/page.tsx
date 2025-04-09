@@ -1,4 +1,4 @@
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
 import { getEvents } from '@/services/event.service';
@@ -9,16 +9,16 @@ const Empty = dynamic(() => import('@/app/demand/components/Empty'));
 
 const Page = () => (
   <section className="flex flex-col gap-12">
-    <Article
+    <ArticleV1
       richTitle="수요조사 진행 중"
       titleClassName="text-20"
       showMore="/demand"
     >
       <SubPage />
-    </Article>
+    </ArticleV1>
     <Link
       href="/demand"
-      className="bg-basic-grey-50 text-basic-grey-700 active:bg-basic-grey-100 mx-[16px] flex h-44 w-[calc(100%-32px)] flex-row items-center justify-center gap-[2px] whitespace-nowrap rounded-full p-12 py-8 text-center text-16 font-500 leading-[25.6px] "
+      className="mx-[16px] flex h-44 w-[calc(100%-32px)] flex-row items-center justify-center gap-[2px] whitespace-nowrap rounded-full bg-basic-grey-50 p-12 py-8 text-center text-16 font-500 leading-[25.6px] text-basic-grey-700 active:bg-basic-grey-100 "
     >
       모든 수요조사 보기
       <ChevronRightEm className="h-16 w-16 stroke-2" />

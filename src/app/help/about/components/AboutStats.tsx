@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import HandyTransparent from '../images/handy-transparent.png';
 
 const AboutStats = () => (
-  <Article
+  <ArticleV1
     richTitle="지금까지 핸디버스는"
     className="flex flex-col items-center"
   >
@@ -25,7 +25,7 @@ const AboutStats = () => (
         </li>
       </ul>
     </div>
-  </Article>
+  </ArticleV1>
 );
 
 export default AboutStats;
