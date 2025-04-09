@@ -25,12 +25,16 @@ import {
   EVENT_STEPS_TO_TEXT,
 } from '../form.const';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
-import { getPhaseAndEnabledStatus } from '../event.util';
+import {
+  getPhaseAndEnabledStatus,
+  EventEnabledStatus,
+  EventPhase,
+} from '@/utils/event.util';
 import { Provider as JotaiProvider, useSetAtom } from 'jotai';
 import { eventAtom } from '../store/eventAtom';
 import { FormProvider, useForm, UseFormGetValues } from 'react-hook-form';
 import { BIG_REGIONS_TO_SHORT_NAME } from '@/constants/regions';
-import { EventEnabledStatus, EventFormValues, EventPhase } from '../form.type';
+import { EventFormValues } from '../form.type';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dailyEventIdsWithRoutesAtom } from '../store/dailyEventIdsWithRoutesAtom';
 import DemandCompleteScreen, {

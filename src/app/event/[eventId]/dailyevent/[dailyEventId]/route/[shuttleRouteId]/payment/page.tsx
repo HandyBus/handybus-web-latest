@@ -49,6 +49,8 @@ const Page = ({ params }: Props) => {
     !fromDestinationHubId ||
     !passengerCount;
 
+  console.log(shuttleRoute);
+
   return (
     <>
       <Header />
@@ -56,7 +58,13 @@ const Page = ({ params }: Props) => {
         {event && shuttleRoute && (
           <main className="pb-100">
             <EventInfoSection event={event} />
-            <ShuttleRouteInfoSection />
+            <ShuttleRouteInfoSection
+              tripType={tripType}
+              shuttleRoute={shuttleRoute}
+              fromDestinationHubId={fromDestinationHubId}
+              toDestinationHubId={toDestinationHubId}
+              passengerCount={passengerCount}
+            />
             <ClientInfoSection />
             <HandySection />
             <CouponSection />

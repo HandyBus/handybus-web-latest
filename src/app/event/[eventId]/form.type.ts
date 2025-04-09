@@ -15,7 +15,3 @@ export interface EventFormValues {
   selectedHubForSeatAlarm: HubWithInfo;
   selectedRouteForSeatAlarm: ShuttleRoutesViewEntity;
 }
-
-export type EventPhase = 'demand' | 'reservation';
-
-export type EventEnabledStatus = 'enabled' | 'disabled';

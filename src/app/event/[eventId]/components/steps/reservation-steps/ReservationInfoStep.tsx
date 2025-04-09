@@ -8,7 +8,7 @@ import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
-import { calculatePriceOfTripType } from '../../../event.util';
+import { calculatePriceOfTripType } from '@/utils/event.util';
 import { toast } from 'react-toastify';
 import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';

@@ -1,7 +1,6 @@
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
-import { EventEnabledStatus, EventPhase } from './form.type';
 
 export interface RemainingSeat {
   ROUND_TRIP: number;
@@ -100,6 +99,9 @@ export const calculatePriceOfTripType = (
 
   return calculatedTripType;
 };
+
+export type EventPhase = 'demand' | 'reservation';
+export type EventEnabledStatus = 'enabled' | 'disabled';
 
 export const getPhaseAndEnabledStatus = (
   event: EventWithRoutesViewEntity | null | undefined,

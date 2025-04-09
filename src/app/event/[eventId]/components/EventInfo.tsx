@@ -3,7 +3,7 @@
 import Badge from '@/components/badge/Badge';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
-import { getPhaseAndEnabledStatus } from '../event.util';
+import { getPhaseAndEnabledStatus } from '@/utils/event.util';
 
 interface Props {
   event: EventWithRoutesViewEntity;
