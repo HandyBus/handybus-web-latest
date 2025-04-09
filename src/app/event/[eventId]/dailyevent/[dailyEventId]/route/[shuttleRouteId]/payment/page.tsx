@@ -14,6 +14,7 @@ import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetShuttleRoute } from '@/services/shuttleRoute.service';
+import { useGetEvent } from '@/services/event.service';
 
 interface Props {
   params: {
@@ -36,32 +37,34 @@ const Page = ({ params }: Props) => {
   const fromDestinationHubId = searchParams.get('fromDestinationHubId');
   const passengerCount = Number(searchParams.get('passengerCount'));
 
+  const { data: event, isLoading: isEventLoading } = useGetEvent(eventId);
   const { data: shuttleRoute, isLoading: isShuttleRouteLoading } =
     useGetShuttleRoute(eventId, dailyEventId, shuttleRouteId);
 
   const isLoading =
+    isEventLoading ||
     isShuttleRouteLoading ||
     !tripType ||
     !toDestinationHubId ||
     !fromDestinationHubId ||
     !passengerCount;
 
-  console.log(shuttleRoute);
-
   return (
     <>
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        <main className="pb-100">
-          <EventInfoSection />
-          <ShuttleRouteInfoSection />
-          <ClientInfoSection />
-          <HandySection />
-          <CouponSection />
-          <PriceSection />
-          <PaymentSection />
-          <BottomBar />
-        </main>
+        {event && shuttleRoute && (
+          <main className="pb-100">
+            <EventInfoSection event={event} />
+            <ShuttleRouteInfoSection />
+            <ClientInfoSection />
+            <HandySection />
+            <CouponSection />
+            <PriceSection />
+            <PaymentSection />
+            <BottomBar />
+          </main>
+        )}
       </DeferredSuspense>
     </>
   );
