@@ -1,4 +1,4 @@
-import ArticleV2 from '@/components/article/ArticleV2';
+import Article from '@/components/article/Article';
 import EventsSwiperView from './components/EventsSwiperView';
 import dayjs from 'dayjs';
 
@@ -20,7 +20,7 @@ const TrendShuttleCard = () => {
 
   return (
     <section>
-      <ArticleV2
+      <Article
         richTitle="실시간 인기 셔틀"
         titleClassName="text-20 leading-[140%]"
         showMore={'/event'}
@@ -32,7 +32,7 @@ const TrendShuttleCard = () => {
             <EventsSwiperView events={mock_event_data} type="TREND" />
           </div>
         )}
-      </ArticleV2>
+      </Article>
     </section>
   );
 };
@@ -42,7 +42,7 @@ const RecommendedEventCard = () => {
 
   return (
     <section>
-      <ArticleV2
+      <Article
         richTitle={`${dayjs().format('M')}월 추천 행사`}
         titleClassName="text-20 leading-[140%]"
         showMore={'/event'}
@@ -54,7 +54,7 @@ const RecommendedEventCard = () => {
             <EventsSwiperView events={mock_event_data} type="RECOMMEND" />
           </div>
         )}
-      </ArticleV2>
+      </Article>
     </section>
   );
 };

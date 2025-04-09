@@ -2,7 +2,7 @@ import Rating from '@/components/rating/Rating';
 import { getReviewsWithPagination } from '@/services/review.service';
 import { STATIC_REVIEWS } from '@/app/help/reviews/review';
 import { DEFAULT_SSG_REVALIDATE_TIME } from '@/constants/common';
-import ArticleV2 from '@/components/article/ArticleV2';
+import Article from '@/components/article/Article';
 import { ReviewsViewEntity } from '@/types/review.type';
 import UserProfile from '@/components/header/UserProfile';
 
@@ -20,7 +20,7 @@ const PromotionReview = async () => {
     .slice(0, 3);
 
   return (
-    <ArticleV2 richTitle="솔직한 이용 후기" showMore="/help/reviews">
+    <Article richTitle="솔직한 이용 후기" showMore="/help/reviews">
       {top3.map((review: ReviewsViewEntity) => (
         <div key={review.reviewId} className="flex flex-col py-8 pr-8">
           <div className="flex flex-col gap-[2px]">
@@ -52,7 +52,7 @@ const PromotionReview = async () => {
           </div>
         </div>
       ))}
-    </ArticleV2>
+    </Article>
   );
 };
 

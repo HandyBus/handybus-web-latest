@@ -1,10 +1,10 @@
-import ArticleV2 from '@/components/article/ArticleV2';
+import Article from '@/components/article/Article';
 import Link from 'next/link';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 const NoticeBoard = () => {
   return (
-    <ArticleV2 richTitle="공지사항" showMore="/notice">
+    <Article richTitle="공지사항" showMore="/notice">
       <div className="flex flex-col">
         {mock_notice_data.map((v) => (
           <Link key={v.id} href={v.url} className="flex items-center py-12">
@@ -20,7 +20,7 @@ const NoticeBoard = () => {
           </Link>
         ))}
       </div>
-    </ArticleV2>
+    </Article>
   );
 };
 

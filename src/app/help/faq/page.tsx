@@ -1,4 +1,4 @@
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import RedirectButton from '@/components/buttons/redirect-button/RedirectButton';
 import FAQ from './components/FAQ';
 import HandyLogo from './icons/faq-handy-logo.svg';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const FAQPage = async () => (
   <>
     <Header />
-    <Article
+    <ArticleV1
       richTitle={
         <div className="flex flex-col gap-12">
           <HandyLogo />
@@ -37,7 +37,7 @@ const FAQPage = async () => (
       <div className="mt-24 px-16">
         <AskHandyButton />
       </div>
-    </Article>
+    </ArticleV1>
   </>
 );
 

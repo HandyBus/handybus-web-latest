@@ -2,7 +2,7 @@
 
 import { type ReactNode, useRef, useState } from 'react';
 import Link from 'next/link';
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import Tabs from '@/components/tab/Tabs';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
@@ -18,7 +18,7 @@ const Overviews = () => {
   };
 
   return (
-    <Article richTitle="핸디버스를 더 자세하게" titleClassName="text-20">
+    <ArticleV1 richTitle="핸디버스를 더 자세하게" titleClassName="text-20">
       <div className="px-16 py-[10px]">
         <Tabs
           items={[
@@ -53,7 +53,7 @@ const Overviews = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </Article>
+    </ArticleV1>
   );
 };
 

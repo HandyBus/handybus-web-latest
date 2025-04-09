@@ -1,12 +1,12 @@
 import type { PropsWithChildren } from 'react';
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import Header from '@/components/header/Header';
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
-      <Article
+      <ArticleV1
         className="flex flex-col gap-24 px-16"
         richTitle={
           <>
@@ -17,7 +17,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         }
       >
         {children}
-      </Article>
+      </ArticleV1>
     </>
   );
 };

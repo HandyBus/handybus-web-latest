@@ -1,9 +1,9 @@
-import Article from '@/components/article/Article';
+import ArticleV1 from '@/components/article/ArticleV1';
 import { PropsWithChildren } from 'react';
 
 const AboutMerit = () => (
-  <Article richTitle="이런 점이 좋아요" className="w-full">
-    <div className="border-l-basic-grey-50 text-basic-grey-700 mx-16 mt-28 flex flex-col gap-16 border-l-2 pl-12 pt-12">
+  <ArticleV1 richTitle="이런 점이 좋아요" className="w-full">
+    <div className="mx-16 mt-28 flex flex-col gap-16 border-l-2 border-l-basic-grey-50 pl-12 pt-12 text-basic-grey-700">
       <ul className="flex list-none flex-col gap-16">
         <MeritItem text="환승 없이 행사장까지 바로 이동해요.">
           <SubList>
@@ -22,7 +22,7 @@ const AboutMerit = () => (
         </MeritItem>
       </ul>
     </div>
-  </Article>
+  </ArticleV1>
 );
 
 export default AboutMerit;
@@ -34,7 +34,7 @@ interface MeritItemProps {
 
 const MeritItem = ({ text, children }: MeritItemProps) => (
   <li className="flex items-start">
-    <span className="text-basic-grey-600 mr-8 inline-block">•</span>
+    <span className="mr-8 inline-block text-basic-grey-600">•</span>
     <div className="flex flex-col gap-8">
       <span>{text}</span>
       {children}

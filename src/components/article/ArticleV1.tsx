@@ -10,15 +10,15 @@ interface Props extends HTMLProps<HTMLDivElement> {
   titleClassName?: string;
 }
 
-const ArticleV2 = ({
+const Article = ({
   children,
   richTitle,
-  titleClassName = 'text-20',
+  titleClassName = 'text-22',
   showMore,
   ...props
 }: Props) => {
   return (
-    <article className="px-16 pb-24 pt-32" {...props}>
+    <article {...props}>
       <Title
         title={richTitle}
         titleClassName={titleClassName}
@@ -29,7 +29,7 @@ const ArticleV2 = ({
   );
 };
 
-export default ArticleV2;
+export default Article;
 
 interface TitleProps {
   title: ReactNode;
@@ -39,18 +39,11 @@ interface TitleProps {
 
 const Title = ({ title, titleClassName, showMore }: TitleProps) => {
   return (
-    <header className="flex w-full flex-row justify-between pb-16">
-      <h2
-        className={customTwMerge(
-          titleClassName,
-          'text-20 font-700 leading-[140%]',
-        )}
-      >
-        {title}
-      </h2>
+    <header className="flex w-full flex-row justify-between px-16 pb-4 pt-60">
+      <h2 className={customTwMerge(titleClassName, 'font-700')}>{title}</h2>
       {showMore && (
         <Link href={showMore}>
-          <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-14 font-600 leading-[160%] text-basic-grey-600">
+          <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-14 font-400 text-basic-grey-600">
             전체보기
             <span className="inline-block stroke-1">
               <ChevronRightEm className="h-16 w-16" />

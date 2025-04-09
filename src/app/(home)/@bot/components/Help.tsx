@@ -1,9 +1,9 @@
-import ArticleV2 from '@/components/article/ArticleV2';
+import Article from '@/components/article/Article';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 const Help = () => {
   return (
-    <ArticleV2 richTitle="도움말">
+    <Article richTitle="도움말">
       <div>
         {mock_help_data.map((v) => (
           <a
@@ -23,7 +23,7 @@ const Help = () => {
           </a>
         ))}
       </div>
-    </ArticleV2>
+    </Article>
   );
 };
 
