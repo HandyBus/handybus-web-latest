@@ -9,3 +9,5 @@ export const DEFAULT_PAGINATION_LIMIT = 15; // 최대 20
 export const DEFAULT_SSG_REVALIDATE_TIME = 3600;
 
 export const LONG_QUERY_STALE_TIME = 5 * 60 * 1000; // 5분
+
+export const MAX_PASSENGER_COUNT = 9;

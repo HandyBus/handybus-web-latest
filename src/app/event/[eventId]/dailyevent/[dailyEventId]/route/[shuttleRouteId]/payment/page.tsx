@@ -22,6 +22,7 @@ import { useGetEvent } from '@/services/event.service';
 import { getRemainingSeat } from '@/utils/event.util';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { CustomError } from '@/services/custom-error';
+import { MAX_PASSENGER_COUNT } from '@/constants/common';
 
 interface Props {
   params: {
@@ -100,7 +101,7 @@ const Content = ({
 
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
-  } else if (passengerCount === 0 || passengerCount > 9) {
+  } else if (passengerCount === 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');
   }
 

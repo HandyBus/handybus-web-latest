@@ -13,9 +13,9 @@ import { toast } from 'react-toastify';
 import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
+import { MAX_PASSENGER_COUNT } from '@/constants/common';
 
 const ROUND_TRIP_TEXT = '[왕복]';
-const MAX_PASSENGER_COUNT = 9;
 
 const ReservationInfoStep = () => {
   const { getValues } = useFormContext<EventFormValues>();
