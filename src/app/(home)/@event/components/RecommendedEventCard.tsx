@@ -20,7 +20,6 @@ const RecommendedEventCard = () => {
         titleClassName="text-20 leading-[140%]"
         showMore={'/event'}
       >
-        {' '}
         <div className="flex gap-8">
           <Chip
             onClick={() => setType('콘서트')}
