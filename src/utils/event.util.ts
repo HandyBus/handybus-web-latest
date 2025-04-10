@@ -1,6 +1,36 @@
+import { MAX_HANDY_DISCOUNT_AMOUNT } from '@/constants/common';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
+
+export type EventPhase = 'demand' | 'reservation';
+export type EventEnabledStatus = 'enabled' | 'disabled';
+
+export const getPhaseAndEnabledStatus = (
+  event: EventWithRoutesViewEntity | null | undefined,
+): {
+  phase: EventPhase;
+  enabledStatus: EventEnabledStatus;
+} => {
+  if (!event) {
+    return { phase: 'demand', enabledStatus: 'disabled' };
+  }
+  const isDemandOver = event.eventStatus === 'CLOSED';
+  const isReservationOpen = event.minRoutePrice !== null;
+  const isReservationOngoing = event.hasOpenRoute;
+
+  switch (true) {
+    case !isDemandOver && !isReservationOpen:
+      return { phase: 'demand', enabledStatus: 'enabled' };
+    case isDemandOver && !isReservationOpen:
+      return { phase: 'demand', enabledStatus: 'disabled' };
+    case isReservationOpen && isReservationOngoing:
+      return { phase: 'reservation', enabledStatus: 'enabled' };
+    case isReservationOpen && !isReservationOngoing:
+    default:
+      return { phase: 'reservation', enabledStatus: 'disabled' };
+  }
+};
 
 export interface RemainingSeat {
   ROUND_TRIP: number;
@@ -50,21 +80,17 @@ export const checkIsSoldOut = (remainingSeat: RemainingSeat) => {
   );
 };
 
-export const calculatePriceOfTripType = (
-  route: ShuttleRoutesViewEntity | null | undefined,
-):
-  | {
-      [tripType in TripType]: {
-        isEarlybird: boolean;
-        regularPrice: number;
-        earlybirdPrice: number | null;
-      };
-    }
-  | null => {
-  if (!route) {
-    return null;
-  }
+export type PriceOfTripType = {
+  [tripType in TripType]: {
+    isEarlybird: boolean;
+    regularPrice: number;
+    earlybirdPrice: number | null;
+  };
+};
 
+export const calculatePriceOfTripType = (
+  route: ShuttleRoutesViewEntity,
+): PriceOfTripType => {
   const isEarlybird =
     route?.hasEarlybird && route?.earlybirdDeadline
       ? compareToNow(route.earlybirdDeadline, (a, b) => a > b)
@@ -100,31 +126,19 @@ export const calculatePriceOfTripType = (
   return calculatedTripType;
 };
 
-export type EventPhase = 'demand' | 'reservation';
-export type EventEnabledStatus = 'enabled' | 'disabled';
+export const getPriceOfSingleTicket = (
+  priceOfTripType: PriceOfTripType,
+  tripType: TripType,
+) => {
+  const price = priceOfTripType[tripType];
+  return price.isEarlybird
+    ? (price.earlybirdPrice ?? 0)
+    : (price.regularPrice ?? 0);
+};
 
-export const getPhaseAndEnabledStatus = (
-  event: EventWithRoutesViewEntity | null | undefined,
-): {
-  phase: EventPhase;
-  enabledStatus: EventEnabledStatus;
-} => {
-  if (!event) {
-    return { phase: 'demand', enabledStatus: 'disabled' };
-  }
-  const isDemandOver = event.eventStatus === 'CLOSED';
-  const isReservationOpen = event.minRoutePrice !== null;
-  const isReservationOngoing = event.hasOpenRoute;
-
-  switch (true) {
-    case !isDemandOver && !isReservationOpen:
-      return { phase: 'demand', enabledStatus: 'enabled' };
-    case isDemandOver && !isReservationOpen:
-      return { phase: 'demand', enabledStatus: 'disabled' };
-    case isReservationOpen && isReservationOngoing:
-      return { phase: 'reservation', enabledStatus: 'enabled' };
-    case isReservationOpen && !isReservationOngoing:
-    default:
-      return { phase: 'reservation', enabledStatus: 'disabled' };
-  }
+export const calculateHandyDiscountAmount = (priceOfSingleTicket: number) => {
+  return Math.min(
+    Math.ceil(priceOfSingleTicket * 0.5),
+    MAX_HANDY_DISCOUNT_AMOUNT,
+  );
 };

@@ -40,7 +40,7 @@ const ReservationInfoStep = () => {
     MAX_PASSENGER_COUNT,
   );
 
-  const priceOfTripType = calculatePriceOfTripType(route);
+  const priceOfTripType = route ? calculatePriceOfTripType(route) : null;
   const price = priceOfTripType?.[tripType];
   const regularPrice = price?.regularPrice ?? 0;
   const earlybirdPrice = price?.earlybirdPrice ?? 0;

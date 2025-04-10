@@ -19,10 +19,13 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetShuttleRoute } from '@/services/shuttleRoute.service';
 import { useGetEvent } from '@/services/event.service';
-import { getRemainingSeat } from '@/utils/event.util';
+import { calculatePriceOfTripType, getRemainingSeat } from '@/utils/event.util';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { CustomError } from '@/services/custom-error';
 import { MAX_PASSENGER_COUNT } from '@/constants/common';
+import { useGetUser } from '@/services/user.service';
+import { UsersViewEntity } from '@/types/user.type';
+import { useState } from 'react';
 
 interface Props {
   params: {
@@ -48,25 +51,26 @@ const Page = ({ params }: Props) => {
   const { data: event, isLoading: isEventLoading } = useGetEvent(eventId);
   const { data: shuttleRoute, isLoading: isShuttleRouteLoading } =
     useGetShuttleRoute(eventId, dailyEventId, shuttleRouteId);
+  const { data: user, isLoading: isUserLoading } = useGetUser();
 
   const isLoading =
-    isEventLoading ||
-    isShuttleRouteLoading ||
     !tripType ||
     !toDestinationHubId ||
     !fromDestinationHubId ||
-    !passengerCount;
-
-  console.log(shuttleRoute);
+    !passengerCount ||
+    isEventLoading ||
+    isShuttleRouteLoading ||
+    isUserLoading;
 
   return (
     <>
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {event && shuttleRoute && (
+        {event && shuttleRoute && user && (
           <Content
             event={event}
             shuttleRoute={shuttleRoute}
+            user={user}
             tripType={tripType}
             toDestinationHubId={toDestinationHubId}
             fromDestinationHubId={fromDestinationHubId}
@@ -83,6 +87,7 @@ export default Page;
 interface ContentProps {
   event: EventWithRoutesViewEntity;
   shuttleRoute: ShuttleRoutesViewEntity;
+  user: UsersViewEntity;
   tripType: TripType;
   toDestinationHubId: string | null;
   fromDestinationHubId: string | null;
@@ -92,12 +97,16 @@ interface ContentProps {
 const Content = ({
   event,
   shuttleRoute,
+  user,
   tripType,
   toDestinationHubId,
   fromDestinationHubId,
   passengerCount,
 }: ContentProps) => {
+  const [isHandyApplied, setIsHandyApplied] = useState(false);
+
   const remainingSeat = getRemainingSeat(shuttleRoute);
+  const priceOfTripType = calculatePriceOfTripType(shuttleRoute);
 
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
@@ -116,7 +125,13 @@ const Content = ({
         passengerCount={passengerCount}
       />
       <ClientInfoSection />
-      <HandySection />
+      <HandySection
+        user={user}
+        tripType={tripType}
+        priceOfTripType={priceOfTripType}
+        isHandyApplied={isHandyApplied}
+        setIsHandyApplied={setIsHandyApplied}
+      />
       <CouponSection />
       <PriceSection />
       <PaymentSection />

@@ -33,7 +33,7 @@ const ReservationTripTypeStep = ({
     dailyEventId: dailyEvent.dailyEventId,
   });
   const { remainingSeat } = selectedHubWithInfo;
-  const priceOfTripType = calculatePriceOfTripType(route);
+  const priceOfTripType = route ? calculatePriceOfTripType(route) : null;
 
   const handleTripTypeClick = (tripType: TripType) => {
     setValue('tripType', tripType);
