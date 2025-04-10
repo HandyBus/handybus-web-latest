@@ -6,7 +6,7 @@ import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
 import { ID_TO_REGION } from '@/constants/regions';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { parsePhoneNumber } from '@/utils/common.util';
+import { formatPhoneNumber } from '@/utils/common.util';
 import { useGetUser } from '@/services/user.service';
 import Header from '@/components/header/Header';
 
@@ -15,7 +15,7 @@ const Profile = () => {
 
   const gender = user?.gender === 'MALE' ? '남성' : '여성';
   const region = user?.regionId ? ID_TO_REGION[user.regionId] : undefined;
-  const phoneNumber = parsePhoneNumber(user?.phoneNumber ?? '');
+  const phoneNumber = formatPhoneNumber(user?.phoneNumber ?? '');
 
   return (
     <>
@@ -33,7 +33,7 @@ const Profile = () => {
                     className="object-cover"
                   />
                 </div>
-                <span className="text-basic-grey-700 text-18 font-500">
+                <span className="text-18 font-500 text-basic-grey-700">
                   {user.nickname}
                 </span>
               </div>
@@ -49,7 +49,7 @@ const Profile = () => {
                 )}
               </ul>
             </section>
-            <div className="bg-basic-grey-50 h-16 w-full" />
+            <div className="h-16 w-full bg-basic-grey-50" />
             <ListButton
               title="프로필 수정"
               href="/mypage/profile/edit?type=profile"
@@ -78,8 +78,8 @@ interface ProfileItemProps {
 
 const ProfileItem = ({ title, description }: ProfileItemProps) => {
   return (
-    <li className="text-basic-grey-600 flex items-center gap-16">
-      <div className="border-basic-grey-100 flex h-20 w-[78px] shrink-0 items-center justify-center rounded-full border text-12 font-500">
+    <li className="flex items-center gap-16 text-basic-grey-600">
+      <div className="flex h-20 w-[78px] shrink-0 items-center justify-center rounded-full border border-basic-grey-100 text-12 font-500">
         {title}
       </div>
       <span className="text-14 font-400">{description}</span>

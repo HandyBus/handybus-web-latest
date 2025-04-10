@@ -124,7 +124,7 @@ const Content = ({
         toDestinationHubId={toDestinationHubId}
         passengerCount={passengerCount}
       />
-      <ClientInfoSection />
+      <ClientInfoSection user={user} />
       <HandySection
         user={user}
         tripType={tripType}
