@@ -1,0 +1,28 @@
+'use client';
+
+import Article from '@/components/article/Article';
+import { mock_event_data } from '../mockData.const';
+import EventsSwiperView from './EventsSwiperView';
+
+const TrendShuttleCard = () => {
+  const isLoading = false;
+
+  return (
+    <section>
+      <Article
+        richTitle="실시간 인기 셔틀"
+        titleClassName="text-20 leading-[140%]"
+      >
+        {isLoading ? (
+          <div className="h-[309px]" />
+        ) : (
+          <div className="">
+            <EventsSwiperView events={mock_event_data} type="TREND" />
+          </div>
+        )}
+      </Article>
+    </section>
+  );
+};
+
+export default TrendShuttleCard;
