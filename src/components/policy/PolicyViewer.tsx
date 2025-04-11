@@ -8,3 +8,5 @@ const PolicyViewer = ({ type }: Props) => {
 };
 
 export default PolicyViewer;
+
+// NOTE: deprecated 될 예정
