@@ -1,11 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import Card from '@/components/card/Card';
-import ViewAllButton from '@/components/buttons/view-all-button/ViewAllButton';
+import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,6 +16,8 @@ interface Props {
 
 const EventsSwiperView = ({ events, type }: Props) => {
   const swiper = useRef<SwiperRef>(null);
+  const { push } = useRouter();
+  const [isViewAllActive, setIsViewAllActive] = useState(false);
 
   return (
     <>
@@ -47,12 +50,17 @@ const EventsSwiperView = ({ events, type }: Props) => {
           ))}
           {type === 'RECOMMEND' && (
             <SwiperSlide style={{ width: 'fit-content' }}>
-              <div className="flex h-[193px] w-92 flex-col items-center justify-center gap-[18px] pr-[6px]">
-                <ViewAllButton onClick={() => {}} />
+              <button
+                onClick={() => push('/event')}
+                className="flex h-[300px] w-92 flex-col items-center gap-[8px] pr-[6px] pt-72"
+                onMouseDown={() => setIsViewAllActive(true)}
+                onMouseLeave={() => setIsViewAllActive(false)}
+              >
+                <ViewAllButton isActive={isViewAllActive} />
                 <p className="text-14 font-600 leading-[160%] text-basic-grey-600">
                   전체보기
                 </p>
-              </div>
+              </button>
             </SwiperSlide>
           )}
         </Swiper>

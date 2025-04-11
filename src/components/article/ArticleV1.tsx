@@ -10,7 +10,7 @@ interface Props extends HTMLProps<HTMLDivElement> {
   titleClassName?: string;
 }
 
-const Article = ({
+const ArticleV1 = ({
   children,
   richTitle,
   titleClassName = 'text-22',
@@ -29,7 +29,7 @@ const Article = ({
   );
 };
 
-export default Article;
+export default ArticleV1;
 
 interface TitleProps {
   title: ReactNode;
