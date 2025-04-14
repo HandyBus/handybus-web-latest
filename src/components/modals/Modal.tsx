@@ -39,21 +39,27 @@ const Modal = ({
       >
         <section
           onClick={(e) => e.stopPropagation()}
-          className="absolute left-1/2 top-1/2 w-[327px] -translate-x-1/2 -translate-y-1/2 rounded-16 bg-basic-white"
+          className="absolute left-1/2 top-1/2 w-[327px] -translate-x-1/2 -translate-y-1/2 rounded-16 bg-basic-white pb-16"
         >
           {title && (
             <h2 className="px-24 pb-12 pt-24 text-16 font-600">{title}</h2>
           )}
-          <div className="px-24 py-12">{children}</div>
+          <div className="px-24">{children}</div>
           {(secondaryButton || primaryButton) && (
-            <div className="flex w-full gap-12 p-16">
+            <div className="flex w-full gap-8 p-16 pb-0">
               {secondaryButton && (
-                <Button variant={secondaryButton.variant}>
+                <Button
+                  variant={secondaryButton.variant}
+                  onClick={secondaryButton.onClick}
+                >
                   {secondaryButton.text}
                 </Button>
               )}
               {primaryButton && (
-                <Button variant={primaryButton.variant}>
+                <Button
+                  variant={primaryButton.variant}
+                  onClick={primaryButton.onClick}
+                >
                   {primaryButton.text}
                 </Button>
               )}

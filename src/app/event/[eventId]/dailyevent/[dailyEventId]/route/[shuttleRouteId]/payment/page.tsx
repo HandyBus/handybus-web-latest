@@ -26,6 +26,8 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import { useGetUser } from '@/services/user.service';
 import { UsersViewEntity } from '@/types/user.type';
 import { useState } from 'react';
+import { useGetUserCoupons } from '@/services/coupon.service';
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 
 interface Props {
   params: {
@@ -52,6 +54,9 @@ const Page = ({ params }: Props) => {
   const { data: shuttleRoute, isLoading: isShuttleRouteLoading } =
     useGetShuttleRoute(eventId, dailyEventId, shuttleRouteId);
   const { data: user, isLoading: isUserLoading } = useGetUser();
+  const { data: coupons, isLoading: isCouponsLoading } = useGetUserCoupons({
+    issuedCouponStatus: 'BEFORE_USE',
+  });
 
   const isLoading =
     !tripType ||
@@ -60,17 +65,19 @@ const Page = ({ params }: Props) => {
     !passengerCount ||
     isEventLoading ||
     isShuttleRouteLoading ||
-    isUserLoading;
+    isUserLoading ||
+    isCouponsLoading;
 
   return (
     <>
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {event && shuttleRoute && user && (
+        {event && shuttleRoute && user && coupons && (
           <Content
             event={event}
             shuttleRoute={shuttleRoute}
             user={user}
+            coupons={coupons}
             tripType={tripType}
             toDestinationHubId={toDestinationHubId}
             fromDestinationHubId={fromDestinationHubId}
@@ -85,23 +92,25 @@ const Page = ({ params }: Props) => {
 export default Page;
 
 interface ContentProps {
-  event: EventWithRoutesViewEntity;
-  shuttleRoute: ShuttleRoutesViewEntity;
-  user: UsersViewEntity;
   tripType: TripType;
   toDestinationHubId: string | null;
   fromDestinationHubId: string | null;
   passengerCount: number;
+  event: EventWithRoutesViewEntity;
+  shuttleRoute: ShuttleRoutesViewEntity;
+  user: UsersViewEntity;
+  coupons: IssuedCouponsViewEntity[];
 }
 
 const Content = ({
-  event,
-  shuttleRoute,
-  user,
   tripType,
   toDestinationHubId,
   fromDestinationHubId,
   passengerCount,
+  event,
+  shuttleRoute,
+  user,
+  coupons,
 }: ContentProps) => {
   const [isHandyApplied, setIsHandyApplied] = useState(false);
 
@@ -110,7 +119,7 @@ const Content = ({
 
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
-  } else if (passengerCount === 0 || passengerCount > MAX_PASSENGER_COUNT) {
+  } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');
   }
 
@@ -132,7 +141,7 @@ const Content = ({
         isHandyApplied={isHandyApplied}
         setIsHandyApplied={setIsHandyApplied}
       />
-      <CouponSection />
+      <CouponSection coupons={coupons} />
       <PriceSection />
       <PaymentSection />
       <BottomBar />

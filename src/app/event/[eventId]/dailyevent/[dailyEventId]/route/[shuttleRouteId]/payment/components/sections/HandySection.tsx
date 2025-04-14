@@ -145,34 +145,28 @@ const HandySection = ({
       <Modal
         isOpen={isCancelApplyModalOpen}
         closeModal={() => setIsCancelApplyModalOpen(false)}
-        title="지원을 취소하시겠어요?"
+        title={<span className="text-20 font-700">지원을 취소하시겠어요?</span>}
+        primaryButton={{
+          variant: 'tertiary',
+          text: '계속 할게요',
+          onClick: () => {
+            setIsCancelApplyModalOpen(false);
+          },
+        }}
+        secondaryButton={{
+          variant: 's-destructive',
+          text: '취소할게요',
+          onClick: () => {
+            setIsHandyApplied(false);
+            setIsCancelApplyModalOpen(false);
+          },
+        }}
       >
-        <p className="-mt-12 text-16 font-500 text-basic-grey-600">
+        <p className="text-16 font-500 text-basic-grey-600">
           지금 취소하면 지원 혜택도 함께 사라져요.
           <br />
           정말 핸디를 그만두시겠어요?
         </p>
-        <div className="flex gap-8 py-16">
-          <Button
-            variant="s-destructive"
-            size="large"
-            type="button"
-            onClick={() => {
-              setIsHandyApplied(false);
-              setIsCancelApplyModalOpen(false);
-            }}
-          >
-            취소할게요
-          </Button>
-          <Button
-            variant="tertiary"
-            size="large"
-            type="button"
-            onClick={() => setIsCancelApplyModalOpen(false)}
-          >
-            계속 할게요
-          </Button>
-        </div>
       </Modal>
     </>
   );
