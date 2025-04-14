@@ -9,12 +9,17 @@ import dayjs from 'dayjs';
 
 interface Props {
   coupons: IssuedCouponsViewEntity[];
+  selectedCoupon: IssuedCouponsViewEntity | null;
+  setSelectedCoupon: (coupon: IssuedCouponsViewEntity | null) => void;
 }
 
-const CouponSection = ({ coupons }: Props) => {
+const CouponSection = ({
+  coupons,
+  selectedCoupon,
+  setSelectedCoupon,
+}: Props) => {
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
-  const [selectedCoupon, setSelectedCoupon] =
-    useState<IssuedCouponsViewEntity | null>(null);
+
   const [stagedSelectedCoupon, setStagedSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);
 

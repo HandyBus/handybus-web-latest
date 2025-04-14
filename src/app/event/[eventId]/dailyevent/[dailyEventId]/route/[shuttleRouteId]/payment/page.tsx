@@ -19,7 +19,11 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetShuttleRoute } from '@/services/shuttleRoute.service';
 import { useGetEvent } from '@/services/event.service';
-import { calculatePriceOfTripType, getRemainingSeat } from '@/utils/event.util';
+import {
+  calculatePriceOfTripType,
+  getRemainingSeat,
+  calculateTotalPrice,
+} from '@/utils/event.util';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { CustomError } from '@/services/custom-error';
 import { MAX_PASSENGER_COUNT } from '@/constants/common';
@@ -113,9 +117,22 @@ const Content = ({
   coupons,
 }: ContentProps) => {
   const [isHandyApplied, setIsHandyApplied] = useState(false);
+  const [selectedCoupon, setSelectedCoupon] =
+    useState<IssuedCouponsViewEntity | null>(null);
 
   const remainingSeat = getRemainingSeat(shuttleRoute);
   const priceOfTripType = calculatePriceOfTripType(shuttleRoute);
+  const regularPrice = priceOfTripType[tripType].regularPrice;
+  const {
+    finalPrice,
+    totalEarlybirdDiscountAmount,
+    totalCouponDiscountAmount,
+  } = calculateTotalPrice({
+    priceOfTripType,
+    tripType,
+    passengerCount,
+    coupon: selectedCoupon,
+  });
 
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
@@ -129,8 +146,8 @@ const Content = ({
       <ShuttleRouteInfoSection
         tripType={tripType}
         shuttleRoute={shuttleRoute}
-        fromDestinationHubId={fromDestinationHubId}
         toDestinationHubId={toDestinationHubId}
+        fromDestinationHubId={fromDestinationHubId}
         passengerCount={passengerCount}
       />
       <ClientInfoSection user={user} />
@@ -141,8 +158,18 @@ const Content = ({
         isHandyApplied={isHandyApplied}
         setIsHandyApplied={setIsHandyApplied}
       />
-      <CouponSection coupons={coupons} />
-      <PriceSection />
+      <CouponSection
+        coupons={coupons}
+        selectedCoupon={selectedCoupon}
+        setSelectedCoupon={setSelectedCoupon}
+      />
+      <PriceSection
+        regularPrice={regularPrice}
+        finalPrice={finalPrice}
+        totalCouponDiscountAmount={totalCouponDiscountAmount}
+        totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
+        passengerCount={passengerCount}
+      />
       <PaymentSection />
       <BottomBar />
     </main>

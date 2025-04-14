@@ -1,4 +1,5 @@
 import { MAX_HANDY_DISCOUNT_AMOUNT } from '@/constants/common';
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
@@ -126,19 +127,105 @@ export const calculatePriceOfTripType = (
   return calculatedTripType;
 };
 
-export const getPriceOfSingleTicket = (
+const calculateTotalEarlybirdDiscountAmount = ({
+  priceOfTripType,
+  tripType,
+  passengerCount,
+}: {
+  priceOfTripType: PriceOfTripType;
+  tripType: TripType;
+  passengerCount: number;
+}) => {
+  const price = priceOfTripType[tripType];
+  if (!price.isEarlybird) {
+    return 0;
+  }
+  return (price.regularPrice - (price.earlybirdPrice ?? 0)) * passengerCount;
+};
+
+const calculateTotalCouponDiscountAmount = ({
+  price,
+  passengerCount,
+  coupon,
+}: {
+  price: number;
+  passengerCount: number;
+  coupon: IssuedCouponsViewEntity;
+}) => {
+  const totalPrice = price * passengerCount;
+
+  const cappedPassengersCount = coupon?.maxApplicablePeople
+    ? Math.min(passengerCount, coupon.maxApplicablePeople)
+    : passengerCount;
+
+  const singleCouponDiscount = coupon
+    ? coupon.discountType === 'RATE'
+      ? ((coupon.discountRate ?? 0) / 100) * price
+      : (coupon.discountAmount ?? 0)
+    : 0;
+
+  const totalCouponDiscount = Math.ceil(
+    singleCouponDiscount * cappedPassengersCount,
+  );
+
+  const cappedTotalCouponDiscount = coupon?.maxDiscountAmount
+    ? Math.min(totalCouponDiscount, totalPrice, coupon.maxDiscountAmount)
+    : Math.min(totalCouponDiscount, totalPrice);
+
+  return cappedTotalCouponDiscount;
+};
+
+export const calculateTotalPrice = ({
+  priceOfTripType,
+  tripType,
+  passengerCount,
+  coupon,
+}: {
+  priceOfTripType: PriceOfTripType;
+  tripType: TripType;
+  passengerCount: number;
+  coupon: IssuedCouponsViewEntity | null;
+}) => {
+  const price = priceOfTripType[tripType];
+  const totalPrice = price.regularPrice * passengerCount;
+
+  const totalEarlybirdDiscountAmount = calculateTotalEarlybirdDiscountAmount({
+    priceOfTripType,
+    tripType,
+    passengerCount,
+  });
+  const totalCouponDiscountAmount = coupon
+    ? calculateTotalCouponDiscountAmount({
+        price: price.regularPrice - totalEarlybirdDiscountAmount,
+        passengerCount,
+        coupon,
+      })
+    : 0;
+
+  const finalPrice = Math.max(
+    Math.floor(
+      totalPrice - totalEarlybirdDiscountAmount - totalCouponDiscountAmount,
+    ),
+    0,
+  );
+
+  return {
+    finalPrice,
+    totalCouponDiscountAmount,
+    totalEarlybirdDiscountAmount,
+  };
+};
+
+export const calculateHandyDiscountAmount = (
   priceOfTripType: PriceOfTripType,
   tripType: TripType,
 ) => {
   const price = priceOfTripType[tripType];
-  return price.isEarlybird
+  const priceWithEarlybirdDiscount = price.isEarlybird
     ? (price.earlybirdPrice ?? 0)
-    : (price.regularPrice ?? 0);
-};
-
-export const calculateHandyDiscountAmount = (priceOfSingleTicket: number) => {
+    : price.regularPrice;
   return Math.min(
-    Math.ceil(priceOfSingleTicket * 0.5),
+    Math.ceil(priceWithEarlybirdDiscount * 0.5),
     MAX_HANDY_DISCOUNT_AMOUNT,
   );
 };

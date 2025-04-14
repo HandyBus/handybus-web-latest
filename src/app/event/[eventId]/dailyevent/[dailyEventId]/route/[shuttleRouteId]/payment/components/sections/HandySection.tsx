@@ -8,7 +8,6 @@ import WhatIsHandyContent from '@/app/help/what-is-handy/components/WhatIsHandyC
 import { TripType } from '@/types/shuttleRoute.type';
 import {
   calculateHandyDiscountAmount,
-  getPriceOfSingleTicket,
   PriceOfTripType,
 } from '@/utils/event.util';
 import CheckIcon from '../../icons/check.svg';
@@ -35,8 +34,10 @@ const HandySection = ({
   const [isCancelApplyModalOpen, setIsCancelApplyModalOpen] = useState(false);
 
   const canApply = tripType === 'ROUND_TRIP';
-  const priceOfSingleTicket = getPriceOfSingleTicket(priceOfTripType, tripType);
-  const handyDiscountAmount = calculateHandyDiscountAmount(priceOfSingleTicket);
+  const handyDiscountAmount = calculateHandyDiscountAmount(
+    priceOfTripType,
+    tripType,
+  );
 
   const openBottomSheetButtonText = isHandyApplied
     ? '취소하기'

@@ -30,7 +30,7 @@ const FeedbackScreen = ({ setDemandCompleteStatus }: Props) => {
         </p>
         <TextArea control={control} name="text" placeholder="의견 남기기" />
       </section>
-      <section className="mt-auto flex w-full flex-col items-center gap-8 px-24 pb-32">
+      <section className="mt-auto flex w-full flex-col items-center gap-8 px-24 pb-16">
         <Button variant="primary" size="large" type="submit">
           의견 보내기
         </Button>
