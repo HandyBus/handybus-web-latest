@@ -10,9 +10,9 @@ const Help = () => {
           <Link
             key={v.id}
             href={v.url}
-            target="_blank"
-            rel="noreferrer"
             className="flex w-full items-center gap-[9px] py-12"
+            target={v.target}
+            rel={v.rel}
           >
             <div className="flex h-24 w-24 items-center justify-center rounded-8 bg-basic-grey-100 text-14 font-600 leading-[90%] text-basic-grey-600">
               {v.id}
@@ -45,5 +45,7 @@ const mock_help_data = [
     id: 3,
     title: '이 행사, 셔틀 운행 해주세요',
     url: `${process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL}`,
+    target: '_blank',
+    rel: 'noreferrer noopener',
   },
 ];
