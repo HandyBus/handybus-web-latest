@@ -1,4 +1,5 @@
 import Article from '@/components/article/Article';
+import Link from 'next/link';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 const Help = () => {
@@ -6,7 +7,7 @@ const Help = () => {
     <Article richTitle="도움말">
       <div>
         {mock_help_data.map((v) => (
-          <a
+          <Link
             key={v.id}
             href={v.url}
             target="_blank"
@@ -20,7 +21,7 @@ const Help = () => {
               {v.title}
             </p>
             <ChevronRightEm className="ml-auto h-24 w-24 stroke-1 text-basic-grey-400" />
-          </a>
+          </Link>
         ))}
       </div>
     </Article>
@@ -33,7 +34,7 @@ const mock_help_data = [
   {
     id: 1,
     title: '핸디버스가 처음이라면',
-    url: '/help/about',
+    url: '/help/handybus-guide',
   },
   {
     id: 2,

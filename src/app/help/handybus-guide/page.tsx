@@ -10,6 +10,7 @@ import guideImageStep5 from './handybus-guide-step-5.png';
 import guideImageStep6 from './handybus-guide-step-6.png';
 import Link from 'next/link';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
+import Header from '@/components/header/Header';
 
 export const metadata: Metadata = {
   title: '핸디버스 가이드',
@@ -20,17 +21,12 @@ export const metadata: Metadata = {
 const HandybusGuide = () => {
   return (
     <main>
+      <Header />
       <figure>
-        <Image
-          src={guideImage}
-          alt="핸디버스 가이드"
-          width={1000}
-          height={1000}
-          quality={100}
-        />
+        <Image src={guideImage} alt="핸디버스 가이드" quality={100} />
       </figure>
-      <article className="mx-16 mb-32 flex flex-col">
-        <section className="mb-[51px] mt-16 flex flex-col gap-8">
+      <article className="mx-16 mb-16 flex flex-col gap-64">
+        <section className="mt-16 flex flex-col gap-8">
           <h1 className="text-22 font-700 leading-[140%]">핸디버스 가이드</h1>
           <p className="text-16 font-500 leading-[160%] text-basic-grey-700">
             핸디버스에 오신 걸 환영해요! 여러분의 원활한 셔틀 여정을 위해 셔틀
@@ -76,15 +72,15 @@ const GuideItem = ({
   redirectUrl,
 }: GuideItemProps) => {
   return (
-    <section className="mb-40">
-      <div className="mb-12 flex gap-8">
+    <section className="flex flex-col gap-16">
+      <div className="flex gap-8">
         <div className="h-[25px] w-28 rounded-6 bg-basic-grey-100 text-center text-18 font-600 leading-[140%] text-basic-grey-700">
           {order}
         </div>
         <h2 className="text-18 font-600 leading-[140%]">{title}</h2>
         {tagDescription && <Tag>{tagDescription}</Tag>}
       </div>
-      <figure className="mb-8">
+      <figure>
         <Image src={image} alt={title} quality={100} />
       </figure>
       <p className="text-16 font-400 leading-[160%] text-basic-grey-700">
