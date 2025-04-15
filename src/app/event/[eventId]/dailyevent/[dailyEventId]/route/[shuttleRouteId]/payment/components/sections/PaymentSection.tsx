@@ -1,7 +1,16 @@
-import Section from '../Section';
+import Divider from '../Divider';
+import { PAYMENT_METHODS_ID, AGREEMENT_ID } from '@/hooks/useTossPayments';
 
 const PaymentSection = () => {
-  return <Section heading="결제 방법">토스 결제 위젯 넣기</Section>;
+  return (
+    <>
+      <Divider />
+      <section className="">
+        <div id={PAYMENT_METHODS_ID} />
+        <div id={AGREEMENT_ID} />
+      </section>
+    </>
+  );
 };
 
 export default PaymentSection;

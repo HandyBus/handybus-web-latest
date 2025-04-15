@@ -1,0 +1,111 @@
+import { IssuedCouponsViewEntity } from '@/types/coupon.type';
+import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
+import { useState } from 'react';
+import { UsersViewEntity } from '@/types/user.type';
+import { calculateTotalPrice } from '@/utils/event.util';
+import { calculatePriceOfTripType } from '@/utils/event.util';
+import { getRemainingSeat } from '@/utils/event.util';
+import { CustomError } from '@/services/custom-error';
+import { MAX_PASSENGER_COUNT } from '@/constants/common';
+import EventInfoSection from './sections/EventInfoSection';
+import ShuttleRouteInfoSection from './sections/ShuttleRouteInfoSection';
+import ClientInfoSection from './sections/ClientInfoSection';
+import HandySection from './sections/HandySection';
+import CouponSection from './sections/CouponSection';
+import PriceSection from './sections/PriceSection';
+import PaymentSection from './sections/PaymentSection';
+import BottomBar from './BottomBar';
+import useTossPayments from '@/hooks/useTossPayments';
+
+interface ContentProps {
+  tripType: TripType;
+  toDestinationHubId: string | null;
+  fromDestinationHubId: string | null;
+  passengerCount: number;
+  event: EventWithRoutesViewEntity;
+  shuttleRoute: ShuttleRoutesViewEntity;
+  user: UsersViewEntity;
+  coupons: IssuedCouponsViewEntity[];
+}
+
+const Content = ({
+  tripType,
+  toDestinationHubId,
+  fromDestinationHubId,
+  passengerCount,
+  event,
+  shuttleRoute,
+  user,
+  coupons,
+}: ContentProps) => {
+  const [isHandyApplied, setIsHandyApplied] = useState(false);
+  const [selectedCoupon, setSelectedCoupon] =
+    useState<IssuedCouponsViewEntity | null>(null);
+
+  const remainingSeat = getRemainingSeat(shuttleRoute);
+  const priceOfTripType = calculatePriceOfTripType(shuttleRoute);
+  const regularPrice = priceOfTripType[tripType].regularPrice;
+  const {
+    finalPrice,
+    totalEarlybirdDiscountAmount,
+    totalCouponDiscountAmount,
+  } = calculateTotalPrice({
+    priceOfTripType,
+    tripType,
+    passengerCount,
+    coupon: selectedCoupon,
+  });
+
+  const { TossPaymentsScript } = useTossPayments({
+    userId: user.userId,
+    initialPrice: finalPrice,
+  });
+
+  // 에러 처리
+  if (remainingSeat[tripType] < passengerCount) {
+    throw new CustomError(404, '좌석이 부족합니다.');
+  } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
+    throw new CustomError(404, '인원 수가 올바르지 않습니다.');
+  }
+
+  return (
+    <>
+      <TossPaymentsScript />
+      <main className="pb-100">
+        <EventInfoSection event={event} />
+        <ShuttleRouteInfoSection
+          tripType={tripType}
+          shuttleRoute={shuttleRoute}
+          toDestinationHubId={toDestinationHubId}
+          fromDestinationHubId={fromDestinationHubId}
+          passengerCount={passengerCount}
+        />
+        <ClientInfoSection user={user} />
+        <HandySection
+          user={user}
+          tripType={tripType}
+          priceOfTripType={priceOfTripType}
+          isHandyApplied={isHandyApplied}
+          setIsHandyApplied={setIsHandyApplied}
+        />
+        <CouponSection
+          coupons={coupons}
+          selectedCoupon={selectedCoupon}
+          setSelectedCoupon={setSelectedCoupon}
+        />
+        <PriceSection
+          regularPrice={regularPrice}
+          finalPrice={finalPrice}
+          totalCouponDiscountAmount={totalCouponDiscountAmount}
+          totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
+          passengerCount={passengerCount}
+        />
+        <PaymentSection />
+        <BottomBar />
+      </main>
+    </>
+  );
+};
+
+export default Content;
