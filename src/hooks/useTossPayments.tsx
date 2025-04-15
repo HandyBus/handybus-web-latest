@@ -30,13 +30,13 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
   const [isAgreementAccepted, setIsAgreementAccepted] = useState(true);
   const [paymentRequestLoading, setPaymentRequestLoading] = useState(false);
 
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     const newIsDisabled =
       !scriptLoaded ||
       !tossInitialized ||
-      isAgreementAccepted ||
+      !isAgreementAccepted ||
       paymentRequestLoading;
     setIsDisabled(newIsDisabled);
   }, [
@@ -115,7 +115,7 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
     orderName: string;
     successUrl: string;
     failUrl: string;
-    onError: (error: CustomError) => void;
+    onError?: (error: CustomError) => void;
   }) => {
     if (!tossWidgets.current) {
       return;
@@ -134,7 +134,7 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
       if (!(e instanceof CustomError)) {
         return;
       }
-      onError(e);
+      onError?.(e);
     } finally {
       setPaymentRequestLoading(false);
     }

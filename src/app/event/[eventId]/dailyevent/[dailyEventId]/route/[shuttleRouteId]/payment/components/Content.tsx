@@ -1,7 +1,7 @@
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UsersViewEntity } from '@/types/user.type';
 import { calculateTotalPrice } from '@/utils/event.util';
 import { calculatePriceOfTripType } from '@/utils/event.util';
@@ -17,6 +17,10 @@ import PriceSection from './sections/PriceSection';
 import PaymentSection from './sections/PaymentSection';
 import BottomBar from './BottomBar';
 import useTossPayments from '@/hooks/useTossPayments';
+import { postPreparePayment } from '@/services/payment.service';
+import { postReserveReservation } from '@/services/payment.service';
+import { usePathname } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 interface ContentProps {
   tripType: TripType;
@@ -39,6 +43,8 @@ const Content = ({
   user,
   coupons,
 }: ContentProps) => {
+  const pathname = usePathname();
+
   const [isHandyApplied, setIsHandyApplied] = useState(false);
   const [selectedCoupon, setSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);
@@ -57,10 +63,58 @@ const Content = ({
     coupon: selectedCoupon,
   });
 
-  const { TossPaymentsScript } = useTossPayments({
-    userId: user.userId,
-    initialPrice: finalPrice,
-  });
+  const { TossPaymentsScript, isDisabled, requestPayment, changePrice } =
+    useTossPayments({
+      userId: user.userId,
+      initialPrice: finalPrice,
+    });
+
+  useEffect(() => {
+    changePrice(finalPrice);
+  }, [changePrice, finalPrice]);
+
+  const submitPayment = async () => {
+    const parsedFormValues = {
+      shuttleRouteId: shuttleRoute.shuttleRouteId,
+      type: tripType,
+      toDestinationShuttleRouteHubId: toDestinationHubId ?? undefined,
+      fromDestinationShuttleRouteHubId: fromDestinationHubId ?? undefined,
+      isSupportingHandy: isHandyApplied,
+      passengerCount,
+    };
+    const postReservationResponse =
+      await postReserveReservation(parsedFormValues);
+
+    const readyPaymentFormValues = {
+      reservationId: postReservationResponse.reservationId,
+      issuedCouponId: selectedCoupon?.issuedCouponId ?? null,
+    };
+    const readyPaymentResponse = await postPreparePayment(
+      readyPaymentFormValues,
+    );
+
+    const baseUrl = window.location.origin + pathname;
+    const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}`;
+    const failUrl = `${baseUrl}/request/fail`;
+    const orderName =
+      `[${shuttleRoute.name}] ${shuttleRoute.event.eventName}`.slice(0, 99);
+
+    const onError = (error: CustomError) => {
+      if (error.statusCode === 403) {
+        toast.error('예약이 마감되었어요.');
+        return;
+      }
+      toast.error('잠시 후 다시 시도해 주세요.');
+    };
+
+    await requestPayment({
+      orderId: readyPaymentResponse.paymentId,
+      orderName,
+      successUrl,
+      failUrl,
+      onError,
+    });
+  };
 
   // 에러 처리
   if (remainingSeat[tripType] < passengerCount) {
@@ -102,7 +156,11 @@ const Content = ({
           passengerCount={passengerCount}
         />
         <PaymentSection />
-        <BottomBar />
+        <BottomBar
+          isDisabled={isDisabled}
+          finalPrice={finalPrice}
+          onSubmit={submitPayment}
+        />
       </main>
     </>
   );
