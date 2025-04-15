@@ -8,6 +8,7 @@ import TitledSection from './components/TitledSection';
 import Tabs from '@/components/tab/Tabs';
 import { useState } from 'react';
 import FAQList from './components/FAQList';
+
 const TAB_ITEMS = [
   { label: '예약하기', value: 'reserve' },
   { label: '탑승하기', value: 'boarding' },
@@ -15,9 +16,6 @@ const TAB_ITEMS = [
 ];
 
 type TabItem = (typeof TAB_ITEMS)[number];
-
-const ACCORDION_CONTAINER_CLASS_NAME =
-  '[&>div]:text-16 [&>p>a]:text-primary-main [&>p>a]:underline [&>p]:text-14 [&_li]:ml-16 [&_ol>li]:ml-16 [&_ol>li]:text-16 [&_ol>li]:font-600 [&_ol]:list-decimal [&_ul>li]:text-16 [&_ul]:list-disc [&>p]:whitespace-pre-line px-8 [&>summary]:py-12 [&>summary>h3]:text-16 [&>summary>h3]:font-600 [&>summary>h3]:leading-[160%] text-14 font-500 leading-[160%] [&>summary>h3]:text-basic-black [&_strong]:text-basic-grey-700';
 
 const CustomerSupport = () => {
   const [selectedTab, setSelectedTab] = useState<TabItem['value']>(
@@ -37,10 +35,7 @@ const CustomerSupport = () => {
               setSelectedTab(value);
             }}
           />
-          <FAQList
-            selectedTab={selectedTab}
-            containerClassName={ACCORDION_CONTAINER_CLASS_NAME}
-          />
+          <FAQList selectedTab={selectedTab} />
         </TitledSection>
         <div className="h-8 w-full bg-basic-grey-50" />
         <TitledSection title="이용 약관">

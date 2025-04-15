@@ -3,7 +3,7 @@ import ArrowDownIcon from './icons/arrow-down.svg';
 import { ReactNode } from 'react';
 
 interface Props {
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   containerClassName?: string;
   open?: boolean;

@@ -1,14 +1,13 @@
 import { FAQ_ITEMS } from '../faqItems.const';
-import { customTwMerge } from 'tailwind.config';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import ArrowDownIcon from '../icons/arrow-down.svg';
+import Accordion from '@/components/accordion/Accordion';
 
 interface FAQListProps {
   selectedTab: string;
-  containerClassName: string;
 }
 
-const FAQList = ({ selectedTab, containerClassName }: FAQListProps) => {
+const FAQList = ({ selectedTab }: FAQListProps) => {
   const [showAll, setShowAll] = useState(false);
 
   const filteredFAQs = FAQ_ITEMS.filter((item) => {
@@ -29,10 +28,15 @@ const FAQList = ({ selectedTab, containerClassName }: FAQListProps) => {
           return (
             <Accordion
               key={index}
-              title={item.label}
-              containerClassName={containerClassName}
+              title={
+                <span className="text-16 font-600 leading-[160%] text-basic-black">
+                  {item.label}
+                </span>
+              }
             >
-              <Content />
+              <div className="whitespace-pre-line px-16 text-14 font-500 leading-[160%] text-basic-grey-600 [&>summary>h3]:text-16 [&>summary>h3]:font-600 [&>summary>h3]:leading-[160%] [&>summary>h3]:text-basic-black [&_li]:ml-16 [&_ol>li]:ml-16 [&_ol>li]:whitespace-normal [&_ol>li]:text-16 [&_ol>li]:font-600 [&_ol]:list-decimal [&_ol]:whitespace-normal [&_strong]:text-basic-grey-600 [&_ul>li]:whitespace-normal [&_ul>li]:text-16 [&_ul]:list-disc [&_ul]:whitespace-normal">
+                <Content />
+              </div>
             </Accordion>
           );
         })}
@@ -56,37 +60,3 @@ const FAQList = ({ selectedTab, containerClassName }: FAQListProps) => {
 };
 
 export default FAQList;
-
-interface Props {
-  title: string;
-  children: ReactNode;
-  containerClassName?: string;
-  open?: boolean;
-}
-
-const Accordion = ({
-  title,
-  children,
-  containerClassName,
-  open = false,
-}: Props) => {
-  return (
-    <details
-      open={open}
-      className={customTwMerge(
-        'group flex w-full flex-col px-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden',
-        containerClassName,
-      )}
-    >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-16 py-16">
-        <h3 className={customTwMerge('text-16 font-600 leading-[160%] ')}>
-          {title}
-        </h3>
-        <span className="transition-transform duration-100 group-open:rotate-[180deg]">
-          <ArrowDownIcon />
-        </span>
-      </summary>
-      {children}
-    </details>
-  );
-};

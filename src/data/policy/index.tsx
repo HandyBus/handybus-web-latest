@@ -14,5 +14,3 @@ export const policies: Record<PolicyNameType, ReactNode> = {
   개인정보처리방침: <PrivacyPolicy />,
   마케팅활용동의: <MarketingPolicy />,
 };
-
-// NOTE: deprecated 될 예정
