@@ -39,11 +39,7 @@ const HandySection = ({
     tripType,
   );
 
-  const openBottomSheetButtonText = isHandyApplied
-    ? '취소하기'
-    : canApply
-      ? '알아보기'
-      : '핸디는 왕복만 지원할 수 있어요';
+  const openBottomSheetButtonText = isHandyApplied ? '취소하기' : '알아보기';
 
   const applyStatusText = isHandyApplied ? (
     <div className="flex flex-col items-center gap-8">

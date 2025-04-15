@@ -10,6 +10,7 @@ import { useGetEvent } from '@/services/event.service';
 import { useGetUser } from '@/services/user.service';
 import { useGetUserCoupons } from '@/services/coupon.service';
 import Content from './components/Content';
+import { PAYMENT_PARAMS_KEYS } from './payment';
 
 interface Props {
   params: {
@@ -18,19 +19,26 @@ interface Props {
     shuttleRouteId: string;
   };
 }
+
 const Page = ({ params }: Props) => {
   const { eventId, dailyEventId, shuttleRouteId } = params;
   const searchParams = useSearchParams();
   const tripType = (() => {
-    const tripType = searchParams.get('tripType');
+    const tripType = searchParams.get(PAYMENT_PARAMS_KEYS.tripType);
     if (TripTypeEnum.options.includes(tripType as TripType)) {
       return tripType as TripType;
     }
     return 'ROUND_TRIP';
   })();
-  const toDestinationHubId = searchParams.get('toDestinationHubId');
-  const fromDestinationHubId = searchParams.get('fromDestinationHubId');
-  const passengerCount = Number(searchParams.get('passengerCount'));
+  const toDestinationHubId = searchParams.get(
+    PAYMENT_PARAMS_KEYS.toDestinationHubId,
+  );
+  const fromDestinationHubId = searchParams.get(
+    PAYMENT_PARAMS_KEYS.fromDestinationHubId,
+  );
+  const passengerCount = Number(
+    searchParams.get(PAYMENT_PARAMS_KEYS.passengerCount),
+  );
 
   const { data: event, isLoading: isEventLoading } = useGetEvent(eventId);
   const { data: shuttleRoute, isLoading: isShuttleRouteLoading } =

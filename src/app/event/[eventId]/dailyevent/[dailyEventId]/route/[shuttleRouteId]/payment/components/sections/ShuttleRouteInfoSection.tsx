@@ -10,8 +10,6 @@ import { CustomError } from '@/services/custom-error';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { dateString } from '@/utils/dateString.util';
 
-const MissingHubError = new CustomError(404, '정류장을 찾을 수 없습니다.');
-
 interface Props {
   tripType: TripType;
   shuttleRoute: ShuttleRoutesViewEntity;
@@ -23,8 +21,8 @@ interface Props {
 const ShuttleRouteInfoSection = ({
   tripType,
   shuttleRoute,
-  fromDestinationHubId,
   toDestinationHubId,
+  fromDestinationHubId,
   passengerCount,
 }: Props) => {
   const toDestinationHub = shuttleRoute.toDestinationShuttleRouteHubs?.find(
@@ -39,7 +37,7 @@ const ShuttleRouteInfoSection = ({
     (tripType === 'TO_DESTINATION' && !toDestinationHub) ||
     (tripType === 'FROM_DESTINATION' && !fromDestinationHub)
   ) {
-    throw MissingHubError;
+    throw new CustomError(404, '정류장을 찾을 수 없습니다.');
   }
 
   return (
@@ -105,7 +103,7 @@ const TripCard = ({
         )?.[0];
 
   if (!destinationHub) {
-    throw MissingHubError;
+    throw new CustomError(404, '도착지를 찾을 수 없습니다.');
   }
 
   const formattedDestinationDate = dateString(destinationHub.arrivalTime);

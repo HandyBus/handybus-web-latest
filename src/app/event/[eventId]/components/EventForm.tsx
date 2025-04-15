@@ -258,7 +258,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                   />
                 </Step>
                 <Step name="[예약] 예약 정보">
-                  <ReservationInfoStep />
+                  <ReservationInfoStep closeBottomSheet={closeBottomSheet} />
                 </Step>
                 {/* 기타 */}
                 <Step name="[기타] 시/도 정보">
