@@ -1,7 +1,6 @@
 'use client';
 
 import { getEvents } from '@/services/event.service';
-// import { Metadata } from 'next';
 import { fromString, toDemandSort } from '../demand/utils/param.util';
 import { toSorted } from '../demand/utils/toSorted.util';
 import Header from '@/components/header/Header';
@@ -20,16 +19,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Seoul');
 dayjs.locale('ko');
-
-// export const metadata: Metadata = {
-//   title: '행사 리스트',
-//   openGraph: {
-//     title: '행사 리스트',
-//   },
-//   twitter: {
-//     title: '행사 리스트',
-//   },
-// };
 
 interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
