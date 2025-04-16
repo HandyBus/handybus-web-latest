@@ -1,8 +1,7 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import { ReactNode, useEffect, useState } from 'react';
-import { customTwMerge } from 'tailwind.config';
+import { useEffect, useState } from 'react';
 import SimpleRouteInfo from '../../SimpleRouteInfo';
 import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
@@ -16,8 +15,6 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment';
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
-
-const ROUND_TRIP_TEXT = '[왕복]';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -106,48 +103,30 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
     <section className="flex w-full flex-col gap-16">
       {(isRoundTrip || tripType === 'TO_DESTINATION') &&
         toDestinationShuttleRouteHubId && (
-          <Container className="flex flex-col gap-12">
-            <div className="flex h-[31px] w-full items-center justify-between">
-              <span className="text-16 font-600">
-                {isRoundTrip && ROUND_TRIP_TEXT} 가는 편
-              </span>
-              <Button variant="tertiary" size="small" type="button">
-                변경
-              </Button>
-            </div>
-            <div className="h-[1px] w-full bg-basic-grey-100" />
-            <SimpleRouteInfo
-              tripType="TO_DESTINATION"
-              hubs={toDestinationHubs}
-              selectedShuttleRouteHubId={toDestinationShuttleRouteHubId}
-            />
-          </Container>
+          <SimpleRouteInfo
+            tripType="TO_DESTINATION"
+            isRoundTrip={isRoundTrip}
+            hubs={toDestinationHubs}
+            selectedShuttleRouteHubId={toDestinationShuttleRouteHubId}
+            setSelectedShuttleRouteHubId={setToDestinationShuttleRouteHubId}
+          />
         )}
       {(isRoundTrip || tripType === 'FROM_DESTINATION') &&
         fromDestinationShuttleRouteHubId && (
-          <Container className="flex flex-col gap-12">
-            <div className="flex h-[31px] w-full items-center justify-between">
-              <span className="text-16 font-600">
-                {isRoundTrip && ROUND_TRIP_TEXT} 오는 편
-              </span>
-              <Button variant="tertiary" size="small">
-                변경
-              </Button>
-            </div>
-            <div className="h-[1px] w-full bg-basic-grey-100" />
-            <SimpleRouteInfo
-              tripType="FROM_DESTINATION"
-              hubs={fromDestinationHubs}
-              selectedShuttleRouteHubId={fromDestinationShuttleRouteHubId}
-            />
-          </Container>
+          <SimpleRouteInfo
+            tripType="FROM_DESTINATION"
+            isRoundTrip={isRoundTrip}
+            hubs={fromDestinationHubs}
+            selectedShuttleRouteHubId={fromDestinationShuttleRouteHubId}
+            setSelectedShuttleRouteHubId={setFromDestinationShuttleRouteHubId}
+          />
         )}
-      <Container className="flex items-center justify-between p-8">
+      <article className="flex items-center justify-between rounded-12 border border-basic-grey-100 p-8">
         <button
           type="button"
           onClick={() => setPassengerCount((prev) => prev - 1)}
           disabled={passengerCount <= 1}
-          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 active:bg-basic-grey-200 disabled:text-basic-grey-300"
+          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 disabled:text-basic-grey-300 active:[&:not([disabled])]:bg-basic-grey-200"
         >
           <SubtractIcon />
         </button>
@@ -156,11 +135,11 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
           type="button"
           onClick={() => setPassengerCount((prev) => prev + 1)}
           disabled={passengerCount >= maxPassengerCount}
-          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 active:bg-basic-grey-200 disabled:text-basic-grey-300"
+          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 disabled:text-basic-grey-300 active:[&:not([disabled])]:bg-basic-grey-200"
         >
           <AddIcon />
         </button>
-      </Container>
+      </article>
       <article>
         <p className="flex h-[22px] items-center justify-between">
           <span className="text-14 font-500 text-basic-grey-700">
@@ -199,21 +178,3 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
 };
 
 export default ReservationInfoStep;
-
-interface ContainerProps {
-  children: ReactNode;
-  className?: string;
-}
-
-const Container = ({ children, className }: ContainerProps) => {
-  return (
-    <article
-      className={customTwMerge(
-        'rounded-12 border border-basic-grey-100 p-12',
-        className,
-      )}
-    >
-      {children}
-    </article>
-  );
-};
