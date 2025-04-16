@@ -3,11 +3,11 @@ import { useState } from 'react';
 import ArrowDownIcon from '../icons/arrow-down.svg';
 import Accordion from '@/components/accordion/Accordion';
 
-interface FAQListProps {
+interface Props {
   selectedTab: string;
 }
 
-const FAQList = ({ selectedTab }: FAQListProps) => {
+const FAQList = ({ selectedTab }: Props) => {
   const [showAll, setShowAll] = useState(false);
 
   const filteredFAQs = FAQ_ITEMS.filter((item) => {
@@ -17,13 +17,13 @@ const FAQList = ({ selectedTab }: FAQListProps) => {
     return false;
   });
 
-  const showItems = showAll ? filteredFAQs : filteredFAQs.slice(0, 5);
+  const visibleItems = showAll ? filteredFAQs : filteredFAQs.slice(0, 5);
   const hasMoreItems = filteredFAQs.length > 5;
 
   return (
     <div>
       <div className="mt-16">
-        {showItems.map((item, index) => {
+        {visibleItems.map((item, index) => {
           const Content = item.content;
           return (
             <Accordion
@@ -45,7 +45,7 @@ const FAQList = ({ selectedTab }: FAQListProps) => {
       {hasMoreItems && (
         <button
           className="mt-16 flex w-full items-center justify-center gap-[10px] py-[10px] text-16 font-600 leading-[160%] text-basic-grey-600"
-          onClick={() => setShowAll(!showAll)}
+          onClick={() => setShowAll((prev) => !prev)}
         >
           {showAll ? '접기' : '모두 보기'}
           <ArrowDownIcon

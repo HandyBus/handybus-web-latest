@@ -1,10 +1,10 @@
 import { PropsWithChildren } from 'react';
 
-interface TitledSectionProps extends PropsWithChildren {
+interface Props extends PropsWithChildren {
   title?: string;
 }
 
-const TitledSection = ({ title, children }: TitledSectionProps) => {
+const TitledSection = ({ title, children }: Props) => {
   return (
     <section className="px-16 py-24">
       {title && (
