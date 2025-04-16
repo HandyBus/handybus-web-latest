@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Badge from '../badge/Badge';
+import Link from 'next/link';
 
 const CARD_SIZE = {
   LARGE: 'w-[232px] h-[309px]',
@@ -25,6 +26,7 @@ interface Props {
   date?: string;
   location?: string;
   price?: string;
+  href?: string;
 }
 
 const Card = ({
@@ -36,6 +38,7 @@ const Card = ({
   date,
   location,
   price,
+  href,
 }: Props) => {
   if (variant === 'LARGE') {
     return (
@@ -46,6 +49,7 @@ const Card = ({
         isSaleStarted={isSaleStarted}
         title={title}
         price={price}
+        href={href}
       />
     );
   }
@@ -59,6 +63,7 @@ const Card = ({
         date={date}
         price={price}
         location={location}
+        href={href}
       />
     );
   }
@@ -71,6 +76,7 @@ const Card = ({
       date={date}
       location={location}
       price={price}
+      href={href}
     />
   );
 };
@@ -84,10 +90,12 @@ const LargeCard = ({
   isSaleStarted,
   title = 'ATEEZ 2024 FANMEETING 〈ATINY&apos;S VOYAGE FROM A TO Z〉',
   price = '32,000원~',
+  href,
 }: Props) => {
   return (
-    <div
-      className={`${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
+    <Link
+      href={href || ''}
+      className={`block ${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
     >
       <Image
         src={image || '/images/default-event.png'}
@@ -123,7 +131,7 @@ const LargeCard = ({
           </div>
         </>
       )}
-    </div>
+    </Link>
   );
 };
 
@@ -134,9 +142,10 @@ const MediumCard = ({
   title = 'ATEEZ 2024 FANMEETING 〈ATINY’S VOYAGE FROM A TO Z〉',
   date = '2024.02.01 - 02.03',
   price = '32,000원~',
+  href,
 }: Props) => {
   return (
-    <div className=" w-[145px]">
+    <Link href={href || ''} className="block w-[145px]">
       <div
         className={`${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
       >
@@ -165,7 +174,7 @@ const MediumCard = ({
           수요조사 진행 중
         </Badge>
       )}
-    </div>
+    </Link>
   );
 };
 
@@ -177,9 +186,10 @@ const SmallCard = ({
   date = '2024.02.01 - 02.03',
   location = '잠실실내체육관',
   price = '32,000원~',
+  href,
 }: Props) => {
   return (
-    <div className="flex gap-12">
+    <Link href={href || ''} className="flex gap-12">
       <div
         className={`${CARD_SIZE[variant]} relative shrink-0 border-[1px] border-[#181F29] border-opacity-[0.08] ${CARD_ROUNDED[variant]}`}
       >
@@ -213,6 +223,6 @@ const SmallCard = ({
           {isSaleStarted ? price : '판매대기'}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
