@@ -15,8 +15,8 @@ const EventInfoSection = ({ event }: Props) => {
   return (
     <section className="px-16 pb-24 pt-12">
       <h1 className="mb-24 text-22 font-700 leading-[140%]">예약 내역</h1>
-      <div className="flex h-[114px] w-full gap-8">
-        <div className="relative h-full w-[91px] shrink-0 overflow-hidden rounded-6">
+      <div className="flex h-[112px] w-full gap-8">
+        <div className="relative h-full w-[84px] shrink-0 overflow-hidden rounded-[7px]">
           <Image
             src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
             alt="행사 포스터"
