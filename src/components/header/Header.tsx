@@ -10,7 +10,9 @@ import { useGetUser } from '@/services/user.service';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const { data: user } = useGetUser();
+  const { data: user } = useGetUser({
+    enabled: isLoggedIn !== null && isLoggedIn,
+  });
   const profileImage = user?.profileImage;
   const nickname = user?.nickname;
 
@@ -25,7 +27,7 @@ const Header = () => {
       <Link href="/">
         <LogoIcon />
       </Link>
-      {isLoggedIn != null &&
+      {isLoggedIn !== null &&
         (isLoggedIn ? (
           <Link href="/mypage">
             <UserProfile nickname={nickname} profileImage={profileImage} />
