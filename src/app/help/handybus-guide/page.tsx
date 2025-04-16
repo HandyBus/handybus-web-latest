@@ -1,13 +1,13 @@
 import Button from '@/components/buttons/button/Button';
 import { Metadata } from 'next';
 import Image, { StaticImageData } from 'next/image';
-import guideImage from './handybus-guide.png';
-import guideImageStep1 from './handybus-guide-step-1.png';
-import guideImageStep2 from './handybus-guide-step-2.png';
-import guideImageStep3 from './handybus-guide-step-3.png';
-import guideImageStep4 from './handybus-guide-step-4.png';
-import guideImageStep5 from './handybus-guide-step-5.png';
-import guideImageStep6 from './handybus-guide-step-6.png';
+import guideImage from './images/handybus-guide.png';
+import guideImageStep1 from './images/handybus-guide-step-1.png';
+import guideImageStep2 from './images/handybus-guide-step-2.png';
+import guideImageStep3 from './images/handybus-guide-step-3.png';
+import guideImageStep4 from './images/handybus-guide-step-4.png';
+import guideImageStep5 from './images/handybus-guide-step-5.png';
+import guideImageStep6 from './images/handybus-guide-step-6.png';
 import Link from 'next/link';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import Header from '@/components/header/Header';
@@ -33,7 +33,7 @@ const HandybusGuide = () => {
             예약 과정을 알려드릴게요.
           </p>
         </section>
-        {arrayForA.map((item) => (
+        {HANDYBUS_GUIDE_STEPS.map((item) => (
           <GuideItem key={item.order} {...item} />
         ))}
         <nav className="flex flex-col gap-16">
@@ -109,7 +109,7 @@ const Tag = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const arrayForA = [
+const HANDYBUS_GUIDE_STEPS = [
   {
     order: 1,
     title: '수요조사 참여',

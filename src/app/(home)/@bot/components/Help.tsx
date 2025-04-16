@@ -6,7 +6,7 @@ const Help = () => {
   return (
     <Article richTitle="도움말">
       <div>
-        {mock_help_data.map((v) => (
+        {HELP_MENU_ITEMS.map((v) => (
           <Link
             key={v.id}
             href={v.url}
@@ -30,7 +30,7 @@ const Help = () => {
 
 export default Help;
 
-const mock_help_data = [
+const HELP_MENU_ITEMS = [
   {
     id: 1,
     title: '핸디버스가 처음이라면',
