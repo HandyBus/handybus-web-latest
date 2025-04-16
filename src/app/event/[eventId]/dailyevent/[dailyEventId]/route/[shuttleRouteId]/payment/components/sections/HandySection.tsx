@@ -53,7 +53,7 @@ const HandySection = ({
       <p className="text-12 font-600">
         {user.nickname}님, 지원해 주셔서 감사합니다.
         <br />
-        확정 여부는 공연 전 평균 N일 내에 알려드려요.
+        확정 여부는 공연 전 평균 8일 내에 알려드려요.
         <br />
         핸디로 선정되면 지원금을 받으실 수 있어요.
       </p>
