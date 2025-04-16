@@ -42,8 +42,8 @@ const Title = ({ title, titleClassName, showMore }: TitleProps) => {
     <header className="flex w-full flex-row justify-between pb-16">
       <h2
         className={customTwMerge(
-          titleClassName,
           'text-20 font-700 leading-[140%]',
+          titleClassName,
         )}
       >
         {title}
