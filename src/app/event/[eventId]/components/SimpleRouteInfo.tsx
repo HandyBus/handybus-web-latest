@@ -19,10 +19,14 @@ type HubType = 'eventLocation' | 'primary' | 'secondary' | 'tertiary';
 interface Props {
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
-  selectedRegionHubId: string;
+  selectedShuttleRouteHubId: string;
 }
 
-const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
+const SimpleRouteInfo = ({
+  tripType,
+  hubs,
+  selectedShuttleRouteHubId,
+}: Props) => {
   const [showDetail, setShowDetail] = useState(false);
   const sortedHubs = useMemo(() => {
     return hubs.toSorted((a, b) => a.sequence - b.sequence);
@@ -30,8 +34,10 @@ const SimpleRouteInfo = ({ tripType, hubs, selectedRegionHubId }: Props) => {
 
   const selectedHubIndex = useMemo(
     () =>
-      sortedHubs.findIndex((hub) => hub.regionHubId === selectedRegionHubId),
-    [sortedHubs, selectedRegionHubId],
+      sortedHubs.findIndex(
+        (hub) => hub.shuttleRouteHubId === selectedShuttleRouteHubId,
+      ),
+    [sortedHubs, selectedShuttleRouteHubId],
   );
 
   const isExpandable = useMemo(() => {
