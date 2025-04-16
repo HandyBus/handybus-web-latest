@@ -34,9 +34,9 @@ const Footer = () => {
         </div>
       </div>
       <div className="flex gap-8 text-12 font-600 text-basic-grey-600">
-        <Link href="/customer-support">고객센터</Link>
+        <Link href="/help/faq">고객센터</Link>
         <span className="font-400"> | </span>
-        <Link href="/customer-support/terms-of-service">이용약관</Link>
+        <Link href="/help/faq/terms-of-service">이용약관</Link>
       </div>
       <div className="text-12 font-400 leading-[1.6] text-basic-grey-400">
         상호명: 핸디버스 | 대표자: 정지용 | 전화번호: 010-8514-6141 | 이메일:
