@@ -1,7 +1,7 @@
 import ArticleV1 from '@/components/article/ArticleV1';
 import DemandView from './components/DemandView';
 import dynamic from 'next/dynamic';
-import { getEvents } from '@/services/event.service';
+import { getEventsV2 } from '@/services/event.service';
 import { toSorted } from '@/app/demand/utils/toSorted.util';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ const Page = () => (
 export default Page;
 
 const SubPage = async () => {
-  const events = await getEvents('OPEN');
+  const events = await getEventsV2('OPEN');
   const sortedEvents = toSorted(events, '행사 임박순');
   const slicedEvents = sortedEvents.slice(0, 5);
 
