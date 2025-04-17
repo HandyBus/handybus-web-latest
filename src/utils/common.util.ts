@@ -4,8 +4,8 @@ import {
 } from '@/types/shuttleRoute.type';
 import dayjs from 'dayjs';
 
-// +8210 1234-5678 -> 010-1234-5678
-export const parsePhoneNumber = (phoneNumber: string) => {
+// +821012345678 -> 01012345678
+export const formatPhoneNumber = (phoneNumber: string) => {
   return '0' + phoneNumber.slice(3);
 };
 

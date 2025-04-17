@@ -9,7 +9,7 @@ import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useAtomValue } from 'jotai';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';
-import { checkIsSoldOut, getPriorityRemainingSeat } from '../../../event.util';
+import { checkIsSoldOut, getPriorityRemainingSeat } from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import {
   dailyEventIdsWithHubsAtom,

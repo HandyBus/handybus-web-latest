@@ -8,7 +8,7 @@ import {
   DailyEventIdsWithRoutes,
   dailyEventIdsWithRoutesAtom,
 } from './dailyEventIdsWithRoutesAtom';
-import { getRemainingSeat, RemainingSeat } from '../event.util';
+import { getRemainingSeat, RemainingSeat } from '@/utils/event.util';
 
 export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
   shuttleRouteId: string;
