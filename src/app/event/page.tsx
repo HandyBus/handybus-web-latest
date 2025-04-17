@@ -6,7 +6,7 @@ import { toSorted } from '../demand/utils/toSorted.util';
 import Header from '@/components/header/Header';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import Empty from '../demand/components/Empty';
+import Empty from './components/Empty';
 import Card from '@/components/card/Card';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 import dayjs from 'dayjs';
@@ -36,9 +36,7 @@ const Page = ({ searchParams }: Props) => {
     fetchEvents();
   }, []);
 
-  const [type, setType] = useState<'콘서트' | '지역축제' | '페스티벌'>(
-    '콘서트',
-  );
+  const [type, setType] = useState<'CONCERT' | 'FESTIVAL'>('CONCERT');
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
@@ -72,14 +70,11 @@ const Page = ({ searchParams }: Props) => {
                 image={event.eventImageUrl}
                 variant="SMALL"
                 title={event.eventName}
-                // href={`/event/${event.eventId}`}
+                href={`/event/${event.eventId}`}
               />
             </div>
           ))
         )}
-        <div className="h-[70px]" />
-      </div>
-      <div className="fixed  bottom-0  left-0  right-0 z-10 mx-auto w-full max-w-500">
         <div className="h-8 w-full bg-basic-grey-50" />
         <a
           className="flex w-full items-center justify-center gap-[10px] bg-basic-white px-[12px] py-[10px] pt-[26px] text-16 font-600 leading-[160%] text-basic-grey-700"
