@@ -1,6 +1,5 @@
 import OrderIcon from 'public/icons/order.svg';
-import { useRef, useState } from 'react';
-import { useClickAway } from '@/hooks/useClickAway';
+import { useEffect, useRef, useState } from 'react';
 
 interface FilterButtonProps {
   sort: string;
@@ -11,9 +10,24 @@ const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  useClickAway(filterRef, () => {
-    setFilterOpen(false);
-  });
+  useEffect(() => {
+    if (!filterOpen) return;
+
+    const handleClick = (event: MouseEvent | TouchEvent) => {
+      if (
+        filterRef.current &&
+        event.target instanceof Node &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setFilterOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [filterOpen]);
 
   const handleSort = (newSort: 'DATE_ASC' | 'NAME_ASC') => {
     onSort(newSort);
