@@ -53,6 +53,8 @@ export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;
 export const EventWithRoutesViewEntitySchema = EventsViewEntitySchema.extend({
   minRoutePrice: z.number().nullable(),
   hasOpenRoute: z.boolean(),
+  eventIsPinned: z.boolean(),
+  eventRecommendationScore: z.number(),
 });
 export type EventWithRoutesViewEntity = z.infer<
   typeof EventWithRoutesViewEntitySchema

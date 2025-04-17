@@ -1,11 +1,36 @@
 'use client';
 
 import Article from '@/components/article/Article';
-import { mock_event_data } from '../mockData.const';
 import EventsSwiperView from './EventsSwiperView';
+import { useGetEvents } from '@/services/event.service';
 
 const TrendShuttleCard = () => {
-  const isLoading = false;
+  const { data: popularEvents, isLoading } = useGetEvents({
+    status: 'OPEN',
+    orderBy: 'eventRecommendationScore',
+    additionalOrderOptions: 'DESC',
+  });
+
+  let content = EMPTY_VIEW;
+
+  if (!isLoading && popularEvents) {
+    // 기본 3개의 인기셔틀을 보여주나 행사가 20개가 넘어갈 경우 5개까지 보여줌
+    if (popularEvents.length > 20) {
+      content = (
+        <EventsSwiperView
+          events={popularEvents.slice(0, MAX_EVENTS_COUNT)}
+          type="TREND"
+        />
+      );
+    } else if (popularEvents.length > 0) {
+      content = (
+        <EventsSwiperView
+          events={popularEvents.slice(0, MIN_EVENTS_COUNT)}
+          type="TREND"
+        />
+      );
+    }
+  }
 
   return (
     <section>
@@ -13,16 +38,14 @@ const TrendShuttleCard = () => {
         richTitle="실시간 인기 셔틀"
         titleClassName="text-20 leading-[140%]"
       >
-        {isLoading ? (
-          <div className="h-[340px] py-16" />
-        ) : (
-          <div className="">
-            <EventsSwiperView events={mock_event_data} type="TREND" />
-          </div>
-        )}
+        {content}
       </Article>
     </section>
   );
 };
 
 export default TrendShuttleCard;
+
+const EMPTY_VIEW = <div className="h-[340px] py-16" />;
+const MAX_EVENTS_COUNT = 5;
+const MIN_EVENTS_COUNT = 3;

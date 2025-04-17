@@ -3,7 +3,7 @@ import { fromString, toDemandSort } from './utils/param.util';
 import DemandCard from './components/DemandCard';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
-import { getEvents } from '@/services/event.service';
+import { getEventsV2 } from '@/services/event.service';
 const Empty = dynamic(() => import('./components/Empty'));
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const events = await getEvents('OPEN');
+  const events = await getEventsV2('OPEN');
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
