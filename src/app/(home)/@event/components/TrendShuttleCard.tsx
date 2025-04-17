@@ -14,6 +14,7 @@ const TrendShuttleCard = () => {
   let content = EMPTY_VIEW;
 
   if (!isLoading && popularEvents) {
+    // 기본 3개의 인기셔틀을 보여주나 행사가 20개가 넘어갈 경우 5개까지 보여줌
     if (popularEvents.length > 20) {
       content = (
         <EventsSwiperView
