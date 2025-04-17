@@ -65,6 +65,15 @@ class Instance {
 
     const res = await fetch(new URL(url, this.baseUrl).toString(), config);
 
+    // 204 No Content 처리 추가
+    if (res.status === 204) {
+      // Return the same shape as a normal response to avoid type error
+      return silentParse(schema, {
+        ok: true,
+        statusCode: 204,
+      });
+    }
+
     // response가 없는 경우
     if (res.statusText === 'No Content') {
       if (res.status >= 400) {
