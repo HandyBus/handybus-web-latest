@@ -9,9 +9,8 @@ import { mock_event_data } from '../mockData.const';
 
 const RecommendedEventCard = () => {
   const isLoading = false;
-  const [type, setType] = useState<'콘서트' | '지역축제' | '페스티벌'>(
-    '콘서트',
-  );
+  const hasConcertAndFestival = true;
+  const [type, setType] = useState<'CONCERT' | 'FESTIVAL'>('CONCERT');
 
   return (
     <section>
@@ -21,24 +20,22 @@ const RecommendedEventCard = () => {
         showMore={'/event'}
       >
         <div className="flex gap-8">
-          <Chip
-            onClick={() => setType('콘서트')}
-            isSelected={type === '콘서트'}
-          >
-            콘서트
-          </Chip>
-          <Chip
-            onClick={() => setType('지역축제')}
-            isSelected={type === '지역축제'}
-          >
-            지역축제
-          </Chip>
-          <Chip
-            onClick={() => setType('페스티벌')}
-            isSelected={type === '페스티벌'}
-          >
-            페스티벌
-          </Chip>
+          {hasConcertAndFestival && (
+            <>
+              <Chip
+                onClick={() => setType('CONCERT')}
+                isSelected={type === 'CONCERT'}
+              >
+                콘서트
+              </Chip>
+              <Chip
+                onClick={() => setType('FESTIVAL')}
+                isSelected={type === 'FESTIVAL'}
+              >
+                페스티벌
+              </Chip>
+            </>
+          )}
         </div>
         {isLoading ? (
           <div className="h-324" />

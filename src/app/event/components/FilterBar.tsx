@@ -2,8 +2,8 @@ import Chip from '@/components/chips/Chip';
 import FilterButton from './FilterButton';
 
 interface FilterBarProps {
-  type: '콘서트' | '지역축제' | '페스티벌';
-  setType: (type: '콘서트' | '지역축제' | '페스티벌') => void;
+  type: 'CONCERT' | 'FESTIVAL';
+  setType: (type: 'CONCERT' | 'FESTIVAL') => void;
   sort: string;
   onSort: (sort: 'DATE_ASC' | 'NAME_ASC') => void;
 }
@@ -14,20 +14,14 @@ const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
       <div className="flex w-full justify-between px-16 pb-16 pt-12">
         <div className="flex gap-8">
           <Chip
-            onClick={() => setType('콘서트')}
-            isSelected={type === '콘서트'}
+            onClick={() => setType('CONCERT')}
+            isSelected={type === 'CONCERT'}
           >
             콘서트
           </Chip>
           <Chip
-            onClick={() => setType('지역축제')}
-            isSelected={type === '지역축제'}
-          >
-            지역축제
-          </Chip>
-          <Chip
-            onClick={() => setType('페스티벌')}
-            isSelected={type === '페스티벌'}
+            onClick={() => setType('FESTIVAL')}
+            isSelected={type === 'FESTIVAL'}
           >
             페스티벌
           </Chip>
