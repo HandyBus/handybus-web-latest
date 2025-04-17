@@ -14,7 +14,7 @@ const TrendShuttleCard = () => {
         titleClassName="text-20 leading-[140%]"
       >
         {isLoading ? (
-          <div className="h-[309px]" />
+          <div className="h-[340px] py-16" />
         ) : (
           <div className="">
             <EventsSwiperView events={mock_event_data} type="TREND" />
