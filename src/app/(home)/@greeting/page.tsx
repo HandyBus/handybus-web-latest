@@ -46,7 +46,7 @@ const BOTTOM_SHEET_TEXT: Record<
     title: '여러분을 위한 작은 선물이에요.',
     description: (
       <p className="leading-[22px]">
-        웰컴기프트로 쿠폰함에 10,000원을 쏙 넣어드렸어요.
+        웰컴기프트로 쿠폰함에 3,000원을 쏙 넣어드렸어요.
         <br />
         셔틀 예약 시 바로 적용할 수 있어요.
       </p>
