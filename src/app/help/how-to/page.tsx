@@ -3,6 +3,7 @@ import Article from '@/components/article/Article';
 import HowTo from './images/how-to.png';
 import { Metadata } from 'next';
 import Header from '@/components/header/Header';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '서비스 이용 절차',
@@ -39,16 +40,16 @@ const HowToPage = () => {
             <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
               <li>
                 <p className="py-[2px]">
-                  보통 콘서트 선예매 당일까지 수요를 살펴봐요
+                  선예매 다음날부터 탑승 14일 전까지의 수요를 살펴봐요.
                 </p>
               </li>
               <li>
                 <p className="py-[2px]">
-                  많은 분들이 원하시면 더 빨리 노선을 확정해요
+                  요청이 많은 지역일수록 더 빠르게 노선이 개설돼요.
                 </p>
               </li>
               <li>
-                <p className="py-[2px]">수요 신청은 무료예요!</p>
+                <p className="py-[2px]">수요 신청은 무료로 참여할 수 있어요!</p>
               </li>
             </ul>
           </li>
@@ -61,7 +62,15 @@ const HowToPage = () => {
         <ul className="mt-12 list-outside list-disc px-16 pl-[34px] text-16 font-500 leading-[26px] text-grey-900">
           <li>
             <p className="py-[2px]">
-              충분한 수요가 모이면 노선 운행을 확정해요
+              충분한 수요가 모인 지역은 노선 운행을 확정해요.
+            </p>
+          </li>
+          <li>
+            <p className="py-[2px]">확정된 노선은 무산 없이 100% 운행돼요!</p>
+          </li>
+          <li>
+            <p className="py-[2px]">
+              수요조사에 참여하신 지역에서 운행이 결정되면, 알림톡을 보내드려요.
             </p>
           </li>
         </ul>
@@ -77,18 +86,29 @@ const HowToPage = () => {
             </p>
           </li>
           <li>
-            <p className="py-[2px]">차량과 셔틀 정보는 알림톡으로 알려드려요</p>
+            <p className="py-[2px]">예약은 행사 4일 전에 마감돼요.</p>
           </li>
           <li>
             <p className="py-[2px]">
-              &apos;핸디&apos;가 오픈채팅방을 만들어 소통해요
+              셔틀 관련 정보는 추후 알림톡으로 안내드려요.
+            </p>
+          </li>
+          <li>
+            <p className="py-[2px]">
+              &apos;핸디&apos;에 지원하면 셔틀비의 50%를 지원받을 수 있어요!
             </p>
           </li>
           <ul className="list-outside list-disc pl-[22px] text-16 font-500 text-grey-600-sub">
             <li>
               <p className="py-[2px]">
-                콘서트 당일, 오픈채팅방에서 함께 이야기 나누며 즐거운 시간
-                보내세요!
+                &apos;핸디&apos;에 대한 설명은{' '}
+                <Link
+                  href="/help/what-is-handy"
+                  className="text-blue-600 underline hover:text-blue-400"
+                >
+                  여기
+                </Link>
+                에서 확인할 수 있어요.
               </p>
             </li>
           </ul>
