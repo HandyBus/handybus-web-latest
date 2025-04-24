@@ -6,9 +6,10 @@ import { dateString } from '@/utils/dateString.util';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { EventFormValues, EventPhase } from '../../../form.type';
+import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import Button from '@/components/buttons/button/Button';
+import { EventPhase } from '@/utils/event.util';
 
 interface Props {
   toNextStep: () => void;

@@ -20,7 +20,7 @@ const SuccessScreen = ({ setDemandCompleteStatus }: Props) => {
         </p>
         <SuccessIcon />
       </section>
-      <section className="mt-auto flex w-full flex-col items-center gap-8 px-24 pb-32">
+      <section className="mt-auto flex w-full flex-col items-center gap-8 px-24 pb-16">
         <Button
           variant="primary"
           size="large"

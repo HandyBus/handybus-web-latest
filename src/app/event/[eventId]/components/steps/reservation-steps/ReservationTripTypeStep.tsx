@@ -6,7 +6,7 @@ import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
-import { calculatePriceOfTripType } from '../../../event.util';
+import { calculatePriceOfTripType } from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
@@ -33,7 +33,7 @@ const ReservationTripTypeStep = ({
     dailyEventId: dailyEvent.dailyEventId,
   });
   const { remainingSeat } = selectedHubWithInfo;
-  const priceOfTripType = calculatePriceOfTripType(route);
+  const priceOfTripType = route ? calculatePriceOfTripType(route) : null;
 
   const handleTripTypeClick = (tripType: TripType) => {
     setValue('tripType', tripType);

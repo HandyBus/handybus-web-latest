@@ -8,16 +8,24 @@ import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
-import { calculatePriceOfTripType } from '../../../event.util';
-import { toast } from 'react-toastify';
+import { calculatePriceOfTripType } from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
+import { MAX_PASSENGER_COUNT } from '@/constants/common';
+import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment';
+import { eventAtom } from '../../../store/eventAtom';
+import { useRouter } from 'next/navigation';
 
 const ROUND_TRIP_TEXT = '[왕복]';
-const MAX_PASSENGER_COUNT = 9;
 
-const ReservationInfoStep = () => {
+interface Props {
+  closeBottomSheet: () => void;
+}
+
+const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
+  const router = useRouter();
+  const event = useAtomValue(eventAtom);
   const { getValues } = useFormContext<EventFormValues>();
   const [selectedHubWithInfo, tripType, dailyEvent] = getValues([
     'selectedHubWithInfo',
@@ -40,7 +48,7 @@ const ReservationInfoStep = () => {
     MAX_PASSENGER_COUNT,
   );
 
-  const priceOfTripType = calculatePriceOfTripType(route);
+  const priceOfTripType = route ? calculatePriceOfTripType(route) : null;
   const price = priceOfTripType?.[tripType];
   const regularPrice = price?.regularPrice ?? 0;
   const earlybirdPrice = price?.earlybirdPrice ?? 0;
@@ -52,8 +60,29 @@ const ReservationInfoStep = () => {
   const isEarlybird = price?.isEarlybird;
 
   const handleReservationClick = () => {
-    console.log(selectedHubWithInfo, tripType, passengerCount);
-    toast.success('개발 중 . . .');
+    if (!event || !route) {
+      return;
+    }
+
+    const toDestinationHubId = route.toDestinationShuttleRouteHubs?.find(
+      (hub) => hub.regionHubId === selectedHubWithInfo.regionHubId,
+    )?.shuttleRouteHubId;
+    const fromDestinationHubId = route.fromDestinationShuttleRouteHubs?.find(
+      (hub) => hub.regionHubId === selectedHubWithInfo.regionHubId,
+    )?.shuttleRouteHubId;
+
+    const url = createPaymentPageUrl({
+      eventId: event.eventId,
+      dailyEventId: dailyEvent.dailyEventId,
+      shuttleRouteId: route.shuttleRouteId,
+      tripType,
+      toDestinationHubId,
+      fromDestinationHubId,
+      passengerCount,
+    });
+
+    closeBottomSheet();
+    router.push(url);
   };
 
   return (
