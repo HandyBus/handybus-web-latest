@@ -1,8 +1,7 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import { ReactNode, useState } from 'react';
-import { customTwMerge } from 'tailwind.config';
+import { useEffect, useState } from 'react';
 import SimpleRouteInfo from '../../SimpleRouteInfo';
 import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
@@ -16,8 +15,6 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment';
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
-
-const ROUND_TRIP_TEXT = '[왕복]';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -59,8 +56,16 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
   const isRoundTrip = tripType === 'ROUND_TRIP';
   const isEarlybird = price?.isEarlybird;
 
-  const handleReservationClick = () => {
-    if (!event || !route) {
+  // 가는 편 및 오는 편의 탑승하는 정류장 관리
+  const [toDestinationShuttleRouteHubId, setToDestinationShuttleRouteHubId] =
+    useState<string | undefined>(undefined);
+  const [
+    fromDestinationShuttleRouteHubId,
+    setFromDestinationShuttleRouteHubId,
+  ] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (!route) {
       return;
     }
 
@@ -71,13 +76,22 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
       (hub) => hub.regionHubId === selectedHubWithInfo.regionHubId,
     )?.shuttleRouteHubId;
 
+    setToDestinationShuttleRouteHubId(toDestinationHubId);
+    setFromDestinationShuttleRouteHubId(fromDestinationHubId);
+  }, [route, selectedHubWithInfo.regionHubId]);
+
+  const handleReservationClick = () => {
+    if (!event || !route) {
+      return;
+    }
+
     const url = createPaymentPageUrl({
       eventId: event.eventId,
       dailyEventId: dailyEvent.dailyEventId,
       shuttleRouteId: route.shuttleRouteId,
       tripType,
-      toDestinationHubId,
-      fromDestinationHubId,
+      toDestinationHubId: toDestinationShuttleRouteHubId,
+      fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount,
     });
 
@@ -87,48 +101,32 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
 
   return (
     <section className="flex w-full flex-col gap-16">
-      {(isRoundTrip || tripType === 'TO_DESTINATION') && (
-        <Container className="flex flex-col gap-12">
-          <div className="flex h-[31px] w-full items-center justify-between">
-            <span className="text-16 font-600">
-              {isRoundTrip && ROUND_TRIP_TEXT} 가는 편
-            </span>
-            <Button variant="tertiary" size="small" type="button">
-              변경
-            </Button>
-          </div>
-          <div className="h-[1px] w-full bg-basic-grey-100" />
+      {(isRoundTrip || tripType === 'TO_DESTINATION') &&
+        toDestinationShuttleRouteHubId && (
           <SimpleRouteInfo
             tripType="TO_DESTINATION"
+            isRoundTrip={isRoundTrip}
             hubs={toDestinationHubs}
-            selectedRegionHubId={selectedHubWithInfo.regionHubId}
+            selectedShuttleRouteHubId={toDestinationShuttleRouteHubId}
+            setSelectedShuttleRouteHubId={setToDestinationShuttleRouteHubId}
           />
-        </Container>
-      )}
-      {(isRoundTrip || tripType === 'FROM_DESTINATION') && (
-        <Container className="flex flex-col gap-12">
-          <div className="flex h-[31px] w-full items-center justify-between">
-            <span className="text-16 font-600">
-              {isRoundTrip && ROUND_TRIP_TEXT} 오는 편
-            </span>
-            <Button variant="tertiary" size="small">
-              변경
-            </Button>
-          </div>
-          <div className="h-[1px] w-full bg-basic-grey-100" />
+        )}
+      {(isRoundTrip || tripType === 'FROM_DESTINATION') &&
+        fromDestinationShuttleRouteHubId && (
           <SimpleRouteInfo
             tripType="FROM_DESTINATION"
+            isRoundTrip={isRoundTrip}
             hubs={fromDestinationHubs}
-            selectedRegionHubId={selectedHubWithInfo.regionHubId}
+            selectedShuttleRouteHubId={fromDestinationShuttleRouteHubId}
+            setSelectedShuttleRouteHubId={setFromDestinationShuttleRouteHubId}
           />
-        </Container>
-      )}
-      <Container className="flex items-center justify-between p-8">
+        )}
+      <article className="flex items-center justify-between rounded-12 border border-basic-grey-100 p-8">
         <button
           type="button"
           onClick={() => setPassengerCount((prev) => prev - 1)}
           disabled={passengerCount <= 1}
-          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 active:bg-basic-grey-200 disabled:text-basic-grey-300"
+          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 disabled:text-basic-grey-300 active:[&:not([disabled])]:bg-basic-grey-200"
         >
           <SubtractIcon />
         </button>
@@ -137,11 +135,11 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
           type="button"
           onClick={() => setPassengerCount((prev) => prev + 1)}
           disabled={passengerCount >= maxPassengerCount}
-          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 active:bg-basic-grey-200 disabled:text-basic-grey-300"
+          className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 disabled:text-basic-grey-300 active:[&:not([disabled])]:bg-basic-grey-200"
         >
           <AddIcon />
         </button>
-      </Container>
+      </article>
       <article>
         <p className="flex h-[22px] items-center justify-between">
           <span className="text-14 font-500 text-basic-grey-700">
@@ -180,21 +178,3 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
 };
 
 export default ReservationInfoStep;
-
-interface ContainerProps {
-  children: ReactNode;
-  className?: string;
-}
-
-const Container = ({ children, className }: ContainerProps) => {
-  return (
-    <article
-      className={customTwMerge(
-        'rounded-12 border border-basic-grey-100 p-12',
-        className,
-      )}
-    >
-      {children}
-    </article>
-  );
-};
