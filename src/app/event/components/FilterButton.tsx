@@ -1,9 +1,10 @@
 import OrderIcon from 'public/icons/order.svg';
 import { useEffect, useRef, useState } from 'react';
+import { EventSort } from '../event.const';
 
 interface FilterButtonProps {
-  sort: string;
-  onSort: (sort: 'DATE_ASC' | 'NAME_ASC') => void;
+  sort: EventSort;
+  onSort: (sort: EventSort) => void;
 }
 
 const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
@@ -29,7 +30,7 @@ const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
     };
   }, [filterOpen]);
 
-  const handleSort = (newSort: 'DATE_ASC' | 'NAME_ASC') => {
+  const handleSort = (newSort: EventSort) => {
     onSort(newSort);
     setFilterOpen(false);
   };

@@ -1,11 +1,13 @@
 import Chip from '@/components/chips/Chip';
 import FilterButton from './FilterButton';
+import { EventType } from '@/types/event.type';
+import { EventSort } from '../event.const';
 
 interface FilterBarProps {
-  type: 'CONCERT' | 'FESTIVAL';
-  setType: (type: 'CONCERT' | 'FESTIVAL') => void;
-  sort: string;
-  onSort: (sort: 'DATE_ASC' | 'NAME_ASC') => void;
+  type: EventType;
+  setType: (type: EventType) => void;
+  sort: EventSort;
+  onSort: (sort: EventSort) => void;
 }
 
 const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
