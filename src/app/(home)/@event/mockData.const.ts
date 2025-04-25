@@ -1,4 +1,4 @@
-export const mock_event_data = [
+export const MOCK_EVENT_DATA = [
   {
     id: 1,
     title: 'ATEEZ 2024 FANMEETING 〈ATINY&apos;S VOYAGE FROM A TO Z〉',

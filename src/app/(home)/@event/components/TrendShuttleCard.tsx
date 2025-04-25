@@ -1,7 +1,7 @@
 'use client';
 
 import Article from '@/components/article/Article';
-import { mock_event_data } from '../mockData.const';
+import { MOCK_EVENT_DATA } from '../mockData.const';
 import EventsSwiperView from './EventsSwiperView';
 
 const TrendShuttleCard = () => {
@@ -17,7 +17,7 @@ const TrendShuttleCard = () => {
           <div className="h-[340px] py-16" />
         ) : (
           <div className="">
-            <EventsSwiperView events={mock_event_data} type="TREND" />
+            <EventsSwiperView events={MOCK_EVENT_DATA} type="TREND" />
           </div>
         )}
       </Article>

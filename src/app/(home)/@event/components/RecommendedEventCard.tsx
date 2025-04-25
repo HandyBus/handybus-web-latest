@@ -5,7 +5,7 @@ import Article from '@/components/article/Article';
 import Chip from '@/components/chips/Chip';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { mock_event_data } from '../mockData.const';
+import { MOCK_EVENT_DATA } from '../mockData.const';
 
 const RecommendedEventCard = () => {
   const isLoading = false;
@@ -41,7 +41,7 @@ const RecommendedEventCard = () => {
           <div className="h-324" />
         ) : (
           <div className="">
-            <EventsSwiperView events={mock_event_data} type="RECOMMEND" />
+            <EventsSwiperView events={MOCK_EVENT_DATA} type="RECOMMEND" />
           </div>
         )}
       </Article>
