@@ -61,7 +61,7 @@ const ShareBottomSheet = ({
             <div className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden rounded-full bg-basic-black">
               <XIcon />
             </div>
-            <span className="text-16 font-600 text-basic-grey-700">트위터</span>
+            <span className="text-16 font-600 text-basic-grey-700">X</span>
           </button>
           <button
             type="button"

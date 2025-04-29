@@ -4,11 +4,11 @@ import { CustomError } from '@/services/custom-error';
 import { postApprovePayment } from '@/services/payment.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { BeatLoader } from 'react-spinners';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
 import { getUserReservation } from '@/services/reservation.service';
 import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
+import LoadingBusIcon from './icons/bus-loading.svg';
 
 const Page = () => {
   const router = useRouter();
@@ -66,15 +66,13 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-24">
-      <BeatLoader color="#9edbcc" />
-      <div className="flex flex-col gap-[6px]">
-        <h1 className="flex justify-center text-[28px] font-700 leading-[39.2px]">
-          결제 중 입니다
-        </h1>
-        <p className="text-gray-500 text-[16px] font-400 leading-[25.6px]">
-          페이지를 벗어나거나 새로고침을 하지 마세요.
+    <div className="relative grow">
+      <div className="absolute left-1/2 top-180 flex w-264 -translate-x-1/2 flex-col items-center">
+        <h1 className="pb-4 text-22 font-700">결제가 진행되고 있어요</h1>
+        <p className="pb-24 text-16 font-500 text-basic-grey-600">
+          잠시만 기다려 주세요. 곧 결제가 완료돼요.
         </p>
+        <LoadingBusIcon />
       </div>
     </div>
   );
