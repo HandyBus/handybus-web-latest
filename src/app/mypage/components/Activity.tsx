@@ -34,8 +34,8 @@ const BoxButton = ({ title, icon, href }: BoxButtonProps) => {
       href={href}
       className="flex grow flex-col items-center justify-center gap-[6px]"
     >
-      <span className="text-22 font-500 text-basic-grey-700">{icon}</span>
-      <span className="text-12 font-400 text-basic-grey-700">{title}</span>
+      {icon}
+      <span className="text-14 font-500">{title}</span>
     </Link>
   );
 };

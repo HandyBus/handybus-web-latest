@@ -3,13 +3,12 @@
 import {
   ERROR_MESSAGES,
   FORM_DEFAULT_VALUES,
-} from '@/components/onboarding-contents/formValidation.constants';
-import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+} from '@/components/onboarding-contents/formValidation.const';
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.type';
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import ProfileInfoContent from '@/components/onboarding-contents/ProfileInfoContent';
-import ResidenceContent from '@/components/onboarding-contents/ResidenceContent';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
@@ -105,9 +104,13 @@ const EditForm = ({ type, user }: Props) => {
   const renderStep = (type: EditType) => {
     switch (type) {
       case 'profile':
-        return <ProfileInfoContent initialImageSrc={user.profileImage} />;
-      case 'region':
-        return <ResidenceContent />;
+        return (
+          <ProfileInfoContent
+            hideTitle
+            initialNickname={user.nickname ?? ''}
+            initialImageSrc={user.profileImage}
+          />
+        );
     }
   };
 
@@ -122,7 +125,7 @@ const EditForm = ({ type, user }: Props) => {
         <OnboardingFrame
           disabled={isSubmitting || isSuccess}
           buttonType="submit"
-          buttonText="수정하기"
+          buttonText="완료"
         >
           {renderStep(type)}
         </OnboardingFrame>

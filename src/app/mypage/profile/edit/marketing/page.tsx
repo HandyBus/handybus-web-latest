@@ -1,6 +1,6 @@
 'use client';
 
-import MarketingBottomSheet from '@/app/onboarding/components/bottom-sheets/MarketingBottomSheet';
+import MarketingBottomSheet from '@/app/mypage/profile/edit/marketing/MarketingBottomSheet';
 import Header from '@/components/header/Header';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import useBottomSheet from '@/hooks/useBottomSheet';

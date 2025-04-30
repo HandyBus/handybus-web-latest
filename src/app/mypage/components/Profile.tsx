@@ -28,7 +28,7 @@ const Profile = ({ nickname, profileImage }: Props) => {
       </div>
       <h1 className="text-18 font-600">{nickname}</h1>
       <Link
-        href="/mypage/profile"
+        href="/mypage/profile/edit"
         className="ml-auto text-14 font-600 text-basic-grey-500"
       >
         프로필 수정

@@ -6,7 +6,7 @@ import TextInput from '@/components/inputs/text-input/TextInput';
 import {
   ERROR_MESSAGES,
   REG_EXP,
-} from '@/components/onboarding-contents/formValidation.constants';
+} from '@/components/onboarding-contents/formValidation.const';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { putUser, useGetUser } from '@/services/user.service';

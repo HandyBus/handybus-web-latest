@@ -1,22 +1,29 @@
 'use client';
 
 import { useFormContext } from 'react-hook-form';
-import { OnboardingFormValues } from './onboarding.types';
+import { OnboardingFormValues } from './onboarding.type';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
-import CameraIcon from 'public/icons/camera.svg';
-import { ERROR_MESSAGES, REG_EXP } from './formValidation.constants';
+import { ERROR_MESSAGES, REG_EXP } from './formValidation.const';
 import TextInput from '@/components/inputs/text-input/TextInput';
 import OnboardingTitle from './OnboardingTitle';
-import { DEFAULT_PROFILE_IMAGE, MAX_FILE_SIZE } from '@/constants/common';
+import { MAX_FILE_SIZE } from '@/constants/common';
+import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroundColor';
 
 interface Props {
+  hideTitle?: boolean;
   handleSubmit?: () => void;
+  initialNickname: string;
   initialImageSrc?: string | null;
 }
 
-const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
+const ProfileInfoContent = ({
+  hideTitle = false,
+  handleSubmit,
+  initialNickname,
+  initialImageSrc,
+}: Props) => {
   const { control, setValue, getValues } =
     useFormContext<OnboardingFormValues>();
 
@@ -77,53 +84,70 @@ const ProfileInfoContent = ({ handleSubmit, initialImageSrc }: Props) => {
     }
   };
 
+  const firstLetter = initialNickname.slice(0, 1);
+
   return (
     <>
-      <OnboardingTitle
-        title="프로필을 입력해주세요"
-        description="핸디버스가 어떻게 불러드릴까요?"
-      />
-      <div className="relative flex h-[200px] w-full flex-col items-center justify-center gap-12">
-        <div className="relative flex h-180 w-180 shrink-0 items-center justify-center overflow-hidden rounded-full">
-          <Image
-            src={imageSrc || DEFAULT_PROFILE_IMAGE}
-            alt="프로필 이미지"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="absolute bottom-[calc(50%-78px)] right-[calc(50%-78px)] flex h-[34px] w-[34px] items-center justify-center rounded-full bg-basic-black/30"
+      {!hideTitle && (
+        <OnboardingTitle
+          title="프로필을 입력해주세요"
+          description="핸디버스가 어떻게 불러드릴까요?"
+        />
+      )}
+      <div className="flex flex-col items-center justify-center gap-8 py-24">
+        <div
+          className="relative flex h-72 w-72 shrink-0 items-center justify-center overflow-hidden rounded-full"
+          style={{
+            backgroundColor: generateProfileBackgroundColor(firstLetter),
+          }}
         >
-          <CameraIcon />
-          <input
-            ref={fileInputRef}
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
-        </button>
-        {imageSrc && (
+          {imageSrc ? (
+            <Image
+              src={imageSrc}
+              alt="프로필 이미지"
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <p className="text-[36px] font-500 text-basic-white">
+              {firstLetter}
+            </p>
+          )}
+        </div>
+        <div className="flex h-[34px]">
           <button
             type="button"
-            onClick={clearSelectedFile}
-            className="text-basic-grey-600 h-[18px] text-14 font-500 underline underline-offset-2"
+            onClick={() => fileInputRef.current?.click()}
+            className="flex h-full w-56 items-center justify-center text-14 font-600 text-basic-grey-500"
           >
-            프로필 사진 지우기
+            편집
+            <input
+              ref={fileInputRef}
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
           </button>
-        )}
+          {imageSrc && (
+            <button
+              type="button"
+              onClick={clearSelectedFile}
+              className="flex h-full w-56 items-center justify-center text-14 font-600 text-basic-grey-500"
+            >
+              삭제
+            </button>
+          )}
+        </div>
       </div>
-      <div className="p-28">
+      <div className="px-16">
         <TextInput
           name="nickname"
           control={control}
           setValue={setValue}
           onKeyDown={handleEnter}
-          placeholder="영문/한글/숫자 포함 2 ~ 12자"
+          placeholder={initialNickname}
           rules={{
             required: ERROR_MESSAGES.nickname.required,
             pattern: {
