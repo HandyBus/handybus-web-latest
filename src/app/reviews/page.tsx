@@ -1,0 +1,78 @@
+'use client';
+
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useGetReviewsWithPagination } from '@/services/review.service';
+import { STATIC_REVIEWS } from './review';
+import Image from 'next/image';
+import ReviewStatistics from './components/ReviewStatistics';
+import ReviewBanner from './images/review-banner.png';
+import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
+import ReviewItem from './components/ReviewItem';
+import { CircleLoader } from 'react-spinners';
+
+const ReviewPage = () => {
+  const {
+    data: reviews,
+    fetchNextPage,
+    isFetching,
+    hasNextPage,
+  } = useGetReviewsWithPagination();
+
+  const ref = useInfiniteScroll(fetchNextPage);
+
+  const reviewTotalCount = reviews.totalCount + STATIC_REVIEWS.length;
+
+  return (
+    <>
+      <Image src={ReviewBanner} alt="핸디버스 후기" />
+      <ReviewStatistics reviewTotalCount={reviewTotalCount} />
+      <div className="h-8 bg-basic-grey-50" />
+      <section className="mt-32 flex flex-col gap-16 px-16">
+        <div className="flex items-center justify-between">
+          <h1 className="w-full text-20 font-700 leading-[140%] ">이용 후기</h1>
+          <button className="flex h-[38px] items-center gap-8 break-keep rounded-8 border-[1px] border-basic-grey-200 px-12 py-8 text-14 font-600 leading-[160%] text-basic-grey-600 active:bg-basic-grey-50">
+            최신순
+            <ChevronRightEmIcon className="h-16 w-16 rotate-90 stroke-2 text-basic-grey-300" />
+          </button>
+        </div>
+        {reviews.reviews.map((review, idx) => (
+          <ReviewItem key={idx} review={review} />
+        ))}
+        {!hasNextPage &&
+          STATIC_REVIEWS.map((review) => (
+            <ReviewItem
+              key={review.id}
+              review={{
+                eventId: '',
+                userId: '',
+                reviewId: '',
+                reservationId: '',
+                rating: review.rating,
+                content: review.content,
+                reviewStatus: 'ACTIVE',
+                createdAt: review.createdAt,
+                updatedAt: '',
+                userNickname: review.userNickname,
+                eventName: review.eventName,
+                eventLocationName: review.eventLocationName,
+                userProfileImage: '',
+                eventType: 'CONCERT',
+                eventImageUrl: '',
+                eventArtists: [],
+                reviewImages: review.reviewImages,
+              }}
+            />
+          ))}
+        {(isFetching || hasNextPage) && (
+          <div ref={ref} className="flex flex-col items-center py-28">
+            <span className="inline-block animate-spin">
+              <CircleLoader />
+            </span>
+          </div>
+        )}
+      </section>
+    </>
+  );
+};
+
+export default ReviewPage;

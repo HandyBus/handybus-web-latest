@@ -1,6 +1,6 @@
 import Rating from '@/components/rating/Rating';
 import { getReviewsWithPagination } from '@/services/review.service';
-import { STATIC_REVIEWS } from '@/app/help/reviews/review';
+import { STATIC_REVIEWS } from '@/app/reviews/review';
 import { DEFAULT_SSG_REVALIDATE_TIME } from '@/constants/common';
 import Article from '@/components/article/Article';
 import { ReviewsViewEntity } from '@/types/review.type';
@@ -20,7 +20,7 @@ const PromotionReview = async () => {
     .slice(0, 3);
 
   return (
-    <Article richTitle="솔직한 이용 후기" showMore="/help/reviews">
+    <Article richTitle="솔직한 이용 후기" showMore="/reviews">
       {top3.map((review: ReviewsViewEntity) => (
         <div key={review.reviewId} className="flex flex-col py-8 pr-8">
           <div className="flex flex-col gap-[2px]">
@@ -58,7 +58,7 @@ const PromotionReview = async () => {
 
 export default PromotionReview;
 
-const MonthlyReviewChip = () => {
+export const MonthlyReviewChip = () => {
   return (
     <div className="rounded-[42px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
       이달의 후기
@@ -66,17 +66,27 @@ const MonthlyReviewChip = () => {
   );
 };
 
-const FeedbackGroup = () => {
+export const FeedbackGroup = () => {
   return (
     <div className="flex gap-[6px] ">
-      <FeedbackCard type="예약과정" text="매우 만족스러워요" />
+      <PassengerRegion />
       <p className="text-12 font-500 leading-[160%] text-basic-grey-200">|</p>
-      <FeedbackCard type="탑승" text="매우 만족스러워요" />
+      <FeedbackCard type="서비스" text="매우 만족" />
+      <p className="text-12 font-500 leading-[160%] text-basic-grey-200">|</p>
+      <FeedbackCard type="탑승" text="매우 만족" />
     </div>
   );
 };
 
-const FeedbackCard = ({
+export const PassengerRegion = () => {
+  return (
+    <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+      경남 탑승객
+    </p>
+  );
+};
+
+export const FeedbackCard = ({
   type,
   text,
 }: {
@@ -95,10 +105,10 @@ const FeedbackCard = ({
   );
 };
 
-type FeedbackType = '예약과정' | '탑승';
-type FeedbackText =
-  | '매우 불만족스러워요'
-  | '불만족스러워요'
-  | '보통스러워요'
-  | '만족스러워요'
-  | '매우 만족스러워요';
+export type FeedbackType = '서비스' | '탑승';
+export type FeedbackText =
+  | '매우 불만족'
+  | '불만족'
+  | '보통'
+  | '만족'
+  | '매우 만족';
