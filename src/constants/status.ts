@@ -5,7 +5,7 @@ import {
   ReservationStatus,
 } from '@/types/reservation.type';
 import { ShuttleDemandStatus } from '@/types/demand.type';
-import { EventStatus } from '@/types/event.type';
+import { EventStatus, EventType } from '@/types/event.type';
 
 export const EVENT_STATUS_TO_STRING: Record<EventStatus, string> = {
   OPEN: '수요 확인 중',
@@ -56,4 +56,9 @@ export const RESERVATION_STATUS_TO_STRING: Record<ReservationStatus, string> = {
   COMPLETE_PAYMENT: '결제 완료',
   NOT_PAYMENT: '결제 미완료',
   CANCEL: '예약 취소',
+} as const;
+
+export const EVENT_TYPE_TO_STRING: Record<EventType, string> = {
+  CONCERT: '콘서트',
+  FESTIVAL: '페스티벌',
 } as const;

@@ -1,64 +1,45 @@
-'use client';
-
 import { getEvents } from '@/services/event.service';
 import { fromString, toDemandSort } from '../demand/utils/param.util';
 import { toSorted } from '../demand/utils/toSorted.util';
 import Header from '@/components/header/Header';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import Empty from './components/Empty';
 import Card from '@/components/card/Card';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
-import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { EventsViewEntity } from '@/types/event.type';
-import { useRouter } from 'next/navigation';
-import FilterBar from './components/FilterBar';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
-dayjs.locale('ko');
+// import FilterBar from './components/FilterBar';
 
 interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-const Page = ({ searchParams }: Props) => {
-  const router = useRouter();
-  const [events, setEvents] = useState<EventsViewEntity[]>([]);
+const Page = async ({ searchParams }: Props) => {
+  const type =
+    (Array.isArray(searchParams?.type)
+      ? searchParams?.type[0]
+      : searchParams?.type) || 'CONCERT';
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const events = await getEvents('OPEN');
-      setEvents(events);
-    };
-    fetchEvents();
-  }, []);
-
-  const [type, setType] = useState<'CONCERT' | 'FESTIVAL'>('CONCERT');
+  const typeValue = type === 'FESTIVAL' ? 'FESTIVAL' : 'CONCERT';
 
   const sort = fromString(
     (Array.isArray(searchParams?.sort)
-      ? searchParams?.sort[1]
+      ? searchParams?.sort[0]
       : searchParams?.sort) || '',
   );
 
-  const handleSort = (newSort: 'DATE_ASC' | 'NAME_ASC') => {
-    router.push(`/event?sort=${newSort}`);
-  };
+  const events = await getEvents({ status: 'OPEN' });
 
-  const sortedEvents = events ? toSorted(events, toDemandSort(sort)) : [];
+  const filteredEvents = events
+    ? events.filter((event) => event.eventType === typeValue)
+    : [];
+
+  const sortedEvents =
+    filteredEvents.length > 0
+      ? toSorted(filteredEvents, toDemandSort(sort))
+      : [];
 
   return (
     <>
       <Header />
-      <FilterBar
-        type={type}
-        setType={setType}
-        sort={sort}
-        onSort={handleSort}
-      />
+      {/* <FilterBar type={typeValue} sort={sort} /> */}
       <div className="flex w-full flex-col items-center">
         {sortedEvents.length === 0 ? (
           <Empty />

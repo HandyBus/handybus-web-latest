@@ -7,10 +7,10 @@ import 'swiper/css';
 import Card from '@/components/card/Card';
 import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
+import { EventWithRoutesViewEntity } from '@/types/event.type';
 
 interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  events: any[];
+  events: EventWithRoutesViewEntity[];
   type: 'TREND' | 'RECOMMEND';
 }
 
@@ -27,21 +27,19 @@ const EventsSwiperView = ({ events, type }: Props) => {
           navigation={true}
           className="relative w-full"
         >
-          {events?.map((v) => (
-            <SwiperSlide
-              key={v.shuttleRouteId}
-              style={{ width: 'fit-content' }}
-            >
+          {events?.map((v, idx) => (
+            <SwiperSlide key={v.eventId} style={{ width: 'fit-content' }}>
               <div className="pr-[6px]">
                 <Card
                   variant={type === 'TREND' ? 'LARGE' : 'MEDIUM'}
-                  image="/images/default-event.png"
-                  title={v.title}
-                  date={v.date}
-                  location={v.location}
-                  price={v.price}
-                  isSaleStarted={v.isSaleStarted}
-                  order={v.order}
+                  image={v.eventImageUrl}
+                  title={v.eventName}
+                  date={v.startDate}
+                  location={v.eventLocationName}
+                  price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
+                  isSaleStarted={v.hasOpenRoute}
+                  order={idx + 1}
+                  href={`/event/${v.eventId}`}
                 />
               </div>
             </SwiperSlide>

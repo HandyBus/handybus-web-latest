@@ -29,7 +29,7 @@ const Page = () => (
 export default Page;
 
 const SubPage = async () => {
-  const events = await getEvents('OPEN');
+  const events = await getEvents({ status: 'OPEN' });
   const sortedEvents = toSorted(events, '행사 임박순');
   const slicedEvents = sortedEvents.slice(0, 5);
 
