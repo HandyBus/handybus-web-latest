@@ -20,7 +20,7 @@ const FailScreen = ({ setDemandCompleteStatus }: Props) => {
         </p>
         <FailIcon />
       </section>
-      <section className="mt-auto flex w-full flex-col items-center gap-8 px-24 pb-16">
+      <section className="mt-auto flex w-full flex-col items-center gap-8 p-16">
         <Button
           variant="primary"
           size="large"

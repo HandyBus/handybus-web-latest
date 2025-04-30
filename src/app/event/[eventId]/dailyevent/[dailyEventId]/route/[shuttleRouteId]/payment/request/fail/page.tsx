@@ -1,85 +1,83 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import LogoLargeIcon from 'public/icons/logo-large.svg';
+import FailBusIcon from '../icons/bus-fail.svg';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import FeedbackScreen from '@/app/event/[eventId]/components/FeedbackScreen';
 
 interface Props {
   searchParams: {
     code?: string;
-    userExceptionMessage?: string;
   };
 }
 const Page = ({ searchParams }: Props) => {
   const [code, setCode] = useState<string | undefined>(searchParams.code);
-  const [userExceptionMessage, setUserExceptionMessage] = useState<
-    string | undefined
-  >(searchParams.userExceptionMessage);
 
   useEffect(() => {
     setCode(searchParams.code);
-    setUserExceptionMessage(searchParams.userExceptionMessage);
-  }, [searchParams.code, searchParams.userExceptionMessage]);
+  }, [searchParams.code]);
 
-  if (code === '402') {
+  const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);
+  if (showFeedbackScreen) {
     return (
-      <main className="flex grow flex-col items-center justify-center gap-24">
-        <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
-        <section className="p-16">
-          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
-            결제 중 문제가 생겼습니다.
-          </h1>
-          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-basic-grey-500">
-            {userExceptionMessage}
-          </p>
-        </section>
-        <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">
-          <Link href="/">
-            <Button>홈으로 돌아가기</Button>
-          </Link>
-        </div>
-      </main>
+      <FeedbackScreen
+        closeFeedbackScreen={() => setShowFeedbackScreen(false)}
+      />
     );
   }
 
   if (code === '409') {
     return (
-      <main className="flex grow flex-col items-center justify-center gap-24">
-        <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
-        <section>
-          <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
-            이미 완료된 예약결제입니다.
-          </h1>
-          <p className="flex justify-center text-16 font-500 leading-[25.6px] text-basic-grey-500">
-            내 예약 페이지에서 확인해주세요.
+      <main className="relative grow">
+        <section className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
+          <h1 className="pb-4 text-22 font-700">이미 완료된 셔틀 예약입니다</h1>
+          <p className="pb-24 text-center text-16 font-500 text-basic-grey-500">
+            마이페이지에서 확인해주세요.
           </p>
+          <FailBusIcon />
         </section>
-        <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">
+        <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
           <Link href="/">
-            <Button>홈으로 돌아가기</Button>
+            <Button>돌아가기</Button>
           </Link>
+          <button
+            type="button"
+            className="flex h-[46px] w-full items-center justify-center text-16 font-600 text-basic-grey-700"
+            onClick={() => setShowFeedbackScreen(true)}
+          >
+            의견 보내기
+          </button>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="flex grow flex-col items-center justify-center gap-24">
-      <LogoLargeIcon viewBox="0 0 121 75" width="90px" height="44px" />
-      <section>
-        <h1 className="flex justify-center text-28 font-700 leading-[39.2px] text-basic-black">
-          결제 중 문제가 생겼습니다.
+    <main className="relative grow">
+      <section className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
+        <h1 className="flex justify-center pb-4 text-22 font-700 leading-[39.2px]">
+          셔틀 예약을 완료하지 못했어요
         </h1>
-        <p className="flex justify-center text-16 font-500 leading-[25.6px] text-basic-grey-500">
-          마이페이지에서 결제 내역을 확인한 후 다시 시도해주세요.
+        <p className="pb-24 text-center text-16 font-500 leading-[25.6px] text-basic-grey-500">
+          결제 과정에서 문제가 발생했어요.
+          <br />
+          마이페이지에서 결제 내역을 확인해 주세요.
         </p>
+        <FailBusIcon />
       </section>
-      <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-500 p-16">
+      <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
         <Link href="/">
-          <Button>홈으로 돌아가기</Button>
+          <Button>돌아가기</Button>
         </Link>
+        <Button
+          variant="text"
+          size="large"
+          onClick={() => setShowFeedbackScreen(true)}
+        >
+          의견 보내기
+        </Button>
       </div>
     </main>
   );
