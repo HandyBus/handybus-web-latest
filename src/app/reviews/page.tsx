@@ -9,6 +9,7 @@ import ReviewBanner from './images/review-banner.png';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import ReviewItem from './components/ReviewItem';
 import { CircleLoader } from 'react-spinners';
+import Header from '@/components/header/Header';
 
 const ReviewPage = () => {
   const {
@@ -23,7 +24,8 @@ const ReviewPage = () => {
   const reviewTotalCount = reviews.totalCount + STATIC_REVIEWS.length;
 
   return (
-    <>
+    <main>
+      <Header />
       <Image src={ReviewBanner} alt="핸디버스 후기" />
       <ReviewStatistics reviewTotalCount={reviewTotalCount} />
       <div className="h-8 bg-basic-grey-50" />
@@ -71,7 +73,7 @@ const ReviewPage = () => {
           </div>
         )}
       </section>
-    </>
+    </main>
   );
 };
 
