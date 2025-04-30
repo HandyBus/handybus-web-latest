@@ -6,6 +6,7 @@ import {
 } from '@/types/reservation.type';
 import { ShuttleDemandStatus } from '@/types/demand.type';
 import { EventStatus, EventType } from '@/types/event.type';
+import { EventSortType } from '../app/event/event.const';
 
 export const EVENT_STATUS_TO_STRING: Record<EventStatus, string> = {
   OPEN: '수요 확인 중',
@@ -61,4 +62,9 @@ export const RESERVATION_STATUS_TO_STRING: Record<ReservationStatus, string> = {
 export const EVENT_TYPE_TO_STRING: Record<EventType, string> = {
   CONCERT: '콘서트',
   FESTIVAL: '페스티벌',
+} as const;
+
+export const EVENT_SORT_TYPE_TO_STRING: Record<EventSortType, string> = {
+  DATE_ASC: '행사 임박순',
+  NAME_ASC: '이름순',
 } as const;

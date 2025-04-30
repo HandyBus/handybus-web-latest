@@ -1,50 +1,45 @@
-import { getEvents } from '@/services/event.service';
-import { fromString, toEventSort } from './utils/param.util';
+'use client';
+
+import { useGetEvents } from '@/services/event.service';
 import { toSorted } from './utils/toSorted.util';
 import Header from '@/components/header/Header';
 import Empty from './components/Empty';
 import Card from '@/components/card/Card';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
-// import FilterBar from './components/FilterBar';
+import { useMemo, useState } from 'react';
+import { EventType } from '@/types/event.type';
+import FilterBar from './components/FilterBar';
+import { EventSortType } from '@/app/event/event.const';
 
-interface Props {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+const Page = () => {
+  const [type, setType] = useState<EventType>('CONCERT');
+  const [sort, setSort] = useState<EventSortType>('DATE_ASC');
+  const { data: events } = useGetEvents({ status: 'OPEN' });
 
-const Page = async ({ searchParams }: Props) => {
-  const type =
-    (Array.isArray(searchParams?.type)
-      ? searchParams?.type[0]
-      : searchParams?.type) || 'CONCERT';
-
-  const typeValue = type === 'FESTIVAL' ? 'FESTIVAL' : 'CONCERT';
-
-  const sort = fromString(
-    (Array.isArray(searchParams?.sort)
-      ? searchParams?.sort[0]
-      : searchParams?.sort) || '',
+  const filteredEvents = useMemo(
+    () => events?.filter((event) => event.eventType === type),
+    [events, type],
   );
 
-  const events = await getEvents({ status: 'OPEN' });
-
-  const filteredEvents = events
-    ? events.filter((event) => event.eventType === typeValue)
-    : [];
-
-  const sortedEvents =
-    filteredEvents.length > 0
-      ? toSorted(filteredEvents, toEventSort(sort))
-      : [];
+  const sortedEvents = useMemo(
+    () =>
+      filteredEvents && filteredEvents.length > 0
+        ? toSorted(filteredEvents, sort)
+        : [],
+    [filteredEvents, sort],
+  );
 
   return (
     <>
       <Header />
-      {/* <FilterBar type={typeValue} sort={sort} /> */}
+      <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
       <div className="flex w-full flex-col items-center">
-        {sortedEvents.length === 0 ? (
+        {sortedEvents?.length === 0 ? (
           <Empty />
         ) : (
-          sortedEvents.map((event) => (
+          sortedEvents &&
+          sortedEvents.length > 0 &&
+          sortedEvents?.map((event) => (
             <div className="w-full px-[16px] py-[6px]" key={event.eventId}>
               <Card
                 key={event.eventId}

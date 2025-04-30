@@ -1,16 +1,16 @@
-import { EventSortType } from '@/constants/event';
+import { EventSortType } from '@/app/event/event.const';
 import { EventsViewEntity } from '@/types/event.type';
 import dayjs from 'dayjs';
 
 export const toSorted = (events: EventsViewEntity[], sort: EventSortType) => {
   let newData: EventsViewEntity[];
   switch (sort) {
-    case '이름순':
+    case 'NAME_ASC':
       newData = events.toSorted((a, b) =>
         a.eventName.localeCompare(b.eventName),
       );
       break;
-    case '행사 임박순':
+    case 'DATE_ASC':
       newData = events.toSorted(
         (a, b) =>
           (dayjs(a.dailyEvents[0].date).tz().valueOf() || 0) -
