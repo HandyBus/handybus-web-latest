@@ -1,69 +1,51 @@
 'use client';
 
-import { getEvents } from '@/services/event.service';
-import { fromString, toDemandSort } from '../demand/utils/param.util';
-import { toSorted } from '../demand/utils/toSorted.util';
+import { useGetEvents } from '@/services/event.service';
+import { toSorted } from './toSorted.util';
 import Header from '@/components/header/Header';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import Empty from './components/Empty';
+import Loading from './components/Loading';
+import Error from './components/Error';
 import Card from '@/components/card/Card';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
-import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { EventsViewEntity } from '@/types/event.type';
-import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import { EventType } from '@/types/event.type';
 import FilterBar from './components/FilterBar';
+import { EventSortType } from '@/app/event/event.const';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
-dayjs.locale('ko');
+const Page = () => {
+  const [type, setType] = useState<EventType>('CONCERT');
+  const [sort, setSort] = useState<EventSortType>('DATE_ASC');
+  const { data: events, isLoading, error } = useGetEvents({ status: 'OPEN' });
 
-interface Props {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-const Page = ({ searchParams }: Props) => {
-  const router = useRouter();
-  const [events, setEvents] = useState<EventsViewEntity[]>([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const events = await getEvents('OPEN');
-      setEvents(events);
-    };
-    fetchEvents();
-  }, []);
-
-  const [type, setType] = useState<'CONCERT' | 'FESTIVAL'>('CONCERT');
-
-  const sort = fromString(
-    (Array.isArray(searchParams?.sort)
-      ? searchParams?.sort[1]
-      : searchParams?.sort) || '',
+  const filteredEvents = useMemo(
+    () => events?.filter((event) => event.eventType === type),
+    [events, type],
   );
 
-  const handleSort = (newSort: 'DATE_ASC' | 'NAME_ASC') => {
-    router.push(`/event?sort=${newSort}`);
-  };
-
-  const sortedEvents = events ? toSorted(events, toDemandSort(sort)) : [];
+  const sortedEvents = useMemo(
+    () =>
+      filteredEvents && filteredEvents.length > 0
+        ? toSorted(filteredEvents, sort)
+        : [],
+    [filteredEvents, sort],
+  );
 
   return (
     <>
       <Header />
-      <FilterBar
-        type={type}
-        setType={setType}
-        sort={sort}
-        onSort={handleSort}
-      />
+      <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
       <div className="flex w-full flex-col items-center">
-        {sortedEvents.length === 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : error ? (
+          <Error />
+        ) : sortedEvents?.length === 0 ? (
           <Empty />
         ) : (
-          sortedEvents.map((event) => (
+          sortedEvents &&
+          sortedEvents.length > 0 &&
+          sortedEvents?.map((event) => (
             <div className="w-full px-[16px] py-[6px]" key={event.eventId}>
               <Card
                 key={event.eventId}

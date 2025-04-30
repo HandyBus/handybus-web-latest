@@ -5,43 +5,44 @@ import Article from '@/components/article/Article';
 import Chip from '@/components/chips/Chip';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { MOCK_EVENT_DATA } from '../mockData.const';
+import { useGetEvents } from '@/services/event.service';
+import { EventType, EventTypeEnum } from '@/types/event.type';
+import { EVENT_TYPE_TO_STRING } from '@/constants/status';
 
 const RecommendedEventCard = () => {
-  const isLoading = false;
-  const hasConcertAndFestival = true;
-  const [type, setType] = useState<'CONCERT' | 'FESTIVAL'>('CONCERT');
+  const [type, setType] = useState<EventType>('CONCERT');
+  const { data: recommendedEvents, isLoading } = useGetEvents({
+    status: 'OPEN',
+    eventIsPinned: true,
+  });
+
+  const filteredEvents = recommendedEvents?.filter(
+    (event) => event.eventType === type,
+  );
 
   return (
     <section>
       <Article
         richTitle={`${dayjs().format('M')}월 추천 행사`}
         titleClassName="text-20 leading-[140%]"
-        showMore={'/event'}
+        showMore="/event"
       >
         <div className="flex gap-8">
-          {hasConcertAndFestival && (
-            <>
-              <Chip
-                onClick={() => setType('CONCERT')}
-                isSelected={type === 'CONCERT'}
-              >
-                콘서트
-              </Chip>
-              <Chip
-                onClick={() => setType('FESTIVAL')}
-                isSelected={type === 'FESTIVAL'}
-              >
-                페스티벌
-              </Chip>
-            </>
-          )}
+          {EventTypeEnum.options.map((eventType) => (
+            <Chip
+              key={eventType}
+              onClick={() => setType(eventType)}
+              isSelected={type === eventType}
+            >
+              {EVENT_TYPE_TO_STRING[eventType]}
+            </Chip>
+          ))}
         </div>
-        {isLoading ? (
-          <div className="h-324" />
+        {isLoading || !filteredEvents ? (
+          <EmptyView />
         ) : (
-          <div className="">
-            <EventsSwiperView events={MOCK_EVENT_DATA} type="RECOMMEND" />
+          <div>
+            <EventsSwiperView events={filteredEvents} type="RECOMMEND" />
           </div>
         )}
       </Article>
@@ -50,3 +51,5 @@ const RecommendedEventCard = () => {
 };
 
 export default RecommendedEventCard;
+
+const EmptyView = () => <div className="h-[324px]" />;
