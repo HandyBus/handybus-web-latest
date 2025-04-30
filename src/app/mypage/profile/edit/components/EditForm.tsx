@@ -44,7 +44,7 @@ const EditForm = ({ type, user }: Props) => {
   const { mutate: putUser, isSuccess } = usePutUser({
     onSuccess: () => {
       toast.success('프로필이 수정되었어요.');
-      router.replace('/mypage/profile');
+      router.replace('/mypage');
     },
     onError: (e: CustomError) => {
       if (e.statusCode === 409) {

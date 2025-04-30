@@ -98,7 +98,9 @@ const ProfileInfoContent = ({
         <div
           className="relative flex h-72 w-72 shrink-0 items-center justify-center overflow-hidden rounded-full"
           style={{
-            backgroundColor: generateProfileBackgroundColor(firstLetter),
+            backgroundColor: imageSrc
+              ? 'transparent'
+              : generateProfileBackgroundColor(firstLetter),
           }}
         >
           {imageSrc ? (

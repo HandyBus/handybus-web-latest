@@ -13,7 +13,11 @@ const Profile = ({ nickname, profileImage }: Props) => {
     <section className="my-24 flex h-[34px] items-center gap-8 px-16">
       <div
         className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full text-16 font-500 text-basic-white"
-        style={{ backgroundColor: generateProfileBackgroundColor(nickname) }}
+        style={{
+          backgroundColor: profileImage
+            ? 'transparent'
+            : generateProfileBackgroundColor(nickname),
+        }}
       >
         {profileImage ? (
           <Image

@@ -3,48 +3,51 @@
 import Link from 'next/link';
 import ArrowRightIcon from '../icons/arrow-right.svg';
 import { ReactNode } from 'react';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props {
-  content: ReactNode;
+  children: ReactNode;
   href?: string;
   onClick?: () => void;
   hideArrow?: boolean;
   replace?: boolean;
+  className?: string;
 }
 
 const ListButton = ({
-  content,
+  children,
   href,
   onClick,
   hideArrow = false,
   replace = false,
+  className,
 }: Props) => {
-  const Content = () => {
-    return (
-      <div className="flex grow items-center text-left text-16 font-600">
-        {content}
-        <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
-      </div>
-    );
-  };
-
   return (
     <>
       {href ? (
         <Link
           href={href}
           onClick={onClick}
-          className="flex h-[50px] w-full items-center gap-16"
+          className={customTwMerge(
+            'flex h-[50px] w-full items-center gap-16 text-left text-16 font-600',
+            className,
+          )}
           replace={replace}
         >
-          <Content />
+          {children}
+          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
         </Link>
       ) : (
         <button
+          type="button"
           onClick={onClick}
-          className="flex h-56 w-full items-center gap-16 p-16"
+          className={customTwMerge(
+            'flex h-[50px] w-full items-center gap-16 text-left text-16 font-600',
+            className,
+          )}
         >
-          <Content />
+          {children}
+          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
         </button>
       )}
     </>
