@@ -1,7 +1,7 @@
 'use client';
 
 import { useGetEvents } from '@/services/event.service';
-import { toSorted } from './utils/toSorted.util';
+import { toSorted } from './toSorted.util';
 import Header from '@/components/header/Header';
 import Empty from './components/Empty';
 import Card from '@/components/card/Card';
