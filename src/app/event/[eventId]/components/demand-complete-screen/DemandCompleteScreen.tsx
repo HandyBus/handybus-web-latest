@@ -2,7 +2,7 @@
 
 import SuccessScreen from './SuccessScreen';
 import FailScreen from './FailScreen';
-import FeedbackScreen from './FeedbackScreen';
+import FeedbackScreen from '../FeedbackScreen';
 
 export type DemandCompleteStatus = 'success' | 'fail' | 'feedback';
 
@@ -21,7 +21,9 @@ const DemandCompleteScreen = ({ status, setDemandCompleteStatus }: Props) => {
       return <FailScreen setDemandCompleteStatus={setDemandCompleteStatus} />;
     case 'feedback':
       return (
-        <FeedbackScreen setDemandCompleteStatus={setDemandCompleteStatus} />
+        <FeedbackScreen
+          closeFeedbackScreen={() => setDemandCompleteStatus(null)}
+        />
       );
   }
 };

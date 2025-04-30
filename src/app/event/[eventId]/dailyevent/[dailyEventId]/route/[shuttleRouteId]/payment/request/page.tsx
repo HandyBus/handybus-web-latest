@@ -31,12 +31,7 @@ const Page = () => {
     try {
       await setTimeoutWithRetry(() => polling(reservationId), 3, 3000);
     } catch {
-      if (error.statusCode === 402) {
-        router.replace(
-          pathname +
-            `/fail?code=${error?.statusCode}&userExceptionMessage=${error.message}`,
-        );
-      } else router.replace(pathname + `/fail?code=${error?.statusCode}`);
+      router.replace(pathname + `/fail?code=${error?.statusCode}`);
     }
   };
 
@@ -66,15 +61,15 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="relative grow">
-      <div className="absolute left-1/2 top-180 flex w-264 -translate-x-1/2 flex-col items-center">
+    <main className="relative grow">
+      <div className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
         <h1 className="pb-4 text-22 font-700">결제가 진행되고 있어요</h1>
         <p className="pb-24 text-16 font-500 text-basic-grey-600">
           잠시만 기다려 주세요. 곧 결제가 완료돼요.
         </p>
         <LoadingBusIcon />
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -4,13 +4,12 @@ import Button from '@/components/buttons/button/Button';
 import TextArea from '@/components/inputs/text-area/TextArea';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { DemandCompleteStatus } from './DemandCompleteScreen';
 
 interface Props {
-  setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
+  closeFeedbackScreen: () => void;
 }
 
-const FeedbackScreen = ({ setDemandCompleteStatus }: Props) => {
+const FeedbackScreen = ({ closeFeedbackScreen }: Props) => {
   const { control, handleSubmit } = useForm<{ text: string }>();
 
   const handleFeedbackSubmit = (data: { text: string }) => {
@@ -30,15 +29,11 @@ const FeedbackScreen = ({ setDemandCompleteStatus }: Props) => {
         </p>
         <TextArea control={control} name="text" placeholder="의견 남기기" />
       </section>
-      <section className="mt-auto flex w-full flex-col items-center gap-8 px-24 pb-16">
+      <section className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-8 p-16">
         <Button variant="primary" size="large" type="submit">
           의견 보내기
         </Button>
-        <Button
-          variant="text"
-          size="large"
-          onClick={() => setDemandCompleteStatus(null)}
-        >
+        <Button variant="text" size="large" onClick={closeFeedbackScreen}>
           다음에 할게요
         </Button>
       </section>
