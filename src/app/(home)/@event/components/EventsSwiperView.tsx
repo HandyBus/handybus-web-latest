@@ -5,7 +5,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import Card from '@/components/card/Card';
-import ViewAllButton from '@/components/buttons/view-all-button/ViewAllButton';
+import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
+import Link from 'next/link';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,12 +48,17 @@ const EventsSwiperView = ({ events, type }: Props) => {
           ))}
           {type === 'RECOMMEND' && (
             <SwiperSlide style={{ width: 'fit-content' }}>
-              <div className="flex h-[193px] w-92 flex-col items-center justify-center gap-[18px] pr-[6px]">
-                <ViewAllButton onClick={() => {}} />
+              <Link
+                href="/event"
+                className="group flex h-[300px] w-92 cursor-pointer flex-col items-center gap-[8px] pr-[6px]
+    pt-72
+    transition-colors"
+              >
+                <ViewAllButton />
                 <p className="text-14 font-600 leading-[160%] text-basic-grey-600">
                   전체보기
                 </p>
-              </div>
+              </Link>
             </SwiperSlide>
           )}
         </Swiper>
