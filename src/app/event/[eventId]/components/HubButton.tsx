@@ -36,4 +36,4 @@ const HubButton = ({ disabled = true, onClick }: Props) => {
 
 export default HubButton;
 
-const PLACEHOLDER_TEXT = '이용하실 정류장을 선택하세요.';
+const PLACEHOLDER_TEXT = '어디서 이용하시나요?';

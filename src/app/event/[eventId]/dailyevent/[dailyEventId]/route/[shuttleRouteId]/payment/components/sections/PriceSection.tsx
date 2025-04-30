@@ -58,6 +58,11 @@ const PriceSection = ({
           {finalPrice.toLocaleString()}원
         </span>
       </div>
+      <div className="rounded-8 bg-basic-grey-50 p-8 text-12 font-500 text-basic-grey-500">
+        핸디 지원금은 결제 금액의 50%이며, 선정된 핸디에 한해 셔틀 종료 후
+        환급됩니다. (영업일 기준 3일 이내) 결제 단계에서 할인이 적용되지
+        않습니다.
+      </div>
     </Section>
   );
 };
