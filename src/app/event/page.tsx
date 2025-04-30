@@ -4,6 +4,8 @@ import { useGetEvents } from '@/services/event.service';
 import { toSorted } from './toSorted.util';
 import Header from '@/components/header/Header';
 import Empty from './components/Empty';
+import Loading from './components/Loading';
+import Error from './components/Error';
 import Card from '@/components/card/Card';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 import { useMemo, useState } from 'react';
@@ -14,7 +16,7 @@ import { EventSortType } from '@/app/event/event.const';
 const Page = () => {
   const [type, setType] = useState<EventType>('CONCERT');
   const [sort, setSort] = useState<EventSortType>('DATE_ASC');
-  const { data: events } = useGetEvents({ status: 'OPEN' });
+  const { data: events, isLoading, error } = useGetEvents({ status: 'OPEN' });
 
   const filteredEvents = useMemo(
     () => events?.filter((event) => event.eventType === type),
@@ -34,7 +36,11 @@ const Page = () => {
       <Header />
       <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
       <div className="flex w-full flex-col items-center">
-        {sortedEvents?.length === 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : error ? (
+          <Error />
+        ) : sortedEvents?.length === 0 ? (
           <Empty />
         ) : (
           sortedEvents &&
