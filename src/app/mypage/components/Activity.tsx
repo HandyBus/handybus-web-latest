@@ -1,35 +1,21 @@
 import Link from 'next/link';
+import { ReactNode } from 'react';
+import CalendarIcon from '../icons/calendar.svg';
+import CouponIcon from '../icons/coupon.svg';
+import ReviewIcon from '../icons/review.svg';
 
-interface Props {
-  reservationCount: number;
-  pastReservationCount: number;
-  shuttleDemandCount: number;
-}
-
-const Activity = ({
-  reservationCount,
-  pastReservationCount,
-  shuttleDemandCount,
-}: Props) => {
+const Activity = () => {
   return (
-    <section className="m-16 flex h-[94px] rounded-12 bg-basic-grey-50 py-16">
+    <section className="mx-16 mb-32 flex h-96 items-center rounded-6 bg-basic-grey-50">
       <BoxButton
-        number={reservationCount}
-        title="예약 현황"
+        title="예약 내역"
+        icon={<CalendarIcon />}
         href="/mypage/shuttle?type=current"
       />
       <Divider />
-      <BoxButton
-        number={shuttleDemandCount}
-        title="수요조사 현황"
-        href="/mypage/shuttle?type=demand"
-      />
+      <BoxButton title="쿠폰" icon={<CouponIcon />} href="/mypage/coupons" />
       <Divider />
-      <BoxButton
-        number={pastReservationCount}
-        title="지난 예약"
-        href="/mypage/shuttle?type=past"
-      />
+      <BoxButton title="후기" icon={<ReviewIcon />} href="/mypage/reviews" />
     </section>
   );
 };
@@ -37,20 +23,23 @@ const Activity = ({
 export default Activity;
 
 interface BoxButtonProps {
-  number: number;
   title: string;
+  icon: ReactNode;
   href: string;
 }
 
-const BoxButton = ({ number, title, href }: BoxButtonProps) => {
+const BoxButton = ({ title, icon, href }: BoxButtonProps) => {
   return (
-    <Link href={href} className="flex grow flex-col items-center gap-8">
-      <span className="text-22 font-500 text-basic-grey-700">{number}</span>
+    <Link
+      href={href}
+      className="flex grow flex-col items-center justify-center gap-[6px]"
+    >
+      <span className="text-22 font-500 text-basic-grey-700">{icon}</span>
       <span className="text-12 font-400 text-basic-grey-700">{title}</span>
     </Link>
   );
 };
 
 const Divider = () => {
-  return <div className="h-full w-[1px] rounded-full bg-basic-grey-100" />;
+  return <div className="h-40 w-[1px] bg-basic-grey-200" />;
 };

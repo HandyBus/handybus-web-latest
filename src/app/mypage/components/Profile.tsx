@@ -1,7 +1,6 @@
-import { DEFAULT_PROFILE_IMAGE } from '@/constants/common';
+import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroundColor';
 import Image from 'next/image';
 import Link from 'next/link';
-import ArrowRight from 'public/icons/quill-chevron-right.svg';
 
 interface Props {
   nickname: string;
@@ -9,28 +8,30 @@ interface Props {
 }
 
 const Profile = ({ nickname, profileImage }: Props) => {
+  const firstLetter = nickname?.slice(0, 1);
   return (
-    <section className="mb-4 mt-28 flex flex-col items-center gap-12">
-      <div className="relative h-80 w-80 overflow-hidden rounded-full">
-        <Image
-          src={profileImage || DEFAULT_PROFILE_IMAGE}
-          alt="프로필 이미지"
-          fill
-          className="object-cover"
-        />
-      </div>
-      <Link href="/mypage/profile" className="flex h-32 items-center gap-8">
-        {nickname && (
-          <>
-            <h2 className="text-22 font-600">{nickname}</h2>
-            <ArrowRight
-              color="#5A5A5A"
-              width={17}
-              height={17}
-              viewBox="0 0 21 20"
-            />
-          </>
+    <section className="my-24 flex h-[34px] items-center gap-8 px-16">
+      <div
+        className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full text-16 font-500 text-basic-white"
+        style={{ backgroundColor: generateProfileBackgroundColor(nickname) }}
+      >
+        {profileImage ? (
+          <Image
+            src={profileImage}
+            alt="프로필 이미지"
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <span>{firstLetter}</span>
         )}
+      </div>
+      <h1 className="text-18 font-600">{nickname}</h1>
+      <Link
+        href="/mypage/profile"
+        className="ml-auto text-14 font-600 text-basic-grey-500"
+      >
+        프로필 수정
       </Link>
     </section>
   );

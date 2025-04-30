@@ -1,75 +1,50 @@
 'use client';
 
 import Link from 'next/link';
-import ArrowRight from 'public/icons/quill-chevron-right.svg';
+import ArrowRightIcon from '../icons/arrow-right.svg';
+import { ReactNode } from 'react';
 
 interface Props {
-  title: string;
+  content: ReactNode;
   href?: string;
-  description?: string;
   onClick?: () => void;
   hideArrow?: boolean;
   replace?: boolean;
-  newTab?: boolean;
 }
 
 const ListButton = ({
-  title,
+  content,
   href,
-  description,
   onClick,
   hideArrow = false,
   replace = false,
-  newTab = false,
 }: Props) => {
-  const content = (
-    <>
-      <span className="text-basic-grey-700 grow text-left text-16 font-400">
-        {title}
-      </span>
-      <span className="text-basic-grey-500 text-14 font-400">
-        {description}
-      </span>
-      {!hideArrow && (
-        <ArrowRight
-          color="#5A5A5A"
-          width={17}
-          height={17}
-          viewBox="0 0 21 20"
-        />
-      )}
-    </>
-  );
-
-  if (newTab)
+  const Content = () => {
     return (
-      <a
-        href={href}
-        onClick={onClick}
-        className="flex h-56 w-full items-center gap-16 p-16"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <div className="flex grow items-center text-left text-16 font-600">
         {content}
-      </a>
+        <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
+      </div>
     );
+  };
+
   return (
     <>
       {href ? (
         <Link
           href={href}
           onClick={onClick}
-          className="flex h-56 w-full items-center gap-16 p-16"
+          className="flex h-[50px] w-full items-center gap-16"
           replace={replace}
         >
-          {content}
+          <Content />
         </Link>
       ) : (
         <button
           onClick={onClick}
           className="flex h-56 w-full items-center gap-16 p-16"
         >
-          {content}
+          <Content />
         </button>
       )}
     </>
