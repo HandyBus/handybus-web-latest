@@ -50,7 +50,7 @@ export const EVENT_STEPS_TO_TEXT: Record<
     title: '요청하는 정류장을 선택하세요',
   },
   '[수요조사] 좌석 선택': {
-    title: '언제 셔틀을 이용하시나요?',
+    title: '이용 방향을 선택해 주세요',
   },
   '[수요조사] 정류장 정보': {
     title: '이 곳에 셔틀을 요청할까요?',
@@ -61,7 +61,7 @@ export const EVENT_STEPS_TO_TEXT: Record<
     title: '원하는 정류장을 선택하세요',
   },
   '[예약] 좌석 선택': {
-    title: '언제 셔틀을 이용하시나요?',
+    title: '이용 방향을 선택해 주세요',
   },
   '[예약] 예약 정보': {
     title: '이 셔틀로 예약을 진행할게요',
@@ -78,7 +78,7 @@ export const EVENT_STEPS_TO_TEXT: Record<
         </>
       );
     },
-    description: '셔틀이 필요한 인원과 정류장을 확인하고 있어요.',
+    description: '셔틀이 필요한 인원을 확인하고 있어요.',
   },
   '[기타] 예약 가능 시/도': {
     title: '현재 예약이 가능한 지역이에요',
@@ -88,14 +88,14 @@ export const EVENT_STEPS_TO_TEXT: Record<
     description: (input) => (
       <>
         <span className="font-700">{input}</span> 정류장을 지나는 셔틀 중 원하는
-        시간을 선택하세요.
+        시간을 선택해 주세요.
       </>
     ),
   },
   '[기타] 빈자리 알림': {
-    title: '알림이 신청되었어요!',
+    title: '알림 신청이 완료되었어요',
     description: (input) =>
-      `이 정류장은 [${input}]을 지나요. 이 노선을 지나는 모든 정류장은 따로 알림을 신청하지 않아도 돼요.`,
+      `이 정류장은 [${input}]에 포함돼 있어요. 이 노선의 다른 정류장도 알림 신청이 함께 적용돼요.`,
   },
   '[기타] 노선 내 정류장': {
     title: '노선 내 정류장',

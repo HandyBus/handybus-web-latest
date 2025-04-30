@@ -12,11 +12,11 @@ const SuccessScreen = ({ setDemandCompleteStatus }: Props) => {
   return (
     <div className="fixed inset-0 z-[101] mx-auto flex max-w-[500px] flex-col items-center bg-basic-white">
       <section className="mt-180 flex flex-col items-center">
-        <h3 className="mb-4 text-22 font-700">요청이 완료되었어요</h3>
+        <h3 className="mb-4 text-22 font-700">수요조사가 완료되었어요</h3>
         <p className="mb-24 text-center text-16 font-500 text-basic-grey-600">
-          셔틀이 열리면 카카오톡으로 알림을 드릴게요.
+          셔틀이 열리면 카카오톡으로 알려드려요.
           <br />
-          마이페이지에서 요청 내역을 확인할 수 있어요.
+          수요조사 내역은 마이페이지에서 확인할 수 있어요.
         </p>
         <SuccessIcon />
       </section>

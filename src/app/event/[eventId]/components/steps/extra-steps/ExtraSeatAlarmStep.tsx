@@ -62,7 +62,7 @@ const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
           className="w-full"
           onClick={handleClick}
         >
-          확인했어요
+          완료
         </Button>
         <Button variant="text" size="large" onClick={handleClick}>
           의견 보내기
