@@ -1,6 +1,6 @@
 import { getEvents } from '@/services/event.service';
-import { fromString, toDemandSort } from '../demand/utils/param.util';
-import { toSorted } from '../demand/utils/toSorted.util';
+import { fromString, toEventSort } from './utils/param.util';
+import { toSorted } from './utils/toSorted.util';
 import Header from '@/components/header/Header';
 import Empty from './components/Empty';
 import Card from '@/components/card/Card';
@@ -33,7 +33,7 @@ const Page = async ({ searchParams }: Props) => {
 
   const sortedEvents =
     filteredEvents.length > 0
-      ? toSorted(filteredEvents, toDemandSort(sort))
+      ? toSorted(filteredEvents, toEventSort(sort))
       : [];
 
   return (
