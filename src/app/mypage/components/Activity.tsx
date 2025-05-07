@@ -10,7 +10,7 @@ const Activity = () => {
       <BoxButton
         title="예약 내역"
         icon={<CalendarIcon />}
-        href="/mypage/shuttle?type=current"
+        href="/mypage/shuttle?type=all"
       />
       <Divider />
       <BoxButton title="쿠폰" icon={<CouponIcon />} href="/mypage/coupons" />

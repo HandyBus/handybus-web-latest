@@ -2,31 +2,31 @@
 
 import Tabs from '@/components/tab/Tabs';
 import { useRouter } from 'next/navigation';
-import CurrentTab from './components/tabs/CurrentTab';
-import DemandTab from './components/tabs/DemandTab';
-import PastTab from './components/tabs/PastTab';
 import Header from '@/components/header/Header';
+import AllTab from './components/tabs/AllTab';
+import ReservationTab from './components/tabs/ReservationTab';
+import DemandTab from './components/tabs/DemandTab';
 
-type TabType = 'current' | 'demand' | 'past';
+type ShuttleTabType = 'all' | 'reservation' | 'demand';
 
 interface Props {
   searchParams: {
-    type: TabType;
+    type: ShuttleTabType;
   };
 }
 
 const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
-  const currentTab = searchParams.type || 'current';
+  const currentTab: ShuttleTabType = searchParams.type || 'all';
 
   const renderTab = () => {
     switch (currentTab) {
-      case 'current':
-        return <CurrentTab />;
+      case 'all':
+        return <AllTab />;
+      case 'reservation':
+        return <ReservationTab />;
       case 'demand':
         return <DemandTab />;
-      case 'past':
-        return <PastTab />;
     }
   };
 
@@ -37,9 +37,9 @@ const Shuttle = ({ searchParams }: Props) => {
         <div className="px-16">
           <Tabs
             items={[
-              { label: '예약 현황', value: 'current' },
-              { label: '수요조사 현황', value: 'demand' },
-              { label: '지난 예약', value: 'past' },
+              { label: '전체', value: 'all' },
+              { label: '예약', value: 'reservation' },
+              { label: '수요조사', value: 'demand' },
             ]}
             selected={currentTab}
             onSelect={(value) => {
