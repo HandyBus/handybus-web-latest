@@ -1,8 +1,8 @@
 import Rating from '@/components/rating/Rating';
 import UserProfile from '@/components/header/UserProfile';
 import { ReviewsViewEntity } from '@/types/review.type';
-import { MonthlyReviewChip } from '@/app/(home)/@bot/components/PromotionReviews';
-import { FeedbackGroup } from '@/app/(home)/@bot/components/PromotionReviews';
+import { MonthlyReviewChip } from '@/components/review/MonthlyReviewChip';
+import { FeedbackGroup } from '@/components/review/FeedbackGroup';
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ReviewItem = ({ review }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpended, setIsExpended] = useState(false);
 
   return (
     <article>
@@ -48,7 +48,7 @@ const ReviewItem = ({ review }: Props) => {
           </figure>
           <p
             className={`line-clamp-2 overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600 ${
-              isOpen ? 'line-clamp-none' : ''
+              isExpended ? 'line-clamp-none' : ''
             }`}
           >
             {review.content}
@@ -56,9 +56,9 @@ const ReviewItem = ({ review }: Props) => {
           {review.content.length > 100 && (
             <button
               className="text-14 font-500 leading-[160%] text-basic-grey-500"
-              onClick={() => setIsOpen((prev) => !prev)}
+              onClick={() => setIsExpended((prev) => !prev)}
             >
-              {isOpen ? '접기' : '더보기'}
+              {isExpended ? '접기' : '더보기'}
             </button>
           )}
           <p className="text-12 font-500 leading-[160%] text-basic-grey-400">

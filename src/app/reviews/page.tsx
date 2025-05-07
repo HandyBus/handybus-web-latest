@@ -10,6 +10,7 @@ import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import ReviewItem from './components/ReviewItem';
 import { CircleLoader } from 'react-spinners';
 import Header from '@/components/header/Header';
+import { convertStaticToReviewEntity } from './convertStaticToREviewEntity.util';
 
 const ReviewPage = () => {
   const {
@@ -44,25 +45,7 @@ const ReviewPage = () => {
           STATIC_REVIEWS.map((review) => (
             <ReviewItem
               key={review.id}
-              review={{
-                eventId: '',
-                userId: '',
-                reviewId: '',
-                reservationId: '',
-                rating: review.rating,
-                content: review.content,
-                reviewStatus: 'ACTIVE',
-                createdAt: review.createdAt,
-                updatedAt: '',
-                userNickname: review.userNickname,
-                eventName: review.eventName,
-                eventLocationName: review.eventLocationName,
-                userProfileImage: '',
-                eventType: 'CONCERT',
-                eventImageUrl: '',
-                eventArtists: [],
-                reviewImages: review.reviewImages,
-              }}
+              review={convertStaticToReviewEntity(review)}
             />
           ))}
         {(isFetching || hasNextPage) && (
