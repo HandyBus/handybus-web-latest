@@ -95,23 +95,24 @@ const LargeCard = ({
           {order}
         </div>
       )}
-      <div className="absolute bottom-0 left-0 right-0 h-108 w-full break-words rounded-b-12  bg-[#181F29] bg-opacity-60 p-16 ">
-        <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
-          {title}
-        </p>
-        <div className="mt-[2px] flex items-center gap-4">
-          <p
-            className={`text-16 font-600 leading-[140%] ${
-              isSaleStarted ? 'text-basic-white' : 'text-basic-grey-300'
-            }`}
-          >
-            {isSaleStarted ? price : '판매대기'}
-          </p>
+      <div className="absolute bottom-0 left-0 right-0 flex h-136 w-full flex-col justify-end break-words rounded-b-12 bg-opacity-60 p-16 ">
+        <div className="flex items-center pb-[6px]">
           {!isSaleStarted && (
             <Badge className={`${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
               수요조사 진행 중
             </Badge>
           )}
+        </div>
+        <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
+          {title}
+        </p>
+        <div className="mt-[2px] flex items-center gap-4">
+          <p
+            className={`text-16 font-600 leading-[140%] 
+            text-basic-white`}
+          >
+            {isSaleStarted ? price : '판매대기'}
+          </p>
         </div>
       </div>
     </Link>
