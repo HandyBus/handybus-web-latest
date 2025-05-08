@@ -29,13 +29,13 @@ const OnboardingFrame = ({
   return (
     <>
       <div className="relative flex grow flex-col">{children}</div>
-      <div className="absolute bottom-12 flex w-full flex-col items-center bg-basic-white">
+      <div className="absolute bottom-16 flex w-full flex-col items-center bg-basic-white">
         {showIndicator && (
           <div className="py-16">
             <Indicator max={indicatorMax} value={indicatorValue} />
           </div>
         )}
-        <div className="w-full px-32 pb-4 pt-8">
+        <div className="w-full px-16 py-8">
           <Button type={buttonType} onClick={handleSubmit} disabled={disabled}>
             {buttonText}
           </Button>
@@ -44,7 +44,7 @@ const OnboardingFrame = ({
           <button
             type="button"
             onClick={handlePrevStep}
-            className="text-basic-grey-400 text-center text-12 underline underline-offset-2"
+            className="text-center text-12 text-basic-grey-400 underline underline-offset-2"
           >
             이전으로
           </button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.type';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import PersonalInfoContent from '@/components/onboarding-contents/PersonalInfoContent';
 import { useFormContext } from 'react-hook-form';

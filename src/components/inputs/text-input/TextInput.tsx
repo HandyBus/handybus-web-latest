@@ -38,10 +38,7 @@ const TextInput = <T extends FieldValues>({
   return (
     <div className="relative flex w-full flex-col gap-8">
       {children && (
-        <label
-          htmlFor={field.name}
-          className="text-basic-grey-600 block h-[26px] text-16 font-500"
-        >
+        <label htmlFor={field.name} className="block h-20 text-14 font-600">
           {children}
         </label>
       )}
@@ -51,7 +48,7 @@ const TextInput = <T extends FieldValues>({
         onKeyDown={onKeyDown}
         {...field}
         className={customTwMerge(
-          'border-basic-grey-100 placeholder:text-basic-grey-300 h-48 w-full border-b p-12 pr-44 text-16 font-400 outline-none',
+          'h-48 w-full border-b border-basic-grey-200 p-12 pr-44 text-16 font-500 outline-none placeholder:text-basic-grey-400',
           fieldState?.error
             ? 'border-basic-red-500'
             : 'focus:border-brand-primary-400',
