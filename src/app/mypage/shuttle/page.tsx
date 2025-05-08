@@ -2,31 +2,28 @@
 
 import Tabs from '@/components/tab/Tabs';
 import { useRouter } from 'next/navigation';
-import CurrentTab from './components/tabs/CurrentTab';
-import DemandTab from './components/tabs/DemandTab';
-import PastTab from './components/tabs/PastTab';
 import Header from '@/components/header/Header';
+import ReservationTab from './components/reservations/ReservationTab';
+import DemandTab from './components/demands/DemandTab';
 
-type TabType = 'current' | 'demand' | 'past';
+type ShuttleTabType = 'demand' | 'reservation';
 
 interface Props {
   searchParams: {
-    type: TabType;
+    type: ShuttleTabType;
   };
 }
 
 const Shuttle = ({ searchParams }: Props) => {
   const router = useRouter();
-  const currentTab = searchParams.type || 'current';
+  const currentTab: ShuttleTabType = searchParams.type || 'demand';
 
   const renderTab = () => {
     switch (currentTab) {
-      case 'current':
-        return <CurrentTab />;
       case 'demand':
         return <DemandTab />;
-      case 'past':
-        return <PastTab />;
+      case 'reservation':
+        return <ReservationTab />;
     }
   };
 
@@ -34,19 +31,17 @@ const Shuttle = ({ searchParams }: Props) => {
     <>
       <Header />
       <main className="flex grow flex-col">
-        <div className="px-16">
-          <Tabs
-            items={[
-              { label: '예약 현황', value: 'current' },
-              { label: '수요조사 현황', value: 'demand' },
-              { label: '지난 예약', value: 'past' },
-            ]}
-            selected={currentTab}
-            onSelect={(value) => {
-              router.replace(`/mypage/shuttle?type=${value}`);
-            }}
-          />
-        </div>
+        <Tabs
+          items={[
+            { label: '수요조사', value: 'demand' },
+            { label: '예약', value: 'reservation' },
+          ]}
+          selected={currentTab}
+          onSelect={(value) => {
+            router.replace(`/mypage/shuttle?type=${value}`);
+          }}
+          className="sticky top-48 z-10"
+        />
         {renderTab()}
       </main>
     </>
