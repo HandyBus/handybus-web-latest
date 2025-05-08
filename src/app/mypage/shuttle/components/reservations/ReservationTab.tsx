@@ -1,11 +1,16 @@
+'use client';
+
 import ReservationCard from './reservation-card/ReservationCard';
 import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservations } from '@/services/reservation.service';
+import usePeriodFilter from '../period-filter-bar/hooks/usePeriodFilter';
+import PeriodFilterBar from '../period-filter-bar/PeriodFilterBar';
 const EmptyView = dynamic(() => import('./EmptyView'));
 
-const PastTab = () => {
+const ReservationTab = () => {
+  const { periodFilter, setPeriodFilter } = usePeriodFilter();
   const { data: reservations, isLoading } = useGetUserReservations();
 
   return (
@@ -15,6 +20,10 @@ const PastTab = () => {
           <EmptyView />
         ) : (
           <ul>
+            <PeriodFilterBar
+              periodFilter={periodFilter}
+              setPeriodFilter={setPeriodFilter}
+            />
             {reservations.map((reservation) => (
               <ReservationCard
                 key={reservation.reservationId}
@@ -27,4 +36,4 @@ const PastTab = () => {
   );
 };
 
-export default PastTab;
+export default ReservationTab;
