@@ -40,6 +40,7 @@ const Shuttle = ({ searchParams }: Props) => {
           onSelect={(value) => {
             router.replace(`/mypage/shuttle?type=${value}`);
           }}
+          className="sticky top-48 z-10"
         />
         {renderTab()}
       </main>
