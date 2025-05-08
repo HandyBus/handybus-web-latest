@@ -1,4 +1,4 @@
-import ReservationCard from '../ReservationCard/ReservationCard';
+import ReservationCard from '../reservation-card/ReservationCard';
 import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';

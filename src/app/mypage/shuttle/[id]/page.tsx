@@ -1,6 +1,6 @@
 'use client';
 
-import ReservationCard from '../components/ReservationCard/ReservationCard';
+import ReservationCard from '../components/reservation-card/ReservationCard';
 import ReservationInfoSection from './components/sections/ReservationInfoSection';
 import HandySection from './components/sections/HandySection';
 import BusInfoSection from './components/sections/BusInfoSection';
