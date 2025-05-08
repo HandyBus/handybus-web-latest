@@ -14,18 +14,19 @@ const DemandCard = ({ demand }: Props) => {
   const dailyEvent = demand.event.dailyEvents.find(
     (dailyEvent) => dailyEvent.dailyEventId === demand.dailyEventId,
   );
-  const formattedDemandDate = dateString(demand.createdAt, {
-    showYear: true,
-    showDate: true,
-    showTime: true,
-    showWeekday: true,
-  });
   const formattedEventDate = dateString(dailyEvent?.date, {
     showYear: true,
     showDate: true,
     showTime: false,
     showWeekday: false,
   });
+  const formattedDemandDate = dateString(demand.createdAt, {
+    showYear: true,
+    showDate: true,
+    showTime: true,
+    showWeekday: true,
+  });
+
   const demandRegionHub =
     demand.toDestinationRegionHub ?? demand.fromDestinationRegionHub;
   // NOTE: 기존에 기타로 수요조사를 한 유저들을 위한 호환성 코드. V2부터 기타로 수요조사가 불가하도록 변경됨.
