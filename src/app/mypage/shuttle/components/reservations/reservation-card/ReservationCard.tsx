@@ -6,11 +6,11 @@ import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import useStatus from './hooks/useStatus';
 import useTextAndStyle from './hooks/useTextAndStyle';
 import useEventText from './hooks/useEventText';
-import ArrowRightIcon from '../../icons/arrow-right.svg';
+import ArrowRightIcon from '../../../icons/arrow-right.svg';
 import Link from 'next/link';
-import HandyBadge from './HandyBadge';
-import ShuttleBusBadge from './ShuttleBusBadge';
-import ChatButton from './ChatButton';
+import HandyBadge from '../HandyBadge';
+import ShuttleBusBadge from '../ShuttleBusBadge';
+import ChatButton from '../ChatButton';
 
 interface Props {
   reservation: ReservationsViewEntity;

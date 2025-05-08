@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo } from 'react';
-import DemandCard from '../DemandCard';
+import DemandCard from './DemandCard';
 import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserDemandsWithPagination } from '@/services/demand.service';
-const EmptyView = dynamic(() => import('../EmptyView'));
+const EmptyView = dynamic(() => import('../reservations/EmptyView'));
 
 const DemandTab = () => {
   const { data: demandPages, isLoading } = useGetUserDemandsWithPagination();

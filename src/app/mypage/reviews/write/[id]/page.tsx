@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { MAX_FILE_SIZE } from '@/constants/common';
 import XIcon from 'public/icons/x.svg';
-import ReservationCard from '@/app/mypage/shuttle/components/reservation-card/ReservationCard';
+import ReservationCard from '@/app/mypage/shuttle/components/reservations/reservation-card/ReservationCard';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/reservation.service';
 import { usePostReview } from '@/services/review.service';

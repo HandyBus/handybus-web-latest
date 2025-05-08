@@ -3,8 +3,8 @@
 import Tabs from '@/components/tab/Tabs';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
-import ReservationTab from './components/tabs/ReservationTab';
-import DemandTab from './components/tabs/DemandTab';
+import ReservationTab from './components/reservations/ReservationTab';
+import DemandTab from './components/demands/DemandTab';
 
 type ShuttleTabType = 'demand' | 'reservation';
 

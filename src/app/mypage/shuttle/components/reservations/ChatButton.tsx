@@ -1,7 +1,7 @@
 import Button from '@/components/buttons/button/Button';
 import { HandyStatus } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
-import { ReservationCardStatus } from './hooks/useStatus';
+import { ReservationCardStatus } from './reservation-card/hooks/useStatus';
 
 interface Props {
   reservationCardStatus: ReservationCardStatus;
