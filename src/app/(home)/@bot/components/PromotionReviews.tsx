@@ -1,6 +1,6 @@
 import Rating from '@/components/rating/Rating';
 import { getReviewsWithPagination } from '@/services/review.service';
-import { STATIC_REVIEWS } from '@/app/reviews/review';
+import { STATIC_REVIEWS } from '@/app/reviews/review.const';
 import { DEFAULT_SSG_REVALIDATE_TIME } from '@/constants/common';
 import Article from '@/components/article/Article';
 import { ReviewsViewEntity } from '@/types/review.type';

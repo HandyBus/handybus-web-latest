@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ReviewItem = ({ review }: Props) => {
-  const [isExpended, setIsExpended] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <article>
@@ -41,6 +41,7 @@ const ReviewItem = ({ review }: Props) => {
                       alt={`${review.eventName} 후기 이미지 ${index + 1}`}
                       fill
                       className="rounded-8 object-cover"
+                      // placeholder="blur"
                     />
                   </div>
                 );
@@ -48,7 +49,7 @@ const ReviewItem = ({ review }: Props) => {
           </figure>
           <p
             className={`line-clamp-2 overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600 ${
-              isExpended ? 'line-clamp-none' : ''
+              isExpanded ? 'line-clamp-none' : ''
             }`}
           >
             {review.content}
@@ -56,9 +57,9 @@ const ReviewItem = ({ review }: Props) => {
           {review.content.length > 100 && (
             <button
               className="text-14 font-500 leading-[160%] text-basic-grey-500"
-              onClick={() => setIsExpended((prev) => !prev)}
+              onClick={() => setIsExpanded((prev) => !prev)}
             >
-              {isExpended ? '접기' : '더보기'}
+              {isExpanded ? '접기' : '더보기'}
             </button>
           )}
           <p className="text-12 font-500 leading-[160%] text-basic-grey-400">

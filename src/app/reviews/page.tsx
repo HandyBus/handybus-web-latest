@@ -2,7 +2,7 @@
 
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useGetReviewsWithPagination } from '@/services/review.service';
-import { STATIC_REVIEWS } from './review';
+import { STATIC_REVIEWS } from './review.const';
 import Image from 'next/image';
 import ReviewStatistics from './components/ReviewStatistics';
 import ReviewBanner from './images/review-banner.png';
@@ -10,7 +10,7 @@ import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import ReviewItem from './components/ReviewItem';
 import { CircleLoader } from 'react-spinners';
 import Header from '@/components/header/Header';
-import { convertStaticToReviewEntity } from './convertStaticToREviewEntity.util';
+import { convertStaticToReviewEntity } from './convertStaticToReviewEntity.util';
 
 const ReviewPage = () => {
   const {
@@ -38,8 +38,8 @@ const ReviewPage = () => {
             <ChevronRightEmIcon className="h-16 w-16 rotate-90 stroke-2 text-basic-grey-300" />
           </button>
         </div>
-        {reviews.reviews.map((review, idx) => (
-          <ReviewItem key={idx} review={review} />
+        {reviews.reviews.map((review) => (
+          <ReviewItem key={review.reviewId} review={review} />
         ))}
         {!hasNextPage &&
           STATIC_REVIEWS.map((review) => (

@@ -1,5 +1,5 @@
 import { ReviewsViewEntity } from '@/types/review.type';
-import { STATIC_REVIEWS } from './review';
+import { STATIC_REVIEWS } from './review.const';
 
 export const convertStaticToReviewEntity = (
   staticReview: (typeof STATIC_REVIEWS)[0],
