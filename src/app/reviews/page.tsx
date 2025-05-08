@@ -5,7 +5,7 @@ import { useGetReviewsWithPagination } from '@/services/review.service';
 import { STATIC_REVIEWS } from './review.const';
 import Image from 'next/image';
 import ReviewStatistics from './components/ReviewStatistics';
-import ReviewBanner from './images/review-banner.png';
+import ReviewBanner from 'public/images/reviews/review-banner.png';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import ReviewItem from './components/ReviewItem';
 import { CircleLoader } from 'react-spinners';

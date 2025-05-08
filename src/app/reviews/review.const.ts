@@ -1,13 +1,3 @@
-import EventImage1to2 from './images/event-1to2.png';
-import EventImage3 from './images/event-3.png';
-import EventImage4to5 from './images/event-4to5.png';
-import EventImage6 from './images/event-6.png';
-import EventImage7 from './images/event-7.png';
-import EventImage8 from './images/event-8.png';
-import EventImage9to10 from './images/event-9to10.png';
-import EventImage11to12 from './images/event-11to12.png';
-import EventImage13to14 from './images/event-13to14.png';
-
 export const STATIC_REVIEWS = [
   {
     id: 1,
@@ -28,7 +18,6 @@ export const STATIC_REVIEWS = [
     userNickname: '맠쿨럭',
     eventName: '2024 NCT 127 8th ANNIVERSARY FANMEETING <8ECRET INVITATION>',
     eventLocationName: '잠실실내체육관',
-    eventImage: EventImage1to2,
     eventArtists: ['NCT 127'],
   },
   {
@@ -41,7 +30,6 @@ export const STATIC_REVIEWS = [
     userNickname: '연승현',
     eventName: '2024 NCT 127 8th ANNIVERSARY FANMEETING <8ECRET INVITATION>',
     eventLocationName: '잠실실내체육관',
-    eventImage: EventImage1to2,
     eventArtists: ['NCT 127'],
   },
   {
@@ -53,7 +41,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'danaas2',
     eventName: "2024 RIIZE FAN-CON TOUR 'RIIZING DAY'",
     eventLocationName: '잠실실내체육관',
-    eventImage: EventImage3,
     eventArtists: ['RIIZE'],
   },
   {
@@ -66,7 +53,6 @@ export const STATIC_REVIEWS = [
     userNickname: '묘다',
     eventName: '2024 SVT 8TH FAN MEETING SEVENTEEN in CARAT LAND',
     eventLocationName: '고척스카이돔',
-    eventImage: EventImage4to5,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -79,7 +65,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'seungjin',
     eventName: '2024 SVT 8TH FAN MEETING SEVENTEEN in CARAT LAND',
     eventLocationName: '고척스카이돔',
-    eventImage: EventImage4to5,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -92,7 +77,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'tanily',
     eventName: 'SEVENTEEN [RIGHT HERE] WORLD TOUR IN GOYANG',
     eventLocationName: '고양종합운동장',
-    eventImage: EventImage6,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -105,7 +89,6 @@ export const STATIC_REVIEWS = [
     userNickname: '심진희',
     eventName: 'SEVENTEEN TOUR ‘FOLLOW’ AGAIN TO SEOUL',
     eventLocationName: '서울월드컵경기장',
-    eventImage: EventImage7,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -118,7 +101,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'minjoo',
     eventName: '2024 NCT DREAM WORLD TOUR <THE DREAM SHOW 3>',
     eventLocationName: '고척스카이돔',
-    eventImage: EventImage8,
     eventArtists: ['NCT DREAM'],
   },
   {
@@ -136,7 +118,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'heejin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 콘서트>',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage9to10,
     eventArtists: ['아이유'],
   },
   {
@@ -153,7 +134,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'yongjin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 콘서트>',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage9to10,
     eventArtists: ['아이유'],
   },
   {
@@ -171,7 +151,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'crealiy',
     eventName: 'ENHYPEN WORLD TOUR ‘FATE PLUS’ IN SEOUL',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage11to12,
     eventArtists: ['ENHYPEN'],
   },
   {
@@ -188,7 +167,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'beliveall',
     eventName: 'ENHYPEN WORLD TOUR ‘FATE PLUS’ IN SEOUL',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage11to12,
     eventArtists: ['ENHYPEN'],
   },
   {
@@ -206,7 +184,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'lilac',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 앵콜 콘서트>',
     eventLocationName: '서울월드컵경기장',
-    eventImage: EventImage13to14,
     eventArtists: ['아이유'],
   },
   {
@@ -223,7 +200,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'aimin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 앵콜 콘서트>',
     eventLocationName: '서울월드컵경기장',
-    eventImage: EventImage13to14,
     eventArtists: ['아이유'],
   },
 ];
