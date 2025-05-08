@@ -88,7 +88,7 @@ const LargeCard = ({
         src={image || '/images/default-event.png'}
         alt="card"
         fill
-        className={`rounded-[14px] object-cover`}
+        className={`rounded-[13px] object-cover`}
       />
       {order && (
         <div className="absolute left-0 right-0 flex h-[50px] w-[43px] items-center  justify-center rounded-br-12 rounded-tl-12 bg-[#00C896CC] text-20 font-700 leading-[140%] text-basic-white">
@@ -135,7 +135,7 @@ const MediumCard = ({
           src={image || '/images/default-event.png'}
           alt="card"
           fill
-          className={`rounded-8 object-cover`}
+          className={`rounded-[7px] object-cover`}
         />
       </div>
       <div className="py-12 pl-4 pr-12">
@@ -180,7 +180,7 @@ const SmallCard = ({
           src={image || '/images/default-event.png'}
           alt="card"
           fill
-          className={`rounded-8 object-cover`}
+          className={`rounded-[7px] object-cover`}
         />
       </div>
       <div>
