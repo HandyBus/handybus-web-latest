@@ -2,6 +2,7 @@ import Button from '@/components/buttons/button/Button';
 import { HandyStatus } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import { ReservationCardStatus } from './reservation-card/hooks/useStatus';
+import { SyntheticEvent } from 'react';
 
 interface Props {
   reservationCardStatus: ReservationCardStatus;
@@ -23,6 +24,13 @@ const ChatButton = ({
   reservationId,
 }: Props) => {
   const router = useRouter();
+  const handleClickAndStopPropagation = (callback: () => void) => {
+    return (e: SyntheticEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      callback();
+    };
+  };
 
   switch (reservationCardStatus) {
     case 'beforeBusAssigned':
@@ -60,11 +68,11 @@ const ChatButton = ({
             <Button
               variant="primary"
               size="small"
-              onClick={() => {
+              onClick={handleClickAndStopPropagation(() => {
                 if (openChatLink) {
                   window.open(openChatLink, '_blank', 'noreferrer');
                 }
-              }}
+              })}
             >
               채팅방
             </Button>
@@ -96,9 +104,9 @@ const ChatButton = ({
             <Button
               variant="primary"
               size="small"
-              onClick={() => {
+              onClick={handleClickAndStopPropagation(() => {
                 router.push(`/mypage/shuttle/reviews/${reservationId}/write`);
-              }}
+              })}
             >
               후기 작성
             </Button>
@@ -109,18 +117,18 @@ const ChatButton = ({
               <Button
                 variant="secondary"
                 size="small"
-                onClick={() => {
+                onClick={handleClickAndStopPropagation(() => {
                   router.push(`/mypage/shuttle/reviews/${reservationId}/edit`);
-                }}
+                })}
               >
                 후기 수정
               </Button>
               <Button
                 variant="primary"
                 size="small"
-                onClick={() => {
+                onClick={handleClickAndStopPropagation(() => {
                   router.push(`/mypage/shuttle/reviews/${reservationId}`);
-                }}
+                })}
               >
                 내 후기
               </Button>
@@ -133,9 +141,9 @@ const ChatButton = ({
             <Button
               variant="tertiary"
               size="small"
-              onClick={() => {
+              onClick={handleClickAndStopPropagation(() => {
                 router.push(`/mypage/shuttle/reviews/${reservationId}`);
-              }}
+              })}
             >
               내 후기
             </Button>
