@@ -72,13 +72,14 @@ const VARIANT_STYLE = {
   primary:
     'bg-brand-primary-400 text-basic-white active:bg-brand-primary-500 disabled:bg-brand-primary-100',
   secondary:
-    'bg-brand-primary-50 text-brand-primary-400 active:bg-brand-primary-100',
+    'bg-brand-primary-50 text-brand-primary-400 active:bg-brand-primary-100 disabled:text-brand-primary-200',
   tertiary:
     'bg-basic-grey-100 text-basic-grey-700 active:bg-basic-grey-200 disabled:bg-basic-grey-50 disabled:text-basic-grey-300',
-  'p-destructive': 'bg-basic-red-400 text-basic-white active:bg-basic-red-500',
+  'p-destructive':
+    'bg-basic-red-400 text-basic-white active:bg-basic-red-500 disabled:bg-basic-red-200',
   's-destructive':
-    'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200',
-  text: 'bg-transparent text-basic-grey-700 active:text-basic-grey-600',
+    'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200 disabled:text-basic-red-300',
+  text: 'bg-transparent text-basic-grey-700 active:text-basic-grey-600 disabled:text-basic-grey-300',
   custom: '',
 };
 

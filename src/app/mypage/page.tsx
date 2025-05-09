@@ -5,33 +5,25 @@ import Activity from './components/Activity';
 import Settings from './components/Settings';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import { useGetUser, useGetUserStats } from '@/services/user.service';
+import { useGetUser } from '@/services/user.service';
 import Header from '@/components/header/Header';
 
 const MyPage = () => {
   const { data: user, isLoading: isLoadingUser } = useGetUser();
-  const { data: userStats, isLoading: isLoadingUserStats } = useGetUserStats();
-  const isLoading = isLoadingUser || isLoadingUserStats;
+  const isLoading = isLoadingUser;
 
   return (
     <>
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {user && userStats && (
+        {user && (
           <main>
             <Profile
               nickname={user.nickname || ''}
               profileImage={user.profileImage || ''}
             />
-            <Activity
-              reservationCount={userStats.currentReservationCount}
-              pastReservationCount={userStats.pastReservationCount}
-              shuttleDemandCount={userStats.shuttleDemandCount}
-            />
-            <Settings
-              couponCount={userStats.activeCouponCount}
-              reviewCount={userStats.reviewCount}
-            />
+            <Activity />
+            <Settings />
           </main>
         )}
       </DeferredSuspense>

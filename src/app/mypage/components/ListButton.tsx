@@ -1,75 +1,53 @@
 'use client';
 
 import Link from 'next/link';
-import ArrowRight from 'public/icons/quill-chevron-right.svg';
+import ArrowRightIcon from '../icons/arrow-right.svg';
+import { ReactNode } from 'react';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props {
-  title: string;
+  children: ReactNode;
   href?: string;
-  description?: string;
   onClick?: () => void;
   hideArrow?: boolean;
   replace?: boolean;
-  newTab?: boolean;
+  className?: string;
 }
 
 const ListButton = ({
-  title,
+  children,
   href,
-  description,
   onClick,
   hideArrow = false,
   replace = false,
-  newTab = false,
+  className,
 }: Props) => {
-  const content = (
-    <>
-      <span className="text-basic-grey-700 grow text-left text-16 font-400">
-        {title}
-      </span>
-      <span className="text-basic-grey-500 text-14 font-400">
-        {description}
-      </span>
-      {!hideArrow && (
-        <ArrowRight
-          color="#5A5A5A"
-          width={17}
-          height={17}
-          viewBox="0 0 21 20"
-        />
-      )}
-    </>
-  );
-
-  if (newTab)
-    return (
-      <a
-        href={href}
-        onClick={onClick}
-        className="flex h-56 w-full items-center gap-16 p-16"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {content}
-      </a>
-    );
   return (
     <>
       {href ? (
         <Link
           href={href}
           onClick={onClick}
-          className="flex h-56 w-full items-center gap-16 p-16"
+          className={customTwMerge(
+            'flex h-[50px] w-full items-center gap-16 text-left text-16 font-600',
+            className,
+          )}
           replace={replace}
         >
-          {content}
+          {children}
+          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
         </Link>
       ) : (
         <button
+          type="button"
           onClick={onClick}
-          className="flex h-56 w-full items-center gap-16 p-16"
+          className={customTwMerge(
+            'flex h-[50px] w-full items-center gap-16 text-left text-16 font-600',
+            className,
+          )}
         >
-          {content}
+          {children}
+          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
         </button>
       )}
     </>

@@ -1,34 +1,23 @@
-import EventImage1to2 from './images/event-1to2.png';
-import EventImage3 from './images/event-3.png';
-import EventImage4to5 from './images/event-4to5.png';
-import EventImage6 from './images/event-6.png';
-import EventImage7 from './images/event-7.png';
-import EventImage8 from './images/event-8.png';
-import EventImage9to10 from './images/event-9to10.png';
-import EventImage11to12 from './images/event-11to12.png';
-import EventImage13to14 from './images/event-13to14.png';
-
-import ReviewImage1of1 from './images/review-1-1.png';
-import ReviewImage1of2 from './images/review-1-2.png';
-import ReviewImage9 from './images/review-9.png';
-import ReviewImage10 from './images/review-10.png';
-import ReviewImage11 from './images/review-11.png';
-import ReviewImage12 from './images/review-12.png';
-import ReviewImage13 from './images/review-13.png';
-import ReviewImage14 from './images/review-14.png';
-
 export const STATIC_REVIEWS = [
   {
     id: 1,
     rating: 5,
     content:
       '핸디 버스 차 대절은 이번이 두번째인데 일반적인 고석버스와는 다른 크고 편안한 좌석과 기사님도 너무 친절하셨고 할인 이벤트도 쉽게 참여할 수 있는게 큰 장점이었어요 다음에도 또 이용할 생각입니다 💚',
-    reviewImages: [ReviewImage1of1, ReviewImage1of2],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-1-1.png',
+        status: 'ACTIVE' as const,
+      },
+      {
+        imageUrl: '/images/reviews/review-1-2.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-08-04',
     userNickname: '맠쿨럭',
     eventName: '2024 NCT 127 8th ANNIVERSARY FANMEETING <8ECRET INVITATION>',
     eventLocationName: '잠실실내체육관',
-    eventImage: EventImage1to2,
     eventArtists: ['NCT 127'],
   },
   {
@@ -41,7 +30,6 @@ export const STATIC_REVIEWS = [
     userNickname: '연승현',
     eventName: '2024 NCT 127 8th ANNIVERSARY FANMEETING <8ECRET INVITATION>',
     eventLocationName: '잠실실내체육관',
-    eventImage: EventImage1to2,
     eventArtists: ['NCT 127'],
   },
   {
@@ -53,7 +41,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'danaas2',
     eventName: "2024 RIIZE FAN-CON TOUR 'RIIZING DAY'",
     eventLocationName: '잠실실내체육관',
-    eventImage: EventImage3,
     eventArtists: ['RIIZE'],
   },
   {
@@ -66,7 +53,6 @@ export const STATIC_REVIEWS = [
     userNickname: '묘다',
     eventName: '2024 SVT 8TH FAN MEETING SEVENTEEN in CARAT LAND',
     eventLocationName: '고척스카이돔',
-    eventImage: EventImage4to5,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -79,7 +65,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'seungjin',
     eventName: '2024 SVT 8TH FAN MEETING SEVENTEEN in CARAT LAND',
     eventLocationName: '고척스카이돔',
-    eventImage: EventImage4to5,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -92,7 +77,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'tanily',
     eventName: 'SEVENTEEN [RIGHT HERE] WORLD TOUR IN GOYANG',
     eventLocationName: '고양종합운동장',
-    eventImage: EventImage6,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -105,7 +89,6 @@ export const STATIC_REVIEWS = [
     userNickname: '심진희',
     eventName: 'SEVENTEEN TOUR ‘FOLLOW’ AGAIN TO SEOUL',
     eventLocationName: '서울월드컵경기장',
-    eventImage: EventImage7,
     eventArtists: ['SEVENTEEN'],
   },
   {
@@ -118,7 +101,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'minjoo',
     eventName: '2024 NCT DREAM WORLD TOUR <THE DREAM SHOW 3>',
     eventLocationName: '고척스카이돔',
-    eventImage: EventImage8,
     eventArtists: ['NCT DREAM'],
   },
   {
@@ -126,24 +108,32 @@ export const STATIC_REVIEWS = [
     rating: 5,
     content:
       '지방럿 항상 가기 너무 힘든데 핸디버스 덕분에 너무 편하게 다녀왔어요!!',
-    reviewImages: [ReviewImage9],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-9.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-03-03',
     userNickname: 'heejin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 콘서트>',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage9to10,
     eventArtists: ['아이유'],
   },
   {
     id: 10,
     rating: 5,
     content: '아이유 콘서트 때 처음 이용해봤는데 너무 편하고 좋았어요!',
-    reviewImages: [ReviewImage10],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-10.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-03-10',
     userNickname: 'yongjin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 콘서트>',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage9to10,
     eventArtists: ['아이유'],
   },
   {
@@ -151,24 +141,32 @@ export const STATIC_REVIEWS = [
     rating: 5,
     content:
       '지방러들의 빛... 기사 분도 너무 친절하시고 총대 맡아주신 분도 너무 잘 설명해주셔서 편하게 다녀왔습니다 💛',
-    reviewImages: [ReviewImage11],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-11.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-02-23',
     userNickname: 'crealiy',
     eventName: 'ENHYPEN WORLD TOUR ‘FATE PLUS’ IN SEOUL',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage11to12,
     eventArtists: ['ENHYPEN'],
   },
   {
     id: 12,
     rating: 5,
     content: '다음에도 꼭 열어주세요!! 🥺',
-    reviewImages: [ReviewImage12],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-12.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-02-23',
     userNickname: 'beliveall',
     eventName: 'ENHYPEN WORLD TOUR ‘FATE PLUS’ IN SEOUL',
     eventLocationName: 'KSPO DOME',
-    eventImage: EventImage11to12,
     eventArtists: ['ENHYPEN'],
   },
   {
@@ -176,24 +174,32 @@ export const STATIC_REVIEWS = [
     rating: 5,
     content:
       '버스가 우등버스라 진짜 편했어요! 다음 콘서트 때도 이용할 생각입니당',
-    reviewImages: [ReviewImage13],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-13.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-09-21',
     userNickname: 'lilac',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 앵콜 콘서트>',
     eventLocationName: '서울월드컵경기장',
-    eventImage: EventImage13to14,
     eventArtists: ['아이유'],
   },
   {
     id: 14,
     rating: 5,
     content: '핸디버스 덕분에 집 앞에서 타고 왔어요! 너무 편하고 좋아요',
-    reviewImages: [ReviewImage14],
+    reviewImages: [
+      {
+        imageUrl: '/images/reviews/review-14.png',
+        status: 'ACTIVE' as const,
+      },
+    ],
     createdAt: '2024-09-22',
     userNickname: 'aimin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 앵콜 콘서트>',
     eventLocationName: '서울월드컵경기장',
-    eventImage: EventImage13to14,
     eventArtists: ['아이유'],
   },
 ];

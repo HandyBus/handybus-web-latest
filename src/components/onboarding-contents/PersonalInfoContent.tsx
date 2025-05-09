@@ -1,9 +1,9 @@
 'use client';
 
 import { useFormContext } from 'react-hook-form';
-import { OnboardingFormValues } from './onboarding.types';
+import { OnboardingFormValues } from './onboarding.type';
 import RadioButtons from '../buttons/radio-buttons/RadioButtons';
-import { ERROR_MESSAGES } from './formValidation.constants';
+import { ERROR_MESSAGES } from './formValidation.const';
 import OnboardingTitle from './OnboardingTitle';
 
 const GENDER_OPTIONS = ['여성', '남성'] as const;
@@ -25,7 +25,7 @@ const PersonalInfoContent = () => {
     <>
       <OnboardingTitle title="성별과 연령대를 알려주세요" />
       <div className="w-full px-28">
-        <div className="text-basic-grey-600 mb-16 text-16 font-500">
+        <div className="mb-16 text-16 font-500 text-basic-grey-600">
           성별을 선택해주세요
         </div>
         <RadioButtons
@@ -39,7 +39,7 @@ const PersonalInfoContent = () => {
         />
       </div>
       <div className="w-full px-28">
-        <div className="text-basic-grey-600 mb-16 text-16 font-500">
+        <div className="mb-16 text-16 font-500 text-basic-grey-600">
           연령대를 선택해주세요
         </div>
         <RadioButtons

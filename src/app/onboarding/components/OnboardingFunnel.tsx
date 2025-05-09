@@ -3,9 +3,9 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.types';
+import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.type';
 import { useRouter } from 'next/navigation';
-import { FORM_DEFAULT_VALUES } from '@/components/onboarding-contents/formValidation.constants';
+import { FORM_DEFAULT_VALUES } from '@/components/onboarding-contents/formValidation.const';
 import PersonalInfoStep from './steps/PersonalInfoStep';
 import { usePutUser } from '@/services/user.service';
 import { AgeRange, Gender, UpdateMeRequest } from '@/types/user.type';

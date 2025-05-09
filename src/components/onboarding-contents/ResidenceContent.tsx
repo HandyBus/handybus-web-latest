@@ -6,7 +6,7 @@ import {
   SMALL_REGIONS,
 } from '@/constants/regions';
 import { useEffect, useState } from 'react';
-import { OnboardingFormValues } from './onboarding.types';
+import { OnboardingFormValues } from './onboarding.type';
 import { useFormContext } from 'react-hook-form';
 import Select from '../select/Select';
 import OnboardingTitle from './OnboardingTitle';
@@ -49,7 +49,7 @@ const ResidenceContent = () => {
         description="해당 지역의 셔틀 정보를 먼저 알려드릴게요."
       />
       <div className="flex flex-col gap-16 p-28">
-        <div className="text-basic-grey-600 text-16 font-500">
+        <div className="text-16 font-500 text-basic-grey-600">
           거주 지역을 선택해주세요
         </div>
         <Select

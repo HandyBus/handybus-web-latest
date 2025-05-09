@@ -4,29 +4,18 @@ import EditForm from './components/EditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUser } from '@/services/user.service';
-import { useEffect, useState } from 'react';
 
+// NOTE: 현재 v2에서 profile 타입만 수정 가능. 추후 확장을 위해 다른 타입들을 유지.
 export type EditType = 'profile' | 'personal-info' | 'region' | 'artist';
 
-interface Props {
-  searchParams: { type: EditType | undefined };
-}
-
-const Edit = ({ searchParams }: Props) => {
+const Edit = () => {
   const { data: user, isLoading: isUserLoading } = useGetUser();
-  const [currentType, setCurrentType] = useState<EditType | undefined>(
-    searchParams.type,
-  );
 
-  useEffect(() => {
-    setCurrentType(searchParams.type);
-  }, [searchParams.type]);
-
-  const isLoading = isUserLoading || !currentType;
+  const isLoading = isUserLoading;
 
   return (
     <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-      {user && currentType && <EditForm type={currentType} user={user} />}
+      {user && <EditForm user={user} type="profile" />}
     </DeferredSuspense>
   );
 };
