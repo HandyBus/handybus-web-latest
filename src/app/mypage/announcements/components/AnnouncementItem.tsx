@@ -6,9 +6,10 @@ interface Props {
   date: string;
   read: boolean;
   href: string;
+  announcementId: number;
 }
 
-const NoticeItem = ({ title, date, read, href }: Props) => (
+const AnnouncementItem = ({ title, date, read, href }: Props) => (
   <Link
     href={href}
     className={`flex justify-between gap-[9px] py-12 group-hover:cursor-pointer`}
@@ -27,4 +28,4 @@ const NoticeItem = ({ title, date, read, href }: Props) => (
   </Link>
 );
 
-export default NoticeItem;
+export default AnnouncementItem;

@@ -2,9 +2,9 @@ import Article from '@/components/article/Article';
 import Link from 'next/link';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
-const NoticeBoard = () => {
+const AnnouncementPreview = () => {
   return (
-    <Article richTitle="공지사항" showMore="/notice">
+    <Article richTitle="공지사항" showMore="/announcements">
       <div className="flex flex-col">
         {mock_notice_data.map((v) => (
           <Link key={v.id} href={v.url} className="flex items-center py-12">
@@ -24,19 +24,19 @@ const NoticeBoard = () => {
   );
 };
 
-export default NoticeBoard;
+export default AnnouncementPreview;
 
 const mock_notice_data = [
   {
     id: 1,
     title: '[공지] 콜드플레이 지방 추가 노선 개설 안내',
     date: '2021.01.01',
-    url: '/notice/1',
+    url: '/announcements/1',
   },
   {
     id: 2,
     title: '[공지] 콜드플레이 지방 추가 노선 개설 안내',
     date: '2021.01.02',
-    url: '/notice/2',
+    url: '/announcements/2',
   },
 ];

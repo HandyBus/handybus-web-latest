@@ -1,10 +1,10 @@
 import Header from '@/components/header/Header';
-import NoticeList from './components/NoticeList';
+import AnnouncementList from './components/AnnouncementList';
 
 const Page = () => (
   <main className="bg-gray-50 min-h-screen">
     <Header />
-    <NoticeList />
+    <AnnouncementList />
   </main>
 );
 
