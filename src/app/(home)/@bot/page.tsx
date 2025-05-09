@@ -8,6 +8,7 @@ const Page = () => (
     <Help />
     <Divider />
     <NoticeBoard />
+    <Divider />
     <PromotionReview />
   </>
 );

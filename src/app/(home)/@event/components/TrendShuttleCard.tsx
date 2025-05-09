@@ -1,8 +1,8 @@
 'use client';
 
-import Article from '@/components/article/Article';
 import EventsSwiperView from './EventsSwiperView';
 import { useGetEvents } from '@/services/event.service';
+import CardSection from './CardSection';
 
 const TrendShuttleCard = () => {
   const { data: popularEvents } = useGetEvents({
@@ -19,16 +19,16 @@ const TrendShuttleCard = () => {
 
   return (
     <section>
-      <Article
+      <CardSection
         richTitle="실시간 인기 셔틀"
-        titleClassName="text-20 leading-[140%]"
+        titleClassName="text-20 leading-[140%] py-0"
       >
         {popularEvents ? (
           <EventsSwiperView events={slicedEvents} type="TREND" />
         ) : (
           <EmptyView />
         )}
-      </Article>
+      </CardSection>
     </section>
   );
 };

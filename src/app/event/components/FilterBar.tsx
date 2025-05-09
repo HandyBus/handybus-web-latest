@@ -14,7 +14,7 @@ interface FilterBarProps {
 
 const FilterBar = ({ type, sort, onSort }: FilterBarProps) => {
   return (
-    <div className="sticky top-[48px] z-40 bg-basic-white shadow-sm">
+    <div className="sticky top-[48px] z-40 bg-basic-white">
       <div className="flex w-full justify-between px-16 pb-16 pt-12">
         <div className="flex gap-8">
           <Chip onClick={() => {}} isSelected={type === 'CONCERT'}>

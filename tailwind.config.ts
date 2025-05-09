@@ -28,6 +28,14 @@ const hideScrollbar = plugin(function ({ addUtilities }) {
   });
 });
 
+const textShadowPlugin = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.text-shadow-order': {
+      textShadow: '0 4px 4px rgba(0,0,0,0.4)',
+    },
+  });
+});
+
 const config: Config = {
   content: [
     './src/mdx-components.tsx',
@@ -120,6 +128,7 @@ const config: Config = {
     },
     fontFamily: {
       sans: ['Pretendard', 'Arial'],
+      dmSans: ['DMSans', 'Arial'],
     },
     borderRadius: {
       4: '4px',
@@ -138,7 +147,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [hideScrollbar],
+  plugins: [hideScrollbar, textShadowPlugin],
 };
 export default config;
 

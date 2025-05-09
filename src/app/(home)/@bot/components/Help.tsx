@@ -17,7 +17,7 @@ const Help = () => {
             <div className="flex h-24 w-24 items-center justify-center rounded-8 bg-basic-grey-100 text-14 font-600 leading-[90%] text-basic-grey-600">
               {v.id}
             </div>
-            <p className="text-14 font-600 leading-[160%] text-basic-grey-700">
+            <p className="text-16 font-600 leading-[160%] text-basic-grey-700">
               {v.title}
             </p>
             <ChevronRightEm className="ml-auto h-24 w-24 stroke-1 text-basic-grey-400" />

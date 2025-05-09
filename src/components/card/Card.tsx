@@ -88,30 +88,31 @@ const LargeCard = ({
         src={image || '/images/default-event.png'}
         alt="card"
         fill
-        className={`rounded-[14px] object-cover`}
+        className={`rounded-[13px] object-cover`}
       />
       {order && (
-        <div className="absolute left-0 right-0 flex h-[50px] w-[43px] items-center  justify-center rounded-br-12 rounded-tl-12 bg-[#00C896CC] text-20 font-700 leading-[140%] text-basic-white">
+        <div className="fixed left-0 right-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order">
           {order}
         </div>
       )}
-      <div className="absolute bottom-0 left-0 right-0 h-108 w-full break-words rounded-b-12  bg-[#181F29] bg-opacity-60 p-16 ">
-        <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
-          {title}
-        </p>
-        <div className="mt-[2px] flex items-center gap-4">
-          <p
-            className={`text-16 font-600 leading-[140%] ${
-              isSaleStarted ? 'text-basic-white' : 'text-basic-grey-300'
-            }`}
-          >
-            {isSaleStarted ? price : '판매대기'}
-          </p>
+      <div className="absolute bottom-0 left-0 right-0 flex h-136 w-full flex-col justify-end break-words rounded-b-12 bg-opacity-60 p-16 ">
+        <div className="flex items-center pb-[6px]">
           {!isSaleStarted && (
             <Badge className={`${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
               수요조사 진행 중
             </Badge>
           )}
+        </div>
+        <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
+          {title}
+        </p>
+        <div className="mt-[2px] flex items-center gap-4">
+          <p
+            className={`text-16 font-600 leading-[140%] 
+            text-basic-white`}
+          >
+            {isSaleStarted ? price : '판매대기'}
+          </p>
         </div>
       </div>
     </Link>
@@ -135,7 +136,7 @@ const MediumCard = ({
           src={image || '/images/default-event.png'}
           alt="card"
           fill
-          className={`rounded-8 object-cover`}
+          className={`rounded-[7px] object-cover`}
         />
       </div>
       <div className="py-12 pl-4 pr-12">
@@ -180,7 +181,7 @@ const SmallCard = ({
           src={image || '/images/default-event.png'}
           alt="card"
           fill
-          className={`rounded-8 object-cover`}
+          className={`rounded-[7px] object-cover`}
         />
       </div>
       <div>

@@ -25,10 +25,12 @@ const EventsSwiperView = ({ events, type }: Props) => {
           pagination={true}
           slidesPerView="auto"
           navigation={true}
-          className="relative w-full"
+          loop={true}
+          centeredSlides={true}
+          className="relative w-[446px]"
         >
           {events?.map((v, idx) => (
-            <SwiperSlide key={v.eventId} style={{ width: 'fit-content' }}>
+            <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
               <div className="pr-[6px]">
                 <Card
                   variant={type === 'TREND' ? 'LARGE' : 'MEDIUM'}
@@ -45,7 +47,7 @@ const EventsSwiperView = ({ events, type }: Props) => {
             </SwiperSlide>
           ))}
           {type === 'RECOMMEND' && (
-            <SwiperSlide style={{ width: 'fit-content' }}>
+            <SwiperSlide style={{ width: 'auto' }}>
               <Link
                 href="/event"
                 className="group flex h-[300px] w-92 cursor-pointer flex-col items-center gap-[8px] pr-[6px]

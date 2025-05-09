@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
+import '@/app/fonts/dm-sans/font.css';
 import Provider from '@/components/Provider';
 import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
