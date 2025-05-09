@@ -22,7 +22,7 @@ const Settings = () => {
         <ListButton href="/help/faq" hideArrow>
           도움말
         </ListButton>
-        <ListButton href="/mypage/notice-board" hideArrow>
+        <ListButton href="/mypage/announcements" hideArrow>
           공지사항
         </ListButton>
         <ListButton href="/mypage/settings" hideArrow>
