@@ -65,7 +65,7 @@ export const getUserDemands = async (
 };
 
 export const useGetUserDemandsWithPagination = (
-  params: PaginationParams<GetUserDemandsParams>,
+  params?: PaginationParams<GetUserDemandsParams>,
 ) =>
   useInfiniteQuery({
     queryKey: ['user', 'demand', params],

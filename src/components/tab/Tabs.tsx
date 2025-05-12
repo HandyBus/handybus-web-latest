@@ -7,11 +7,17 @@ interface Props<T> {
   items: TabItem<T>[];
   selected: T;
   onSelect?: (value: T) => void;
+  className?: string;
 }
 
-const Tabs = <T,>({ items, selected, onSelect }: Props<T>) => {
+const Tabs = <T,>({ items, selected, onSelect, className }: Props<T>) => {
   return (
-    <div className="relative flex w-full flex-row overflow-x-scroll scrollbar-hidden">
+    <div
+      className={customTwMerge(
+        'relative flex w-full flex-row overflow-x-scroll bg-basic-white scrollbar-hidden',
+        className,
+      )}
+    >
       {items.flatMap((v) => (
         <Tab
           key={v.label}
