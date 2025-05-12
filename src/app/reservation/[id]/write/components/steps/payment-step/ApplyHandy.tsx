@@ -4,8 +4,10 @@ import { ReservationFormValues } from '../../Form';
 import HandyRequestModal from '@/components/modals/handy-request/HandyRequestModal';
 import { useState } from 'react';
 import CheckIcon from 'public/icons/check.svg';
+import { useGetUser } from '@/services/user.service';
 
 const ApplyHandy = () => {
+  const { data: user } = useGetUser();
   const { control, getValues } = useFormContext<ReservationFormValues>();
   const [isHandyRequestModalOpen, setIsHandyRequestModalOpen] = useState(false);
   const isRoundTrip = getValues('type') === 'ROUND_TRIP';
@@ -36,7 +38,8 @@ const ApplyHandy = () => {
                       </p>
                     </div>
                     <p className="text-12 font-600 leading-[160%]">
-                      수줍은찹쌀떡님, 지원해 주셔서 감사합니다. <br />
+                      {`${user?.nickname ? user?.nickname + '님, ' : ''}`}
+                      지원해 주셔서 감사합니다. <br />
                       확정 여부는 공연전 평균 8일 내에 알려드려요. <br />
                       핸디로 선정되면 지원금을 받으실 수 있어요.
                     </p>
