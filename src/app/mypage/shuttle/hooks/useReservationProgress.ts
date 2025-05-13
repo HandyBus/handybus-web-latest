@@ -4,7 +4,7 @@ import { ShuttleBusesViewEntity } from '@/types/shuttleBus.type';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-export type ReservationCardStatus =
+export type ReservationProgress =
   | 'beforeBusAssigned'
   | 'afterBusAssigned'
   | 'shuttleEnded'
@@ -16,8 +16,12 @@ interface Props {
   shuttleBus: ShuttleBusesViewEntity | null | undefined;
 }
 
-const useStatus = ({ reservation, dailyEvent, shuttleBus }: Props) => {
-  const reservationCardStatus: ReservationCardStatus = useMemo(() => {
+const useReservationProgress = ({
+  reservation,
+  dailyEvent,
+  shuttleBus,
+}: Props) => {
+  const reservationProgress: ReservationProgress = useMemo(() => {
     const isBusAssigned = !!reservation.shuttleBusId;
     const isShuttleEnded =
       reservation.shuttleRoute.status === 'ENDED' ||
@@ -50,7 +54,7 @@ const useStatus = ({ reservation, dailyEvent, shuttleBus }: Props) => {
   );
 
   return {
-    reservationCardStatus,
+    reservationProgress,
     handyStatus,
     isOpenChatLinkCreated,
     hasReview,
@@ -58,4 +62,4 @@ const useStatus = ({ reservation, dailyEvent, shuttleBus }: Props) => {
   };
 };
 
-export default useStatus;
+export default useReservationProgress;

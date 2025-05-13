@@ -3,7 +3,7 @@
 import { dateString } from '@/utils/dateString.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useGetShuttleBus } from '@/services/shuttleBus.service';
-import useStatus from './hooks/useStatus';
+import useReservationProgress from '../../../hooks/useReservationProgress';
 import useTextAndStyle from './hooks/useTextAndStyle';
 import useEventText from './hooks/useEventText';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
@@ -41,19 +41,19 @@ const ReservationCard = ({ reservation }: Props) => {
     : '0';
 
   const {
-    reservationCardStatus,
+    reservationProgress,
     handyStatus,
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
     hasReview,
-  } = useStatus({
+  } = useReservationProgress({
     reservation,
     dailyEvent,
     shuttleBus,
   });
 
   const textAndStyle = useTextAndStyle({
-    reservationCardStatus,
+    reservationProgress,
     handyStatus,
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
@@ -67,7 +67,7 @@ const ReservationCard = ({ reservation }: Props) => {
     });
 
   return (
-    <Link href={`/mypage/shuttle/reservation/${reservation.reservationId}`}>
+    <Link href={`/mypage/shuttle/${reservation.reservationId}`}>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex h-32 items-center justify-between">
@@ -77,8 +77,8 @@ const ReservationCard = ({ reservation }: Props) => {
               >
                 {textAndStyle?.title.text}
               </h5>
-              {reservationCardStatus !== 'reservationCanceled' &&
-                reservationCardStatus !== 'shuttleEnded' && (
+              {reservationProgress !== 'reservationCanceled' &&
+                reservationProgress !== 'shuttleEnded' && (
                   <>
                     <HandyBadge handyStatus={handyStatus} />
                     <ShuttleBusBadge shuttleBus={shuttleBus} />
@@ -86,7 +86,7 @@ const ReservationCard = ({ reservation }: Props) => {
                 )}
             </div>
             <ChatButton
-              reservationCardStatus={reservationCardStatus}
+              reservationProgress={reservationProgress}
               handyStatus={handyStatus}
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               isWritingReviewPeriod={isWritingReviewPeriod}

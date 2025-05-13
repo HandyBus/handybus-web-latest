@@ -1,11 +1,11 @@
 import Button from '@/components/buttons/button/Button';
 import { HandyStatus } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
-import { ReservationCardStatus } from './reservation-card/hooks/useStatus';
+import { ReservationProgress } from '../../hooks/useReservationProgress';
 import { SyntheticEvent } from 'react';
 
 interface Props {
-  reservationCardStatus: ReservationCardStatus;
+  reservationProgress: ReservationProgress;
   handyStatus: HandyStatus;
   isOpenChatLinkCreated: boolean;
   isWritingReviewPeriod: boolean;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ChatButton = ({
-  reservationCardStatus,
+  reservationProgress,
   handyStatus,
   isOpenChatLinkCreated,
   isWritingReviewPeriod,
@@ -32,7 +32,7 @@ const ChatButton = ({
     };
   };
 
-  switch (reservationCardStatus) {
+  switch (reservationProgress) {
     case 'beforeBusAssigned':
       if (handyStatus === 'ACCEPTED') {
         return (
