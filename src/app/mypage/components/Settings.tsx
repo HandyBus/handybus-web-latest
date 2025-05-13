@@ -7,7 +7,7 @@ const Settings = () => {
     <div className="flex flex-col gap-[18px] px-16">
       <section>
         <h3 className="pb-8 text-14 font-600 text-basic-grey-500">서비스</h3>
-        <ListButton href="/mypage/seat-alarm">빈자리 알림</ListButton>
+        <ListButton href="/mypage/alert-requests">빈자리 알림</ListButton>
         <ListButton href="/mypage/coupons">쿠폰</ListButton>
       </section>
       <section>
