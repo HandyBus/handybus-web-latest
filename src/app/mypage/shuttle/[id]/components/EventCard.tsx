@@ -16,6 +16,7 @@ const EventCard = ({ event }: Props) => {
   return (
     <Link
       href={`/event/${event.eventId}`}
+      target="_blank"
       className="mb-24 flex h-[70px] shrink-0 gap-12 px-16"
     >
       <div className="relative h-full w-52 shrink-0 overflow-hidden rounded-4">
