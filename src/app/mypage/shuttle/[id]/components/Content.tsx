@@ -5,13 +5,18 @@ import { ReservationsViewEntity } from '@/types/reservation.type';
 import { ShuttleBusesViewEntity } from '@/types/shuttleBus.type';
 import EventCard from './EventCard';
 import ShuttleProgressSection from './sections/shuttle-progress-section/ShuttleProgressSection';
-import useReservationProgress from '../../hooks/useReservationProgress';
+import useReservationProgress, {
+  ReservationProgress,
+} from '../../hooks/useReservationProgress';
 import ShuttleInfoSection from './sections/shuttle-info-section/ShuttleInfoSection';
 import ReservationPersonInfoSection from './sections/ReservationPersonInfoSection';
 import HandySection from './sections/HandySection';
 import PriceSection from './sections/price-section/PriceSection';
 import GuidelineSection from './sections/GuidelineSection';
-import RefundSection from './sections/RefundSection';
+import RefundSection from './sections/refund-section/RefundSection';
+import PrimaryCheckIcon from '../icons/icon-check-primary.svg';
+import GreyCheckIcon from '../icons/icon-check-grey.svg';
+import WrapperWithDivider from './WrapperWithDiverder';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -49,43 +54,52 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
       dailyEvent,
       shuttleBus,
     });
+  const isCanceled = reservationProgress === 'reservationCanceled';
 
   return (
     <main className="grow pb-16">
-      <h1 className="flex items-center gap-[6px] px-16 pb-24 pt-12 text-22 font-700">
-        예약 완료
-      </h1>
+      <Title progress={reservationProgress} />
       <EventCard event={event} />
       <ul className="flex flex-col gap-24">
-        <Divider />
-        <ShuttleProgressSection
-          reservationProgress={reservationProgress}
-          isOpenChatLinkCreated={isOpenChatLinkCreated}
-          handyStatus={handyStatus}
-          shuttleBus={shuttleBus}
-        />
-        <Divider />
-        <ShuttleInfoSection
-          tripType={reservation.type}
-          toDestinationHub={toDestinationHub}
-          fromDestinationHub={fromDestinationHub}
-          shuttleRoute={shuttleRoute}
-          passengerCount={reservation.passengerCount}
-        />
-        <Divider />
-        <ReservationPersonInfoSection
-          nickname={reservation.userNickname}
-          phoneNumber={reservation.userPhoneNumber}
-        />
-        <Divider />
-        <HandySection handyStatus={handyStatus} />
-        <Divider />
-        <PriceSection
-          payment={payment}
-          passengerCount={reservation.passengerCount}
-        />
+        {!isCanceled && (
+          <WrapperWithDivider>
+            <ShuttleProgressSection
+              reservationProgress={reservationProgress}
+              isOpenChatLinkCreated={isOpenChatLinkCreated}
+              handyStatus={handyStatus}
+              shuttleBus={shuttleBus}
+            />
+          </WrapperWithDivider>
+        )}
+        <WrapperWithDivider>
+          <ShuttleInfoSection
+            tripType={reservation.type}
+            toDestinationHub={toDestinationHub}
+            fromDestinationHub={fromDestinationHub}
+            shuttleRoute={shuttleRoute}
+            passengerCount={reservation.passengerCount}
+          />
+        </WrapperWithDivider>
+        <WrapperWithDivider>
+          <ReservationPersonInfoSection
+            nickname={reservation.userNickname}
+            phoneNumber={reservation.userPhoneNumber}
+          />
+        </WrapperWithDivider>
+        {!isCanceled && (
+          <WrapperWithDivider>
+            <HandySection handyStatus={handyStatus} />
+          </WrapperWithDivider>
+        )}
+        <WrapperWithDivider>
+          <PriceSection
+            payment={payment}
+            passengerCount={reservation.passengerCount}
+            isCanceled={isCanceled}
+          />
+        </WrapperWithDivider>
         <GuidelineSection />
-        <RefundSection />
+        <RefundSection isCanceled={isCanceled} reservation={reservation} />
       </ul>
     </main>
   );
@@ -93,6 +107,30 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
 
 export default Content;
 
-const Divider = () => {
-  return <div className="h-8 w-full bg-basic-grey-50" />;
+interface TitleProps {
+  progress: ReservationProgress;
+}
+
+const Title = ({ progress }: TitleProps) => {
+  if (progress === 'reservationCanceled') {
+    return (
+      <h1 className="flex items-center gap-[6px] px-16 pb-24 pt-12 text-22 font-700 text-basic-red-400">
+        예약 취소
+      </h1>
+    );
+  }
+  if (progress === 'shuttleEnded') {
+    return (
+      <h1 className="flex items-center gap-[6px] px-16 pb-24 pt-12 text-22 font-700">
+        <GreyCheckIcon />
+        <span>셔틀 종료</span>
+      </h1>
+    );
+  }
+  return (
+    <h1 className="flex items-center gap-[6px] px-16 pb-24 pt-12 text-22 font-700">
+      <PrimaryCheckIcon />
+      <span>예약 완료</span>
+    </h1>
+  );
 };

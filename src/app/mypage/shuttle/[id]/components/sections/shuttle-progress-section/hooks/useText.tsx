@@ -59,7 +59,7 @@ const useText = ({
     } else if (reservationProgress === 'shuttleEnded') {
       return '종료된 셔틀이에요.';
     }
-    return '채팅방 입장';
+    return '';
   }, [reservationProgress, isOpenChatLinkCreated, isHandy]);
 
   return { progressText, descriptionText };

@@ -35,7 +35,15 @@ const ShuttleProgressSection = ({
       <div className="pb-16">
         <h4 className="flex items-center justify-between pb-12 text-16 font-600">
           <div className="flex items-center gap-8">
-            <span>{progressText}</span>
+            <span
+              className={
+                reservationProgress === 'shuttleEnded'
+                  ? 'text-basic-grey-500'
+                  : ''
+              }
+            >
+              {progressText}
+            </span>
             {shuttleBusNumber && (
               <div className="rounded-full border border-basic-grey-200 px-8 py-4 text-10 font-600 text-basic-grey-700">
                 {shuttleBusNumber}

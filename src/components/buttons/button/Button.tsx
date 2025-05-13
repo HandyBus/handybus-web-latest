@@ -78,7 +78,7 @@ const VARIANT_STYLE = {
   'p-destructive':
     'bg-basic-red-400 text-basic-white active:bg-basic-red-500 disabled:bg-basic-red-200',
   's-destructive':
-    'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200 disabled:text-basic-red-300',
+    'bg-basic-red-100 text-basic-red-500 active:bg-basic-red-200 disabled:text-basic-grey-300 disabled:bg-basic-grey-50',
   text: 'bg-transparent text-basic-grey-700 active:text-basic-grey-600 disabled:text-basic-grey-300',
   custom: '',
 };
