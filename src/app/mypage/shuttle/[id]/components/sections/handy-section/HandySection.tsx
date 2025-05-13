@@ -5,11 +5,12 @@ import CancelHandyApplyModal from './components/CancelHandyApplyModal';
 import { useRouter } from 'next/navigation';
 
 interface Props {
+  isCanceled: boolean;
   handyStatus: HandyStatus;
   reservationId: string;
 }
 
-const HandySection = ({ handyStatus, reservationId }: Props) => {
+const HandySection = ({ isCanceled, handyStatus, reservationId }: Props) => {
   const historyText =
     handyStatus === 'NOT_SUPPORTED' ? '지원 안함' : '지원 완료';
   const statusText =
@@ -31,7 +32,7 @@ const HandySection = ({ handyStatus, reservationId }: Props) => {
       <section className="px-16">
         <h3 className="flex items-center justify-between pb-16 text-16 font-600">
           <span>핸디 지원 내역</span>
-          {handyStatus === 'SUPPORTED' && (
+          {!isCanceled && handyStatus === 'SUPPORTED' && (
             <Button
               type="button"
               variant="tertiary"
@@ -41,7 +42,7 @@ const HandySection = ({ handyStatus, reservationId }: Props) => {
               지원 취소
             </Button>
           )}
-          {handyStatus === 'ACCEPTED' && (
+          {!isCanceled && handyStatus === 'ACCEPTED' && (
             <Button
               type="button"
               variant="secondary"
@@ -54,8 +55,10 @@ const HandySection = ({ handyStatus, reservationId }: Props) => {
         </h3>
         <div className="grid grid-cols-[72px_1fr] gap-x-16 gap-y-8 text-14 font-600">
           <h5>지역 내역</h5>
-          <p>{historyText}</p>
-          {handyStatus !== 'NOT_SUPPORTED' && (
+          <p className={isCanceled ? 'text-basic-grey-400' : ''}>
+            {historyText}
+          </p>
+          {!isCanceled && handyStatus !== 'NOT_SUPPORTED' && (
             <>
               <h5>상태</h5>
               <p
@@ -65,6 +68,12 @@ const HandySection = ({ handyStatus, reservationId }: Props) => {
               >
                 {statusText}
               </p>
+            </>
+          )}
+          {isCanceled && (
+            <>
+              <h5>상태</h5>
+              <p className="bg-basic-grey-400">-</p>
             </>
           )}
         </div>

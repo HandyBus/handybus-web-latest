@@ -16,7 +16,7 @@ import GuidelineSection from './sections/GuidelineSection';
 import RefundSection from './sections/refund-section/RefundSection';
 import PrimaryCheckIcon from '../icons/icon-check-primary.svg';
 import GreyCheckIcon from '../icons/icon-check-grey.svg';
-import WrapperWithDivider from './WrapperWithDiverder';
+import WrapperWithDivider from './WrapperWithDivider';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -87,14 +87,13 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
-        {!isCanceled && (
-          <WrapperWithDivider>
-            <HandySection
-              handyStatus={handyStatus}
-              reservationId={reservation.reservationId}
-            />
-          </WrapperWithDivider>
-        )}
+        <WrapperWithDivider>
+          <HandySection
+            isCanceled={isCanceled}
+            handyStatus={handyStatus}
+            reservationId={reservation.reservationId}
+          />
+        </WrapperWithDivider>
         <WrapperWithDivider>
           <PriceSection
             payment={payment}
