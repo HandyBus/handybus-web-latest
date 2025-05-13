@@ -3,6 +3,7 @@ import {
   RefundRequestsInPaymentsViewEntity,
 } from '@/types/payment.type';
 import ArrowDownwardTipRightIcon from '../icons/arrow-downward-tip-right.svg';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   payment: PaymentsViewEntity;
@@ -13,6 +14,13 @@ const RefundPriceContent = ({ payment, refundRequest }: Props) => {
   const paymentAmount = payment.paymentAmount;
   const refundAmount = refundRequest.refundAmount;
   const refundFee = paymentAmount - refundAmount;
+
+  const refundAcceptedAt = dateString(refundRequest.refundAt, {
+    showYear: true,
+    showDate: true,
+    showWeekday: false,
+    showTime: true,
+  });
 
   return (
     <div className="flex flex-col gap-8">
@@ -36,6 +44,12 @@ const RefundPriceContent = ({ payment, refundRequest }: Props) => {
         <span className="text-14 font-600">환불 총액</span>
         <span className="text-14 font-600 text-basic-red-400">
           {refundAmount.toLocaleString()}원
+        </span>
+      </li>
+      <li className="flex h-[22px] w-full items-center justify-between">
+        <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
+          <ArrowDownwardTipRightIcon />
+          결제 일시 | {refundAcceptedAt}
         </span>
       </li>
     </div>
