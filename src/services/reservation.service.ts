@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { authInstance } from './config';
 import { CustomError } from './custom-error';
-import { toast } from 'react-toastify';
 import {
   ReservationStatus,
   ReservationsViewEntitySchema,
@@ -57,7 +56,7 @@ export const useGetUserReservation = (reservationId: string) =>
 
 // ----- POST -----
 
-const postUpdateReservation = async (
+export const postUpdateReservation = async (
   reservationId: string,
   body?: {
     toDestinationShuttleRouteHubId?: string;
@@ -92,12 +91,10 @@ export const usePostUpdateReservation = (
       await queryClient.invalidateQueries({
         queryKey: ['user', 'reservation', reservationId],
       });
-      toast.success('탑승지를 변경했어요.');
       onSuccess?.();
     },
     onError: (e) => {
       const error = e as CustomError;
-      toast.error('탑승지를 변경하지 못했어요.');
       onError?.(error);
     },
   });

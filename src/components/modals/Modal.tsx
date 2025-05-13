@@ -13,10 +13,11 @@ interface Button {
 }
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   isOpen: boolean;
   closeModal: () => void;
   title?: ReactNode;
+  description?: ReactNode;
   primaryButton?: Button;
   secondaryButton?: Button;
 }
@@ -25,6 +26,7 @@ const Modal = ({
   children,
   isOpen,
   title,
+  description,
   closeModal,
   primaryButton,
   secondaryButton,
@@ -42,10 +44,13 @@ const Modal = ({
           onClick={(e) => e.stopPropagation()}
           className="absolute left-1/2 top-1/2 w-[327px] -translate-x-1/2 -translate-y-1/2 rounded-16 bg-basic-white pb-16"
         >
-          {title && (
-            <h2 className="px-24 pb-12 pt-24 text-16 font-600">{title}</h2>
+          {title && <h2 className="px-24 pt-24 text-16 font-600">{title}</h2>}
+          {description && (
+            <p className="px-24 pt-4 text-16 font-500 text-basic-grey-600">
+              {description}
+            </p>
           )}
-          <div className="px-24">{children}</div>
+          {children && <div className="px-24 pt-12">{children}</div>}
           {(secondaryButton || primaryButton) && (
             <div className="flex w-full gap-8 p-16 pb-0">
               {secondaryButton && (

@@ -27,7 +27,7 @@ const useTextAndStyle = ({
         },
       };
       if (handyStatus === 'ACCEPTED') {
-        textAndClassName.title.text =
+        textAndClassName.description.text =
           '선정을 축하드려요! 가이드를 통해 핸디 역할을 확인해 보세요.';
       }
       return textAndClassName;
@@ -43,10 +43,10 @@ const useTextAndStyle = ({
       };
       if (handyStatus === 'ACCEPTED') {
         if (isOpenChatLinkCreated) {
-          textAndClassName.title.text =
+          textAndClassName.description.text =
             '탑승 전까지 팬들과 함께 채팅방에서 소통해 보세요!';
         } else {
-          textAndClassName.title.text =
+          textAndClassName.description.text =
             '배차가 완료되었어요. 그룹채팅방을 열고 링크를 추가해 주세요.';
         }
       }

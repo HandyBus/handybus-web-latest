@@ -30,6 +30,7 @@ const SubmitOpenChatLinkModal = ({
     {
       onSuccess: () => {
         toast.success('오픈채팅방 링크가 제출되었어요.');
+        closeModal();
         router.refresh();
       },
       onError: (error: CustomError) => {
