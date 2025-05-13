@@ -67,15 +67,11 @@ const TripCard = ({
         <div className="flex w-full flex-col gap-24">
           {tripType === 'TO_DESTINATION' && (
             <>
-              <HubItem
-                date={formattedDate}
-                time={formattedTime}
-                name={hub.name}
-              />
+              <HubItem date={formattedDate} time={formattedTime} hub={hub} />
               <HubItem
                 date={formattedDestinationDate}
                 time={formattedDestinationTime}
-                name={destinationHub.name}
+                hub={destinationHub}
               />
             </>
           )}
@@ -84,13 +80,9 @@ const TripCard = ({
               <HubItem
                 date={formattedDestinationDate}
                 time={formattedDestinationTime}
-                name={destinationHub.name}
+                hub={destinationHub}
               />
-              <HubItem
-                date={formattedDate}
-                time={formattedTime}
-                name={hub.name}
-              />
+              <HubItem date={formattedDate} time={formattedTime} hub={hub} />
             </>
           )}
         </div>
