@@ -27,7 +27,7 @@ const RefundPriceContent = ({ payment, refundRequest }: Props) => {
           <ArrowDownwardTipRightIcon />
           취소 수수료
         </span>
-        <span className="text-14 font-400 text-basic-grey-500">
+        <span className="text-14 font-400 text-basic-red-300">
           {refundFee.toLocaleString()}원
         </span>
       </li>
