@@ -1,10 +1,12 @@
+import { ReservationProgress } from '@/app/mypage/shuttle/hooks/useReservationProgress';
 import Button from '@/components/buttons/button/Button';
-import { HandyStatus } from '@/types/reservation.type';
+import { HandyStatus, ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
-import { ReservationProgress } from '../../hooks/useReservationProgress';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useState } from 'react';
+import SubmitOpenChatLinkModal from './SubmitOpenChatLinkModal';
 
 interface Props {
+  reservation: ReservationsViewEntity;
   reservationProgress: ReservationProgress;
   handyStatus: HandyStatus;
   isOpenChatLinkCreated: boolean;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 const ChatButton = ({
+  reservation,
   reservationProgress,
   handyStatus,
   isOpenChatLinkCreated,
@@ -32,6 +35,19 @@ const ChatButton = ({
     };
   };
 
+  const [isOpenChatLinkModalOpen, setIsOpenChatLinkModalOpen] = useState(false);
+  const openOpenChatLinkModal = () => {
+    setIsOpenChatLinkModalOpen(true);
+  };
+  const closeOpenChatLinkModal = () => {
+    setIsOpenChatLinkModalOpen(false);
+  };
+  const openOpenChatLink = (openChatLink: string | null | undefined) => {
+    if (openChatLink) {
+      window.open(openChatLink, '_blank', 'noreferrer');
+    }
+  };
+
   switch (reservationProgress) {
     case 'beforeBusAssigned':
       if (handyStatus === 'ACCEPTED') {
@@ -39,9 +55,9 @@ const ChatButton = ({
           <Button
             variant="primary"
             size="small"
-            onClick={() => {
+            onClick={handleClickAndStopPropagation(() => {
               router.push('help/what-is-handy');
-            }}
+            })}
           >
             가이드
           </Button>
@@ -59,9 +75,9 @@ const ChatButton = ({
             <Button
               variant="secondary"
               size="small"
-              onClick={() => {
+              onClick={handleClickAndStopPropagation(() => {
                 router.push('help/what-is-handy');
-              }}
+              })}
             >
               가이드
             </Button>
@@ -69,21 +85,36 @@ const ChatButton = ({
               variant="primary"
               size="small"
               onClick={handleClickAndStopPropagation(() => {
-                if (openChatLink) {
-                  window.open(openChatLink, '_blank', 'noreferrer');
-                }
+                openOpenChatLinkModal();
               })}
             >
-              채팅방
+              링크 추가
             </Button>
+            <SubmitOpenChatLinkModal
+              reservation={reservation}
+              isOpen={isOpenChatLinkModalOpen}
+              closeModal={closeOpenChatLinkModal}
+            />
           </div>
         );
       } else if (handyStatus === 'ACCEPTED' && isOpenChatLinkCreated) {
         <div className="flex items-center gap-8">
-          <Button variant="secondary" size="small">
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={handleClickAndStopPropagation(() => {
+              router.push('help/what-is-handy');
+            })}
+          >
             가이드
           </Button>
-          <Button variant="primary" size="small">
+          <Button
+            variant="primary"
+            size="small"
+            onClick={handleClickAndStopPropagation(() => {
+              openOpenChatLink(openChatLink);
+            })}
+          >
             채팅방
           </Button>
         </div>;
@@ -93,6 +124,9 @@ const ChatButton = ({
           variant="primary"
           size="small"
           disabled={!isOpenChatLinkCreated}
+          onClick={handleClickAndStopPropagation(() => {
+            openOpenChatLink(openChatLink);
+          })}
         >
           채팅 입장
         </Button>

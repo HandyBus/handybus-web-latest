@@ -8,9 +8,9 @@ import useTextAndStyle from './hooks/useTextAndStyle';
 import useEventText from './hooks/useEventText';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
 import Link from 'next/link';
-import HandyBadge from '../HandyBadge';
-import ShuttleBusBadge from '../ShuttleBusBadge';
-import ChatButton from '../ChatButton';
+import HandyBadge from './components/HandyBadge';
+import ShuttleBusBadge from './components/ShuttleBusBadge';
+import ChatButton from './components/ChatButton';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -86,6 +86,7 @@ const ReservationCard = ({ reservation }: Props) => {
                 )}
             </div>
             <ChatButton
+              reservation={reservation}
               reservationProgress={reservationProgress}
               handyStatus={handyStatus}
               isOpenChatLinkCreated={isOpenChatLinkCreated}

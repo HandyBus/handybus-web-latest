@@ -64,6 +64,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         {!isCanceled && (
           <WrapperWithDivider>
             <ShuttleProgressSection
+              reservation={reservation}
               reservationProgress={reservationProgress}
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               handyStatus={handyStatus}

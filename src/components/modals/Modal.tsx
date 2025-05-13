@@ -9,6 +9,7 @@ interface Button {
   text: string;
   variant: ButtonVariant;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 interface Props {
@@ -51,6 +52,7 @@ const Modal = ({
                 <Button
                   variant={secondaryButton.variant}
                   onClick={secondaryButton.onClick}
+                  disabled={secondaryButton.disabled}
                 >
                   {secondaryButton.text}
                 </Button>
@@ -59,6 +61,7 @@ const Modal = ({
                 <Button
                   variant={primaryButton.variant}
                   onClick={primaryButton.onClick}
+                  disabled={primaryButton.disabled}
                 >
                   {primaryButton.text}
                 </Button>
