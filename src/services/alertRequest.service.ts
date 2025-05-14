@@ -3,7 +3,8 @@ import { PaginationParams } from '@/types/common.type';
 import { authInstance } from './config';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { ShuttleRouteAlertRequestsViewEntitySchema } from '@/types/alertRequest.type';
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { z } from 'zod';
 
 // ----- GET -----
 
@@ -36,6 +37,27 @@ export const useGetUserAlertRequestsWithPagination = (
     },
   });
 
+export const getUserAlertRequest = async (
+  shuttleRouteAlertRequestId: string,
+) => {
+  const res = await authInstance.get(
+    `/v1/user-management/users/me/alert-requests/${shuttleRouteAlertRequestId}`,
+    {
+      shape: {
+        shuttleRouteAlertRequest: ShuttleRouteAlertRequestsViewEntitySchema,
+      },
+    },
+  );
+  return res.shuttleRouteAlertRequest;
+};
+
+export const useGetUserAlertRequest = (shuttleRouteAlertRequestId: string) => {
+  return useQuery({
+    queryKey: ['user', 'alert-request', shuttleRouteAlertRequestId],
+    queryFn: () => getUserAlertRequest(shuttleRouteAlertRequestId),
+  });
+};
+
 // ----- POST -----
 
 export const postAlertRequest = async (
@@ -46,6 +68,11 @@ export const postAlertRequest = async (
   const res = await authInstance.post(
     `/v1/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/alert-requests`,
     {},
+    {
+      shape: {
+        shuttleRouteAlertRequestId: z.string(),
+      },
+    },
   );
   return res;
 };

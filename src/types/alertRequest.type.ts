@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { ShuttleRoutesViewEntitySchema } from './shuttleRoute.type';
 
+// ----- GET -----
+
 export const ShuttleRouteAlertRequestsViewEntitySchema = z.object({
   shuttleRouteAlertRequestId: z.string(),
   shuttleRouteId: z.string(),

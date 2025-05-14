@@ -45,13 +45,17 @@ const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
     }
 
     try {
-      await postAlertRequest({
+      const { shuttleRouteAlertRequestId } = await postAlertRequest({
         eventId: event.eventId,
         dailyEventId: dailyEventId,
         shuttleRouteId: route.shuttleRouteId,
       });
       setValue('selectedRouteForSeatAlarm', route);
       setValue('selectedHubForSeatAlarm', hubWithInfo);
+      setValue(
+        'selectedShuttleRouteAlertRequestIdForSeatAlarm',
+        shuttleRouteAlertRequestId,
+      );
 
       toStep();
     } catch (error) {

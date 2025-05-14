@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
 import { toast } from 'react-toastify';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
+import { useGetUserAlertRequest } from '@/services/alertRequest.service';
 
 interface Props {
   toExtraHubsInRouteStep: () => void;
@@ -12,10 +13,20 @@ interface Props {
 
 const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
   const { getValues } = useFormContext<EventFormValues>();
-  const [selectedHubForSeatAlarm, selectedRouteForSeatAlarm] = getValues([
+  const [
+    selectedHubForSeatAlarm,
+    selectedRouteForSeatAlarm,
+    selectedShuttleRouteAlertRequestIdForSeatAlarm,
+  ] = getValues([
     'selectedHubForSeatAlarm',
     'selectedRouteForSeatAlarm',
+    'selectedShuttleRouteAlertRequestIdForSeatAlarm',
   ]);
+
+  const { data: shuttleRouteAlertRequest } = useGetUserAlertRequest(
+    selectedShuttleRouteAlertRequestIdForSeatAlarm,
+  );
+
   const hubName = selectedHubForSeatAlarm?.name;
   const routeName = selectedRouteForSeatAlarm?.name;
   const hubCount =
@@ -24,6 +35,7 @@ const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
       selectedRouteForSeatAlarm.fromDestinationShuttleRouteHubs ??
       []
     ).length - 1;
+  const alertRequestQueueIndex = shuttleRouteAlertRequest?.queueIndex;
 
   const handleClick = () => {
     toast.success('개발 중 . . .');
@@ -38,8 +50,8 @@ const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
         <h3 className="text-18 font-600 leading-[160%] text-basic-grey-700">
           {hubName}
         </h3>
-        <p className="text-14 font-500 leading-[160%] text-brand-primary-400">
-          NN번째로 알림 대기 중이에요!
+        <p className="h-[22px] text-14 font-500 leading-[160%] text-brand-primary-400">
+          {alertRequestQueueIndex ? `${alertRequestQueueIndex}번째로 알림` : ''}
         </p>
       </article>
       <div className="h-[1px] w-full bg-basic-grey-100" />
