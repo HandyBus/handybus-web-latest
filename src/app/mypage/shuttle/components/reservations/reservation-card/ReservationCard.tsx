@@ -3,14 +3,14 @@
 import { dateString } from '@/utils/dateString.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useGetShuttleBus } from '@/services/shuttleBus.service';
-import useStatus from './hooks/useStatus';
+import useReservationProgress from '../../../hooks/useReservationProgress';
 import useTextAndStyle from './hooks/useTextAndStyle';
 import useEventText from './hooks/useEventText';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
 import Link from 'next/link';
-import HandyBadge from '../HandyBadge';
-import ShuttleBusBadge from '../ShuttleBusBadge';
-import ChatButton from '../ChatButton';
+import HandyBadge from './components/HandyBadge';
+import ShuttleBusBadge from './components/ShuttleBusBadge';
+import ChatButton from './components/ChatButton';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -41,19 +41,19 @@ const ReservationCard = ({ reservation }: Props) => {
     : '0';
 
   const {
-    reservationCardStatus,
+    reservationProgress,
     handyStatus,
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
     hasReview,
-  } = useStatus({
+  } = useReservationProgress({
     reservation,
     dailyEvent,
     shuttleBus,
   });
 
   const textAndStyle = useTextAndStyle({
-    reservationCardStatus,
+    reservationProgress,
     handyStatus,
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
@@ -67,7 +67,7 @@ const ReservationCard = ({ reservation }: Props) => {
     });
 
   return (
-    <Link href={`/mypage/shuttle/reservation/${reservation.reservationId}`}>
+    <Link href={`/mypage/shuttle/${reservation.reservationId}`}>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex h-32 items-center justify-between">
@@ -77,8 +77,8 @@ const ReservationCard = ({ reservation }: Props) => {
               >
                 {textAndStyle?.title.text}
               </h5>
-              {reservationCardStatus !== 'reservationCanceled' &&
-                reservationCardStatus !== 'shuttleEnded' && (
+              {reservationProgress !== 'reservationCanceled' &&
+                reservationProgress !== 'shuttleEnded' && (
                   <>
                     <HandyBadge handyStatus={handyStatus} />
                     <ShuttleBusBadge shuttleBus={shuttleBus} />
@@ -86,7 +86,8 @@ const ReservationCard = ({ reservation }: Props) => {
                 )}
             </div>
             <ChatButton
-              reservationCardStatus={reservationCardStatus}
+              reservation={reservation}
+              reservationProgress={reservationProgress}
               handyStatus={handyStatus}
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               isWritingReviewPeriod={isWritingReviewPeriod}
@@ -96,14 +97,13 @@ const ReservationCard = ({ reservation }: Props) => {
             />
           </div>
           {textAndStyle?.description.text && (
-            <p className="text-14 font-500 text-basic-grey-700">
+            <p className="text-14 font-500 leading-[160%] text-basic-grey-700">
               {textAndStyle.description.text}
             </p>
           )}
-          <p className="text-12 font-500 text-basic-grey-400">
+          <p className="text-12 font-500 leading-[160%] text-basic-grey-400">
             {formattedReservationDate} 예약
           </p>
-          <p className="text-14 font-500">{formattedPaymentAmount} 원</p>
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
         <div>
@@ -111,13 +111,18 @@ const ReservationCard = ({ reservation }: Props) => {
             <h6 className="line-clamp-1 grow text-16 font-600">{eventName}</h6>
             <ArrowRightIcon className="shrink-0" />
           </div>
-          <p className="text-12 font-500 text-basic-grey-700">
+          <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
             {eventLocationName}
           </p>
-          <p className="text-12 font-500 text-basic-grey-700">
+          <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
             {formattedEventDate}
           </p>
-          <p className="text-12 font-500 text-basic-grey-700">{hubText}</p>
+          <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+            {hubText}
+          </p>
+          <p className="text-14 font-500 leading-[160%]">
+            {formattedPaymentAmount} 원
+          </p>
         </div>
       </article>
       <div className="h-8 w-full bg-basic-grey-50" />
