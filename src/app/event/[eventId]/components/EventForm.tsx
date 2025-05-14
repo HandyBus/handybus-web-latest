@@ -44,6 +44,8 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { getUserDemands } from '@/services/demand.service';
 import { userDemandsAtom } from '../store/userDemandsAtom';
 import ExtraHubsInRouteStep from './steps/extra-steps/ExtraHubsInRouteStep';
+import { userAlertRequestsAtom } from '../store/userAlertRequestsAtom';
+import { getUserAlertRequests } from '@/services/alertRequest.service';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -82,6 +84,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   const setEvent = useSetAtom(eventAtom);
   const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdsWithRoutesAtom);
   const setUserDemands = useSetAtom(userDemandsAtom);
+  const setUserAlertRequests = useSetAtom(userAlertRequestsAtom);
   const getAndSetUserDemands = async () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
@@ -93,6 +96,18 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     });
     setUserDemands(userDemands.shuttleDemands);
   };
+  const getAndSetUserAlertRequests = async () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      return;
+    }
+    const userAlertRequests = await getUserAlertRequests();
+    const filteredUserAlertRequests =
+      userAlertRequests.shuttleRouteAlertRequests.filter(
+        (alertRequest) => alertRequest.shuttleRoute.eventId === event.eventId,
+      );
+    setUserAlertRequests(filteredUserAlertRequests);
+  };
   useEffect(() => {
     if (isInitialized.current) {
       return;
@@ -101,6 +116,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     setEvent(event);
     setDailyEventIdWithRoutes(routes);
     getAndSetUserDemands();
+    getAndSetUserAlertRequests();
   }, []);
 
   // 폼 상태 관리

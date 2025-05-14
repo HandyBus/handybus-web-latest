@@ -12,6 +12,10 @@ import { useAtomValue } from 'jotai';
 import { usePostAlertRequest } from '@/services/alertRequest.service';
 import { eventAtom } from '../store/eventAtom';
 import { toast } from 'react-toastify';
+import {
+  checkIsUserAlertRequestAvailable,
+  userAlertRequestsAtom,
+} from '../store/userAlertRequestsAtom';
 
 interface Props {
   toStep: () => void;
@@ -65,14 +69,25 @@ const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
     }
   };
 
+  const userAlertRequests = useAtomValue(userAlertRequestsAtom);
+  const isUserAlertRequestAvailable = checkIsUserAlertRequestAvailable(
+    hubWithInfo.shuttleRouteId,
+    userAlertRequests,
+  );
+
   return (
     <Button
       onClick={handleClick}
       variant="secondary"
       size="small"
-      className={customTwMerge('w-[90px]', className)}
+      className={customTwMerge(
+        'w-[90px]',
+        isUserAlertRequestAvailable && 'w-104',
+        className,
+      )}
+      disabled={isUserAlertRequestAvailable}
     >
-      빈자리 알림받기
+      {isUserAlertRequestAvailable ? '빈자리 알림 받는 중' : '빈자리 알림받기'}
     </Button>
   );
 };
