@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { setReservationCompleted } from '@/utils/localStorage';
 import SuccessBusIcon from '../icons/bus-success.svg';
-import FeedbackScreen from '@/app/event/[eventId]/components/FeedbackScreen';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 const PaymentsCompleted = () => {
   usePreventScroll();
@@ -19,6 +19,7 @@ const PaymentsCompleted = () => {
   if (showFeedbackScreen) {
     return (
       <FeedbackScreen
+        subject="예약 - 성공"
         closeFeedbackScreen={() => setShowFeedbackScreen(false)}
       />
     );

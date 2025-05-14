@@ -31,7 +31,7 @@ const FailScreen = ({ setDemandCompleteStatus }: Props) => {
         <Button
           variant="text"
           size="large"
-          onClick={() => setDemandCompleteStatus('feedback')}
+          onClick={() => setDemandCompleteStatus('feedback-fail')}
         >
           의견 보내기
         </Button>
