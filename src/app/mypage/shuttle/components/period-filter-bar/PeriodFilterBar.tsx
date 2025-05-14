@@ -9,7 +9,7 @@ interface Props {
 
 const PeriodFilterBar = ({ periodFilter, setPeriodFilter }: Props) => {
   return (
-    <div className="flex gap-8 p-16 pb-0">
+    <div className="flex shrink-0 gap-8 p-16 pb-0">
       <button
         type="button"
         onClick={() => setPeriodFilter(3)}
