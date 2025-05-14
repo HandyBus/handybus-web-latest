@@ -12,6 +12,7 @@ const HubItem = ({ date, time, hub }: Props) => {
     window.open(
       `https://map.kakao.com/link/map/${hub.name},${hub.latitude},${hub.longitude}`,
       '_blank',
+      'noopener,noreferrer',
     );
   };
   return (

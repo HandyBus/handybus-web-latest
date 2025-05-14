@@ -43,7 +43,11 @@ export const useShare = ({ eventName }: Props) => {
 
   const shareToTwitter = () => {
     const text = encodeURIComponent(currentUrl);
-    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+    window.open(
+      `https://twitter.com/intent/tweet?text=${text}`,
+      '_blank',
+      'noopener,noreferrer',
+    );
   };
 
   const shareToKakao = () => {

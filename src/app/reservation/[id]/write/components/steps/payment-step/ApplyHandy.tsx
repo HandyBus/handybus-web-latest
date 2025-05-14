@@ -71,7 +71,9 @@ const ApplyHandy = () => {
       <HandyRequestModal
         isOpen={isHandyRequestModalOpen}
         onClosed={() => setIsHandyRequestModalOpen(false)}
-        onConfirm={() => window.open('/help/what-is-handy', '_blank')}
+        onConfirm={() =>
+          window.open('/help/what-is-handy', '_blank', 'noopener,noreferrer')
+        }
       />
     </>
   );

@@ -42,7 +42,7 @@ const ShuttleProgressSection = ({
   };
   const openOpenChatLink = (openChatLink: string | null | undefined) => {
     if (openChatLink) {
-      window.open(openChatLink, '_blank');
+      window.open(openChatLink, '_blank', 'noopener,noreferrer');
     }
   };
 
