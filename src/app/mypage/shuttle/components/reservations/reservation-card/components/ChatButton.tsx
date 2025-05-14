@@ -44,7 +44,7 @@ const ChatButton = ({
   };
   const openOpenChatLink = (openChatLink: string | null | undefined) => {
     if (openChatLink) {
-      window.open(openChatLink, '_blank', 'noreferrer');
+      window.open(openChatLink, '_blank', 'noopener,noreferrer');
     }
   };
 

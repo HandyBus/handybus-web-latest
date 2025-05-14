@@ -104,6 +104,8 @@ const KakaoMapContent = ({
       onClick={() => {
         window.open(
           `https://map.kakao.com/link/map/${placeName},${latitude},${longitude}`,
+          '_blank',
+          'noopener,noreferrer',
         );
       }}
     >
