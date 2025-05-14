@@ -3,6 +3,7 @@ import {
   TripType,
 } from '@/types/shuttleRoute.type';
 import dayjs from 'dayjs';
+import { SyntheticEvent } from 'react';
 
 // +821012345678 -> 01012345678
 export const formatPhoneNumber = (phoneNumber: string) => {
@@ -46,4 +47,12 @@ export const getBoardingTime = ({
   }
 
   return dayjs(boardingTime).tz('Asia/Seoul');
+};
+
+export const handleClickAndStopPropagation = (callback: () => void) => {
+  return (e: SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    callback();
+  };
 };

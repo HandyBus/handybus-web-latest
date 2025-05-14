@@ -2,8 +2,9 @@ import { ReservationProgress } from '@/app/mypage/shuttle/hooks/useReservationPr
 import Button from '@/components/buttons/button/Button';
 import { HandyStatus, ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
-import { SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
 import SubmitOpenChatLinkModal from './SubmitOpenChatLinkModal';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -27,13 +28,6 @@ const ChatButton = ({
   reservationId,
 }: Props) => {
   const router = useRouter();
-  const handleClickAndStopPropagation = (callback: () => void) => {
-    return (e: SyntheticEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      callback();
-    };
-  };
 
   const [isOpenChatLinkModalOpen, setIsOpenChatLinkModalOpen] = useState(false);
   const openOpenChatLinkModal = () => {
