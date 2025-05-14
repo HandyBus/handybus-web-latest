@@ -21,3 +21,16 @@ export const ShuttleRouteAlertRequestsViewEntitySchema = z.object({
 export type ShuttleRouteAlertRequestsViewEntity = z.infer<
   typeof ShuttleRouteAlertRequestsViewEntitySchema
 >;
+
+// ----- POST -----
+
+export const CreateShuttleRouteAlertRequestResponseSchema = z.object({
+  shuttleRouteAlertRequestId: z.string(),
+  shuttleRouteId: z.string(),
+  userId: z.string(),
+  notifiedAt: z.string().nullable(),
+  notificationRequestedAt: z.string(),
+});
+export type CreateShuttleRouteAlertRequestResponse = z.infer<
+  typeof CreateShuttleRouteAlertRequestResponseSchema
+>;

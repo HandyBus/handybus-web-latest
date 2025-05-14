@@ -51,7 +51,9 @@ const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
           {hubName}
         </h3>
         <p className="h-[22px] text-14 font-500 leading-[160%] text-brand-primary-400">
-          {alertRequestQueueIndex ? `${alertRequestQueueIndex}번째로 알림` : ''}
+          {alertRequestQueueIndex
+            ? `${alertRequestQueueIndex}번째로 알림 신청 중`
+            : ''}
         </p>
       </article>
       <div className="h-[1px] w-full bg-basic-grey-100" />

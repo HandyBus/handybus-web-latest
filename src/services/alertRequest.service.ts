@@ -2,14 +2,16 @@ import { withPagination } from '@/types/common.type';
 import { PaginationParams } from '@/types/common.type';
 import { authInstance } from './config';
 import { toSearchParams } from '@/utils/searchParams.util';
-import { ShuttleRouteAlertRequestsViewEntitySchema } from '@/types/alertRequest.type';
+import {
+  CreateShuttleRouteAlertRequestResponseSchema,
+  ShuttleRouteAlertRequestsViewEntitySchema,
+} from '@/types/alertRequest.type';
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { z } from 'zod';
 
 // ----- GET -----
 
@@ -75,7 +77,7 @@ export const postAlertRequest = async (
     {},
     {
       shape: {
-        shuttleRouteAlertRequestId: z.string(),
+        shuttleRouteAlertRequest: CreateShuttleRouteAlertRequestResponseSchema,
       },
     },
   );
