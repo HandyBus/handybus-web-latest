@@ -11,10 +11,9 @@ import { EventWithRoutesViewEntity } from '@/types/event.type';
 
 interface Props {
   events: EventWithRoutesViewEntity[];
-  type: 'TREND' | 'RECOMMEND';
 }
 
-const RecommendedEventSwiperView = ({ events, type }: Props) => {
+const RecommendedEventSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
 
   return (
@@ -31,7 +30,7 @@ const RecommendedEventSwiperView = ({ events, type }: Props) => {
             <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
               <div className="pr-[6px]">
                 <Card
-                  variant={type === 'TREND' ? 'LARGE' : 'MEDIUM'}
+                  variant={'MEDIUM'}
                   image={v.eventImageUrl}
                   title={v.eventName}
                   date={v.startDate}
@@ -44,7 +43,7 @@ const RecommendedEventSwiperView = ({ events, type }: Props) => {
               </div>
             </SwiperSlide>
           ))}
-          {type === 'RECOMMEND' && (
+          {
             <SwiperSlide style={{ width: 'auto' }}>
               <Link
                 href="/event"
@@ -58,7 +57,7 @@ const RecommendedEventSwiperView = ({ events, type }: Props) => {
                 </p>
               </Link>
             </SwiperSlide>
-          )}
+          }
         </Swiper>
       </div>
     </>

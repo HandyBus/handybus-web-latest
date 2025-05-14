@@ -24,7 +24,7 @@ const TrendEventCard = () => {
         titleClassName="text-20 leading-[140%] py-0"
       >
         {popularEvents ? (
-          <TrendEventsSwiperView events={slicedEvents} type="TREND" />
+          <TrendEventsSwiperView events={slicedEvents} />
         ) : (
           <EmptyView />
         )}

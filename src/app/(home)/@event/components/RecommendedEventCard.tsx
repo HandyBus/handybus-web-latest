@@ -63,10 +63,7 @@ const RecommendedEventCard = () => {
           <Empty />
         ) : (
           <div>
-            <RecommendedEventSwiperView
-              events={filteredEvents}
-              type="RECOMMEND"
-            />
+            <RecommendedEventSwiperView events={filteredEvents} />
           </div>
         )}
       </CardSection>
