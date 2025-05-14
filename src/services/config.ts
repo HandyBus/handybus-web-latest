@@ -65,8 +65,20 @@ class Instance {
 
     const res = await fetch(new URL(url, this.baseUrl).toString(), config);
 
-    // response가 없는 경우
-    if (res.statusText === 'No Content' || res.status === 204) {
+    try {
+      // response가 있는 경우
+      const data = await res.json();
+
+      if (!data.ok) {
+        throw new CustomError(
+          data.statusCode,
+          data.error?.message || '알 수 없는 오류',
+        );
+      }
+
+      return silentParse(schema, data, { useToast: getNotifiedUsingToast });
+    } catch {
+      // response가 없는 경우
       if (res.status >= 400) {
         throw new CustomError(res.status, 'No Content');
       }
@@ -81,22 +93,6 @@ class Instance {
         },
       );
     }
-
-    // response가 있는 경우
-    let data;
-    try {
-      data = await res.json();
-    } catch (e) {
-      console.error('fetchWithConfig error: ', e);
-    }
-    if (!data.ok) {
-      throw new CustomError(
-        data.statusCode,
-        data.error?.message || '알 수 없는 오류',
-      );
-    }
-
-    return silentParse(schema, data, { useToast: getNotifiedUsingToast });
   }
 
   async get<T extends z.ZodRawShape = EmptyShape>(
