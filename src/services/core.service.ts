@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { authInstance, instance } from './config';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AdminHandleBannerRequestBannersSchema } from '@/types/banner.type';
 import { AnnouncementResponseModelSchema } from '@/types/announcement.type';
 
@@ -103,4 +103,20 @@ export const useGetAnnouncement = (announcementId: string) =>
   useQuery({
     queryKey: ['announcement', announcementId],
     queryFn: () => getAnnouncement(announcementId),
+  });
+
+// ----- Feedback -----
+
+export const postFeedback = async (body: {
+  subject: string;
+  content: string;
+}) => {
+  const res = await authInstance.post('/v1/core/feedbacks', body);
+  return res;
+};
+
+export const usePostFeedback = () =>
+  useMutation({
+    mutationFn: (body: { subject: string; content: string }) =>
+      postFeedback(body),
   });

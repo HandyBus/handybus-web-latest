@@ -9,6 +9,8 @@ import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 
+const MIN_CARD_COUNT = 5;
+
 interface Props {
   events: EventWithRoutesViewEntity[];
   type: 'TREND' | 'RECOMMEND';
@@ -17,9 +19,13 @@ interface Props {
 const EventsSwiperView = ({ events, type }: Props) => {
   const swiper = useRef<SwiperRef>(null);
 
+  const cardCount = events.length;
+  const extendedEvents =
+    cardCount < MIN_CARD_COUNT ? extendArray(events) : events;
+
   return (
     <>
-      <div className={'relative py-16'}>
+      <div className={'relative -mx-16 w-[calc(100%+32px)] py-16'}>
         <Swiper
           ref={swiper}
           pagination={true}
@@ -27,10 +33,10 @@ const EventsSwiperView = ({ events, type }: Props) => {
           navigation={true}
           loop={true}
           centeredSlides={true}
-          className="relative w-[446px]"
+          className="relative w-full"
         >
-          {events?.map((v, idx) => (
-            <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
+          {extendedEvents?.map((v, idx) => (
+            <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
               <div className="pr-[6px]">
                 <Card
                   variant={type === 'TREND' ? 'LARGE' : 'MEDIUM'}
@@ -40,7 +46,7 @@ const EventsSwiperView = ({ events, type }: Props) => {
                   location={v.eventLocationName}
                   price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
                   isSaleStarted={v.hasOpenRoute}
-                  order={idx + 1}
+                  order={(idx % cardCount) + 1}
                   href={`/event/${v.eventId}`}
                 />
               </div>
@@ -68,3 +74,15 @@ const EventsSwiperView = ({ events, type }: Props) => {
 };
 
 export default EventsSwiperView;
+
+const extendArray = <T,>(arr: T[]): T[] => {
+  if (arr.length === 0) {
+    return [];
+  }
+
+  const result: T[] = [];
+  while (result.length < MIN_CARD_COUNT) {
+    result.push(...arr);
+  }
+  return result;
+};

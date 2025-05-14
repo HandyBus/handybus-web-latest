@@ -6,9 +6,15 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { setReservationCompleted } from '@/utils/localStorage';
 import SuccessBusIcon from '../icons/bus-success.svg';
-import FeedbackScreen from '@/app/event/[eventId]/components/FeedbackScreen';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
-const PaymentsCompleted = () => {
+interface Props {
+  params: {
+    eventId: string;
+  };
+}
+
+const PaymentsCompleted = ({ params }: Props) => {
   usePreventScroll();
 
   useEffect(() => {
@@ -19,6 +25,7 @@ const PaymentsCompleted = () => {
   if (showFeedbackScreen) {
     return (
       <FeedbackScreen
+        subject="예약 - 성공"
         closeFeedbackScreen={() => setShowFeedbackScreen(false)}
       />
     );
@@ -32,7 +39,7 @@ const PaymentsCompleted = () => {
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href="/">
+          <Link href={`/event/${params.eventId}`}>
             <Button>완료</Button>
           </Link>
           <Button

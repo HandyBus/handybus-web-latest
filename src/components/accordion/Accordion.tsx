@@ -6,6 +6,7 @@ interface Props {
   title: ReactNode;
   children: ReactNode;
   containerClassName?: string;
+  titleClassName?: string;
   open?: boolean;
 }
 
@@ -13,6 +14,7 @@ const Accordion = ({
   title,
   children,
   containerClassName,
+  titleClassName,
   open = false,
 }: Props) => {
   return (
@@ -24,7 +26,9 @@ const Accordion = ({
       )}
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-16 py-16">
-        <h3 className="text-20 font-700">{title}</h3>
+        <h3 className={customTwMerge('text-20 font-700', titleClassName)}>
+          {title}
+        </h3>
         <span className="transition-transform duration-100 group-open:rotate-[180deg]">
           <ArrowDownIcon />
         </span>
