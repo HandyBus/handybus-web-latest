@@ -5,6 +5,8 @@ import { dateString } from '@/utils/dateString.util';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
+import Link from 'next/link';
+import ArrowRightIcon from '../../icons/arrow-right.svg';
 
 interface Props {
   demand: ShuttleDemandsViewEntity;
@@ -75,10 +77,11 @@ const DemandCard = ({ demand }: Props) => {
     isReservationOngoing,
     isDemandFulfilled,
     demand.hasShuttleRoute,
+    demand.demandCountOnRegion,
   ]);
 
   return (
-    <li>
+    <Link href={`/event/${demand.eventId}`}>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex items-center justify-between">
@@ -106,9 +109,12 @@ const DemandCard = ({ demand }: Props) => {
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
         <div>
-          <h6 className="line-clamp-1 grow text-16 font-600">
-            {demand.event.eventName}
-          </h6>
+          <div className="flex items-center">
+            <h6 className="line-clamp-1 grow text-16 font-600">
+              {demand.event.eventName}
+            </h6>
+            <ArrowRightIcon className="shrink-0" />
+          </div>
           <p className="text-12 font-500 text-basic-grey-700">
             {demand.event.eventLocationName}
           </p>
@@ -121,7 +127,7 @@ const DemandCard = ({ demand }: Props) => {
         </div>
       </article>
       <div className="h-8 w-full bg-basic-grey-50" />
-    </li>
+    </Link>
   );
 };
 
