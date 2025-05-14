@@ -5,7 +5,7 @@ import FailBusIcon from '../icons/bus-fail.svg';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import FeedbackScreen from '@/app/event/[eventId]/components/FeedbackScreen';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 interface Props {
   searchParams: {
@@ -23,6 +23,7 @@ const Page = ({ searchParams }: Props) => {
   if (showFeedbackScreen) {
     return (
       <FeedbackScreen
+        subject="예약 - 실패"
         closeFeedbackScreen={() => setShowFeedbackScreen(false)}
       />
     );

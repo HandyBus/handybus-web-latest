@@ -1,13 +1,14 @@
 import Divider from '@/components/divider/Divider';
 import Help from './components/Help';
-import NoticeBoard from './components/NoticeBoard';
+import AnnouncementPreview from './components/AnnouncementPreview';
 import PromotionReview from './components/PromotionReviews';
 
 const Page = () => (
   <>
     <Help />
     <Divider />
-    <NoticeBoard />
+    <AnnouncementPreview />
+    <Divider />
     <PromotionReview />
   </>
 );

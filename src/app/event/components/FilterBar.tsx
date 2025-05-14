@@ -1,30 +1,26 @@
+'use client';
+
 import Chip from '@/components/chips/Chip';
 import FilterButton from './FilterButton';
 import { EventType } from '@/types/event.type';
-import { EventSort } from '../event.const';
+import { EventSortType } from '@/app/event/event.const';
 
 interface FilterBarProps {
   type: EventType;
   setType: (type: EventType) => void;
-  sort: EventSort;
-  onSort: (sort: EventSort) => void;
+  sort: EventSortType;
+  onSort: (sort: EventSortType) => void;
 }
 
-const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
+const FilterBar = ({ type, sort, onSort }: FilterBarProps) => {
   return (
-    <div className="sticky top-[48px] z-40 bg-basic-white shadow-sm">
+    <div className="sticky top-[48px] z-40 bg-basic-white">
       <div className="flex w-full justify-between px-16 pb-16 pt-12">
         <div className="flex gap-8">
-          <Chip
-            onClick={() => setType('CONCERT')}
-            isSelected={type === 'CONCERT'}
-          >
+          <Chip onClick={() => {}} isSelected={type === 'CONCERT'}>
             콘서트
           </Chip>
-          <Chip
-            onClick={() => setType('FESTIVAL')}
-            isSelected={type === 'FESTIVAL'}
-          >
+          <Chip onClick={() => {}} isSelected={type === 'FESTIVAL'}>
             페스티벌
           </Chip>
         </div>

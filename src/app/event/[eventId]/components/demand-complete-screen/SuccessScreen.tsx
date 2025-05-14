@@ -31,7 +31,7 @@ const SuccessScreen = ({ setDemandCompleteStatus }: Props) => {
         <Button
           variant="text"
           size="large"
-          onClick={() => setDemandCompleteStatus('feedback')}
+          onClick={() => setDemandCompleteStatus('feedback-success')}
         >
           의견 보내기
         </Button>

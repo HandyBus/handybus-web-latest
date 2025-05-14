@@ -1,5 +1,4 @@
 import { MetadataRoute } from 'next';
-import { getShuttleRoutes } from '@/services/shuttleRoute.service';
 import { getEvents } from '@/services/event.service';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -71,21 +70,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const events = await getEvents();
-  const shuttleRoutes = await getShuttleRoutes();
+  const events = await getEvents({ status: 'OPEN' });
   const eventsArray = events.map((event) => ({
-    url: `${baseUrl}/demand/${event.eventId}`,
+    url: `${baseUrl}/event/${event.eventId}`,
     lastModified: new Date(event.updatedAt),
     // changeFrequency: 'weekly' as ChangeFreq,
     priority: 0.8,
   }));
-  const shuttleRoutesArray = shuttleRoutes.map((route) => ({
-    url: `${baseUrl}/reservation/${route.eventId}?dailyShuttleId=${route.dailyEventId}&amp;shuttleRouteId=${route.shuttleRouteId}`,
-    lastModified: new Date(route.updatedAt),
-    // changeFrequency: 'weekly' as ChangeFreq,
-    priority: 0.8,
-  }));
-  const dynamicRoutes = [...eventsArray, ...shuttleRoutesArray];
+  const dynamicRoutes = [...eventsArray];
 
   return [...staticRoutes, ...dynamicRoutes];
 }

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { setReservationCompleted } from '@/utils/localStorage';
 import SuccessBusIcon from '../icons/bus-success.svg';
-import FeedbackScreen from '@/app/event/[eventId]/components/FeedbackScreen';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 interface Props {
   params: {
@@ -25,6 +25,7 @@ const PaymentsCompleted = ({ params }: Props) => {
   if (showFeedbackScreen) {
     return (
       <FeedbackScreen
+        subject="예약 - 성공"
         closeFeedbackScreen={() => setShowFeedbackScreen(false)}
       />
     );
