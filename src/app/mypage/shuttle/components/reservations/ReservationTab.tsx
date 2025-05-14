@@ -11,7 +11,9 @@ const EmptyView = dynamic(() => import('./EmptyView'));
 
 const ReservationTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
-  const { data: reservations, isLoading } = useGetUserReservations();
+  const { data: reservations, isLoading } = useGetUserReservations({
+    monthsAgo: periodFilter,
+  });
 
   return (
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>

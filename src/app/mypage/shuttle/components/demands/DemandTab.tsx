@@ -12,7 +12,9 @@ const EmptyView = dynamic(() => import('../reservations/EmptyView'));
 
 const DemandTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
-  const { data: demandPages, isLoading } = useGetUserDemandsWithPagination();
+  const { data: demandPages, isLoading } = useGetUserDemandsWithPagination({
+    monthsAgo: periodFilter,
+  });
   const demands = useMemo(
     () => demandPages?.pages?.[0]?.shuttleDemands ?? [],
     [demandPages],

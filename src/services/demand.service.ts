@@ -21,32 +21,13 @@ import { PaginationParams, withPagination } from '@/types/common.type';
 
 // ----- GET -----
 
-// TODO: 추후 마이페이지 작업 진행 시 삭제
-export const getUserDemandsV2 = async (status?: ShuttleDemandStatus) => {
-  const searchParams = toSearchParams({ status });
-  const res = await authInstance.get(
-    `/v2/user-management/users/me/demands?${searchParams.toString()}`,
-    {
-      shape: {
-        shuttleDemands: ShuttleDemandsViewEntitySchema.array(),
-      },
-    },
-  );
-  return res.shuttleDemands;
-};
-
-export const useGetUserDemandsV2 = (status?: ShuttleDemandStatus) =>
-  useQuery({
-    queryKey: ['user', 'demand', status],
-    queryFn: () => getUserDemandsV2(status),
-  });
-
 interface GetUserDemandsParams {
   eventId?: string;
   dailyEventId?: string;
   regionId?: string;
   status?: ShuttleDemandStatus;
   hasShuttleRoute?: boolean;
+  monthsAgo?: number;
 }
 
 export const getUserDemands = async (
