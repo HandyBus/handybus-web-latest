@@ -44,7 +44,7 @@ export const postAlertRequest = async (
   shuttleRouteId: string,
 ) => {
   const res = await authInstance.post(
-    `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/alert-requests`,
+    `/v1/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/alert-requests`,
     {},
   );
   return res;
