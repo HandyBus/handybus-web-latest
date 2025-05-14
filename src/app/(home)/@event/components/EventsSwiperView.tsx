@@ -9,6 +9,8 @@ import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 
+const MIN_CARD_COUNT = 5;
+
 interface Props {
   events: EventWithRoutesViewEntity[];
   type: 'TREND' | 'RECOMMEND';
@@ -18,7 +20,8 @@ const EventsSwiperView = ({ events, type }: Props) => {
   const swiper = useRef<SwiperRef>(null);
 
   const cardCount = events.length;
-  const extendedEvents = cardCount < 5 ? extendArrayToFive(events) : events;
+  const extendedEvents =
+    cardCount < MIN_CARD_COUNT ? extendArray(events) : events;
 
   return (
     <>
@@ -72,14 +75,14 @@ const EventsSwiperView = ({ events, type }: Props) => {
 
 export default EventsSwiperView;
 
-const extendArrayToFive = <T,>(arr: T[]): T[] => {
+const extendArray = <T,>(arr: T[]): T[] => {
   if (arr.length === 0) {
     return [];
   }
 
   const result: T[] = [];
-  while (result.length < 5) {
+  while (result.length < MIN_CARD_COUNT) {
     result.push(...arr);
   }
-  return result.slice(0, 5);
+  return result;
 };
