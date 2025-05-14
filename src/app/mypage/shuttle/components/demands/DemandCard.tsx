@@ -36,8 +36,10 @@ const DemandCard = ({ demand }: Props) => {
 
   const isReservationOngoing =
     demand.hasShuttleRoute &&
-    (demand.status === 'OPEN' || demand.status === 'CLOSED');
-
+    (demand.status === 'OPEN' ||
+      demand.status === 'CLOSED' ||
+      demand.status === 'FULFILLED');
+  const isDemandFulfilled = demand.status === 'FULFILLED';
   const isDemandClosed =
     (demand.status === 'CLOSED' && !demand.hasShuttleRoute) ||
     demand.status === 'ENDED' ||
@@ -49,24 +51,31 @@ const DemandCard = ({ demand }: Props) => {
   };
 
   const descriptionText = useMemo(() => {
-    if (isDemandClosed) {
-      if (demand.hasShuttleRoute) {
-        return '이미 종료된 행사예요.';
-      } else {
-        return '아쉽게도 해당 행사는 인원 부족으로 셔틀이 열리지 않았어요.';
-      }
-    }
-    if (isReservationOngoing) {
+    if (isDemandClosed && demand.hasShuttleRoute) {
+      return '이미 종료된 행사예요.';
+    } else if (isDemandClosed && !demand.hasShuttleRoute) {
+      return '아쉽게도 해당 행사는 인원 부족으로 셔틀이 열리지 않았어요.';
+    } else if (isReservationOngoing && !isDemandFulfilled) {
       return '셔틀이 열렸어요! 지금 바로 예약해 보세요.';
+    } else if (isReservationOngoing && isDemandFulfilled) {
+      return '이 행사의 셔틀을 예약했어요.';
     } else {
       return (
         <span>
-          현재 <span className="text-brand-primary-400">NN</span>명이
-          요청했어요. 셔틀이 열리면 알려드릴게요.
+          현재{' '}
+          <span className="text-brand-primary-400">
+            {demand.demandCountOnRegion}
+          </span>
+          명이 요청했어요. 셔틀이 열리면 알려드릴게요.
         </span>
       );
     }
-  }, [isDemandClosed, isReservationOngoing, demand.hasShuttleRoute]);
+  }, [
+    isDemandClosed,
+    isReservationOngoing,
+    isDemandFulfilled,
+    demand.hasShuttleRoute,
+  ]);
 
   return (
     <li>
@@ -78,7 +87,7 @@ const DemandCard = ({ demand }: Props) => {
             >
               {!isDemandClosed ? '수요조사 완료' : '수요조사 마감'}
             </h5>
-            {isReservationOngoing && (
+            {isReservationOngoing && !isDemandFulfilled && (
               <Button
                 variant="primary"
                 size="small"
