@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Badge from '../badge/Badge';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 
 const DEMAND_ONGOING_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
@@ -144,7 +145,7 @@ const MediumCard = ({
           {title}
         </p>
         <p className="text-12 font-500 leading-[160%] text-basic-black ">
-          {date}
+          {dayjs(date).format('YYYY.MM.DD')}
         </p>
         <p
           className={`text-14 font-600 leading-[140%] ${

@@ -16,7 +16,7 @@ interface Props {
   type: 'TREND' | 'RECOMMEND';
 }
 
-const EventsSwiperView = ({ events, type }: Props) => {
+const TrendEventsSwiperView = ({ events, type }: Props) => {
   const swiper = useRef<SwiperRef>(null);
 
   const cardCount = events.length;
@@ -73,7 +73,7 @@ const EventsSwiperView = ({ events, type }: Props) => {
   );
 };
 
-export default EventsSwiperView;
+export default TrendEventsSwiperView;
 
 const extendArray = <T,>(arr: T[]): T[] => {
   if (arr.length === 0) {

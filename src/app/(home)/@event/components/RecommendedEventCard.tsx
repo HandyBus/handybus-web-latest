@@ -1,6 +1,5 @@
 'use client';
 
-import EventsSwiperView from './EventsSwiperView';
 import Article from '@/components/article/Article';
 import Chip from '@/components/chips/Chip';
 import dayjs from 'dayjs';
@@ -8,6 +7,7 @@ import { useState } from 'react';
 import { useGetEvents } from '@/services/event.service';
 import { EventType, EventTypeEnum } from '@/types/event.type';
 import { EVENT_TYPE_TO_STRING } from '@/constants/status';
+import RecommendedEventSwiperView from './RecommendedEventSwiperView';
 
 const RecommendedEventCard = () => {
   const [type, setType] = useState<EventType>('CONCERT');
@@ -42,7 +42,10 @@ const RecommendedEventCard = () => {
           <EmptyView />
         ) : (
           <div>
-            <EventsSwiperView events={filteredEvents} type="RECOMMEND" />
+            <RecommendedEventSwiperView
+              events={filteredEvents}
+              type="RECOMMEND"
+            />
           </div>
         )}
       </Article>
