@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import Link from 'next/link';
 import ArrowRightIcon from '../../icons/arrow-right.svg';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
 
 interface Props {
   demand: ShuttleDemandsViewEntity;
@@ -94,7 +95,9 @@ const DemandCard = ({ demand }: Props) => {
               <Button
                 variant="primary"
                 size="small"
-                onClick={() => handleReserveClick(demand.eventId)}
+                onClick={handleClickAndStopPropagation(() =>
+                  handleReserveClick(demand.eventId),
+                )}
               >
                 예약하기
               </Button>
