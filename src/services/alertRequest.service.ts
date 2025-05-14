@@ -3,7 +3,12 @@ import { PaginationParams } from '@/types/common.type';
 import { authInstance } from './config';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { ShuttleRouteAlertRequestsViewEntitySchema } from '@/types/alertRequest.type';
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { z } from 'zod';
 
 // ----- GET -----
@@ -88,5 +93,45 @@ export const usePostAlertRequest = () => {
       dailyEventId: string;
       shuttleRouteId: string;
     }) => postAlertRequest(eventId, dailyEventId, shuttleRouteId),
+  });
+};
+
+export const deleteAlertRequest = async (
+  eventId: string,
+  dailyEventId: string,
+  shuttleRouteId: string,
+  shuttleRouteAlertRequestId: string,
+) => {
+  const res = await authInstance.delete(
+    `/v1/shuttle-operation/events/${eventId}/dates/${dailyEventId}/routes/${shuttleRouteId}/alert-requests/${shuttleRouteAlertRequestId}`,
+  );
+  return res;
+};
+
+export const useDeleteAlertRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      eventId,
+      dailyEventId,
+      shuttleRouteId,
+      shuttleRouteAlertRequestId,
+    }: {
+      eventId: string;
+      dailyEventId: string;
+      shuttleRouteId: string;
+      shuttleRouteAlertRequestId: string;
+    }) =>
+      deleteAlertRequest(
+        eventId,
+        dailyEventId,
+        shuttleRouteId,
+        shuttleRouteAlertRequestId,
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['user', 'alert-request'],
+      });
+    },
   });
 };

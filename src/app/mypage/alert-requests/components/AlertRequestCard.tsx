@@ -9,6 +9,7 @@ import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { toast } from 'react-toastify';
+import { useDeleteAlertRequest } from '@/services/alertRequest.service';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
@@ -16,6 +17,22 @@ interface Props {
 
 const AlertRequestCard = ({ alertRequest }: Props) => {
   const router = useRouter();
+  const { mutateAsync: deleteAlertRequest } = useDeleteAlertRequest();
+
+  const handleDeleteAlertRequest = async () => {
+    try {
+      await deleteAlertRequest({
+        eventId: alertRequest.shuttleRoute.event.eventId,
+        dailyEventId: alertRequest.shuttleRoute.dailyEventId,
+        shuttleRouteId: alertRequest.shuttleRoute.shuttleRouteId,
+        shuttleRouteAlertRequestId: alertRequest.shuttleRouteAlertRequestId,
+      });
+      toast.success('알림 요청을 취소했어요.');
+    } catch (error) {
+      console.error(error);
+      toast.error('잠시 후 다시 시도해주세요.');
+    }
+  };
 
   const event = alertRequest.shuttleRoute.event;
   const dailyEvent = event.dailyEvents.find(
@@ -92,9 +109,9 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
                 <Button
                   variant="s-destructive"
                   size="small"
-                  onClick={handleClickAndStopPropagation(() => {
-                    toast.success('개발 중 . . .');
-                  })}
+                  onClick={handleClickAndStopPropagation(
+                    handleDeleteAlertRequest,
+                  )}
                 >
                   취소하기
                 </Button>
