@@ -13,6 +13,7 @@ import { PaymentsViewEntitySchema } from '@/types/payment.type';
 export const getUserReservations = async (params?: {
   reservationStatus?: ReservationStatus;
   eventProgressStatus?: 'PAST' | 'CURRENT';
+  monthsAgo?: number;
 }) => {
   const searchParams = toSearchParams(params);
   const res = await authInstance.get(
@@ -29,6 +30,7 @@ export const getUserReservations = async (params?: {
 export const useGetUserReservations = (params?: {
   reservationStatus?: ReservationStatus;
   eventProgressStatus?: 'PAST' | 'CURRENT';
+  monthsAgo?: number;
 }) =>
   useQuery({
     queryKey: ['user', 'reservation', params],

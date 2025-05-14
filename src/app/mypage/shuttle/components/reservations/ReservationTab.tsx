@@ -11,28 +11,35 @@ const EmptyView = dynamic(() => import('./EmptyView'));
 
 const ReservationTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
-  const { data: reservations, isLoading } = useGetUserReservations();
+  const { data: reservations, isLoading } = useGetUserReservations({
+    monthsAgo: periodFilter,
+  });
 
   return (
-    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
-      {reservations &&
-        (reservations.length === 0 ? (
-          <EmptyView />
-        ) : (
-          <ul>
-            <PeriodFilterBar
-              periodFilter={periodFilter}
-              setPeriodFilter={setPeriodFilter}
-            />
-            {reservations.map((reservation) => (
-              <ReservationCard
-                key={reservation.reservationId}
-                reservation={reservation}
-              />
-            ))}
-          </ul>
-        ))}
-    </DeferredSuspense>
+    <>
+      <PeriodFilterBar
+        periodFilter={periodFilter}
+        setPeriodFilter={setPeriodFilter}
+      />
+      <DeferredSuspense
+        fallback={<Loading style="grow" />}
+        isLoading={isLoading}
+      >
+        {reservations &&
+          (reservations.length === 0 ? (
+            <EmptyView />
+          ) : (
+            <ul>
+              {reservations.map((reservation) => (
+                <ReservationCard
+                  key={reservation.reservationId}
+                  reservation={reservation}
+                />
+              ))}
+            </ul>
+          ))}
+      </DeferredSuspense>
+    </>
   );
 };
 

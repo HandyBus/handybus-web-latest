@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-export type PeriodFilter = '3_MONTHS' | '6_MONTHS' | '1_YEAR';
+export type PeriodFilter = 3 | 6 | 12;
 
 const usePeriodFilter = () => {
-  const [periodFilter, setPeriodFilter] = useState<PeriodFilter>('3_MONTHS');
+  const [periodFilter, setPeriodFilter] = useState<PeriodFilter>(3);
 
   return { periodFilter, setPeriodFilter };
 };
