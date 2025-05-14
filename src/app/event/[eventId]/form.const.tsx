@@ -9,6 +9,7 @@ export const EVENT_FORM_DEFAULT_VALUES: DefaultValues<EventFormValues> = {
   selectedHubWithInfo: undefined,
   hubsWithInfoForDuplicates: undefined,
   tripType: undefined,
+  seatAlarmCount: undefined,
 };
 
 export const EVENT_STEPS = [
