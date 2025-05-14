@@ -8,6 +8,7 @@ import Card from '@/components/card/Card';
 import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   events: EventWithRoutesViewEntity[];
@@ -33,7 +34,9 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
                   variant={'MEDIUM'}
                   image={v.eventImageUrl}
                   title={v.eventName}
-                  date={v.startDate}
+                  date={dateString([v.startDate, v.endDate], {
+                    showWeekday: false,
+                  })}
                   location={v.eventLocationName}
                   price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
                   isSaleStarted={v.hasOpenRoute}
