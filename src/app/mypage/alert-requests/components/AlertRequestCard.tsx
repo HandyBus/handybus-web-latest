@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
+import { toast } from 'react-toastify';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
@@ -45,7 +47,8 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
   });
   const hubText = hub ? `[${shuttleRoute.name} - ${hub.name}] 요청` : '';
 
-  const hasEmptySeat = shuttleRoute.remainingSeatCount > 0;
+  const hasEmptySeat =
+    alertRequest.notifiedAt !== null && shuttleRoute.remainingSeatCount > 0;
   const isReservationEnded = shuttleRoute.status !== 'OPEN';
 
   const { status, description } = useMemo(() => {
@@ -86,21 +89,33 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
             </div>
             <div>
               {!isReservationEnded && !hasEmptySeat && (
-                <Button variant="s-destructive" size="small">
+                <Button
+                  variant="s-destructive"
+                  size="small"
+                  onClick={handleClickAndStopPropagation(() => {
+                    toast.success('개발 중 . . .');
+                  })}
+                >
                   취소하기
                 </Button>
               )}
               {!isReservationEnded && hasEmptySeat && (
                 <div className="flex items-center gap-8">
-                  <Button variant="tertiary" size="small">
+                  <Button
+                    variant="tertiary"
+                    size="small"
+                    onClick={handleClickAndStopPropagation(() => {
+                      toast.success('개발 중 . . .');
+                    })}
+                  >
                     알림 취소
                   </Button>
                   <Button
                     variant="primary"
                     size="small"
-                    onClick={() => {
+                    onClick={handleClickAndStopPropagation(() => {
                       router.push(`/event/${event.eventId}`);
-                    }}
+                    })}
                   >
                     예약하기
                   </Button>

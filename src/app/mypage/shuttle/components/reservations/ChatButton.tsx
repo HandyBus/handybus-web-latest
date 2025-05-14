@@ -2,7 +2,7 @@ import Button from '@/components/buttons/button/Button';
 import { HandyStatus } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import { ReservationCardStatus } from './reservation-card/hooks/useStatus';
-import { SyntheticEvent } from 'react';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
 
 interface Props {
   reservationCardStatus: ReservationCardStatus;
@@ -24,13 +24,6 @@ const ChatButton = ({
   reservationId,
 }: Props) => {
   const router = useRouter();
-  const handleClickAndStopPropagation = (callback: () => void) => {
-    return (e: SyntheticEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      callback();
-    };
-  };
 
   switch (reservationCardStatus) {
     case 'beforeBusAssigned':
