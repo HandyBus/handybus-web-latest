@@ -8,6 +8,7 @@ import TitledSection from './components/TitledSection';
 import Tabs from '@/components/tab/Tabs';
 import { useState } from 'react';
 import FAQList from './components/FAQList';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 const TAB_ITEMS = [
   { label: '예약하기', value: 'reserve' },
@@ -21,6 +22,8 @@ const CustomerSupport = () => {
   const [selectedTab, setSelectedTab] = useState<TabItem['value']>(
     TAB_ITEMS[0].value,
   );
+
+  const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);
 
   return (
     <>
@@ -58,15 +61,22 @@ const CustomerSupport = () => {
             title="직접 문의하기"
             href="/help/faq/direct-inquiry"
           />
-          <NavigationItem
-            title="의견 보내기"
-            href={`${process.env.NEXT_PUBLIC_FEEDBACK_FORM_URL}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          />
+          <button
+            className="flex w-full flex-row justify-between py-12"
+            onClick={() => setShowFeedbackScreen(true)}
+          >
+            <p className="text-16 font-600 leading-[160%]">의견 보내기</p>
+            <ChevronRightEm className="h-24 w-24 text-basic-grey-400" />
+          </button>
         </TitledSection>
       </main>
       <Footer />
+      {showFeedbackScreen && (
+        <FeedbackScreen
+          subject="일반"
+          closeFeedbackScreen={() => setShowFeedbackScreen(false)}
+        />
+      )}
     </>
   );
 };

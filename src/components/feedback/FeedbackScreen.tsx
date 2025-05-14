@@ -2,19 +2,37 @@
 
 import Button from '@/components/buttons/button/Button';
 import TextArea from '@/components/inputs/text-area/TextArea';
+import { usePostFeedback } from '@/services/core.service';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+// NOTE: 피드백의 subject은 프론트에서 관리. 추후 기능 추가 및 기획 변경에 따라 타입 추가.
+type FeedbackSubject =
+  | '일반'
+  | '수요조사 - 성공'
+  | '수요조사 - 실패'
+  | '예약 - 성공'
+  | '예약 - 실패'
+  | '빈자리 알림 신청';
+
 interface Props {
+  subject: FeedbackSubject;
   closeFeedbackScreen: () => void;
 }
 
-const FeedbackScreen = ({ closeFeedbackScreen }: Props) => {
+const FeedbackScreen = ({ subject, closeFeedbackScreen }: Props) => {
   const { control, handleSubmit } = useForm<{ text: string }>();
+  const { mutateAsync: postFeedback, isPending } = usePostFeedback();
 
-  const handleFeedbackSubmit = (data: { text: string }) => {
-    console.log(data);
-    toast.success('개발 중 . . .');
+  const handleFeedbackSubmit = async (data: { text: string }) => {
+    try {
+      await postFeedback({ subject, content: data.text });
+      toast.success('소중한 의견 감사합니다!');
+      closeFeedbackScreen();
+    } catch (error) {
+      console.error(error);
+      toast.error('잠시 후 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -30,7 +48,12 @@ const FeedbackScreen = ({ closeFeedbackScreen }: Props) => {
         <TextArea control={control} name="text" placeholder="의견 남기기" />
       </section>
       <section className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-8 p-16">
-        <Button variant="primary" size="large" type="submit">
+        <Button
+          variant="primary"
+          size="large"
+          type="submit"
+          disabled={isPending}
+        >
           의견 보내기
         </Button>
         <Button variant="text" size="large" onClick={closeFeedbackScreen}>
