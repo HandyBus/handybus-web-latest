@@ -3,15 +3,23 @@
 import Button from '@/components/buttons/button/Button';
 import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
-import { toast } from 'react-toastify';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
 import { useGetUserAlertRequest } from '@/services/alertRequest.service';
+import { useEffect } from 'react';
 
 interface Props {
   toExtraHubsInRouteStep: () => void;
+  closeBottomSheet: () => void;
+  updateUserAlertRequests: () => void;
+  openAlertRequestFeedbackScreen: () => void;
 }
 
-const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
+const ExtraSeatAlarmStep = ({
+  toExtraHubsInRouteStep,
+  closeBottomSheet,
+  updateUserAlertRequests,
+  openAlertRequestFeedbackScreen,
+}: Props) => {
   const { getValues } = useFormContext<EventFormValues>();
   const [
     selectedHubForSeatAlarm,
@@ -37,9 +45,9 @@ const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
     ).length - 1;
   const alertRequestQueueIndex = shuttleRouteAlertRequest?.queueIndex;
 
-  const handleClick = () => {
-    toast.success('개발 중 . . .');
-  };
+  useEffect(() => {
+    updateUserAlertRequests();
+  }, []);
 
   return (
     <section className="flex w-full flex-col items-center gap-16">
@@ -74,11 +82,15 @@ const ExtraSeatAlarmStep = ({ toExtraHubsInRouteStep }: Props) => {
           variant="primary"
           size="large"
           className="w-full"
-          onClick={handleClick}
+          onClick={closeBottomSheet}
         >
           완료
         </Button>
-        <Button variant="text" size="large" onClick={handleClick}>
+        <Button
+          variant="text"
+          size="large"
+          onClick={openAlertRequestFeedbackScreen}
+        >
           의견 보내기
         </Button>
       </div>

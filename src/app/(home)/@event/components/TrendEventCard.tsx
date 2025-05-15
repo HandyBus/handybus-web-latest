@@ -6,7 +6,7 @@ import TrendEventsSwiperView from './TrendEventsSwiperView';
 
 const TrendEventCard = () => {
   const { data: popularEvents } = useGetEvents({
-    status: 'OPEN',
+    status: 'OPEN,CLOSED',
     orderBy: 'eventRecommendationScore',
     additionalOrderOptions: 'DESC',
   });
