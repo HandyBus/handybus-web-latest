@@ -44,6 +44,9 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { getUserDemands } from '@/services/demand.service';
 import { userDemandsAtom } from '../store/userDemandsAtom';
 import ExtraHubsInRouteStep from './steps/extra-steps/ExtraHubsInRouteStep';
+import { userAlertRequestsAtom } from '../store/userAlertRequestsAtom';
+import { getUserAlertRequests } from '@/services/alertRequest.service';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -81,8 +84,9 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   const isInitialized = useRef(false);
   const setEvent = useSetAtom(eventAtom);
   const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdsWithRoutesAtom);
+
   const setUserDemands = useSetAtom(userDemandsAtom);
-  const getAndSetUserDemands = async () => {
+  const updateUserDemands = async () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
       return;
@@ -93,6 +97,21 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     });
     setUserDemands(userDemands.shuttleDemands);
   };
+
+  const setUserAlertRequests = useSetAtom(userAlertRequestsAtom);
+  const updateUserAlertRequests = async () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      return;
+    }
+    const userAlertRequests = await getUserAlertRequests();
+    const filteredUserAlertRequests =
+      userAlertRequests.shuttleRouteAlertRequests.filter(
+        (alertRequest) => alertRequest.shuttleRoute.eventId === event.eventId,
+      );
+    setUserAlertRequests(filteredUserAlertRequests);
+  };
+
   useEffect(() => {
     if (isInitialized.current) {
       return;
@@ -100,7 +119,8 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     isInitialized.current = true;
     setEvent(event);
     setDailyEventIdWithRoutes(routes);
-    getAndSetUserDemands();
+    updateUserDemands();
+    updateUserAlertRequests();
   }, []);
 
   // 폼 상태 관리
@@ -158,6 +178,21 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   // 수요조사 완료 화면
   const [demandCompleteStatus, setDemandCompleteStatus] =
     useState<DemandCompleteStatus | null>(null);
+
+  // 빈자리 알림 신청 피드백 화면
+  const [
+    isAlertRequestFeedbackScreenOpen,
+    setIsAlertRequestFeedbackScreenOpen,
+  ] = useState(false);
+  const openAlertRequestFeedbackScreen = () => {
+    closeBottomSheet();
+    setTimeout(() => {
+      setIsAlertRequestFeedbackScreenOpen(true);
+    }, 100);
+  };
+  const closeAlertRequestFeedbackScreen = () => {
+    setIsAlertRequestFeedbackScreenOpen(false);
+  };
 
   return (
     <>
@@ -227,7 +262,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                   <DemandHubInfoStep
                     closeBottomSheet={closeBottomSheet}
                     setDemandCompleteStatus={setDemandCompleteStatus}
-                    updateUserDemands={getAndSetUserDemands}
+                    updateUserDemands={updateUserDemands}
                   />
                 </Step>
                 {/* 예약 */}
@@ -291,6 +326,11 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                     toExtraHubsInRouteStep={() =>
                       setHistoryAndStep('[기타] 노선 내 정류장')
                     }
+                    closeBottomSheet={closeBottomSheet}
+                    updateUserAlertRequests={updateUserAlertRequests}
+                    openAlertRequestFeedbackScreen={
+                      openAlertRequestFeedbackScreen
+                    }
                   />
                 </Step>
                 <Step name="[기타] 노선 내 정류장">
@@ -305,6 +345,12 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
         <DemandCompleteScreen
           status={demandCompleteStatus}
           setDemandCompleteStatus={setDemandCompleteStatus}
+        />
+      )}
+      {isAlertRequestFeedbackScreenOpen && (
+        <FeedbackScreen
+          subject="빈자리 알림 신청"
+          closeFeedbackScreen={closeAlertRequestFeedbackScreen}
         />
       )}
     </>
