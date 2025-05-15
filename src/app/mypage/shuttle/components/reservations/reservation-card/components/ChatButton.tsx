@@ -133,7 +133,7 @@ const ChatButton = ({
               variant="primary"
               size="small"
               onClick={handleClickAndStopPropagation(() => {
-                router.push(`/mypage/shuttle/reviews/${reservationId}/write`);
+                router.push(`/mypage/reviews/${reservationId}/write`);
               })}
             >
               후기 작성
@@ -146,7 +146,7 @@ const ChatButton = ({
                 variant="secondary"
                 size="small"
                 onClick={handleClickAndStopPropagation(() => {
-                  router.push(`/mypage/shuttle/reviews/${reservationId}/edit`);
+                  router.push(`/mypage/reviews/${reservationId}/edit`);
                 })}
               >
                 후기 수정
@@ -155,7 +155,7 @@ const ChatButton = ({
                 variant="primary"
                 size="small"
                 onClick={handleClickAndStopPropagation(() => {
-                  router.push(`/mypage/shuttle/reviews/${reservationId}`);
+                  router.push(`/mypage/reviews/${reservationId}`);
                 })}
               >
                 내 후기
@@ -170,7 +170,7 @@ const ChatButton = ({
               variant="tertiary"
               size="small"
               onClick={handleClickAndStopPropagation(() => {
-                router.push(`/mypage/shuttle/reviews/${reservationId}`);
+                router.push(`/mypage/reviews/${reservationId}`);
               })}
             >
               내 후기
