@@ -44,18 +44,49 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { getUserDemands } from '@/services/demand.service';
 import { userDemandsAtom } from '../store/userDemandsAtom';
 import ExtraHubsInRouteStep from './steps/extra-steps/ExtraHubsInRouteStep';
+import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
+import Button from '@/components/buttons/button/Button';
 import { userAlertRequestsAtom } from '../store/userAlertRequestsAtom';
 import { getUserAlertRequests } from '@/services/alertRequest.service';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 interface Props {
   event: EventWithRoutesViewEntity;
-  routes: ShuttleRoutesViewEntity[];
 }
 
-const EventForm = ({ event, routes }: Props) => {
+const EventForm = ({ event }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
+
+  const { data: routesPages } = useGetShuttleRoutesOfEventWithPagination(
+    {
+      eventId: event.eventId,
+      status: 'OPEN',
+    },
+    {
+      enabled: event.hasOpenRoute,
+    },
+  );
+  const routes = useMemo(
+    () => routesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [],
+    [routesPages],
+  );
+  const isRoutesLoading = event.hasOpenRoute && routes.length === 0;
+
+  if (isRoutesLoading) {
+    return (
+      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
+        <Button
+          variant="secondary"
+          size="medium"
+          type="button"
+          disabled={true}
+        />
+        <Button variant="primary" size="large" type="button" disabled={true} />
+      </div>
+    );
+  }
+
   return (
     <section className={isDisabled ? '' : 'px-16 pb-24'}>
       <JotaiProvider>
