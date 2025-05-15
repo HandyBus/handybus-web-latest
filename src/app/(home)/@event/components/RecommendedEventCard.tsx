@@ -13,7 +13,7 @@ import Empty from '@/app/event/components/Empty';
 const RecommendedEventCard = () => {
   const [type, setType] = useState<EventType>('CONCERT');
   const { data: recommendedEvents, isLoading } = useGetEvents({
-    status: 'OPEN',
+    status: 'OPEN,CLOSED',
     eventIsPinned: true,
   });
 
@@ -45,7 +45,7 @@ const RecommendedEventCard = () => {
         showMore="/event"
       >
         {availableEventTypes.length > 1 && (
-          <div className="flex gap-8 pt-16">
+          <div className="flex gap-8 pb-16">
             {availableEventTypes.map((eventType) => (
               <Chip
                 key={eventType}
@@ -62,9 +62,7 @@ const RecommendedEventCard = () => {
         ) : !filteredEvents ? (
           <Empty />
         ) : (
-          <div>
-            <RecommendedEventSwiperView events={filteredEvents} />
-          </div>
+          <RecommendedEventSwiperView events={filteredEvents} />
         )}
       </CardSection>
     </section>
