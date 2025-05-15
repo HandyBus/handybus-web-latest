@@ -18,7 +18,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
 
   return (
-    <div className={'relative w-[calc(100%+16px)]'}>
+    <div className={'relative -mx-16 w-[calc(100%+32px)]'}>
       <Swiper
         ref={swiper}
         pagination={true}
@@ -26,6 +26,9 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
         navigation={true}
         className="relative w-full"
       >
+        <SwiperSlide style={{ width: 'auto' }}>
+          <div className="w-16" />
+        </SwiperSlide>
         {events?.map((v, idx) => (
           <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
             <div className="pr-[6px]">
