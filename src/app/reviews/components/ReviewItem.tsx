@@ -71,7 +71,6 @@ const ReviewItem = ({ review, isMyReview }: Props) => {
           </p>
         </div>
         <div className="mt-4 flex w-full items-center justify-end gap-4">
-          <MonthlyReviewChip />
           <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
             {review.createdAt}
           </p>
@@ -124,11 +123,3 @@ const FeedbackCard = ({
 
 type FeedbackType = '서비스' | '탑승';
 type FeedbackText = '매우 불만족' | '불만족' | '보통' | '만족' | '매우 만족';
-
-const MonthlyReviewChip = () => {
-  return (
-    <div className="rounded-[42px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
-      이달의 후기
-    </div>
-  );
-};
