@@ -19,7 +19,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
 
   return (
     <>
-      <div className={'relative py-16'}>
+      <div className={'relative w-[calc(100%+16px)] py-16'}>
         <Swiper
           ref={swiper}
           pagination={true}
