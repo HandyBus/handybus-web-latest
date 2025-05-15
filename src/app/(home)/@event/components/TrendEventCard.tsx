@@ -1,10 +1,10 @@
 'use client';
 
-import EventsSwiperView from './EventsSwiperView';
 import { useGetEvents } from '@/services/event.service';
 import CardSection from './CardSection';
+import TrendEventsSwiperView from './TrendEventsSwiperView';
 
-const TrendShuttleCard = () => {
+const TrendEventCard = () => {
   const { data: popularEvents } = useGetEvents({
     status: 'OPEN',
     orderBy: 'eventRecommendationScore',
@@ -24,7 +24,7 @@ const TrendShuttleCard = () => {
         titleClassName="text-20 leading-[140%] py-0"
       >
         {popularEvents ? (
-          <EventsSwiperView events={slicedEvents} type="TREND" />
+          <TrendEventsSwiperView events={slicedEvents} />
         ) : (
           <EmptyView />
         )}
@@ -33,7 +33,7 @@ const TrendShuttleCard = () => {
   );
 };
 
-export default TrendShuttleCard;
+export default TrendEventCard;
 
 const EmptyView = () => <div className="h-[340px] py-16" />;
 const MAX_EVENTS_COUNT = 5;

@@ -8,51 +8,45 @@ import Card from '@/components/card/Card';
 import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
-
-const MIN_CARD_COUNT = 5;
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   events: EventWithRoutesViewEntity[];
-  type: 'TREND' | 'RECOMMEND';
 }
 
-const EventsSwiperView = ({ events, type }: Props) => {
+const RecommendedEventSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
-
-  const cardCount = events.length;
-  const extendedEvents =
-    cardCount < MIN_CARD_COUNT ? extendArray(events) : events;
 
   return (
     <>
-      <div className={'relative -mx-16 w-[calc(100%+32px)] py-16'}>
+      <div className={'relative w-[calc(100%+16px)] py-16'}>
         <Swiper
           ref={swiper}
           pagination={true}
           slidesPerView="auto"
           navigation={true}
-          loop={true}
-          centeredSlides={true}
           className="relative w-full"
         >
-          {extendedEvents?.map((v, idx) => (
-            <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
+          {events?.map((v, idx) => (
+            <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
               <div className="pr-[6px]">
                 <Card
-                  variant={type === 'TREND' ? 'LARGE' : 'MEDIUM'}
+                  variant={'MEDIUM'}
                   image={v.eventImageUrl}
                   title={v.eventName}
-                  date={v.startDate}
+                  date={dateString([v.startDate, v.endDate], {
+                    showWeekday: false,
+                  })}
                   location={v.eventLocationName}
                   price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
                   isSaleStarted={v.hasOpenRoute}
-                  order={(idx % cardCount) + 1}
+                  order={idx + 1}
                   href={`/event/${v.eventId}`}
                 />
               </div>
             </SwiperSlide>
           ))}
-          {type === 'RECOMMEND' && (
+          {
             <SwiperSlide style={{ width: 'auto' }}>
               <Link
                 href="/event"
@@ -66,23 +60,11 @@ const EventsSwiperView = ({ events, type }: Props) => {
                 </p>
               </Link>
             </SwiperSlide>
-          )}
+          }
         </Swiper>
       </div>
     </>
   );
 };
 
-export default EventsSwiperView;
-
-const extendArray = <T,>(arr: T[]): T[] => {
-  if (arr.length === 0) {
-    return [];
-  }
-
-  const result: T[] = [];
-  while (result.length < MIN_CARD_COUNT) {
-    result.push(...arr);
-  }
-  return result;
-};
+export default RecommendedEventSwiperView;
