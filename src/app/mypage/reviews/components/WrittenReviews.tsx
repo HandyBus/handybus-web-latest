@@ -28,7 +28,7 @@ const WrittenReviews = () => {
         {mockData &&
           (mockData.length === 0 ? (
             // (true ? (
-            <EmptyReview />
+            <EmptyReview variant="written-review" />
           ) : (
             <ul>
               {mockData.map((reservation) => (

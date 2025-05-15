@@ -19,7 +19,7 @@ const WritableReviews = () => {
     <DeferredSuspense fallback={<Loading style="grow" />} isLoading={false}>
       {mockData &&
         (mockData.length === 0 ? (
-          <EmptyReview />
+          <EmptyReview variant="writable-review" />
         ) : (
           <ul>
             {mockData.map((reservation) => (

@@ -1,19 +1,20 @@
-import Link from 'next/link';
-import ReviewIcon from 'public/icons/review.svg';
+import ReviewIcon from '../icons/review-grey-300.svg';
 
-const EmptyReview = () => {
+interface Props {
+  variant: 'writable-review' | 'written-review';
+}
+
+const EmptyReview = ({ variant }: Props) => {
   return (
     <div className="flex w-full flex-col items-center gap-4 py-44">
-      <ReviewIcon />
+      <ReviewIcon className="text-basic-grey-300" />
       <span className="text-16 font-400 text-basic-grey-300">
-        작성한 후기가 없어요
+        {variant === 'writable-review'
+          ? '아직 작성할 수 있는 후기가 없어요'
+          : variant === 'written-review'
+            ? '작성한 후기가 없어요'
+            : ''}
       </span>
-      <Link
-        href="/mypage/shuttle?type=reservation"
-        className="text-14 font-500 text-basic-grey-600 underline underline-offset-[3px]"
-      >
-        지난 콘서트 보러가기
-      </Link>
     </div>
   );
 };
