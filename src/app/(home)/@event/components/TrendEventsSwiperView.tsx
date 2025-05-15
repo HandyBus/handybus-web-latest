@@ -22,7 +22,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
 
   return (
     <>
-      <div className={'relative -mx-16 w-[calc(100%+32px)] py-16'}>
+      <div className={'relative -mx-16 w-[calc(100%+32px)]'}>
         <Swiper
           ref={swiper}
           pagination={true}
