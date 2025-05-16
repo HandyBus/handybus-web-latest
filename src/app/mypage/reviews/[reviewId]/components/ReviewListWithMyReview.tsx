@@ -9,7 +9,7 @@ import { CircleLoader } from 'react-spinners';
 import ReviewBanner from 'public/images/reviews/review-banner.png';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import ReviewItem from './ReviewItem';
-import { STATIC_REVIEWS } from '../review.const';
+import { STATIC_REVIEWS } from '@/constants/review.const';
 import ReviewStatistics from './ReviewStatistics';
 
 interface Props {

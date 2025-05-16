@@ -1,4 +1,6 @@
-export const STATIC_REVIEWS = [
+import { ReviewsViewEntity } from '@/types/review.type';
+
+export const STATIC_REVIEWS: ReviewsViewEntity[] = [
   {
     id: 1,
     rating: 5,
@@ -18,7 +20,7 @@ export const STATIC_REVIEWS = [
     userNickname: '맠쿨럭',
     eventName: '2024 NCT 127 8th ANNIVERSARY FANMEETING <8ECRET INVITATION>',
     eventLocationName: '잠실실내체육관',
-    eventArtists: ['NCT 127'],
+    eventArtists: [{ artistId: 'art-nct127', artistName: 'NCT 127' }],
   },
   {
     id: 2,
@@ -30,7 +32,7 @@ export const STATIC_REVIEWS = [
     userNickname: '연승현',
     eventName: '2024 NCT 127 8th ANNIVERSARY FANMEETING <8ECRET INVITATION>',
     eventLocationName: '잠실실내체육관',
-    eventArtists: ['NCT 127'],
+    eventArtists: [{ artistId: 'art-nct127', artistName: 'NCT 127' }],
   },
   {
     id: 3,
@@ -41,7 +43,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'danaas2',
     eventName: "2024 RIIZE FAN-CON TOUR 'RIIZING DAY'",
     eventLocationName: '잠실실내체육관',
-    eventArtists: ['RIIZE'],
+    eventArtists: [{ artistId: 'art-riize', artistName: 'RIIZE' }],
   },
   {
     id: 4,
@@ -53,7 +55,7 @@ export const STATIC_REVIEWS = [
     userNickname: '묘다',
     eventName: '2024 SVT 8TH FAN MEETING SEVENTEEN in CARAT LAND',
     eventLocationName: '고척스카이돔',
-    eventArtists: ['SEVENTEEN'],
+    eventArtists: [{ artistId: 'art-svt', artistName: 'SEVENTEEN' }],
   },
   {
     id: 5,
@@ -65,7 +67,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'seungjin',
     eventName: '2024 SVT 8TH FAN MEETING SEVENTEEN in CARAT LAND',
     eventLocationName: '고척스카이돔',
-    eventArtists: ['SEVENTEEN'],
+    eventArtists: [{ artistId: 'art-svt', artistName: 'SEVENTEEN' }],
   },
   {
     id: 6,
@@ -77,7 +79,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'tanily',
     eventName: 'SEVENTEEN [RIGHT HERE] WORLD TOUR IN GOYANG',
     eventLocationName: '고양종합운동장',
-    eventArtists: ['SEVENTEEN'],
+    eventArtists: [{ artistId: 'art-svt', artistName: 'SEVENTEEN' }],
   },
   {
     id: 7,
@@ -87,9 +89,9 @@ export const STATIC_REVIEWS = [
     reviewImages: [],
     createdAt: '2024-04-27',
     userNickname: '심진희',
-    eventName: 'SEVENTEEN TOUR ‘FOLLOW’ AGAIN TO SEOUL',
+    eventName: "SEVENTEEN TOUR 'FOLLOW' AGAIN TO SEOUL",
     eventLocationName: '서울월드컵경기장',
-    eventArtists: ['SEVENTEEN'],
+    eventArtists: [{ artistId: 'art-svt', artistName: 'SEVENTEEN' }],
   },
   {
     id: 8,
@@ -101,7 +103,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'minjoo',
     eventName: '2024 NCT DREAM WORLD TOUR <THE DREAM SHOW 3>',
     eventLocationName: '고척스카이돔',
-    eventArtists: ['NCT DREAM'],
+    eventArtists: [{ artistId: 'art-nctdream', artistName: 'NCT DREAM' }],
   },
   {
     id: 9,
@@ -118,7 +120,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'heejin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 콘서트>',
     eventLocationName: 'KSPO DOME',
-    eventArtists: ['아이유'],
+    eventArtists: [{ artistId: 'art-iu', artistName: '아이유' }],
   },
   {
     id: 10,
@@ -134,7 +136,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'yongjin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 콘서트>',
     eventLocationName: 'KSPO DOME',
-    eventArtists: ['아이유'],
+    eventArtists: [{ artistId: 'art-iu', artistName: '아이유' }],
   },
   {
     id: 11,
@@ -149,9 +151,9 @@ export const STATIC_REVIEWS = [
     ],
     createdAt: '2024-02-23',
     userNickname: 'crealiy',
-    eventName: 'ENHYPEN WORLD TOUR ‘FATE PLUS’ IN SEOUL',
+    eventName: "ENHYPEN WORLD TOUR 'FATE PLUS' IN SEOUL",
     eventLocationName: 'KSPO DOME',
-    eventArtists: ['ENHYPEN'],
+    eventArtists: [{ artistId: 'art-enh', artistName: 'ENHYPEN' }],
   },
   {
     id: 12,
@@ -165,9 +167,9 @@ export const STATIC_REVIEWS = [
     ],
     createdAt: '2024-02-23',
     userNickname: 'beliveall',
-    eventName: 'ENHYPEN WORLD TOUR ‘FATE PLUS’ IN SEOUL',
+    eventName: "ENHYPEN WORLD TOUR 'FATE PLUS' IN SEOUL",
     eventLocationName: 'KSPO DOME',
-    eventArtists: ['ENHYPEN'],
+    eventArtists: [{ artistId: 'art-enh', artistName: 'ENHYPEN' }],
   },
   {
     id: 13,
@@ -184,7 +186,7 @@ export const STATIC_REVIEWS = [
     userNickname: 'lilac',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 앵콜 콘서트>',
     eventLocationName: '서울월드컵경기장',
-    eventArtists: ['아이유'],
+    eventArtists: [{ artistId: 'art-iu', artistName: '아이유' }],
   },
   {
     id: 14,
@@ -200,6 +202,6 @@ export const STATIC_REVIEWS = [
     userNickname: 'aimin',
     eventName: '<2024 IU HEREH WORLD TOUR CONCERT [H.E.R.] 앵콜 콘서트>',
     eventLocationName: '서울월드컵경기장',
-    eventArtists: ['아이유'],
+    eventArtists: [{ artistId: 'art-iu', artistName: '아이유' }],
   },
 ];
