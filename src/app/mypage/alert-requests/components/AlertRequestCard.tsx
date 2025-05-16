@@ -83,9 +83,9 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
     }
     return {
       status: '알림 받는 중',
-      description: '예약 가능한 자리가 생기면 바로 알려드릴게요.',
+      description: `${alertRequest.queueIndex}번째로 대기중`,
     };
-  }, [hasEmptySeat, isReservationEnded]);
+  }, [hasEmptySeat, isReservationEnded, alertRequest.queueIndex]);
 
   return (
     <Link href={`/event/${event.eventId}`}>

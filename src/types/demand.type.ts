@@ -7,6 +7,7 @@ import { EventsViewEntitySchema } from './event.type';
 export const ShuttleDemandStatusEnum = z.enum([
   'OPEN', // 수요조사가 아직 모집 중인 상태
   'CLOSED', // 수요조사 모집 종료
+  'FULFILLED', // 노선 예약 완료
   'ENDED', // 행사가 끝나 셔틀 운행 종료
   'INACTIVE', // 비활성 상태
 ]);
@@ -48,6 +49,7 @@ export const ShuttleDemandsViewEntitySchema = z
     passengerCount: z.number(),
     status: ShuttleDemandStatusEnum,
     hasShuttleRoute: z.boolean(),
+    demandCountOnRegion: z.number(),
     createdAt: z.string(),
     updatedAt: z.string(),
   })

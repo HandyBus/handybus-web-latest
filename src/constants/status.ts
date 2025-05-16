@@ -4,7 +4,6 @@ import {
   HandyStatus,
   ReservationStatus,
 } from '@/types/reservation.type';
-import { ShuttleDemandStatus } from '@/types/demand.type';
 import { EventStatus, EventType } from '@/types/event.type';
 import { EventSortType } from '../app/event/event.const';
 
@@ -23,13 +22,6 @@ export const SHUTTLE_ROUTE_STATUS_TO_STRING: Record<
   CLOSED: '예약 마감',
   ENDED: '운행 종료',
   CANCELLED: '무산',
-  INACTIVE: '비활성',
-} as const;
-
-export const DEMAND_STATUS_TO_STRING: Record<ShuttleDemandStatus, string> = {
-  OPEN: '수요 확인 중',
-  CLOSED: '수요 신청 마감',
-  ENDED: '운행 종료',
   INACTIVE: '비활성',
 } as const;
 

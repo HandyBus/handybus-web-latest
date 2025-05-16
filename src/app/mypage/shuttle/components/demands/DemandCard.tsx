@@ -5,6 +5,9 @@ import { dateString } from '@/utils/dateString.util';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
+import Link from 'next/link';
+import ArrowRightIcon from '../../icons/arrow-right.svg';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
 
 interface Props {
   demand: ShuttleDemandsViewEntity;
@@ -36,8 +39,10 @@ const DemandCard = ({ demand }: Props) => {
 
   const isReservationOngoing =
     demand.hasShuttleRoute &&
-    (demand.status === 'OPEN' || demand.status === 'CLOSED');
-
+    (demand.status === 'OPEN' ||
+      demand.status === 'CLOSED' ||
+      demand.status === 'FULFILLED');
+  const isDemandFulfilled = demand.status === 'FULFILLED';
   const isDemandClosed =
     (demand.status === 'CLOSED' && !demand.hasShuttleRoute) ||
     demand.status === 'ENDED' ||
@@ -49,27 +54,35 @@ const DemandCard = ({ demand }: Props) => {
   };
 
   const descriptionText = useMemo(() => {
-    if (isDemandClosed) {
-      if (demand.hasShuttleRoute) {
-        return '이미 종료된 행사예요.';
-      } else {
-        return '아쉽게도 해당 행사는 인원 부족으로 셔틀이 열리지 않았어요.';
-      }
-    }
-    if (isReservationOngoing) {
+    if (isDemandClosed && demand.hasShuttleRoute) {
+      return '이미 종료된 행사예요.';
+    } else if (isDemandClosed && !demand.hasShuttleRoute) {
+      return '아쉽게도 해당 행사는 인원 부족으로 셔틀이 열리지 않았어요.';
+    } else if (isReservationOngoing && !isDemandFulfilled) {
       return '셔틀이 열렸어요! 지금 바로 예약해 보세요.';
+    } else if (isReservationOngoing && isDemandFulfilled) {
+      return '이 행사의 셔틀을 예약했어요.';
     } else {
       return (
         <span>
-          현재 <span className="text-brand-primary-400">NN</span>명이
-          요청했어요. 셔틀이 열리면 알려드릴게요.
+          현재{' '}
+          <span className="text-brand-primary-400">
+            {demand.demandCountOnRegion}
+          </span>
+          명이 요청했어요. 셔틀이 열리면 알려드릴게요.
         </span>
       );
     }
-  }, [isDemandClosed, isReservationOngoing, demand.hasShuttleRoute]);
+  }, [
+    isDemandClosed,
+    isReservationOngoing,
+    isDemandFulfilled,
+    demand.hasShuttleRoute,
+    demand.demandCountOnRegion,
+  ]);
 
   return (
-    <li>
+    <Link href={`/event/${demand.eventId}`}>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex items-center justify-between">
@@ -78,11 +91,13 @@ const DemandCard = ({ demand }: Props) => {
             >
               {!isDemandClosed ? '수요조사 완료' : '수요조사 마감'}
             </h5>
-            {isReservationOngoing && (
+            {isReservationOngoing && !isDemandFulfilled && (
               <Button
                 variant="primary"
                 size="small"
-                onClick={() => handleReserveClick(demand.eventId)}
+                onClick={handleClickAndStopPropagation(() =>
+                  handleReserveClick(demand.eventId),
+                )}
               >
                 예약하기
               </Button>
@@ -97,9 +112,12 @@ const DemandCard = ({ demand }: Props) => {
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
         <div>
-          <h6 className="line-clamp-1 grow text-16 font-600">
-            {demand.event.eventName}
-          </h6>
+          <div className="flex items-center">
+            <h6 className="line-clamp-1 grow text-16 font-600">
+              {demand.event.eventName}
+            </h6>
+            <ArrowRightIcon className="shrink-0" />
+          </div>
           <p className="text-12 font-500 text-basic-grey-700">
             {demand.event.eventLocationName}
           </p>
@@ -112,7 +130,7 @@ const DemandCard = ({ demand }: Props) => {
         </div>
       </article>
       <div className="h-8 w-full bg-basic-grey-50" />
-    </li>
+    </Link>
   );
 };
 
