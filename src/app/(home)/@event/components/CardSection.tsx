@@ -6,7 +6,6 @@ import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 interface Props extends HTMLProps<HTMLDivElement> {
   richTitle: ReactNode;
   showMore?: string | UrlObject;
-  titleClassName?: string;
 }
 
 const CardSection = ({ children, richTitle, showMore, ...props }: Props) => {
