@@ -1,13 +1,14 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
-import ReservationCard from '../../shuttle/components/reservations/reservation-card/ReservationCard';
+
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 // import { useGetUserReservations } from '@/services/reservation.service';
-import PeriodFilterBar from '../../shuttle/components/period-filter-bar/PeriodFilterBar';
-import usePeriodFilter from '../../shuttle/components/period-filter-bar/hooks/usePeriodFilter';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import EmptyReview from './EmptyReview';
+import ReservationCard from './reservation-card/ReservationCard';
+import usePeriodFilter from './period-filter-bar/hooks/usePeriodFilter';
+import PeriodFilterBar from './period-filter-bar/PeriodFilterBar';
 
 const WrittenReviews = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();

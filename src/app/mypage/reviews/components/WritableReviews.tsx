@@ -2,10 +2,10 @@
 
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import ReservationCard from '../../shuttle/components/reservations/reservation-card/ReservationCard';
 // import { useGetUserReservations } from '@/services/reservation.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import EmptyReview from './EmptyReview';
+import ReservationCard from './reservation-card/ReservationCard';
 
 const WritableReviews = () => {
   // const { data: reservations, isLoading } = useGetUserReservations({
