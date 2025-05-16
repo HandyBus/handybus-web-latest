@@ -1,6 +1,7 @@
 import { HandyStatus } from '@/types/reservation.type';
-import { ReservationProgress } from '../../../../hooks/useReservationProgress';
+
 import { useMemo } from 'react';
+import { ReservationProgress } from './useReservationProgress';
 
 interface Props {
   reservationProgress: ReservationProgress;
