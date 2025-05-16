@@ -1,5 +1,5 @@
 import Header from '@/components/header/Header';
-import ReviewList from '@/app/reviews/components/ReviewList';
+import ReviewListWithMyReview from './components/ReviewListWithMyReview';
 
 interface Props {
   params: {
@@ -11,7 +11,7 @@ const ReviewPage = ({ params }: Props) => {
   return (
     <main>
       <Header />
-      <ReviewList reviewId={params.reservationId} />
+      <ReviewListWithMyReview reviewId={params.reservationId} />
     </main>
   );
 };

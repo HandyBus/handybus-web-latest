@@ -1,17 +1,22 @@
 'use client';
 
-import ReviewItem from './ReviewItem';
-import ReviewStatistics from './ReviewStatistics';
+import { convertStaticToReviewEntity } from '@/app/reviews/convertStaticToReviewEntity.util';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { useGetReviewsWithPagination } from '@/services/review.service';
 import Image from 'next/image';
+import MyReviewItem from './MyReviewItem';
+import { CircleLoader } from 'react-spinners';
 import ReviewBanner from 'public/images/reviews/review-banner.png';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
-import { CircleLoader } from 'react-spinners';
+import ReviewItem from './ReviewItem';
 import { STATIC_REVIEWS } from '../review.const';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { convertStaticToReviewEntity } from '../convertStaticToReviewEntity.util';
-import { useGetReviewsWithPagination } from '@/services/review.service';
+import ReviewStatistics from './ReviewStatistics';
 
-const ReviewList = () => {
+interface Props {
+  reviewId?: string;
+}
+
+const ReviewListWithMyReview = ({ reviewId }: Props) => {
   const {
     data: reviews,
     fetchNextPage,
@@ -36,6 +41,7 @@ const ReviewList = () => {
             <ChevronRightEmIcon className="h-16 w-16 rotate-90 stroke-2 text-basic-grey-300" />
           </button>
         </div>
+        {reviewId && <MyReviewItem />}
         {reviews.reviews.map((review) => (
           <ReviewItem key={review.reviewId} review={review} />
         ))}
@@ -58,4 +64,4 @@ const ReviewList = () => {
   );
 };
 
-export default ReviewList;
+export default ReviewListWithMyReview;

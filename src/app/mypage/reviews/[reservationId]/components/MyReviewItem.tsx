@@ -1,8 +1,8 @@
 'use client';
 
-import ReviewItem from './ReviewItem';
 import { convertStaticToReviewEntity } from '../convertStaticToReviewEntity.util';
 import { STATIC_REVIEWS } from '../review.const';
+import ReviewItem from './ReviewItem';
 
 const MyReviewItem = () => {
   const mockReview = convertStaticToReviewEntity(STATIC_REVIEWS[0]);
