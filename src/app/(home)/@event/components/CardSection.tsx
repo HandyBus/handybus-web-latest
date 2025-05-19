@@ -26,7 +26,7 @@ interface TitleProps {
 
 const Title = ({ title, showMore }: TitleProps) => {
   return (
-    <header className="flex w-full flex-row justify-between">
+    <header className="flex w-full flex-row justify-between pb-16">
       <h2 className={'text-20 font-700 leading-[140%]'}>{title}</h2>
       {showMore && (
         <Link href={showMore}>

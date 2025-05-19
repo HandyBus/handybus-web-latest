@@ -109,6 +109,11 @@ export const getShuttleRoutesOfEvent = async (
 
 export const useGetShuttleRoutesOfEventWithPagination = (
   params: PaginationParams<GetShuttleRouteDemandOfEventParams>,
+  {
+    enabled = true,
+  }: {
+    enabled?: boolean;
+  } = {},
 ) =>
   useInfiniteQuery({
     queryKey: ['shuttle-route', params],
@@ -118,6 +123,7 @@ export const useGetShuttleRoutesOfEventWithPagination = (
     getNextPageParam: (lastPage) => {
       return lastPage.nextPage;
     },
+    enabled,
   });
 
 export const getShuttleRoute = async (

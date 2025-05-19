@@ -5,18 +5,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import Card from '@/components/card/Card';
-import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
-import Link from 'next/link';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 
 const MIN_CARD_COUNT = 5;
 
 interface Props {
   events: EventWithRoutesViewEntity[];
-  type: 'TREND' | 'RECOMMEND';
 }
 
-const EventsSwiperView = ({ events, type }: Props) => {
+const TrendEventsSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
 
   const cardCount = events.length;
@@ -25,7 +22,7 @@ const EventsSwiperView = ({ events, type }: Props) => {
 
   return (
     <>
-      <div className={'relative -mx-16 w-[calc(100%+32px)] py-16'}>
+      <div className={'relative -mx-16 w-[calc(100%+32px)]'}>
         <Swiper
           ref={swiper}
           pagination={true}
@@ -39,7 +36,7 @@ const EventsSwiperView = ({ events, type }: Props) => {
             <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
               <div className="pr-[6px]">
                 <Card
-                  variant={type === 'TREND' ? 'LARGE' : 'MEDIUM'}
+                  variant={'LARGE'}
                   image={v.eventImageUrl}
                   title={v.eventName}
                   date={v.startDate}
@@ -52,28 +49,13 @@ const EventsSwiperView = ({ events, type }: Props) => {
               </div>
             </SwiperSlide>
           ))}
-          {type === 'RECOMMEND' && (
-            <SwiperSlide style={{ width: 'auto' }}>
-              <Link
-                href="/event"
-                className="group flex h-[300px] w-92 cursor-pointer flex-col items-center gap-[8px] pr-[6px]
-    pt-72
-    transition-colors"
-              >
-                <ViewAllButton />
-                <p className="text-14 font-600 leading-[160%] text-basic-grey-600">
-                  전체보기
-                </p>
-              </Link>
-            </SwiperSlide>
-          )}
         </Swiper>
       </div>
     </>
   );
 };
 
-export default EventsSwiperView;
+export default TrendEventsSwiperView;
 
 const extendArray = <T,>(arr: T[]): T[] => {
   if (arr.length === 0) {

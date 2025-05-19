@@ -4,11 +4,11 @@ import {
   EventWithRoutesViewEntitySchema,
 } from '@/types/event.type';
 import { instance } from './config';
-import { withPagination } from '@/types/common.type';
+import { Combinations, withPagination } from '@/types/common.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 
 export const getEvents = async (params?: {
-  status?: EventStatus;
+  status?: Combinations<EventStatus>;
   eventIsPinned?: boolean;
   orderBy?: 'eventName' | 'eventRecommendationScore';
   additionalOrderOptions?: 'ASC' | 'DESC';
@@ -26,7 +26,7 @@ export const getEvents = async (params?: {
 };
 
 export const useGetEvents = (params?: {
-  status?: EventStatus;
+  status?: Combinations<EventStatus>;
   eventIsPinned?: boolean;
   orderBy?: 'eventName' | 'eventRecommendationScore';
   additionalOrderOptions?: 'ASC' | 'DESC';

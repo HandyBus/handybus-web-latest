@@ -12,15 +12,21 @@ interface FilterBarProps {
   onSort: (sort: EventSortType) => void;
 }
 
-const FilterBar = ({ type, sort, onSort }: FilterBarProps) => {
+const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
   return (
     <div className="sticky top-[48px] z-40 bg-basic-white">
       <div className="flex w-full justify-between px-16 pb-16 pt-12">
         <div className="flex gap-8">
-          <Chip onClick={() => {}} isSelected={type === 'CONCERT'}>
+          <Chip
+            onClick={() => setType('CONCERT')}
+            isSelected={type === 'CONCERT'}
+          >
             콘서트
           </Chip>
-          <Chip onClick={() => {}} isSelected={type === 'FESTIVAL'}>
+          <Chip
+            onClick={() => setType('FESTIVAL')}
+            isSelected={type === 'FESTIVAL'}
+          >
             페스티벌
           </Chip>
         </div>

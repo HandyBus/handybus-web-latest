@@ -16,7 +16,7 @@ import {
 // ----- GET -----
 
 export const getUserAlertRequests = async (
-  params: PaginationParams<unknown>,
+  params?: PaginationParams<unknown>,
 ) => {
   const searchParams = toSearchParams(params);
   const res = await authInstance.get(

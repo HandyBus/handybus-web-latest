@@ -44,15 +44,49 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { getUserDemands } from '@/services/demand.service';
 import { userDemandsAtom } from '../store/userDemandsAtom';
 import ExtraHubsInRouteStep from './steps/extra-steps/ExtraHubsInRouteStep';
+import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
+import Button from '@/components/buttons/button/Button';
+import { userAlertRequestsAtom } from '../store/userAlertRequestsAtom';
+import { getUserAlertRequests } from '@/services/alertRequest.service';
+import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 interface Props {
   event: EventWithRoutesViewEntity;
-  routes: ShuttleRoutesViewEntity[];
 }
 
-const EventForm = ({ event, routes }: Props) => {
+const EventForm = ({ event }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
+
+  const { data: routesPages } = useGetShuttleRoutesOfEventWithPagination(
+    {
+      eventId: event.eventId,
+      status: 'OPEN',
+    },
+    {
+      enabled: event.hasOpenRoute,
+    },
+  );
+  const routes = useMemo(
+    () => routesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [],
+    [routesPages],
+  );
+  const isRoutesLoading = event.hasOpenRoute && routes.length === 0;
+
+  if (isRoutesLoading) {
+    return (
+      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
+        <Button
+          variant="secondary"
+          size="medium"
+          type="button"
+          disabled={true}
+        />
+        <Button variant="primary" size="large" type="button" disabled={true} />
+      </div>
+    );
+  }
+
   return (
     <section className={isDisabled ? '' : 'px-16 pb-24'}>
       <JotaiProvider>
@@ -81,8 +115,9 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   const isInitialized = useRef(false);
   const setEvent = useSetAtom(eventAtom);
   const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdsWithRoutesAtom);
+
   const setUserDemands = useSetAtom(userDemandsAtom);
-  const getAndSetUserDemands = async () => {
+  const updateUserDemands = async () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
       return;
@@ -93,6 +128,21 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     });
     setUserDemands(userDemands.shuttleDemands);
   };
+
+  const setUserAlertRequests = useSetAtom(userAlertRequestsAtom);
+  const updateUserAlertRequests = async () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      return;
+    }
+    const userAlertRequests = await getUserAlertRequests();
+    const filteredUserAlertRequests =
+      userAlertRequests.shuttleRouteAlertRequests.filter(
+        (alertRequest) => alertRequest.shuttleRoute.eventId === event.eventId,
+      );
+    setUserAlertRequests(filteredUserAlertRequests);
+  };
+
   useEffect(() => {
     if (isInitialized.current) {
       return;
@@ -100,7 +150,8 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
     isInitialized.current = true;
     setEvent(event);
     setDailyEventIdWithRoutes(routes);
-    getAndSetUserDemands();
+    updateUserDemands();
+    updateUserAlertRequests();
   }, []);
 
   // 폼 상태 관리
@@ -158,6 +209,21 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
   // 수요조사 완료 화면
   const [demandCompleteStatus, setDemandCompleteStatus] =
     useState<DemandCompleteStatus | null>(null);
+
+  // 빈자리 알림 신청 피드백 화면
+  const [
+    isAlertRequestFeedbackScreenOpen,
+    setIsAlertRequestFeedbackScreenOpen,
+  ] = useState(false);
+  const openAlertRequestFeedbackScreen = () => {
+    closeBottomSheet();
+    setTimeout(() => {
+      setIsAlertRequestFeedbackScreenOpen(true);
+    }, 100);
+  };
+  const closeAlertRequestFeedbackScreen = () => {
+    setIsAlertRequestFeedbackScreenOpen(false);
+  };
 
   return (
     <>
@@ -227,7 +293,7 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                   <DemandHubInfoStep
                     closeBottomSheet={closeBottomSheet}
                     setDemandCompleteStatus={setDemandCompleteStatus}
-                    updateUserDemands={getAndSetUserDemands}
+                    updateUserDemands={updateUserDemands}
                   />
                 </Step>
                 {/* 예약 */}
@@ -291,6 +357,11 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
                     toExtraHubsInRouteStep={() =>
                       setHistoryAndStep('[기타] 노선 내 정류장')
                     }
+                    closeBottomSheet={closeBottomSheet}
+                    updateUserAlertRequests={updateUserAlertRequests}
+                    openAlertRequestFeedbackScreen={
+                      openAlertRequestFeedbackScreen
+                    }
                   />
                 </Step>
                 <Step name="[기타] 노선 내 정류장">
@@ -305,6 +376,12 @@ const Form = ({ event, routes, phase, enabledStatus }: FormProps) => {
         <DemandCompleteScreen
           status={demandCompleteStatus}
           setDemandCompleteStatus={setDemandCompleteStatus}
+        />
+      )}
+      {isAlertRequestFeedbackScreenOpen && (
+        <FeedbackScreen
+          subject="빈자리 알림 신청"
+          closeFeedbackScreen={closeAlertRequestFeedbackScreen}
         />
       )}
     </>
