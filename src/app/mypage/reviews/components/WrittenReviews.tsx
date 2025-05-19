@@ -1,7 +1,7 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
-import ReservationCard from '../../shuttle/components/reservations/reservation-card/ReservationCard';
+import ReservationCardForReview from './reservation-card/ReservationCardForReview';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { useGetUserReservations } from '@/services/reservation.service';
 import PeriodFilterBar from '../../shuttle/components/period-filter-bar/PeriodFilterBar';
@@ -31,7 +31,7 @@ const WrittenReviews = () => {
           ) : (
             <ul>
               {reservations.map((reservation) => (
-                <ReservationCard
+                <ReservationCardForReview
                   key={reservation.reservationId}
                   reservation={reservation}
                 />

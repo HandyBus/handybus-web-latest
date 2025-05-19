@@ -1,12 +1,12 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { ReviewsViewEntity } from '@/types/review.type';
 import Link from 'next/link';
-import ArrowRightIcon from '../icons/arrow-right.svg';
-import useTextAndStyleForReview from '../hooks/useTextAndStyleForReview';
+import ArrowRightIcon from '../../icons/arrow-right.svg';
+import useTextAndStyleForReview from '../../hooks/useTextAndStyleForReview';
 import { dateString } from '@/utils/dateString.util';
 import dayjs from 'dayjs';
 import ReviewButton from './ReviewButton';
-import useEventText from '../hooks/useEventText';
+import useEventText from '../../hooks/useEventText';
 
 interface Props {
   reservation: ReservationsViewEntity;

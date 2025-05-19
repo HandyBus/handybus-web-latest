@@ -2,7 +2,7 @@
 
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import ReservationCard from '../../shuttle/components/reservations/reservation-card/ReservationCard';
+import ReservationCardForReview from './reservation-card/ReservationCardForReview';
 import { useGetUserReservations } from '@/services/reservation.service';
 import EmptyReview from './EmptyReview';
 
@@ -19,7 +19,7 @@ const WritableReviews = () => {
         ) : (
           <ul>
             {reservations.map((reservation) => (
-              <ReservationCard
+              <ReservationCardForReview
                 key={reservation.reservationId}
                 reservation={reservation}
               />

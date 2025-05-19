@@ -4,7 +4,7 @@ import Header from '@/components/header/Header';
 import EventInfoCard from '../../components/review-form/components/EventInfoCard';
 import ReviewForm from '../../components/review-form/components/ReviewForm';
 
-const EditReviewPage = () => {
+const WriteReviewPage = () => {
   return (
     <main>
       <Header />
@@ -15,7 +15,7 @@ const EditReviewPage = () => {
   );
 };
 
-export default EditReviewPage;
+export default WriteReviewPage;
 
 const Divider = () => {
   return <div className="h-[8px] w-full bg-basic-grey-50" />;

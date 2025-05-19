@@ -22,7 +22,7 @@ const ReviewButton = ({
           variant="primary"
           size="small"
           onClick={handleClickAndStopPropagation(() => {
-            router.push(`/mypage/reviews/${reservationId}/write`);
+            router.push(`/mypage/reviews/write/${reservationId}`);
           })}
         >
           후기 작성
@@ -35,7 +35,7 @@ const ReviewButton = ({
             variant="secondary"
             size="small"
             onClick={handleClickAndStopPropagation(() => {
-              router.push(`/mypage/reviews/${reviewId}/edit`);
+              router.push(`/mypage/reviews/edit/${reviewId}`);
             })}
           >
             후기 수정

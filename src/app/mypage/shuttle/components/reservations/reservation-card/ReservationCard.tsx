@@ -45,7 +45,7 @@ const ReservationCard = ({ reservation }: Props) => {
     handyStatus,
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
-    hasReview,
+    reviewId,
   } = useReservationProgress({
     reservation,
     dailyEvent,
@@ -91,7 +91,7 @@ const ReservationCard = ({ reservation }: Props) => {
               handyStatus={handyStatus}
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               isWritingReviewPeriod={isWritingReviewPeriod}
-              hasReview={hasReview}
+              reviewId={reviewId}
               openChatLink={shuttleBus?.openChatLink}
               reservationId={reservation.reservationId}
             />
