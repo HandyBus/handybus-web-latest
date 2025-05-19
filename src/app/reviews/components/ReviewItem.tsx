@@ -6,20 +6,14 @@ import Image from 'next/image';
 
 interface Props {
   review: ReviewsViewEntity;
-  isMyReview?: boolean;
 }
 
-const ReviewItem = ({ review, isMyReview }: Props) => {
+const ReviewItem = ({ review }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <article>
-      <div
-        key={review.reviewId}
-        className={`flex flex-col p-12 ${
-          isMyReview ? 'bg-basic-grey-50' : 'bg-basic-white'
-        } rounded-8`}
-      >
+      <div key={review.reviewId} className={`flex flex-col rounded-8 p-12`}>
         <div className="flex flex-col items-start gap-[2px]">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-[6px]">
@@ -45,7 +39,6 @@ const ReviewItem = ({ review, isMyReview }: Props) => {
                       alt={`${review.eventName} 후기 이미지 ${index + 1}`}
                       fill
                       className="rounded-8 object-cover"
-                      // placeholder="blur"
                     />
                   </div>
                 );
