@@ -4,8 +4,8 @@ import Loading from '@/components/loading/Loading';
 import ReservationCardForReview from './reservation-card/ReservationCardForReview';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { useGetUserReservations } from '@/services/reservation.service';
-import PeriodFilterBar from '../../shuttle/components/period-filter-bar/PeriodFilterBar';
-import usePeriodFilter from '../../shuttle/components/period-filter-bar/hooks/usePeriodFilter';
+import PeriodFilterBar from '../../components/period-filter-bar/PeriodFilterBar';
+import usePeriodFilter from '../../components/period-filter-bar/hooks/usePeriodFilter';
 import EmptyReview from './EmptyReview';
 
 const WrittenReviews = () => {

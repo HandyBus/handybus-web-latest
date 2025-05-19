@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservations } from '@/services/reservation.service';
-import usePeriodFilter from '../period-filter-bar/hooks/usePeriodFilter';
-import PeriodFilterBar from '../period-filter-bar/PeriodFilterBar';
+import usePeriodFilter from '../../../components/period-filter-bar/hooks/usePeriodFilter';
+import PeriodFilterBar from '../../../components/period-filter-bar/PeriodFilterBar';
 const EmptyView = dynamic(() => import('./EmptyView'));
 
 const ReservationTab = () => {
