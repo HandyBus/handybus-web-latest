@@ -1,21 +1,19 @@
 'use client';
 
-import { useGetEvents } from '@/services/event.service';
 import CardSection from './CardSection';
 import TrendEventsSwiperView from './TrendEventsSwiperView';
+import { EventWithRoutesViewEntity } from '@/types/event.type';
 
-const TrendEventCard = () => {
-  const { data: popularEvents } = useGetEvents({
-    status: 'OPEN,CLOSED',
-    orderBy: 'eventRecommendationScore',
-    additionalOrderOptions: 'DESC',
-  });
+interface Props {
+  events: EventWithRoutesViewEntity[] | null | undefined;
+}
 
-  const slicedEvents = !popularEvents
+const TrendEventCard = ({ events }: Props) => {
+  const slicedEvents = !events
     ? []
-    : popularEvents.length > 20
-      ? popularEvents.slice(0, MAX_EVENTS_COUNT)
-      : popularEvents.slice(0, MIN_EVENTS_COUNT);
+    : events.length > 20
+      ? events.slice(0, MAX_EVENTS_COUNT)
+      : events.slice(0, MIN_EVENTS_COUNT);
 
   return (
     <section>
@@ -23,7 +21,7 @@ const TrendEventCard = () => {
         richTitle="실시간 인기 셔틀"
         titleClassName="text-20 leading-[140%] py-0"
       >
-        {popularEvents ? (
+        {slicedEvents ? (
           <TrendEventsSwiperView events={slicedEvents} />
         ) : (
           <EmptyView />
@@ -35,6 +33,6 @@ const TrendEventCard = () => {
 
 export default TrendEventCard;
 
-const EmptyView = () => <div className="h-[340px] py-16" />;
+const EmptyView = () => <div className="h-[309px] py-16" />;
 const MAX_EVENTS_COUNT = 5;
 const MIN_EVENTS_COUNT = 3;
