@@ -7,6 +7,7 @@ import { useGetUserReservations } from '@/services/reservation.service';
 import PeriodFilterBar from '../../components/period-filter-bar/PeriodFilterBar';
 import usePeriodFilter from '../../components/period-filter-bar/hooks/usePeriodFilter';
 import EmptyReview from './EmptyReview';
+import { useMemo } from 'react';
 
 const WrittenReviews = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
@@ -14,6 +15,11 @@ const WrittenReviews = () => {
     monthsAgo: periodFilter,
     eventProgressStatus: 'PAST',
   });
+
+  const reservationsWithReview = useMemo(
+    () => reservations?.filter((reservation) => reservation.reviewId),
+    [reservations],
+  );
 
   return (
     <>
@@ -25,12 +31,12 @@ const WrittenReviews = () => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {reservations &&
-          (reservations.length === 0 ? (
+        {reservationsWithReview &&
+          (reservationsWithReview.length === 0 ? (
             <EmptyReview variant="written-review" />
           ) : (
             <ul>
-              {reservations.map((reservation) => (
+              {reservationsWithReview.map((reservation) => (
                 <ReservationCardForReview
                   key={reservation.reservationId}
                   reservation={reservation}
