@@ -27,7 +27,7 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
   const ref = useInfiniteScroll(fetchNextPage);
 
   const reviewTotalCount = reviews.totalCount + STATIC_REVIEWS.length;
-
+  console.log('reviewId,', reviewId);
   return (
     <>
       <Image src={ReviewBanner} alt="핸디버스 후기" />
@@ -41,7 +41,7 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
             <ChevronRightEmIcon className="h-16 w-16 rotate-90 stroke-2 text-basic-grey-300" />
           </button>
         </div>
-        {reviewId && <MyReviewItem />}
+        {reviewId && <MyReviewItem reviewId={reviewId} />}
         {reviews.reviews.map((review) => (
           <ReviewItem key={review.reviewId} review={review} />
         ))}

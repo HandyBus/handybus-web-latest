@@ -3,15 +3,17 @@ import ReviewListWithMyReview from './components/ReviewListWithMyReview';
 
 interface Props {
   params: {
-    reservationId: string;
+    reviewId: string;
   };
 }
 
 const ReviewPage = ({ params }: Props) => {
+  const { reviewId } = params;
+
   return (
     <main>
       <Header />
-      <ReviewListWithMyReview reviewId={params.reservationId} />
+      <ReviewListWithMyReview reviewId={reviewId} />
     </main>
   );
 };

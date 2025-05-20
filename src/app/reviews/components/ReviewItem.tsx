@@ -3,6 +3,7 @@ import UserProfile from '@/components/header/UserProfile';
 import { ReviewsViewEntity } from '@/types/review.type';
 import { useState } from 'react';
 import Image from 'next/image';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -65,7 +66,9 @@ const ReviewItem = ({ review }: Props) => {
         </div>
         <div className="mt-4 flex w-full items-center justify-end gap-4">
           <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-            {review.createdAt}
+            {dateString(review.createdAt, {
+              showWeekday: false,
+            })}
           </p>
         </div>
       </div>
