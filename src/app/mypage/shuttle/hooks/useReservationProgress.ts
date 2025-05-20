@@ -44,7 +44,7 @@ const useReservationProgress = ({
 
   const isOpenChatLinkCreated = !!shuttleBus?.openChatLink;
 
-  const hasReview = reservation.hasReview;
+  const reviewId = reservation.reviewId;
 
   const isWritingReviewPeriod = !!(
     dailyEvent?.date &&
@@ -57,7 +57,7 @@ const useReservationProgress = ({
     reservationProgress,
     handyStatus,
     isOpenChatLinkCreated,
-    hasReview,
+    reviewId,
     isWritingReviewPeriod,
   };
 };

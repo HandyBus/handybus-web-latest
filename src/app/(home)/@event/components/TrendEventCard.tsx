@@ -17,10 +17,7 @@ const TrendEventCard = ({ events }: Props) => {
 
   return (
     <section>
-      <CardSection
-        richTitle="실시간 인기 셔틀"
-        titleClassName="text-20 leading-[140%] py-0"
-      >
+      <CardSection richTitle="실시간 인기 셔틀">
         {slicedEvents ? (
           <TrendEventsSwiperView events={slicedEvents} />
         ) : (

@@ -38,7 +38,6 @@ const RecommendedEventCard = ({ events }: Props) => {
     <section>
       <CardSection
         richTitle={`${dayjs().format('M')}월 추천 행사`}
-        titleClassName="text-20 leading-[140%]"
         showMore="/event"
       >
         {availableEventTypes.length > 1 && (

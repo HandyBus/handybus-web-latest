@@ -12,7 +12,7 @@ interface Props {
   handyStatus: HandyStatus;
   isOpenChatLinkCreated: boolean;
   isWritingReviewPeriod: boolean;
-  hasReview: boolean;
+  reviewId: string | null | undefined;
   openChatLink: string | null | undefined;
   reservationId: string;
 }
@@ -23,7 +23,7 @@ const ChatButton = ({
   handyStatus,
   isOpenChatLinkCreated,
   isWritingReviewPeriod,
-  hasReview,
+  reviewId,
   openChatLink,
   reservationId,
 }: Props) => {
@@ -127,13 +127,13 @@ const ChatButton = ({
       );
     case 'shuttleEnded':
       if (isWritingReviewPeriod) {
-        if (!hasReview) {
+        if (!reviewId) {
           return (
             <Button
               variant="primary"
               size="small"
               onClick={handleClickAndStopPropagation(() => {
-                router.push(`/mypage/shuttle/reviews/${reservationId}/write`);
+                router.push(`/mypage/reviews/write/${reservationId}`);
               })}
             >
               후기 작성
@@ -146,7 +146,7 @@ const ChatButton = ({
                 variant="secondary"
                 size="small"
                 onClick={handleClickAndStopPropagation(() => {
-                  router.push(`/mypage/shuttle/reviews/${reservationId}/edit`);
+                  router.push(`/mypage/reviews/edit/${reviewId}`);
                 })}
               >
                 후기 수정
@@ -155,7 +155,7 @@ const ChatButton = ({
                 variant="primary"
                 size="small"
                 onClick={handleClickAndStopPropagation(() => {
-                  router.push(`/mypage/shuttle/reviews/${reservationId}`);
+                  router.push(`/mypage/reviews/${reservationId}`);
                 })}
               >
                 내 후기
@@ -164,13 +164,13 @@ const ChatButton = ({
           );
         }
       } else {
-        if (hasReview) {
+        if (reviewId) {
           return (
             <Button
               variant="tertiary"
               size="small"
               onClick={handleClickAndStopPropagation(() => {
-                router.push(`/mypage/shuttle/reviews/${reservationId}`);
+                router.push(`/mypage/reviews/${reservationId}`);
               })}
             >
               내 후기
