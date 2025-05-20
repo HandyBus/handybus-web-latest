@@ -128,7 +128,9 @@ const ReviewEditForm = ({ review }: Props) => {
         render={({ field }) => (
           <RatingInput
             rating={field.value}
-            setRating={(rating) => setValue('overallRating', rating)}
+            setRating={(rating) =>
+              setValue('overallRating', rating, { shouldValidate: true })
+            }
           />
         )}
       />
@@ -144,7 +146,9 @@ const ReviewEditForm = ({ review }: Props) => {
             title="서비스 이용은 어떠셨나요?"
             description="가입, 수요조사 참여, 예약 과정 등"
             value={field.value}
-            onChange={(rating) => setValue('serviceRating', rating)}
+            onChange={(rating) =>
+              setValue('serviceRating', rating, { shouldValidate: true })
+            }
           />
         )}
       />
@@ -160,7 +164,9 @@ const ReviewEditForm = ({ review }: Props) => {
             title="탑승은 어떠셨나요?"
             description="기사님 친절도, 버스 청결도, 이동시간 등"
             value={field.value}
-            onChange={(rating) => setValue('rideRating', rating)}
+            onChange={(rating) =>
+              setValue('rideRating', rating, { shouldValidate: true })
+            }
           />
         )}
       />
@@ -174,7 +180,9 @@ const ReviewEditForm = ({ review }: Props) => {
         render={({ field }) => (
           <ReviewTextarea
             text={field.value}
-            setText={(text) => setValue('content', text)}
+            setText={(text) =>
+              setValue('content', text, { shouldValidate: true })
+            }
           />
         )}
       />

@@ -57,6 +57,28 @@ export const CreateReviewRequestSchema = z.object({
 });
 export type CreateReviewRequest = z.infer<typeof CreateReviewRequestSchema>;
 
+export const WriteReviewResponseSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  eventId: z.string(),
+  reservationId: z.string(),
+  rating: z.number().int().min(1).max(5),
+  serviceRating: z.number().int().min(1).max(5),
+  rideRating: z.number().int().min(1).max(5),
+  recommendToOthers: z.boolean(),
+  content: z.string(),
+  images: z
+    .object({
+      imageUrl: z.string(),
+    })
+    .array()
+    .nullable(),
+  status: ActiveStatusEnum.nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export type WriteReviewResponse = z.infer<typeof WriteReviewResponseSchema>;
+
 // ----- PUT -----
 
 export const EditReviewRequestSchema = z.object({

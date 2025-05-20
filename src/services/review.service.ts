@@ -8,6 +8,8 @@ import {
   EditReviewRequest,
   EditReviewRequestSchema,
   ReviewsViewEntitySchema,
+  WriteReviewResponse,
+  WriteReviewResponseSchema,
 } from '@/types/review.type';
 import {
   useInfiniteQuery,
@@ -98,20 +100,30 @@ export const useGetReview = (reviewId: string) =>
 // ----- POST -----
 
 export const postReview = async (body: CreateReviewRequest) => {
-  return await authInstance.post(
+  const res = await authInstance.post(
     '/v3/shuttle-operation/reviews',
     silentParse(CreateReviewRequestSchema, body),
+    {
+      shape: {
+        review: WriteReviewResponseSchema,
+      },
+    },
   );
+  return res.review;
 };
 
-export const usePostReview = ({ onSuccess }: { onSuccess?: () => void }) => {
+export const usePostReview = ({
+  onSuccess,
+}: {
+  onSuccess?: (res: WriteReviewResponse) => void;
+}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postReview,
-    onSuccess: async () => {
+    onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
       toast.success('후기가 등록되었어요!');
-      onSuccess?.();
+      onSuccess?.(res);
     },
     onError: () => {
       toast.error('후기를 등록하지 못했어요.');
