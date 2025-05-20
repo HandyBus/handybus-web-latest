@@ -21,12 +21,10 @@ const ReviewList = () => {
 
   const ref = useInfiniteScroll(fetchNextPage);
 
-  const reviewTotalCount = reviews.totalCount + STATIC_REVIEWS.length;
-
   return (
     <>
       <Image src={ReviewBanner} alt="핸디버스 후기" />
-      <ReviewStatistics reviewTotalCount={reviewTotalCount} />
+      <ReviewStatistics />
       <div className="h-8 bg-basic-grey-50" />
       <section className="mt-32 flex flex-col gap-16 px-16">
         <div className="flex items-center justify-between">

@@ -1,14 +1,13 @@
 import ThumbsupIcon from '../icons/thumbsup.svg';
 import ReviewIcon from '../icons/review.svg';
 import HeartIcon from '../icons/heart.svg';
+import { useGetReviewStatistics } from '@/services/review.service';
 
-interface Props {
-  reviewTotalCount: number;
-}
-
-const ReviewStatistics = ({ reviewTotalCount }: Props) => {
-  const AVERAGE_RATING = 4.8;
-  const RECOMMEND_RATE = 98;
+const ReviewStatistics = () => {
+  const { data: reviewStatistics } = useGetReviewStatistics();
+  const AVERAGE_RATING = reviewStatistics?.[0]?.averageRating ?? 5;
+  const REVIEW_COUNT = reviewStatistics?.[0]?.cumulativeReviewCount ?? 100;
+  const RECOMMEND_RATE = reviewStatistics?.[0]?.recommendationScore ?? 100;
 
   return (
     <section className="flex flex-col gap-12 px-16 py-32">
@@ -26,7 +25,7 @@ const ReviewStatistics = ({ reviewTotalCount }: Props) => {
           <ReviewIcon className="h-[21.5px] w-[21.5px]" />
         </div>
         <p className="text-16 font-600 leading-[160%] text-basic-grey-600">
-          <span className="text-basic-black">{reviewTotalCount}</span>
+          <span className="text-basic-black">{REVIEW_COUNT}</span>
           개의 후기가 모였어요
         </p>
       </div>
