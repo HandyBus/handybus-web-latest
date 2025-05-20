@@ -30,7 +30,7 @@ const ReviewEditForm = ({ review }: Props) => {
     defaultValues: {
       eventId: review.eventId,
       reservationId: review.reservationId,
-      recommendToOthers: review.recommendToOthers,
+      recommendToOthers: !!review.recommendToOthers,
       overallRating: review.overallRating,
       serviceRating: review.serviceRating,
       rideRating: review.rideRating,
@@ -50,7 +50,7 @@ const ReviewEditForm = ({ review }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: putReview } = usePutReview({
     onSuccess: () => {
-      router.push(`/mypage/reviews/${review.reservationId}`);
+      router.push(`/mypage/reviews/${review.reviewId}`);
     },
   });
 
@@ -83,17 +83,13 @@ const ReviewEditForm = ({ review }: Props) => {
   };
 
   const handleFileRemove = (image: DisplayImage) => {
-    if (image.original)
-      setDisplayImages((prev) =>
-        prev.filter((f) => f.original?.name !== image.original?.name),
-      );
-    if (image.previewUrl) {
-      const images = getValues('images');
-      setValue(
-        'images',
-        images?.filter((f) => f.imageUrl !== image.previewUrl) ?? [],
-      );
-    }
+    setDisplayImages((prev) =>
+      prev.filter(
+        (f) =>
+          f.original?.name !== image.original?.name ||
+          f.previewUrl !== image.previewUrl,
+      ),
+    );
   };
 
   const onSubmit = async (data: CreateReviewRequest) => {
@@ -109,6 +105,7 @@ const ReviewEditForm = ({ review }: Props) => {
         return file.previewUrl;
       }),
     );
+    console.log('imageUrls', imageUrls);
 
     await putReview({
       ...data,
