@@ -42,7 +42,7 @@ export const ReservationsViewEntitySchema = z
     toDestinationShuttleRouteHubId: z.string().nullable(),
     fromDestinationShuttleRouteHubId: z.string().nullable(),
     handyStatus: HandyStatusEnum,
-    hasReview: z.boolean(),
+    reviewId: z.string().nullable(),
     reservationStatus: ReservationStatusEnum,
     cancelStatus: CancelStatusEnum,
     paymentId: z.string().nullable(),
