@@ -104,13 +104,7 @@ export const postReview = async (body: CreateReviewRequest) => {
   );
 };
 
-export const usePostReview = ({
-  onSuccess,
-  onSettled,
-}: {
-  onSuccess?: () => void;
-  onSettled?: () => void;
-}) => {
+export const usePostReview = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postReview,
@@ -122,7 +116,6 @@ export const usePostReview = ({
     onError: () => {
       toast.error('후기를 등록하지 못했어요.');
     },
-    onSettled: onSettled,
   });
 };
 
@@ -135,13 +128,7 @@ export const putReview = async (body: EditReviewRequest) => {
   );
 };
 
-export const usePutReview = ({
-  onSuccess,
-  onSettled,
-}: {
-  onSuccess?: () => void;
-  onSettled?: () => void;
-}) => {
+export const usePutReview = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: putReview,
@@ -153,6 +140,5 @@ export const usePutReview = ({
     onError: () => {
       toast.error('후기를 수정하지 못했어요.');
     },
-    onSettled: onSettled,
   });
 };
