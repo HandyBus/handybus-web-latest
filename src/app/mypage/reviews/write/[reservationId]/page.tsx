@@ -2,15 +2,38 @@
 
 import Header from '@/components/header/Header';
 import EventInfoCard from '../../components/review-form/components/EventInfoCard';
-import ReviewForm from '../../components/review-form/components/ReviewForm';
+import ReviewWriteForm from './components/ReviewWriteForm';
+import { useGetUserReservation } from '@/services/reservation.service';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
 
-const WriteReviewPage = () => {
+interface Props {
+  params: {
+    reservationId: string;
+  };
+}
+
+const WriteReviewPage = ({ params }: Props) => {
+  const { reservationId } = params;
+  const { data, isLoading } = useGetUserReservation(reservationId);
+  const event = data?.reservation.shuttleRoute.event;
+  const reservation = data?.reservation;
+
   return (
     <main>
       <Header />
-      <EventInfoCard />
-      <Divider />
-      <ReviewForm />
+      <DeferredSuspense
+        fallback={<Loading style="grow" />}
+        isLoading={isLoading}
+      >
+        {event && reservation && (
+          <>
+            <EventInfoCard event={event} reservation={reservation} />
+            <Divider />
+            <ReviewWriteForm reservation={reservation} />
+          </>
+        )}
+      </DeferredSuspense>
     </main>
   );
 };

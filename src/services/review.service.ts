@@ -79,7 +79,7 @@ export const useGetReviewsWithPagination = (
 
 export const postReview = async (body: CreateReviewRequest) => {
   return await authInstance.post(
-    '/v2/shuttle-operation/reviews',
+    '/v3/shuttle-operation/reviews',
     silentParse(CreateReviewRequestSchema, body),
   );
 };

@@ -39,7 +39,10 @@ export type ReviewsViewEntity = z.infer<typeof ReviewsViewEntitySchema>;
 export const CreateReviewRequestSchema = z.object({
   eventId: z.string(),
   reservationId: z.string(),
-  rating: z.number().int().min(1).max(5),
+  overallRating: z.number().int().min(1).max(5),
+  serviceRating: z.number().int().min(1).max(5),
+  rideRating: z.number().int().min(1).max(5),
+  recommendToOthers: z.boolean(),
   content: z.string(),
   images: z
     .object({
