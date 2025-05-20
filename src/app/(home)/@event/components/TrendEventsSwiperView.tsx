@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
@@ -15,6 +15,11 @@ interface Props {
 
 const TrendEventsSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const cardCount = events.length;
   const extendedEvents =
@@ -22,34 +27,38 @@ const TrendEventsSwiperView = ({ events }: Props) => {
 
   return (
     <>
-      <div className={'relative -mx-16 w-[calc(100%+32px)]'}>
-        <Swiper
-          ref={swiper}
-          pagination={true}
-          slidesPerView="auto"
-          navigation={true}
-          loop={true}
-          centeredSlides={true}
-          className="relative w-full"
+      <div className={'relative -mx-16 h-[309px] w-[calc(100%+32px)]'}>
+        <div
+          className={`transition-opacity duration-[50] ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         >
-          {extendedEvents?.map((v, idx) => (
-            <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
-              <div className="pr-[6px]">
-                <Card
-                  variant={'LARGE'}
-                  image={v.eventImageUrl}
-                  title={v.eventName}
-                  date={v.startDate}
-                  location={v.eventLocationName}
-                  price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
-                  isSaleStarted={v.hasOpenRoute}
-                  order={(idx % cardCount) + 1}
-                  href={`/event/${v.eventId}`}
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <Swiper
+            ref={swiper}
+            pagination={true}
+            slidesPerView="auto"
+            navigation={true}
+            loop={true}
+            centeredSlides={true}
+            className="relative w-full"
+          >
+            {extendedEvents?.map((v, idx) => (
+              <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
+                <div className="pr-[6px]">
+                  <Card
+                    variant={'LARGE'}
+                    image={v.eventImageUrl}
+                    title={v.eventName}
+                    date={v.startDate}
+                    location={v.eventLocationName}
+                    price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
+                    isSaleStarted={v.hasOpenRoute}
+                    order={(idx % cardCount) + 1}
+                    href={`/event/${v.eventId}`}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
     </>
   );
