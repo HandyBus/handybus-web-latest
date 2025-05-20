@@ -40,6 +40,7 @@ const WrittenReviews = () => {
                 <ReservationCardForReview
                   key={reservation.reservationId}
                   reservation={reservation}
+                  reviewId={reservation.reviewId ?? undefined}
                 />
               ))}
             </ul>
