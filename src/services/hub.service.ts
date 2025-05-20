@@ -39,7 +39,7 @@ interface GetHubsParams {
   cityShortName?: string;
   name?: string;
   address?: string;
-  usageType?: Combinations<'EVENT_DESTINATION' | 'SHUTTLE_HUB'>;
+  usageType?: Combinations<'EVENT_LOCATION' | 'SHUTTLE_HUB'>;
   page?: string;
   limit?: number;
 }
