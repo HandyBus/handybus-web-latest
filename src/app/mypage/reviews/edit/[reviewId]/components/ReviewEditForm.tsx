@@ -105,7 +105,6 @@ const ReviewEditForm = ({ review }: Props) => {
         return file.previewUrl;
       }),
     );
-    console.log('imageUrls', imageUrls);
 
     await putReview({
       ...data,
