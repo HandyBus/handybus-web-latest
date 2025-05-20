@@ -10,6 +10,10 @@ export const ReviewsViewEntitySchema = z
     reviewId: z.string(),
     reservationId: z.string(),
     rating: z.number(),
+    overallRating: z.number(),
+    serviceRating: z.number(),
+    rideRating: z.number(),
+    recommendToOthers: z.boolean(),
     content: z.string(),
     reviewStatus: ActiveStatusEnum,
     createdAt: z.string(),
@@ -52,3 +56,23 @@ export const CreateReviewRequestSchema = z.object({
     .nullable(),
 });
 export type CreateReviewRequest = z.infer<typeof CreateReviewRequestSchema>;
+
+// ----- PUT -----
+
+export const EditReviewRequestSchema = z.object({
+  reviewId: z.string(),
+  eventId: z.string(),
+  reservationId: z.string(),
+  overallRating: z.number().int().min(1).max(5),
+  serviceRating: z.number().int().min(1).max(5),
+  rideRating: z.number().int().min(1).max(5),
+  recommendToOthers: z.boolean(),
+  content: z.string(),
+  images: z
+    .object({
+      imageUrl: z.string(),
+    })
+    .array()
+    .nullable(),
+});
+export type EditReviewRequest = z.infer<typeof EditReviewRequestSchema>;

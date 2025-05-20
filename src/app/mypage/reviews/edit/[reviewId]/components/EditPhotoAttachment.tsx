@@ -4,21 +4,22 @@ import Image from 'next/image';
 import AddIcon from '../../../icons/add.svg';
 import XIcon from 'public/icons/x.svg';
 import { ChangeEvent } from 'react';
+import { DisplayImage } from './ReviewEditForm';
 
 interface Props {
-  files: File[];
+  images: DisplayImage[];
   handleFileSelect: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleFileRemove: (file: File) => void;
+  handleFileRemove: (file: DisplayImage) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
 }
 
-const PhotoAttachment = ({
-  files,
+const EditPhotoAttachment = ({
+  images,
   handleFileSelect,
   handleFileRemove,
   fileInputRef,
 }: Props) => {
-  const fileCount = files.length;
+  const fileCount = images.length;
   return (
     <div className="flex flex-col gap-16">
       <div>
@@ -30,20 +31,28 @@ const PhotoAttachment = ({
         </p>
       </div>
       <div className="flex gap-12">
-        {files.map((file) => (
+        {images.map((image) => (
           <div
-            key={file.name}
+            key={image.previewUrl ?? image.original?.name}
             className="relative h-80 w-80 overflow-hidden rounded-12"
           >
-            <Image
-              src={URL.createObjectURL(file)}
-              alt="리뷰 이미지"
-              fill
-              className="object-cover"
-            />
+            {image.previewUrl ? (
+              <Image
+                src={image.previewUrl}
+                alt="리뷰 이미지"
+                fill
+                className="object-cover"
+              />
+            ) : image.original ? (
+              <Image
+                src={URL.createObjectURL(image.original)}
+                alt="리뷰 이미지"
+                fill
+              />
+            ) : null}
             <button
               type="button"
-              onClick={() => handleFileRemove(file)}
+              onClick={() => handleFileRemove(image)}
               className="absolute right-4 top-4 flex h-20 w-20 items-center justify-center rounded-full bg-basic-grey-500"
             >
               <XIcon color="white" />
@@ -74,4 +83,4 @@ const PhotoAttachment = ({
   );
 };
 
-export default PhotoAttachment;
+export default EditPhotoAttachment;

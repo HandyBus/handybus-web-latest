@@ -2,20 +2,56 @@
 
 import Header from '@/components/header/Header';
 import EventInfoCard from '../../components/review-form/components/EventInfoCard';
-import ReviewForm from '../../components/review-form/components/ReviewForm';
+import { useGetUserReservation } from '@/services/reservation.service';
+import { useGetReview } from '@/services/review.service';
+import ReviewEditForm from './components/ReviewEditForm';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
 
-const EditReviewPage = () => {
+interface Props {
+  params: {
+    reviewId: string;
+  };
+}
+
+const EditReviewPage = ({ params }: Props) => {
+  const { reviewId } = params;
+  const { data, isLoading } = useGetReview(reviewId);
+  const reservationId = data?.reservationId;
+
   return (
     <main>
       <Header />
-      <EventInfoCard />
-      <Divider />
-      <ReviewForm />
+      <DeferredSuspense
+        fallback={<Loading style="screen" />}
+        isLoading={isLoading}
+      >
+        {reservationId && data && (
+          <>
+            <EditEventInfoCard reservationId={reservationId} />
+            <Divider />
+            <ReviewEditForm review={data} />
+          </>
+        )}
+      </DeferredSuspense>
     </main>
   );
 };
 
 export default EditReviewPage;
+
+interface EventInfoCardForEditProps {
+  reservationId: string;
+}
+
+const EditEventInfoCard = ({ reservationId }: EventInfoCardForEditProps) => {
+  const { data } = useGetUserReservation(reservationId);
+  const event = data?.reservation.shuttleRoute.event;
+  const reservation = data?.reservation;
+
+  if (!event || !reservation) return <div className="h-[123px] w-full" />;
+  return <EventInfoCard event={event} reservation={reservation} />;
+};
 
 const Divider = () => {
   return <div className="h-[8px] w-full bg-basic-grey-50" />;

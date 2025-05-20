@@ -5,6 +5,8 @@ import { withPagination } from '@/types/common.type';
 import {
   CreateReviewRequest,
   CreateReviewRequestSchema,
+  EditReviewRequest,
+  EditReviewRequestSchema,
   ReviewsViewEntitySchema,
 } from '@/types/review.type';
 import {
@@ -75,6 +77,24 @@ export const useGetReviewsWithPagination = (
     }),
   });
 
+export const getReview = async (reviewId: string) => {
+  const res = await authInstance.get(
+    `/v1/user-management/users/me/reviews/${reviewId}`,
+    {
+      shape: {
+        review: ReviewsViewEntitySchema,
+      },
+    },
+  );
+  return res.review;
+};
+
+export const useGetReview = (reviewId: string) =>
+  useQuery({
+    queryKey: ['review', reviewId],
+    queryFn: () => getReview(reviewId),
+  });
+
 // ----- POST -----
 
 export const postReview = async (body: CreateReviewRequest) => {
@@ -101,6 +121,37 @@ export const usePostReview = ({
     },
     onError: () => {
       toast.error('후기를 등록하지 못했어요.');
+    },
+    onSettled: onSettled,
+  });
+};
+
+// ----- PUT -----
+
+export const putReview = async (body: EditReviewRequest) => {
+  return await authInstance.put(
+    `/v3/shuttle-operation/reviews`,
+    silentParse(EditReviewRequestSchema, body),
+  );
+};
+
+export const usePutReview = ({
+  onSuccess,
+  onSettled,
+}: {
+  onSuccess?: () => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: putReview,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
+      toast.success('후기가 수정되었어요!');
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.error('후기를 수정하지 못했어요.');
     },
     onSettled: onSettled,
   });

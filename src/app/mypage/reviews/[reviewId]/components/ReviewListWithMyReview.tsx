@@ -27,7 +27,11 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
   const ref = useInfiniteScroll(fetchNextPage);
 
   const reviewTotalCount = reviews.totalCount + STATIC_REVIEWS.length;
-  console.log('reviewId,', reviewId);
+
+  const reviewListWithoutMyReview = reviews.reviews.filter(
+    (review) => review.reviewId !== reviewId,
+  );
+
   return (
     <>
       <Image src={ReviewBanner} alt="핸디버스 후기" />
@@ -42,9 +46,11 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
           </button>
         </div>
         {reviewId && <MyReviewItem reviewId={reviewId} />}
-        {reviews.reviews.map((review) => (
-          <ReviewItem key={review.reviewId} review={review} />
-        ))}
+        {reviewListWithoutMyReview &&
+          reviewListWithoutMyReview.length > 0 &&
+          reviewListWithoutMyReview.map((review) => (
+            <ReviewItem key={review.reviewId} review={review} />
+          ))}
         {!hasNextPage &&
           STATIC_REVIEWS.map((review) => (
             <ReviewItem
