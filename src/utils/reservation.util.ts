@@ -96,8 +96,5 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
     return false;
   }
   const refundFee = calculateRefundFee(reservation);
-  if (!refundFee) {
-    return false;
-  }
   return refundFee !== reservation.paymentAmount;
 };
