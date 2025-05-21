@@ -6,9 +6,7 @@ import Image from 'next/image';
 import ReviewBanner from 'public/images/reviews/review-banner.png';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import { CircleLoader } from 'react-spinners';
-import { STATIC_REVIEWS } from '../review.const';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { convertStaticToReviewEntity } from '../convertStaticToReviewEntity.util';
 import { useGetReviewsWithPagination } from '@/services/review.service';
 
 const ReviewList = () => {
@@ -37,13 +35,6 @@ const ReviewList = () => {
         {reviews.reviews.map((review) => (
           <ReviewItem key={review.reviewId} review={review} />
         ))}
-        {!hasNextPage &&
-          STATIC_REVIEWS.map((review) => (
-            <ReviewItem
-              key={review.id}
-              review={convertStaticToReviewEntity(review)}
-            />
-          ))}
         {(isFetching || hasNextPage) && (
           <div ref={ref} className="flex flex-col items-center py-28">
             <span className="inline-block animate-spin">

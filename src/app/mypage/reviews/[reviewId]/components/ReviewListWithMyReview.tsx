@@ -1,6 +1,5 @@
 'use client';
 
-import { convertStaticToReviewEntity } from '@/app/reviews/convertStaticToReviewEntity.util';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useGetReviewsWithPagination } from '@/services/review.service';
 import Image from 'next/image';
@@ -9,7 +8,6 @@ import { CircleLoader } from 'react-spinners';
 import ReviewBanner from 'public/images/reviews/review-banner.png';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import ReviewItem from './ReviewItem';
-import { STATIC_REVIEWS } from '@/constants/review.const';
 import ReviewStatistics from './ReviewStatistics';
 
 interface Props {
@@ -48,13 +46,6 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
           reviewListWithoutMyReview.length > 0 &&
           reviewListWithoutMyReview.map((review) => (
             <ReviewItem key={review.reviewId} review={review} />
-          ))}
-        {!hasNextPage &&
-          STATIC_REVIEWS.map((review) => (
-            <ReviewItem
-              key={review.reviewId}
-              review={convertStaticToReviewEntity(review)}
-            />
           ))}
         {(isFetching || hasNextPage) && (
           <div ref={ref} className="flex flex-col items-center py-28">
