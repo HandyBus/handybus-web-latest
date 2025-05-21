@@ -1,5 +1,5 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { getBoardingTime } from '@/utils/common.util';
+import { getBoardingTime } from '@/utils/reservation.util';
 import dayjs from 'dayjs';
 
 // 취소 수수료를 계산

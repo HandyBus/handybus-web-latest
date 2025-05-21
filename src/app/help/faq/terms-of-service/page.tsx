@@ -1,7 +1,7 @@
 import Footer from '@/components/footer/Footer';
 import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
-import ServiceTerms from '@/data/policy/service.mdx';
+import PolicyViewer from '@/components/policy/PolicyViewer';
 
 const Page = () => {
   return (
@@ -12,7 +12,7 @@ const Page = () => {
           서비스 이용 약관
         </h1>
         <TitledSection>
-          <ServiceTerms />
+          <PolicyViewer type="서비스이용약관" />
         </TitledSection>
       </main>
       <Footer />
