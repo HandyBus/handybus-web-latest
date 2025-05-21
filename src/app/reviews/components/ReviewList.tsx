@@ -4,20 +4,33 @@ import ReviewItem from './ReviewItem';
 import ReviewStatistics from './ReviewStatistics';
 import Image from 'next/image';
 import ReviewBanner from 'public/images/reviews/review-banner.png';
-import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
-import { CircleLoader } from 'react-spinners';
+import { BeatLoader } from 'react-spinners';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useGetReviewsWithPagination } from '@/services/review.service';
+import FilterButton from './FilterButton';
+import { useMemo, useState } from 'react';
+
+export type ReviewSortType = 'DATE_ASC' | 'RATING_DESC' | 'RATING_ASC';
 
 const ReviewList = () => {
-  const {
-    data: reviews,
-    fetchNextPage,
-    isFetching,
-    hasNextPage,
-  } = useGetReviewsWithPagination();
+  const { data, fetchNextPage, isFetching, hasNextPage } =
+    useGetReviewsWithPagination();
 
   const ref = useInfiniteScroll(fetchNextPage);
+
+  const [sort, setSort] = useState<ReviewSortType>('DATE_ASC');
+
+  const sortedReviews = useMemo(() => {
+    return data.reviews.sort((a, b) => {
+      if (sort === 'RATING_ASC') {
+        return a.rating - b.rating;
+      }
+      if (sort === 'RATING_DESC') {
+        return b.rating - a.rating;
+      }
+      return a.createdAt.localeCompare(b.createdAt);
+    });
+  }, [sort, data.reviews]);
 
   return (
     <>
@@ -25,21 +38,13 @@ const ReviewList = () => {
       <ReviewStatistics />
       <div className="h-8 bg-basic-grey-50" />
       <section className="mt-32 flex flex-col gap-16 px-16">
-        <div className="flex items-center justify-between">
-          <h1 className="w-full text-20 font-700 leading-[140%] ">이용 후기</h1>
-          <button className="flex h-[38px] items-center gap-8 break-keep rounded-8 border-[1px] border-basic-grey-200 px-12 py-8 text-14 font-600 leading-[160%] text-basic-grey-600 active:bg-basic-grey-50">
-            최신순
-            <ChevronRightEmIcon className="h-16 w-16 rotate-90 stroke-2 text-basic-grey-300" />
-          </button>
-        </div>
-        {reviews.reviews.map((review) => (
+        <FilterButton sort={sort} onSort={setSort} />
+        {sortedReviews.map((review) => (
           <ReviewItem key={review.reviewId} review={review} />
         ))}
         {(isFetching || hasNextPage) && (
           <div ref={ref} className="flex flex-col items-center py-28">
-            <span className="inline-block animate-spin">
-              <CircleLoader />
-            </span>
+            <Loading />
           </div>
         )}
       </section>
@@ -48,3 +53,11 @@ const ReviewList = () => {
 };
 
 export default ReviewList;
+
+const Loading = () => {
+  return (
+    <div className="flex h-[50dvh] items-center justify-center">
+      <BeatLoader color="#9edbcc" />
+    </div>
+  );
+};

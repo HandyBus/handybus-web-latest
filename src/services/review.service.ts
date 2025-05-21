@@ -7,6 +7,7 @@ import {
   CreateReviewRequestSchema,
   EditReviewRequest,
   EditReviewRequestSchema,
+  ReviewStatisticsViewEntitySchema,
   ReviewsViewEntitySchema,
   WriteReviewResponse,
   WriteReviewResponseSchema,
@@ -95,6 +96,24 @@ export const useGetReview = (reviewId: string) =>
   useQuery({
     queryKey: ['review', reviewId],
     queryFn: () => getReview(reviewId),
+  });
+
+export const getReviewStatistics = async () => {
+  const res = await authInstance.get(
+    '/v2/shuttle-operation/reviews/all/stats',
+    {
+      shape: {
+        totalReviewStatistics: ReviewStatisticsViewEntitySchema.array(),
+      },
+    },
+  );
+  return res.totalReviewStatistics;
+};
+
+export const useGetReviewStatistics = () =>
+  useQuery({
+    queryKey: ['review', 'statistics'],
+    queryFn: getReviewStatistics,
   });
 
 // ----- POST -----
