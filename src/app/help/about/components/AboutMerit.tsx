@@ -1,8 +1,8 @@
-import ArticleV1 from '@/components/article/ArticleV1';
-import { PropsWithChildren } from 'react';
+import Article from '@/components/article/Article';
+import { PropsWithChildren, ReactNode } from 'react';
 
 const AboutMerit = () => (
-  <ArticleV1 richTitle="이런 점이 좋아요" className="w-full">
+  <Article richTitle="이런 점이 좋아요" className="w-full">
     <div className="mx-16 mt-28 flex flex-col gap-16 border-l-2 border-l-basic-grey-50 pl-12 pt-12 text-basic-grey-700">
       <ul className="flex list-none flex-col gap-16">
         <MeritItem text="환승 없이 행사장까지 바로 이동해요.">
@@ -22,14 +22,14 @@ const AboutMerit = () => (
         </MeritItem>
       </ul>
     </div>
-  </ArticleV1>
+  </Article>
 );
 
 export default AboutMerit;
 
 interface MeritItemProps {
   text: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const MeritItem = ({ text, children }: MeritItemProps) => (

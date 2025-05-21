@@ -6,7 +6,7 @@ import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import { useMemo } from 'react';
 import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { calculateRefundFee, getIsRefundable } from '../utils/refund.util';
+import { calculateRefundFee, getIsRefundable } from '@/utils/reservation.util';
 import { useRouter } from 'next/navigation';
 
 interface Props extends BottomSheetRefs {

@@ -1,13 +1,13 @@
 import { type PropsWithChildren } from 'react';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
-import ArticleV1 from '@/components/article/ArticleV1';
+import Article from '@/components/article/Article';
 import Person1 from '../images/person1.png';
 import Person2 from '../images/person2.png';
 import Person3 from '../images/person3.png';
 
 const AboutService = () => (
-  <ArticleV1
+  <Article
     richTitle="이런 고민 해본 적 있나요?"
     className="flex w-full flex-col gap-[26px]"
   >
@@ -42,7 +42,7 @@ const AboutService = () => (
         합니다.
       </p>
     </div>
-  </ArticleV1>
+  </Article>
 );
 
 export default AboutService;

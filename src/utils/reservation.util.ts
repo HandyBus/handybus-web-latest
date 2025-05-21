@@ -1,8 +1,49 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { getBoardingTime } from '@/utils/common.util';
+import {
+  ShuttleRouteHubsInShuttleRoutesViewEntity,
+  TripType,
+} from '@/types/shuttleRoute.type';
 import dayjs from 'dayjs';
 
-// 취소 수수료를 계산
+export const getBoardingTime = ({
+  tripType,
+  toDestinationShuttleRouteHubs,
+  fromDestinationShuttleRouteHubs,
+  toDestinationShuttleRouteHubId,
+}: {
+  tripType: TripType;
+  toDestinationShuttleRouteHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  fromDestinationShuttleRouteHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
+  toDestinationShuttleRouteHubId: string;
+}) => {
+  const sortedToDestinationShuttleRouteHubs =
+    toDestinationShuttleRouteHubs?.toSorted((a, b) => a.sequence - b.sequence);
+  const sortedFromDestinationShuttleRouteHubs =
+    fromDestinationShuttleRouteHubs?.toSorted(
+      (a, b) => a.sequence - b.sequence,
+    );
+  const boardingHubs =
+    tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION'
+      ? {
+          hubs: sortedToDestinationShuttleRouteHubs,
+          hubId: toDestinationShuttleRouteHubId,
+        }
+      : {
+          hubs: sortedFromDestinationShuttleRouteHubs,
+          hubId: sortedFromDestinationShuttleRouteHubs?.[0]?.shuttleRouteHubId,
+        };
+
+  const boardingTime = boardingHubs.hubs?.find(
+    (hub) => hub.shuttleRouteHubId === boardingHubs.hubId,
+  )?.arrivalTime;
+
+  if (!boardingTime) {
+    return null;
+  }
+
+  return dayjs(boardingTime).tz('Asia/Seoul');
+};
+
 export const calculateRefundFee = (
   reservation: ReservationsViewEntity | null,
 ) => {

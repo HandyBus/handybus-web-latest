@@ -2,7 +2,7 @@ import Button from '@/components/buttons/button/Button';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelBottomSheet from './components/CancelBottomSheet';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { getIsRefundable } from './utils/refund.util';
+import { getIsRefundable } from '@/utils/reservation.util';
 
 interface Props {
   isCanceled: boolean;

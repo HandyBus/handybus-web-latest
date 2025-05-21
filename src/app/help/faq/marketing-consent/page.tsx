@@ -1,7 +1,7 @@
 import Footer from '@/components/footer/Footer';
 import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
-import MarketingPolicy from '@/data/policy/marketing.mdx';
+import PolicyViewer from '@/components/policy/PolicyViewer';
 
 const Page = () => {
   return (
@@ -12,7 +12,7 @@ const Page = () => {
           마케팅 활용 동의
         </h1>
         <TitledSection>
-          <MarketingPolicy />
+          <PolicyViewer type="마케팅활용동의" />
         </TitledSection>
       </main>
       <Footer />

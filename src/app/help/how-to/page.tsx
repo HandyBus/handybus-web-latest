@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ArticleV1 from '@/components/article/ArticleV1';
+import Article from '@/components/article/Article';
 import HowTo from './images/how-to.png';
 import { Metadata } from 'next';
 import Header from '@/components/header/Header';
@@ -27,7 +27,7 @@ const HowToPage = () => {
           />
         </figure>
       </article>
-      <ArticleV1 richTitle="1. 수요조사">
+      <Article richTitle="1. 수요조사">
         <p className="ml-36 text-16 font-500 leading-[26px] text-basic-grey-700">
           여러분의 관심도를 체크해요
         </p>
@@ -53,8 +53,8 @@ const HowToPage = () => {
             </ul>
           </li>
         </ul>
-      </ArticleV1>
-      <ArticleV1 richTitle="2. 운행 확정">
+      </Article>
+      <Article richTitle="2. 운행 확정">
         <p className="ml-36 text-16 font-500 leading-[26px] text-basic-grey-700">
           노선 운행을 결정해요
         </p>
@@ -65,8 +65,8 @@ const HowToPage = () => {
             </p>
           </li>
         </ul>
-      </ArticleV1>
-      <ArticleV1 richTitle="3. 셔틀 예약" className="pb-28">
+      </Article>
+      <Article richTitle="3. 셔틀 예약" className="pb-28">
         <p className="ml-36 text-16 font-500 leading-[26px] text-basic-grey-700">
           30초만에 간편하게 예약하세요
         </p>
@@ -93,7 +93,7 @@ const HowToPage = () => {
             </li>
           </ul>
         </ul>
-      </ArticleV1>
+      </Article>
       <article className="my-56 flex justify-center">
         <p className="text-center text-18 font-600 leading-[25.2px] text-basic-black">
           지금 바로 가고싶은 공연을

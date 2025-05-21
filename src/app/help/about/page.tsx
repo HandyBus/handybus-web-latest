@@ -1,7 +1,7 @@
 import TopSection from './components/TopSection';
 import AboutService from './components/AboutService';
 import AboutMerit from './components/AboutMerit';
-import AsboutStats from './components/AboutStats';
+import AboutStats from './components/AboutStats';
 import { Metadata } from 'next';
 import Header from '@/components/header/Header';
 import EndSection from './components/EndSection';
@@ -17,7 +17,7 @@ const AboutPage = () => {
         <TopSection />
         <AboutService />
         <AboutMerit />
-        <AsboutStats />
+        <AboutStats />
         <EndSection />
       </main>
     </>

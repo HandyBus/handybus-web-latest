@@ -14,7 +14,7 @@ const DeadZonePopup = () => {
         </div>
         <div className="w-full">
           <Link
-            href="/help/reviews"
+            href="/reviews"
             className="text-left text-basic-grey-500 underline underline-offset-[3px]"
           >
             후기 보러 가기

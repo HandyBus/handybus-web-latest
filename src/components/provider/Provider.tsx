@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
 import { Provider as JotaiProvider } from 'jotai';
-import DeadZone from './dead-zone/DeadZone';
+import DeadZone from '../dead-zone/DeadZone';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';

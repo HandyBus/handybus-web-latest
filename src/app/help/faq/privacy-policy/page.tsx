@@ -1,7 +1,7 @@
 import Footer from '@/components/footer/Footer';
 import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
-import PrivacyPolicy from '@/data/policy/privacy.mdx';
+import PolicyViewer from '@/components/policy/PolicyViewer';
 
 const Page = () => {
   return (
@@ -12,7 +12,7 @@ const Page = () => {
           개인정보 처리 방침
         </h1>
         <TitledSection>
-          <PrivacyPolicy />
+          <PolicyViewer type="개인정보처리방침" />
         </TitledSection>
       </main>
       <Footer />
