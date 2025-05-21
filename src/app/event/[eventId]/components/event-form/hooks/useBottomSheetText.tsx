@@ -1,11 +1,15 @@
-import { useFormContext, UseFormGetValues } from 'react-hook-form';
+import { UseFormGetValues } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
 import { EVENT_STEPS, EVENT_STEPS_TO_TEXT } from '../../../form.const';
 import { useMemo } from 'react';
 import { BIG_REGIONS_TO_SHORT_NAME } from '@/constants/regions';
 
-const useBottomSheetText = (stepName: (typeof EVENT_STEPS)[number]) => {
-  const { getValues } = useFormContext<EventFormValues>();
+interface Props {
+  stepName: (typeof EVENT_STEPS)[number];
+  getValues: UseFormGetValues<EventFormValues>;
+}
+
+const useBottomSheetText = ({ stepName, getValues }: Props) => {
   const text = useMemo(
     () => getBottomSheetText(stepName, getValues),
     [stepName, getValues],

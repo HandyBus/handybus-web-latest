@@ -1,0 +1,125 @@
+import CommonDateStep from './common-steps/CommonDateStep';
+import CommonSidoStep from './common-steps/CommonSidoStep';
+import DemandHubsStep from './demand-steps/DemandHubsStep';
+import DemandTripTypeStep from './demand-steps/DemandTripTypeStep';
+import DemandHubInfoStep from './demand-steps/DemandHubInfoStep';
+import ReservationHubsStep from './reservation-steps/ReservationHubsStep';
+import ReservationTripTypeStep from './reservation-steps/ReservationTripTypeStep';
+import ReservationInfoStep from './reservation-steps/ReservationInfoStep';
+import ExtraSidoInfoStep from './extra-steps/ExtraSidoInfoStep';
+import ExtraOpenSidoStep from './extra-steps/ExtraOpenSidoStep';
+import ExtraDuplicateHubStep from './extra-steps/ExtraDuplicateHubStep';
+import ExtraSeatAlarmStep from './extra-steps/ExtraSeatAlarmStep';
+import ExtraHubsInRouteStep from './extra-steps/ExtraHubsInRouteStep';
+import { EventPhase } from '@/utils/event.util';
+import { EVENT_STEPS } from '../../form.const';
+import { ReactNode } from 'react';
+import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
+
+interface Props {
+  stepName: (typeof EVENT_STEPS)[number];
+  setHistoryAndStep: (step: (typeof EVENT_STEPS)[number]) => void;
+  closeBottomSheet: () => void;
+  setDemandCompleteStatus: (status: DemandCompleteStatus) => void;
+  updateUserDemands: () => void;
+  updateUserAlertRequests: () => void;
+  openAlertRequestFeedbackScreen: () => void;
+  phase: EventPhase;
+}
+
+const StepComponent = ({
+  stepName,
+  setHistoryAndStep,
+  closeBottomSheet,
+  setDemandCompleteStatus,
+  updateUserDemands,
+  updateUserAlertRequests,
+  openAlertRequestFeedbackScreen,
+  phase,
+}: Props) => {
+  const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
+    // 공통
+    '[공통] 일자 선택': (
+      <CommonDateStep
+        toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
+        phase={phase}
+      />
+    ),
+    '[공통] 시/도 선택': (
+      <CommonSidoStep
+        toDemandHubsStep={() => setHistoryAndStep('[수요조사] 정류장 선택')}
+        toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+        toExtraSidoInfoStep={() => setHistoryAndStep('[기타] 시/도 정보')}
+      />
+    ),
+    // 수요조사
+    '[수요조사] 정류장 선택': (
+      <DemandHubsStep
+        toNextStep={() => setHistoryAndStep('[수요조사] 좌석 선택')}
+      />
+    ),
+    '[수요조사] 좌석 선택': (
+      <DemandTripTypeStep
+        toNextStep={() => setHistoryAndStep('[수요조사] 정류장 정보')}
+      />
+    ),
+    '[수요조사] 정류장 정보': (
+      <DemandHubInfoStep
+        closeBottomSheet={closeBottomSheet}
+        setDemandCompleteStatus={setDemandCompleteStatus}
+        updateUserDemands={updateUserDemands}
+      />
+    ),
+    // 예약
+    '[예약] 정류장 선택': (
+      <ReservationHubsStep
+        toReservationTripTypeStep={() => setHistoryAndStep('[예약] 좌석 선택')}
+        toExtraDuplicateHubStep={() => setHistoryAndStep('[기타] 복수 노선')}
+        toExtraSeatAlarmStep={() => setHistoryAndStep('[기타] 빈자리 알림')}
+        toDemandHubsStep={() => setHistoryAndStep('[수요조사] 정류장 선택')}
+      />
+    ),
+    '[예약] 좌석 선택': (
+      <ReservationTripTypeStep
+        toReservationInfoStep={() => setHistoryAndStep('[예약] 예약 정보')}
+        toExtraSeatAlarmStep={() => setHistoryAndStep('[기타] 빈자리 알림')}
+      />
+    ),
+    '[예약] 예약 정보': (
+      <ReservationInfoStep closeBottomSheet={closeBottomSheet} />
+    ),
+    // 기타
+    '[기타] 시/도 정보': (
+      <ExtraSidoInfoStep
+        toExtraOpenSidoStep={() => setHistoryAndStep('[기타] 예약 가능 시/도')}
+        toDemandHubsStep={() => setHistoryAndStep('[수요조사] 정류장 선택')}
+      />
+    ),
+    '[기타] 예약 가능 시/도': (
+      <ExtraOpenSidoStep
+        toNextStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+      />
+    ),
+    '[기타] 복수 노선': (
+      <ExtraDuplicateHubStep
+        toReservationTripTypeStep={() => setHistoryAndStep('[예약] 좌석 선택')}
+        toExtraSeatAlarmStep={() => setHistoryAndStep('[기타] 빈자리 알림')}
+      />
+    ),
+    '[기타] 빈자리 알림': (
+      <ExtraSeatAlarmStep
+        toExtraHubsInRouteStep={() =>
+          setHistoryAndStep('[기타] 노선 내 정류장')
+        }
+        closeBottomSheet={closeBottomSheet}
+        updateUserAlertRequests={updateUserAlertRequests}
+        openAlertRequestFeedbackScreen={openAlertRequestFeedbackScreen}
+      />
+    ),
+    '[기타] 노선 내 정류장': <ExtraHubsInRouteStep />,
+  };
+
+  return stepComponents[stepName];
+};
+
+export default StepComponent;
