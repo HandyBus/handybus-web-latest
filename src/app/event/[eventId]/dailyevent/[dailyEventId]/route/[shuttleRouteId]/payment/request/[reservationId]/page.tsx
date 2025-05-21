@@ -3,8 +3,7 @@
 import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { setReservationCompleted } from '@/utils/localStorage';
+import { useState } from 'react';
 import SuccessBusIcon from '../icons/bus-success.svg';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
@@ -16,10 +15,6 @@ interface Props {
 
 const PaymentsCompleted = ({ params }: Props) => {
   usePreventScroll();
-
-  useEffect(() => {
-    setReservationCompleted();
-  }, []);
 
   const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);
   if (showFeedbackScreen) {
