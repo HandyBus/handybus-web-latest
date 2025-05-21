@@ -12,9 +12,7 @@ import useFunnel from '@/hooks/useFunnel';
 import { putUser, useGetUser } from '@/services/user.service';
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FirstSignupCoupon from './icons/first-signup-coupon.svg';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import {
   getEntryGreetingIncomplete,
   removeEntryGreetingIncomplete,
@@ -25,11 +23,7 @@ import { toast } from 'react-toastify';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import CheckIcon from './icons/check.svg';
 
-const GREETING_STEP = [
-  '마케팅 약관 동의',
-  '닉네임 설정',
-  '첫 가입 감사 쿠폰',
-] as const;
+const GREETING_STEP = ['마케팅 약관 동의', '닉네임 설정'] as const;
 const BOTTOM_SHEET_TEXT: Record<
   (typeof GREETING_STEP)[number],
   { title: ReactNode; description: ReactNode }
@@ -42,20 +36,9 @@ const BOTTOM_SHEET_TEXT: Record<
     title: '환영합니다! 어떻게 불러드릴까요?',
     description: '버스 탑승 시 작성하신 닉네임으로 불러드려요!',
   },
-  '첫 가입 감사 쿠폰': {
-    title: '여러분을 위한 작은 선물이에요.',
-    description: (
-      <p className="leading-[22px]">
-        웰컴기프트로 쿠폰함에 3,000원을 쏙 넣어드렸어요.
-        <br />
-        셔틀 예약 시 바로 적용할 수 있어요.
-      </p>
-    ),
-  },
 };
 
 const Page = () => {
-  const router = useRouter();
   const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
     preventCloseOnDrag: true,
   });
@@ -120,6 +103,12 @@ const Page = () => {
     isSuccess: isNicknameSuccess,
   } = usePutNickname();
 
+  const {
+    mutateAsync: putEntryGreetingChecked,
+    isPending: isEntryGreetingCheckedPending,
+    isSuccess: isEntryGreetingCheckedSuccess,
+  } = useEntryGreetingToChecked();
+
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);
   const setNicknameDuplicateError = () => {
     setError('nickname', {
@@ -132,7 +121,9 @@ const Page = () => {
   const onNicknameSubmit = handleSubmit(async (data: { nickname: string }) => {
     try {
       await putNickname(data.nickname);
-      handleNextStep();
+      await putEntryGreetingChecked();
+      removeEntryGreetingIncomplete();
+      closeBottomSheet();
     } catch (e) {
       const error = e as CustomError;
       if (error.statusCode === 409) {
@@ -143,25 +134,11 @@ const Page = () => {
       console.error(error);
     }
   });
-  const isNicknameButtonDisabled = isNicknamePending || isNicknameSuccess;
-
-  // 첫 가입 감사 쿠폰
-  const {
-    mutateAsync: putEntryGreetingChecked,
-    isPending: isEntryGreetingCheckedPending,
-    isSuccess: isEntryGreetingCheckedSuccess,
-  } = useEntryGreetingToChecked();
-  const handleCouponConfirmClick = async () => {
-    await putEntryGreetingChecked();
-    removeEntryGreetingIncomplete();
-    closeBottomSheet();
-  };
-  const handleCouponLinkClick = () => {
-    handleCouponConfirmClick();
-    router.push('/mypage/coupons');
-  };
-  const isEntryGreetingCheckedButtonDisabled =
-    isEntryGreetingCheckedPending || isEntryGreetingCheckedSuccess;
+  const isNicknameButtonDisabled =
+    isNicknamePending ||
+    isNicknameSuccess ||
+    isEntryGreetingCheckedPending ||
+    isEntryGreetingCheckedSuccess;
 
   return (
     <BottomSheet
@@ -218,25 +195,6 @@ const Page = () => {
               이걸로 할게요
             </Button>
           </form>
-        </Step>
-        <Step name="첫 가입 감사 쿠폰">
-          <div className="mx-auto py-16">
-            <FirstSignupCoupon />
-          </div>
-          <p className="text-center text-10 font-400 text-grey-400">
-            *연락처 당 1개의 쿠폰이 제공돼요.
-          </p>
-          <div className="flex gap-8 py-16">
-            <Button variant="secondary" onClick={handleCouponLinkClick}>
-              쿠폰함 가기
-            </Button>
-            <Button
-              onClick={handleCouponConfirmClick}
-              disabled={isEntryGreetingCheckedButtonDisabled}
-            >
-              확인했어요
-            </Button>
-          </div>
         </Step>
       </Funnel>
     </BottomSheet>
