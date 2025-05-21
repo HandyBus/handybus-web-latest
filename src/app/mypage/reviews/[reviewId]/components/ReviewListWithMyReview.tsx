@@ -4,7 +4,6 @@ import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { useGetReviewsWithPagination } from '@/services/review.service';
 import Image from 'next/image';
 import MyReviewItem from './MyReviewItem';
-import { BeatLoader } from 'react-spinners';
 import ReviewBanner from 'public/images/reviews/review-banner.png';
 import ReviewItem from './ReviewItem';
 import ReviewStatistics from './ReviewStatistics';
@@ -55,9 +54,7 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
           <ReviewItem key={review.reviewId} review={review} />
         ))}
         {(isFetching || hasNextPage) && (
-          <div ref={ref} className="flex flex-col items-center py-28">
-            <Loading />
-          </div>
+          <div ref={ref} className="flex flex-col items-center py-28" />
         )}
       </section>
     </>
@@ -65,11 +62,3 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
 };
 
 export default ReviewListWithMyReview;
-
-const Loading = () => {
-  return (
-    <div className="flex h-[50dvh] items-center justify-center">
-      <BeatLoader color="#9edbcc" />
-    </div>
-  );
-};

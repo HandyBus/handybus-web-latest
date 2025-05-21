@@ -6,10 +6,11 @@ import { useGetReviewStatistics } from '@/services/review.service';
 const ReviewStatistics = () => {
   const { data: reviewStatistics } = useGetReviewStatistics();
 
-  const averageRating = reviewStatistics?.[0]?.averageRating ?? 5;
-  const recommendationScore = reviewStatistics?.[0]?.recommendationScore ?? 100;
-  const reviewCount = reviewStatistics?.[0]?.cumulativeReviewCount ?? 100;
+  const averageRating = reviewStatistics?.[0]?.averageRating;
+  const recommendationScore = reviewStatistics?.[0]?.recommendationScore;
+  const reviewCount = reviewStatistics?.[0]?.cumulativeReviewCount;
 
+  if (!reviewStatistics) return <div className="h-[165px]" />;
   return (
     <section className="flex flex-col gap-12 px-16 py-32">
       <div className="flex items-center gap-8">
