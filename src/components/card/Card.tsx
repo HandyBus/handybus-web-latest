@@ -73,10 +73,10 @@ export default Card;
 
 const LargeCard = ({
   image,
-  order = 1,
+  order,
   isSaleStarted,
-  title = 'ATEEZ 2024 FANMEETING 〈ATINY&apos;S VOYAGE FROM A TO Z〉',
-  price = '32,000원~',
+  title,
+  price,
   href,
 }: Props) => {
   return (
@@ -122,9 +122,9 @@ const LargeCard = ({
 const MediumCard = ({
   image,
   isSaleStarted,
-  title = 'ATEEZ 2024 FANMEETING 〈ATINY’S VOYAGE FROM A TO Z〉',
-  date = '2024.02.01 - 02.03',
-  price = '32,000원~',
+  title,
+  date,
+  price,
   href,
 }: Props) => {
   return (
@@ -166,10 +166,10 @@ const MediumCard = ({
 const SmallCard = ({
   image,
   isSaleStarted,
-  title = 'ATEEZ 2024 FANMEETING 〈ATINY’S VOYAGE FROM A TO Z〉',
-  date = '2024.02.01 - 02.03',
-  location = '잠실실내체육관',
-  price = '32,000원~',
+  title,
+  date,
+  location,
+  price,
   href,
 }: Props) => {
   return (
