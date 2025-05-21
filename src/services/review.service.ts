@@ -7,6 +7,7 @@ import {
   CreateReviewRequestSchema,
   EditReviewRequest,
   EditReviewRequestSchema,
+  ReviewStatisticsViewEntitySchema,
   ReviewsViewEntitySchema,
   WriteReviewResponse,
   WriteReviewResponseSchema,
@@ -97,6 +98,24 @@ export const useGetReview = (reviewId: string) =>
     queryFn: () => getReview(reviewId),
   });
 
+export const getReviewStatistics = async () => {
+  const res = await authInstance.get(
+    '/v2/shuttle-operation/reviews/all/stats',
+    {
+      shape: {
+        totalReviewStatistics: ReviewStatisticsViewEntitySchema.array(),
+      },
+    },
+  );
+  return res.totalReviewStatistics;
+};
+
+export const useGetReviewStatistics = () =>
+  useQuery({
+    queryKey: ['review', 'statistics'],
+    queryFn: getReviewStatistics,
+  });
+
 // ----- POST -----
 
 export const postReview = async (body: CreateReviewRequest) => {
@@ -125,9 +144,6 @@ export const usePostReview = ({
       toast.success('후기가 등록되었어요!');
       onSuccess?.(res);
     },
-    onError: () => {
-      toast.error('후기를 등록하지 못했어요.');
-    },
   });
 };
 
@@ -148,9 +164,6 @@ export const usePutReview = ({ onSuccess }: { onSuccess?: () => void }) => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
       toast.success('후기가 수정되었어요!');
       onSuccess?.();
-    },
-    onError: () => {
-      toast.error('후기를 수정하지 못했어요.');
     },
   });
 };

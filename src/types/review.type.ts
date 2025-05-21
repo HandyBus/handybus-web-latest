@@ -38,6 +38,15 @@ export const ReviewsViewEntitySchema = z
   .strict();
 export type ReviewsViewEntity = z.infer<typeof ReviewsViewEntitySchema>;
 
+export const ReviewStatisticsViewEntitySchema = z.object({
+  averageRating: z.number(),
+  cumulativeReviewCount: z.number(),
+  recommendationScore: z.number(),
+});
+export type ReviewStatisticsViewEntity = z.infer<
+  typeof ReviewStatisticsViewEntitySchema
+>;
+
 // ----- POST -----
 
 export const CreateReviewRequestSchema = z.object({
