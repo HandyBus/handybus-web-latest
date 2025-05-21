@@ -84,7 +84,7 @@ const Cards: OverviewCardItem[] = [
   {
     key: 2,
     title: '핸디버스 소개',
-    description: '핸디버스는 아이돌 콘서트 전문 셔틀 플랫폼입니다.',
+    description: '핸디버스는 공연/행사 전문 셔틀 플랫폼입니다.',
     image: CardImage2,
     link: '/help/about',
   },

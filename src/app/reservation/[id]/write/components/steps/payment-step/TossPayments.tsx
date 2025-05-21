@@ -37,7 +37,7 @@ const TossPayments = ({ handlePrevStep }: Props) => {
   const [tossInitialized, setTossInitialized] = useState(false);
   const tossWidgets = useRef<TossPaymentsWidgets | null>(null);
 
-  const isAgreementAccepted = useRef(false);
+  const isAgreementAccepted = useRef(true);
   const [loading, setLoading] = useState(false);
   const buttonDisabled =
     !scriptLoaded || !tossInitialized || !tossWidgets.current || loading;
