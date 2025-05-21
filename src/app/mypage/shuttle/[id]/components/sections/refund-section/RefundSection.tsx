@@ -2,6 +2,7 @@ import Button from '@/components/buttons/button/Button';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelBottomSheet from './components/CancelBottomSheet';
 import { ReservationsViewEntity } from '@/types/reservation.type';
+import { getIsRefundable } from './utils/refund.util';
 
 interface Props {
   isCanceled: boolean;
@@ -15,6 +16,12 @@ const RefundSection = ({ isCanceled, reservation }: Props) => {
     openBottomSheet: openCancelBottomSheet,
     closeBottomSheet: closeCancelBottomSheet,
   } = useBottomSheet();
+
+  const isRefundable = getIsRefundable(reservation);
+
+  if (isCanceled) {
+    return <div className="h-64 w-full" />;
+  }
 
   return (
     <>
@@ -37,7 +44,7 @@ const RefundSection = ({ isCanceled, reservation }: Props) => {
         <Button
           variant="s-destructive"
           size="large"
-          disabled={isCanceled}
+          disabled={!isRefundable}
           onClick={openCancelBottomSheet}
         >
           취소하기

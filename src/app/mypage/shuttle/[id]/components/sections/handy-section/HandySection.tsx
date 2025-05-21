@@ -73,7 +73,7 @@ const HandySection = ({ isCanceled, handyStatus, reservationId }: Props) => {
           {isCanceled && (
             <>
               <h5>상태</h5>
-              <p className="bg-basic-grey-400">-</p>
+              <p className="text-basic-grey-400">-</p>
             </>
           )}
         </div>
