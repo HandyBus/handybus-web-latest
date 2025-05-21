@@ -5,7 +5,7 @@ import Script from 'next/script';
 import LogoIcon from 'public/icons/logo-small.svg';
 import KakaoMapIcon from 'public/icons/kakaomap-logo.svg';
 import ChevronRightIcon from 'public/icons/chevron-right.svg';
-import { KakaoMapsAPI } from './KakaoMap.types';
+import { KakaoMapsAPI } from './KakaoMap.type';
 
 declare global {
   interface Window {
