@@ -1,5 +1,4 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { ReviewsViewEntity } from '@/types/review.type';
 import Link from 'next/link';
 import ArrowRightIcon from '../../icons/arrow-right.svg';
 import useTextAndStyleForReview from './hooks/useTextAndStyleForReview';
@@ -10,10 +9,10 @@ import useEventText from './hooks/useEventText';
 
 interface Props {
   reservation: ReservationsViewEntity;
-  review?: ReviewsViewEntity;
+  reviewId?: string;
 }
 
-const ReservationCardForReview = ({ reservation, review }: Props) => {
+const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
   const event = reservation.shuttleRoute.event;
   const dailyEvent = event.dailyEvents.find(
     (dailyEvent) =>
@@ -64,7 +63,7 @@ const ReservationCardForReview = ({ reservation, review }: Props) => {
             <ReviewButton
               isWritingReviewPeriod={isWritingReviewPeriod}
               reservationId={reservation.reservationId}
-              reviewId={review?.reviewId}
+              reviewId={reviewId}
             />
           </div>
           {textAndStyle?.description.text && (

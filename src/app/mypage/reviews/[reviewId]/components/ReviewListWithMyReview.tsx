@@ -28,6 +28,10 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
 
   const reviewTotalCount = reviews.totalCount + STATIC_REVIEWS.length;
 
+  const reviewListWithoutMyReview = reviews.reviews.filter(
+    (review) => review.reviewId !== reviewId,
+  );
+
   return (
     <>
       <Image src={ReviewBanner} alt="핸디버스 후기" />
@@ -41,10 +45,12 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
             <ChevronRightEmIcon className="h-16 w-16 rotate-90 stroke-2 text-basic-grey-300" />
           </button>
         </div>
-        {reviewId && <MyReviewItem />}
-        {reviews.reviews.map((review) => (
-          <ReviewItem key={review.reviewId} review={review} />
-        ))}
+        {reviewId && <MyReviewItem reviewId={reviewId} />}
+        {reviewListWithoutMyReview &&
+          reviewListWithoutMyReview.length > 0 &&
+          reviewListWithoutMyReview.map((review) => (
+            <ReviewItem key={review.reviewId} review={review} />
+          ))}
         {!hasNextPage &&
           STATIC_REVIEWS.map((review) => (
             <ReviewItem

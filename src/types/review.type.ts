@@ -10,6 +10,10 @@ export const ReviewsViewEntitySchema = z
     reviewId: z.string(),
     reservationId: z.string(),
     rating: z.number(),
+    overallRating: z.number(),
+    serviceRating: z.number(),
+    rideRating: z.number(),
+    recommendToOthers: z.boolean(),
     content: z.string(),
     reviewStatus: ActiveStatusEnum,
     createdAt: z.string(),
@@ -39,7 +43,10 @@ export type ReviewsViewEntity = z.infer<typeof ReviewsViewEntitySchema>;
 export const CreateReviewRequestSchema = z.object({
   eventId: z.string(),
   reservationId: z.string(),
-  rating: z.number().int().min(1).max(5),
+  overallRating: z.number().int().min(1).max(5),
+  serviceRating: z.number().int().min(1).max(5),
+  rideRating: z.number().int().min(1).max(5),
+  recommendToOthers: z.boolean(),
   content: z.string(),
   images: z
     .object({
@@ -49,3 +56,45 @@ export const CreateReviewRequestSchema = z.object({
     .nullable(),
 });
 export type CreateReviewRequest = z.infer<typeof CreateReviewRequestSchema>;
+
+export const WriteReviewResponseSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  eventId: z.string(),
+  reservationId: z.string(),
+  rating: z.number().int().min(1).max(5),
+  serviceRating: z.number().int().min(1).max(5),
+  rideRating: z.number().int().min(1).max(5),
+  recommendToOthers: z.boolean(),
+  content: z.string(),
+  images: z
+    .object({
+      imageUrl: z.string(),
+    })
+    .array()
+    .nullable(),
+  status: ActiveStatusEnum.nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export type WriteReviewResponse = z.infer<typeof WriteReviewResponseSchema>;
+
+// ----- PUT -----
+
+export const EditReviewRequestSchema = z.object({
+  reviewId: z.string(),
+  eventId: z.string(),
+  reservationId: z.string(),
+  overallRating: z.number().int().min(1).max(5),
+  serviceRating: z.number().int().min(1).max(5),
+  rideRating: z.number().int().min(1).max(5),
+  recommendToOthers: z.boolean(),
+  content: z.string(),
+  images: z
+    .object({
+      imageUrl: z.string(),
+    })
+    .array()
+    .nullable(),
+});
+export type EditReviewRequest = z.infer<typeof EditReviewRequestSchema>;

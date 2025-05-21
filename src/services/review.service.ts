@@ -5,7 +5,11 @@ import { withPagination } from '@/types/common.type';
 import {
   CreateReviewRequest,
   CreateReviewRequestSchema,
+  EditReviewRequest,
+  EditReviewRequestSchema,
   ReviewsViewEntitySchema,
+  WriteReviewResponse,
+  WriteReviewResponseSchema,
 } from '@/types/review.type';
 import {
   useInfiniteQuery,
@@ -75,33 +79,78 @@ export const useGetReviewsWithPagination = (
     }),
   });
 
+export const getReview = async (reviewId: string) => {
+  const res = await authInstance.get(
+    `/v1/user-management/users/me/reviews/${reviewId}`,
+    {
+      shape: {
+        review: ReviewsViewEntitySchema,
+      },
+    },
+  );
+  return res.review;
+};
+
+export const useGetReview = (reviewId: string) =>
+  useQuery({
+    queryKey: ['review', reviewId],
+    queryFn: () => getReview(reviewId),
+  });
+
 // ----- POST -----
 
 export const postReview = async (body: CreateReviewRequest) => {
-  return await authInstance.post(
-    '/v2/shuttle-operation/reviews',
+  const res = await authInstance.post(
+    '/v3/shuttle-operation/reviews',
     silentParse(CreateReviewRequestSchema, body),
+    {
+      shape: {
+        review: WriteReviewResponseSchema,
+      },
+    },
   );
+  return res.review;
 };
 
 export const usePostReview = ({
   onSuccess,
-  onSettled,
 }: {
-  onSuccess?: () => void;
-  onSettled?: () => void;
+  onSuccess?: (res: WriteReviewResponse) => void;
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postReview,
-    onSuccess: async () => {
+    onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
       toast.success('후기가 등록되었어요!');
-      onSuccess?.();
+      onSuccess?.(res);
     },
     onError: () => {
       toast.error('후기를 등록하지 못했어요.');
     },
-    onSettled: onSettled,
+  });
+};
+
+// ----- PUT -----
+
+export const putReview = async (body: EditReviewRequest) => {
+  return await authInstance.put(
+    `/v3/shuttle-operation/reviews`,
+    silentParse(EditReviewRequestSchema, body),
+  );
+};
+
+export const usePutReview = ({ onSuccess }: { onSuccess?: () => void }) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: putReview,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
+      toast.success('후기가 수정되었어요!');
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.error('후기를 수정하지 못했어요.');
+    },
   });
 };

@@ -16,7 +16,7 @@ const ReviewTextarea = ({ text, setText }: Props) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="핸디버스 이용 경험에 대해 자유롭게 알려주세요. (최대 1000자)"
-        className="h-160 w-full resize-none rounded-12 border border-basic-grey-100 p-12 text-16 font-400 outline-none placeholder:text-basic-grey-300"
+        className="h-160 w-full resize-none rounded-12 border border-basic-grey-100 p-12 text-16 font-400 outline-none placeholder:text-basic-grey-300 focus:border-brand-primary-200"
       />
     </div>
   );
