@@ -86,17 +86,17 @@ const Page = () => {
                     <span>마케팅 수신</span>
                     <button
                       onClick={handleSwitchClick}
-                      className={`relative flex h-[28px] w-48 rounded-full transition-all duration-200 ${
+                      className={`relative flex h-[28px] w-48 overflow-hidden rounded-full transition-all duration-200 ${
                         isMarketingAgreed
                           ? 'bg-brand-primary-400'
-                          : 'bg-basic-grey-300'
+                          : 'bg-basic-grey-100'
                       }`}
                     >
                       <div
-                        className={`absolute left-[2px] top-[2px] h-24 w-24 rounded-full transition-transform duration-200 ${
+                        className={`absolute left-[2px] top-[2px] h-24 w-24 rounded-full bg-basic-white shadow-[0_0_10px_0_rgba(0,0,0,0.13)] transition-transform duration-200 ${
                           isMarketingAgreed
-                            ? 'translate-x-[20px] bg-basic-white'
-                            : 'translate-x-0 bg-basic-grey-100'
+                            ? 'translate-x-[20px]'
+                            : 'translate-x-0'
                         }`}
                       />
                     </button>
