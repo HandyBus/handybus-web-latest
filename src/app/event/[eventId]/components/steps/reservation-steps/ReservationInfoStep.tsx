@@ -12,7 +12,7 @@ import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { MAX_PASSENGER_COUNT } from '@/constants/common';
-import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment';
+import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
 

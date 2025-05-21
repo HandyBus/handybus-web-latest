@@ -10,7 +10,7 @@ import { useGetEvent } from '@/services/event.service';
 import { useGetUser } from '@/services/user.service';
 import { useGetUserCoupons } from '@/services/coupon.service';
 import Content from './components/Content';
-import { PAYMENT_PARAMS_KEYS } from './payment';
+import { PAYMENT_PARAMS_KEYS } from './payment.const';
 
 interface Props {
   params: {

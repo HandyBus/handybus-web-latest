@@ -49,3 +49,14 @@ export const calculateRefundFee = (
 
   return Math.floor(refundFee);
 };
+
+export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
+  if (!reservation) {
+    return false;
+  }
+  const refundFee = calculateRefundFee(reservation);
+  if (!refundFee) {
+    return false;
+  }
+  return refundFee !== reservation.paymentAmount;
+};
