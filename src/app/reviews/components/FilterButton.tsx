@@ -43,7 +43,7 @@ const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
           onClick={() => setFilterOpen(!filterOpen)}
           className="flex h-[38px]  items-center gap-8 break-keep rounded-8 border-[1px] border-basic-grey-200 px-12 py-8 text-14 font-600 leading-[160%] text-basic-grey-600 active:bg-basic-grey-50"
         >
-          {sort === 'DATE_ASC'
+          {sort === 'DATE_DESC'
             ? '최신순'
             : sort === 'RATING_ASC'
               ? '별점낮은순'
@@ -54,9 +54,9 @@ const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
       {filterOpen && (
         <div className="absolute right-0 top-44 z-50 w-[110px] rounded-[8px] border border-basic-grey-200 bg-basic-white shadow-lg">
           <button
-            onClick={() => handleSort('DATE_ASC')}
+            onClick={() => handleSort('DATE_DESC')}
             className={`w-full px-16 py-12 text-left text-14 font-600 leading-[160%] hover:bg-basic-grey-50 ${
-              sort === 'DATE_ASC'
+              sort === 'DATE_DESC'
                 ? 'text-brand-primary-400'
                 : 'text-basic-grey-700'
             }`}
