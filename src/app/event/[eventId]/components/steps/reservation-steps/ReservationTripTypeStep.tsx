@@ -2,7 +2,7 @@
 
 import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
+import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';

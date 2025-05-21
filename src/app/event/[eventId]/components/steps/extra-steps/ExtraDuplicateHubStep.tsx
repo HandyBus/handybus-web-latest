@@ -1,7 +1,7 @@
 'use client';
 
 import Badge from '@/components/badge/Badge';
-import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
+import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
 import { useFormContext } from 'react-hook-form';
 import { dateString } from '@/utils/dateString.util';
 import { useAtomValue } from 'jotai';

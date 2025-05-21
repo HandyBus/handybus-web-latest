@@ -1,8 +1,8 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import NotificationIcon from '../icons/notification.svg';
-import TriangleIcon from '../icons/triangle.svg';
+import NotificationIcon from '../../../icons/notification.svg';
+import TriangleIcon from '../../../icons/triangle.svg';
 import { EventEnabledStatus, EventPhase } from '@/utils/event.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';

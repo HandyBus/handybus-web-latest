@@ -1,7 +1,7 @@
 'use client';
 
 import { BIG_REGIONS, BigRegionsType } from '@/constants/regions';
-import SidoButton from '../../SidoButton';
+import SidoButton from '../components/SidoButton';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
