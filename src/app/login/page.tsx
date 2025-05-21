@@ -55,10 +55,6 @@ const Login = () => {
         </p>
       </section>
       <section className="p-16">
-        <p className="mb-16 text-center text-16 font-600 text-[#181F29]">
-          지금 가입하면 <span className="text-primary-main">3천원</span> 쿠폰
-          즉시 제공!
-        </p>
         <button
           onClick={() => setLastLogin('kakao')}
           type="button"
