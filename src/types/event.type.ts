@@ -21,6 +21,7 @@ export const DailyEventsInEventsViewEntitySchema = z
     dailyEventId: z.string(),
     date: z.string(),
     status: EventStatusEnum,
+    closeDeadline: z.string(),
   })
   .strict();
 export type DailyEventsInEventsViewEntity = z.infer<
