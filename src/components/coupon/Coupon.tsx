@@ -25,7 +25,7 @@ const Coupon = ({ coupon }: Props) => {
     <div
       className={`rounded-8 p-16 ${usable ? '' : 'opacity-50'} border border-basic-grey-200`}
     >
-      <p className="line-clamp-1 text-14 font-600 leading-[160%] text-basic-grey-700">
+      <p className="line-clamp-1 text-14 font-600 leading-[160%] text-basic-black">
         {`[${coupon.name}] ${title} 할인`}
       </p>
       {coupon.discountType === 'RATE' && (
