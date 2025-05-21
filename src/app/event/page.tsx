@@ -12,6 +12,7 @@ import { useMemo, useState } from 'react';
 import { EventType } from '@/types/event.type';
 import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
+import { dateString } from '@/utils/dateString.util';
 
 const Page = () => {
   const [type, setType] = useState<EventType>('CONCERT');
@@ -52,6 +53,12 @@ const Page = () => {
                 image={event.eventImageUrl}
                 variant="SMALL"
                 title={event.eventName}
+                date={dateString([event.startDate, event.endDate], {
+                  showWeekday: false,
+                })}
+                location={event.eventLocationName}
+                price={`${event.minRoutePrice?.toLocaleString()}원 ~`}
+                isSaleStarted={event.hasOpenRoute}
                 href={`/event/${event.eventId}`}
               />
             </div>
