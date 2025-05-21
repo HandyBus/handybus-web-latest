@@ -17,13 +17,14 @@ const RegisterCoupon = () => {
   };
   return (
     <form
-      className="flex flex-col gap-24 px-16 py-28"
+      className="flex flex-col gap-16 px-16 pb-16 pt-32"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <TextInput name="coupon" control={control} setValue={setValue}>
-        쿠폰 코드
-      </TextInput>
-      <Button>쿠폰 등록하기</Button>
+      <h1 className="text-20 font-700 leading-[140%]">쿠폰</h1>
+      <section className="flex items-center gap-16">
+        <TextInput name="coupon" control={control} setValue={setValue} />
+        <Button size="small">등록</Button>
+      </section>
     </form>
   );
 };

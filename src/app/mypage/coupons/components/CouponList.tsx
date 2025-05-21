@@ -10,32 +10,45 @@ import { useGetUserCoupons } from '@/services/coupon.service';
 
 const CouponList = () => {
   const [showUnusableCoupons, setShowUnusableCoupons] = useState(false);
-  const { data: coupons, isLoading } = useGetUserCoupons({
+  const { data, isLoading } = useGetUserCoupons({
     issuedCouponStatus: showUnusableCoupons ? undefined : 'BEFORE_USE',
   });
 
   const usableCouponsLength = useMemo(
-    () => coupons?.filter((coupon) => coupon.status === 'BEFORE_USE').length,
-    [coupons],
+    () => data?.filter((coupon) => coupon.status === 'BEFORE_USE').length,
+    [data],
   );
 
+  const coupons = useMemo(() => {
+    if (showUnusableCoupons)
+      return data?.filter(
+        (coupon) => coupon.status !== 'USED' && coupon.status !== 'DELETED',
+      );
+    return data;
+  }, [data]);
+
   return (
-    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
-      {coupons && (
-        <section className="px-16 py-28">
-          <div className="mb-16 flex items-center justify-between font-400 text-basic-grey-500">
-            <span>보유한 쿠폰 ({usableCouponsLength})</span>
-            <button
-              onClick={() => setShowUnusableCoupons((prev) => !prev)}
-              className="flex items-center gap-4 text-12"
-            >
-              <CheckBox
-                isChecked={showUnusableCoupons}
-                setIsChecked={setShowUnusableCoupons}
-              />
-              사용 불가능한 쿠폰 포함
-            </button>
-          </div>
+    <section className="p-16">
+      <div className="mb-16 flex items-center justify-between font-400 leading-[160%]">
+        <span className="text-16 font-500 text-basic-black">
+          쿠폰 {usableCouponsLength ?? 0}개
+        </span>
+        <button
+          onClick={() => setShowUnusableCoupons((prev) => !prev)}
+          className="flex items-center gap-4 text-14 font-600 text-basic-grey-700"
+        >
+          <CheckBox
+            isChecked={showUnusableCoupons}
+            setIsChecked={setShowUnusableCoupons}
+          />
+          만료 쿠폰 포함
+        </button>
+      </div>
+      <DeferredSuspense
+        fallback={<Loading style="grow" />}
+        isLoading={isLoading}
+      >
+        {coupons && (
           <div className="flex flex-col gap-16">
             {!coupons.length ? (
               <NoCoupon />
@@ -45,9 +58,9 @@ const CouponList = () => {
               ))
             )}
           </div>
-        </section>
-      )}
-    </DeferredSuspense>
+        )}
+      </DeferredSuspense>
+    </section>
   );
 };
 
