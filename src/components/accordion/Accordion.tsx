@@ -25,8 +25,8 @@ const Accordion = ({
         containerClassName,
       )}
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-16 py-16">
-        <h3 className={customTwMerge('text-20 font-700', titleClassName)}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-16">
+        <h3 className={customTwMerge('py-16 text-20 font-700', titleClassName)}>
           {title}
         </h3>
         <span className="transition-transform duration-100 group-open:rotate-[180deg]">
