@@ -27,16 +27,25 @@ const Header = () => {
       <Link href="/">
         <LogoIcon />
       </Link>
-      {isLoggedIn !== null &&
-        (isLoggedIn ? (
-          <Link href="/mypage">
-            <UserProfile nickname={nickname} profileImage={profileImage} />
-          </Link>
-        ) : (
-          <Link href="/login">
-            <UserIcon />
-          </Link>
-        ))}
+
+      <div className="flex items-center gap-8">
+        <Link href="/event" className="px-4 text-14 font-600">
+          모든 행사
+        </Link>
+        <div className="h-16 w-[1px] bg-basic-grey-200" />
+        <div className="h-24 w-24">
+          {isLoggedIn !== null &&
+            (isLoggedIn ? (
+              <Link href="/mypage">
+                <UserProfile nickname={nickname} profileImage={profileImage} />
+              </Link>
+            ) : (
+              <Link href="/login">
+                <UserIcon />
+              </Link>
+            ))}
+        </div>
+      </div>
     </header>
   );
 };
