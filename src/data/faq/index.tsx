@@ -15,8 +15,7 @@ import FAQBoarding3 from './boarding-3-how-are-seats-assigned.mdx';
 import FAQBoarding4 from './boarding-4-leave-luggage-on-shuttle.mdx';
 import FAQBoarding5 from './boarding-5-change-one-way-to-round-trip.mdx';
 import FAQBoarding6 from './boarding-6-use-one-way-from-round-trip.mdx';
-import FAQEtc1 from './etc-1-did-not-receive-signup-coupon.mdx';
-import FAQEtc2 from './etc-2-what-is-handy.mdx';
+import FAQEtc1 from './etc-1-what-is-handy.mdx';
 
 interface FAQ {
   title: string;
@@ -43,8 +42,7 @@ export const faqs: FAQ[] = (
     [FAQBoarding4, '[탑승하기] 셔틀버스에 짐을 놓고 내려도 되나요?'],
     [FAQBoarding5, '[탑승하기] 편도 예매 후, 왕복으로 바꾸고 싶어요.'],
     [FAQBoarding6, '[탑승하기] 왕복 예매 후, 편도만 탑승해도 되나요?'],
-    [FAQEtc1, '[그외] 가입 쿠폰을 받지 못했어요.'],
-    [FAQEtc2, '[그외] 핸디가 뭐에요?'],
+    [FAQEtc1, '[그외] 핸디가 뭐에요?'],
   ] as const
 ).map(([Content, title]) => {
   return {
