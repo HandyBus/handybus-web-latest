@@ -9,7 +9,7 @@ import { useGetReviewsWithPagination } from '@/services/review.service';
 import FilterButton from './FilterButton';
 import { useMemo, useState } from 'react';
 
-export type ReviewSortType = 'DATE_ASC' | 'RATING_DESC' | 'RATING_ASC';
+export type ReviewSortType = 'DATE_DESC' | 'RATING_DESC' | 'RATING_ASC';
 
 const ReviewList = () => {
   const { data, fetchNextPage, isFetching, hasNextPage } =
@@ -17,7 +17,7 @@ const ReviewList = () => {
 
   const ref = useInfiniteScroll(fetchNextPage);
 
-  const [sort, setSort] = useState<ReviewSortType>('DATE_ASC');
+  const [sort, setSort] = useState<ReviewSortType>('DATE_DESC');
 
   const sortedReviews = useMemo(() => {
     return data.reviews.sort((a, b) => {
@@ -27,7 +27,7 @@ const ReviewList = () => {
       if (sort === 'RATING_DESC') {
         return b.rating - a.rating;
       }
-      return a.createdAt.localeCompare(b.createdAt);
+      return b.createdAt.localeCompare(a.createdAt);
     });
   }, [sort, data.reviews]);
 

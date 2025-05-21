@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { useState } from 'react';
 import FilterButton from './FilterButton';
 
-export type ReviewSortType = 'DATE_ASC' | 'RATING_DESC' | 'RATING_ASC';
+export type ReviewSortType = 'DATE_DESC' | 'RATING_DESC' | 'RATING_ASC';
 
 interface Props {
   reviewId?: string;
@@ -21,7 +21,7 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
   const { data, fetchNextPage, isFetching, hasNextPage } =
     useGetReviewsWithPagination();
 
-  const [sort, setSort] = useState<ReviewSortType>('DATE_ASC');
+  const [sort, setSort] = useState<ReviewSortType>('DATE_DESC');
   const ref = useInfiniteScroll(fetchNextPage);
   const reviews = data.reviews;
 
@@ -38,7 +38,7 @@ const ReviewListWithMyReview = ({ reviewId }: Props) => {
       if (sort === 'RATING_DESC') {
         return b.rating - a.rating;
       }
-      return a.createdAt.localeCompare(b.createdAt);
+      return b.createdAt.localeCompare(a.createdAt);
     });
   }, [sort, reviewListWithoutMyReview]);
 
