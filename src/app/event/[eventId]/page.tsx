@@ -1,7 +1,7 @@
 import Header from '@/components/header/Header';
 import EventImage from './components/EventImage';
 import EventInfo from './components/EventInfo';
-import EventForm from './components/EventForm';
+import EventForm from './components/event-form/EventForm';
 import EventGuidelines from './components/EventGuidelines';
 import { getEvent } from '@/services/event.service';
 
