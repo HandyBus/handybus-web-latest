@@ -125,9 +125,6 @@ export const usePostReview = ({
       toast.success('후기가 등록되었어요!');
       onSuccess?.(res);
     },
-    onError: () => {
-      toast.error('후기를 등록하지 못했어요.');
-    },
   });
 };
 
@@ -148,9 +145,6 @@ export const usePutReview = ({ onSuccess }: { onSuccess?: () => void }) => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
       toast.success('후기가 수정되었어요!');
       onSuccess?.();
-    },
-    onError: () => {
-      toast.error('후기를 수정하지 못했어요.');
     },
   });
 };
