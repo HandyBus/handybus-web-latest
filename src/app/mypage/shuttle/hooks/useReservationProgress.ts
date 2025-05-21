@@ -23,9 +23,7 @@ const useReservationProgress = ({
 }: Props) => {
   const reservationProgress: ReservationProgress = useMemo(() => {
     const isBusAssigned = !!reservation.shuttleBusId;
-    const isShuttleEnded =
-      reservation.shuttleRoute.status === 'ENDED' ||
-      reservation.shuttleRoute.status === 'CANCELLED';
+    const isShuttleEnded = reservation.shuttleRoute.status === 'ENDED';
     const isReservationCanceled = reservation.reservationStatus === 'CANCEL';
 
     if (isReservationCanceled) {

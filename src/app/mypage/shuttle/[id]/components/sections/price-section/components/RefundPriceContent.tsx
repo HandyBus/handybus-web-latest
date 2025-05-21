@@ -49,7 +49,7 @@ const RefundPriceContent = ({ payment, refundRequest }: Props) => {
       <li className="flex h-[22px] w-full items-center justify-between">
         <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
           <ArrowDownwardTipRightIcon />
-          결제 일시 | {refundAcceptedAt}
+          환불 일시 | {refundAcceptedAt}
         </span>
       </li>
     </div>

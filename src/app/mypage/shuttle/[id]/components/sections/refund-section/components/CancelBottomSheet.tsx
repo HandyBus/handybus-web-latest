@@ -6,7 +6,7 @@ import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import { useMemo } from 'react';
 import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { calculateRefundFee } from '@/utils/reservation.util';
+import { calculateRefundFee, getIsRefundable } from '../utils/refund.util';
 import { useRouter } from 'next/navigation';
 
 interface Props extends BottomSheetRefs {
@@ -42,14 +42,9 @@ const CancelBottomSheet = ({
     () => calculateRefundFee(reservation),
     [reservation],
   );
-
   const isRefundable = useMemo(() => {
-    const paymentAmount = reservation?.paymentAmount;
-    if (!reservation || !paymentAmount || refundFee === null) {
-      return false;
-    }
-    return refundFee !== paymentAmount;
-  }, [refundFee, reservation]);
+    return getIsRefundable(reservation);
+  }, [reservation]);
 
   return (
     <BottomSheet
