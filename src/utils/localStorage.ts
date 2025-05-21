@@ -25,18 +25,6 @@ export const removeEntryGreetingIncomplete = () => {
   localStorage.removeItem(IS_ENTRY_GREETING_INCOMPLETE);
 };
 
-// 예약 완료
-export const IS_RESERVATION_COMPLETED = 'is-reservation-completed';
-export const setReservationCompleted = () => {
-  localStorage.setItem(IS_RESERVATION_COMPLETED, '1');
-};
-export const getReservationCompleted = () => {
-  return Boolean(localStorage.getItem(IS_RESERVATION_COMPLETED));
-};
-export const removeReservationCompleted = () => {
-  localStorage.removeItem(IS_RESERVATION_COMPLETED);
-};
-
 // 최근 로그인
 export const LAST_LOGIN = 'last-login';
 export const setLastLogin = (type: 'kakao' | 'naver') => {

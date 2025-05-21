@@ -24,7 +24,6 @@ export default function WithFooterLayout({
   top,
   bot,
   event,
-  modal,
   greeting,
   help,
 }: Readonly<Props>) {
@@ -36,7 +35,6 @@ export default function WithFooterLayout({
         {event}
         {help}
         {bot}
-        {modal}
         {greeting}
       </main>
       <Footer />
