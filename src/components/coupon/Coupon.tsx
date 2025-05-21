@@ -1,5 +1,5 @@
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
-import { dateString } from '@/utils/dateString.util';
+import dayjs from 'dayjs';
 
 interface Props {
   coupon: IssuedCouponsViewEntity;
@@ -9,43 +9,37 @@ const Coupon = ({ coupon }: Props) => {
   const usable = coupon.status === 'BEFORE_USE';
   const unusableReason =
     coupon.status === 'EXPIRED'
-      ? '기한이 만료됨'
+      ? '기간 만료'
       : coupon.status === 'RETRIEVED'
-        ? '관리자에 의해 회수됨'
+        ? '사용이 제한된 쿠폰'
         : '';
   const title =
     coupon.discountType === 'RATE'
       ? `${coupon.discountRate}%`
       : `${coupon.discountAmount?.toLocaleString()}원`;
-  const parsedValidTo = dateString(coupon.validTo);
+  const parsedValidTo = dayjs(coupon.validTo)
+    .subtract(1, 'minute')
+    .format('YYYY년 M월 D일 H시 m분');
 
   return (
     <div
-      className={`rounded-12 bg-basic-grey-50 p-16 ${usable ? '' : 'opacity-50'}`}
+      className={`rounded-8 p-16 ${usable ? '' : 'opacity-50'} border border-basic-grey-200`}
     >
-      {!usable && (
-        <p className="pb-4 text-12 font-600 text-basic-red-500">
-          {unusableReason}
+      <p className="line-clamp-1 text-14 font-600 leading-[160%] text-basic-grey-700">
+        {`[${coupon.name}] ${title} 할인`}
+      </p>
+      {coupon.discountType === 'RATE' && (
+        <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+          최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
         </p>
       )}
-      <h4 className="text-22 font-600">
-        {title} 할인{' '}
-        {coupon.discountType === 'RATE' && (
-          <span className="text-12 font-400 text-basic-grey-500">
-            최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
-          </span>
-        )}
-      </h4>
-      <p className="line-clamp-1 pb-4 pt-[2px] text-16 font-500 text-basic-grey-700">
-        {coupon.name}
-      </p>
-      <p className="line-clamp-1 text-12 font-400 text-basic-grey-500">
+      <p className="line-clamp-1 text-12 font-500 leading-[160%] text-basic-grey-700">
         {coupon.maxApplicablePeople === 0
           ? '모든 탑승객에게 적용 가능'
           : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`}
       </p>
-      <p className="text-12 font-400 text-basic-grey-500">
-        {parsedValidTo}까지 사용 가능
+      <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
+        {usable ? `${parsedValidTo}까지 사용 가능` : unusableReason}
       </p>
     </div>
   );
