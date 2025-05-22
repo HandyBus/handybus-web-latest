@@ -9,7 +9,7 @@ export const ShuttleRouteAlertRequestsViewEntitySchema = z.object({
   userId: z.string(),
   userNickname: z.string(),
   userProfileImage: z.string().nullable(),
-  shuttleRouteHubId: z.string(),
+  shuttleRouteHubId: z.string().nullable(),
   notifiedAt: z.string().nullable(),
   notificationRequestedAt: z.string(),
   createdAt: z.string(),

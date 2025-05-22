@@ -72,22 +72,26 @@ const ReviewWriteForm = ({ reservation }: Props) => {
   };
 
   const onSubmit = async (data: CreateReviewRequest) => {
-    const imageUrls = await Promise.all(
-      files.map(async (file) => {
-        const imageUrl = await getImageUrl({
-          key: 'reviews',
-          file,
-        });
-        return imageUrl;
-      }),
-    );
+    try {
+      const imageUrls = await Promise.all(
+        files.map(async (file) => {
+          const imageUrl = await getImageUrl({
+            key: 'reviews',
+            file,
+          });
+          return imageUrl;
+        }),
+      );
 
-    await postCreateReview({
-      ...data,
-      images: imageUrls
-        .filter((url) => url !== null && url !== undefined)
-        .map((url) => ({ imageUrl: url })),
-    });
+      await postCreateReview({
+        ...data,
+        images: imageUrls
+          .filter((url) => url !== null && url !== undefined)
+          .map((url) => ({ imageUrl: url })),
+      });
+    } catch {
+      toast.error('후기를 등록하지 못했어요. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   return (

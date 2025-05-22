@@ -20,6 +20,9 @@ export const TripTypeEnum = z.enum([
 ]);
 export type TripType = z.infer<typeof TripTypeEnum>;
 
+export const HubRoleEnum = z.enum(['HUB', 'DESTINATION']);
+export type HubRole = z.infer<typeof HubRoleEnum>;
+
 // ----- GET -----
 
 export const ShuttleRouteHubsInShuttleRoutesViewEntitySchema = z
@@ -31,6 +34,7 @@ export const ShuttleRouteHubsInShuttleRoutesViewEntitySchema = z
     latitude: z.number(),
     longitude: z.number(),
     type: TripTypeEnum.exclude(['ROUND_TRIP']),
+    role: HubRoleEnum,
     sequence: z.number(),
     arrivalTime: z.string(),
     status: ActiveStatusEnum,

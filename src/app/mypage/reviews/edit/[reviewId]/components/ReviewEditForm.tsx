@@ -93,26 +93,30 @@ const ReviewEditForm = ({ review }: Props) => {
   };
 
   const onSubmit = async (data: CreateReviewRequest) => {
-    const imageUrls = await Promise.all(
-      displayImages.map(async (file) => {
-        if (file.original) {
-          const imageUrl = await getImageUrl({
-            key: 'reviews',
-            file: file.original,
-          });
-          return imageUrl;
-        }
-        return file.previewUrl;
-      }),
-    );
+    try {
+      const imageUrls = await Promise.all(
+        displayImages.map(async (file) => {
+          if (file.original) {
+            const imageUrl = await getImageUrl({
+              key: 'reviews',
+              file: file.original,
+            });
+            return imageUrl;
+          }
+          return file.previewUrl;
+        }),
+      );
 
-    await putReview({
-      ...data,
-      reviewId: review.reviewId,
-      images: imageUrls
-        .filter((url) => url !== null && url !== undefined)
-        .map((url) => ({ imageUrl: url })),
-    });
+      await putReview({
+        ...data,
+        reviewId: review.reviewId,
+        images: imageUrls
+          .filter((url) => url !== null && url !== undefined)
+          .map((url) => ({ imageUrl: url })),
+      });
+    } catch {
+      toast.error('후기를 수정하지 못했어요. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   return (

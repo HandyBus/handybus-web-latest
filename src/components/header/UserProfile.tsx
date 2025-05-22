@@ -13,7 +13,7 @@ const UserProfile = ({ profileImage, nickname }: Props) => {
   return (
     <>
       {profileImage ? (
-        <div className="relative h-24 w-24 ">
+        <div className="relative h-24 w-24">
           <Image
             src={profileImage}
             alt="profile"

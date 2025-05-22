@@ -1,10 +1,10 @@
 import Rating from '@/components/rating/Rating';
 import { getReviewsWithPagination } from '@/services/review.service';
-import { STATIC_REVIEWS } from '@/app/reviews/review.const';
 import { DEFAULT_SSG_REVALIDATE_TIME } from '@/constants/common';
 import Article from '@/components/article/Article';
 import { ReviewsViewEntity } from '@/types/review.type';
 import UserProfile from '@/components/header/UserProfile';
+import { dateString } from '@/utils/dateString.util';
 
 export const revalidate = DEFAULT_SSG_REVALIDATE_TIME;
 
@@ -12,9 +12,8 @@ const PromotionReview = async () => {
   const paginatedReviews = await getReviewsWithPagination({
     revalidate: DEFAULT_SSG_REVALIDATE_TIME,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const top3 = (paginatedReviews.reviews as any[])
-    .concat(STATIC_REVIEWS)
+
+  const top3 = paginatedReviews.reviews
     .slice(0, 10)
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 3);
@@ -46,7 +45,9 @@ const PromotionReview = async () => {
           </div>
           <div className="mt-4 flex w-full items-center justify-end gap-4">
             <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-              {review.createdAt}
+              {dateString(review.createdAt, {
+                showWeekday: false,
+              })}
             </p>
           </div>
         </div>
