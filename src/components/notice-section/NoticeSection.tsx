@@ -160,6 +160,7 @@ export const TermAndConditionContent = () => {
             <span className="font-700 text-red-500">5일 전(D-5)</span>
             까지 가능합니다.
           </li>
+          <li>[핸디팟] 상품은 출발일 기준 1일 전(D-1)까지 가능해요.</li>
           <li>예약 중인 모든 셔틀은 취소 없이 100% 확정 운행돼요.</li>
           <li>
             자연재해 혹은 주최 측의 사정으로 인해 행사가 취소될 경우, 운행이
