@@ -75,7 +75,6 @@ export const CancellationAndRefundContent = () => {
         </li>
         <li>시간대는 한국 기준으로 적용됩니다.</li>
       </ul>
-
       <section className="overflow-hidden rounded-[5px] border border-grey-300 text-grey-500">
         <table className="w-full border-collapse">
           <thead>
@@ -136,13 +135,31 @@ export const TermAndConditionContent = () => {
             핸디버스는 셔틀 노선의 <strong>판매 중개자</strong>이며, 실제 운행은
             각 운송업체에서 제공합니다.
           </li>
+          <li>
+            ‘[핸디팟]’ 이 붙은 셔틀의 경우 대형고급택시로 운행되는 셔틀로,
+            자세한 내용은 아래 링크로 확인해주세요.
+            <br />
+            <a
+              href="https://handybus.notion.site/handybus-tadataxi?pvs=4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              https://handybus.notion.site/handybus-tadataxi?pvs=4
+            </a>
+          </li>
         </ul>
       </section>
+      <br />
 
       <section>
         <h3 className="font-700">예약/결제</h3>
         <ul className="list-disc pl-16">
-          <li>셔틀 예약은 출발일 기준 4일 전(D-4)까지 가능합니다.</li>
+          <li>
+            셔틀 예약은 출발일 기준{' '}
+            <span className="font-700 text-red-500">5일 전(D-5)</span>
+            까지 가능합니다.
+          </li>
           <li>예약 중인 모든 셔틀은 취소 없이 100% 확정 운행돼요.</li>
           <li>
             자연재해 혹은 주최 측의 사정으로 인해 행사가 취소될 경우, 운행이
@@ -155,6 +172,7 @@ export const TermAndConditionContent = () => {
           </li>
         </ul>
       </section>
+      <br />
 
       <section>
         <h3 className="font-700">탑승</h3>
@@ -179,6 +197,7 @@ export const TermAndConditionContent = () => {
           <li>모든 좌석은 선착순(자유석)으로 운행돼요.</li>
         </ul>
       </section>
+      <br />
 
       <section>
         <h3 className="font-700">운행</h3>
@@ -201,12 +220,17 @@ export const TermAndConditionContent = () => {
             운행돼요.
           </li>
           <li>
+            수요가 부족한 정류장 및 지역의 경우, 대형고급택시로 운행 될 수
+            있어요.
+          </li>
+          <li>
             예약 현황에 따라 경로 내 다른 정류장과 함께 경유하여 운행 될 수
             있어요. 타 정류장과 경유 하는 경우, 승차/하차 시간 및 운행 시간이
             변동 될 수 있으며 환불은 불가능해요.
           </li>
         </ul>
       </section>
+      <br />
 
       <section>
         <h3 className="font-700">기타</h3>
