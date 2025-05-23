@@ -179,7 +179,7 @@ const ReviewEditForm = ({ review }: Props) => {
       <Controller
         control={control}
         name="content"
-        rules={{ required: true, minLength: 20 }}
+        rules={{ required: true, minLength: 20, maxLength: 1000 }}
         render={({ field }) => (
           <ReviewTextarea
             text={field.value}
