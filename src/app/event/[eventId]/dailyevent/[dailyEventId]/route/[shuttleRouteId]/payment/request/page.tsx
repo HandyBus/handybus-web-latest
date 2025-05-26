@@ -8,7 +8,7 @@ import usePreventScroll from '@/hooks/usePreventScroll';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
 import { getUserReservation } from '@/services/reservation.service';
 import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
-import LoadingBusIcon from './icons/bus-loading.svg';
+import LoadingHandyBus from '@/components/loading/LoadingHandyBus';
 
 const Page = () => {
   const router = useRouter();
@@ -67,7 +67,7 @@ const Page = () => {
         <p className="pb-24 text-16 font-500 text-basic-grey-600">
           잠시만 기다려 주세요. 곧 결제가 완료돼요.
         </p>
-        <LoadingBusIcon />
+        <LoadingHandyBus />
       </div>
     </main>
   );
