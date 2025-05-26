@@ -8,7 +8,7 @@ import { TripTypeWithoutRoundTrip } from './shuttleRouteDetailView.type';
 import RouteLine from './components/RouteLine';
 import Hubs from './components/Hubs';
 
-// eventLocation: 이벤트 장소
+// eventDestination: 행사 도착지
 // primary: 선택된 정류장
 // secondary: 경유 정류장 (유저 입장)
 // tertiary: 경유하지 않는 정류장 (유저 입장)
@@ -16,6 +16,19 @@ import Hubs from './components/Hubs';
 const ShuttleRouteDetailView = () => {
   const [currentTab, setCurrentTab] =
     useState<TripTypeWithoutRoundTrip>('TO_DESTINATION');
+  const [openedHubIndexes, setOpenedHubIndexes] = useState<number[]>([]);
+
+  const handleChangeTab = (value: TripTypeWithoutRoundTrip) => {
+    setCurrentTab(value);
+    setOpenedHubIndexes([]);
+  };
+
+  const addOpenedHubIndex = (index: number) => {
+    setOpenedHubIndexes((prev) => [...prev, index]);
+  };
+  const removeOpenedHubIndex = (index: number) => {
+    setOpenedHubIndexes((prev) => prev.filter((i) => i !== index));
+  };
 
   const shuttleRoute = MOCK_SHUTTLE_ROUTE;
   const sortedHubs =
@@ -44,9 +57,7 @@ const ShuttleRouteDetailView = () => {
             ] as const
           }
           selected={currentTab}
-          onSelect={(value) => {
-            setCurrentTab(value);
-          }}
+          onSelect={handleChangeTab}
         />
         <div className="my-16 grid grid-cols-[20px_1fr] gap-4 rounded-6 bg-basic-grey-50 p-8">
           <InfoIcon />
@@ -55,19 +66,22 @@ const ShuttleRouteDetailView = () => {
             변동이 생기면 미리 알려드릴게요.
           </p>
         </div>
-        <div className="flex w-full gap-12">
-          <div className="flex w-12 shrink-0 flex-col items-center pt-[7px]">
+        <div className="flex w-full gap-[6px]">
+          <div className="flex w-12 shrink-0 flex-col items-center pt-[22.4px]">
             <RouteLine
               hubs={sortedHubs}
               selectedHubIndex={selectedHubIndex}
               tripType={currentTab}
+              openedHubIndexes={openedHubIndexes}
             />
           </div>
-          <div className="flex flex-1 flex-col gap-12">
+          <div className="flex flex-1 flex-col">
             <Hubs
               hubs={sortedHubs}
               selectedHubIndex={selectedHubIndex}
               tripType={currentTab}
+              addOpenedHubIndex={addOpenedHubIndex}
+              removeOpenedHubIndex={removeOpenedHubIndex}
             />
           </div>
         </div>

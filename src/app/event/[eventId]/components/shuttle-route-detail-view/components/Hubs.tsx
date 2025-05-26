@@ -9,9 +9,17 @@ interface Props {
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
   selectedHubIndex: number;
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
+  addOpenedHubIndex: (index: number) => void;
+  removeOpenedHubIndex: (index: number) => void;
 }
 
-const Hubs = ({ hubs, selectedHubIndex, tripType }: Props) => {
+const Hubs = ({
+  hubs,
+  selectedHubIndex,
+  tripType,
+  addOpenedHubIndex,
+  removeOpenedHubIndex,
+}: Props) => {
   return (
     <>
       {hubs.map((hub, index) => {
@@ -21,7 +29,18 @@ const Hubs = ({ hubs, selectedHubIndex, tripType }: Props) => {
           tripType,
           length: hubs.length,
         });
-        return <Hub key={hub.shuttleRouteHubId} type={type} hub={hub} />;
+        const isLastHub = index === hubs.length - 1;
+        return (
+          <Hub
+            key={hub.shuttleRouteHubId}
+            type={type}
+            hub={hub}
+            isLastHub={isLastHub}
+            index={index}
+            addOpenedHubIndex={addOpenedHubIndex}
+            removeOpenedHubIndex={removeOpenedHubIndex}
+          />
+        );
       })}
     </>
   );
