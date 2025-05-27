@@ -34,11 +34,16 @@ const RouteLine = ({
           <div
             key={index}
             className={customTwMerge(
-              'my-[-2px] h-[60.4px] w-[2px]',
+              'my-[-2px] h-[49.8px] w-[2px]',
               isOpened && 'h-[227.3px]',
               type === 'tertiary'
                 ? 'bg-basic-grey-200'
                 : 'bg-brand-primary-400',
+              tripType === 'FROM_DESTINATION' && index === 1 && 'h-[79.3px]',
+              tripType === 'FROM_DESTINATION' &&
+                index === 1 &&
+                isOpened &&
+                'h-[256.8px]',
             )}
           />
         );

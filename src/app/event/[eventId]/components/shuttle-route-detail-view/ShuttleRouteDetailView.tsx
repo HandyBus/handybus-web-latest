@@ -67,7 +67,7 @@ const ShuttleRouteDetailView = () => {
           </p>
         </div>
         <div className="flex w-full gap-[6px]">
-          <div className="flex w-12 shrink-0 flex-col items-center pt-[22.4px]">
+          <div className="flex w-12 shrink-0 flex-col items-center pt-[23.6px]">
             <RouteLine
               hubs={sortedHubs}
               selectedHubIndex={selectedHubIndex}
