@@ -137,14 +137,9 @@ const config: Config = {
         bottomBar: '0 -4px 6px -1px rgba(0,0,0,0.1)',
       },
       animation: {
-        spin: 'spin 1s linear infinite',
         moveRoad: 'moveRoad 1.25s linear infinite',
       },
       keyframes: {
-        spin: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
         moveRoad: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
