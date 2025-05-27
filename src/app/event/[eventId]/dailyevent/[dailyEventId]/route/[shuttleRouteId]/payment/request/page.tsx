@@ -8,7 +8,8 @@ import usePreventScroll from '@/hooks/usePreventScroll';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
 import { getUserReservation } from '@/services/reservation.service';
 import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
-import LoadingHandyBus from '@/components/loading/LoadingHandyBus';
+import RoadIcon from './icons/road.svg';
+import BusIcon from './icons/bus.svg';
 
 const Page = () => {
   const router = useRouter();
@@ -74,3 +75,14 @@ const Page = () => {
 };
 
 export default Page;
+
+const LoadingHandyBus = () => {
+  return (
+    <div className="relative h-[87px] w-[216px] overflow-hidden">
+      <div className="absolute animate-moveRoad">
+        <RoadIcon />
+      </div>
+      <BusIcon className="absolute left-1/2 z-10 -translate-x-1/2" />
+    </div>
+  );
+};
