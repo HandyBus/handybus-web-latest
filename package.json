@@ -70,6 +70,7 @@
     "prettier-plugin-tailwindcss": "^0.5.9",
     "storybook": "^8.3.6",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "kakao.maps.d.ts": "^0.1.40"
   }
 }

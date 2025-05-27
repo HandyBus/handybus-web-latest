@@ -2,6 +2,7 @@ import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.
 import { dateString } from '@/utils/dateString.util';
 import { HubType } from '../shuttleRouteDetailView.type';
 import ArrowDownIcon from '../../../icons/arrow-down.svg';
+import KakaoMap from './KakaoMap';
 
 interface Props {
   type: HubType;
@@ -10,6 +11,7 @@ interface Props {
   index: number;
   addOpenedHubIndex: (index: number) => void;
   removeOpenedHubIndex: (index: number) => void;
+  isKakaoMapScriptLoaded: boolean;
 }
 
 const Hub = ({
@@ -19,6 +21,7 @@ const Hub = ({
   index,
   addOpenedHubIndex,
   removeOpenedHubIndex,
+  isKakaoMapScriptLoaded,
 }: Props) => {
   const formattedTime = dateString(hub.arrivalTime, {
     showYear: false,
@@ -78,7 +81,14 @@ const Hub = ({
         </div>
       </summary>
       <div className="w-full px-8">
-        <div className="h-168 w-full rounded-8 bg-basic-grey-400" />
+        <div className="h-168 w-full overflow-hidden rounded-8 border border-basic-grey-200 bg-basic-grey-200">
+          <KakaoMap
+            placeName={hub.name}
+            latitude={hub.latitude}
+            longitude={hub.longitude}
+            isKakaoMapScriptLoaded={isKakaoMapScriptLoaded}
+          />
+        </div>
       </div>
     </details>
   );
