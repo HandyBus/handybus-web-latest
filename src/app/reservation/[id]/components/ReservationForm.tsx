@@ -15,6 +15,7 @@ import {
 } from '@/types/event.type';
 import dayjs from 'dayjs';
 import useAuthRouter from '@/hooks/useAuthRouter';
+import ProductDescription from './ProductDescription';
 
 export const RESERVATION_DETAIL_FORM_ID = 'reservation-form';
 
@@ -135,7 +136,6 @@ const ReservationForm = ({
           defaultText="예약 가능한 노선이 없어요."
         />
       </section>
-      <div id="divider" className="my-16 h-[8px] bg-grey-50" />
       {selectedRoute && (
         <>
           <div className="px-16 py-20">
@@ -182,6 +182,10 @@ const ReservationForm = ({
           />
         </>
       )}
+      <ProductDescription
+        routeName={selectedRoute?.name ?? ''}
+        eventName={event.eventName}
+      />
       <BottomBar
         isSelected={!!selectedRoute}
         isNotOpen={selectedRoute && selectedRoute.status !== 'OPEN'}
