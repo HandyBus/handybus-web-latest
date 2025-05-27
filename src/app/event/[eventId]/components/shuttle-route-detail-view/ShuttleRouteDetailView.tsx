@@ -7,6 +7,8 @@ import { MOCK_SHUTTLE_ROUTE } from './mock.const';
 import { TripTypeWithoutRoundTrip } from './shuttleRouteDetailView.type';
 import RouteLine from './components/RouteLine';
 import Hubs from './components/Hubs';
+import { useAtomValue } from 'jotai';
+import { selectedHubWithInfoForDetailViewAtom } from '../../store/selectedHubWithInfoForDetailViewAtom';
 
 // eventDestination: 행사 도착지
 // primary: 선택된 정류장
@@ -40,6 +42,10 @@ const ShuttleRouteDetailView = () => {
           (a, b) => a.sequence - b.sequence,
         ) ?? []);
   const selectedHubIndex = 1;
+
+  const selectedHub = useAtomValue(selectedHubWithInfoForDetailViewAtom);
+
+  console.log(selectedHub);
 
   return (
     <>

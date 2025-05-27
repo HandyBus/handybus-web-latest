@@ -4,7 +4,7 @@ import Badge from '@/components/badge/Badge';
 import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
 import { useFormContext } from 'react-hook-form';
 import { dateString } from '@/utils/dateString.util';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
@@ -12,15 +12,19 @@ import {
   getRouteOfHubWithInfo,
   HubWithInfo,
 } from '../../../store/dailyEventIdsWithHubsAtom';
+import { isCheckRouteDetailViewFlowAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
+import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
   toExtraSeatAlarmStep: () => void;
+  closeBottomSheet: () => void;
 }
 
 const ExtraDuplicateHubStep = ({
   toReservationTripTypeStep,
   toExtraSeatAlarmStep,
+  closeBottomSheet,
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const [hubsWithInfoForDuplicates, dailyEvent] = getValues([
@@ -29,9 +33,23 @@ const ExtraDuplicateHubStep = ({
   ]);
   const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
 
+  const setSelectedHubWithInfoForDetailViewAtom = useSetAtom(
+    selectedHubWithInfoForDetailViewAtom,
+  );
+  const isCheckRouteDetailViewFlow = useAtomValue(
+    isCheckRouteDetailViewFlowAtom,
+  );
+
   const handleHubClick = (hubWithInfo: HubWithInfo) => {
     setValue('selectedHubWithInfo', hubWithInfo);
-    toReservationTripTypeStep();
+
+    if (!isCheckRouteDetailViewFlow) {
+      toReservationTripTypeStep();
+      return;
+    }
+
+    setSelectedHubWithInfoForDetailViewAtom(hubWithInfo);
+    closeBottomSheet();
   };
 
   return (

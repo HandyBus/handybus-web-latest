@@ -4,7 +4,7 @@ import PinIcon from '../../../icons/pin.svg';
 
 interface Props {
   disabled?: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const HubButton = ({ disabled = true, onClick }: Props) => {

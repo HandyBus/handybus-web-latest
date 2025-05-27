@@ -4,7 +4,7 @@ import CalendarIcon from '../../../icons/calendar.svg';
 
 interface Props {
   disabled?: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const DateButton = ({ disabled = true, onClick }: Props) => {

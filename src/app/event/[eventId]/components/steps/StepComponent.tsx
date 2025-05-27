@@ -77,6 +77,7 @@ const StepComponent = ({
         toExtraDuplicateHubStep={() => setHistoryAndStep('[기타] 복수 노선')}
         toExtraSeatAlarmStep={() => setHistoryAndStep('[기타] 빈자리 알림')}
         toDemandHubsStep={() => setHistoryAndStep('[수요조사] 정류장 선택')}
+        closeBottomSheet={closeBottomSheet}
       />
     ),
     '[예약] 좌석 선택': (
@@ -104,6 +105,7 @@ const StepComponent = ({
       <ExtraDuplicateHubStep
         toReservationTripTypeStep={() => setHistoryAndStep('[예약] 좌석 선택')}
         toExtraSeatAlarmStep={() => setHistoryAndStep('[기타] 빈자리 알림')}
+        closeBottomSheet={closeBottomSheet}
       />
     ),
     '[기타] 빈자리 알림': (
