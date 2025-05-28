@@ -1,8 +1,8 @@
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import { BottomSheetRefs } from '@/hooks/useBottomSheet';
-import KakaoIcon from '../icons/kakao.svg';
-import XIcon from '../icons/x.svg';
-import LinkIcon from '../icons/link.svg';
+import KakaoIcon from '../../../icons/kakao.svg';
+import XIcon from '../../../icons/x.svg';
+import LinkIcon from '../../../icons/link.svg';
 import { useShare } from '@/hooks/useShare';
 
 type SharePlatform = 'kakao' | 'x' | 'copy';

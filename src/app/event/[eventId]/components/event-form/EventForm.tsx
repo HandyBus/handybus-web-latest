@@ -1,8 +1,8 @@
 'use client';
 
-import HubButton from '../HubButton';
-import DateButton from '../DateButton';
-import BottomBar from '../BottomBar';
+import HubButton from './components/HubButton';
+import DateButton from './components/DateButton';
+import BottomBar from './components/BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { useMemo, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
@@ -14,7 +14,6 @@ import {
   EventEnabledStatus,
   EventPhase,
 } from '@/utils/event.util';
-import { Provider as JotaiProvider } from 'jotai';
 import { FormProvider, useForm } from 'react-hook-form';
 import { EventFormValues } from '../../form.type';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
@@ -71,14 +70,12 @@ const EventForm = ({ event }: Props) => {
 
   return (
     <section className={isDisabled ? '' : 'px-16 pb-24'}>
-      <JotaiProvider>
-        <Content
-          event={event}
-          shuttleRoutes={shuttleRoutes}
-          phase={phase}
-          enabledStatus={enabledStatus}
-        />
-      </JotaiProvider>
+      <Content
+        event={event}
+        shuttleRoutes={shuttleRoutes}
+        phase={phase}
+        enabledStatus={enabledStatus}
+      />
     </section>
   );
 };
@@ -155,7 +152,7 @@ const Content = ({
         {enabledStatus === 'enabled' && (
           <>
             <div className="-mx-16 mb-16 h-8 w-[calc(100%+32px)] bg-basic-grey-50" />
-            <h6 className="mb-4 text-20 font-700">{inputSectionTitle}</h6>
+            <h3 className="mb-4 text-20 font-700">{inputSectionTitle}</h3>
             <p className="mb-16 text-16 font-500 text-basic-grey-600">
               {inputSectionDescription}
             </p>

@@ -2,7 +2,7 @@
 
 import Button from '@/components/buttons/button/Button';
 import { useEffect, useState } from 'react';
-import SimpleRouteInfo from '../../SimpleRouteInfo';
+import SimpleRouteInfo from '../components/SimpleRouteInfo';
 import AddIcon from '../../../icons/add.svg';
 import SubtractIcon from '../../../icons/subtract.svg';
 import { useFormContext } from 'react-hook-form';

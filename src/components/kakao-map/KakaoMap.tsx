@@ -20,6 +20,7 @@ interface Props {
   latitude: number;
   longitude: number;
 }
+
 const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [address, setAddress] = useState('');

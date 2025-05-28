@@ -3,7 +3,7 @@
 import Button from '@/components/buttons/button/Button';
 import PinIcon from '../../../icons/pin-small.svg';
 import Tooltip from '@/components/tooltip/Tooltip';
-import RequestSeatAlarmButton from '../../RequestSeatAlarmButton';
+import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
 import Badge from '@/components/badge/Badge';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useAtomValue } from 'jotai';

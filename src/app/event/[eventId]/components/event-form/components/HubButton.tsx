@@ -1,13 +1,13 @@
 'use client';
 
-import CalendarIcon from '../icons/calendar.svg';
+import PinIcon from '../../../icons/pin.svg';
 
 interface Props {
   disabled?: boolean;
   onClick?: () => void;
 }
 
-const DateButton = ({ disabled = true, onClick }: Props) => {
+const HubButton = ({ disabled = true, onClick }: Props) => {
   return (
     <button
       type="button"
@@ -20,8 +20,8 @@ const DateButton = ({ disabled = true, onClick }: Props) => {
           disabled ? 'text-basic-grey-300' : 'text-basic-grey-700'
         }`}
       >
-        <CalendarIcon />
-        <span>일자</span>
+        <PinIcon />
+        <span>정류장</span>
       </div>
       <p
         className={`h-[26px] text-left text-16 font-600 leading-[160%] ${
@@ -34,6 +34,6 @@ const DateButton = ({ disabled = true, onClick }: Props) => {
   );
 };
 
-export default DateButton;
+export default HubButton;
 
-const PLACEHOLDER_TEXT = '언제 참가하시나요?';
+const PLACEHOLDER_TEXT = '어디서 이용하시나요?';

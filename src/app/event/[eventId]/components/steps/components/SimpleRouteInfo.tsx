@@ -1,10 +1,10 @@
 'use client';
 
 import { ReactNode, useMemo, useState } from 'react';
-import PinIcon from '../icons/pin-primary.svg';
-import DotPrimaryIcon from '../icons/dot-primary.svg';
-import DotTertiaryIcon from '../icons/dot-tertiary.svg';
-import ChevronDownIcon from '../icons/chevron-down.svg';
+import PinIcon from '../../../icons/pin-primary.svg';
+import DotPrimaryIcon from '../../../icons/dot-primary.svg';
+import DotTertiaryIcon from '../../../icons/dot-tertiary.svg';
+import ChevronDownIcon from '../../../icons/chevron-down.svg';
 import { TripType } from '@/types/shuttleRoute.type';
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';

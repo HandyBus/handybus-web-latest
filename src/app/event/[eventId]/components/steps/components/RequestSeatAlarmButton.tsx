@@ -1,21 +1,21 @@
 import Button from '@/components/buttons/button/Button';
 import { SyntheticEvent } from 'react';
 import { customTwMerge } from 'tailwind.config';
-import { EventFormValues } from '../form.type';
+import { EventFormValues } from '../../../form.type';
 import { useFormContext } from 'react-hook-form';
 import {
   getRouteOfHubWithInfo,
   HubWithInfo,
-} from '../store/dailyEventIdsWithHubsAtom';
-import { dailyEventIdsWithRoutesAtom } from '../store/dailyEventIdsWithRoutesAtom';
+} from '../../../store/dailyEventIdsWithHubsAtom';
+import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { useAtomValue } from 'jotai';
 import { usePostAlertRequest } from '@/services/alertRequest.service';
-import { eventAtom } from '../store/eventAtom';
+import { eventAtom } from '../../../store/eventAtom';
 import { toast } from 'react-toastify';
 import {
   checkIsUserAlertRequestAvailable,
   userAlertRequestsAtom,
-} from '../store/userAlertRequestsAtom';
+} from '../../../store/userAlertRequestsAtom';
 
 interface Props {
   toStep: () => void;
