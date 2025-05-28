@@ -93,7 +93,7 @@ const EditForm = ({ type, user }: Props) => {
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
-      profileImage: imageUrl ?? null,
+      profileImage: imageUrl ?? undefined,
       favoriteArtistsIds,
       regionId,
     };
