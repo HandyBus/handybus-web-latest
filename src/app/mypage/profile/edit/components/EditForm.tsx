@@ -59,6 +59,7 @@ const EditForm = ({ type, user }: Props) => {
     },
   });
 
+  const [isProfileImageReset, setIsProfileImageReset] = useState(false);
   const handleEditProfile: SubmitHandler<OnboardingFormValues> = async (
     formData,
   ) => {
@@ -93,7 +94,7 @@ const EditForm = ({ type, user }: Props) => {
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
-      profileImage: imageUrl ?? undefined,
+      profileImage: isProfileImageReset ? null : imageUrl,
       favoriteArtistsIds,
       regionId,
     };
@@ -109,6 +110,7 @@ const EditForm = ({ type, user }: Props) => {
             hideTitle
             initialNickname={user.nickname ?? ''}
             initialImageSrc={user.profileImage}
+            setIsProfileImageReset={setIsProfileImageReset}
           />
         );
     }

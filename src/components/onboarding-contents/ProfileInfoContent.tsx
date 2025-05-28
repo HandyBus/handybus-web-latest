@@ -16,6 +16,7 @@ interface Props {
   handleSubmit?: () => void;
   initialNickname: string;
   initialImageSrc?: string | null;
+  setIsProfileImageReset: (isProfileImageReset: boolean) => void;
 }
 
 const ProfileInfoContent = ({
@@ -23,6 +24,7 @@ const ProfileInfoContent = ({
   handleSubmit,
   initialNickname,
   initialImageSrc,
+  setIsProfileImageReset,
 }: Props) => {
   const { control, setValue, getValues } =
     useFormContext<OnboardingFormValues>();
@@ -52,6 +54,7 @@ const ProfileInfoContent = ({
       return;
     }
     showImagePreview(file);
+    setIsProfileImageReset(false);
   };
 
   const clearSelectedFile = () => {
@@ -61,6 +64,7 @@ const ProfileInfoContent = ({
     setImageFile(null);
     setImageSrc(null);
     fileInputRef.current.value = '';
+    setIsProfileImageReset(true);
   };
 
   useEffect(() => {
