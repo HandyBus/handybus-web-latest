@@ -56,7 +56,7 @@ const Title = ({ title, titleClassName, showMore }: TitleProps) => {
           <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-14 font-600 leading-[160%] text-basic-grey-600">
             전체보기
             <span className="inline-block stroke-1">
-              <ChevronRightEm className="h-16 w-16" />
+              <ChevronRightEm className="h-16 w-16 stroke-[2px]" />
             </span>
           </span>
         </Link>
