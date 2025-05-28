@@ -127,23 +127,21 @@ const ReviewEditForm = ({ review }: Props) => {
       <Controller
         control={control}
         name="overallRating"
-        rules={{ required: true }}
+        rules={{ required: '별점을 선택해 주세요.' }}
         render={({ field }) => (
           <RatingInput
             rating={field.value}
             setRating={(rating) =>
               setValue('overallRating', rating, { shouldValidate: true })
             }
+            errorMessage={errors.overallRating?.message}
           />
         )}
       />
-      {errors.overallRating && (
-        <p className={ERROR_STYLE}>별점을 선택해 주세요.</p>
-      )}
       <Controller
         control={control}
         name="serviceRating"
-        rules={{ required: true }}
+        rules={{ required: '만족도를 선택해 주세요.' }}
         render={({ field }) => (
           <SurveyLinearScale
             title="서비스 이용은 어떠셨나요?"
@@ -152,16 +150,14 @@ const ReviewEditForm = ({ review }: Props) => {
             onChange={(rating) =>
               setValue('serviceRating', rating, { shouldValidate: true })
             }
+            errorMessage={errors.serviceRating?.message}
           />
         )}
       />
-      {errors.serviceRating && (
-        <p className={ERROR_STYLE}>만족도를 선택해 주세요.</p>
-      )}
       <Controller
         control={control}
         name="rideRating"
-        rules={{ required: true }}
+        rules={{ required: '만족도를 선택해 주세요.' }}
         render={({ field }) => (
           <SurveyLinearScale
             title="탑승은 어떠셨나요?"
@@ -170,28 +166,34 @@ const ReviewEditForm = ({ review }: Props) => {
             onChange={(rating) =>
               setValue('rideRating', rating, { shouldValidate: true })
             }
+            errorMessage={errors.rideRating?.message}
           />
         )}
       />
-      {errors.rideRating && (
-        <p className={ERROR_STYLE}>만족도를 선택해 주세요.</p>
-      )}
       <Controller
         control={control}
         name="content"
-        rules={{ required: true, minLength: 20, maxLength: 1000 }}
+        rules={{
+          required: '최소 20자 이상 작성해 주세요.',
+          minLength: {
+            value: 20,
+            message: '최소 20자 이상 작성해 주세요.',
+          },
+          maxLength: {
+            value: 300,
+            message: '입력 가능한 글자 수를 초과했어요.',
+          },
+        }}
         render={({ field }) => (
           <ReviewTextarea
             text={field.value}
             setText={(text) =>
               setValue('content', text, { shouldValidate: true })
             }
+            errorMessage={errors.content?.message}
           />
         )}
       />
-      {errors.content && (
-        <p className={ERROR_STYLE}>최소 20자 이상 작성해주세요.</p>
-      )}
       <Controller
         control={control}
         name="recommendToOthers"
@@ -223,8 +225,6 @@ const ReviewEditForm = ({ review }: Props) => {
 };
 
 export default ReviewEditForm;
-
-const ERROR_STYLE = 'text-14 font-400 leading-[160%] text-basic-red-400';
 
 export type DisplayImage = {
   previewUrl?: string;

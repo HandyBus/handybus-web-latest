@@ -23,7 +23,7 @@ const WriteReviewPage = ({ params }: Props) => {
     <main>
       <Header />
       <DeferredSuspense
-        fallback={<Loading style="grow" />}
+        fallback={<Loading style="screen" />}
         isLoading={isLoading}
       >
         {event && reservation && (
