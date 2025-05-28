@@ -6,6 +6,8 @@ import { useState } from 'react';
 import SubmitOpenChatLinkModal from './SubmitOpenChatLinkModal';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 
+const HANDY_GUIDE_URL = process.env.NEXT_PUBLIC_HANDY_GUIDE_URL;
+
 interface Props {
   reservation: ReservationsViewEntity;
   reservationProgress: ReservationProgress;
@@ -41,6 +43,9 @@ const ChatButton = ({
       window.open(openChatLink, '_blank', 'noopener,noreferrer');
     }
   };
+  const openHandyGuide = () => {
+    window.open(HANDY_GUIDE_URL, '_blank', 'noopener,noreferrer');
+  };
 
   switch (reservationProgress) {
     case 'beforeBusAssigned':
@@ -50,7 +55,7 @@ const ChatButton = ({
             variant="primary"
             size="small"
             onClick={handleClickAndStopPropagation(() => {
-              router.push('help/what-is-handy');
+              openHandyGuide();
             })}
           >
             가이드
@@ -70,7 +75,7 @@ const ChatButton = ({
               variant="secondary"
               size="small"
               onClick={handleClickAndStopPropagation(() => {
-                router.push('help/what-is-handy');
+                openHandyGuide();
               })}
             >
               가이드
@@ -97,7 +102,7 @@ const ChatButton = ({
             variant="secondary"
             size="small"
             onClick={handleClickAndStopPropagation(() => {
-              router.push('help/what-is-handy');
+              openHandyGuide();
             })}
           >
             가이드
