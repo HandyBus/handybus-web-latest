@@ -59,7 +59,7 @@ const ReviewButton = ({
           variant="tertiary"
           size="small"
           onClick={handleClickAndStopPropagation(() => {
-            router.push(`/mypage/reviews/${reservationId}`);
+            router.push(`/mypage/reviews/${reviewId}`);
           })}
         >
           내 후기
