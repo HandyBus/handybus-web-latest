@@ -64,7 +64,7 @@ const Page = () => {
             </div>
           ))
         )}
-        <div className="h-8 w-full bg-basic-grey-50" />
+        <div className="mt-[26px] h-8 w-full bg-basic-grey-50" />
         <a
           className="flex w-full items-center justify-center gap-[10px] bg-basic-white px-[12px] py-[10px] pt-[26px] text-16 font-600 leading-[160%] text-basic-grey-700"
           href={process.env.NEXT_PUBLIC_NEW_SHUTTLE_FORM_URL ?? ''}
