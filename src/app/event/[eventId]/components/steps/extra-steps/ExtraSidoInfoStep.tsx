@@ -17,7 +17,7 @@ const ExtraSidoInfoStep = ({
   toDemandHubsStep,
 }: Props) => {
   const event = useAtomValue(eventAtom);
-  const { getValues } = useFormContext<EventFormValues>();
+  const { getValues, setValue } = useFormContext<EventFormValues>();
   const [dailyEvent, sido] = getValues(['dailyEvent', 'sido']);
   const enabled = !!event?.eventId && !!dailyEvent.dailyEventId && !!sido;
 
@@ -31,6 +31,11 @@ const ExtraSidoInfoStep = ({
     { enabled },
   );
   const demandCount = demandStats?.[0]?.totalCount ?? 0;
+
+  const handleDemandClick = () => {
+    setValue('openSido', undefined);
+    toDemandHubsStep();
+  };
 
   return (
     <section className="flex w-full flex-col gap-16">
@@ -56,7 +61,7 @@ const ExtraSidoInfoStep = ({
           열린 셔틀 보기
         </Button>
         <Button
-          onClick={toDemandHubsStep}
+          onClick={handleDemandClick}
           variant="primary"
           size="large"
           type="button"
