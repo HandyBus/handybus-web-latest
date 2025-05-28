@@ -1,6 +1,8 @@
 'use client';
 
+import { useAtomValue } from 'jotai';
 import PinIcon from '../../../icons/pin.svg';
+import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 
 interface Props {
   disabled?: boolean;
@@ -8,6 +10,15 @@ interface Props {
 }
 
 const HubButton = ({ disabled = true, onClick }: Props) => {
+  const selectedHubWithInfoForDetailView = useAtomValue(
+    selectedHubWithInfoForDetailViewAtom,
+  );
+
+  const formattedHubName = selectedHubWithInfoForDetailView
+    ? selectedHubWithInfoForDetailView.hubWithInfo.name
+    : PLACEHOLDER_TEXT;
+  const isTextPlaceholder = !selectedHubWithInfoForDetailView;
+
   return (
     <button
       type="button"
@@ -25,10 +36,14 @@ const HubButton = ({ disabled = true, onClick }: Props) => {
       </div>
       <p
         className={`h-[26px] text-left text-16 font-600 leading-[160%] ${
-          disabled ? 'text-basic-grey-300' : 'text-basic-grey-500'
+          disabled
+            ? 'text-basic-grey-300'
+            : isTextPlaceholder
+              ? 'text-basic-grey-500'
+              : 'text-basic-grey-700'
         }`}
       >
-        {PLACEHOLDER_TEXT}
+        {formattedHubName}
       </p>
     </button>
   );

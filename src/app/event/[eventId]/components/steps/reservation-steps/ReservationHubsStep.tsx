@@ -78,7 +78,7 @@ const ReservationHubsStep = ({
       setValue('hubsWithInfoForDuplicates', undefined);
       setSelectedHubWithInfoForDetailViewAtom({
         hubWithInfo: hubsWithInfo[0],
-        dailyEventId: dailyEvent.dailyEventId,
+        dailyEvent,
       });
 
       if (!isCheckRouteDetailViewFlow) {

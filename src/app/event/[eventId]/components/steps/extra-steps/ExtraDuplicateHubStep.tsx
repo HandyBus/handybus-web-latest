@@ -44,7 +44,7 @@ const ExtraDuplicateHubStep = ({
     setValue('selectedHubWithInfo', hubWithInfo);
     setSelectedHubWithInfoForDetailViewAtom({
       hubWithInfo,
-      dailyEventId: dailyEvent.dailyEventId,
+      dailyEvent,
     });
 
     if (!isCheckRouteDetailViewFlow) {

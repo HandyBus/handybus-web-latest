@@ -42,7 +42,7 @@ const ShuttleRouteDetailView = () => {
     ? getRouteOfHubWithInfo({
         hubWithInfo: selectedHubWithInfoForDetailView.hubWithInfo,
         dailyEventIdsWithRoutes,
-        dailyEventId: selectedHubWithInfoForDetailView.dailyEventId,
+        dailyEventId: selectedHubWithInfoForDetailView.dailyEvent.dailyEventId,
       })
     : null;
 
