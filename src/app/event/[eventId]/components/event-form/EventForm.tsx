@@ -34,6 +34,7 @@ import {
   selectedHubWithInfoForDetailViewAtom,
 } from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { useAtom } from 'jotai';
+import Skeleton from 'react-loading-skeleton';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -61,15 +62,29 @@ const EventForm = ({ event }: Props) => {
 
   if (isShuttleRoutesLoading) {
     return (
-      <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
-        <Button
-          variant="secondary"
-          size="medium"
-          type="button"
-          disabled={true}
-        />
-        <Button variant="primary" size="large" type="button" disabled={true} />
-      </div>
+      <>
+        <div className="flex flex-col gap-8 px-16 pb-24">
+          <div className="-mx-16 mb-16 h-8 w-[calc(100%+32px)] bg-basic-grey-50" />
+          <Skeleton width="35%" height={30} />
+          <Skeleton width="55%" height={24} className="mb-16" />
+          <Skeleton width="100%" height={78} />
+          <Skeleton width="100%" height={78} />
+        </div>
+        <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
+          <Button
+            variant="secondary"
+            size="medium"
+            type="button"
+            disabled={true}
+          />
+          <Button
+            variant="primary"
+            size="large"
+            type="button"
+            disabled={true}
+          />
+        </div>
+      </>
     );
   }
 
