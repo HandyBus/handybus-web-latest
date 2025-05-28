@@ -41,12 +41,12 @@ const ReservationHubsStep = ({
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
+  const [dailyEvent, sido, openSido] = getValues([
+    'dailyEvent',
+    'sido',
+    'openSido',
+  ]);
   const gungusWithHubs = useMemo(() => {
-    const [dailyEvent, sido, openSido] = getValues([
-      'dailyEvent',
-      'sido',
-      'openSido',
-    ]);
     const prioritySido = openSido ?? sido;
     const gungusWithHubsAsObject =
       dailyEventIdsWithHubs?.[dailyEvent.dailyEventId]?.[prioritySido] ?? {};
@@ -76,13 +76,16 @@ const ReservationHubsStep = ({
     if (hubsWithInfo.length === 1) {
       setValue('selectedHubWithInfo', hubsWithInfo[0]);
       setValue('hubsWithInfoForDuplicates', undefined);
+      setSelectedHubWithInfoForDetailViewAtom({
+        hubWithInfo: hubsWithInfo[0],
+        dailyEventId: dailyEvent.dailyEventId,
+      });
 
       if (!isCheckRouteDetailViewFlow) {
         toReservationTripTypeStep();
         return;
       }
 
-      setSelectedHubWithInfoForDetailViewAtom(hubsWithInfo[0]);
       closeBottomSheet();
     } else {
       setValue('hubsWithInfoForDuplicates', hubsWithInfo);

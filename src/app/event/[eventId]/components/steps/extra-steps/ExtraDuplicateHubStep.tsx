@@ -42,13 +42,16 @@ const ExtraDuplicateHubStep = ({
 
   const handleHubClick = (hubWithInfo: HubWithInfo) => {
     setValue('selectedHubWithInfo', hubWithInfo);
+    setSelectedHubWithInfoForDetailViewAtom({
+      hubWithInfo,
+      dailyEventId: dailyEvent.dailyEventId,
+    });
 
     if (!isCheckRouteDetailViewFlow) {
       toReservationTripTypeStep();
       return;
     }
 
-    setSelectedHubWithInfoForDetailViewAtom(hubWithInfo);
     closeBottomSheet();
   };
 

@@ -45,7 +45,7 @@ const Hub = ({
 
   return (
     <details
-      className={`group px-8 py-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden ${!isLastHub ? 'border-b border-basic-grey-100' : ''} ${type === 'eventDestination' && tripType === 'TO_DESTINATION' ? 'pb-0' : ''}`}
+      className={`group px-8 py-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden ${!isLastHub ? 'border-b border-basic-grey-100' : ''}`}
       onToggle={(e) => {
         const target = e.target as HTMLDetailsElement;
         if (target.open) {
