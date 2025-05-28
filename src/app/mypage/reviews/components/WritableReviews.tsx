@@ -9,9 +9,7 @@ import { useMemo } from 'react';
 import dayjs from 'dayjs';
 
 const WritableReviews = () => {
-  const { data: reservations, isLoading } = useGetUserReservations({
-    eventProgressStatus: 'PAST',
-  });
+  const { data: reservations, isLoading } = useGetUserReservations({});
 
   const reservationsWithNotWrittenReview = useMemo(
     () =>
@@ -21,12 +19,12 @@ const WritableReviews = () => {
           (dailyEvent) =>
             dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
         );
-        return (
+        const isBefore7Days =
           dailyEvent &&
           dayjs()
             .tz('Asia/Seoul')
-            .isBefore(dayjs(dailyEvent.date).tz('Asia/Seoul').add(7, 'day'))
-        );
+            .isBefore(dayjs(dailyEvent.date).tz('Asia/Seoul').add(7, 'day'));
+        return isBefore7Days;
       }),
     [reservations],
   );
