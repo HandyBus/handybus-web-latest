@@ -44,15 +44,6 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/data/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  animate: {
-    spin: 'spin 1s linear infinite',
-  },
-  keyframes: {
-    spin: {
-      '0%': { transform: 'rotate(0deg)' },
-      '100%': { transform: 'rotate(360deg)' },
-    },
-  },
   theme: {
     spacing: PX_ENTRIES,
     colors: {
@@ -144,6 +135,15 @@ const config: Config = {
     extend: {
       boxShadow: {
         bottomBar: '0 -4px 6px -1px rgba(0,0,0,0.1)',
+      },
+      animation: {
+        moveRoad: 'moveRoad 1.25s linear infinite',
+      },
+      keyframes: {
+        moveRoad: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
     },
   },
