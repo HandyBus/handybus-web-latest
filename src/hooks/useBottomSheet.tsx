@@ -10,8 +10,9 @@ import {
 const TRANSFORM_DURATION = { short: '200ms', long: '290ms' };
 const LONG_BOTTOM_SHEET_HEIGHT = 500;
 
-// 바텀시트 하단 패딩 값 (실제 패딩 값은 800px, 내려가는 속도를 제어하기 위해 650px로 설정)
-const BOTTOM_SHEET_BOTTOM_PADDING_OFFSET = 650;
+// 바텀시트 하단 패딩 값 (애니메이션은 내려가는 속도를 제어하기 위해 650px로 설정)
+const BOTTOM_SHEET_BOTTOM_PADDING_OFFSET = 800;
+const BOTTOM_SHEET_BOTTOM_PADDING_OFFSET_FOR_ANIMATION = 650;
 
 interface Metrics {
   transformDuration: string;
@@ -131,7 +132,8 @@ const useBottomSheet = ({
     }
 
     bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
-    metrics.current.closingY = bottomSheetHeight / 2;
+    metrics.current.closingY =
+      (bottomSheetHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET) / 2;
     metrics.current.currHeight = bottomSheetHeight;
 
     requestAnimationFrame(() => {
@@ -157,7 +159,7 @@ const useBottomSheet = ({
     requestAnimationFrame(() => {
       bottomSheetElement.style.transitionDuration =
         metrics.current.transformDuration;
-      bottomSheetElement.style.transform = `translateY(${bottomSheetHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET}px)`;
+      bottomSheetElement.style.transform = `translateY(${bottomSheetHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET_FOR_ANIMATION}px)`;
     });
 
     setTimeout(() => {
@@ -179,7 +181,8 @@ const useBottomSheet = ({
       const currHeight = metrics.current.currHeight;
       const newHeight = bottomSheetElement.clientHeight;
 
-      metrics.current.closingY = newHeight / 2;
+      metrics.current.closingY =
+        (newHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET) / 2;
       metrics.current.currHeight = newHeight;
 
       if (newHeight > LONG_BOTTOM_SHEET_HEIGHT) {
