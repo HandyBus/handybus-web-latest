@@ -6,6 +6,7 @@ import ReviewWriteForm from './components/ReviewWriteForm';
 import { useGetUserReservation } from '@/services/reservation.service';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -18,7 +19,9 @@ const WriteReviewPage = ({ params }: Props) => {
   const { data, isLoading } = useGetUserReservation(reservationId);
   const event = data?.reservation.shuttleRoute.event;
   const reservation = data?.reservation;
+  const { replace } = useRouter();
 
+  if (data?.reservation.reviewId) replace(`/mypage/reviews/`);
   return (
     <main>
       <Header />
