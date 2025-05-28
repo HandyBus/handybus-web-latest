@@ -1,13 +1,16 @@
 'use client';
 
 import Tabs from '@/components/tab/Tabs';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import InfoIcon from '../../icons/info.svg';
 import { TripTypeWithoutRoundTrip } from './shuttleRouteDetailView.type';
 import RouteLine from './components/RouteLine';
 import Hubs from './components/Hubs';
 import { useAtomValue } from 'jotai';
-import { selectedHubWithInfoForDetailViewAtom } from '../../store/selectedHubWithInfoForDetailViewAtom';
+import {
+  isCheckRouteDetailViewFlowAtom,
+  selectedHubWithInfoForDetailViewAtom,
+} from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../store/dailyEventIdsWithHubsAtom';
 
@@ -33,6 +36,9 @@ const ShuttleRouteDetailView = () => {
     setOpenedHubIndexes((prev) => prev.filter((i) => i !== index));
   };
 
+  const isCheckRouteDetailViewFlow = useAtomValue(
+    isCheckRouteDetailViewFlowAtom,
+  );
   const selectedHubWithInfoForDetailView = useAtomValue(
     selectedHubWithInfoForDetailViewAtom,
   );
@@ -90,12 +96,30 @@ const ShuttleRouteDetailView = () => {
     }
   }, [toDestinationHubs]);
 
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      const elementPosition = sectionRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - 50;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isCheckRouteDetailViewFlow && selectedHubWithInfoForDetailView) {
+      scrollToSection();
+    }
+  }, [isCheckRouteDetailViewFlow, selectedHubWithInfoForDetailView]);
+
   if (!selectedHubWithInfoForDetailView) {
     return null;
   }
 
   return (
-    <>
+    <div ref={sectionRef}>
       <div className="h-8 w-full bg-basic-grey-50" />
       <section className="px-16 py-24">
         <h3 className="pb-16 text-20 font-700">
@@ -155,7 +179,7 @@ const ShuttleRouteDetailView = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
