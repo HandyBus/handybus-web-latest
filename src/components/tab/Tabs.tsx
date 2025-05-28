@@ -43,22 +43,26 @@ export default Tabs;
 interface TabItem<T> {
   label: string;
   value: T;
+  disabled?: boolean;
 }
 
 const Tab = ({
   label,
   selected,
   onClick,
+  disabled,
 }: {
   label: string;
   selected: boolean;
   onClick?: MouseEventHandler;
+  disabled?: boolean;
 }) => {
   return (
     <button
       className={customTwMerge(
         'flex-1 whitespace-nowrap p-8 text-16 font-500 text-basic-grey-500 transition-all duration-100 ease-in-out',
         selected && 'font-700 text-basic-black',
+        disabled && 'text-basic-grey-500',
       )}
       onClick={onClick}
     >

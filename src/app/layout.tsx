@@ -9,6 +9,7 @@ import PortalContainer from '@/components/portal-container/PortalContainer';
 import { DESCRIPTION, KEYWORDS, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 import Script from 'next/script';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export const metadata: Metadata = {
   title: {

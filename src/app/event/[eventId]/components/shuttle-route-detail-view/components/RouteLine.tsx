@@ -30,15 +30,20 @@ const RouteLine = ({
         const isOpened = openedHubIndexes.includes(
           tripType === 'TO_DESTINATION' ? index : index - 1,
         );
-        const Line = (
+        const Line = () => (
           <div
             key={index}
             className={customTwMerge(
-              'my-[-2px] h-[60.4px] w-[2px]',
+              'my-[-2px] h-[49.8px] w-[2px]',
               isOpened && 'h-[227.3px]',
               type === 'tertiary'
                 ? 'bg-basic-grey-200'
                 : 'bg-brand-primary-400',
+              tripType === 'FROM_DESTINATION' && index === 1 && 'h-[79.3px]',
+              tripType === 'FROM_DESTINATION' &&
+                index === 1 &&
+                isOpened &&
+                'h-[256.8px]',
             )}
           />
         );
@@ -47,13 +52,13 @@ const RouteLine = ({
           return (
             <>
               <div className="relative z-10 h-[11px]">{HubIcon}</div>
-              {index !== hubs.length - 1 && Line}
+              {index !== hubs.length - 1 && <Line />}
             </>
           );
         } else {
           return (
             <>
-              {index !== 0 && Line}
+              {index !== 0 && <Line />}
               <div className="relative z-10 h-[11px]">{HubIcon}</div>
             </>
           );

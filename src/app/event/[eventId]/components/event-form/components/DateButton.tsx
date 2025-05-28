@@ -1,13 +1,25 @@
 'use client';
 
+import { dateString } from '@/utils/dateString.util';
 import CalendarIcon from '../../../icons/calendar.svg';
+import { useAtomValue } from 'jotai';
+import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 
 interface Props {
   disabled?: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const DateButton = ({ disabled = true, onClick }: Props) => {
+  const selectedHubWithInfoForDetailView = useAtomValue(
+    selectedHubWithInfoForDetailViewAtom,
+  );
+
+  const formattedDateString = selectedHubWithInfoForDetailView
+    ? dateString(selectedHubWithInfoForDetailView.dailyEvent.date)
+    : PLACEHOLDER_TEXT;
+  const isTextPlaceholder = !selectedHubWithInfoForDetailView;
+
   return (
     <button
       type="button"
@@ -25,10 +37,14 @@ const DateButton = ({ disabled = true, onClick }: Props) => {
       </div>
       <p
         className={`h-[26px] text-left text-16 font-600 leading-[160%] ${
-          disabled ? 'text-basic-grey-300' : 'text-basic-grey-500'
+          disabled
+            ? 'text-basic-grey-300'
+            : isTextPlaceholder
+              ? 'text-basic-grey-500'
+              : 'text-basic-grey-700'
         }`}
       >
-        {PLACEHOLDER_TEXT}
+        {formattedDateString}
       </p>
     </button>
   );

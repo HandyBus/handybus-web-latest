@@ -1,12 +1,18 @@
 'use client';
 
 import Tabs from '@/components/tab/Tabs';
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import InfoIcon from '../../icons/info.svg';
-import { MOCK_SHUTTLE_ROUTE } from './mock.const';
 import { TripTypeWithoutRoundTrip } from './shuttleRouteDetailView.type';
 import RouteLine from './components/RouteLine';
 import Hubs from './components/Hubs';
+import { useAtomValue } from 'jotai';
+import {
+  isCheckRouteDetailViewFlowAtom,
+  selectedHubWithInfoForDetailViewAtom,
+} from '../../store/selectedHubWithInfoForDetailViewAtom';
+import { dailyEventIdsWithRoutesAtom } from '../../store/dailyEventIdsWithRoutesAtom';
+import { getRouteOfHubWithInfo } from '../../store/dailyEventIdsWithHubsAtom';
 
 // eventDestination: 행사 도착지
 // primary: 선택된 정류장
@@ -30,24 +36,95 @@ const ShuttleRouteDetailView = () => {
     setOpenedHubIndexes((prev) => prev.filter((i) => i !== index));
   };
 
-  const shuttleRoute = MOCK_SHUTTLE_ROUTE;
-  const sortedHubs =
-    currentTab === 'TO_DESTINATION'
-      ? (shuttleRoute.toDestinationShuttleRouteHubs?.toSorted(
-          (a, b) => a.sequence - b.sequence,
-        ) ?? [])
-      : (shuttleRoute.fromDestinationShuttleRouteHubs?.toSorted(
-          (a, b) => a.sequence - b.sequence,
-        ) ?? []);
-  const selectedHubIndex = 1;
+  const isCheckRouteDetailViewFlow = useAtomValue(
+    isCheckRouteDetailViewFlowAtom,
+  );
+  const selectedHubWithInfoForDetailView = useAtomValue(
+    selectedHubWithInfoForDetailViewAtom,
+  );
+  const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
+
+  const shuttleRoute = selectedHubWithInfoForDetailView
+    ? getRouteOfHubWithInfo({
+        hubWithInfo: selectedHubWithInfoForDetailView.hubWithInfo,
+        dailyEventIdsWithRoutes,
+        dailyEventId: selectedHubWithInfoForDetailView.dailyEvent.dailyEventId,
+      })
+    : null;
+
+  const selectedHubName = selectedHubWithInfoForDetailView?.hubWithInfo.name;
+  const toDestinationHubs = useMemo(
+    () =>
+      shuttleRoute?.toDestinationShuttleRouteHubs
+        ? shuttleRoute.toDestinationShuttleRouteHubs.toSorted(
+            (a, b) => a.sequence - b.sequence,
+          )
+        : [],
+    [shuttleRoute],
+  );
+  const fromDestinationHubs = useMemo(
+    () =>
+      shuttleRoute?.fromDestinationShuttleRouteHubs
+        ? shuttleRoute.fromDestinationShuttleRouteHubs.toSorted(
+            (a, b) => a.sequence - b.sequence,
+          )
+        : [],
+    [shuttleRoute],
+  );
+  const selectedToDestinationHubIndex = useMemo(
+    () =>
+      toDestinationHubs.findIndex(
+        (hub) =>
+          hub.regionHubId ===
+          selectedHubWithInfoForDetailView?.hubWithInfo.regionHubId,
+      ),
+    [toDestinationHubs, selectedHubWithInfoForDetailView],
+  );
+  const selectedFromDestinationHubIndex = useMemo(
+    () =>
+      fromDestinationHubs.findIndex(
+        (hub) =>
+          hub.regionHubId ===
+          selectedHubWithInfoForDetailView?.hubWithInfo.regionHubId,
+      ),
+    [fromDestinationHubs, selectedHubWithInfoForDetailView],
+  );
+
+  useEffect(() => {
+    if (shuttleRoute && toDestinationHubs.length === 0) {
+      setCurrentTab('FROM_DESTINATION');
+    }
+  }, [toDestinationHubs]);
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      const elementPosition = sectionRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - 50;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isCheckRouteDetailViewFlow && selectedHubWithInfoForDetailView) {
+      scrollToSection();
+    }
+  }, [isCheckRouteDetailViewFlow, selectedHubWithInfoForDetailView]);
+
+  if (!selectedHubWithInfoForDetailView) {
+    return null;
+  }
 
   return (
-    <>
+    <div ref={sectionRef}>
       <div className="h-8 w-full bg-basic-grey-50" />
       <section className="px-16 py-24">
         <h3 className="pb-16 text-20 font-700">
-          <span className="text-brand-primary-400">양재역</span>을 지나는
-          노선이에요
+          <span className="text-brand-primary-400">{selectedHubName}</span>을
+          지나는 노선이에요
         </h3>
         <Tabs
           items={
@@ -67,18 +144,34 @@ const ShuttleRouteDetailView = () => {
           </p>
         </div>
         <div className="flex w-full gap-[6px]">
-          <div className="flex w-12 shrink-0 flex-col items-center pt-[22.4px]">
+          <div className="flex w-12 shrink-0 flex-col items-center pt-[23.6px]">
             <RouteLine
-              hubs={sortedHubs}
-              selectedHubIndex={selectedHubIndex}
+              hubs={
+                currentTab === 'TO_DESTINATION'
+                  ? toDestinationHubs
+                  : fromDestinationHubs
+              }
+              selectedHubIndex={
+                currentTab === 'TO_DESTINATION'
+                  ? selectedToDestinationHubIndex
+                  : selectedFromDestinationHubIndex
+              }
               tripType={currentTab}
               openedHubIndexes={openedHubIndexes}
             />
           </div>
           <div className="flex flex-1 flex-col">
             <Hubs
-              hubs={sortedHubs}
-              selectedHubIndex={selectedHubIndex}
+              hubs={
+                currentTab === 'TO_DESTINATION'
+                  ? toDestinationHubs
+                  : fromDestinationHubs
+              }
+              selectedHubIndex={
+                currentTab === 'TO_DESTINATION'
+                  ? selectedToDestinationHubIndex
+                  : selectedFromDestinationHubIndex
+              }
               tripType={currentTab}
               addOpenedHubIndex={addOpenedHubIndex}
               removeOpenedHubIndex={removeOpenedHubIndex}
@@ -86,7 +179,7 @@ const ShuttleRouteDetailView = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

@@ -38,6 +38,7 @@ const Hubs = ({
           <Hub
             key={hub.shuttleRouteHubId}
             type={type}
+            tripType={tripType}
             hub={hub}
             isLastHub={isLastHub}
             index={index}

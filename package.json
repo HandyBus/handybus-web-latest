@@ -33,6 +33,7 @@
     "react-cookie": "^7.2.2",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
+    "react-loading-skeleton": "^3.5.0",
     "react-markdown": "^10.1.0",
     "react-spinners": "^0.15.0",
     "react-toastify": "^10.0.6",
@@ -64,13 +65,13 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.10.1",
     "husky": "^8.0.0",
+    "kakao.maps.d.ts": "^0.1.40",
     "lint-staged": "^15.2.10",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "storybook": "^8.3.6",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "kakao.maps.d.ts": "^0.1.40"
+    "typescript": "^5"
   }
 }
