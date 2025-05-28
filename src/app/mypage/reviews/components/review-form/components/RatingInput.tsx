@@ -1,17 +1,23 @@
 import Rating from '@/components/rating/Rating';
-const RatingInput = ({
-  rating,
-  setRating,
-}: {
+
+interface Props {
   rating: number;
   setRating: (rating: number) => void;
-}) => {
+  errorMessage?: string;
+}
+
+const RatingInput = ({ rating, setRating, errorMessage }: Props) => {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col">
       <h2 className="text-18 font-600 leading-[160%]">
         전반적인 만족도를 알려주세요
       </h2>
-      <div className="flex items-center gap-8">
+      {errorMessage && (
+        <p className="text-14 font-400 leading-[160%] text-basic-red-400">
+          {errorMessage}
+        </p>
+      )}
+      <div className="flex items-center gap-8 pt-16">
         <Rating size="large" onChange={setRating} value={rating} />
         <RatingText rating={rating} />
       </div>
