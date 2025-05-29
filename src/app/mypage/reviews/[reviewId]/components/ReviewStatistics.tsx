@@ -15,7 +15,7 @@ const ReviewStatistics = () => {
     <section className="flex flex-col gap-12 px-16 py-32">
       <div className="flex items-center gap-8">
         <div className="flex h-24 w-24 items-center justify-center rounded-full bg-basic-orange-50">
-          <ThumbsupIcon className="h-[19px] w-[19px]" />
+          <ThumbsupIcon viewBox="0 0 19 22" className="h-19 w-19" />
         </div>
         <p className="text-16 font-600 leading-[160%] text-basic-grey-600">
           <span className="text-basic-black">{averageRating}/5.0</span> 별점을
@@ -24,7 +24,7 @@ const ReviewStatistics = () => {
       </div>
       <div className="flex items-center gap-8">
         <div className="flex h-24 w-24 items-center justify-center rounded-full bg-basic-blue-100">
-          <ReviewIcon className="h-[21.5px] w-[21.5px]" />
+          <ReviewIcon className="h-[18px] w-[21px]" viewBox="0 0 21 21" />
         </div>
         <p className="text-16 font-600 leading-[160%] text-basic-grey-600">
           <span className="text-basic-black">{reviewCount}</span>
@@ -33,7 +33,7 @@ const ReviewStatistics = () => {
       </div>
       <div className="flex items-center gap-8">
         <div className="flex h-24 w-24 items-center justify-center rounded-full bg-basic-pink-50">
-          <HeartIcon className="h-[19.3px] w-[19.3px]" />
+          <HeartIcon className="h-[18px] w-[18.5px]" viewBox="0 0 20 20" />
         </div>
         <p className="text-16 font-600 leading-[160%] text-basic-grey-600">
           <span className="text-basic-black">{recommendationScore}%</span>의
