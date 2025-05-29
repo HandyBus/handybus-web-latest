@@ -52,7 +52,7 @@ const LinearScale = ({ value, onChange }: Props) => {
               text-14 font-500 leading-[160%] 
               ${idx === 4 && 'pr-12'}
               ${
-                idx === 4 && value
+                idx + 1 === value
                   ? 'text-brand-primary-400'
                   : 'text-basic-grey-400'
               }`}
