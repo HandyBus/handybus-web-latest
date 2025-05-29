@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@/components/buttons/button/Button';
 import Section from '../Section';
 import { UsersViewEntity } from '@/types/user.type';
@@ -31,6 +33,13 @@ const HandySection = ({
 }: HandySectionProps) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
+
+  const scrollToTop = () => {
+    if (contentRef.current) {
+      contentRef.current.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  };
+
   const [isCancelApplyModalOpen, setIsCancelApplyModalOpen] = useState(false);
 
   const canApply = tripType === 'ROUND_TRIP';
@@ -92,6 +101,7 @@ const HandySection = ({
               onClick={() => {
                 if (!isHandyApplied) {
                   openBottomSheet();
+                  scrollToTop();
                 } else {
                   setIsCancelApplyModalOpen(true);
                 }
