@@ -10,6 +10,7 @@ import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.
 import { dateString } from '@/utils/dateString.util';
 import { customTwMerge } from 'tailwind.config';
 import Button from '@/components/buttons/button/Button';
+import { toast } from 'react-toastify';
 
 const ROUND_TRIP_TEXT = '[왕복] ';
 
@@ -65,6 +66,10 @@ const SimpleRouteInfo = ({
   >(undefined);
 
   const handleStartEditMode = () => {
+    if (!isExpandable) {
+      toast.error('변경할 수 있는 다른 정류장이 없어요.');
+      return;
+    }
     setShowDetail(true);
     setIsEditMode(true);
     setStagedShuttleRouteHubId(selectedShuttleRouteHubId);
@@ -90,7 +95,6 @@ const SimpleRouteInfo = ({
             variant="tertiary"
             size="small"
             type="button"
-            disabled={!isExpandable}
             onClick={handleStartEditMode}
           >
             변경
