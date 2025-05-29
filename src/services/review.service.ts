@@ -99,14 +99,11 @@ export const useGetReview = (reviewId: string) =>
   });
 
 export const getReviewStatistics = async () => {
-  const res = await authInstance.get(
-    '/v2/shuttle-operation/reviews/all/stats',
-    {
-      shape: {
-        totalReviewStatistics: ReviewStatisticsViewEntitySchema.array(),
-      },
+  const res = await instance.get('/v2/shuttle-operation/reviews/all/stats', {
+    shape: {
+      totalReviewStatistics: ReviewStatisticsViewEntitySchema.array(),
     },
-  );
+  });
   return res.totalReviewStatistics;
 };
 
