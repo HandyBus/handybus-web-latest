@@ -28,14 +28,19 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
   const event = useAtomValue(eventAtom);
   const userDemands = useAtomValue(userDemandsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
-  const [sido, dailyEvent] = getValues(['sido', 'dailyEvent']);
+  const [dailyEvent, sido, openSido] = getValues([
+    'dailyEvent',
+    'sido',
+    'openSido',
+  ]);
   const enabled = !!sido && !!event?.eventId && !!dailyEvent.dailyEventId;
+  const prioritySido = openSido ?? sido;
 
   const { data: regionsWithHubsPages } = useGetHubsWithPagination(
     {
       // TODO: 장소 태깅 완료하고 주석 해제하기
       // usageType: 'SHUTTLE_HUB',
-      provinceFullName: sido,
+      provinceFullName: prioritySido,
     },
     { enabled },
   );
@@ -45,7 +50,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
       groupBy: 'CITY',
       eventId: event?.eventId,
       dailyEventId: dailyEvent.dailyEventId,
-      provinceFullName: sido,
+      provinceFullName: prioritySido,
     },
     { enabled },
   );
@@ -64,7 +69,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
       };
     });
     const groupedHubs = groupHubsByRegion(hubsWithRegion);
-    const gungusWithHubs = groupedHubs?.[sido] ?? [];
+    const gungusWithHubs = groupedHubs?.[prioritySido] ?? [];
     const gungusWithFlattenedHubs = Object.entries(gungusWithHubs)
       .map(([gungu, hubs]) => {
         return {
@@ -83,7 +88,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
       };
     });
     return gungusWithDemandStats;
-  }, [regionsWithHubsPages, demandStats]);
+  }, [regionsWithHubsPages, demandStats, prioritySido]);
 
   const handleHubClick = (hub: RegionHubsResponseModel) => {
     setValue('selectedHubForDemand', hub);
@@ -131,7 +136,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
       )}
       <div>
         {gungusWithHubs.map((gunguWithHubs, index) => {
-          const regionId = REGION_TO_ID?.[sido]?.[gunguWithHubs.gungu];
+          const regionId = REGION_TO_ID?.[prioritySido]?.[gunguWithHubs.gungu];
           if (!regionId || !event) {
             return null;
           }
