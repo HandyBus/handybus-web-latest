@@ -48,6 +48,7 @@ const Login = () => {
   return (
     <main className="flex grow flex-col">
       <section className="-my-8 flex flex-1 grow flex-col items-center justify-center gap-16">
+        <div className="min-h-64" />
         <Logo />
         <p className="text-center text-20 font-600 text-[#181F29]">
           집부터 콘서트장까지
