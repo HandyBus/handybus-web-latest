@@ -58,8 +58,7 @@ const Login = () => {
       </section>
       <section className="p-16">
         <p className="mb-16 text-center text-16 font-600 text-[#181F29]">
-          지금 가입하면 <span className="text-brand-primary-400">1만원</span>{' '}
-          쿠폰 즉시 제공!
+          지금 로그인하고 원하는 행사까지 편하게 이동하세요.
         </p>
         <button
           onClick={() => setLastLogin('kakao')}
