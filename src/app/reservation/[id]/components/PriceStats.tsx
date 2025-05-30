@@ -53,13 +53,6 @@ const PriceStats = ({
       </header>
       <section className="flex flex-col gap-12">
         <Card
-          tripType="ROUND_TRIP"
-          regularPrice={regularPrice.roundTrip}
-          isEarlybird={isEarlybird}
-          earlybirdPrice={earlybirdPrice.roundTrip}
-          remainingSeat={roundTripRemainingSeat}
-        />
-        <Card
           tripType="TO_DESTINATION"
           region={region}
           destination={destination}
@@ -76,6 +69,13 @@ const PriceStats = ({
           isEarlybird={isEarlybird}
           earlybirdPrice={earlybirdPrice.fromDestination}
           remainingSeat={remainingSeat.fromDestination}
+        />
+        <Card
+          tripType="ROUND_TRIP"
+          regularPrice={regularPrice.roundTrip}
+          isEarlybird={isEarlybird}
+          earlybirdPrice={earlybirdPrice.roundTrip}
+          remainingSeat={roundTripRemainingSeat}
         />
       </section>
     </article>
