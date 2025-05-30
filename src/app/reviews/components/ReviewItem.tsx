@@ -32,7 +32,7 @@ const ReviewItem = ({ review }: Props) => {
               <Rating size="medium" value={review.rating} />
             </div>
             <FeedbackGroup />
-            <figure className="flex gap-4">
+            <figure className="flex gap-4 py-4">
               {review.reviewImages &&
                 review.reviewImages.length > 0 &&
                 review.reviewImages?.map((image, index) => {

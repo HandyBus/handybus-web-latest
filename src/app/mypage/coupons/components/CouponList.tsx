@@ -30,7 +30,7 @@ const CouponList = () => {
   return (
     <section className="p-16">
       <div className="mb-16 flex items-center justify-between font-400 leading-[160%]">
-        <span className="text-16 font-500 text-basic-black">
+        <span className="font-00 text-16 text-basic-black">
           쿠폰 {usableCouponsLength ?? 0}개
         </span>
         <button

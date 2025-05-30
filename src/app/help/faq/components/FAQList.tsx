@@ -11,9 +11,9 @@ const FAQList = ({ selectedTab }: Props) => {
   const [showAll, setShowAll] = useState(false);
 
   const filteredFAQs = faqs.filter((item) => {
-    if (selectedTab === 'reserve') return item.title.includes('[예약하기]');
-    if (selectedTab === 'boarding') return item.title.includes('[탑승하기]');
-    if (selectedTab === 'etc') return item.title.includes('[그외]');
+    if (selectedTab === 'reserve') return item.tag === 'reservation';
+    if (selectedTab === 'boarding') return item.tag === 'boarding';
+    if (selectedTab === 'etc') return item.tag === 'etc';
     return false;
   });
 

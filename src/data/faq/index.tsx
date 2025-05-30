@@ -19,34 +19,41 @@ import FAQEtc1 from './etc-1-what-is-handy.mdx';
 
 interface FAQ {
   title: string;
+  tag: 'reservation' | 'boarding' | 'etc';
   content: ReactNode;
 }
 
 export const faqs: FAQ[] = (
   [
-    [FAQReservation1, '[예약하기] 수요조사란 무엇인가요?'],
-    [FAQReservation2, '[예약하기] 예약은 언제할 수 있나요?'],
-    [FAQReservation3, '[예약하기] 수요조사로 몇 명이 모여야 셔틀이 열리나요?'],
-    [FAQReservation4, '[예약하기] 수요조사 중 원하는 정류장이 없어요.'],
-    [FAQReservation5, '[예약하기] 셔틀 운행은 언제 확정되나요?'],
+    [FAQReservation1, 'reservation', '수요조사란 무엇인가요?'],
+    [FAQReservation2, 'reservation', '예약은 언제할 수 있나요?'],
+    [
+      FAQReservation3,
+      'reservation',
+      '수요조사로 몇 명이 모여야 셔틀이 열리나요?',
+    ],
+    [FAQReservation4, 'reservation', '수요조사 중 원하는 정류장이 없어요.'],
+    [FAQReservation5, 'reservation', '셔틀 운행은 언제 확정되나요?'],
     [
       FAQReservation6,
-      '[예약하기] 좌석이 매진되었어요. 추가 셔틀은 안 열리나요?',
+      'reservation',
+      '좌석이 매진되었어요. 추가 셔틀은 안 열리나요?',
     ],
-    [FAQReservation7, '[예약하기] 예약 내역을 확인하고 싶어요.'],
-    [FAQReservation8, '[예약하기] 탑승지를 변경하고 싶어요.'],
-    [FAQReservation9, '[예약하기] 예약을 취소하고 싶어요'],
-    [FAQBoarding1, '[탑승하기] 운행 시 휴게소에 들르나요?'],
-    [FAQBoarding2, '[탑승하기] 어떤 버스로 운행되나요?'],
-    [FAQBoarding3, '[탑승하기] 좌석은 어떻게 정해지나요?'],
-    [FAQBoarding4, '[탑승하기] 셔틀버스에 짐을 놓고 내려도 되나요?'],
-    [FAQBoarding5, '[탑승하기] 편도 예매 후, 왕복으로 바꾸고 싶어요.'],
-    [FAQBoarding6, '[탑승하기] 왕복 예매 후, 편도만 탑승해도 되나요?'],
-    [FAQEtc1, '[그외] 핸디가 뭐에요?'],
+    [FAQReservation7, 'reservation', '예약 내역을 확인하고 싶어요.'],
+    [FAQReservation8, 'reservation', '탑승지를 변경하고 싶어요.'],
+    [FAQReservation9, 'reservation', '예약을 취소하고 싶어요'],
+    [FAQBoarding1, 'boarding', '운행 시 휴게소에 들르나요?'],
+    [FAQBoarding2, 'boarding', '어떤 버스로 운행되나요?'],
+    [FAQBoarding3, 'boarding', '좌석은 어떻게 정해지나요?'],
+    [FAQBoarding4, 'boarding', '셔틀버스에 짐을 놓고 내려도 되나요?'],
+    [FAQBoarding5, 'boarding', '편도 예매 후, 왕복으로 바꾸고 싶어요.'],
+    [FAQBoarding6, 'boarding', '왕복 예매 후, 편도만 탑승해도 되나요?'],
+    [FAQEtc1, 'etc', '핸디가 뭐에요?'],
   ] as const
-).map(([Content, title]) => {
+).map(([Content, tag, title]) => {
   return {
-    title: title,
+    title,
+    tag,
     content: <Content />,
   };
 });

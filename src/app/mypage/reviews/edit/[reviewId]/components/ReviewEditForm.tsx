@@ -217,7 +217,7 @@ const ReviewEditForm = ({ review }: Props) => {
           type="submit"
           isLoading={isSubmitting}
         >
-          등록하기
+          수정하기
         </Button>
       </div>
     </form>

@@ -1,13 +1,13 @@
 import Button from '@/components/buttons/button/Button';
-import GreyCalendarIcon from '../icons/calendar-grey.svg';
+import AlarmIcon from '../icons/alarm.svg';
 import Link from 'next/link';
 
 const EmptyView = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 pt-40">
-      <GreyCalendarIcon />
-      <p className="pb-16 text-14 font-600 text-basic-grey-500">
-        빈자리 알림 요청이 없어요
+    <div className="flex flex-col items-center justify-center gap-4 pt-40">
+      <AlarmIcon />
+      <p className="pb-12 text-14 font-600 text-basic-grey-500">
+        요청한 알림이 없어요
       </p>
       <Link href="/event">
         <Button variant="secondary" size="small">
