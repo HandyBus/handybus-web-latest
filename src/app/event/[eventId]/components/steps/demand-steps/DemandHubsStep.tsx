@@ -68,7 +68,11 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
         gungu: hubRegion.smallRegion,
       };
     });
-    const groupedHubs = groupHubsByRegion(hubsWithRegion);
+    // TODO : 이후 타다 상품 UI/UX 추가 개발전까지 임시 조치 (hubsWithRegionExcludedTaxi, groupedHubs)
+    const hubsWithRegionExcludedTaxi = hubsWithRegion.filter(
+      (hub) => !hub.name.includes(process.env.NEXT_PUBLIC_TAXI_HUB_NAME ?? ''),
+    );
+    const groupedHubs = groupHubsByRegion(hubsWithRegionExcludedTaxi);
     const gungusWithHubs = groupedHubs?.[prioritySido] ?? [];
     const gungusWithFlattenedHubs = Object.entries(gungusWithHubs)
       .map(([gungu, hubs]) => {
