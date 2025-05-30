@@ -39,17 +39,25 @@ const PromotionReview = async () => {
             <p className="line-clamp-2 overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600">
               {review.content}
             </p>
-            <p className="text-12 font-500 leading-[160%] text-basic-grey-400">
-              {review.eventName}
-            </p>
+            <div className="flex justify-between">
+              <p className="line-clamp-1 text-12 font-500 leading-[160%] text-basic-grey-400">
+                {/* {review.eventName} */}
+                2025 ＆TEAM CONCERT TOUR ‘AWAKEN THE BLOODLINE’ in SEOUL 콘서트 티켓
+              </p>
+              <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
+                {dateString(review.createdAt, {
+                  showWeekday: false,
+                })}
+              </p>
+            </div>
           </div>
-          <div className="mt-4 flex w-full items-center justify-end gap-4">
+          {/* <div className="mt-4 flex w-full items-center justify-end gap-4">
             <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
               {dateString(review.createdAt, {
                 showWeekday: false,
               })}
             </p>
-          </div>
+          </div> */}
         </div>
       ))}
     </Article>
