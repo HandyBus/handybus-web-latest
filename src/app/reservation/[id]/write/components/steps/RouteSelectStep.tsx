@@ -278,8 +278,8 @@ const TypeSelect = () => {
             disableOption={(option) => getRemainingSeatCount(option) === 0}
             isUnderLined
             defaultText="예약 가능한 좌석이 없어요"
-            placeholder="왕복 / 가는 편 / 오는 편"
-            bottomSheetTitle="왕복 / 가는 편 / 오는 편 선택"
+            placeholder="가는 편 / 오는 편 / 왕복"
+            bottomSheetTitle="가는 편 / 오는 편 / 왕복 선택"
           />
         );
       }}
