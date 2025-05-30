@@ -146,10 +146,10 @@ const WhatIsHandyContent = () => {
         <h3 className="mb-8 text-18 font-700 text-basic-grey-700">유의사항</h3>
         <ul className="list-disc pl-16 text-16 font-400 text-basic-grey-500">
           <li>핸디는 만 19세 이상 성인만 지원 가능해요.</li>
+          <li>핸디는 왕복 탑승 시 결제 단계에서 지원할 수 있습니다.</li>
           <li>
-            핸디는 결제 단계에서 지원할 수 있으며, 왕복 탑승객으로 제한돼요.
+            핸디는 원활한 소통을 위해 탑승객 및 기사님에게 연락처가 공개됩니다.
           </li>
-          <li>핸디는 원활한 소통을 위해 연락처를 공개합니다.</li>
         </ul>
       </section>
     </div>
