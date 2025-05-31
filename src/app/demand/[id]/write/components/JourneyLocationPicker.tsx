@@ -5,7 +5,7 @@ import Select from '@/components/select/Select';
 import { Controller, useWatch } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { FormValues } from './WriteForm';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetHubsByRegionId } from '@/services/hub.service';
 
 const JourneyLocationPicker = () => {
@@ -21,12 +21,17 @@ const JourneyLocationPicker = () => {
   const [isToDestinationCustom, setIsToDestinationCustom] = useState(false);
   const [isFromDestinationCustom, setIsFromDestinationCustom] = useState(false);
 
+  const regionHubsExcludedTaxi = useMemo(
+    () => regionHubs.filter((hub) => !hub.name.includes('[집앞하차]')),
+    [regionHubs],
+  );
+
   useEffect(() => {
     setIsToDestinationCustom(false);
     setIsFromDestinationCustom(false);
   }, [type]);
 
-  if (!type || (!regionId && regionHubs.length === 0)) {
+  if (!type || (!regionId && regionHubsExcludedTaxi.length === 0)) {
     return null;
   }
 
@@ -46,7 +51,7 @@ const JourneyLocationPicker = () => {
             render={({ field: { value, onChange } }) => (
               <Select
                 options={[
-                  ...regionHubs,
+                  ...regionHubsExcludedTaxi,
                   { name: '기타 (직접 입력)', regionHubId: null },
                 ]}
                 value={value}
@@ -82,7 +87,7 @@ const JourneyLocationPicker = () => {
             render={({ field: { value, onChange } }) => (
               <Select
                 options={[
-                  ...regionHubs,
+                  ...regionHubsExcludedTaxi,
                   { name: '기타 (직접 입력)', regionHubId: null },
                 ]}
                 value={value}
