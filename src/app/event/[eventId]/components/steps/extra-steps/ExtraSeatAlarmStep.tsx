@@ -37,12 +37,11 @@ const ExtraSeatAlarmStep = ({
 
   const hubName = selectedHubForSeatAlarm?.name;
   const routeName = selectedRouteForSeatAlarm?.name;
-  const hubCount =
-    (
-      selectedRouteForSeatAlarm?.toDestinationShuttleRouteHubs ??
-      selectedRouteForSeatAlarm.fromDestinationShuttleRouteHubs ??
-      []
-    ).length - 1;
+  const hubCount = (
+    selectedRouteForSeatAlarm?.toDestinationShuttleRouteHubs ??
+    selectedRouteForSeatAlarm.fromDestinationShuttleRouteHubs ??
+    []
+  ).length;
   const alertRequestQueueIndex = shuttleRouteAlertRequest?.queueIndex;
 
   useEffect(() => {
