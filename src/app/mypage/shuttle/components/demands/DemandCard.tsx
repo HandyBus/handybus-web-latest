@@ -111,7 +111,10 @@ const DemandCard = ({ demand }: Props) => {
           </p>
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
-        <Link href={`/event/${demand.eventId}`} className="cursor-pointer">
+        <Link
+          href={`/mypage/shuttle/demand/${demand.shuttleDemandId}`}
+          className="cursor-pointer"
+        >
           <div className="flex items-center">
             <h6 className="line-clamp-1 grow text-16 font-600">
               {demand.event.eventName}

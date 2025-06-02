@@ -37,7 +37,7 @@ const Page = ({ params }: Props) => {
   );
 
   if (isSuccessReservation && !reservationDetail) {
-    router.replace('/mypage/shuttle?type=current');
+    router.replace('/mypage/shuttle?type=reservation');
     return <div className="h-[100dvh]" />;
   }
 
