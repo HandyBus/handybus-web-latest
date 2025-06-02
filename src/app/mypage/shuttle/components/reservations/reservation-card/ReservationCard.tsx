@@ -107,7 +107,7 @@ const ReservationCard = ({ reservation }: Props) => {
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
         <Link
-          href={`/mypage/shuttle/${reservation.reservationId}`}
+          href={`/mypage/shuttle/reservation/${reservation.reservationId}`}
           className="cursor-pointer"
         >
           <div className="flex items-center">

@@ -10,18 +10,18 @@ import Content from './components/Content';
 
 interface Props {
   params: {
-    id: string;
+    reservationId: string;
   };
 }
 
 const Page = ({ params }: Props) => {
-  const { id } = params;
+  const { reservationId } = params;
   const router = useRouter();
   const {
     data: reservationDetail,
     isLoading: isLoadingReservation,
     isSuccess: isSuccessReservation,
-  } = useGetUserReservation(id);
+  } = useGetUserReservation(reservationId);
   const { data: shuttleBus, isLoading: isLoadingShuttleBus } = useGetShuttleBus(
     reservationDetail?.reservation.shuttleRoute.eventId ?? '',
     reservationDetail?.reservation.shuttleRoute.dailyEventId ?? '',
