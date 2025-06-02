@@ -9,17 +9,15 @@ import { useMemo } from 'react';
 import dayjs from 'dayjs';
 
 const WritableReviews = () => {
-  const { data: reservations, isLoading } = useGetUserReservations({});
+  const { data: reservations, isLoading } = useGetUserReservations({
+    reservationStatus: 'COMPLETE_PAYMENT',
+  });
 
   const reservationsWithNotWrittenReview = useMemo(
     () =>
       reservations?.filter((reservation) => {
         if (reservation.reviewId) return false;
-        if (
-          reservation.reservationStatus !== 'COMPLETE_PAYMENT' ||
-          reservation.shuttleRoute.status !== 'ENDED'
-        )
-          return false;
+        if (reservation.shuttleRoute.status !== 'ENDED') return false;
         const dailyEvent = reservation.shuttleRoute.event.dailyEvents.find(
           (dailyEvent) =>
             dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
