@@ -21,6 +21,24 @@ import { PaginationParams, withPagination } from '@/types/common.type';
 
 // ----- GET -----
 
+export const getUserDemand = async (demandId: string) => {
+  const res = await authInstance.get(
+    `/v1/user-management/users/me/demands/${demandId}`,
+    {
+      shape: {
+        shuttleDemand: ShuttleDemandsViewEntitySchema,
+      },
+    },
+  );
+  return res.shuttleDemand;
+};
+
+export const useGetUserDemand = (demandId: string) =>
+  useQuery({
+    queryKey: ['user', 'demand', demandId],
+    queryFn: () => getUserDemand(demandId),
+  });
+
 interface GetUserDemandsParams {
   eventId?: string;
   dailyEventId?: string;

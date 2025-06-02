@@ -24,7 +24,7 @@ const CancelBottomSheet = ({
   const { mutate: postRefund, isPending } = usePostRefund({
     onSuccess: () => {
       closeBottomSheet();
-      router.push('/mypage/shuttle');
+      router.push('/mypage/shuttle?type=reservation');
     },
   });
 
