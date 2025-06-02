@@ -21,7 +21,7 @@ const AnnouncementPreview = async () => {
                 {v.title}
               </p>
               <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-                {dayjs(v.createdAt).format('YYYY.MM.DD HH:mm')}
+                {dayjs(v.createdAt).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}
               </p>
             </div>
             <ChevronRightEm className="ml-auto h-24 w-24 stroke-[1] text-basic-grey-400" />
