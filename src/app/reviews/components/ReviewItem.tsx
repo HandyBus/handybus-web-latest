@@ -70,11 +70,11 @@ const ReviewItem = ({ review }: Props) => {
                 {isExpanded ? '접기' : '더보기'}
               </button>
             )}
-            <p className="text-12 font-500 leading-[160%] text-basic-grey-400">
+          </div>
+          <div className="mt-4 flex w-full items-center justify-between gap-4">
+            <p className="line-clamp-1 text-12 font-500 leading-[160%] text-basic-grey-400">
               {review.eventName}
             </p>
-          </div>
-          <div className="mt-4 flex w-full items-center justify-end gap-4">
             <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
               {dateString(review.createdAt, {
                 showWeekday: false,
