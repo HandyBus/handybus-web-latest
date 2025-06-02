@@ -22,7 +22,7 @@ const AnnouncementItem = ({ title, date, read, href }: Props) => (
         {title}
       </span>
       <span className="text-12 font-500 leading-[160%] text-basic-grey-500">
-        {dayjs(date).format('YYYY.MM.DD HH:mm')}
+        {dayjs(date).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}
       </span>
     </div>
     <ChevronRight className="stroke-[1.5] text-basic-grey-400" />
