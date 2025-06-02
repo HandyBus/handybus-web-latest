@@ -4,16 +4,14 @@ import Accordion from '@/components/accordion/Accordion';
 import { faqs } from '@/data/faq';
 
 interface Props {
-  selectedTab: string;
+  selectedTab: 'reservation' | 'boarding' | 'etc';
 }
 
 const FAQList = ({ selectedTab }: Props) => {
   const [showAll, setShowAll] = useState(false);
 
   const filteredFAQs = faqs.filter((item) => {
-    if (selectedTab === 'reserve') return item.tag === 'reservation';
-    if (selectedTab === 'boarding') return item.tag === 'boarding';
-    if (selectedTab === 'etc') return item.tag === 'etc';
+    if (selectedTab === item.tag) return true;
     return false;
   });
 

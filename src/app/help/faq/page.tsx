@@ -11,7 +11,7 @@ import FAQList from './components/FAQList';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 
 const TAB_ITEMS = [
-  { label: '예약하기', value: 'reserve' },
+  { label: '예약하기', value: 'reservation' },
   { label: '탑승하기', value: 'boarding' },
   { label: '그 외', value: 'etc' },
 ];
@@ -38,7 +38,9 @@ const CustomerSupport = () => {
               setSelectedTab(value);
             }}
           />
-          <FAQList selectedTab={selectedTab} />
+          <FAQList
+            selectedTab={selectedTab as 'reservation' | 'boarding' | 'etc'}
+          />
         </TitledSection>
         <div className="h-8 w-full bg-basic-grey-50" />
         <TitledSection title="이용 약관">
