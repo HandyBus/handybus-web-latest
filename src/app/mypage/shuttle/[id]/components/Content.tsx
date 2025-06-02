@@ -55,6 +55,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
       shuttleBus,
     });
   const isCanceled = reservationProgress === 'reservationCanceled';
+  const isEnded = reservationProgress === 'shuttleEnded';
 
   return (
     <main className="grow pb-16">
@@ -90,6 +91,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         <WrapperWithDivider>
           <HandySection
             isCanceled={isCanceled}
+            isEnded={isEnded}
             handyStatus={handyStatus}
             reservationId={reservation.reservationId}
           />
