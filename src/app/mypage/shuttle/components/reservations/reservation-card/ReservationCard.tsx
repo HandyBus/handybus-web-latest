@@ -67,7 +67,7 @@ const ReservationCard = ({ reservation }: Props) => {
     });
 
   return (
-    <Link href={`/mypage/shuttle/${reservation.reservationId}`}>
+    <div>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex h-32 items-center justify-between">
@@ -106,7 +106,10 @@ const ReservationCard = ({ reservation }: Props) => {
           </p>
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
-        <div>
+        <Link
+          href={`/mypage/shuttle/${reservation.reservationId}`}
+          className="cursor-pointer"
+        >
           <div className="flex items-center">
             <h6 className="line-clamp-1 grow text-16 font-600">{eventName}</h6>
             <ArrowRightIcon className="shrink-0" />
@@ -123,10 +126,10 @@ const ReservationCard = ({ reservation }: Props) => {
           <p className="text-14 font-500 leading-[160%]">
             {formattedPaymentAmount} 원
           </p>
-        </div>
+        </Link>
       </article>
       <div className="h-8 w-full bg-basic-grey-50" />
-    </Link>
+    </div>
   );
 };
 
