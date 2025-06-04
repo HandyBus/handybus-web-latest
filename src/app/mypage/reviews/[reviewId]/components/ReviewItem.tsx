@@ -1,7 +1,7 @@
 import Rating from '@/components/rating/Rating';
 import UserProfile from '@/components/header/UserProfile';
 import { ReviewsViewEntity } from '@/types/review.type';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 import { dateString } from '@/utils/dateString.util';
 import ImageModal from './ImageModal';
@@ -12,8 +12,32 @@ interface Props {
 }
 
 const ReviewItem = ({ review, isMyReview }: Props) => {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [openImageUrl, setOpenImageUrl] = useState<string | null>(null);
+  const [clamped, setClamped] = useState(false);
+  const [useClamp, setUseClamp] = useState(true);
+
+  const prevWidth = useRef(0);
+
+  const ref = useCallback(
+    (node: HTMLParagraphElement | null) => {
+      if (node !== null) {
+        const resizeObserver = new ResizeObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.target.clientWidth === prevWidth.current) continue;
+            if (!useClamp) continue;
+            prevWidth.current = entry.target.clientWidth;
+            setClamped(entry.target.scrollHeight > entry.target.clientHeight);
+          }
+        });
+        resizeObserver.observe(node);
+
+        return () => {
+          resizeObserver.unobserve(node);
+        };
+      }
+    },
+    [useClamp],
+  );
 
   return (
     <>
@@ -59,18 +83,19 @@ const ReviewItem = ({ review, isMyReview }: Props) => {
                 })}
             </figure>
             <p
-              className={`line-clamp-2 overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600 ${
-                isExpanded ? 'line-clamp-none' : ''
+              ref={ref}
+              className={`overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600 ${
+                useClamp ? 'line-clamp-2' : ''
               }`}
             >
               {review.content}
             </p>
-            {review.content.length > 100 && (
+            {clamped && (
               <button
                 className="text-14 font-500 leading-[160%] text-basic-grey-500"
-                onClick={() => setIsExpanded((prev) => !prev)}
+                onClick={() => setUseClamp((prev) => !prev)}
               >
-                {isExpanded ? '접기' : '더보기'}
+                {useClamp ? '더보기' : '접기'}
               </button>
             )}
           </div>
