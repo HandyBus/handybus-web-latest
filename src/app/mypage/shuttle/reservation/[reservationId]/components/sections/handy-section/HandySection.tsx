@@ -6,11 +6,17 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
   isCanceled: boolean;
+  isEnded: boolean;
   handyStatus: HandyStatus;
   reservationId: string;
 }
 
-const HandySection = ({ isCanceled, handyStatus, reservationId }: Props) => {
+const HandySection = ({
+  isCanceled,
+  isEnded,
+  handyStatus,
+  reservationId,
+}: Props) => {
   const historyText =
     handyStatus === 'NOT_SUPPORTED' ? '지원 안함' : '지원 완료';
   const statusText =
@@ -32,7 +38,7 @@ const HandySection = ({ isCanceled, handyStatus, reservationId }: Props) => {
       <section className="px-16">
         <h3 className="flex items-center justify-between pb-16 text-16 font-600">
           <span>핸디 지원 내역</span>
-          {!isCanceled && handyStatus === 'SUPPORTED' && (
+          {!isCanceled && !isEnded && handyStatus === 'SUPPORTED' && (
             <Button
               type="button"
               variant="tertiary"
@@ -42,7 +48,7 @@ const HandySection = ({ isCanceled, handyStatus, reservationId }: Props) => {
               지원 취소
             </Button>
           )}
-          {!isCanceled && handyStatus === 'ACCEPTED' && (
+          {!isCanceled && !isEnded && handyStatus === 'ACCEPTED' && (
             <Button
               type="button"
               variant="secondary"

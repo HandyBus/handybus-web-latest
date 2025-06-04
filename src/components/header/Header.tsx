@@ -29,14 +29,18 @@ const Header = () => {
       </Link>
 
       <div className="flex items-center gap-8">
-        <Link href="/event" className="px-4 text-14 font-600">
+        <Link
+          href="/event"
+          className="px-4 text-14 font-600 active:text-basic-grey-600"
+        >
           모든 행사
         </Link>
         <div className="h-16 w-[1px] bg-basic-grey-200" />
         <div className="h-24 w-24">
           {isLoggedIn !== null &&
             (isLoggedIn ? (
-              <Link href="/mypage">
+              <Link href="/mypage" className="group relative">
+                <div className="absolute inset-0 hidden h-full w-full rounded-full bg-[rgba(0,0,0,0.4)] group-active:block" />
                 <UserProfile nickname={nickname} profileImage={profileImage} />
               </Link>
             ) : (
