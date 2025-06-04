@@ -1,4 +1,3 @@
-import { ReservationProgress } from '../../../../hooks/useReservationProgress';
 import { HandyStatus, ReservationsViewEntity } from '@/types/reservation.type';
 import CheckIcon from '../../../icons/icon-check-thin.svg';
 import { ShuttleBusesViewEntity } from '@/types/shuttleBus.type';
@@ -6,6 +5,7 @@ import Button from '@/components/buttons/button/Button';
 import useText from './hooks/useText';
 import { useState } from 'react';
 import SubmitOpenChatLinkModal from '@/app/mypage/shuttle/components/reservations/reservation-card/components/SubmitOpenChatLinkModal';
+import { ReservationProgress } from '@/app/mypage/shuttle/hooks/useReservationProgress';
 
 interface Props {
   reservation: ReservationsViewEntity;

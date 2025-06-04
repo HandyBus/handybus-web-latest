@@ -49,7 +49,10 @@ const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
     });
 
   return (
-    <Link href={`/mypage/shuttle/${reservation.reservationId}`}>
+    <Link
+      href={`/mypage/shuttle/reservation/${reservation.reservationId}`}
+      className="cursor-pointer"
+    >
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex h-32 items-center justify-between pb-[6px]">
