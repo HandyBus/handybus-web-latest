@@ -173,7 +173,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
                   )}
                 </p>
               </div>
-              <ul className="flex flex-col gap-8">
+              <ul className="flex flex-col gap-8 scrollbar-hidden">
                 {gunguWithHubs.hubs.map((hub) => (
                   <button
                     key={hub.regionHubId}

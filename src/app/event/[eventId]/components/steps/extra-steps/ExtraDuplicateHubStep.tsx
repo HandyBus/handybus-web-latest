@@ -132,7 +132,7 @@ const Hub = ({
         type="button"
         onClick={onClick}
         disabled={isAllSoldOut}
-        className="flex w-full flex-col gap-12 rounded-8 bg-basic-grey-50 p-16 text-left"
+        className="flex w-full flex-col gap-12 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100"
       >
         {toDestinationExists && (
           <div
