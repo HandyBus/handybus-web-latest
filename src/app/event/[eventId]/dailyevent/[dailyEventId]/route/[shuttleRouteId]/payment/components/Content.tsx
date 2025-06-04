@@ -22,6 +22,8 @@ import { postReserveReservation } from '@/services/payment.service';
 import { usePathname } from 'next/navigation';
 import { toast } from 'react-toastify';
 
+const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
+
 interface ContentProps {
   tripType: TripType;
   toDestinationHubId: string | null;
@@ -116,6 +118,16 @@ const Content = ({
     });
   };
 
+  // TODO: 임시로 핸디팟 노선 처리
+  const isTaxiRoute =
+    !!TAXI_HUB_PREFIX &&
+    (shuttleRoute.toDestinationShuttleRouteHubs?.some((hub) =>
+      hub.name?.includes(TAXI_HUB_PREFIX),
+    ) ||
+      shuttleRoute.fromDestinationShuttleRouteHubs?.some((hub) =>
+        hub.name?.includes(TAXI_HUB_PREFIX),
+      ));
+
   // 에러 처리
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
@@ -136,7 +148,7 @@ const Content = ({
           passengerCount={passengerCount}
         />
         <ClientInfoSection user={user} />
-        {!shuttleRoute.name.includes('핸디팟_') && ( // NOTES: 핸디팟인경우 임시로 핸디센션 비활성화
+        {!isTaxiRoute && ( // NOTE: 핸디팟인경우 임시로 핸디섹션 비활성화
           <HandySection
             user={user}
             tripType={tripType}
