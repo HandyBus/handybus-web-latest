@@ -41,7 +41,7 @@ const ReviewList = () => {
         {sortedReviews.map((review) => (
           <ReviewItem key={review.reviewId} review={review} />
         ))}
-        {(isFetching || hasNextPage) && (
+        {!isFetching && hasNextPage && (
           <div ref={ref} className="flex flex-col items-center py-28" />
         )}
       </section>
