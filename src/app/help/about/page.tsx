@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import Header from '@/components/header/Header';
 import Image from 'next/image';
-import overviewImage1 from './images/service-overview-1.png';
-import overviewImage2 from './images/service-overview-2.png';
+import OverviewImage1 from './images/service-overview-1.png';
+import OverviewImage2 from './images/service-overview-2.png';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -26,16 +26,16 @@ export default AboutPage;
 const ServiceOverview = () => {
   return (
     <>
-      <Image src={overviewImage1} alt="overview" />
+      <Image src={OverviewImage1} alt="overview" />
       <section className="flex h-[82px] justify-center bg-basic-grey-50 px-16 pb-32">
         <Link
           href="/help/handybus-guide"
-          className="flex h-[50px] w-[100%] items-center justify-center rounded-[8px] bg-brand-primary-400 text-16 font-600 leading-[160%] text-basic-white"
+          className="flex h-[50px] w-[100%] items-center justify-center rounded-[8px] bg-brand-primary-400 text-16 font-600 leading-[160%] text-basic-white active:bg-brand-primary-500"
         >
           자세히 알아보기
         </Link>
       </section>
-      <Image src={overviewImage2} alt="overview" />
+      <Image src={OverviewImage2} alt="overview" />
     </>
   );
 };
@@ -73,7 +73,7 @@ const FAQTop5 = () => {
       </section>
       <Link
         href="/help/faq"
-        className="flex h-[46px] w-[calc(100%-32px)] items-center justify-center gap-[10px] rounded-[8px] text-16 font-600 leading-[160%] text-basic-grey-700 "
+        className="flex h-[46px] items-center justify-center gap-[10px] rounded-[8px] text-16 font-600 leading-[160%] text-basic-grey-700"
       >
         더 많은 질문 보기 <ArrowForwardIcon />
       </Link>
