@@ -38,12 +38,20 @@ const Page = () => {
     putMarketingAgreement(!isMarketingAgreed, {
       onSuccess: () => {
         if (!isMarketingAgreed) {
+          toast.success('마케팅 수신이 설정되었어요');
           setIsMarketingAgreed(true);
         } else {
+          toast.success('마케팅 수신이 해제되었어요');
           setIsMarketingAgreed(false);
         }
       },
     });
+  };
+
+  // 로그아웃
+  const handleLogout = () => {
+    logout();
+    toast.success('로그아웃이 완료되었어요');
   };
 
   // 탈퇴하기
@@ -128,7 +136,7 @@ const Page = () => {
                     </div>
                   </div>
                 </ListButton>
-                <ListButton hideArrow onClick={() => logout()}>
+                <ListButton hideArrow onClick={handleLogout}>
                   로그아웃
                 </ListButton>
                 <ListButton hideArrow onClick={openLeaveBottomSheet}>
