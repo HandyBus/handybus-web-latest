@@ -158,10 +158,16 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
                 <p className="ml-auto text-14 font-500">
                   {isUserDemandAvailable ? (
                     <span className="text-basic-red-400">
-                      요청을 완료한 지역이에요
+                      이미 요청한 지역이에요
                     </span>
                   ) : (
-                    <span className="text-brand-primary-400">
+                    <span
+                      className={`${
+                        gunguWithHubs.demandCount > 0
+                          ? 'text-brand-primary-400'
+                          : 'text-basic-grey-500'
+                      }`}
+                    >
                       {gunguWithHubs.demandCount}명이 요청했어요
                     </span>
                   )}
