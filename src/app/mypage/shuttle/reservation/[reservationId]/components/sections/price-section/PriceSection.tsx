@@ -6,9 +6,15 @@ interface Props {
   payment: PaymentsViewEntity;
   passengerCount: number;
   isCanceled: boolean;
+  isHandySupported: boolean;
 }
 
-const PriceSection = ({ payment, passengerCount, isCanceled }: Props) => {
+const PriceSection = ({
+  payment,
+  passengerCount,
+  isCanceled,
+  isHandySupported,
+}: Props) => {
   const refundRequest = payment.refundRequests?.[0];
   return (
     <section className="px-16">
@@ -19,6 +25,7 @@ const PriceSection = ({ payment, passengerCount, isCanceled }: Props) => {
         <RegularPriceContent
           payment={payment}
           passengerCount={passengerCount}
+          isHandySupported={isHandySupported}
         />
       )}
     </section>

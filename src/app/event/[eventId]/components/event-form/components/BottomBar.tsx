@@ -78,7 +78,7 @@ export default BottomBar;
 
 const NotificationBubble = () => {
   return (
-    <div className="absolute -top-[3px] right-[19%] flex -translate-y-full items-center gap-[2px] whitespace-nowrap break-keep rounded-full bg-basic-black px-8 py-[6px] text-12 font-600 text-basic-white">
+    <div className="absolute -top-[3px] left-1/2 flex -translate-x-68 -translate-y-full items-center gap-[2px] whitespace-nowrap break-keep rounded-full bg-basic-black px-8 py-[6px] text-12 font-600 text-basic-white">
       <NotificationIcon />
       <span>지금 참여하고 셔틀 오픈 알림을 받으세요!</span>
       <TriangleIcon className="absolute bottom-[2px] left-1/2 -translate-x-1/2 translate-y-full" />

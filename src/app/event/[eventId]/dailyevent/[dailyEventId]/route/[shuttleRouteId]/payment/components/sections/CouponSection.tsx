@@ -57,7 +57,7 @@ const CouponSection = ({
               )}
             </>
           )}
-          <span className="text-basic-grey-500 group-disabled:bg-basic-grey-50">
+          <span className="text-basic-grey-500 ">
             <ArrowRightIcon />
           </span>
         </button>

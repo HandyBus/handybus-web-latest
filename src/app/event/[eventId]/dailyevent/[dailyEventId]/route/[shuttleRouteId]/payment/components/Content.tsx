@@ -154,6 +154,7 @@ const Content = ({
           totalCouponDiscountAmount={totalCouponDiscountAmount}
           totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
           passengerCount={passengerCount}
+          isHandyApplied={isHandyApplied}
         />
         <PaymentSection />
         <BottomBar
