@@ -18,6 +18,8 @@ import PrimaryCheckIcon from '../icons/icon-check-primary.svg';
 import GreyCheckIcon from '../icons/icon-check-grey.svg';
 import WrapperWithDivider from './WrapperWithDivider';
 
+const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
+
 interface Props {
   reservation: ReservationsViewEntity;
   payment: PaymentsViewEntity;
@@ -57,6 +59,16 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
   const isCanceled = reservationProgress === 'reservationCanceled';
   const isEnded = reservationProgress === 'shuttleEnded';
 
+  // TODO: 임시로 핸디팟 노선 처리
+  const isTaxiRoute =
+    !!TAXI_HUB_PREFIX &&
+    (shuttleRoute.toDestinationShuttleRouteHubs?.some((hub) =>
+      hub.name?.includes(TAXI_HUB_PREFIX),
+    ) ||
+      shuttleRoute.fromDestinationShuttleRouteHubs?.some((hub) =>
+        hub.name?.includes(TAXI_HUB_PREFIX),
+      ));
+
   return (
     <main className="grow pb-16">
       <Title progress={reservationProgress} />
@@ -88,14 +100,16 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
-        <WrapperWithDivider>
-          <HandySection
-            isCanceled={isCanceled}
-            isEnded={isEnded}
-            handyStatus={handyStatus}
-            reservationId={reservation.reservationId}
-          />
-        </WrapperWithDivider>
+        {!isTaxiRoute && (
+          <WrapperWithDivider>
+            <HandySection
+              isCanceled={isCanceled}
+              isEnded={isEnded}
+              handyStatus={handyStatus}
+              reservationId={reservation.reservationId}
+            />
+          </WrapperWithDivider>
+        )}
         <WrapperWithDivider>
           <PriceSection
             payment={payment}
