@@ -18,9 +18,14 @@ type FeedbackSubject =
 interface Props {
   subject: FeedbackSubject;
   closeFeedbackScreen: () => void;
+  hideCloseButton?: boolean;
 }
 
-const FeedbackScreen = ({ subject, closeFeedbackScreen }: Props) => {
+const FeedbackScreen = ({
+  subject,
+  closeFeedbackScreen,
+  hideCloseButton = false,
+}: Props) => {
   const { control, handleSubmit } = useForm<{ text: string }>();
   const { mutateAsync: postFeedback, isPending } = usePostFeedback();
 
@@ -56,6 +61,11 @@ const FeedbackScreen = ({ subject, closeFeedbackScreen }: Props) => {
         >
           의견 보내기
         </Button>
+        {!hideCloseButton && (
+          <Button variant="text" size="large" onClick={closeFeedbackScreen}>
+            다음에 할게요
+          </Button>
+        )}
       </section>
     </form>
   );

@@ -27,8 +27,8 @@ const CancellationAndRefund = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="font-500 text-basic-grey-600">
-            <tr>
+          <tbody className="bg-basic-white font-500 text-basic-grey-600">
+            <tr className="text-basic-red-400">
               <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
                 예약 24시간 이내
               </td>
@@ -38,7 +38,7 @@ const CancellationAndRefund = () => {
             </tr>
             <tr>
               <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-                ~ 탑승 D-8 23:59
+                ~ 탑승 8일 전 23:59
               </td>
               <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
                 수수료 없음
@@ -46,7 +46,7 @@ const CancellationAndRefund = () => {
             </tr>
             <tr>
               <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-                ~ 탑승 D-7 23:59
+                ~ 탑승 7일 전 23:59
               </td>
               <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
                 결제 금액의 25%
@@ -54,7 +54,7 @@ const CancellationAndRefund = () => {
             </tr>
             <tr>
               <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-                ~ 탑승 D-6 23:59
+                ~ 탑승 6일 전 23:59
               </td>
               <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
                 결제 금액의 50%
@@ -62,7 +62,7 @@ const CancellationAndRefund = () => {
             </tr>
             <tr>
               <td className="border-r border-basic-grey-300 px-[10px] py-[6px]">
-                탑승 D-5 00:00 ~
+                탑승 5일 전 00:00 ~
               </td>
               <td className="px-[10px] py-[6px]">취소 / 환불 불가</td>
             </tr>
