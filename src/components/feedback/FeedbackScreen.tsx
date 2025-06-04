@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 
 // NOTE: 피드백의 subject은 프론트에서 관리. 추후 기능 추가 및 기획 변경에 따라 타입 추가.
 type FeedbackSubject =
-  | '일반'
+  | '팝업'
+  | '도움말'
   | '수요조사 - 성공'
   | '수요조사 - 실패'
   | '예약 - 성공'
