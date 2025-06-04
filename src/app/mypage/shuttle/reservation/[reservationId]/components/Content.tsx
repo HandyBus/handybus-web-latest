@@ -101,6 +101,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             payment={payment}
             passengerCount={reservation.passengerCount}
             isCanceled={isCanceled}
+            isHandySupported={handyStatus !== 'NOT_SUPPORTED'}
           />
         </WrapperWithDivider>
         <GuidelineSection />
