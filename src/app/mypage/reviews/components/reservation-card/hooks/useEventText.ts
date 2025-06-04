@@ -27,30 +27,39 @@ const useEventText = ({ reservation, event, dailyEvent }: Props) => {
 
   const hubText = useMemo(() => {
     const tripTypePrefix = `[${TRIP_STATUS_TO_STRING[reservation.type]}]`;
-    // TODO: 추후 도착지 속성이 추가되면 반영되어야 함
-    const eventLocationHubName = event.eventLocationName;
-    const toDestinationHub =
+    const toDestinationStartHub =
       reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
         (hub) =>
           hub.shuttleRouteHubId === reservation.toDestinationShuttleRouteHubId,
       );
-    const fromDestinationHub =
+    const toDestinationEndHub =
+      reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+        (hub) => hub.role === 'DESTINATION',
+      );
+    const fromDestinationStartHub =
       reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
         (hub) =>
           hub.shuttleRouteHubId ===
           reservation.fromDestinationShuttleRouteHubId,
       );
+    const fromDestinationEndHub =
+      reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+        (hub) => hub.role === 'DESTINATION',
+      );
 
     let hubText = '';
     if (reservation.type === 'TO_DESTINATION') {
-      hubText = `${toDestinationHub?.name} → ${eventLocationHubName}`;
+      hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name}`;
     } else if (reservation.type === 'FROM_DESTINATION') {
-      hubText = `${eventLocationHubName} → ${fromDestinationHub?.name}`;
+      hubText = `${fromDestinationStartHub?.name} → ${fromDestinationEndHub?.name}`;
     } else {
-      if (toDestinationHub?.regionHubId === fromDestinationHub?.regionHubId) {
-        hubText = `${toDestinationHub?.name} ↔ ${eventLocationHubName}`;
+      if (
+        toDestinationStartHub?.regionHubId ===
+        fromDestinationStartHub?.regionHubId
+      ) {
+        hubText = `${toDestinationStartHub?.name} ↔ ${toDestinationEndHub?.name}`;
       } else {
-        hubText = `${toDestinationHub?.name} → ${eventLocationHubName} → ${fromDestinationHub?.name}`;
+        hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name} → ${fromDestinationEndHub?.name}`;
       }
     }
 
