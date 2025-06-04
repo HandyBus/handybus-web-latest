@@ -77,6 +77,7 @@ const CustomerSupport = () => {
         <FeedbackScreen
           subject="일반"
           closeFeedbackScreen={() => setShowFeedbackScreen(false)}
+          hideCloseButton={true}
         />
       )}
     </>
