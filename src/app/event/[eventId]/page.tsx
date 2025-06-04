@@ -4,6 +4,7 @@ import EventInfo from './components/EventInfo';
 import EventGuidelines from './components/EventGuidelines';
 import { getEvent } from '@/services/event.service';
 import EventContent from './components/EventContent';
+import EventOverview from './components/EventOverview';
 
 interface Props {
   params: {
@@ -24,6 +25,7 @@ const Page = async ({ params }: Props) => {
         />
         <EventInfo event={event} />
         <EventContent event={event} />
+        <EventOverview />
         <EventGuidelines />
         <div className="h-100 bg-basic-grey-50" />
       </main>
