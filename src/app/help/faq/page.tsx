@@ -75,7 +75,7 @@ const CustomerSupport = () => {
       <Footer />
       {showFeedbackScreen && (
         <FeedbackScreen
-          subject="일반"
+          subject="도움말"
           closeFeedbackScreen={() => setShowFeedbackScreen(false)}
           hideCloseButton={true}
         />
