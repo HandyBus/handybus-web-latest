@@ -55,8 +55,8 @@ const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
     >
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
-          <div className="flex h-32 items-center justify-between">
-            <div className="flex items-center gap-8 pb-[6px]">
+          <div className="flex h-32 items-center justify-between pb-[6px]">
+            <div className="flex items-center gap-8">
               <h5
                 className={`text-18 font-600 ${textAndStyle?.title.className}`}
               >

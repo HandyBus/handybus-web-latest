@@ -8,12 +8,12 @@ const AnnouncementPreview = async () => {
   const announcements = await getAnnouncements();
 
   return (
-    <Article richTitle="공지사항" showMore="/mypage/announcements">
+    <Article richTitle="공지사항" showMore="/announcements">
       <div className="flex flex-col">
         {announcements.slice(0, 3).map((v) => (
           <Link
             key={v.id}
-            href={`/mypage/announcements/${v.id}`}
+            href={`/announcements/${v.id}`}
             className="flex w-auto items-center py-12"
           >
             <div className="w-dvw flex-1 overflow-hidden">
@@ -21,7 +21,7 @@ const AnnouncementPreview = async () => {
                 {v.title}
               </p>
               <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-                {dayjs(v.createdAt).format('YYYY.MM.DD HH:mm')}
+                {dayjs(v.createdAt).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}
               </p>
             </div>
             <ChevronRightEm className="ml-auto h-24 w-24 stroke-[1] text-basic-grey-400" />

@@ -125,12 +125,15 @@ const ShuttleProgressSection = ({
           <p className="pb-8 text-14 font-500 text-basic-grey-700">
             {descriptionText}
           </p>
-          <p className="flex items-center gap-[2px]">
-            <CheckIcon />
-            <span className="text-14 font-500 text-basic-grey-500">
-              예약한 셔틀은 100% 운행되니 안심하세요.
-            </span>
-          </p>
+          {reservationProgress !== 'shuttleEnded' &&
+            reservationProgress !== 'reservationCanceled' && (
+              <p className="flex items-center gap-[2px]">
+                <CheckIcon />
+                <span className="text-14 font-500 text-basic-grey-500">
+                  예약한 셔틀은 100% 운행되니 안심하세요.
+                </span>
+              </p>
+            )}
         </div>
       </section>
       <SubmitOpenChatLinkModal

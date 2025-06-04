@@ -87,9 +87,9 @@ const DemandCard = ({ demand }: Props) => {
     <div>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
-          <div className="flex items-center justify-between">
+          <div className="flex h-32 items-center justify-between pb-[6px]">
             <h5
-              className={`pb-[6px] text-18 font-600 ${isDemandClosed ? 'text-basic-grey-500' : ''}`}
+              className={`text-18 font-600 ${isDemandClosed ? 'text-basic-grey-500' : ''}`}
             >
               {!isDemandClosed ? '수요조사 완료' : '수요조사 마감'}
             </h5>

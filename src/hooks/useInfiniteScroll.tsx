@@ -21,7 +21,7 @@ const useInfiniteScroll = <TData, TError>(
   const useObserver = ({
     target,
     rootMargin = '0px',
-    threshold = 1.0,
+    threshold = 0.1,
     onIntersect,
   }: {
     target: React.RefObject<HTMLElement>;
