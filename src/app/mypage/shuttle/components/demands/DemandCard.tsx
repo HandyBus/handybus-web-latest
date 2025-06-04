@@ -5,7 +5,6 @@ import { dateString } from '@/utils/dateString.util';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
-import Link from 'next/link';
 import ArrowRightIcon from '../../icons/arrow-right.svg';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 
@@ -52,6 +51,9 @@ const DemandCard = ({ demand }: Props) => {
   const handleReserveClick = (eventId: string) => {
     router.push(`/event/${eventId}`);
   };
+  const handleDemandClick = (demandId: string) => {
+    router.push(`/mypage/shuttle/demand/${demandId}`);
+  };
 
   const descriptionText = useMemo(() => {
     if (isDemandClosed && demand.hasShuttleRoute) {
@@ -82,7 +84,7 @@ const DemandCard = ({ demand }: Props) => {
   ]);
 
   return (
-    <Link href={`/event/${demand.eventId}`}>
+    <div>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex items-center justify-between">
@@ -111,12 +113,18 @@ const DemandCard = ({ demand }: Props) => {
           </p>
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
-        <div>
+        <button
+          onClick={handleClickAndStopPropagation(() =>
+            handleDemandClick(demand.shuttleDemandId),
+          )}
+          disabled={isDemandClosed}
+          className="text-left"
+        >
           <div className="flex items-center">
             <h6 className="line-clamp-1 grow text-16 font-600">
               {demand.event.eventName}
             </h6>
-            <ArrowRightIcon className="shrink-0" />
+            {!isDemandClosed && <ArrowRightIcon className="shrink-0" />}
           </div>
           <p className="text-12 font-500 text-basic-grey-700">
             {demand.event.eventLocationName}
@@ -127,10 +135,10 @@ const DemandCard = ({ demand }: Props) => {
           <p className="text-14 font-500">
             [{demandRegionHub?.name ?? desiredDemandRegionHub}] 요청
           </p>
-        </div>
+        </button>
       </article>
       <div className="h-8 w-full bg-basic-grey-50" />
-    </Link>
+    </div>
   );
 };
 

@@ -7,7 +7,7 @@ import EventCard from './EventCard';
 import ShuttleProgressSection from './sections/shuttle-progress-section/ShuttleProgressSection';
 import useReservationProgress, {
   ReservationProgress,
-} from '../../hooks/useReservationProgress';
+} from '../../../hooks/useReservationProgress';
 import ShuttleInfoSection from './sections/shuttle-info-section/ShuttleInfoSection';
 import ReservationPersonInfoSection from './sections/ReservationPersonInfoSection';
 import HandySection from './sections/handy-section/HandySection';

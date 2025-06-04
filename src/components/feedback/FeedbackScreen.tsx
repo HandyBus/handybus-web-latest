@@ -56,9 +56,6 @@ const FeedbackScreen = ({ subject, closeFeedbackScreen }: Props) => {
         >
           의견 보내기
         </Button>
-        <Button variant="text" size="large" onClick={closeFeedbackScreen}>
-          다음에 할게요
-        </Button>
       </section>
     </form>
   );

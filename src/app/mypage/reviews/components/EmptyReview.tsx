@@ -1,4 +1,4 @@
-import ReviewIcon from '../icons/review-grey-300.svg';
+import ReviewIcon from '../icons/icon-reviews.svg';
 
 interface Props {
   variant: 'writable-review' | 'written-review';
