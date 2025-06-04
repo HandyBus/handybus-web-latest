@@ -17,7 +17,11 @@ import { dateString } from '@/utils/dateString.util';
 const Page = () => {
   const [type, setType] = useState<EventType>('CONCERT');
   const [sort, setSort] = useState<EventSortType>('DATE_ASC');
-  const { data: events, isLoading, error } = useGetEvents({ status: 'OPEN' });
+  const {
+    data: events,
+    isLoading,
+    error,
+  } = useGetEvents({ status: 'OPEN,CLOSED' });
 
   const filteredEvents = useMemo(
     () => events?.filter((event) => event.eventType === type),
