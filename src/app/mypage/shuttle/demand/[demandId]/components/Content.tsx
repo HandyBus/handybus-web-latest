@@ -13,7 +13,7 @@ interface Props {
 
 const Content = ({ demand }: Props) => {
   return (
-    <main className="grow pb-16">
+    <main className="grow">
       <h1 className="px-16 pb-24 pt-12 text-22 font-700">수요조사 완료</h1>
       <EventCard event={demand.event} />
       <ul className="flex flex-col gap-24">
