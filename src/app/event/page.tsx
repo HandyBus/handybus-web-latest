@@ -23,17 +23,25 @@ const Page = () => {
     error,
   } = useGetEvents({ status: 'OPEN,CLOSED' });
 
-  const filteredEvents = useMemo(
-    () => events?.filter((event) => event.eventType === type),
-    [events, type],
+  const filteredEventsByStatus = useMemo(
+    () =>
+      events?.filter((event) =>
+        event.eventStatus === 'CLOSED' && !event.hasOpenRoute ? false : true,
+      ),
+    [events],
+  );
+
+  const filteredEventsByType = useMemo(
+    () => filteredEventsByStatus?.filter((event) => event.eventType === type),
+    [filteredEventsByStatus, type],
   );
 
   const sortedEvents = useMemo(
     () =>
-      filteredEvents && filteredEvents.length > 0
-        ? toSorted(filteredEvents, sort)
+      filteredEventsByType && filteredEventsByType.length > 0
+        ? toSorted(filteredEventsByType, sort)
         : [],
-    [filteredEvents, sort],
+    [filteredEventsByType, sort],
   );
 
   return (
