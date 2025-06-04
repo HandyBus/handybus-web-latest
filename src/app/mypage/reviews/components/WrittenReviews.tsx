@@ -13,11 +13,15 @@ const WrittenReviews = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
   const { data: reservations, isLoading } = useGetUserReservations({
     monthsAgo: periodFilter,
-    eventProgressStatus: 'PAST',
+    reservationStatus: 'COMPLETE_PAYMENT',
   });
 
   const reservationsWithReview = useMemo(
-    () => reservations?.filter((reservation) => reservation.reviewId),
+    () =>
+      reservations?.filter(
+        (reservation) =>
+          reservation.reviewId && reservation.shuttleRoute.status === 'ENDED',
+      ),
     [reservations],
   );
 
