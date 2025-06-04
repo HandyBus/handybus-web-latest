@@ -38,8 +38,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
 
   const { data: regionsWithHubsPages } = useGetHubsWithPagination(
     {
-      // TODO: 장소 태깅 완료하고 주석 해제하기
-      // usageType: 'SHUTTLE_HUB',
+      usageType: 'SHUTTLE_HUB',
       provinceFullName: prioritySido,
     },
     { enabled },

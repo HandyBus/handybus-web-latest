@@ -35,7 +35,6 @@ const AboutService = () => (
         <br />
         콘서트장까지 이동 시 편리함을 제공하기 위해
         <br />
-        {/* TODO betther highlighting/mark */}
         <b className="relative inline overflow-visible font-600 after:absolute after:bottom-[0.33em] after:left-0 after:right-0 after:-z-10 after:h-[0.6em] after:bg-brand-primary-400 after:bg-opacity-35 after:px-4 after:content-['']">
           직행으로 이동하는 셔틀 버스를 제공
         </b>
