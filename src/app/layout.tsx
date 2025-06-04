@@ -10,6 +10,7 @@ import { DESCRIPTION, KEYWORDS, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 import Script from 'next/script';
 import 'react-loading-skeleton/dist/skeleton.css';
+// import ServiceMaintenanceScreen from '@/components/service-maintenance-screen/ServiceMaintenanceScreen';
 
 export const metadata: Metadata = {
   title: {
@@ -94,6 +95,8 @@ export default function RootLayout({
       <body>
         <Provider>
           {children}
+          {/* NOTE: 서비스 점검 시 children 주석 처리 후 아래 주석 해제 */}
+          {/* <ServiceMaintenanceScreen /> */}
           <PortalContainer />
           <ToastContainer />
         </Provider>
