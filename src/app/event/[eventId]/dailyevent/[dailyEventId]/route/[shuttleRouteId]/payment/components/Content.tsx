@@ -136,13 +136,15 @@ const Content = ({
           passengerCount={passengerCount}
         />
         <ClientInfoSection user={user} />
-        <HandySection
-          user={user}
-          tripType={tripType}
-          priceOfTripType={priceOfTripType}
-          isHandyApplied={isHandyApplied}
-          setIsHandyApplied={setIsHandyApplied}
-        />
+        {!shuttleRoute.name.includes('핸디팟_') && ( // NOTES: 핸디팟인경우 임시로 핸디센션 비활성화
+          <HandySection
+            user={user}
+            tripType={tripType}
+            priceOfTripType={priceOfTripType}
+            isHandyApplied={isHandyApplied}
+            setIsHandyApplied={setIsHandyApplied}
+          />
+        )}
         <CouponSection
           coupons={coupons}
           selectedCoupon={selectedCoupon}
