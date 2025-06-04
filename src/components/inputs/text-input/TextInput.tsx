@@ -48,7 +48,7 @@ const TextInput = <T extends FieldValues>({
         onKeyDown={onKeyDown}
         {...field}
         className={customTwMerge(
-          'h-48 w-full border-b border-basic-grey-200 p-12 pr-44 text-16 font-500 outline-none placeholder:text-basic-grey-400',
+          'h-48 w-full rounded-[0px] border-b border-basic-grey-200 p-12 pr-44 text-16 font-500 outline-none placeholder:text-basic-grey-400',
           fieldState?.error
             ? 'border-basic-red-500'
             : 'focus:border-brand-primary-400',
