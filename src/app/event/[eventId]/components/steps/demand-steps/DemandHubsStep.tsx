@@ -2,7 +2,7 @@
 
 import { useGetHubsWithPagination } from '@/services/hub.service';
 import PinIcon from '../../../icons/pin-small.svg';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { groupHubsByRegion } from '../../../store/dailyEventIdsWithHubsAtom';
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
 import { EventFormValues } from '../../../form.type';
@@ -19,6 +19,7 @@ import {
   getRecentlyViewedHubId,
   setRecentlyViewedHubId,
 } from '@/utils/localStorage';
+import SadFaceIcon from '../../../icons/sad-face.svg';
 
 interface Props {
   toNextStep: () => void;
@@ -54,11 +55,13 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
     { enabled },
   );
 
+  const [isLoading, setIsLoading] = useState(true);
   const gungusWithHubs = useMemo(() => {
     const hubs = regionsWithHubsPages?.pages?.[0]?.regionHubs;
     if (!hubs || !demandStats) {
       return [];
     }
+    setIsLoading(false);
     const hubsWithRegion = hubs.map((hub) => {
       const hubRegion = ID_TO_REGION[hub.regionId];
       return {
@@ -198,9 +201,21 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
           );
         })}
       </div>
-      {gungusWithHubs.length === 0 && <div className="h-340" />}
+      {isLoading && <div className="h-340" />}
+      {!isLoading && gungusWithHubs.length === 0 && <EmptyView />}
     </section>
   );
 };
 
 export default DemandHubsStep;
+
+const EmptyView = () => {
+  return (
+    <div className="w-fll flex flex-col items-center justify-center gap-8 py-16">
+      <SadFaceIcon />
+      <p className="text-14 font-600 text-basic-grey-500">
+        아쉽게도 이 지역은 참여가 어려워요.
+      </p>
+    </div>
+  );
+};

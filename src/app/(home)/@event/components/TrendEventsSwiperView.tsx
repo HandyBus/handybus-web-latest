@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
@@ -17,10 +17,6 @@ const TrendEventsSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
   const cardCount = events.length;
   const extendedEvents =
     cardCount < MIN_CARD_COUNT ? extendArray(events) : events;
@@ -29,7 +25,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
     <>
       <div className={'relative -mx-16 h-[309px] w-[calc(100%+32px)]'}>
         <div
-          className={`transition-opacity duration-[50] ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         >
           <Swiper
             ref={swiper}
@@ -39,6 +35,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
             loop={true}
             centeredSlides={true}
             className="relative w-full"
+            onInit={() => setIsLoaded(true)}
           >
             {extendedEvents?.map((v, idx) => (
               <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
