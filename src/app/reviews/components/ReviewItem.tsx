@@ -57,10 +57,9 @@ const ReviewItem = ({ review }: Props) => {
               <Rating size="medium" value={review.rating} />
             </div>
             <FeedbackGroup review={review} />
-            <figure className="flex gap-4 py-4">
-              {review.reviewImages &&
-                review.reviewImages.length > 0 &&
-                review.reviewImages?.map((image, index) => {
+            {review.reviewImages && review.reviewImages.length > 0 && (
+              <figure className="flex gap-4 py-4">
+                {review.reviewImages?.map((image, index) => {
                   return (
                     <button
                       type="button"
@@ -79,7 +78,8 @@ const ReviewItem = ({ review }: Props) => {
                     </button>
                   );
                 })}
-            </figure>
+              </figure>
+            )}
             <p
               ref={ref}
               className={`overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600 ${
