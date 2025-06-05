@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
 import { dateString } from '@/utils/dateString.util';
 import ImageModal from './ImageModal';
-import FeedbackGroup from '@/components/review/FeedbackGroup';
+import ReviewProperty from '@/components/review/ReviewProperty';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -56,7 +56,7 @@ const ReviewItem = ({ review }: Props) => {
               </div>
               <Rating size="medium" value={review.rating} />
             </div>
-            <FeedbackGroup review={review} />
+            <ReviewProperty review={review} />
             {review.reviewImages && review.reviewImages.length > 0 && (
               <figure className="flex gap-4 py-4">
                 {review.reviewImages?.map((image, index) => {

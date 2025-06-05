@@ -5,7 +5,7 @@ import Article from '@/components/article/Article';
 import { ReviewsViewEntity } from '@/types/review.type';
 import UserProfile from '@/components/header/UserProfile';
 import { dateString } from '@/utils/dateString.util';
-import FeedbackGroup from '@/components/review/FeedbackGroup';
+import ReviewProperty from '@/components/review/ReviewProperty';
 
 export const revalidate = DEFAULT_SSG_REVALIDATE_TIME;
 
@@ -36,7 +36,7 @@ const PromotionReview = async () => {
               </div>
               <Rating size="medium" value={review.rating} />
             </div>
-            <FeedbackGroup review={review} />
+            <ReviewProperty review={review} />
             <p className="line-clamp-2 overflow-hidden text-14 font-500 leading-[160%] text-basic-grey-600">
               {review.content}
             </p>
