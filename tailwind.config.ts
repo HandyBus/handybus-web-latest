@@ -147,7 +147,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [hideScrollbar, textShadowPlugin],
+  plugins: [hideScrollbar, textShadowPlugin, require('@tailwindcss/typography')],
 };
 export default config;
 
