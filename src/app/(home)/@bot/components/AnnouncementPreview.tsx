@@ -6,11 +6,14 @@ import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 const AnnouncementPreview = async () => {
   const announcements = await getAnnouncements();
+  const announcementsSorted = announcements?.sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
 
   return (
     <Article richTitle="공지사항" showMore="/announcements">
       <div className="flex flex-col">
-        {announcements.slice(0, 3).map((v) => (
+        {announcementsSorted?.slice(0, 3).map((v) => (
           <Link
             key={v.id}
             href={`/announcements/${v.id}`}

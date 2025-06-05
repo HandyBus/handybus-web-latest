@@ -15,6 +15,10 @@ export const getReadNoticeList = () => {
 const AnnouncementList = () => {
   const { data: announcements, isLoading } = useGetAnnouncements();
 
+  const announcementsSorted = announcements?.sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
   return (
     <div className="px-16">
       <h1 className="pb-24 pt-12 text-22 font-700 leading-[140%]">공지사항</h1>
@@ -23,7 +27,7 @@ const AnnouncementList = () => {
           <LoadingCircle className=" animate-spin" />
         </div>
       ) : (
-        announcements?.map((announcement, idx) => (
+        announcementsSorted?.map((announcement, idx) => (
           <AnnouncementItem
             key={idx}
             announcementId={announcement.id}
