@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
@@ -18,10 +18,6 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
   return (
     <div className={'relative -mx-16 h-304 w-[calc(100%+32px)]'}>
       <div
@@ -33,6 +29,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
           slidesPerView="auto"
           navigation={true}
           className="relative w-full"
+          onInit={() => setIsLoaded(true)}
         >
           <SwiperSlide style={{ width: 'auto' }}>
             <div className="w-16" />
