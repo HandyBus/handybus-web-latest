@@ -5,18 +5,18 @@ const GuidelineSection = () => {
   return (
     <section>
       <Accordion
-        title="취소 및 환불 안내"
+        title="상품별 유의사항"
         containerClassName="bg-basic-grey-50"
         titleClassName="text-16 font-600"
       >
-        <Guideline type="취소 및 환불 안내" />
-      </Accordion>
-      <Accordion
-        title="유의사항"
-        containerClassName="bg-basic-grey-50"
-        titleClassName="text-16 font-600"
-      >
-        <Guideline type="유의사항" />
+        <section className="py-16">
+          <h6 className="mb-8 text-18 font-600">문의</h6>
+          <Guideline type="문의" />
+        </section>
+        <section className="py-16">
+          <h6 className="mb-8 text-18 font-600">상품별 유의사항</h6>
+          <Guideline type="상품별 유의사항" />
+        </section>
       </Accordion>
     </section>
   );
