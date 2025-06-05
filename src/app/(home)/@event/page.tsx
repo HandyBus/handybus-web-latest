@@ -20,11 +20,12 @@ const Page = async () => {
       event.eventStatus === 'CLOSED' && !event.hasOpenRoute ? false : true,
     ) ?? [];
 
+  const filteredPopularEvents = filteredEventsByStatus(popularEvents);
   const filteredRecommendedEvents = filteredEventsByStatus(recommendedEvents);
 
   return (
     <>
-      <TrendEventCard events={popularEvents} />
+      <TrendEventCard events={filteredPopularEvents} />
       <div className="my-16 h-8 w-full bg-basic-grey-50" />
       <RecommendedEventCard events={filteredRecommendedEvents} />
       <div className="my-16 h-8 w-full bg-basic-grey-50" />
