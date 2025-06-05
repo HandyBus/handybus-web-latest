@@ -19,7 +19,7 @@ import BottomBar from './BottomBar';
 import useTossPayments from '@/hooks/useTossPayments';
 import { postPreparePayment } from '@/services/payment.service';
 import { postReserveReservation } from '@/services/payment.service';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
@@ -45,6 +45,7 @@ const Content = ({
   user,
   coupons,
 }: ContentProps) => {
+  const router = useRouter();
   const pathname = usePathname();
 
   const [isHandyApplied, setIsHandyApplied] = useState(false);
@@ -108,6 +109,11 @@ const Content = ({
       }
       toast.error('잠시 후 다시 시도해 주세요.');
     };
+
+    if (finalPrice === 0) {
+      router.push(successUrl + '&orderId=' + readyPaymentResponse.paymentId);
+      return;
+    }
 
     await requestPayment({
       orderId: readyPaymentResponse.paymentId,
