@@ -40,7 +40,7 @@ const Page = ({ params }: Props) => {
           </div>
         </section>
         <div className="mx-[-16px] h-[1px] bg-basic-grey-100" />
-        <div className="py-16 text-16 font-500 leading-[160%] text-basic-black">
+        <div className="prose py-16 text-16 font-500 leading-[160%] text-basic-black">
           <ReactMarkdown>{announcement?.content}</ReactMarkdown>
         </div>
       </section>
