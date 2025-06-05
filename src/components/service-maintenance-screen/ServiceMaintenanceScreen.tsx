@@ -13,7 +13,7 @@ const ServiceMaintenanceScreen = () => {
         <div className="h-[1px] w-full bg-basic-grey-100" />
         <div className="flex flex-col items-center gap-8 py-16 text-center">
           <h4 className="text-18 font-700">
-            점검 시간 : 06월 05일 (목) 11:00~12:00
+            점검 시간 : 06월 05일 (목) 10:20 ~ 점검 완료시까지
           </h4>
           <p className="text-14 font-500 leading-[160%] text-basic-grey-600">
             안정적인 서비스 제공을 위해 시스템 점검 및 업데이트를
