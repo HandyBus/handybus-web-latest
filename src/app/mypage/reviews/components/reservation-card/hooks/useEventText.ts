@@ -38,13 +38,13 @@ const useEventText = ({ reservation, event, dailyEvent }: Props) => {
       );
     const fromDestinationStartHub =
       reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
-        (hub) =>
-          hub.shuttleRouteHubId ===
-          reservation.fromDestinationShuttleRouteHubId,
+        (hub) => hub.role === 'DESTINATION',
       );
     const fromDestinationEndHub =
       reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
-        (hub) => hub.role === 'DESTINATION',
+        (hub) =>
+          hub.shuttleRouteHubId ===
+          reservation.fromDestinationShuttleRouteHubId,
       );
 
     let hubText = '';
