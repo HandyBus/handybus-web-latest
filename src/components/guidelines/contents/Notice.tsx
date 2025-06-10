@@ -77,9 +77,13 @@ const Notice = () => {
         <h5 className={TITLE_STYLE}>[핸디팟]</h5>
         <div className="space-y-12">
           <article>
+            <h6 className={SUB_TITLE_STYLE}>
+              현재 ‘왕복’ 노선은 ‘가는편’ 과 ‘오는편’ 별개의 노선으로 운행 및
+              취소될 수 있습니다.
+            </h6>
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
             <ul className={TEXT_STYLE}>
-              <li>핸디팟 예약은 탑승 2일 전까지 가능합니다.</li>
+              <li>핸디팟 예약은 탑승 3일 전까지 가능합니다.</li>
               <li>
                 최소 인원 미달로 인해 예약이 취소되거나, 경유 노선으로 운행될 수
                 있습니다. (경유로 인한 취소/환불 불가)
@@ -87,7 +91,7 @@ const Notice = () => {
               <li>
                 예약이 취소되거나 경유 노선으로 진행되는 경우, 탑승 5일 전까지
                 개별 안내드립니다. (인원 미달로 인한 예약 취소 시, 수수료 없이
-                전액 자동 환불처리)
+                무산 노선 건에 대한 금액 자동 환불처리)
               </li>
             </ul>
           </article>

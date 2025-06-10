@@ -7,7 +7,7 @@ import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 const AnnouncementPreview = async () => {
   const announcements = await getAnnouncements();
   const announcementsSorted = announcements?.sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    return dayjs(b.createdAt).diff(dayjs(a.createdAt));
   });
 
   return (

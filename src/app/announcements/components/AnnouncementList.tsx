@@ -3,6 +3,7 @@
 import { useGetAnnouncements } from '@/services/core.service';
 import AnnouncementItem from './AnnouncementItem';
 import LoadingCircle from 'public/icons/loading-circle.svg';
+import dayjs from 'dayjs';
 
 export const READ_NOTICE_LIST_KEY = 'readNoticeList';
 
@@ -16,7 +17,7 @@ const AnnouncementList = () => {
   const { data: announcements, isLoading } = useGetAnnouncements();
 
   const announcementsSorted = announcements?.sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    return dayjs(b.createdAt).diff(dayjs(a.createdAt));
   });
 
   return (
