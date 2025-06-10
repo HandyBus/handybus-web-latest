@@ -10,9 +10,7 @@ import ReviewProperty from '@/components/review/ReviewProperty';
 export const revalidate = DEFAULT_SSG_REVALIDATE_TIME;
 
 const PromotionReview = async () => {
-  const paginatedReviews = await getReviewsWithPagination({
-    revalidate: DEFAULT_SSG_REVALIDATE_TIME,
-  });
+  const paginatedReviews = await getReviewsWithPagination();
 
   const top3 = paginatedReviews.reviews
     .slice(0, 10)

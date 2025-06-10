@@ -39,25 +39,31 @@ export const useGetUserReviews = () =>
   });
 
 interface GetReviewsWithPaginationOptions {
-  revalidate?: number;
   limit: number;
   page?: string;
   eventId?: string;
   userId?: string;
+  orderBy?: 'eventName' | 'userNickname' | 'rating';
+  additionalOrderOptions?: 'ASC' | 'DESC';
 }
 
 export const getReviewsWithPagination = async ({
   limit = DEFAULT_PAGINATION_LIMIT,
   page,
   eventId,
-  userId,
-  revalidate,
+  orderBy,
+  additionalOrderOptions,
 }: Partial<GetReviewsWithPaginationOptions> = {}) => {
-  const searchParams = toSearchParams({ limit, page, eventId, userId });
+  const searchParams = toSearchParams({
+    limit,
+    page,
+    eventId,
+    orderBy,
+    additionalOrderOptions,
+  });
   const res = await instance.get(
     `/v2/shuttle-operation/reviews?${searchParams.toString()}`,
     {
-      next: { revalidate },
       shape: withPagination({ reviews: ReviewsViewEntitySchema.array() }),
     },
   );
@@ -74,10 +80,6 @@ export const useGetReviewsWithPagination = (
     initialPageParam: undefined,
     initialData: { pages: [], pageParams: [] },
     getNextPageParam: (lastPage) => lastPage.nextPage,
-    select: (data) => ({
-      reviews: (data.pages ?? []).flatMap((page) => page.reviews),
-      totalCount: data.pages?.[0]?.totalCount ?? 0,
-    }),
   });
 
 export const getReview = async (reviewId: string) => {
