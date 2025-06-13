@@ -6,7 +6,11 @@ import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import { useMemo } from 'react';
 import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { calculateRefundFee, getIsRefundable } from '@/utils/reservation.util';
+import {
+  calculateRefundFee,
+  calculateRefundFeeRate,
+  getIsRefundable,
+} from '@/utils/reservation.util';
 import { useRouter } from 'next/navigation';
 
 interface Props extends BottomSheetRefs {
@@ -28,13 +32,18 @@ const CancelBottomSheet = ({
     },
   });
 
+  const refundFeeRate = useMemo(
+    () => calculateRefundFeeRate(reservation),
+    [reservation],
+  );
+
   const handleSubmit = () => {
     if (!reservation || !reservation.paymentId) {
       return;
     }
     postRefund({
       paymentId: reservation.paymentId,
-      refundReason: '자동 승인 환불 요청',
+      refundReason: `자동 승인 환불 요청 ${refundFeeRate ? `(수수료 ${refundFeeRate} 제외)` : ''}`,
     });
   };
 
