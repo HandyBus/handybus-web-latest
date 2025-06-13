@@ -6,6 +6,24 @@ import {
   ReservationStatusEnum,
 } from './reservation.type';
 
+// ----- ENUM -----
+
+export const REFUND_FEE_RATE = {
+  NO_FEE: '',
+  TWENTY_FIVE_PERCENT: '25%',
+  FIFTY_PERCENT: '50%',
+  HUNDRED_PERCENT: '100%',
+} as const;
+
+export const RefundFeeRateEnum = z.enum([
+  REFUND_FEE_RATE.NO_FEE,
+  REFUND_FEE_RATE.TWENTY_FIVE_PERCENT,
+  REFUND_FEE_RATE.FIFTY_PERCENT,
+  REFUND_FEE_RATE.HUNDRED_PERCENT,
+]);
+
+export type RefundFeeRate = z.infer<typeof RefundFeeRateEnum>;
+
 // ----- GET -----
 
 export const RefundRequestsInPaymentsViewEntitySchema = z

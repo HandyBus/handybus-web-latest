@@ -18,6 +18,8 @@ const RegularPriceContent = ({
   const regularPrice = payment.principalAmount / passengerCount;
   const totalEarlybirdDiscountAmount = payment.earlybirdDiscountAmount;
   const totalCouponDiscountAmount = payment.couponDiscountAmount;
+  const hasRefundRequests =
+    payment?.refundRequests && payment.refundRequests.length > 0;
 
   const paymentAt = dateString(payment.createdAt, {
     showYear: true,
@@ -29,8 +31,14 @@ const RegularPriceContent = ({
   return (
     <div className="flex flex-col gap-8">
       <li className="flex h-[22px] w-full items-center justify-between">
-        <span className="text-14 font-600">결제 금액</span>
-        <span className="text-14 font-600 text-brand-primary-400">
+        <span className="text-14 font-600">
+          결제 {hasRefundRequests ? '총액' : '금액'}
+        </span>
+        <span
+          className={`text-14 font-600 ${
+            !hasRefundRequests && 'text-brand-primary-400'
+          }`}
+        >
           {paymentAmount.toLocaleString()}원
         </span>
       </li>

@@ -14,6 +14,14 @@ const RefundRequestList = ({ refundRequests }: Props) => {
   if (!refundRequests || refundRequests.length === 0) return;
   return (
     <>
+      <li className="flex h-[22px] w-full items-center justify-between">
+        <span className="flex items-center gap-4 text-14 font-400 text-basic-red-300">
+          <ArrowDownwardTipRightIcon /> 결제 취소
+        </span>
+        <span className="text-14 font-400 text-basic-red-300">
+          {totalRefundAmount?.toLocaleString()}원
+        </span>
+      </li>
       <div className="my-16 h-[1px] w-full bg-basic-grey-100" />
       <div className="flex h-[22px] w-full items-center justify-between">
         <span className="text-14 font-600">환불 총액</span>
