@@ -1,6 +1,7 @@
 import { PaymentsViewEntity } from '@/types/payment.type';
 import ArrowDownwardTipRightIcon from '../icons/arrow-downward-tip-right.svg';
 import { dateString } from '@/utils/dateString.util';
+import RefundRequestList from './RefundRequestList';
 
 interface Props {
   payment: PaymentsViewEntity;
@@ -77,6 +78,7 @@ const RegularPriceContent = ({
           않습니다.
         </div>
       )}
+      <RefundRequestList refundRequests={payment.refundRequests} />
     </div>
   );
 };
