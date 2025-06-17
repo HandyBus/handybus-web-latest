@@ -61,12 +61,12 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
             </button>
             {isDemandOpenAndReservationClosed && (
               <Button
-                variant="secondary"
+                variant="primary"
                 size="small"
                 className="absolute right-0 top-1/2 w-100 -translate-y-1/2"
                 onClick={() => handleDateClick(dailyEvent)}
               >
-                전지역 수요조사 중
+                수요조사 참여하기
               </Button>
             )}
           </div>
