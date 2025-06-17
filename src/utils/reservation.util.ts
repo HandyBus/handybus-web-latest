@@ -105,15 +105,16 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
 
 export const calculateRefundFeeRate = (
   reservation: ReservationsViewEntity | null,
+  paymentCreatedAt: string,
+  refundCreatedAt: string | null,
 ): RefundFeeRate | null => {
-  if (!reservation) {
+  if (!reservation || !refundCreatedAt) {
     return null;
   }
-  // 24시간 이내 전액 환불
-  const nowTime = dayjs().tz();
-  const paymentTime = dayjs(reservation.paymentCreatedAt).tz();
+  const paymentTime = dayjs(paymentCreatedAt).tz();
+  const refundTime = dayjs(refundCreatedAt).tz();
 
-  if (nowTime.diff(paymentTime, 'hours') <= 24) {
+  if (refundTime.diff(paymentTime, 'hours') <= 24) {
     return REFUND_FEE_RATE.NO_FEE;
   }
 
@@ -130,9 +131,9 @@ export const calculateRefundFeeRate = (
     return null;
   }
   const boardingDate = boardingTime.startOf('day');
-  const nowDate = dayjs().tz().startOf('day');
+  const refundDate = refundTime.startOf('day');
 
-  const dDay = boardingDate.diff(nowDate, 'day');
+  const dDay = boardingDate.diff(refundDate, 'day');
 
   let refundFeeRate: RefundFeeRate = REFUND_FEE_RATE.NO_FEE;
 

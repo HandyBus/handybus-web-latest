@@ -1,12 +1,17 @@
-import { RefundRequestsInPaymentsViewEntity } from '@/types/payment.type';
+import {
+  RefundFeeRate,
+  RefundRequestsInPaymentsViewEntity,
+} from '@/types/payment.type';
 import ArrowDownwardTipRightIcon from '../icons/arrow-downward-tip-right.svg';
 import { dateString } from '@/utils/dateString.util';
+import { USER_CANCELLATION_FEE_REASON } from '@/constants/common';
 
 interface Props {
   refundRequests: RefundRequestsInPaymentsViewEntity[] | null;
+  userCancellationFee: RefundFeeRate | null;
 }
 
-const RefundRequestList = ({ refundRequests }: Props) => {
+const RefundRequestList = ({ refundRequests, userCancellationFee }: Props) => {
   const totalRefundAmount = refundRequests?.reduce((acc, curr) => {
     return acc + curr.refundAmount;
   }, 0);
@@ -39,6 +44,9 @@ const RefundRequestList = ({ refundRequests }: Props) => {
               <span className="flex items-center gap-4">
                 <ArrowDownwardTipRightIcon />
                 환불 사유 | {refundRequest.refundReason}
+                {refundRequest.refundReason === USER_CANCELLATION_FEE_REASON &&
+                  userCancellationFee &&
+                  ` (${'취소 수수료' + userCancellationFee + '제외'})`}
               </span>
               <span>{refundRequest.refundAmount.toLocaleString()}원</span>
             </div>

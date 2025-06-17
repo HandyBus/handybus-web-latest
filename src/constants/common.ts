@@ -11,3 +11,5 @@ export const LONG_QUERY_STALE_TIME = 5 * 60 * 1000; // 5분
 export const MAX_PASSENGER_COUNT = 9; // 한번에 예약 가능한 최대 인원 수 (9명)
 
 export const MAX_HANDY_DISCOUNT_AMOUNT = 40000; // 핸디 할인 최대 금액 (4만원)
+
+export const USER_CANCELLATION_FEE_REASON = '자동 승인 환불 요청';
