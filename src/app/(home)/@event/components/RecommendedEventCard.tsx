@@ -1,7 +1,6 @@
 'use client';
 
 import Chip from '@/components/chips/Chip';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import {
   EventType,
@@ -36,10 +35,7 @@ const RecommendedEventCard = ({ events }: Props) => {
 
   return (
     <section>
-      <CardSection
-        richTitle={`${dayjs().format('M')}월 추천 행사`}
-        showMore="/event"
-      >
+      <CardSection richTitle={`이달의 추천 행사`} showMore="/event">
         {availableEventTypes.length > 1 && (
           <div className="flex gap-8 pb-16">
             {availableEventTypes.map((eventType) => (
