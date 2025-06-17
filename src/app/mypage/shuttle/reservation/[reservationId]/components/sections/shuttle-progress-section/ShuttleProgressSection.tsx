@@ -13,6 +13,7 @@ interface Props {
   isOpenChatLinkCreated: boolean;
   handyStatus: HandyStatus;
   shuttleBus: ShuttleBusesViewEntity | null | undefined;
+  isTaxiRoute: boolean;
 }
 
 const ShuttleProgressSection = ({
@@ -21,6 +22,7 @@ const ShuttleProgressSection = ({
   isOpenChatLinkCreated,
   handyStatus,
   shuttleBus,
+  isTaxiRoute,
 }: Props) => {
   const isHandy = handyStatus === 'ACCEPTED';
 
@@ -125,7 +127,8 @@ const ShuttleProgressSection = ({
           <p className="pb-8 text-14 font-500 text-basic-grey-700">
             {descriptionText}
           </p>
-          {reservationProgress !== 'shuttleEnded' &&
+          {!isTaxiRoute &&
+            reservationProgress !== 'shuttleEnded' &&
             reservationProgress !== 'reservationCanceled' && (
               <p className="flex items-center gap-[2px]">
                 <CheckIcon />
