@@ -82,6 +82,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               handyStatus={handyStatus}
               shuttleBus={shuttleBus}
+              isTaxiRoute={!!isTaxiRoute}
             />
           </WrapperWithDivider>
         )}
