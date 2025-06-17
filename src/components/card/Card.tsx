@@ -91,7 +91,7 @@ const LargeCard = ({
         className={`rounded-[13px] object-cover`}
       />
       {order && (
-        <div className="fixed left-0 right-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order">
+        <div className="absolute left-0 right-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order">
           {order}
         </div>
       )}
