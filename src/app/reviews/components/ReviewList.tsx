@@ -12,24 +12,26 @@ import { useMemo, useState } from 'react';
 export type ReviewSortType = 'DATE_DESC' | 'RATING_DESC' | 'RATING_ASC';
 
 const ReviewList = () => {
-  const { data, fetchNextPage, isFetching, hasNextPage } =
-    useGetReviewsWithPagination();
+  const [sort, setSort] = useState<ReviewSortType>('DATE_DESC');
+  const {
+    data: reviewPages,
+    fetchNextPage,
+    isFetching,
+    hasNextPage,
+  } = useGetReviewsWithPagination({
+    orderBy: sort === 'DATE_DESC' ? undefined : 'rating',
+    additionalOrderOptions:
+      sort === 'DATE_DESC'
+        ? undefined
+        : sort === 'RATING_DESC'
+          ? 'DESC'
+          : 'ASC',
+  });
+  const reviews = useMemo(() => {
+    return reviewPages?.pages.flatMap((page) => page.reviews) ?? [];
+  }, [reviewPages]);
 
   const ref = useInfiniteScroll(fetchNextPage);
-
-  const [sort, setSort] = useState<ReviewSortType>('DATE_DESC');
-
-  const sortedReviews = useMemo(() => {
-    return data.reviews.sort((a, b) => {
-      if (sort === 'RATING_ASC') {
-        return a.rating - b.rating;
-      }
-      if (sort === 'RATING_DESC') {
-        return b.rating - a.rating;
-      }
-      return b.createdAt.localeCompare(a.createdAt);
-    });
-  }, [sort, data.reviews]);
 
   return (
     <>
@@ -38,7 +40,7 @@ const ReviewList = () => {
       <div className="h-8 bg-basic-grey-50" />
       <section className="mt-32 flex flex-col gap-16 px-16">
         <FilterButton sort={sort} onSort={setSort} />
-        {sortedReviews.map((review) => (
+        {reviews.map((review) => (
           <ReviewItem key={review.reviewId} review={review} />
         ))}
         {!isFetching && hasNextPage && (
