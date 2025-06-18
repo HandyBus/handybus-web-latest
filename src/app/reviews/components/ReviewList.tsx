@@ -12,7 +12,7 @@ import { useMemo, useState } from 'react';
 export type ReviewSortType = 'DATE_DESC' | 'RATING_DESC' | 'RATING_ASC';
 
 const ReviewList = () => {
-  const [sort, setSort] = useState<ReviewSortType>('DATE_DESC');
+  const [sort, setSort] = useState<ReviewSortType>('RATING_DESC');
   const {
     data: reviewPages,
     fetchNextPage,

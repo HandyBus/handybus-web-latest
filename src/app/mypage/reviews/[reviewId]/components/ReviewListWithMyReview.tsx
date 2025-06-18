@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ReviewListWithMyReview = ({ reviewId }: Props) => {
-  const [sort, setSort] = useState<ReviewSortType>('DATE_DESC');
+  const [sort, setSort] = useState<ReviewSortType>('RATING_DESC');
   const {
     data: reviewPages,
     fetchNextPage,
