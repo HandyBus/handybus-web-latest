@@ -121,9 +121,9 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
                   <Button
                     variant="tertiary"
                     size="small"
-                    onClick={handleClickAndStopPropagation(() => {
-                      toast.success('개발 중 . . .');
-                    })}
+                    onClick={handleClickAndStopPropagation(
+                      handleDeleteAlertRequest,
+                    )}
                   >
                     알림 취소
                   </Button>
