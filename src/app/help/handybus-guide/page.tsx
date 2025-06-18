@@ -21,14 +21,20 @@ import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import Header from '@/components/header/Header';
 import Tabs from '@/components/tab/Tabs';
 import { ReactNode, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const HandybusGuide = () => {
-  const [currentTab, setCurrentTab] = useState<'SHUTTLE_BUS' | 'HANDY_PARTY'>(
-    'SHUTTLE_BUS',
+  const searchParams = useSearchParams();
+  const tabFromQuery = searchParams.get('tab');
+  const { replace } = useRouter();
+
+  const [currentTab, setCurrentTab] = useState<TabValue>(
+    getTabFromQuery(tabFromQuery),
   );
 
-  const handleChangeTab = (value: 'SHUTTLE_BUS' | 'HANDY_PARTY') => {
+  const handleChangeTab = (value: TabValue) => {
     setCurrentTab(value);
+    replace(`/help/handybus-guide?tab=${getTabQueryValue(value)}`);
   };
 
   return (
@@ -82,6 +88,34 @@ const HandybusGuide = () => {
 };
 
 export default HandybusGuide;
+
+type TabValue = 'SHUTTLE_BUS' | 'HANDY_PARTY';
+type TabQueryValue = 'shuttle-bus' | 'handy-party';
+
+const TAB_QUERY_MAP: Record<TabValue, TabQueryValue> = {
+  SHUTTLE_BUS: 'shuttle-bus',
+  HANDY_PARTY: 'handy-party',
+} as const;
+
+const QUERY_TAB_MAP: Record<TabQueryValue, TabValue> = {
+  'shuttle-bus': 'SHUTTLE_BUS',
+  'handy-party': 'HANDY_PARTY',
+} as const;
+
+const getTabQueryValue = (tab: TabValue): TabQueryValue => {
+  return TAB_QUERY_MAP[tab];
+};
+
+const isValidTabQueryValue = (value: string): value is TabQueryValue => {
+  return value === 'shuttle-bus' || value === 'handy-party';
+};
+
+const getTabFromQuery = (queryValue: string | null): TabValue => {
+  if (queryValue && isValidTabQueryValue(queryValue)) {
+    return QUERY_TAB_MAP[queryValue];
+  }
+  return 'SHUTTLE_BUS';
+};
 
 interface GuideItemProps {
   order: number;
