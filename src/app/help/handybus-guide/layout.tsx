@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: '핸디버스 가이드',
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const HandybusGuideLayout = ({ children }: { children: React.ReactNode }) => {
-  return <Suspense>{children}</Suspense>;
+  return <>{children}</>;
 };
 
 export default HandybusGuideLayout;

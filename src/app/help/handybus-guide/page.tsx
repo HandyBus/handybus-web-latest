@@ -21,11 +21,16 @@ import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import Header from '@/components/header/Header';
 import Tabs from '@/components/tab/Tabs';
 import { ReactNode, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-const HandybusGuide = () => {
-  const searchParams = useSearchParams();
-  const tabFromQuery = searchParams.get('tab');
+interface Props {
+  searchParams: {
+    tab?: string;
+  };
+}
+
+const HandybusGuide = ({ searchParams }: Props) => {
+  const tabFromQuery = searchParams.tab;
   const { replace } = useRouter();
 
   const [currentTab, setCurrentTab] = useState<TabValue>(
@@ -110,7 +115,7 @@ const isValidTabQueryValue = (value: string): value is TabQueryValue => {
   return value === 'shuttle-bus' || value === 'handy-party';
 };
 
-const getTabFromQuery = (queryValue: string | null): TabValue => {
+const getTabFromQuery = (queryValue: string | undefined): TabValue => {
   if (queryValue && isValidTabQueryValue(queryValue)) {
     return QUERY_TAB_MAP[queryValue];
   }
