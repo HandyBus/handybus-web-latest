@@ -104,9 +104,13 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
 
   const recentlyViewedHubId = getRecentlyViewedHubId();
   const recentlyViewedHub = useMemo(() => {
-    return regionsWithHubsPages?.pages?.[0]?.regionHubs.find(
+    const hub = regionsWithHubsPages?.pages?.[0]?.regionHubs.find(
       (hub) => hub.regionHubId === recentlyViewedHubId,
     );
+    if (hub?.name.includes(process.env.NEXT_PUBLIC_TAXI_HUB_NAME ?? '')) {
+      return null;
+    }
+    return hub;
   }, [regionsWithHubsPages, recentlyViewedHubId]);
   const isUserDemandAvailableForRecentlyViewedHub = useMemo(() => {
     if (!recentlyViewedHub || !event) {
