@@ -225,12 +225,12 @@ const Hub = ({
         )}
       </button>
       {!isDuplicate && isSoldOut && (
-        <div className="absolute right-0 top-12 flex w-[158px] items-center gap-8">
+        <div className="absolute right-0 top-12 flex w-fit items-center gap-8">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hub}
           />
-          <span className="text-14 font-600 text-basic-grey-300">
+          <span className="whitespace-nowrap break-keep text-14 font-600 text-basic-grey-300">
             전석 매진
           </span>
         </div>

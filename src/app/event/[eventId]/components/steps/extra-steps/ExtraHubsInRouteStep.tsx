@@ -18,12 +18,13 @@ const ExtraHubsInRouteStep = () => {
         <button
           key={hub.shuttleRouteHubId}
           className="flex w-full items-center justify-between"
+          disabled
         >
           <span className="text-16 font-500 text-basic-grey-600">
             {hub.name}
           </span>
           <Button
-            variant="tertiary"
+            variant="secondary"
             size="small"
             type="button"
             disabled
