@@ -102,7 +102,7 @@ const ReservationHubsStep = ({
       );
   }, [gungusWithHubs, recentlyViewedHubId]);
 
-  const isDemandPossibie = dailyEvent.status === 'OPEN';
+  const isDemandPossible = dailyEvent.status === 'OPEN';
 
   return (
     <section>
@@ -138,13 +138,13 @@ const ReservationHubsStep = ({
                 />
               ))}
             </ul>
-            {index !== gungusWithHubs.length - 1 && (
+            {(index !== gungusWithHubs.length - 1 || isDemandPossible) && (
               <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
             )}
           </article>
         ))}
       </div>
-      {isDemandPossibie && (
+      {isDemandPossible && (
         <div className="flex items-center justify-between gap-8 pb-12">
           <div className="flex h-[26px] items-center gap-4">
             <span className="text-16 font-600 text-basic-grey-700">
