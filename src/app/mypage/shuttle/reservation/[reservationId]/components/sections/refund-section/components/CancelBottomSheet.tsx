@@ -8,6 +8,7 @@ import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { calculateRefundFee, getIsRefundable } from '@/utils/reservation.util';
 import { useRouter } from 'next/navigation';
+import { USER_CANCELLATION_FEE_REASON } from '@/constants/common';
 
 interface Props extends BottomSheetRefs {
   reservation: ReservationsViewEntity | null;
@@ -34,7 +35,7 @@ const CancelBottomSheet = ({
     }
     postRefund({
       paymentId: reservation.paymentId,
-      refundReason: '자동 승인 환불 요청',
+      refundReason: USER_CANCELLATION_FEE_REASON,
     });
   };
 
