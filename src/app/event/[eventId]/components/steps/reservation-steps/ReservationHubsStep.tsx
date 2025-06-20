@@ -102,6 +102,8 @@ const ReservationHubsStep = ({
       );
   }, [gungusWithHubs, recentlyViewedHubId]);
 
+  const isDemandPossibie = dailyEvent.status === 'OPEN';
+
   return (
     <section>
       {recentlyViewedPossibleHubs && (
@@ -118,7 +120,7 @@ const ReservationHubsStep = ({
         </div>
       )}
       <div>
-        {gungusWithHubs.map((gunguWithHubs) => (
+        {gungusWithHubs.map((gunguWithHubs, index) => (
           <article key={gunguWithHubs.gungu}>
             <div className="mb-4 flex h-[26px] items-center gap-[2px]">
               <PinIcon />
@@ -136,26 +138,30 @@ const ReservationHubsStep = ({
                 />
               ))}
             </ul>
-            <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+            {index !== gungusWithHubs.length - 1 && (
+              <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+            )}
           </article>
         ))}
       </div>
-      <div className="flex items-center justify-between gap-8 pb-12">
-        <div className="flex h-[26px] items-center gap-4">
-          <span className="text-16 font-600 text-basic-grey-700">
-            찾는 정류장이 없나요?
-          </span>
-          <Tooltip content="원하는 지역이 보이지 않는다면, 해당 정류장은 수요조사가 진행 중이에요. 셔틀이 열릴 수 있도록 수요조사에 참여해 보세요." />
+      {isDemandPossibie && (
+        <div className="flex items-center justify-between gap-8 pb-12">
+          <div className="flex h-[26px] items-center gap-4">
+            <span className="text-16 font-600 text-basic-grey-700">
+              찾는 정류장이 없나요?
+            </span>
+            <Tooltip content="원하는 지역이 보이지 않는다면, 해당 정류장은 수요조사가 진행 중이에요. 셔틀이 열릴 수 있도록 수요조사에 참여해 보세요." />
+          </div>
+          <Button
+            onClick={toDemandHubsStep}
+            variant="tertiary"
+            size="small"
+            type="button"
+          >
+            요청하기
+          </Button>
         </div>
-        <Button
-          onClick={toDemandHubsStep}
-          variant="tertiary"
-          size="small"
-          type="button"
-        >
-          요청하기
-        </Button>
-      </div>
+      )}
     </section>
   );
 };
