@@ -83,6 +83,7 @@ export default function RootLayout({
             gtag('js', new Date());
             gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
               page_path: window.location.pathname,
+              debug_mode: ${process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production'},
             });
           `,
           }}
