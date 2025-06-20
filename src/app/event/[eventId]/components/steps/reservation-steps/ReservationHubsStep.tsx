@@ -138,7 +138,7 @@ const ReservationHubsStep = ({
                 />
               ))}
             </ul>
-            {index !== gungusWithHubs.length - 1 && (
+            {(index !== gungusWithHubs.length - 1 || isDemandPossible) && (
               <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
             )}
           </article>
