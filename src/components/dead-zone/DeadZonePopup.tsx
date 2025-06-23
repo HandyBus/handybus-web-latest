@@ -5,9 +5,21 @@ import LargeLogo from 'public/icons/logo-large.svg';
 import ChatSolidIcon from 'public/icons/chat-solid.svg';
 import { useState } from 'react';
 import FeedbackScreen from '../feedback/FeedbackScreen';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { useRouter } from 'next/navigation';
 
 const DeadZonePopup = () => {
+  const router = useRouter();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+
+  const handleFeedbackOpen = () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (isLoggedIn) {
+      setIsFeedbackOpen(true);
+    } else {
+      router.push('/login');
+    }
+  };
 
   return (
     <>
@@ -29,7 +41,7 @@ const DeadZonePopup = () => {
           </div>
         </div>
         <button
-          onClick={() => setIsFeedbackOpen(true)}
+          onClick={handleFeedbackOpen}
           type="button"
           className="flex flex-col items-start gap-4 rounded-10 bg-basic-grey-50 p-16"
         >
