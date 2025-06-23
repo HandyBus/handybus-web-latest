@@ -5,7 +5,7 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Header from '@/components/header/Header';
 import { useGetUserAlertRequest } from '@/services/alertRequest.service';
-import Content from './Content';
+import Content from './components/Content';
 
 interface Props {
   params: {
