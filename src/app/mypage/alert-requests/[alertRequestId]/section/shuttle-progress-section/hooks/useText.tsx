@@ -24,7 +24,7 @@ const useText = ({ alertRequest }: Props) => {
       };
     } else {
       return {
-        progressText: `${alertRequest.shuttleRoute.remainingSeatCount}번째로 대기중이에요`,
+        progressText: `${alertRequest.queueIndex}번째로 대기중이에요`,
         descriptionText:
           '대기 순서에 따라 알림을 보내드리고 있어요. 알림 요청 여부와 상관없이 예약은 선착순으로 진행되고 있어요.',
       };
