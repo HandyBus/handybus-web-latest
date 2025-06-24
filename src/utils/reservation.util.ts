@@ -85,7 +85,7 @@ export const calculateRefundFee = (
   } else if (dDay === 6) {
     refundFee = paymentAmount * 0.5;
   } else {
-    refundFee = paymentAmount;
+    return null;
   }
 
   return Math.floor(refundFee);
