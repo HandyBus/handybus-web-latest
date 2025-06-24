@@ -58,8 +58,9 @@ const Notice = () => {
             <h6 className={SUB_TITLE_STYLE}>취소 및 환불 안내</h6>
             <ul className={TEXT_STYLE}>
               <li>
-                탑승 시간을 기준으로 환불 신청 시점에 따라 수수료가 발생합니다.
-                정확한 탑승일은 예약 상세에서 확인할 수 있습니다.
+                예약한 셔틀의 탑승 시간을 기준으로 환불 신청 시점에 따라
+                수수료가 발생합니다. 정확한 탑승일은 예약 상세에서 확인할 수
+                있습니다.
               </li>
               <li>
                 취소 수수료 발생 기간 내에는 행사 주최 측의 사정으로 행사가
@@ -153,6 +154,10 @@ const Notice = () => {
                 취소될 경우에만 전액 환불됩니다.
               </li>
               <li>시간대는 한국 기준으로 적용됩니다.</li>
+              <li>
+                예약한 셔틀의 출발일자/시간을 기준으로 환불 신청 시점에 따라
+                수수료가 발생합니다.
+              </li>
               <div className="mt-12">
                 <RefundTable />
               </div>
@@ -183,7 +188,7 @@ const RefundTable = () => {
         <tbody className="bg-basic-white font-500 text-basic-grey-600">
           <tr className="text-basic-red-400">
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              예약 24시간 이내
+              예약 1시간 이내
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
               수수료 없음

@@ -27,7 +27,7 @@ const RefundSection = ({ isCanceled, reservation }: Props) => {
     <>
       <section className="px-16 py-8">
         <ul className="mb-12 list-inside list-disc pl-8 text-14 font-500 text-basic-grey-500">
-          <li>예약 취소는 탑승 5일 전까지 가능합니다.</li>
+          <li>예약 취소는 탑승 6일 전까지 가능합니다.</li>
           <li>
             문의사항은{' '}
             <a
