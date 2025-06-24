@@ -10,15 +10,28 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </div>
     ),
     th: ({ children }) => (
-      <th className="border-basic-grey-300 bg-basic-grey-100 whitespace-nowrap border px-4 py-[2px] text-left font-400">
+      <th className="whitespace-nowrap border border-basic-grey-300 bg-basic-grey-100 px-4 py-[2px] text-left font-400">
         {children}
       </th>
     ),
     td: ({ children }) => (
-      <td className="py-2 border-basic-grey-300 border px-4">{children}</td>
+      <td className="py-2 border border-basic-grey-300 px-4">{children}</td>
     ),
     p: ({ children }) => (
-      <div className="text-basic-grey-700 text-16 font-400">{children}</div>
+      <div className="text-16 font-400 text-basic-grey-700">{children}</div>
+    ),
+    ol: ({ children }) => (
+      <ol className="space-y-2 list-outside list-decimal pl-20 text-16 font-400 text-basic-grey-700">
+        {children}
+      </ol>
+    ),
+    ul: ({ children }) => (
+      <ul className="space-y-2 list-outside list-disc pl-20 text-16 font-400 text-basic-grey-700">
+        {children}
+      </ul>
+    ),
+    li: ({ children }) => (
+      <li className="text-16 font-400 text-basic-grey-700">{children}</li>
     ),
     ...components,
   };
