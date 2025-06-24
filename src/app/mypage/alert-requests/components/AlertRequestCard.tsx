@@ -3,7 +3,6 @@
 import { dateString } from '@/utils/dateString.util';
 import { ShuttleRouteAlertRequestsViewEntity } from '@/types/alertRequest.type';
 import ArrowRightIcon from '../icons/arrow-right.svg';
-import Link from 'next/link';
 import { useMemo } from 'react';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
@@ -32,6 +31,10 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
     }
+  };
+
+  const handlePushAlertRequestDetail = (alertRequestId: string) => {
+    router.push(`/mypage/alert-requests/${alertRequestId}`);
   };
 
   const event = alertRequest.shuttleRoute.event;
@@ -88,7 +91,7 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
   }, [hasEmptySeat, isReservationEnded, alertRequest.queueIndex]);
 
   return (
-    <Link href={`/event/${event.eventId}`}>
+    <div>
       <article className="flex flex-col gap-16 px-16 py-24">
         <div>
           <div className="flex h-32 items-center justify-between">
@@ -151,7 +154,14 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
           </p>
         </div>
         <div className="h-[1.5px] w-full bg-basic-grey-100" />
-        <div>
+        <button
+          onClick={handleClickAndStopPropagation(() =>
+            handlePushAlertRequestDetail(
+              alertRequest.shuttleRouteAlertRequestId,
+            ),
+          )}
+          className="text-left"
+        >
           <div className="flex items-center">
             <h6 className="line-clamp-1 grow text-16 font-600">{eventName}</h6>
             <ArrowRightIcon className="shrink-0" />
@@ -163,10 +173,10 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
             {formattedEventDate}
           </p>
           <p className="text-12 font-500 text-basic-grey-700">{hubText}</p>
-        </div>
+        </button>
       </article>
       <div className="h-8 w-full bg-basic-grey-50" />
-    </Link>
+    </div>
   );
 };
 
