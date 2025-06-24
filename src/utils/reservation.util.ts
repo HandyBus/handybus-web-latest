@@ -50,11 +50,11 @@ export const calculateRefundFee = (
   if (!reservation) {
     return null;
   }
-  // 24시간 이내 전액 환불
+  // 1시간 이내 전액 환불
   const nowTime = dayjs().tz();
   const paymentTime = dayjs(reservation.paymentCreatedAt).tz();
 
-  if (nowTime.diff(paymentTime, 'hours') <= 24) {
+  if (nowTime.diff(paymentTime, 'hours') <= 1) {
     return 0;
   }
 
