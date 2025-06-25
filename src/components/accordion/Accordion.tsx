@@ -1,3 +1,5 @@
+'use client';
+
 import { customTwMerge } from 'tailwind.config';
 import ArrowDownIcon from './icons/arrow-down.svg';
 import { ReactNode, useRef } from 'react';

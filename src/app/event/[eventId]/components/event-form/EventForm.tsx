@@ -35,6 +35,7 @@ import {
 } from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { useAtom } from 'jotai';
 import Skeleton from 'react-loading-skeleton';
+import { useDemandTracking } from '@/hooks/analytics/useDemandTracking';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -165,6 +166,11 @@ const Content = ({
   };
 
   const handleOpenBottomSheet = () => {
+    // 수요조사 단계에서 바텀시트 열기 시 추적
+    if (phase === 'demand') {
+      trackStepEnter('demand_start');
+    }
+
     if (
       isCheckRouteDetailViewFlow &&
       !isCheckRouteDetailFlowViewed &&
@@ -194,10 +200,21 @@ const Content = ({
     resetBottomSheet();
   };
 
-  const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
-    useBottomSheet({
-      onClose: onBottomSheetClose,
-    });
+  const {
+    bottomSheetRef,
+    contentRef,
+    openBottomSheet,
+    closeBottomSheet,
+    isOpen,
+  } = useBottomSheet({
+    onClose: onBottomSheetClose,
+  });
+
+  const { trackStepEnter, trackComplete } = useDemandTracking({
+    eventId: event.eventId,
+    eventName: event.eventName,
+    isBottomSheetOpen: isOpen,
+  });
 
   const { title: bottomSheetTitle, description: bottomSheetDescription } =
     useBottomSheetText({ stepName, getValues: methods.getValues });
@@ -266,6 +283,8 @@ const Content = ({
                         openAlertRequestFeedbackScreen
                       }
                       phase={phase}
+                      trackStepEnter={trackStepEnter}
+                      trackComplete={trackComplete}
                     />
                   </Step>
                 ))}

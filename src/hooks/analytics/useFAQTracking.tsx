@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useCallback } from 'react';
-import { trackFAQClick } from './analytics.util';
+import { trackFAQClick } from '@/utils/analytics/faqAnalytics.util';
 
 export const useFAQTracking = () => {
   const clickOrderRef = useRef<number>(0);
@@ -13,7 +13,6 @@ export const useFAQTracking = () => {
       position: number,
       action: 'open' | 'close',
     ) => {
-      // 열기 액션일 때만 클릭 순서 증가
       if (action === 'open') {
         clickOrderRef.current += 1;
 

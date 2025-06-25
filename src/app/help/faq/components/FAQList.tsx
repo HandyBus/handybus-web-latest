@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ArrowDownIcon from '../icons/arrow-down.svg';
 import Accordion from '@/components/accordion/Accordion';
 import { faqs } from '@/data/faq';
-import { useFAQTracking } from '@/utils/analytics/useFAQTracking';
+import { useFAQTracking } from '@/hooks/analytics/useFAQTracking';
 
 interface Props {
   selectedTab: 'reservation' | 'boarding' | 'etc';
