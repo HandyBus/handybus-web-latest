@@ -1,6 +1,6 @@
 import { customTwMerge } from 'tailwind.config';
 import ArrowDownIcon from './icons/arrow-down.svg';
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 
 interface Props {
   title: ReactNode;
@@ -8,6 +8,7 @@ interface Props {
   containerClassName?: string;
   titleClassName?: string;
   open?: boolean;
+  onToggle?: (isOpen: boolean) => void;
 }
 
 const Accordion = ({
@@ -16,10 +17,24 @@ const Accordion = ({
   containerClassName,
   titleClassName,
   open = false,
+  onToggle,
 }: Props) => {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  const handleToggle = () => {
+    // details의 상태가 변경된 후 상태보장을 위해 setTimeout 사용
+    setTimeout(() => {
+      if (detailsRef.current && onToggle) {
+        onToggle(detailsRef.current.open);
+      }
+    }, 0);
+  };
+
   return (
     <details
+      ref={detailsRef}
       open={open}
+      onToggle={handleToggle}
       className={customTwMerge(
         'group flex w-full flex-col px-16 [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden',
         containerClassName,
