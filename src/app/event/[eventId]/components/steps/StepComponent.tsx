@@ -27,7 +27,11 @@ interface Props {
   openAlertRequestFeedbackScreen: () => void;
   phase: EventPhase;
   trackStepEnter?: (step: DemandStep) => void;
-  trackComplete?: (selectedHub: string, tripType: string) => void;
+  trackComplete?: (
+    selectedHub: string,
+    tripType: string,
+    eventDate: string,
+  ) => void;
 }
 
 const StepComponent = ({
@@ -47,7 +51,7 @@ const StepComponent = ({
     '[공통] 일자 선택': (
       <CommonDateStep
         toNextStep={() => {
-          trackStepEnter?.('date_selection');
+          trackStepEnter?.('select_date');
           setHistoryAndStep('[공통] 시/도 선택');
         }}
         phase={phase}
@@ -56,7 +60,7 @@ const StepComponent = ({
     '[공통] 시/도 선택': (
       <CommonSidoStep
         toDemandHubsStep={() => {
-          trackStepEnter?.('sido_selection');
+          trackStepEnter?.('select_sido');
           setHistoryAndStep('[수요조사] 정류장 선택');
         }}
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
@@ -67,7 +71,7 @@ const StepComponent = ({
     '[수요조사] 정류장 선택': (
       <DemandHubsStep
         toNextStep={() => {
-          trackStepEnter?.('hub_selection');
+          trackStepEnter?.('select_hub');
           setHistoryAndStep('[수요조사] 좌석 선택');
         }}
       />
@@ -75,7 +79,7 @@ const StepComponent = ({
     '[수요조사] 좌석 선택': (
       <DemandTripTypeStep
         toNextStep={() => {
-          trackStepEnter?.('trip_type_selection');
+          trackStepEnter?.('select_trip_type');
           setHistoryAndStep('[수요조사] 정류장 정보');
         }}
       />

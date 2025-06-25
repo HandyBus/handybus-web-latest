@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 
 export type DemandStep =
-  | 'demand_start'
-  | 'date_selection'
-  | 'sido_selection'
-  | 'hub_selection'
-  | 'trip_type_selection'
-  | 'demand_complete';
+  | 'start_demand'
+  | 'select_date'
+  | 'select_sido'
+  | 'select_hub'
+  | 'select_trip_type'
+  | 'complete_demand';
 
 export const trackDemandStepEnter = (
   step: DemandStep,
@@ -36,7 +36,7 @@ export const trackDemandExit = (
   timeSpentMs?: number,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'demand_exit', {
+    window.gtag('event', 'abandon_demand', {
       event_category: 'demand_funnel',
       demand_step: step,
       exit_type: exitType,
@@ -51,15 +51,17 @@ export const trackDemandExit = (
 export const trackDemandComplete = (
   eventId: string,
   eventName: string,
+  eventDate: string,
   selectedHub: string,
   tripType: string,
   totalTimeMs: number,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'demand_complete', {
+    window.gtag('event', 'complete_demand', {
       event_category: 'demand_funnel',
       event_id: eventId,
       event_name: eventName.substring(0, 100),
+      event_date: eventDate,
       selected_hub: selectedHub.substring(0, 100),
       trip_type: tripType,
       total_time_ms: totalTimeMs,

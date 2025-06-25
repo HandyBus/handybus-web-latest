@@ -26,14 +26,14 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 
 **단계 구분:**
 
-- `demand_start`: 수요조사 참여하기 버튼 클릭
-- `date_selection`: 날짜 선택
-- `sido_selection`: 시/도 선택
-- `hub_selection`: 정류장 선택
-- `trip_type_selection`: 방향 선택 (가는편/오는편/왕복)
-- `demand_complete`: 셔틀 요청 확정
+- `start_demand`: 수요조사 참여하기 버튼 클릭
+- `select_date`: 날짜 선택
+- `select_sido`: 시/도 선택
+- `select_hub`: 정류장 선택
+- `select_trip_type`: 방향 선택 (가는편/오는편/왕복)
+- `complete_demand`: 셔틀 요청 확정
 
-### 2. 이탈 이벤트 (`demand_exit`)
+### 2. 이탈 이벤트 (`abandon_demand`)
 
 사용자가 수요조사 과정에서 이탈할 때 발생
 
@@ -49,10 +49,10 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 
 **이탈 방식 구분:**
 
-- `page_leave`: 페이지 이동, 새로고침, 브라우저 닫기
+- `page_leave`: 페이지 이동, 새로고침, 브라우저 닫기, 브라우저 뒤로가기/앞으로가기
 - `bottom_sheet_close`: 바텀시트 닫힘 (드래그, ESC 키 등)
 
-### 3. 완료 이벤트 (`demand_complete`)
+### 3. 완료 이벤트 (`complete_demand`)
 
 수요조사가 성공적으로 완료되었을 때 발생
 
@@ -61,6 +61,7 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 - `event_category`: 'demand_funnel'
 - `event_id`: 이벤트 ID
 - `event_name`: 이벤트 이름
+- `event_date`: 선택한 이벤트 날짜
 - `selected_hub`: 선택한 정류장명
 - `trip_type`: 선택한 방향 (ROUND_TRIP, TO_DESTINATION, FROM_DESTINATION)
 - `total_time_ms`: 전체 수요조사 소요 시간 (밀리초)
@@ -79,7 +80,7 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 
 - 수요조사 추적 로직을 담은 커스텀 훅
 - 단계별 시간 측정
-- 페이지 이탈 감지 (beforeunload, visibilitychange)
+- 페이지 이탈 감지 (beforeunload, visibilitychange, popstate)
 - 바텀시트 닫힘 감지
 
 ### 3. `src/app/event/[eventId]/components/event-form/EventForm.tsx`
@@ -96,14 +97,6 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 ### 5. `src/app/event/[eventId]/components/steps/demand-steps/DemandHubInfoStep.tsx`
 
 - 수요조사 완료 시 추적 호출
-
-### 6. `src/hooks/useBottomSheet.tsx`
-
-- outside click 감지를 위한 `onOutsideClick` 콜백 추가
-
-### 7. `src/components/bottom-sheet/BottomSheet.tsx`
-
-- 뒤로가기 버튼 클릭 감지를 위한 `onBackClick` 콜백 추가
 
 ## 사용 방법
 
@@ -123,7 +116,7 @@ const { trackStepEnter, trackExit, trackComplete } = useDemandTracking({
 
 ```tsx
 // 단계 변경 시 호출
-trackStepEnter('hub_selection');
+trackStepEnter(step: DemandStep);
 ```
 
 ### 3. 이탈 추적
@@ -137,14 +130,14 @@ trackExit('page_leave');
 
 ```tsx
 // 수요조사 성공 시 호출
-trackComplete('강남역 1번 출구', 'ROUND_TRIP');
+trackComplete(selectedHub: string, tripType: string, eventDate: string);
 ```
 
 ## GA4에서 확인 방법
 
 ### 1. 실시간 보고서
 
-- GA4 > 실시간 > 이벤트에서 `demand_step_enter`, `demand_exit`, `demand_complete` 이벤트 확인
+- GA4 > 실시간 > 이벤트에서 `demand_step_enter`, `abandon_demand`, `complete_demand` 이벤트 확인
 
 ### 2. 맞춤 보고서 생성
 
@@ -156,12 +149,12 @@ trackComplete('강남역 1번 출구', 'ROUND_TRIP');
 ### 3. 퍼널 분석
 
 ```
-1. demand_start (수요조사 시작)
-2. date_selection (날짜 선택)
-3. sido_selection (시/도 선택)
-4. hub_selection (정류장 선택)
-5. trip_type_selection (방향 선택)
-6. demand_complete (완료)
+1. start_demand (수요조사 시작)
+2. select_date (날짜 선택)
+3. select_sido (시/도 선택)
+4. select_hub (정류장 선택)
+5. select_trip_type (방향 선택)
+6. complete_demand (완료)
 ```
 
 ## 기대 효과

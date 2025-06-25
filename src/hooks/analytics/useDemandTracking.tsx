@@ -30,7 +30,7 @@ export const useDemandTracking = ({
         currentStepRef.current = step;
         stepStartTimeRef.current = dayjs();
 
-        if (step === 'demand_start') {
+        if (step === 'start_demand') {
           demandStartTimeRef.current = dayjs();
         }
 
@@ -57,7 +57,7 @@ export const useDemandTracking = ({
   );
 
   const trackComplete = useCallback(
-    (selectedHub: string, tripType: string) => {
+    (selectedHub: string, tripType: string, eventDate: string) => {
       const demandStartTime = demandStartTimeRef.current;
 
       if (demandStartTime) {
@@ -65,6 +65,7 @@ export const useDemandTracking = ({
         trackDemandComplete(
           eventId,
           eventName,
+          eventDate,
           selectedHub,
           tripType,
           totalTimeMs,

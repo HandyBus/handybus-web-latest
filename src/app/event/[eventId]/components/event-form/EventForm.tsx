@@ -168,7 +168,7 @@ const Content = ({
   const handleOpenBottomSheet = () => {
     // 수요조사 단계에서 바텀시트 열기 시 추적
     if (phase === 'demand') {
-      trackStepEnter('demand_start');
+      trackStepEnter('start_demand');
     }
 
     if (
