@@ -76,46 +76,51 @@ const Content = ({
   }, [changePrice, finalPrice]);
 
   const submitPayment = async () => {
-    const parsedFormValues = {
-      shuttleRouteId: shuttleRoute.shuttleRouteId,
-      type: tripType,
-      toDestinationShuttleRouteHubId: toDestinationHubId ?? undefined,
-      fromDestinationShuttleRouteHubId: fromDestinationHubId ?? undefined,
-      isSupportingHandy: isHandyApplied,
-      passengerCount,
-    };
-    const postReservationResponse =
-      await postReserveReservation(parsedFormValues);
+    try {
+      const parsedFormValues = {
+        shuttleRouteId: shuttleRoute.shuttleRouteId,
+        type: tripType,
+        toDestinationShuttleRouteHubId: toDestinationHubId ?? undefined,
+        fromDestinationShuttleRouteHubId: fromDestinationHubId ?? undefined,
+        isSupportingHandy: isHandyApplied,
+        passengerCount,
+      };
+      const postReservationResponse =
+        await postReserveReservation(parsedFormValues);
 
-    const readyPaymentFormValues = {
-      reservationId: postReservationResponse.reservationId,
-      issuedCouponId: selectedCoupon?.issuedCouponId ?? null,
-    };
-    const readyPaymentResponse = await postPreparePayment(
-      readyPaymentFormValues,
-    );
+      const readyPaymentFormValues = {
+        reservationId: postReservationResponse.reservationId,
+        issuedCouponId: selectedCoupon?.issuedCouponId ?? null,
+      };
+      const readyPaymentResponse = await postPreparePayment(
+        readyPaymentFormValues,
+      );
 
-    const baseUrl = window.location.origin + pathname;
-    const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}`;
-    const failUrl = `${baseUrl}/request/fail`;
-    const orderName =
-      `[${shuttleRoute.name}] ${shuttleRoute.event.eventName}`.slice(0, 99);
+      const baseUrl = window.location.origin + pathname;
+      const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}`;
+      const failUrl = `${baseUrl}/request/fail`;
+      const orderName =
+        `[${shuttleRoute.name}] ${shuttleRoute.event.eventName}`.slice(0, 99);
 
-    const onError = (error: CustomError) => {
-      if (error.statusCode === 403) {
-        toast.error('예약이 마감되었어요.');
-        return;
-      }
-      toast.error('잠시 후 다시 시도해 주세요.');
-    };
+      const onError = (error: CustomError) => {
+        if (error.statusCode === 403) {
+          toast.error('예약이 마감되었어요.');
+          return;
+        }
+        toast.error('잠시 후 다시 시도해 주세요.');
+      };
 
-    await requestPayment({
-      orderId: readyPaymentResponse.paymentId,
-      orderName,
-      successUrl,
-      failUrl,
-      onError,
-    });
+      await requestPayment({
+        orderId: readyPaymentResponse.paymentId,
+        orderName,
+        successUrl,
+        failUrl,
+        onError,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error('결제에 실패했어요. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   // TODO: 임시로 핸디팟 노선 처리
