@@ -14,7 +14,7 @@ export const trackDemandStepEnter = (
   eventName: string,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'demand_step_enter', {
+    window.gtag('event', 'enter_demand_step', {
       event_category: 'demand_funnel',
       demand_step: step,
       event_id: eventId,

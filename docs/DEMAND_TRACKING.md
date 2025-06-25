@@ -12,7 +12,7 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 
 ## 추적되는 이벤트
 
-### 1. 단계 진입 이벤트 (`demand_step_enter`)
+### 1. 단계 진입 이벤트 (`enter_demand_step`)
 
 사용자가 각 수요조사 단계에 진입할 때 발생
 
@@ -137,7 +137,7 @@ trackComplete(selectedHub: string, tripType: string, eventDate: string);
 
 ### 1. 실시간 보고서
 
-- GA4 > 실시간 > 이벤트에서 `demand_step_enter`, `abandon_demand`, `complete_demand` 이벤트 확인
+- GA4 > 실시간 > 이벤트에서 `enter_demand_step`, `abandon_demand`, `complete_demand` 이벤트 확인
 
 ### 2. 맞춤 보고서 생성
 
