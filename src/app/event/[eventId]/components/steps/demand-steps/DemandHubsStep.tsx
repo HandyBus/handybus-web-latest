@@ -96,8 +96,6 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
     return gungusWithDemandStats;
   }, [regionsWithHubsPages, demandStats, prioritySido]);
 
-  console.log('gungusWithHubs', gungusWithHubs);
-
   const handleHubClick = (hub: RegionHubsResponseModel) => {
     setValue('selectedHubForDemand', hub);
     setRecentlyViewedHubId(hub.regionHubId);
