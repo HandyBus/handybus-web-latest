@@ -17,6 +17,7 @@ interface Props {
   addOpenedHubIndex: (index: number) => void;
   removeOpenedHubIndex: (index: number) => void;
   isKakaoMapScriptLoaded: boolean;
+  hideTime?: boolean;
 }
 
 const Hub = ({
@@ -28,6 +29,7 @@ const Hub = ({
   addOpenedHubIndex,
   removeOpenedHubIndex,
   isKakaoMapScriptLoaded,
+  hideTime = false,
 }: Props) => {
   const formattedTime = dateString(hub.arrivalTime, {
     showYear: false,
@@ -58,7 +60,7 @@ const Hub = ({
       <summary className="w-full cursor-pointer list-none">
         <div className="flex w-full items-center gap-[9px]">
           <span
-            className={`shrink-0 text-12 font-500 ${
+            className={`w-[55px] shrink-0 text-12 font-500 ${
               type === 'eventDestination'
                 ? 'text-basic-grey-700'
                 : type === 'primary'
@@ -68,7 +70,7 @@ const Hub = ({
                     : 'text-basic-grey-500'
             }`}
           >
-            {formattedTime}
+            {!hideTime && formattedTime}
           </span>
           <span
             className={`line-clamp-1 grow text-14 font-500 ${

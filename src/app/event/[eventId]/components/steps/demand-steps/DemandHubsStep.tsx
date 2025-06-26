@@ -178,7 +178,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
                           : 'text-basic-grey-500'
                       }`}
                     >
-                      {gunguWithHubs.demandCount}명이 요청했어요
+                      {/* {gunguWithHubs.demandCount}명이 요청했어요 */}
                     </span>
                   )}
                 </p>
