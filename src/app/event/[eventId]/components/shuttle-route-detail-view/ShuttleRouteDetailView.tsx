@@ -14,6 +14,8 @@ import {
 import { dailyEventIdsWithRoutesAtom } from '../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../store/dailyEventIdsWithHubsAtom';
 
+const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
+
 // eventDestination: 행사 도착지
 // primary: 선택된 정류장
 // secondary: 경유 정류장 (유저 입장)
@@ -118,6 +120,18 @@ const ShuttleRouteDetailView = () => {
     return null;
   }
 
+  // TODO: 임시로 핸디팟 노선 처리
+  const isTaxiRoute = !!(
+    !!TAXI_HUB_PREFIX &&
+    !!shuttleRoute &&
+    (shuttleRoute.toDestinationShuttleRouteHubs?.some((hub) =>
+      hub.name?.includes(TAXI_HUB_PREFIX),
+    ) ||
+      shuttleRoute.fromDestinationShuttleRouteHubs?.some((hub) =>
+        hub.name?.includes(TAXI_HUB_PREFIX),
+      ))
+  );
+
   return (
     <div ref={sectionRef}>
       <div className="h-8 w-full bg-basic-grey-50" />
@@ -175,6 +189,7 @@ const ShuttleRouteDetailView = () => {
               tripType={currentTab}
               addOpenedHubIndex={addOpenedHubIndex}
               removeOpenedHubIndex={removeOpenedHubIndex}
+              isTaxiRoute={isTaxiRoute}
             />
           </div>
         </div>
