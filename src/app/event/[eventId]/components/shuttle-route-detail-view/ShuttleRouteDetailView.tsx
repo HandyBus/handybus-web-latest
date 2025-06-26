@@ -93,10 +93,16 @@ const ShuttleRouteDetailView = () => {
   );
 
   useEffect(() => {
-    if (shuttleRoute && toDestinationHubs.length === 0) {
-      setCurrentTab('FROM_DESTINATION');
+    if (!shuttleRoute) {
+      return;
     }
-  }, [shuttleRoute, toDestinationHubs]);
+
+    if (toDestinationHubs.length === 0) {
+      setCurrentTab('FROM_DESTINATION');
+    } else {
+      setCurrentTab('TO_DESTINATION');
+    }
+  }, [shuttleRoute, toDestinationHubs, fromDestinationHubs]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollToSection = () => {
@@ -146,12 +152,12 @@ const ShuttleRouteDetailView = () => {
               {
                 label: '가는 편',
                 value: 'TO_DESTINATION',
-                disabled: !toDestinationHubs.length,
+                disabled: toDestinationHubs.length === 0,
               },
               {
                 label: '오는 편',
                 value: 'FROM_DESTINATION',
-                disabled: !fromDestinationHubs.length,
+                disabled: fromDestinationHubs.length === 0,
               },
             ] as const
           }
