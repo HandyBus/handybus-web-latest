@@ -1,6 +1,8 @@
 import { RefundRequestsInPaymentsViewEntity } from '@/types/payment.type';
 import ArrowDownwardTipRightIcon from '../icons/arrow-downward-tip-right.svg';
 import { dateString } from '@/utils/dateString.util';
+import { REFUND_INFO_TEXT } from '@/constants/common';
+import InfoIcon from 'public/icons/info.svg';
 
 interface Props {
   refundRequests: RefundRequestsInPaymentsViewEntity[] | null;
@@ -24,7 +26,10 @@ const RefundRequestList = ({ refundRequests }: Props) => {
       </li>
       <div className="my-16 h-[1px] w-full bg-basic-grey-100" />
       <div className="flex h-[22px] w-full items-center justify-between">
-        <span className="text-14 font-600">환불 총액 </span>
+        <div className="flex items-center gap-[2px] text-14 font-600">
+          <p>환불 총액</p>
+          <RefundInfoTooltip content={REFUND_INFO_TEXT} />
+        </div>
         <span className="text-14 font-600 text-basic-red-400">
           {totalRefundAmount?.toLocaleString()}원
         </span>
@@ -56,3 +61,18 @@ const RefundRequestList = ({ refundRequests }: Props) => {
 };
 
 export default RefundRequestList;
+
+interface RefundInfoTooltipProps {
+  content: string;
+}
+
+const RefundInfoTooltip = ({ content }: RefundInfoTooltipProps) => {
+  return (
+    <div className="group relative inline-flex cursor-pointer">
+      <InfoIcon />
+      <div className="absolute top-full hidden w-max max-w-188 break-keep rounded-6 bg-basic-grey-50 p-8 text-12 font-500 leading-[160%] text-basic-grey-500 group-hover:inline">
+        {content}
+      </div>
+    </div>
+  );
+};
