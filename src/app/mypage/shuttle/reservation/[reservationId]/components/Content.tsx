@@ -17,8 +17,6 @@ import RefundSection from './sections/refund-section/RefundSection';
 import PrimaryCheckIcon from '../icons/icon-check-primary.svg';
 import GreyCheckIcon from '../icons/icon-check-grey.svg';
 import WrapperWithDivider from './WrapperWithDivider';
-import { calculateRefundFeeRate } from '@/utils/reservation.util';
-import { useMemo } from 'react';
 
 const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
 
@@ -71,14 +69,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         hub.name?.includes(TAXI_HUB_PREFIX),
       ));
 
-  const refundCreatedAt = useMemo(() => {
-    return (
-      payment.refundRequests?.find(
-        (r) => r.refundReason === '자동 승인 환불 요청',
-      )?.refundAt ?? null
-    );
-  }, [payment.refundRequests]);
-
   return (
     <main className="grow pb-16">
       <Title progress={reservationProgress} />
@@ -126,11 +116,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             passengerCount={reservation.passengerCount}
             isCanceled={isCanceled}
             isHandySupported={handyStatus !== 'NOT_SUPPORTED'}
-            userCancellationFee={calculateRefundFeeRate(
-              reservation,
-              payment.createdAt,
-              refundCreatedAt,
-            )}
           />
         </WrapperWithDivider>
         <GuidelineSection />

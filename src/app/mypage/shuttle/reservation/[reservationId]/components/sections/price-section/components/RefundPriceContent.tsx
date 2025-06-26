@@ -1,12 +1,11 @@
-import { PaymentsViewEntity, RefundFeeRate } from '@/types/payment.type';
+import { PaymentsViewEntity } from '@/types/payment.type';
 import RefundRequestList from './RefundRequestList';
 
 interface Props {
   payment: PaymentsViewEntity;
-  userCancellationFee: RefundFeeRate | null;
 }
 
-const RefundPriceContent = ({ payment, userCancellationFee }: Props) => {
+const RefundPriceContent = ({ payment }: Props) => {
   const paymentAmount = payment.paymentAmount;
 
   return (
@@ -17,10 +16,7 @@ const RefundPriceContent = ({ payment, userCancellationFee }: Props) => {
           {paymentAmount.toLocaleString()}원
         </span>
       </li>
-      <RefundRequestList
-        refundRequests={payment.refundRequests}
-        userCancellationFee={userCancellationFee}
-      />
+      <RefundRequestList refundRequests={payment.refundRequests} />
     </div>
   );
 };

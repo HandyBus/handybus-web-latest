@@ -86,10 +86,7 @@ const RegularPriceContent = ({
           않습니다.
         </div>
       )}
-      <RefundRequestList
-        refundRequests={payment.refundRequests}
-        userCancellationFee={null}
-      />
+      <RefundRequestList refundRequests={payment.refundRequests} />
     </div>
   );
 };
