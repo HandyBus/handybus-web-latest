@@ -96,7 +96,7 @@ const ShuttleRouteDetailView = () => {
     if (shuttleRoute && toDestinationHubs.length === 0) {
       setCurrentTab('FROM_DESTINATION');
     }
-  }, [toDestinationHubs]);
+  }, [shuttleRoute, toDestinationHubs]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollToSection = () => {
@@ -143,8 +143,16 @@ const ShuttleRouteDetailView = () => {
         <Tabs
           items={
             [
-              { label: '가는 편', value: 'TO_DESTINATION' },
-              { label: '오는 편', value: 'FROM_DESTINATION' },
+              {
+                label: '가는 편',
+                value: 'TO_DESTINATION',
+                disabled: !toDestinationHubs.length,
+              },
+              {
+                label: '오는 편',
+                value: 'FROM_DESTINATION',
+                disabled: !fromDestinationHubs.length,
+              },
             ] as const
           }
           selected={currentTab}
