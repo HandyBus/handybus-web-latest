@@ -10,6 +10,8 @@ import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import Button from '@/components/buttons/button/Button';
 import { EventPhase } from '@/utils/event.util';
+import { useGetDemandStats } from '@/services/demand.service';
+import { useMemo } from 'react';
 
 interface Props {
   toNextStep: () => void;
@@ -18,8 +20,6 @@ interface Props {
 
 const CommonDateStep = ({ toNextStep, phase }: Props) => {
   const event = useAtomValue(eventAtom);
-  const dailyEvents =
-    event?.dailyEvents?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date))) ?? [];
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
 
   const { setValue } = useFormContext<EventFormValues>();
@@ -32,42 +32,75 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
     toNextStep();
   };
 
+  const { data: demandStats } = useGetDemandStats(
+    {
+      groupBy: 'DAILY_EVENT',
+      eventId: event?.eventId,
+    },
+    { enabled: !!event?.eventId },
+  );
+
+  const dailyEventWithDemandStats = useMemo(() => {
+    if (!event?.dailyEvents || !demandStats) {
+      return [];
+    }
+    const dailyEvents = event.dailyEvents.sort((a, b) =>
+      dayjs(a.date).diff(dayjs(b.date)),
+    );
+    return dailyEvents.map((dailyEvent) => {
+      const demandStat = demandStats?.find(
+        (stat) => stat.dailyEventId === dailyEvent.dailyEventId,
+      );
+      return { ...dailyEvent, demandStat };
+    });
+  }, [demandStats, event?.dailyEvents]);
+
   return (
     <section className="flex flex-col gap-8">
-      {dailyEvents.map((dailyEvent) => {
-        const isDemandOpen = dailyEvent.status === 'OPEN';
+      {dailyEventWithDemandStats.map((dailyEventWithDemandStat) => {
+        const isDemandPhase = phase === 'demand';
+        const isDemandOpen = dailyEventWithDemandStat.status === 'OPEN';
         const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
-          dailyEvent.dailyEventId,
+          dailyEventWithDemandStat.dailyEventId,
         );
-        const isEventEnded = !isDemandOpen && !isReservationOpen;
-        const isDemandOpenAndReservationClosed =
+        const isDailyEventEnded = !isDemandOpen && !isReservationOpen;
+        const onlyDemandPossibleDuringReservationPhase =
           isDemandOpen && !isReservationOpen && phase === 'reservation';
         return (
-          <div key={dailyEvent.dailyEventId} className="relative">
+          <div key={dailyEventWithDemandStat.dailyEventId} className="relative">
             <button
               type="button"
-              onClick={() => handleDateClick(dailyEvent)}
-              disabled={isEventEnded || isDemandOpenAndReservationClosed}
+              onClick={() => handleDateClick(dailyEventWithDemandStat)}
+              disabled={
+                isDailyEventEnded || onlyDemandPossibleDuringReservationPhase
+              }
               className="group flex w-full items-center justify-between py-12 text-left"
             >
               <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-                {formatFullDate(dailyEvent.date)}
+                {formatFullDate(dailyEventWithDemandStat.date)}
               </span>
-              {isEventEnded && (
+              {isDailyEventEnded && (
                 <span className="text-14 font-500 text-basic-grey-500">
                   마감
                 </span>
               )}
             </button>
-            {isDemandOpenAndReservationClosed && (
+            {onlyDemandPossibleDuringReservationPhase && (
               <Button
                 variant="primary"
                 size="small"
                 className="absolute right-0 top-1/2 w-100 -translate-y-1/2"
-                onClick={() => handleDateClick(dailyEvent)}
+                onClick={() => handleDateClick(dailyEventWithDemandStat)}
               >
                 수요조사 참여하기
               </Button>
+            )}
+            {isDemandPhase && !isDailyEventEnded && (
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 whitespace-nowrap break-keep text-14 font-500 text-brand-primary-400">
+                {getDemandText(
+                  dailyEventWithDemandStat.demandStat?.totalCount ?? 0,
+                )}
+              </span>
             )}
           </div>
         );
@@ -75,6 +108,8 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
     </section>
   );
 };
+
+export default CommonDateStep;
 
 const formatFullDate = (date: string) => {
   const tokens = dateString(date, {
@@ -88,4 +123,10 @@ const formatFullDate = (date: string) => {
   );
 };
 
-export default CommonDateStep;
+const getDemandText = (demandCount: number) => {
+  if (demandCount < 30) {
+    return '';
+  }
+  const parsedDemandCount = Math.floor(demandCount / 10) * 10;
+  return `${parsedDemandCount}명 이상 요청했어요`;
+};
