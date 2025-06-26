@@ -1,4 +1,3 @@
-import { REFUND_FEE_RATE, RefundFeeRate } from '@/types/payment.type';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import {
   ShuttleRouteHubsInShuttleRoutesViewEntity,
@@ -101,51 +100,4 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
     return false;
   }
   return refundFee !== reservation.paymentAmount;
-};
-
-export const calculateRefundFeeRate = (
-  reservation: ReservationsViewEntity | null,
-  paymentCreatedAt: string,
-  refundCreatedAt: string | null,
-): RefundFeeRate | null => {
-  if (!reservation || !refundCreatedAt) {
-    return null;
-  }
-  const paymentTime = dayjs(paymentCreatedAt).tz();
-  const refundTime = dayjs(refundCreatedAt).tz();
-
-  if (refundTime.diff(paymentTime, 'hours') <= 24) {
-    return REFUND_FEE_RATE.NO_FEE;
-  }
-
-  const boardingTime = getBoardingTime({
-    tripType: reservation.type,
-    toDestinationShuttleRouteHubs:
-      reservation.shuttleRoute.toDestinationShuttleRouteHubs ?? [],
-    fromDestinationShuttleRouteHubs:
-      reservation.shuttleRoute.fromDestinationShuttleRouteHubs ?? [],
-    toDestinationShuttleRouteHubId:
-      reservation.toDestinationShuttleRouteHubId ?? '',
-  });
-  if (!boardingTime) {
-    return null;
-  }
-  const boardingDate = boardingTime.startOf('day');
-  const refundDate = refundTime.startOf('day');
-
-  const dDay = boardingDate.diff(refundDate, 'day');
-
-  let refundFeeRate: RefundFeeRate = REFUND_FEE_RATE.NO_FEE;
-
-  if (dDay >= 8) {
-    refundFeeRate = REFUND_FEE_RATE.NO_FEE;
-  } else if (dDay === 7) {
-    refundFeeRate = REFUND_FEE_RATE.TWENTY_FIVE_PERCENT;
-  } else if (dDay === 6) {
-    refundFeeRate = REFUND_FEE_RATE.FIFTY_PERCENT;
-  } else {
-    refundFeeRate = REFUND_FEE_RATE.HUNDRED_PERCENT;
-  }
-
-  return refundFeeRate;
 };
