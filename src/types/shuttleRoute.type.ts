@@ -57,16 +57,16 @@ export const ShuttleRoutesViewEntitySchema = z
     earlybirdPriceToDestination: z.number().nullable(),
     earlybirdPriceFromDestination: z.number().nullable(),
     earlybirdPriceRoundTrip: z.number().nullable(),
-    regularPriceToDestination: z.number(),
-    regularPriceFromDestination: z.number(),
-    regularPriceRoundTrip: z.number(),
+    regularPriceToDestination: z.number().nullable(),
+    regularPriceFromDestination: z.number().nullable(),
+    regularPriceRoundTrip: z.number().nullable(),
     maxPassengerCount: z.number(),
-    toDestinationCount: z.number(), // 가는 편 예약 탑승객 수
-    fromDestinationCount: z.number(), // 오는 편 예약 탑승객 수
+    toDestinationCount: z.number().nullable(), // 가는 편 예약 탑승객 수
+    fromDestinationCount: z.number().nullable(), // 오는 편 예약 탑승객 수
     remainingSeatCount: z.number(),
     remainingSeatType: TripTypeEnum,
     status: ShuttleRouteStatusEnum,
-    // 가는편과 오는편의 정류장들은 미러링이 보장됨
+    // 가는편과 오는편의 정류장들은 미러링이 보장됨 (다만 하나가 없을 경우는 제외)
     toDestinationShuttleRouteHubs:
       ShuttleRouteHubsInShuttleRoutesViewEntitySchema.array().nullable(),
     fromDestinationShuttleRouteHubs:

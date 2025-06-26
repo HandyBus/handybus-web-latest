@@ -138,6 +138,8 @@ const Content = ({
     throw new CustomError(404, '좌석이 부족합니다.');
   } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');
+  } else if (!regularPrice) {
+    throw new CustomError(404, '가격이 존재하지 않는 상품입니다.');
   }
 
   return (
