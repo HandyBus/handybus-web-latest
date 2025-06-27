@@ -1,22 +1,16 @@
 import dayjs from 'dayjs';
 
 export type DemandStep =
-  | 'start_demand'
   | 'select_date'
   | 'select_sido'
   | 'select_hub'
   | 'select_trip_type'
-  | 'confirm_hub';
+  | 'hub_info';
 
-export const gtagEnterDemandStep = (
-  step: DemandStep,
-  eventId: string,
-  eventName: string,
-) => {
+export const gtagEnterDemand = (eventId: string, eventName: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'enter_demand_step', {
+    window.gtag('event', 'enter_demand', {
       event_category: 'demand_funnel',
-      demand_step: step,
       event_id: eventId,
       event_name: eventName.substring(0, 100),
       timestamp: dayjs().toISOString(),
@@ -24,7 +18,7 @@ export const gtagEnterDemandStep = (
   }
 };
 
-export const gtagExitDemand = (
+export const gtagAbandonDemand = (
   step: DemandStep,
   exitType: 'page_leave' | 'bottom_sheet_close',
   eventId: string,

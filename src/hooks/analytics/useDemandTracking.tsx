@@ -3,74 +3,86 @@
 import { useCallback, useEffect, useRef } from 'react';
 import {
   DemandStep,
-  gtagExitDemand,
+  gtagAbandonDemand,
   gtagCompleteDemand,
+  gtagEnterDemand,
 } from '@/utils/analytics/demandAnalytics.util';
 import dayjs, { Dayjs } from 'dayjs';
+import { EVENT_STEPS } from '@/app/event/[eventId]/form.const';
 
-interface UseDemandTrackingProps {
+const EVENT_STEP_TO_DEMAND_STEP: Record<string, DemandStep> = {
+  '[공통] 일자 선택': 'select_date',
+  '[공통] 시/도 선택': 'select_sido',
+  '[수요조사] 정류장 선택': 'select_hub',
+  '[수요조사] 좌석 선택': 'select_trip_type',
+  '[수요조사] 정류장 정보': 'hub_info',
+} as const;
+
+interface Props {
   eventId: string;
   eventName: string;
   isBottomSheetOpen: boolean;
 }
 
-export const useDemandTracking = ({
+const useDemandTracking = ({
   eventId,
   eventName,
   isBottomSheetOpen,
-}: UseDemandTrackingProps) => {
-  const currentStepRef = useRef<DemandStep | null>(null);
+}: Props) => {
   const demandStartTimeRef = useRef<Dayjs | null>(null);
+  const currentStepRef = useRef<DemandStep | null>(null);
 
-  const trackClickDemandStart = useCallback(() => {
-    demandStartTimeRef.current = dayjs();
-    currentStepRef.current = 'start_demand';
-  }, []);
+  const setDemandTrackingStep = (eventStep: (typeof EVENT_STEPS)[number]) => {
+    const demandStep = EVENT_STEP_TO_DEMAND_STEP.hasOwnProperty(eventStep)
+      ? EVENT_STEP_TO_DEMAND_STEP[eventStep]
+      : undefined;
 
-  const trackEnterDemandStep = useCallback((step: DemandStep) => {
-    if (currentStepRef.current !== step) {
-      currentStepRef.current = step;
+    if (!demandStep) {
+      return;
     }
-  }, []);
 
-  const trackExitDemandStep = useCallback(
+    currentStepRef.current = demandStep;
+  };
+
+  const trackEnterDemand = useCallback(() => {
+    demandStartTimeRef.current = dayjs();
+    gtagEnterDemand(eventId, eventName);
+  }, [eventId, eventName]);
+
+  const trackAbandonDemand = useCallback(
     (exitType: 'page_leave' | 'bottom_sheet_close') => {
-      const currentStep = currentStepRef.current;
       const demandStartTime = demandStartTimeRef.current;
+      const currentStep = currentStepRef.current;
 
-      if (currentStep && demandStartTime) {
-        const total_time_ms = dayjs().diff(demandStartTime, 'ms');
-        gtagExitDemand(
-          currentStep,
-          exitType,
-          eventId,
-          eventName,
-          total_time_ms,
-        );
+      if (!demandStartTime || !currentStep) {
+        return;
       }
 
-      currentStepRef.current = null;
+      const totalTimeMs = dayjs().diff(demandStartTime, 'ms');
+      gtagAbandonDemand(currentStep, exitType, eventId, eventName, totalTimeMs);
+
+      demandStartTimeRef.current = null;
     },
     [eventId, eventName],
   );
 
-  const trackCompleteDemandStep = useCallback(
+  const trackCompleteDemand = useCallback(
     (selectedHub: string, tripType: string, eventDate: string) => {
       const demandStartTime = demandStartTimeRef.current;
-
-      if (demandStartTime) {
-        const totalTimeMs = dayjs().diff(demandStartTime, 'ms');
-        gtagCompleteDemand(
-          eventId,
-          eventName,
-          eventDate,
-          selectedHub,
-          tripType,
-          totalTimeMs,
-        );
+      if (!demandStartTime) {
+        return;
       }
 
-      currentStepRef.current = null;
+      const totalTimeMs = dayjs().diff(demandStartTime, 'ms');
+      gtagCompleteDemand(
+        eventId,
+        eventName,
+        eventDate,
+        selectedHub,
+        tripType,
+        totalTimeMs,
+      );
+
       demandStartTimeRef.current = null;
     },
     [eventId, eventName],
@@ -78,21 +90,17 @@ export const useDemandTracking = ({
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (currentStepRef.current) {
-        trackExitDemandStep('page_leave');
-      }
+      trackAbandonDemand('page_leave');
     };
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden' && currentStepRef.current) {
-        trackExitDemandStep('page_leave');
+      if (document.visibilityState === 'hidden') {
+        trackAbandonDemand('page_leave');
       }
     };
 
     const handlePopState = () => {
-      if (currentStepRef.current) {
-        trackExitDemandStep('page_leave');
-      }
+      trackAbandonDemand('page_leave');
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload); // 페이지 닫기 탭닫기, 새로고침, 새로운 URL 입력
@@ -104,19 +112,20 @@ export const useDemandTracking = ({
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [trackExitDemandStep]);
+  }, [trackAbandonDemand]);
 
   useEffect(() => {
-    if (!isBottomSheetOpen && currentStepRef.current) {
-      trackExitDemandStep('bottom_sheet_close');
+    if (!isBottomSheetOpen) {
+      trackAbandonDemand('bottom_sheet_close');
     }
-  }, [isBottomSheetOpen, trackExitDemandStep]);
+  }, [isBottomSheetOpen, trackAbandonDemand]);
 
   return {
-    trackClickDemandStart,
-    trackEnterDemandStep,
-    trackExitDemandStep,
-    trackCompleteDemandStep,
-    currentStep: currentStepRef.current,
+    trackEnterDemand,
+    trackAbandonDemand,
+    trackCompleteDemand,
+    setDemandTrackingStep,
   };
 };
+
+export default useDemandTracking;

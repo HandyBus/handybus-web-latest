@@ -4,7 +4,7 @@ import HubButton from './components/HubButton';
 import DateButton from './components/DateButton';
 import BottomBar from './components/BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { EVENT_FORM_DEFAULT_VALUES, EVENT_STEPS } from '../../form.const';
@@ -35,7 +35,7 @@ import {
 } from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { useAtom } from 'jotai';
 import Skeleton from 'react-loading-skeleton';
-import { useDemandTracking } from '@/hooks/analytics/useDemandTracking';
+import useDemandTracking from '@/hooks/analytics/useDemandTracking';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -168,7 +168,7 @@ const Content = ({
   const handleOpenBottomSheet = () => {
     // 수요조사 단계에서 바텀시트 열기 시 추적
     if (phase === 'demand') {
-      trackClickDemandStart();
+      trackEnterDemand();
     }
 
     if (
@@ -210,15 +210,16 @@ const Content = ({
     onClose: onBottomSheetClose,
   });
 
-  const {
-    trackClickDemandStart,
-    trackEnterDemandStep,
-    trackCompleteDemandStep,
-  } = useDemandTracking({
-    eventId: event.eventId,
-    eventName: event.eventName,
-    isBottomSheetOpen: isOpen,
-  });
+  const { trackEnterDemand, trackCompleteDemand, setDemandTrackingStep } =
+    useDemandTracking({
+      eventId: event.eventId,
+      eventName: event.eventName,
+      isBottomSheetOpen: isOpen,
+    });
+
+  useEffect(() => {
+    setDemandTrackingStep(stepName);
+  }, [stepName, setDemandTrackingStep]);
 
   const { title: bottomSheetTitle, description: bottomSheetDescription } =
     useBottomSheetText({ stepName, getValues: methods.getValues });
@@ -287,8 +288,7 @@ const Content = ({
                         openAlertRequestFeedbackScreen
                       }
                       phase={phase}
-                      trackEnterDemandStep={trackEnterDemandStep}
-                      trackCompleteDemandStep={trackCompleteDemandStep}
+                      trackCompleteDemand={trackCompleteDemand}
                     />
                   </Step>
                 ))}

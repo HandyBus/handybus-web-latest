@@ -15,7 +15,6 @@ import { EventPhase } from '@/utils/event.util';
 import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
-import { DemandStep } from '@/utils/analytics/demandAnalytics.util';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
@@ -26,8 +25,7 @@ interface Props {
   updateUserAlertRequests: () => void;
   openAlertRequestFeedbackScreen: () => void;
   phase: EventPhase;
-  trackEnterDemandStep?: (step: DemandStep) => void;
-  trackCompleteDemandStep?: (
+  trackCompleteDemand: (
     selectedHub: string,
     tripType: string,
     eventDate: string,
@@ -43,15 +41,13 @@ const StepComponent = ({
   updateUserAlertRequests,
   openAlertRequestFeedbackScreen,
   phase,
-  trackEnterDemandStep,
-  trackCompleteDemandStep,
+  trackCompleteDemand,
 }: Props) => {
   const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
     // 공통
     '[공통] 일자 선택': (
       <CommonDateStep
         toNextStep={() => {
-          trackEnterDemandStep?.('select_sido');
           setHistoryAndStep('[공통] 시/도 선택');
         }}
         phase={phase}
@@ -60,7 +56,6 @@ const StepComponent = ({
     '[공통] 시/도 선택': (
       <CommonSidoStep
         toDemandHubsStep={() => {
-          trackEnterDemandStep?.('select_hub');
           setHistoryAndStep('[수요조사] 정류장 선택');
         }}
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
@@ -71,7 +66,6 @@ const StepComponent = ({
     '[수요조사] 정류장 선택': (
       <DemandHubsStep
         toNextStep={() => {
-          trackEnterDemandStep?.('select_trip_type');
           setHistoryAndStep('[수요조사] 좌석 선택');
         }}
       />
@@ -79,7 +73,6 @@ const StepComponent = ({
     '[수요조사] 좌석 선택': (
       <DemandTripTypeStep
         toNextStep={() => {
-          trackEnterDemandStep?.('confirm_hub');
           setHistoryAndStep('[수요조사] 정류장 정보');
         }}
       />
@@ -89,7 +82,7 @@ const StepComponent = ({
         closeBottomSheet={closeBottomSheet}
         setDemandCompleteStatus={setDemandCompleteStatus}
         updateUserDemands={updateUserDemands}
-        trackCompleteDemandStep={trackCompleteDemandStep}
+        trackCompleteDemand={trackCompleteDemand}
       />
     ),
     // 예약
