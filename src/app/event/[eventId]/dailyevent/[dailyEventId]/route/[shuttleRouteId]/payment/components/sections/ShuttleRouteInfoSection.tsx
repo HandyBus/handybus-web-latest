@@ -16,6 +16,7 @@ interface Props {
   toDestinationHubId: string | null;
   fromDestinationHubId: string | null;
   passengerCount: number;
+  isTaxiRoute: boolean;
 }
 
 const ShuttleRouteInfoSection = ({
@@ -24,6 +25,7 @@ const ShuttleRouteInfoSection = ({
   toDestinationHubId,
   fromDestinationHubId,
   passengerCount,
+  isTaxiRoute,
 }: Props) => {
   const toDestinationHub = shuttleRoute.toDestinationShuttleRouteHubs?.find(
     (hub) => hub.shuttleRouteHubId === toDestinationHubId,
@@ -50,6 +52,7 @@ const ShuttleRouteInfoSection = ({
             shuttleRoute={shuttleRoute}
             withRoundTrip={tripType === 'ROUND_TRIP'}
             passengerCount={passengerCount}
+            isTaxiRoute={isTaxiRoute}
           />
         )}
       {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
@@ -60,6 +63,7 @@ const ShuttleRouteInfoSection = ({
             shuttleRoute={shuttleRoute}
             withRoundTrip={tripType === 'ROUND_TRIP'}
             passengerCount={passengerCount}
+            isTaxiRoute={isTaxiRoute}
           />
         )}
     </Section>
@@ -74,6 +78,7 @@ interface TripCardProps {
   shuttleRoute: ShuttleRoutesViewEntity;
   withRoundTrip: boolean;
   passengerCount: number;
+  isTaxiRoute: boolean;
 }
 
 const TripCard = ({
@@ -82,6 +87,7 @@ const TripCard = ({
   shuttleRoute,
   withRoundTrip,
   passengerCount,
+  isTaxiRoute,
 }: TripCardProps) => {
   const tripTypeText = withRoundTrip
     ? '[왕복] ' + TRIP_STATUS_TO_STRING[tripType]
@@ -132,6 +138,7 @@ const TripCard = ({
                 date={formattedDate}
                 time={formattedTime}
                 name={hub.name}
+                hideTime={isTaxiRoute}
               />
               <HubItem
                 date={formattedDestinationDate}
@@ -151,6 +158,7 @@ const TripCard = ({
                 date={formattedDate}
                 time={formattedTime}
                 name={hub.name}
+                hideTime={isTaxiRoute}
               />
             </>
           )}
@@ -180,14 +188,15 @@ interface HubItemProps {
   date: string;
   time: string;
   name: string;
+  hideTime?: boolean;
 }
 
-const HubItem = ({ date, time, name }: HubItemProps) => {
+const HubItem = ({ date, time, name, hideTime = false }: HubItemProps) => {
   return (
     <li className="flex h-36 items-center gap-16">
       <div className="w-80 shrink-0">
         <p className="text-10 font-400 text-basic-grey-700">{date}</p>
-        <p className="text-12 font-600">{time}</p>
+        <p className="text-12 font-600">{hideTime ? '' : time}</p>
       </div>
       <div className="h-16 w-[1px] bg-basic-grey-100" />
       <div className="text-16 font-600">{name}</div>

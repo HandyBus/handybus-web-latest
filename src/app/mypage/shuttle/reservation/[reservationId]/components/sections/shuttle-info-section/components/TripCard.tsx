@@ -13,6 +13,7 @@ interface Props {
   shuttleRoute: ShuttleRoutesViewEntity;
   withRoundTrip: boolean;
   passengerCount: number;
+  isTaxiRoute: boolean;
 }
 
 const TripCard = ({
@@ -21,6 +22,7 @@ const TripCard = ({
   shuttleRoute,
   withRoundTrip,
   passengerCount,
+  isTaxiRoute,
 }: Props) => {
   const tripTypeText = withRoundTrip
     ? '[왕복] ' + TRIP_STATUS_TO_STRING[tripType]
@@ -67,7 +69,12 @@ const TripCard = ({
         <div className="flex w-full flex-col gap-24">
           {tripType === 'TO_DESTINATION' && (
             <>
-              <HubItem date={formattedDate} time={formattedTime} hub={hub} />
+              <HubItem
+                date={formattedDate}
+                time={formattedTime}
+                hub={hub}
+                hideTime={isTaxiRoute}
+              />
               <HubItem
                 date={formattedDestinationDate}
                 time={formattedDestinationTime}
@@ -82,7 +89,12 @@ const TripCard = ({
                 time={formattedDestinationTime}
                 hub={destinationHub}
               />
-              <HubItem date={formattedDate} time={formattedTime} hub={hub} />
+              <HubItem
+                date={formattedDate}
+                time={formattedTime}
+                hub={hub}
+                hideTime={isTaxiRoute}
+              />
             </>
           )}
         </div>

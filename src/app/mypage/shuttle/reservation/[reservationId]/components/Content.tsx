@@ -17,8 +17,7 @@ import RefundSection from './sections/refund-section/RefundSection';
 import PrimaryCheckIcon from '../icons/icon-check-primary.svg';
 import GreyCheckIcon from '../icons/icon-check-grey.svg';
 import WrapperWithDivider from './WrapperWithDivider';
-
-const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
+import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -60,14 +59,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
   const isEnded = reservationProgress === 'shuttleEnded';
 
   // TODO: 임시로 핸디팟 노선 처리
-  const isTaxiRoute =
-    !!TAXI_HUB_PREFIX &&
-    (shuttleRoute.toDestinationShuttleRouteHubs?.some((hub) =>
-      hub.name?.includes(TAXI_HUB_PREFIX),
-    ) ||
-      shuttleRoute.fromDestinationShuttleRouteHubs?.some((hub) =>
-        hub.name?.includes(TAXI_HUB_PREFIX),
-      ));
+  const isTaxiRoute = getIsTaxiRoute(shuttleRoute);
 
   return (
     <main className="grow pb-16">
@@ -82,7 +74,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               handyStatus={handyStatus}
               shuttleBus={shuttleBus}
-              isTaxiRoute={!!isTaxiRoute}
+              isTaxiRoute={isTaxiRoute}
             />
           </WrapperWithDivider>
         )}
@@ -93,6 +85,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             fromDestinationHub={fromDestinationHub}
             shuttleRoute={shuttleRoute}
             passengerCount={reservation.passengerCount}
+            isTaxiRoute={isTaxiRoute}
           />
         </WrapperWithDivider>
         <WrapperWithDivider>
