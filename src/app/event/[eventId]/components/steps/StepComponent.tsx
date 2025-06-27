@@ -15,6 +15,7 @@ import { EventPhase } from '@/utils/event.util';
 import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
+import { DemandStep } from '@/utils/analytics/demandAnalytics.util';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
@@ -25,6 +26,12 @@ interface Props {
   updateUserAlertRequests: () => void;
   openAlertRequestFeedbackScreen: () => void;
   phase: EventPhase;
+  trackEnterDemandStep?: (step: DemandStep) => void;
+  trackCompleteDemandStep?: (
+    selectedHub: string,
+    tripType: string,
+    eventDate: string,
+  ) => void;
 }
 
 const StepComponent = ({
@@ -36,18 +43,26 @@ const StepComponent = ({
   updateUserAlertRequests,
   openAlertRequestFeedbackScreen,
   phase,
+  trackEnterDemandStep,
+  trackCompleteDemandStep,
 }: Props) => {
   const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
     // 공통
     '[공통] 일자 선택': (
       <CommonDateStep
-        toNextStep={() => setHistoryAndStep('[공통] 시/도 선택')}
+        toNextStep={() => {
+          trackEnterDemandStep?.('select_sido');
+          setHistoryAndStep('[공통] 시/도 선택');
+        }}
         phase={phase}
       />
     ),
     '[공통] 시/도 선택': (
       <CommonSidoStep
-        toDemandHubsStep={() => setHistoryAndStep('[수요조사] 정류장 선택')}
+        toDemandHubsStep={() => {
+          trackEnterDemandStep?.('select_hub');
+          setHistoryAndStep('[수요조사] 정류장 선택');
+        }}
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
         toExtraSidoInfoStep={() => setHistoryAndStep('[기타] 시/도 정보')}
       />
@@ -55,12 +70,18 @@ const StepComponent = ({
     // 수요조사
     '[수요조사] 정류장 선택': (
       <DemandHubsStep
-        toNextStep={() => setHistoryAndStep('[수요조사] 좌석 선택')}
+        toNextStep={() => {
+          trackEnterDemandStep?.('select_trip_type');
+          setHistoryAndStep('[수요조사] 좌석 선택');
+        }}
       />
     ),
     '[수요조사] 좌석 선택': (
       <DemandTripTypeStep
-        toNextStep={() => setHistoryAndStep('[수요조사] 정류장 정보')}
+        toNextStep={() => {
+          trackEnterDemandStep?.('confirm_hub');
+          setHistoryAndStep('[수요조사] 정류장 정보');
+        }}
       />
     ),
     '[수요조사] 정류장 정보': (
@@ -68,6 +89,7 @@ const StepComponent = ({
         closeBottomSheet={closeBottomSheet}
         setDemandCompleteStatus={setDemandCompleteStatus}
         updateUserDemands={updateUserDemands}
+        trackCompleteDemandStep={trackCompleteDemandStep}
       />
     ),
     // 예약
