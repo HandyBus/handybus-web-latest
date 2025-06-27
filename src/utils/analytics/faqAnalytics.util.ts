@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-export const trackFAQClick = (
+export const gtagFAQClick = (
   faqTitle: string,
   faqCategory: string,
   position: number,

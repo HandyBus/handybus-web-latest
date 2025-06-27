@@ -54,7 +54,7 @@ FAQ 트래킹 로직을 담은 커스텀 훅
 
 **메서드:**
 
-- `trackFAQItemClick()`: FAQ 아이템 클릭 추적
+- `trackClickFAQItem()`: FAQ 아이템 클릭 추적
 - `getCurrentClickOrder()`: 현재 클릭 순서 반환
 
 ### 3. `src/app/help/faq/components/FAQList.tsx`

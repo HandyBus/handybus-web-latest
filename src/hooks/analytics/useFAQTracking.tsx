@@ -1,12 +1,12 @@
 'use client';
 
 import { useRef, useCallback } from 'react';
-import { trackFAQClick } from '@/utils/analytics/faqAnalytics.util';
+import { gtagFAQClick } from '@/utils/analytics/faqAnalytics.util';
 
 export const useFAQTracking = () => {
   const clickOrderRef = useRef<number>(0);
 
-  const trackFAQItemClick = useCallback(
+  const trackClickFAQItem = useCallback(
     (
       faqTitle: string,
       faqCategory: string,
@@ -16,7 +16,7 @@ export const useFAQTracking = () => {
       if (action === 'open') {
         clickOrderRef.current += 1;
 
-        trackFAQClick(
+        gtagFAQClick(
           faqTitle,
           faqCategory,
           position,
@@ -24,14 +24,14 @@ export const useFAQTracking = () => {
           action,
         );
       } else {
-        trackFAQClick(faqTitle, faqCategory, position, undefined, action);
+        gtagFAQClick(faqTitle, faqCategory, position, undefined, action);
       }
     },
     [],
   );
 
   return {
-    trackFAQItemClick,
+    trackClickFAQItem,
     getCurrentClickOrder: () => clickOrderRef.current,
   };
 };

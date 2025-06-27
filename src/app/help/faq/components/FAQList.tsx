@@ -10,7 +10,7 @@ interface Props {
 
 const FAQList = ({ selectedTab }: Props) => {
   const [showAll, setShowAll] = useState(false);
-  const { trackFAQItemClick } = useFAQTracking();
+  const { trackClickFAQItem } = useFAQTracking();
 
   const filteredFAQs = faqs.filter((item) => {
     if (selectedTab === item.tag) return true;
@@ -25,7 +25,7 @@ const FAQList = ({ selectedTab }: Props) => {
     position: number,
     isOpen: boolean,
   ) => {
-    trackFAQItemClick(
+    trackClickFAQItem(
       faqTitle,
       selectedTab,
       position,
