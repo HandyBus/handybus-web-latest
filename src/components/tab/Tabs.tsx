@@ -24,6 +24,7 @@ const Tabs = <T,>({ items, selected, onSelect, className }: Props<T>) => {
           label={v.label}
           selected={v.value === selected}
           onClick={() => onSelect?.(v.value)}
+          disabled={v.disabled}
         />
       ))}
       <div className="absolute bottom-0 h-[1px] w-full bg-basic-grey-200" />
@@ -65,6 +66,7 @@ const Tab = ({
         disabled && 'text-basic-grey-500',
       )}
       onClick={onClick}
+      disabled={disabled}
     >
       {label}
     </button>

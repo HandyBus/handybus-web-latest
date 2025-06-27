@@ -15,6 +15,7 @@ interface Props {
     | undefined;
   shuttleRoute: ShuttleRoutesViewEntity;
   passengerCount: number;
+  isTaxiRoute: boolean;
 }
 
 const ShuttleInfoSection = ({
@@ -23,6 +24,7 @@ const ShuttleInfoSection = ({
   fromDestinationHub,
   shuttleRoute,
   passengerCount,
+  isTaxiRoute,
 }: Props) => {
   return (
     <section className="px-16">
@@ -36,6 +38,7 @@ const ShuttleInfoSection = ({
               shuttleRoute={shuttleRoute}
               withRoundTrip={tripType === 'ROUND_TRIP'}
               passengerCount={passengerCount}
+              isTaxiRoute={isTaxiRoute}
             />
           )}
         {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
@@ -46,6 +49,7 @@ const ShuttleInfoSection = ({
               shuttleRoute={shuttleRoute}
               withRoundTrip={tripType === 'ROUND_TRIP'}
               passengerCount={passengerCount}
+              isTaxiRoute={isTaxiRoute}
             />
           )}
       </div>

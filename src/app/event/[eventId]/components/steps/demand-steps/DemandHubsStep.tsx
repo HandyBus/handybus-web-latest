@@ -20,6 +20,7 @@ import {
   setRecentlyViewedHubId,
 } from '@/utils/localStorage';
 import SadFaceIcon from '../../../icons/sad-face.svg';
+import { TAXI_HUB_PREFIX } from '@/utils/taxiRoute.util';
 
 interface Props {
   toNextStep: () => void;
@@ -72,7 +73,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
     });
     // TODO : 이후 타다 상품 UI/UX 추가 개발전까지 임시 조치 (hubsWithRegionExcludedTaxi, groupedHubs)
     const hubsWithRegionExcludedTaxi = hubsWithRegion.filter(
-      (hub) => !hub.name.includes(process.env.NEXT_PUBLIC_TAXI_HUB_NAME ?? ''),
+      (hub) => !hub.name.includes(TAXI_HUB_PREFIX ?? ''),
     );
     const groupedHubs = groupHubsByRegion(hubsWithRegionExcludedTaxi);
     const gungusWithHubs = groupedHubs?.[prioritySido] ?? [];
@@ -107,7 +108,7 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
     const hub = regionsWithHubsPages?.pages?.[0]?.regionHubs.find(
       (hub) => hub.regionHubId === recentlyViewedHubId,
     );
-    if (hub?.name.includes(process.env.NEXT_PUBLIC_TAXI_HUB_NAME ?? '')) {
+    if (hub?.name.includes(TAXI_HUB_PREFIX ?? '')) {
       return null;
     }
     return hub;

@@ -100,8 +100,12 @@ const Hub = ({
     hubWithInfo.remainingSeat.FROM_DESTINATION === 0;
   const isAllSoldOut = isToDestinationSoldOut && isFromDestinationSoldOut;
 
-  const toDestinationExists = !!route.toDestinationShuttleRouteHubs;
-  const fromDestinationExists = !!route.fromDestinationShuttleRouteHubs;
+  const toDestinationExists =
+    !!route.toDestinationShuttleRouteHubs &&
+    route.toDestinationShuttleRouteHubs.length > 0;
+  const fromDestinationExists =
+    !!route.fromDestinationShuttleRouteHubs &&
+    route.fromDestinationShuttleRouteHubs.length > 0;
 
   const toDestinationDepartureTime = toDestinationExists
     ? dateString(

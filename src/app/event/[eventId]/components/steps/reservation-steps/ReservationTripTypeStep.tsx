@@ -46,6 +46,11 @@ const ReservationTripTypeStep = ({
         const remainingSeatCount = remainingSeat[tripType];
         const price = priceOfTripType?.[tripType];
         const isSoldOut = remainingSeatCount === 0;
+
+        if (!price || !price.regularPrice) {
+          return null;
+        }
+
         return (
           <div key={tripType} className="relative w-full">
             <button
@@ -60,9 +65,9 @@ const ReservationTripTypeStep = ({
               {!isSoldOut && (
                 <SeatText
                   remainingSeatCount={remainingSeatCount}
-                  isEarlybird={price?.isEarlybird}
-                  regularPrice={price?.regularPrice}
-                  earlybirdPrice={price?.earlybirdPrice}
+                  isEarlybird={price.isEarlybird}
+                  regularPrice={price.regularPrice}
+                  earlybirdPrice={price.earlybirdPrice}
                 />
               )}
             </button>
