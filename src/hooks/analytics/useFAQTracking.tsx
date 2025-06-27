@@ -24,7 +24,7 @@ export const useFAQTracking = () => {
           action,
         );
       } else {
-        trackFAQClick(faqTitle, faqCategory, position, 0, action);
+        trackFAQClick(faqTitle, faqCategory, position, undefined, action);
       }
     },
     [],

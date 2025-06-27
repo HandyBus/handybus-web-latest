@@ -4,7 +4,7 @@ export const trackFAQClick = (
   faqTitle: string,
   faqCategory: string,
   position: number,
-  clickOrder: number,
+  clickOrder: number | undefined,
   action: 'open' | 'close',
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
