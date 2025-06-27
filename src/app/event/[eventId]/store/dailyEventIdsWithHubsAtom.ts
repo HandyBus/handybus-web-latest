@@ -80,12 +80,16 @@ export const getHubsWithInfoInRoute = (
   const shuttleRouteId = route.shuttleRouteId;
   const remainingSeat = getRemainingSeat(route);
 
-  const toDestinationHubs = route.toDestinationShuttleRouteHubs
-    ? route.toDestinationShuttleRouteHubs.slice(0, -1)
-    : null;
-  const fromDestinationHubs = route.fromDestinationShuttleRouteHubs
-    ? route.fromDestinationShuttleRouteHubs.slice(1)
-    : null;
+  const toDestinationHubs =
+    route.toDestinationShuttleRouteHubs &&
+    route.toDestinationShuttleRouteHubs.length > 0
+      ? route.toDestinationShuttleRouteHubs.slice(0, -1)
+      : null;
+  const fromDestinationHubs =
+    route.fromDestinationShuttleRouteHubs &&
+    route.fromDestinationShuttleRouteHubs.length > 0
+      ? route.fromDestinationShuttleRouteHubs.slice(1)
+      : null;
   const hubs = (toDestinationHubs || fromDestinationHubs) ?? [];
 
   const hubsWithInfo = hubs.map((hub) => {

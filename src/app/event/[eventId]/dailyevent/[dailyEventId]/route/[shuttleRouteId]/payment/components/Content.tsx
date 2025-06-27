@@ -21,8 +21,7 @@ import { postPreparePayment } from '@/services/payment.service';
 import { postReserveReservation } from '@/services/payment.service';
 import { usePathname } from 'next/navigation';
 import { toast } from 'react-toastify';
-
-const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
+import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
 
 interface ContentProps {
   tripType: TripType;
@@ -124,20 +123,15 @@ const Content = ({
   };
 
   // TODO: 임시로 핸디팟 노선 처리
-  const isTaxiRoute =
-    !!TAXI_HUB_PREFIX &&
-    (shuttleRoute.toDestinationShuttleRouteHubs?.some((hub) =>
-      hub.name?.includes(TAXI_HUB_PREFIX),
-    ) ||
-      shuttleRoute.fromDestinationShuttleRouteHubs?.some((hub) =>
-        hub.name?.includes(TAXI_HUB_PREFIX),
-      ));
+  const isTaxiRoute = getIsTaxiRoute(shuttleRoute);
 
   // 에러 처리
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
   } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');
+  } else if (!regularPrice) {
+    throw new CustomError(404, '가격이 존재하지 않는 상품입니다.');
   }
 
   return (
@@ -151,6 +145,7 @@ const Content = ({
           toDestinationHubId={toDestinationHubId}
           fromDestinationHubId={fromDestinationHubId}
           passengerCount={passengerCount}
+          isTaxiRoute={isTaxiRoute}
         />
         <ClientInfoSection user={user} />
         {!isTaxiRoute && ( // NOTE: 핸디팟인경우 임시로 핸디섹션 비활성화

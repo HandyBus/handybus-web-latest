@@ -5,9 +5,10 @@ interface Props {
   date: string;
   time: string;
   hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
+  hideTime?: boolean;
 }
 
-const HubItem = ({ date, time, hub }: Props) => {
+const HubItem = ({ date, time, hub, hideTime = false }: Props) => {
   const openKakaoMapWithLocation = () => {
     window.open(
       `https://map.kakao.com/link/map/${hub.name},${hub.latitude},${hub.longitude}`,
@@ -19,7 +20,7 @@ const HubItem = ({ date, time, hub }: Props) => {
     <li className="flex h-36 w-full items-center gap-16">
       <div className="w-80 shrink-0">
         <p className="text-10 font-400 text-basic-grey-700">{date}</p>
-        <p className="text-12 font-600">{time}</p>
+        <p className="text-12 font-600">{hideTime ? '' : time}</p>
       </div>
       <div className="h-16 w-[1px] bg-basic-grey-100" />
       <div className="text-16 font-600">{hub.name}</div>

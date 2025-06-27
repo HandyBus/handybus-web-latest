@@ -13,8 +13,7 @@ import {
 } from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../store/dailyEventIdsWithHubsAtom';
-
-const TAXI_HUB_PREFIX = process.env.NEXT_PUBLIC_TAXI_HUB_NAME;
+import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
 
 // eventDestination: 행사 도착지
 // primary: 선택된 정류장
@@ -93,10 +92,16 @@ const ShuttleRouteDetailView = () => {
   );
 
   useEffect(() => {
-    if (shuttleRoute && toDestinationHubs.length === 0) {
-      setCurrentTab('FROM_DESTINATION');
+    if (!shuttleRoute) {
+      return;
     }
-  }, [toDestinationHubs]);
+
+    if (toDestinationHubs.length === 0) {
+      setCurrentTab('FROM_DESTINATION');
+    } else {
+      setCurrentTab('TO_DESTINATION');
+    }
+  }, [shuttleRoute, toDestinationHubs, fromDestinationHubs]);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollToSection = () => {
@@ -121,16 +126,7 @@ const ShuttleRouteDetailView = () => {
   }
 
   // TODO: 임시로 핸디팟 노선 처리
-  const isTaxiRoute = !!(
-    !!TAXI_HUB_PREFIX &&
-    !!shuttleRoute &&
-    (shuttleRoute.toDestinationShuttleRouteHubs?.some((hub) =>
-      hub.name?.includes(TAXI_HUB_PREFIX),
-    ) ||
-      shuttleRoute.fromDestinationShuttleRouteHubs?.some((hub) =>
-        hub.name?.includes(TAXI_HUB_PREFIX),
-      ))
-  );
+  const isTaxiRoute = getIsTaxiRoute(shuttleRoute);
 
   return (
     <div ref={sectionRef}>
@@ -143,8 +139,16 @@ const ShuttleRouteDetailView = () => {
         <Tabs
           items={
             [
-              { label: '가는 편', value: 'TO_DESTINATION' },
-              { label: '오는 편', value: 'FROM_DESTINATION' },
+              {
+                label: '가는 편',
+                value: 'TO_DESTINATION',
+                disabled: toDestinationHubs.length === 0,
+              },
+              {
+                label: '오는 편',
+                value: 'FROM_DESTINATION',
+                disabled: fromDestinationHubs.length === 0,
+              },
             ] as const
           }
           selected={currentTab}

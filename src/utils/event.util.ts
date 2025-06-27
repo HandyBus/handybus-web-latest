@@ -1,4 +1,5 @@
 import { MAX_HANDY_DISCOUNT_AMOUNT } from '@/constants/common';
+import { CustomError } from '@/services/custom-error';
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { EventWithRoutesViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
@@ -84,7 +85,7 @@ export const checkIsSoldOut = (remainingSeat: RemainingSeat) => {
 export type PriceOfTripType = {
   [tripType in TripType]: {
     isEarlybird: boolean;
-    regularPrice: number;
+    regularPrice: number | null;
     earlybirdPrice: number | null;
   };
 };
@@ -137,10 +138,10 @@ const calculateTotalEarlybirdDiscountAmount = ({
   passengerCount: number;
 }) => {
   const price = priceOfTripType[tripType];
-  if (!price.isEarlybird) {
+  if (!price.isEarlybird || !price.regularPrice || !price.earlybirdPrice) {
     return 0;
   }
-  return (price.regularPrice - (price.earlybirdPrice ?? 0)) * passengerCount;
+  return (price.regularPrice - price.earlybirdPrice) * passengerCount;
 };
 
 const calculateTotalCouponDiscountAmount = ({
@@ -187,6 +188,11 @@ export const calculateTotalPrice = ({
   coupon: IssuedCouponsViewEntity | null;
 }) => {
   const price = priceOfTripType[tripType];
+
+  if (!price.regularPrice) {
+    throw new CustomError(400, '가격이 존재하지 않는 상품입니다.');
+  }
+
   const totalPrice = price.regularPrice * passengerCount;
 
   const totalEarlybirdDiscountAmount = calculateTotalEarlybirdDiscountAmount({
@@ -221,6 +227,9 @@ export const calculateHandyDiscountAmount = (
   tripType: TripType,
 ) => {
   const price = priceOfTripType[tripType];
+  if (!price.regularPrice) {
+    throw new CustomError(400, '가격이 존재하지 않는 상품입니다.');
+  }
   const priceWithEarlybirdDiscount = price.isEarlybird
     ? (price.earlybirdPrice ?? 0)
     : price.regularPrice;

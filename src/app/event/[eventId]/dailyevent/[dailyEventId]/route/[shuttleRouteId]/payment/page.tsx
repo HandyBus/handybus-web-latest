@@ -50,8 +50,7 @@ const Page = ({ params }: Props) => {
 
   const isLoading =
     !tripType ||
-    !toDestinationHubId ||
-    !fromDestinationHubId ||
+    (!toDestinationHubId && !fromDestinationHubId) ||
     !passengerCount ||
     isEventLoading ||
     isShuttleRouteLoading ||
