@@ -1,8 +1,9 @@
 import { RefundRequestsInPaymentsViewEntity } from '@/types/payment.type';
 import ArrowDownwardTipRightIcon from '../icons/arrow-downward-tip-right.svg';
 import { dateString } from '@/utils/dateString.util';
-import { REFUND_INFO_TEXT } from '@/constants/common';
 import InfoIcon from 'public/icons/info.svg';
+
+const REFUND_INFO_TEXT = '수수료 정책에 따라 수수료가 제외된 금액입니다.';
 
 interface Props {
   refundRequests: RefundRequestsInPaymentsViewEntity[] | null;
