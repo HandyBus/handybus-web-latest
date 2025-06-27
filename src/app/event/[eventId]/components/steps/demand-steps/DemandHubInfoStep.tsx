@@ -13,7 +13,7 @@ interface Props {
   closeBottomSheet: () => void;
   setDemandCompleteStatus: (status: DemandCompleteStatus) => void;
   updateUserDemands: () => void;
-  trackComplete?: (
+  trackCompleteDemandStep?: (
     selectedHub: string,
     tripType: string,
     eventDate: string,
@@ -24,7 +24,7 @@ const DemandHubInfoStep = ({
   closeBottomSheet,
   setDemandCompleteStatus,
   updateUserDemands,
-  trackComplete,
+  trackCompleteDemandStep,
 }: Props) => {
   const event = useAtomValue(eventAtom);
   const { getValues } = useFormContext<EventFormValues>();
@@ -68,7 +68,11 @@ const DemandHubInfoStep = ({
         dailyEventId: dailyEvent.dailyEventId,
         body,
       });
-      trackComplete?.(selectedHubForDemand.name, tripType, dailyEvent.date);
+      trackCompleteDemandStep?.(
+        selectedHubForDemand.name,
+        tripType,
+        dailyEvent.date,
+      );
       setDemandCompleteStatus('success');
       updateUserDemands();
     } catch {

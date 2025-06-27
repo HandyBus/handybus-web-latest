@@ -3,9 +3,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 import {
   DemandStep,
-  trackDemandStepEnter,
-  trackDemandExit,
-  trackDemandComplete,
+  gtagExitDemand,
+  gtagCompleteDemand,
 } from '@/utils/analytics/demandAnalytics.util';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -21,48 +20,47 @@ export const useDemandTracking = ({
   isBottomSheetOpen,
 }: UseDemandTrackingProps) => {
   const currentStepRef = useRef<DemandStep | null>(null);
-  const stepStartTimeRef = useRef<Dayjs | null>(null);
   const demandStartTimeRef = useRef<Dayjs | null>(null);
 
-  const trackStepEnter = useCallback(
-    (step: DemandStep) => {
-      if (currentStepRef.current !== step) {
-        currentStepRef.current = step;
-        stepStartTimeRef.current = dayjs();
+  const trackClickDemandStart = useCallback(() => {
+    demandStartTimeRef.current = dayjs();
+    currentStepRef.current = 'start_demand';
+  }, []);
 
-        if (step === 'start_demand') {
-          demandStartTimeRef.current = dayjs();
-        }
+  const trackEnterDemandStep = useCallback((step: DemandStep) => {
+    if (currentStepRef.current !== step) {
+      currentStepRef.current = step;
+    }
+  }, []);
 
-        trackDemandStepEnter(step, eventId, eventName);
-      }
-    },
-    [eventId, eventName],
-  );
-
-  const trackExit = useCallback(
+  const trackExitDemandStep = useCallback(
     (exitType: 'page_leave' | 'bottom_sheet_close') => {
       const currentStep = currentStepRef.current;
-      const stepStartTime = stepStartTimeRef.current;
+      const demandStartTime = demandStartTimeRef.current;
 
-      if (currentStep && stepStartTime) {
-        const timeSpentMs = dayjs().diff(stepStartTime, 'ms');
-        trackDemandExit(currentStep, exitType, eventId, eventName, timeSpentMs);
+      if (currentStep && demandStartTime) {
+        const total_time_ms = dayjs().diff(demandStartTime, 'ms');
+        gtagExitDemand(
+          currentStep,
+          exitType,
+          eventId,
+          eventName,
+          total_time_ms,
+        );
       }
 
       currentStepRef.current = null;
-      stepStartTimeRef.current = null;
     },
     [eventId, eventName],
   );
 
-  const trackComplete = useCallback(
+  const trackCompleteDemandStep = useCallback(
     (selectedHub: string, tripType: string, eventDate: string) => {
       const demandStartTime = demandStartTimeRef.current;
 
       if (demandStartTime) {
         const totalTimeMs = dayjs().diff(demandStartTime, 'ms');
-        trackDemandComplete(
+        gtagCompleteDemand(
           eventId,
           eventName,
           eventDate,
@@ -73,7 +71,6 @@ export const useDemandTracking = ({
       }
 
       currentStepRef.current = null;
-      stepStartTimeRef.current = null;
       demandStartTimeRef.current = null;
     },
     [eventId, eventName],
@@ -82,19 +79,19 @@ export const useDemandTracking = ({
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (currentStepRef.current) {
-        trackExit('page_leave');
+        trackExitDemandStep('page_leave');
       }
     };
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden' && currentStepRef.current) {
-        trackExit('page_leave');
+        trackExitDemandStep('page_leave');
       }
     };
 
     const handlePopState = () => {
       if (currentStepRef.current) {
-        trackExit('page_leave');
+        trackExitDemandStep('page_leave');
       }
     };
 
@@ -107,18 +104,19 @@ export const useDemandTracking = ({
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [trackExit]);
+  }, [trackExitDemandStep]);
 
   useEffect(() => {
     if (!isBottomSheetOpen && currentStepRef.current) {
-      trackExit('bottom_sheet_close');
+      trackExitDemandStep('bottom_sheet_close');
     }
-  }, [isBottomSheetOpen, trackExit]);
+  }, [isBottomSheetOpen, trackExitDemandStep]);
 
   return {
-    trackStepEnter,
-    trackExit,
-    trackComplete,
+    trackClickDemandStart,
+    trackEnterDemandStep,
+    trackExitDemandStep,
+    trackCompleteDemandStep,
     currentStep: currentStepRef.current,
   };
 };

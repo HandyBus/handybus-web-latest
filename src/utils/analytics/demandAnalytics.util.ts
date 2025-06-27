@@ -6,9 +6,9 @@ export type DemandStep =
   | 'select_sido'
   | 'select_hub'
   | 'select_trip_type'
-  | 'complete_demand';
+  | 'confirm_hub';
 
-export const trackDemandStepEnter = (
+export const gtagEnterDemandStep = (
   step: DemandStep,
   eventId: string,
   eventName: string,
@@ -24,16 +24,12 @@ export const trackDemandStepEnter = (
   }
 };
 
-export const trackDemandExit = (
+export const gtagExitDemand = (
   step: DemandStep,
-  exitType:
-    | 'page_leave'
-    | 'bottom_sheet_close'
-    | 'back_button'
-    | 'outside_click',
+  exitType: 'page_leave' | 'bottom_sheet_close',
   eventId: string,
   eventName: string,
-  timeSpentMs?: number,
+  total_time_ms?: number,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'abandon_demand', {
@@ -42,13 +38,13 @@ export const trackDemandExit = (
       exit_type: exitType,
       event_id: eventId,
       event_name: eventName.substring(0, 100),
-      time_spent_ms: timeSpentMs,
+      total_time_ms: total_time_ms,
       timestamp: dayjs().toISOString(),
     });
   }
 };
 
-export const trackDemandComplete = (
+export const gtagCompleteDemand = (
   eventId: string,
   eventName: string,
   eventDate: string,

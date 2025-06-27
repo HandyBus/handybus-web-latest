@@ -168,7 +168,7 @@ const Content = ({
   const handleOpenBottomSheet = () => {
     // 수요조사 단계에서 바텀시트 열기 시 추적
     if (phase === 'demand') {
-      trackStepEnter('start_demand');
+      trackClickDemandStart();
     }
 
     if (
@@ -210,7 +210,11 @@ const Content = ({
     onClose: onBottomSheetClose,
   });
 
-  const { trackStepEnter, trackComplete } = useDemandTracking({
+  const {
+    trackClickDemandStart,
+    trackEnterDemandStep,
+    trackCompleteDemandStep,
+  } = useDemandTracking({
     eventId: event.eventId,
     eventName: event.eventName,
     isBottomSheetOpen: isOpen,
@@ -283,8 +287,8 @@ const Content = ({
                         openAlertRequestFeedbackScreen
                       }
                       phase={phase}
-                      trackStepEnter={trackStepEnter}
-                      trackComplete={trackComplete}
+                      trackEnterDemandStep={trackEnterDemandStep}
+                      trackCompleteDemandStep={trackCompleteDemandStep}
                     />
                   </Step>
                 ))}
