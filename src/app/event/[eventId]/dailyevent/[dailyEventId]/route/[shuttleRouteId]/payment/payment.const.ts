@@ -1,4 +1,5 @@
 import { TripType } from '@/types/shuttleRoute.type';
+import { toSearchParams } from '@/utils/searchParams.util';
 
 export const PAYMENT_PARAMS_KEYS = {
   tripType: 'tripType',
@@ -24,5 +25,11 @@ export const createPaymentPageUrl = ({
   fromDestinationHubId?: string;
   passengerCount: number;
 }) => {
-  return `/event/${eventId}/dailyevent/${dailyEventId}/route/${shuttleRouteId}/payment?${PAYMENT_PARAMS_KEYS.tripType}=${tripType}&${PAYMENT_PARAMS_KEYS.toDestinationHubId}=${toDestinationHubId}&${PAYMENT_PARAMS_KEYS.fromDestinationHubId}=${fromDestinationHubId}&${PAYMENT_PARAMS_KEYS.passengerCount}=${passengerCount}`;
+  const params = {
+    [PAYMENT_PARAMS_KEYS.tripType]: tripType,
+    [PAYMENT_PARAMS_KEYS.toDestinationHubId]: toDestinationHubId,
+    [PAYMENT_PARAMS_KEYS.fromDestinationHubId]: fromDestinationHubId,
+    [PAYMENT_PARAMS_KEYS.passengerCount]: passengerCount,
+  };
+  return `/event/${eventId}/dailyevent/${dailyEventId}/route/${shuttleRouteId}/payment?${toSearchParams(params)}`;
 };
