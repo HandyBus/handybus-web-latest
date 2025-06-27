@@ -42,28 +42,6 @@ GA4에서 FAQ 페이지에서의 사용자 상호작용을 추적하여 사용�
 
 GA4 이벤트 전송 함수
 
-```typescript
-export const trackFAQClick = (
-  faqTitle: string,
-  faqCategory: string,
-  position: number,
-  clickOrder: number,
-  action: 'open' | 'close',
-) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'faq_click', {
-      event_category: 'faq_engagement',
-      faq_title: faqTitle.substring(0, 100),
-      faq_category: faqCategory,
-      faq_position: position,
-      click_order: clickOrder,
-      action_type: action,
-      timestamp: dayjs(),
-    });
-  }
-};
-```
-
 ### 2. `src/hooks/analytics/useFAQTracking.tsx`
 
 FAQ 트래킹 로직을 담은 커스텀 훅
@@ -111,41 +89,6 @@ interface FAQ {
   tag: 'reservation' | 'boarding' | 'etc';
   content: ReactNode;
 }
-```
-
-## 사용 방법
-
-### 1. 기본 설정
-
-```tsx
-import { useFAQTracking } from '@/hooks/analytics/useFAQTracking';
-
-const { trackFAQItemClick } = useFAQTracking();
-```
-
-### 2. FAQ 클릭 추적
-
-```tsx
-const handleFAQClick = (
-  faqTitle: string,
-  position: number,
-  isOpen: boolean,
-) => {
-  trackFAQItemClick(
-    faqTitle,
-    selectedTab, // 카테고리
-    position,
-    isOpen ? 'open' : 'close',
-  );
-};
-
-// Accordion 컴포넌트에서 사용
-<Accordion
-  title={item.title}
-  onToggle={(isOpen) => handleFAQClick(item.title, position, isOpen)}
->
-  {/* FAQ 내용 */}
-</Accordion>;
 ```
 
 ## GA4에서 확인 방법
