@@ -76,7 +76,7 @@ const useText = ({
     if (reservationProgress === 'beforeBusAssigned') {
       return '함께 갈 인원과 배차 정보를 확인 중이에요.';
     } else if (reservationProgress === 'afterBusAssigned') {
-      return '배차가 확정되었어요. 차량 정보를 확인해주세요.';
+      return '배차가 확정되었어요. 탑승 관련 정보는 카카오톡에서도 확인할 수 있어요.';
     } else if (reservationProgress === 'shuttleEnded') {
       return '종료된 핸디팟이에요.';
     }
