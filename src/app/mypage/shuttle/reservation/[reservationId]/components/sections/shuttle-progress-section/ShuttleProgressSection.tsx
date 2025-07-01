@@ -30,6 +30,7 @@ const ShuttleProgressSection = ({
     reservationProgress,
     isOpenChatLinkCreated,
     isHandy,
+    isTaxiRoute,
   });
 
   const shuttleBusNumber =
