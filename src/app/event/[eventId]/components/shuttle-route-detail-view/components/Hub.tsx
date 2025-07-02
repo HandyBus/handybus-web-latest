@@ -60,7 +60,7 @@ const Hub = ({
       <summary className="w-full cursor-pointer list-none">
         <div className="flex w-full items-center gap-[9px]">
           <span
-            className={`w-[55px] shrink-0 text-12 font-500 ${
+            className={`w-[64px] shrink-0 whitespace-nowrap break-keep text-left text-12 font-500 ${
               type === 'eventDestination'
                 ? 'text-basic-grey-700'
                 : type === 'primary'
@@ -70,7 +70,7 @@ const Hub = ({
                     : 'text-basic-grey-500'
             }`}
           >
-            {!hideTime && formattedTime}
+            {hideTime ? '운행시간 상이' : formattedTime}
           </span>
           <span
             className={`line-clamp-1 grow text-14 font-500 ${

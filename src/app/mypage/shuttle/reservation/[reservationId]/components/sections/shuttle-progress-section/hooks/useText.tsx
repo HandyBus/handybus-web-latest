@@ -1,18 +1,20 @@
 import { ReservationProgress } from '@/app/mypage/shuttle/hooks/useReservationProgress';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 interface Props {
   reservationProgress: ReservationProgress;
   isOpenChatLinkCreated: boolean;
   isHandy: boolean;
+  isTaxiRoute: boolean;
 }
 
 const useText = ({
   reservationProgress,
   isOpenChatLinkCreated,
   isHandy,
+  isTaxiRoute,
 }: Props) => {
-  const progressText = useMemo(() => {
+  const getShuttleBusProgressText = useCallback(() => {
     if (reservationProgress === 'beforeBusAssigned') {
       return '배차 중';
     } else if (
@@ -29,7 +31,7 @@ const useText = ({
     return '채팅방 입장';
   }, [reservationProgress, isOpenChatLinkCreated]);
 
-  const descriptionText = useMemo(() => {
+  const getShuttleBusDescriptionText = useCallback(() => {
     if (reservationProgress === 'beforeBusAssigned') {
       return '함께 갈 인원과 배차 정보를 확인 중이에요. 버스와 인원이 정해지면, 오픈채팅방 링크와 함께 안내드릴게요. ';
     } else if (
@@ -61,6 +63,39 @@ const useText = ({
     }
     return '';
   }, [reservationProgress, isOpenChatLinkCreated, isHandy]);
+
+  const getTaxiRouteProgressText = useCallback(() => {
+    if (reservationProgress === 'beforeBusAssigned') {
+      return '배차 중';
+    } else {
+      return '배차 완료';
+    }
+  }, [reservationProgress]);
+
+  const getTaxiRouteDescriptionText = useCallback(() => {
+    if (reservationProgress === 'beforeBusAssigned') {
+      return '함께 갈 인원과 배차 정보를 확인 중이에요.';
+    } else if (reservationProgress === 'afterBusAssigned') {
+      return '배차가 확정되었어요. 탑승 관련 정보는 카카오톡에서도 확인할 수 있어요.';
+    } else if (reservationProgress === 'shuttleEnded') {
+      return '종료된 핸디팟이에요.';
+    }
+    return '';
+  }, [reservationProgress]);
+
+  const progressText = useMemo(() => {
+    if (isTaxiRoute) {
+      return getTaxiRouteProgressText();
+    }
+    return getShuttleBusProgressText();
+  }, [isTaxiRoute, getTaxiRouteProgressText, getShuttleBusProgressText]);
+
+  const descriptionText = useMemo(() => {
+    if (isTaxiRoute) {
+      return getTaxiRouteDescriptionText();
+    }
+    return getShuttleBusDescriptionText();
+  }, [isTaxiRoute, getTaxiRouteDescriptionText, getShuttleBusDescriptionText]);
 
   return { progressText, descriptionText };
 };

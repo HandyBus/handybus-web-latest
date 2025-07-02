@@ -79,8 +79,14 @@ const Content = ({
       const parsedFormValues = {
         shuttleRouteId: shuttleRoute.shuttleRouteId,
         type: tripType,
-        toDestinationShuttleRouteHubId: toDestinationHubId ?? undefined,
-        fromDestinationShuttleRouteHubId: fromDestinationHubId ?? undefined,
+        toDestinationShuttleRouteHubId:
+          tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION'
+            ? (toDestinationHubId ?? undefined)
+            : undefined,
+        fromDestinationShuttleRouteHubId:
+          tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION'
+            ? (fromDestinationHubId ?? undefined)
+            : undefined,
         isSupportingHandy: isHandyApplied,
         passengerCount,
       };
