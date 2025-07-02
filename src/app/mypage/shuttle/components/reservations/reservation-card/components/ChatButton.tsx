@@ -17,6 +17,7 @@ interface Props {
   reviewId: string | null | undefined;
   openChatLink: string | null | undefined;
   reservationId: string;
+  isTaxiRoute: boolean;
 }
 
 const ChatButton = ({
@@ -28,6 +29,7 @@ const ChatButton = ({
   reviewId,
   openChatLink,
   reservationId,
+  isTaxiRoute,
 }: Props) => {
   const router = useRouter();
 
@@ -46,6 +48,10 @@ const ChatButton = ({
   const openHandyGuide = () => {
     window.open(HANDY_GUIDE_URL, '_blank', 'noopener,noreferrer');
   };
+
+  if (isTaxiRoute) {
+    return null;
+  }
 
   switch (reservationProgress) {
     case 'beforeBusAssigned':

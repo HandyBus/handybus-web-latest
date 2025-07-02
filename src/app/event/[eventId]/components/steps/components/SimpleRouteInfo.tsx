@@ -262,7 +262,7 @@ const Hub = ({
       onClick={onClick}
     >
       <span
-        className={`w-68 shrink-0 whitespace-nowrap break-keep text-14 font-500 ${
+        className={`w-[78px] shrink-0 whitespace-nowrap break-keep text-left text-14 font-500 ${
           !isEditMode
             ? type === 'eventLocation'
               ? 'text-basic-grey-700'
@@ -276,7 +276,7 @@ const Hub = ({
               : 'text-basic-grey-500'
         }`}
       >
-        {hideTime ? '' : formattedTime}
+        {hideTime ? '운행시간 상이' : formattedTime}
       </span>
       <span
         className={`line-clamp-1 text-16 ${

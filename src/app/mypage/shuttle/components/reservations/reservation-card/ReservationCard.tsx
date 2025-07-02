@@ -46,6 +46,7 @@ const ReservationCard = ({ reservation }: Props) => {
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
     reviewId,
+    isTaxiRoute,
   } = useReservationProgress({
     reservation,
     dailyEvent,
@@ -57,6 +58,7 @@ const ReservationCard = ({ reservation }: Props) => {
     handyStatus,
     isOpenChatLinkCreated,
     isWritingReviewPeriod,
+    isTaxiRoute,
   });
 
   const { eventName, eventLocationName, formattedEventDate, hubText } =
@@ -94,6 +96,7 @@ const ReservationCard = ({ reservation }: Props) => {
               reviewId={reviewId}
               openChatLink={shuttleBus?.openChatLink}
               reservationId={reservation.reservationId}
+              isTaxiRoute={isTaxiRoute}
             />
           </div>
           {textAndStyle?.description.text && (
