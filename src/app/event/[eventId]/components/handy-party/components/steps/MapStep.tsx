@@ -60,12 +60,12 @@ const MapStep = ({ onBack }: Props) => {
           title="정확한 위치를 설정해주세요"
           description="예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요."
         />
-        <section className="relative m-12 mt-0 grow overflow-hidden rounded-6 border border-basic-grey-200 bg-brand-primary-50">
+        <section className="relative m-12 mt-0 grow overflow-hidden rounded-6 border border-basic-grey-200">
           <div ref={mapRef} className="h-full w-full" />
         </section>
         <section>
           <div className="mx-16 border-b border-basic-grey-200 p-12">
-            <h5 className="text-16 font-500 leading-[160%]">
+            <h5 className="text-18 font-600 leading-[160%]">
               바르다김선생 남부터미널점
             </h5>
             <p className="text-14 font-500 leading-[160%] text-basic-grey-600">
