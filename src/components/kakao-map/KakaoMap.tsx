@@ -60,7 +60,7 @@ const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
         geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
       }
     } catch (error) {
-      alert('지도를 불러오는 중 오류가 발생했습니다. \n' + error);
+      console.error('지도를 불러오는 중 오류가 발생했습니다. \n' + error);
     }
   };
 
