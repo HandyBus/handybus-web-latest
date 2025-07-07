@@ -6,6 +6,7 @@ import { dateString } from '@/utils/dateString.util';
 import dayjs from 'dayjs';
 import ReviewButton from './ReviewButton';
 import useEventText from './hooks/useEventText';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -37,8 +38,11 @@ const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
       .isBefore(dayjs(dailyEvent.date).tz('Asia/Seoul').add(7, 'day'))
   );
 
+  const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
+
   const textAndStyle = useTextAndStyleForReview({
     isWritingReviewPeriod,
+    isHandyParty,
   });
 
   const { eventName, eventLocationName, formattedEventDate, hubText } =

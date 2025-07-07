@@ -5,6 +5,7 @@ import {
 } from '@/types/event.type';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { dateString } from '@/utils/dateString.util';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 import { useMemo } from 'react';
 
 interface Props {
@@ -47,19 +48,29 @@ const useEventText = ({ reservation, event, dailyEvent }: Props) => {
           reservation.fromDestinationShuttleRouteHubId,
       );
 
+    const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
+
     let hubText = '';
-    if (reservation.type === 'TO_DESTINATION') {
-      hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name}`;
-    } else if (reservation.type === 'FROM_DESTINATION') {
-      hubText = `${fromDestinationStartHub?.name} → ${fromDestinationEndHub?.name}`;
+    if (isHandyParty) {
+      if (reservation.type === 'TO_DESTINATION') {
+        hubText = `${reservation.metadata?.desiredHubAddress} → ${toDestinationEndHub?.name}`;
+      } else if (reservation.type === 'FROM_DESTINATION') {
+        hubText = `${fromDestinationStartHub?.name} → ${reservation.metadata?.desiredHubAddress}`;
+      }
     } else {
-      if (
-        toDestinationStartHub?.regionHubId ===
-        fromDestinationStartHub?.regionHubId
-      ) {
-        hubText = `${toDestinationStartHub?.name} ↔ ${toDestinationEndHub?.name}`;
+      if (reservation.type === 'TO_DESTINATION') {
+        hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name}`;
+      } else if (reservation.type === 'FROM_DESTINATION') {
+        hubText = `${fromDestinationStartHub?.name} → ${fromDestinationEndHub?.name}`;
       } else {
-        hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name} → ${fromDestinationEndHub?.name}`;
+        if (
+          toDestinationStartHub?.regionHubId ===
+          fromDestinationStartHub?.regionHubId
+        ) {
+          hubText = `${toDestinationStartHub?.name} ↔ ${toDestinationEndHub?.name}`;
+        } else {
+          hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name} → ${fromDestinationEndHub?.name}`;
+        }
       }
     }
 
