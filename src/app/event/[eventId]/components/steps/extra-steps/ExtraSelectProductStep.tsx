@@ -86,7 +86,7 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
         <button
           onClick={() => setIsHandyPartyModalOpen(true)}
           type="button"
-          className="flex flex-1 flex-col gap-20 rounded-8 bg-basic-grey-50 p-16 text-left disabled:opacity-70"
+          className="flex flex-1 flex-col gap-20 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100 disabled:opacity-70"
           disabled={!isHandyPartyAvailable}
         >
           <HandyPartyIcon />
@@ -105,7 +105,7 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
         <button
           onClick={toReservationHubsStep}
           type="button"
-          className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left"
+          className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100"
           disabled={!isShuttleBusAvailable}
         >
           <div className="relative group-disabled:opacity-40">

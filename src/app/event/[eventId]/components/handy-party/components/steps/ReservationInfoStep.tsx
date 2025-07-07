@@ -7,6 +7,8 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import SubtractIcon from '../../icons/subtract.svg';
 import AddIcon from '../../icons/add.svg';
 import Button from '@/components/buttons/button/Button';
+import { useFormContext } from 'react-hook-form';
+import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 
 interface Props {
   onBack: () => void;
@@ -19,6 +21,12 @@ const ReservationInfoStep = ({ onBack }: Props) => {
   const earlybirdPrice = 8000;
   const discountRate = 20;
   const isEarlybird = true;
+
+  const { getValues } = useFormContext<HandyPartyModalFormValues>();
+  const handleSubmit = () => {
+    const { addressSearchResult, tripType } = getValues();
+    console.log(addressSearchResult, tripType);
+  };
 
   return (
     <div className="flex grow flex-col">
@@ -75,7 +83,7 @@ const ReservationInfoStep = ({ onBack }: Props) => {
             </p>
           )}
         </article>
-        <Button variant="primary" size="large">
+        <Button variant="primary" size="large" onClick={handleSubmit}>
           예약하기
         </Button>
       </div>
