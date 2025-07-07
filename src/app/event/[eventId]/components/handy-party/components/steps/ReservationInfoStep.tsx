@@ -9,7 +9,7 @@ import Button from '@/components/buttons/button/Button';
 import { useFormContext } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { getHandyPartyArea } from '../../handyParty.util';
+import { getHandyPartyArea } from '../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
 import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { useRouter } from 'next/navigation';
@@ -19,9 +19,16 @@ const MAX_PASSENGER_COUNT = 5;
 interface Props {
   onBack: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
+  closeBottomSheet: () => void;
+  closeModal: () => void;
 }
 
-const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
+const ReservationInfoStep = ({
+  onBack,
+  handyPartyRoutes,
+  closeBottomSheet,
+  closeModal,
+}: Props) => {
   const router = useRouter();
   const { getValues } = useFormContext<HandyPartyModalFormValues>();
   const [passengerCount, setPassengerCount] = useState(1);
@@ -125,6 +132,8 @@ const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
     });
 
     router.push(url);
+    closeBottomSheet();
+    closeModal();
   };
 
   const destinationHub =

@@ -1,8 +1,10 @@
+import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import {
   HANDY_PARTY_AREA_TO_GUNGU,
   HANDY_PARTY_AREA_TO_SIDO,
   HandyPartyRouteArea,
 } from '@/constants/handyPartyArea.const';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
 export const checkIsHandyPartyArea = (
   address: string,
@@ -35,4 +37,14 @@ export const getHandyPartyArea = (address: string) => {
   );
 
   return handyPartyArea ? handyPartyArea[0] : null;
+};
+
+export const checkIsHandyParty = (
+  shuttleRoute: ShuttleRoutesViewEntity | null | undefined,
+) => {
+  if (!shuttleRoute) {
+    return false;
+  }
+
+  return shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
 };

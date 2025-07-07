@@ -6,15 +6,36 @@ interface Props {
   time: string;
   hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
   hideTime?: boolean;
+  isHandyParty?: boolean;
+  desiredHubAddress?: string;
+  desiredHubLatitude?: number;
+  desiredHubLongitude?: number;
 }
 
-const HubItem = ({ date, time, hub, hideTime = false }: Props) => {
+const HubItem = ({
+  date,
+  time,
+  hub,
+  hideTime = false,
+  isHandyParty = false,
+  desiredHubAddress,
+  desiredHubLatitude,
+  desiredHubLongitude,
+}: Props) => {
   const openKakaoMapWithLocation = () => {
-    window.open(
-      `https://map.kakao.com/link/map/${hub.name},${hub.latitude},${hub.longitude}`,
-      '_blank',
-      'noopener,noreferrer',
-    );
+    if (isHandyParty) {
+      window.open(
+        `https://map.kakao.com/link/map/${desiredHubAddress},${desiredHubLatitude},${desiredHubLongitude}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } else {
+      window.open(
+        `https://map.kakao.com/link/map/${hub.name},${hub.latitude},${hub.longitude}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    }
   };
   return (
     <li className="flex h-36 w-full items-center gap-16">
@@ -27,7 +48,9 @@ const HubItem = ({ date, time, hub, hideTime = false }: Props) => {
         </p>
       </div>
       <div className="h-16 w-[1px] bg-basic-grey-100" />
-      <div className="text-16 font-600">{hub.name}</div>
+      <div className="text-16 font-600">
+        {isHandyParty ? desiredHubAddress : hub.name}
+      </div>
       <Button
         type="button"
         variant="tertiary"

@@ -13,7 +13,7 @@ import {
 } from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../store/dailyEventIdsWithHubsAtom';
-import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 
 // eventDestination: 행사 도착지
 // primary: 선택된 정류장
@@ -125,8 +125,7 @@ const ShuttleRouteDetailView = () => {
     return null;
   }
 
-  // TODO: 임시로 핸디팟 노선 처리
-  const isTaxiRoute = getIsTaxiRoute(shuttleRoute);
+  const isHandyParty = checkIsHandyParty(shuttleRoute);
 
   return (
     <div ref={sectionRef}>
@@ -193,7 +192,7 @@ const ShuttleRouteDetailView = () => {
               tripType={currentTab}
               addOpenedHubIndex={addOpenedHubIndex}
               removeOpenedHubIndex={removeOpenedHubIndex}
-              isTaxiRoute={isTaxiRoute}
+              isHandyParty={isHandyParty}
             />
           </div>
         </div>

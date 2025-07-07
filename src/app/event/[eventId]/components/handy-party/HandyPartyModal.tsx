@@ -35,10 +35,15 @@ export interface HandyPartyModalFormValues {
 
 interface Props {
   closeModal: () => void;
+  closeBottomSheet: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
 }
 
-const HandyPartyModal = ({ closeModal, handyPartyRoutes }: Props) => {
+const HandyPartyModal = ({
+  closeModal,
+  closeBottomSheet,
+  handyPartyRoutes,
+}: Props) => {
   const { Funnel, Step, handleNextStep, handlePrevStep } = useFunnel(
     HANDY_PARTY_MODAL_STEPS,
   );
@@ -110,6 +115,8 @@ const HandyPartyModal = ({ closeModal, handyPartyRoutes }: Props) => {
               <ReservationInfoStep
                 onBack={handlePrevStep}
                 handyPartyRoutes={handyPartyRoutes}
+                closeBottomSheet={closeBottomSheet}
+                closeModal={closeModal}
               />
             </Step>
           </Funnel>

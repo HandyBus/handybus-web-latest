@@ -17,7 +17,7 @@ interface Props {
   reviewId: string | null | undefined;
   openChatLink: string | null | undefined;
   reservationId: string;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
 }
 
 const ChatButton = ({
@@ -29,7 +29,7 @@ const ChatButton = ({
   reviewId,
   openChatLink,
   reservationId,
-  isTaxiRoute,
+  isHandyParty,
 }: Props) => {
   const router = useRouter();
 
@@ -49,7 +49,7 @@ const ChatButton = ({
     window.open(HANDY_GUIDE_URL, '_blank', 'noopener,noreferrer');
   };
 
-  if (isTaxiRoute) {
+  if (isHandyParty) {
     return null;
   }
 

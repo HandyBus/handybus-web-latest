@@ -140,6 +140,7 @@ const StepComponent = ({
     '[기타] 상품 선택': (
       <ExtraSelectProductStep
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+        closeBottomSheet={closeBottomSheet}
       />
     ),
   };

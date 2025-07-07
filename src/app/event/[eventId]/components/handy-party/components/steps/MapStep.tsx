@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Header from '../Header';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import { checkIsHandyPartyArea } from '../../handyParty.util';
+import { checkIsHandyPartyArea } from '@/utils/handyParty.util';
 import { toast } from 'react-toastify';
 
 const DEFAULT_MAP_CENTER = {

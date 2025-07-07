@@ -15,7 +15,10 @@ interface Props {
     | undefined;
   shuttleRoute: ShuttleRoutesViewEntity;
   passengerCount: number;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
+  desiredHubAddress?: string;
+  desiredHubLatitude?: number;
+  desiredHubLongitude?: number;
 }
 
 const ShuttleInfoSection = ({
@@ -24,7 +27,10 @@ const ShuttleInfoSection = ({
   fromDestinationHub,
   shuttleRoute,
   passengerCount,
-  isTaxiRoute,
+  isHandyParty,
+  desiredHubAddress,
+  desiredHubLatitude,
+  desiredHubLongitude,
 }: Props) => {
   return (
     <section className="px-16">
@@ -38,7 +44,10 @@ const ShuttleInfoSection = ({
               shuttleRoute={shuttleRoute}
               withRoundTrip={tripType === 'ROUND_TRIP'}
               passengerCount={passengerCount}
-              isTaxiRoute={isTaxiRoute}
+              isHandyParty={isHandyParty}
+              desiredHubAddress={desiredHubAddress}
+              desiredHubLatitude={desiredHubLatitude}
+              desiredHubLongitude={desiredHubLongitude}
             />
           )}
         {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
@@ -49,7 +58,10 @@ const ShuttleInfoSection = ({
               shuttleRoute={shuttleRoute}
               withRoundTrip={tripType === 'ROUND_TRIP'}
               passengerCount={passengerCount}
-              isTaxiRoute={isTaxiRoute}
+              isHandyParty={isHandyParty}
+              desiredHubAddress={desiredHubAddress}
+              desiredHubLatitude={desiredHubLatitude}
+              desiredHubLongitude={desiredHubLongitude}
             />
           )}
       </div>

@@ -18,9 +18,13 @@ import HandyPartyModal from '../../handy-party/HandyPartyModal';
 
 interface Props {
   toReservationHubsStep: () => void;
+  closeBottomSheet: () => void;
 }
 
-const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
+const ExtraSelectProductStep = ({
+  toReservationHubsStep,
+  closeBottomSheet,
+}: Props) => {
   const { getValues } = useFormContext<EventFormValues>();
 
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
@@ -91,6 +95,7 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
       {isHandyPartyModalOpen && (
         <HandyPartyModal
           closeModal={() => setIsHandyPartyModalOpen(false)}
+          closeBottomSheet={closeBottomSheet}
           handyPartyRoutes={handyPartyRoutes}
         />
       )}

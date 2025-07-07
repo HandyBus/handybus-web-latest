@@ -8,7 +8,7 @@ import {
   HandyPartyModalFormValues,
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import { checkIsHandyPartyArea } from '../../handyParty.util';
+import { checkIsHandyPartyArea } from '@/utils/handyParty.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 
 interface SearchResult extends AddressSearchResult {

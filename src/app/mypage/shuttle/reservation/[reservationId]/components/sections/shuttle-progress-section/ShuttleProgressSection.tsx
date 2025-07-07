@@ -14,7 +14,7 @@ interface Props {
   isOpenChatLinkCreated: boolean;
   handyStatus: HandyStatus;
   shuttleBus: ShuttleBusesViewEntity | null | undefined;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
 }
 
 const ShuttleProgressSection = ({
@@ -23,7 +23,7 @@ const ShuttleProgressSection = ({
   isOpenChatLinkCreated,
   handyStatus,
   shuttleBus,
-  isTaxiRoute,
+  isHandyParty,
 }: Props) => {
   const isHandy = handyStatus === 'ACCEPTED';
 
@@ -31,7 +31,7 @@ const ShuttleProgressSection = ({
     reservationProgress,
     isOpenChatLinkCreated,
     isHandy,
-    isTaxiRoute,
+    isHandyParty,
   });
 
   const shuttleBusNumber =
@@ -99,7 +99,7 @@ const ShuttleProgressSection = ({
               </>
             )}
           </h4>
-          {isTaxiRoute ? (
+          {isHandyParty ? (
             <TaxiRouteProgressBar reservationProgress={reservationProgress} />
           ) : (
             <ShuttleBusProgressBar
@@ -112,7 +112,7 @@ const ShuttleProgressSection = ({
           <p className="pb-8 text-14 font-500 text-basic-grey-700">
             {descriptionText}
           </p>
-          {!isTaxiRoute &&
+          {!isHandyParty &&
             reservationProgress !== 'shuttleEnded' &&
             reservationProgress !== 'reservationCanceled' && (
               <p className="flex items-center gap-[2px]">
