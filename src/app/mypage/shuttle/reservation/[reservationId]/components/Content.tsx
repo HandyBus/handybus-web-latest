@@ -17,7 +17,7 @@ import RefundSection from './sections/refund-section/RefundSection';
 import PrimaryCheckIcon from '../icons/icon-check-primary.svg';
 import GreyCheckIcon from '../icons/icon-check-grey.svg';
 import WrapperWithDivider from './WrapperWithDivider';
-import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -58,11 +58,18 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
   const isCanceled = reservationProgress === 'reservationCanceled';
   const isEnded = reservationProgress === 'shuttleEnded';
 
-  // TODO: 임시로 핸디팟 노선 처리
-  const isTaxiRoute = getIsTaxiRoute(shuttleRoute);
+  const isHandyParty = checkIsHandyParty(shuttleRoute);
+
+  console.log(reservation);
 
   return (
     <main className="grow pb-16">
+      {isHandyParty && (
+        <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
+          예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
+          승하차 위치를 꼭 확인하세요.
+        </div>
+      )}
       <Title progress={reservationProgress} />
       <EventCard event={event} />
       <ul className="flex flex-col gap-24">
@@ -74,7 +81,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
               isOpenChatLinkCreated={isOpenChatLinkCreated}
               handyStatus={handyStatus}
               shuttleBus={shuttleBus}
-              isTaxiRoute={isTaxiRoute}
+              isHandyParty={isHandyParty}
             />
           </WrapperWithDivider>
         )}
@@ -85,7 +92,16 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             fromDestinationHub={fromDestinationHub}
             shuttleRoute={shuttleRoute}
             passengerCount={reservation.passengerCount}
-            isTaxiRoute={isTaxiRoute}
+            isHandyParty={isHandyParty}
+            desiredHubAddress={
+              reservation.metadata?.desiredHubAddress ?? undefined
+            }
+            desiredHubLatitude={
+              reservation.metadata?.desiredHubLatitude ?? undefined
+            }
+            desiredHubLongitude={
+              reservation.metadata?.desiredHubLongitude ?? undefined
+            }
           />
         </WrapperWithDivider>
         <WrapperWithDivider>
@@ -94,7 +110,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
-        {!isTaxiRoute && (
+        {!isHandyParty && (
           <WrapperWithDivider>
             <HandySection
               isCanceled={isCanceled}

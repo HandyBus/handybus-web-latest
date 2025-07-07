@@ -1,7 +1,7 @@
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { ShuttleBusesViewEntity } from '@/types/shuttleBus.type';
-import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
@@ -43,7 +43,7 @@ const useReservationProgress = ({
 
   const isOpenChatLinkCreated = !!shuttleBus?.openChatLink;
 
-  const isTaxiRoute = getIsTaxiRoute(reservation.shuttleRoute);
+  const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
 
   const reviewId = reservation.reviewId;
 
@@ -60,7 +60,7 @@ const useReservationProgress = ({
     isOpenChatLinkCreated,
     reviewId,
     isWritingReviewPeriod,
-    isTaxiRoute,
+    isHandyParty,
   };
 };
 

@@ -5,15 +5,6 @@ import Script from 'next/script';
 import LogoIcon from 'public/icons/logo-small.svg';
 import KakaoMapIcon from 'public/icons/kakaomap-logo.svg';
 import ChevronRightIcon from 'public/icons/chevron-right.svg';
-import { KakaoMapsAPI } from './KakaoMap.type';
-
-declare global {
-  interface Window {
-    kakao: {
-      maps: KakaoMapsAPI;
-    };
-  }
-}
 
 interface Props {
   placeName: string;
@@ -60,7 +51,7 @@ const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
         geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
       }
     } catch (error) {
-      alert('지도를 불러오는 중 오류가 발생했습니다. \n' + error);
+      console.error('지도를 불러오는 중 오류가 발생했습니다. \n' + error);
     }
   };
 

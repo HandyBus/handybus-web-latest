@@ -22,6 +22,7 @@ export const DailyEventsInEventsViewEntitySchema = z
     date: z.string(),
     status: EventStatusEnum,
     closeDeadline: z.string(),
+    metadata: z.record(z.string(), z.any()).nullable(),
   })
   .strict();
 export type DailyEventsInEventsViewEntity = z.infer<
@@ -41,12 +42,14 @@ export const EventsViewEntitySchema = z
     eventLocationAddress: z.string(),
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
+    eventIsPinned: z.number(), // TOOD: 백엔드 버그. boolean으로 변경 필요
     eventArtists: ArtistsViewEntitySchema.array().nullable(),
     dailyEvents: DailyEventsInEventsViewEntitySchema.array(),
     startDate: z.string(),
     endDate: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
+    eventMetadata: z.record(z.string(), z.any()).nullable(),
   })
   .strict();
 export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;

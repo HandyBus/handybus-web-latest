@@ -13,7 +13,7 @@ interface Props {
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   addOpenedHubIndex: (index: number) => void;
   removeOpenedHubIndex: (index: number) => void;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
 }
 
 const Hubs = ({
@@ -22,7 +22,7 @@ const Hubs = ({
   tripType,
   addOpenedHubIndex,
   removeOpenedHubIndex,
-  isTaxiRoute,
+  isHandyParty,
 }: Props) => {
   const [isKakaoMapScriptLoaded, setIsKakaoMapScriptLoaded] = useState(false);
   return (
@@ -36,7 +36,7 @@ const Hubs = ({
           length: hubs.length,
         });
         const isLastHub = index === hubs.length - 1;
-        const hideTime = type !== 'eventDestination' && isTaxiRoute;
+        const hideTime = type !== 'eventDestination' && isHandyParty;
         return (
           <Hub
             key={hub.shuttleRouteHubId}

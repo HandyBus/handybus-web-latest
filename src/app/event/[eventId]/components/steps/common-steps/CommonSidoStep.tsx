@@ -10,17 +10,20 @@ import {
   getRecentlyViewedBigRegion,
   setRecentlyViewedBigRegion,
 } from '@/utils/localStorage';
+import { HANDY_PARTY_PREFIX } from '@/constants/common';
 
 interface Props {
   toDemandHubsStep: () => void;
   toReservationHubsStep: () => void;
   toExtraSidoInfoStep: () => void;
+  toExtraSelectProductStep: () => void;
 }
 
 const CommonSidoStep = ({
   toDemandHubsStep,
   toReservationHubsStep,
   toExtraSidoInfoStep,
+  toExtraSelectProductStep,
 }: Props) => {
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
@@ -51,7 +54,20 @@ const CommonSidoStep = ({
       return;
     }
 
-    toReservationHubsStep();
+    const isHandyPartyAvailable = Object.values(gungusWithHubs ?? {}).some(
+      (hubs) => {
+        const flattenedHubs = hubs.flatMap((hub) => hub);
+        return flattenedHubs.some((hub) =>
+          hub.name.includes(HANDY_PARTY_PREFIX),
+        );
+      },
+    );
+
+    if (isHandyPartyAvailable) {
+      toExtraSelectProductStep();
+    } else {
+      toReservationHubsStep();
+    }
   };
 
   const recentlyViewedSido = getRecentlyViewedBigRegion();

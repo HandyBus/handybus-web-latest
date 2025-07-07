@@ -7,23 +7,29 @@ import { useAtomValue } from 'jotai';
 import { useMemo } from 'react';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
+import { HANDY_PARTY_PREFIX } from '@/constants/common';
 
 interface Props {
-  toNextStep: () => void;
+  toReservationHubsStep: () => void;
+  toExtraSelectProductStep: () => void;
 }
 
-const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
+const ExtraOpenSidoStep = ({
+  toReservationHubsStep,
+  toExtraSelectProductStep,
+}: Props) => {
   const { setValue, getValues } = useFormContext<EventFormValues>();
 
+  const dailyEvent = getValues('dailyEvent');
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
+  const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
+
   const openRegions = useMemo(() => {
-    const dailyEvent = getValues('dailyEvent');
-    const sidosWithHubs = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
-    if (!sidosWithHubs) {
+    if (!sidosWithGungus) {
       return [];
     }
     const openSidos: BigRegionsType[] = Object.keys(
-      sidosWithHubs,
+      sidosWithGungus,
     ) as BigRegionsType[];
     const sortedSidos = openSidos.sort((a, b) => {
       const aIndex = BIG_REGIONS.indexOf(a);
@@ -31,11 +37,32 @@ const ExtraOpenSidoStep = ({ toNextStep }: Props) => {
       return aIndex - bIndex;
     });
     return sortedSidos;
-  }, [dailyEventIdsWithHubs]);
+  }, [sidosWithGungus]);
 
   const handleOpenSidoClick = (sido: BigRegionsType) => {
     setValue('openSido', sido);
-    toNextStep();
+
+    const gungusWithHubs = sidosWithGungus?.[sido];
+    const isRoutesAvailable = Object.keys(gungusWithHubs ?? {}).length > 0;
+
+    if (!isRoutesAvailable) {
+      return;
+    }
+
+    const isHandyPartyAvailable = Object.values(gungusWithHubs ?? {}).some(
+      (hubs) => {
+        const flattenedHubs = hubs.flatMap((hubsOfRoute) => hubsOfRoute);
+        return flattenedHubs.some((hub) =>
+          hub.name.includes(HANDY_PARTY_PREFIX),
+        );
+      },
+    );
+
+    if (isHandyPartyAvailable) {
+      toExtraSelectProductStep();
+    } else {
+      toReservationHubsStep();
+    }
   };
 
   return (
