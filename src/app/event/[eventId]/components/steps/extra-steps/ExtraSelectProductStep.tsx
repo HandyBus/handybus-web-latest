@@ -139,7 +139,7 @@ const ExtraSelectProductStep = ({
             )}
             <p className="text-14 font-500 text-basic-grey-700 group-disabled:opacity-40">
               {isShuttleBusAvailable
-                ? '수요 맞춤 우등버스'
+                ? '수요 맞춤 대형버스'
                 : '수요조사 인원 미달로 개설되지 않았어요.'}
             </p>
           </div>
