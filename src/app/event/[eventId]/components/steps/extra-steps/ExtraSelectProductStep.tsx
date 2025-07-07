@@ -31,11 +31,15 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
     isShuttleBusAvailable,
     handyPartyMinPrice,
     shuttleBusMinPrice,
+    handyPartyRoutes,
   } = useMemo(() => {
     if (!dailyEventIdsWithHubs) {
       return {
         isHandyPartyAvailable: false,
         isShuttleBusAvailable: false,
+        handyPartyMinPrice: undefined,
+        shuttleBusMinPrice: undefined,
+        handyPartyRoutes: [],
       };
     }
 
@@ -46,6 +50,10 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
     ]);
 
     const routes = dailyEventIdsWithRoutes?.[dailyEvent.dailyEventId];
+
+    const handyPartyRoutes = routes.filter((route) =>
+      route.name.includes(HANDY_PARTY_PREFIX),
+    );
 
     const prioritySido = openSido ?? sido;
     const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
@@ -72,6 +80,7 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
       isShuttleBusAvailable,
       handyPartyMinPrice,
       shuttleBusMinPrice,
+      handyPartyRoutes,
     };
   }, [getValues, dailyEventIdsWithHubs, dailyEventIdsWithRoutes]);
 
@@ -80,7 +89,10 @@ const ExtraSelectProductStep = ({ toReservationHubsStep }: Props) => {
   return (
     <>
       {isHandyPartyModalOpen && (
-        <HandyPartyModal closeModal={() => setIsHandyPartyModalOpen(false)} />
+        <HandyPartyModal
+          closeModal={() => setIsHandyPartyModalOpen(false)}
+          handyPartyRoutes={handyPartyRoutes}
+        />
       )}
       <section className="flex gap-8">
         <button

@@ -8,6 +8,8 @@ import {
   HandyPartyModalFormValues,
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
+import { checkIsHandyPartyArea } from '../../handyParty.util';
+import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 
 interface SearchResult extends AddressSearchResult {
   placeName: string;
@@ -16,10 +18,11 @@ interface SearchResult extends AddressSearchResult {
 interface Props {
   onBack: () => void;
   onNext: () => void;
+  possibleGungus: string[];
 }
 
-const AddressStep = ({ onBack, onNext }: Props) => {
-  const { setValue } = useFormContext<HandyPartyModalFormValues>();
+const AddressStep = ({ onBack, onNext, possibleGungus }: Props) => {
+  const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
   const [searchValue, setSearchValue] = useState('');
 
   const kakaoPlace = useRef<kakao.maps.services.Places | null>(null);
@@ -44,8 +47,13 @@ const AddressStep = ({ onBack, onNext }: Props) => {
 
     kakaoPlace.current.keywordSearch(value, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
+        console.log(result);
+        const filteredResult = result.filter((item) =>
+          checkIsHandyPartyArea(item.address_name, possibleGungus),
+        );
+
         setSearchResult(() =>
-          result.map((item) => ({
+          filteredResult.map((item) => ({
             placeName: item.place_name,
             address: item.address_name,
             x: Number(item.x),
@@ -71,11 +79,14 @@ const AddressStep = ({ onBack, onNext }: Props) => {
     onNext();
   };
 
+  const tripType = getValues('tripType');
+  const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[tripType] + ']';
+
   return (
     <div className="flex h-full grow flex-col">
       <Header
         onBack={onBack}
-        title="주소를 입력해 주세요"
+        title={`${tripTypePrefix} 주소를 입력해 주세요`}
         description="원하는 승하차 장소를 정확하게 입력해 주세요. 왕복 선택 시, 탑승 장소에서 하차해요."
       />
       <DebouncedInput value={searchValue} setValue={setSearchValue} />
@@ -83,7 +94,7 @@ const AddressStep = ({ onBack, onNext }: Props) => {
       <ul className="w-full flex-1 overflow-y-auto px-16 pb-12">
         {searchResult?.map((item) => (
           <button
-            key={item.placeName}
+            key={item.placeName + item.address}
             onClick={() => handleSelectAddress(item)}
             type="button"
             className="w-full border-b border-basic-grey-200 py-12 text-left"

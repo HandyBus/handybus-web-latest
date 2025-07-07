@@ -5,6 +5,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Header from '../Header';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
+import { checkIsHandyPartyArea } from '../../handyParty.util';
+import { toast } from 'react-toastify';
 
 const DEFAULT_MAP_CENTER = {
   x: 127.02761,
@@ -15,14 +17,17 @@ const DEFAULT_MAP_CENTER = {
 interface Props {
   onBack: () => void;
   onNext: () => void;
+  possibleGungus: string[];
 }
 
-const MapStep = ({ onBack, onNext }: Props) => {
+const MapStep = ({ onBack, onNext, possibleGungus }: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
 
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMarker = useRef<kakao.maps.Marker | null>(null);
   const kakaoGeocoder = useRef<kakao.maps.services.Geocoder | null>(null);
+
+  // 주소 검색 오류 or 운행하지 않는 지역
   const [addressSearchError, setAddressSearchError] = useState<boolean>(false);
 
   const [displayedAddress, setDisplayedAddress] = useState<string | null>(null);
@@ -52,6 +57,14 @@ const MapStep = ({ onBack, onNext }: Props) => {
               y: coord.getLat(),
             });
             setDisplayedAddress(address.address_name);
+
+            const isHandyPartyArea = checkIsHandyPartyArea(
+              address.address_name,
+              possibleGungus,
+            );
+            if (!isHandyPartyArea) {
+              setAddressSearchError(true);
+            }
           } else {
             console.error('좌표 검색 오류: ', status, result);
             setAddressSearchError(true);
@@ -126,12 +139,28 @@ const MapStep = ({ onBack, onNext }: Props) => {
     window.kakao.maps.load(initializeMap);
   }, [initializeMap]);
 
+  const handleNext = () => {
+    if (addressSearchError) {
+      toast.error('운행이 가능한 지역을 입력해주세요.');
+      return;
+    }
+    onNext();
+  };
+
   return (
     <div className="flex grow flex-col">
       <Header
         onBack={onBack}
         title="정확한 위치를 설정해주세요"
-        description="예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요."
+        description={
+          addressSearchError ? (
+            <p className="text-basic-red-500">
+              이 곳은 핸디팟 운행이 어려운 지역이에요.
+            </p>
+          ) : (
+            '예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
+          )
+        }
       />
       <section className="relative mx-12 my-0 grow overflow-hidden rounded-6 border border-basic-grey-200">
         <div ref={mapRef} className="h-full w-full" />
@@ -144,7 +173,12 @@ const MapStep = ({ onBack, onNext }: Props) => {
         {addressSearchError ? '주소를 못 찾았어요.' : displayedAddress}
       </section>
       <section className="mt-[6px] p-16">
-        <Button size="large" variant="primary" onClick={onNext}>
+        <Button
+          size="large"
+          variant="primary"
+          type="button"
+          onClick={handleNext}
+        >
           주소 입력하기
         </Button>
       </section>

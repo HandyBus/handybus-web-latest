@@ -12,9 +12,10 @@ type TripTypeWithoutRoundTrip = Exclude<TripType, 'ROUND_TRIP'>;
 interface Props {
   tripType: TripTypeWithoutRoundTrip;
   destinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity;
+  userAddress: string;
 }
 
-const SimpleRouteInfo = ({ tripType, destinationHub }: Props) => {
+const SimpleRouteInfo = ({ tripType, destinationHub, userAddress }: Props) => {
   const tripTypeText = useMemo(() => {
     const baseText = tripType === 'TO_DESTINATION' ? '가는 편' : '오는 편';
     return '[핸디팟] ' + baseText;
@@ -33,7 +34,7 @@ const SimpleRouteInfo = ({ tripType, destinationHub }: Props) => {
         <div className="flex flex-1 flex-col gap-12">
           {tripType === 'TO_DESTINATION' ? (
             <>
-              <Hub name="바르다김선생 남부터미널점" hideTime />
+              <Hub name={userAddress} hideTime />
               <Hub
                 time={destinationHub.arrivalTime}
                 name={destinationHub.name}
@@ -45,7 +46,7 @@ const SimpleRouteInfo = ({ tripType, destinationHub }: Props) => {
                 time={destinationHub.arrivalTime}
                 name={destinationHub.name}
               />
-              <Hub name="바르다김선생 남부터미널점" hideTime />
+              <Hub name={userAddress} hideTime />
             </>
           )}
         </div>

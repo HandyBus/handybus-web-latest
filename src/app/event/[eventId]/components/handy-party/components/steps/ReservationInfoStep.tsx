@@ -1,42 +1,128 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Header from '../Header';
 import SimpleRouteInfo from '../SimpleRouteInfo';
-import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import SubtractIcon from '../../icons/subtract.svg';
 import AddIcon from '../../icons/add.svg';
 import Button from '@/components/buttons/button/Button';
 import { useFormContext } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { getHandyPartyArea } from '../../handyParty.util';
+import dayjs from 'dayjs';
+
+const MAX_PASSENGER_COUNT = 5;
 
 interface Props {
   onBack: () => void;
+  handyPartyRoutes: ShuttleRoutesViewEntity[];
 }
 
-const ReservationInfoStep = ({ onBack }: Props) => {
+const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
   const [passengerCount, setPassengerCount] = useState(1);
 
-  const regularPrice = 10000;
-  const earlybirdPrice = 8000;
-  const discountRate = 20;
-  const isEarlybird = true;
-
   const { getValues } = useFormContext<HandyPartyModalFormValues>();
+
+  const {
+    targetRoute,
+    tripType,
+    userAddress,
+    regularPrice,
+    earlybirdPrice,
+    discountRate,
+    isEarlybird,
+  } = useMemo(() => {
+    const [tripType, addressSearchResult] = getValues([
+      'tripType',
+      'addressSearchResult',
+    ]);
+
+    const handyPartyArea = getHandyPartyArea(addressSearchResult.address);
+
+    const targetRoute = handyPartyRoutes.find((route) => {
+      const handyPartyAreaOfItem = route.name.split('_')?.[1] ?? '';
+      const tripTypeOfItem = route.name.split('_')?.[2] ?? '';
+      const isSameArea = handyPartyAreaOfItem === handyPartyArea;
+      const convertedTripTypeOfItem =
+        tripTypeOfItem === '가는편' ? 'TO_DESTINATION' : 'FROM_DESTINATION';
+      const isSameTripType = convertedTripTypeOfItem === tripType;
+      return isSameArea && isSameTripType;
+    });
+
+    if (!targetRoute) {
+      return {
+        targetRoute: undefined,
+        tripType: undefined,
+        regularPrice: 0,
+        earlybirdPrice: 0,
+        discountRate: 0,
+        isEarlybird: false,
+      };
+    }
+
+    const isEarlybird =
+      targetRoute.hasEarlybird &&
+      targetRoute.earlybirdDeadline &&
+      dayjs().isBefore(targetRoute.earlybirdDeadline);
+
+    const regularPrice =
+      (tripType === 'TO_DESTINATION'
+        ? targetRoute.regularPriceToDestination
+        : targetRoute.regularPriceFromDestination) ?? 0;
+
+    const earlybirdPrice =
+      (isEarlybird && tripType === 'TO_DESTINATION'
+        ? targetRoute.earlybirdPriceToDestination
+        : targetRoute.earlybirdPriceFromDestination) ?? 0;
+
+    const discountRate = Math.floor(
+      ((regularPrice - earlybirdPrice) / regularPrice) * 100,
+    );
+
+    return {
+      targetRoute,
+      tripType,
+      userAddress: addressSearchResult.address,
+      regularPrice,
+      earlybirdPrice,
+      discountRate,
+      isEarlybird,
+    };
+  }, [handyPartyRoutes]);
+
   const handleSubmit = () => {
     const { addressSearchResult, tripType } = getValues();
     console.log(addressSearchResult, tripType);
   };
 
+  const destinationHub =
+    tripType === 'TO_DESTINATION'
+      ? targetRoute?.toDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        )
+      : targetRoute?.fromDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        );
+
   return (
     <div className="flex grow flex-col">
       <Header onBack={onBack} title="이 셔틀로 예약을 진행할게요" />
       <div className="flex w-full flex-col gap-16 px-16">
-        <SimpleRouteInfo tripType="TO_DESTINATION" destinationHub={MOCK_HUB} />
-        <SimpleRouteInfo
-          tripType="FROM_DESTINATION"
-          destinationHub={MOCK_HUB}
-        />
+        {destinationHub && tripType === 'TO_DESTINATION' && (
+          <SimpleRouteInfo
+            tripType="TO_DESTINATION"
+            destinationHub={destinationHub}
+            userAddress={userAddress}
+          />
+        )}
+        {destinationHub && tripType === 'FROM_DESTINATION' && (
+          <SimpleRouteInfo
+            tripType="FROM_DESTINATION"
+            destinationHub={destinationHub}
+            userAddress={userAddress}
+          />
+        )}
         <article className="flex items-center justify-between rounded-12 border border-basic-grey-100 p-8">
           <button
             type="button"
@@ -61,7 +147,7 @@ const ReservationInfoStep = ({ onBack }: Props) => {
         <article>
           <p className="flex h-[22px] items-center justify-between">
             <span className="text-14 font-500 text-basic-grey-700">
-              {regularPrice.toLocaleString()}원 x {passengerCount}
+              {regularPrice?.toLocaleString()}원 x {passengerCount}
             </span>
             <span
               className={`font-600 ${isEarlybird ? 'text-14 text-basic-grey-300 line-through' : 'text-16'}`}
@@ -83,7 +169,12 @@ const ReservationInfoStep = ({ onBack }: Props) => {
             </p>
           )}
         </article>
-        <Button variant="primary" size="large" onClick={handleSubmit}>
+        <Button
+          variant="primary"
+          size="large"
+          type="button"
+          onClick={handleSubmit}
+        >
           예약하기
         </Button>
       </div>
@@ -92,18 +183,3 @@ const ReservationInfoStep = ({ onBack }: Props) => {
 };
 
 export default ReservationInfoStep;
-
-const MOCK_HUB = {
-  shuttleRouteHubId: '595172465961865484',
-  regionHubId: '545046713346297880',
-  regionId: '60',
-  name: '인스파이어 아레나',
-  address: '인천 중구 운서동 2955-74',
-  latitude: 37.466693876545094,
-  longitude: 126.39057917718644,
-  type: 'FROM_DESTINATION',
-  role: 'DESTINATION',
-  sequence: 1,
-  arrivalTime: '2025-09-11T13:30:00.000Z',
-  status: 'ACTIVE',
-} as const;

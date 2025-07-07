@@ -1,11 +1,12 @@
 'use client';
 
+import { ReactNode } from 'react';
 import BackIcon from '../icons/arrow-left.svg';
 
 interface Props {
   onBack: () => void;
-  title: string;
-  description?: string;
+  title: ReactNode;
+  description?: ReactNode;
 }
 
 const Header = ({ onBack, title, description }: Props) => {
@@ -15,10 +16,12 @@ const Header = ({ onBack, title, description }: Props) => {
         <button type="button" className="shrink-0" onClick={onBack}>
           <BackIcon />
         </button>
-        <h2 className="text-20 font-700">{title}</h2>
+        <h2 className="text-20 font-700 leading-[160%]">{title}</h2>
       </div>
       {description && (
-        <p className="text-16 font-500 text-basic-grey-600">{description}</p>
+        <p className="text-16 font-500 leading-[160%] text-basic-grey-600">
+          {description}
+        </p>
       )}
     </header>
   );
