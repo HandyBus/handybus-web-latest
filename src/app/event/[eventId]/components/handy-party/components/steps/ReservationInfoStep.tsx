@@ -11,6 +11,8 @@ import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { getHandyPartyArea } from '../../handyParty.util';
 import dayjs from 'dayjs';
+import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import { useRouter } from 'next/navigation';
 
 const MAX_PASSENGER_COUNT = 5;
 
@@ -20,9 +22,9 @@ interface Props {
 }
 
 const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
-  const [passengerCount, setPassengerCount] = useState(1);
-
+  const router = useRouter();
   const { getValues } = useFormContext<HandyPartyModalFormValues>();
+  const [passengerCount, setPassengerCount] = useState(1);
 
   const {
     targetRoute,
@@ -83,7 +85,7 @@ const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
     return {
       targetRoute,
       tripType,
-      userAddress: addressSearchResult.address,
+      userAddress: addressSearchResult,
       regularPrice,
       earlybirdPrice,
       discountRate,
@@ -92,8 +94,37 @@ const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
   }, [handyPartyRoutes]);
 
   const handleSubmit = () => {
-    const { addressSearchResult, tripType } = getValues();
-    console.log(addressSearchResult, tripType);
+    if (!targetRoute || !userAddress!) {
+      return;
+    }
+
+    const toDestinationShuttleRouteHubId =
+      tripType === 'TO_DESTINATION'
+        ? targetRoute.toDestinationShuttleRouteHubs?.find(
+            (hub) => hub.role === 'HUB',
+          )?.shuttleRouteHubId
+        : undefined;
+    const fromDestinationShuttleRouteHubId =
+      tripType === 'FROM_DESTINATION'
+        ? targetRoute.fromDestinationShuttleRouteHubs?.find(
+            (hub) => hub.role === 'HUB',
+          )?.shuttleRouteHubId
+        : undefined;
+
+    const url = createPaymentPageUrl({
+      eventId: targetRoute.eventId,
+      dailyEventId: targetRoute.dailyEventId,
+      shuttleRouteId: targetRoute.shuttleRouteId,
+      tripType,
+      toDestinationHubId: toDestinationShuttleRouteHubId,
+      fromDestinationHubId: fromDestinationShuttleRouteHubId,
+      passengerCount,
+      desiredHubAddress: userAddress.address,
+      desiredHubLatitude: userAddress.y,
+      desiredHubLongitude: userAddress.x,
+    });
+
+    router.push(url);
   };
 
   const destinationHub =
@@ -113,14 +144,14 @@ const ReservationInfoStep = ({ onBack, handyPartyRoutes }: Props) => {
           <SimpleRouteInfo
             tripType="TO_DESTINATION"
             destinationHub={destinationHub}
-            userAddress={userAddress}
+            userAddress={userAddress.address}
           />
         )}
         {destinationHub && tripType === 'FROM_DESTINATION' && (
           <SimpleRouteInfo
             tripType="FROM_DESTINATION"
             destinationHub={destinationHub}
-            userAddress={userAddress}
+            userAddress={userAddress.address}
           />
         )}
         <article className="flex items-center justify-between rounded-12 border border-basic-grey-100 p-8">

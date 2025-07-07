@@ -39,6 +39,19 @@ const Page = ({ params }: Props) => {
   const passengerCount = Number(
     searchParams.get(PAYMENT_PARAMS_KEYS.passengerCount),
   );
+  const desiredHubAddress = searchParams.get(
+    PAYMENT_PARAMS_KEYS.desiredHubAddress,
+  );
+  const desiredHubLatitude = Number(
+    searchParams.get(PAYMENT_PARAMS_KEYS.desiredHubLatitude),
+  );
+  const desiredHubLongitude = Number(
+    searchParams.get(PAYMENT_PARAMS_KEYS.desiredHubLongitude),
+  );
+
+  const isHandyParty = Boolean(
+    desiredHubAddress && desiredHubLatitude && desiredHubLongitude,
+  );
 
   const { data: event, isLoading: isEventLoading } = useGetEvent(eventId);
   const { data: shuttleRoute, isLoading: isShuttleRouteLoading } =
@@ -71,6 +84,10 @@ const Page = ({ params }: Props) => {
             toDestinationHubId={toDestinationHubId}
             fromDestinationHubId={fromDestinationHubId}
             passengerCount={passengerCount}
+            isHandyParty={isHandyParty}
+            desiredHubAddress={desiredHubAddress ?? undefined}
+            desiredHubLatitude={desiredHubLatitude ?? undefined}
+            desiredHubLongitude={desiredHubLongitude ?? undefined}
           />
         )}
       </DeferredSuspense>

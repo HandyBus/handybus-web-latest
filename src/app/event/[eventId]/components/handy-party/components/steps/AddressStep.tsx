@@ -47,7 +47,6 @@ const AddressStep = ({ onBack, onNext, possibleGungus }: Props) => {
 
     kakaoPlace.current.keywordSearch(value, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        console.log(result);
         const filteredResult = result.filter((item) =>
           checkIsHandyPartyArea(item.address_name, possibleGungus),
         );
