@@ -11,3 +11,7 @@ export const LONG_QUERY_STALE_TIME = 5 * 60 * 1000; // 5분
 export const MAX_PASSENGER_COUNT = 9; // 한번에 예약 가능한 최대 인원 수 (9명)
 
 export const MAX_HANDY_DISCOUNT_AMOUNT = 40000; // 핸디 할인 최대 금액 (4만원)
+
+// 핸디팟 노선 형식: 핸디팟_${권역명}_${방향} ex) 핸디팟_중심권_가는편
+// 핸디팟 정류장 형식: 핸디팟_${권역명} ex) 핸디팟_중심권
+export const HANDY_PARTY_PREFIX = '핸디팟';

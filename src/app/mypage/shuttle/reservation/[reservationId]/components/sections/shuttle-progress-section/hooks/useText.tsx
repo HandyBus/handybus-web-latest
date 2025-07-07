@@ -5,14 +5,14 @@ interface Props {
   reservationProgress: ReservationProgress;
   isOpenChatLinkCreated: boolean;
   isHandy: boolean;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
 }
 
 const useText = ({
   reservationProgress,
   isOpenChatLinkCreated,
   isHandy,
-  isTaxiRoute,
+  isHandyParty,
 }: Props) => {
   const getShuttleBusProgressText = useCallback(() => {
     if (reservationProgress === 'beforeBusAssigned') {
@@ -72,7 +72,7 @@ const useText = ({
     }
   }, [reservationProgress]);
 
-  const getTaxiRouteDescriptionText = useCallback(() => {
+  const getHandyPartyDescriptionText = useCallback(() => {
     if (reservationProgress === 'beforeBusAssigned') {
       return '함께 갈 인원과 배차 정보를 확인 중이에요.';
     } else if (reservationProgress === 'afterBusAssigned') {
@@ -84,18 +84,22 @@ const useText = ({
   }, [reservationProgress]);
 
   const progressText = useMemo(() => {
-    if (isTaxiRoute) {
+    if (isHandyParty) {
       return getTaxiRouteProgressText();
     }
     return getShuttleBusProgressText();
-  }, [isTaxiRoute, getTaxiRouteProgressText, getShuttleBusProgressText]);
+  }, [isHandyParty, getTaxiRouteProgressText, getShuttleBusProgressText]);
 
   const descriptionText = useMemo(() => {
-    if (isTaxiRoute) {
-      return getTaxiRouteDescriptionText();
+    if (isHandyParty) {
+      return getHandyPartyDescriptionText();
     }
     return getShuttleBusDescriptionText();
-  }, [isTaxiRoute, getTaxiRouteDescriptionText, getShuttleBusDescriptionText]);
+  }, [
+    isHandyParty,
+    getHandyPartyDescriptionText,
+    getShuttleBusDescriptionText,
+  ]);
 
   return { progressText, descriptionText };
 };

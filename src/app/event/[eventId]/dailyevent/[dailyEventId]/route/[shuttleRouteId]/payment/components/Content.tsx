@@ -21,7 +21,6 @@ import { postPreparePayment } from '@/services/payment.service';
 import { postReserveReservation } from '@/services/payment.service';
 import { usePathname } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { getIsTaxiRoute } from '@/utils/taxiRoute.util';
 
 interface ContentProps {
   tripType: TripType;
@@ -32,6 +31,10 @@ interface ContentProps {
   shuttleRoute: ShuttleRoutesViewEntity;
   user: UsersViewEntity;
   coupons: IssuedCouponsViewEntity[];
+  isHandyParty: boolean;
+  desiredHubAddress?: string;
+  desiredHubLatitude?: number;
+  desiredHubLongitude?: number;
 }
 
 const Content = ({
@@ -43,6 +46,10 @@ const Content = ({
   shuttleRoute,
   user,
   coupons,
+  isHandyParty,
+  desiredHubAddress,
+  desiredHubLatitude,
+  desiredHubLongitude,
 }: ContentProps) => {
   const pathname = usePathname();
 
@@ -89,6 +96,9 @@ const Content = ({
             : undefined,
         isSupportingHandy: isHandyApplied,
         passengerCount,
+        desiredHubAddress,
+        desiredHubLatitude,
+        desiredHubLongitude,
       };
       const postReservationResponse =
         await postReserveReservation(parsedFormValues);
@@ -128,9 +138,6 @@ const Content = ({
     }
   };
 
-  // TODO: 임시로 핸디팟 노선 처리
-  const isTaxiRoute = getIsTaxiRoute(shuttleRoute);
-
   // 에러 처리
   if (remainingSeat[tripType] < passengerCount) {
     throw new CustomError(404, '좌석이 부족합니다.');
@@ -144,6 +151,12 @@ const Content = ({
     <>
       <TossPaymentsScript />
       <main className="pb-100">
+        {isHandyParty && (
+          <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
+            예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
+            승하차 위치를 꼭 확인하세요.
+          </div>
+        )}
         <EventInfoSection event={event} />
         <ShuttleRouteInfoSection
           tripType={tripType}
@@ -151,10 +164,11 @@ const Content = ({
           toDestinationHubId={toDestinationHubId}
           fromDestinationHubId={fromDestinationHubId}
           passengerCount={passengerCount}
-          isTaxiRoute={isTaxiRoute}
+          isHandyParty={isHandyParty}
+          desiredHubAddress={desiredHubAddress}
         />
         <ClientInfoSection user={user} />
-        {!isTaxiRoute && ( // NOTE: 핸디팟인경우 임시로 핸디섹션 비활성화
+        {!isHandyParty && ( // NOTE: 핸디팟인경우 임시로 핸디섹션 비활성화
           <HandySection
             user={user}
             tripType={tripType}

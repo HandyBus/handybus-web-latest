@@ -23,6 +23,7 @@ import {
   isCheckRouteDetailViewFlowAtom,
   selectedHubWithInfoForDetailViewAtom,
 } from '../../../store/selectedHubWithInfoForDetailViewAtom';
+import { HANDY_PARTY_PREFIX } from '@/constants/common';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -50,9 +51,14 @@ const ReservationHubsStep = ({
     const prioritySido = openSido ?? sido;
     const gungusWithHubsAsObject =
       dailyEventIdsWithHubs?.[dailyEvent.dailyEventId]?.[prioritySido] ?? {};
-    const gungusWithHubsAsArray = Object.entries(gungusWithHubsAsObject)
+
+    const gungusWithFilteredHubsAsArray = Object.entries(gungusWithHubsAsObject)
       .map(([gungu, hubs]) => {
-        const sortedHubs = hubs.sort((a, b) =>
+        // 핸디팟 노선 제외
+        const filteredHubs = hubs.filter((hubsOfRoute) =>
+          hubsOfRoute.some((hub) => !hub.name.includes(HANDY_PARTY_PREFIX)),
+        );
+        const sortedHubs = filteredHubs.sort((a, b) =>
           a[0].name.localeCompare(b[0].name),
         );
         return {
@@ -61,7 +67,12 @@ const ReservationHubsStep = ({
         };
       })
       .sort((a, b) => a.gungu.localeCompare(b.gungu));
-    return gungusWithHubsAsArray;
+
+    // 정류장이 존재하지 않는 시군구 제거
+    const filteredGungusWithHubsAsArray = gungusWithFilteredHubsAsArray.filter(
+      (gunguWithHubs) => gunguWithHubs.hubs.length > 0,
+    );
+    return filteredGungusWithHubsAsArray;
   }, [dailyEventIdsWithHubs]);
 
   const setSelectedHubWithInfoForDetailViewAtom = useSetAtom(

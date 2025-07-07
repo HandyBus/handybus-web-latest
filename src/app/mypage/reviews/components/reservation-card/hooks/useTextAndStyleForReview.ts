@@ -2,13 +2,17 @@ import { useMemo } from 'react';
 
 interface Props {
   isWritingReviewPeriod: boolean;
+  isHandyParty: boolean;
 }
 
-const useTextAndStyleForReview = ({ isWritingReviewPeriod }: Props) => {
+const useTextAndStyleForReview = ({
+  isWritingReviewPeriod,
+  isHandyParty,
+}: Props) => {
   const textAndStyle = useMemo(() => {
     const textAndClassName = {
       title: {
-        text: '셔틀 종료',
+        text: isHandyParty ? '[핸디팟] 셔틀 종료' : '셔틀 종료',
         className: 'text-basic-grey-500',
       },
       description: {

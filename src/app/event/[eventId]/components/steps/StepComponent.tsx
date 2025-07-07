@@ -15,6 +15,7 @@ import { EventPhase } from '@/utils/event.util';
 import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
+import ExtraSelectProductStep from './extra-steps/ExtraSelectProductStep';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
@@ -60,6 +61,7 @@ const StepComponent = ({
         }}
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
         toExtraSidoInfoStep={() => setHistoryAndStep('[기타] 시/도 정보')}
+        toExtraSelectProductStep={() => setHistoryAndStep('[기타] 상품 선택')}
       />
     ),
     // 수요조사
@@ -113,7 +115,8 @@ const StepComponent = ({
     ),
     '[기타] 예약 가능 시/도': (
       <ExtraOpenSidoStep
-        toNextStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+        toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+        toExtraSelectProductStep={() => setHistoryAndStep('[기타] 상품 선택')}
       />
     ),
     '[기타] 복수 노선': (
@@ -134,6 +137,12 @@ const StepComponent = ({
       />
     ),
     '[기타] 노선 내 정류장': <ExtraHubsInRouteStep />,
+    '[기타] 상품 선택': (
+      <ExtraSelectProductStep
+        toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
+        closeBottomSheet={closeBottomSheet}
+      />
+    ),
   };
 
   return stepComponents[stepName];

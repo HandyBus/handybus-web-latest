@@ -7,7 +7,7 @@ interface Props {
   handyStatus: HandyStatus;
   isOpenChatLinkCreated: boolean;
   isWritingReviewPeriod: boolean;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
 }
 
 const useTextAndStyle = ({
@@ -15,7 +15,7 @@ const useTextAndStyle = ({
   handyStatus,
   isOpenChatLinkCreated,
   isWritingReviewPeriod,
-  isTaxiRoute,
+  isHandyParty,
 }: Props) => {
   const getShuttleBusTextAndStyle = useCallback(() => {
     if (reservationProgress === 'beforeBusAssigned') {
@@ -87,11 +87,11 @@ const useTextAndStyle = ({
   ]);
 
   // NOTE: 핸디팟은 핸디 및 오픈채팅방이 존재하지 않음
-  const getTaxiRouteTextAndStyle = useCallback(() => {
+  const getHandyPartyTextAndStyle = useCallback(() => {
     if (reservationProgress === 'beforeBusAssigned') {
       const textAndClassName = {
         title: {
-          text: '예약 완료',
+          text: '[핸디팟] 예약 완료',
           className: 'text-brand-primary-400',
         },
         description: {
@@ -102,7 +102,7 @@ const useTextAndStyle = ({
     } else if (reservationProgress === 'afterBusAssigned') {
       const textAndClassName = {
         title: {
-          text: '예약 완료',
+          text: '[핸디팟] 예약 완료',
           className: 'text-brand-primary-400',
         },
         description: {
@@ -113,7 +113,7 @@ const useTextAndStyle = ({
     } else if (reservationProgress === 'shuttleEnded') {
       const textAndClassName = {
         title: {
-          text: '셔틀 종료',
+          text: '[핸디팟] 셔틀 종료',
           className: 'text-basic-grey-500',
         },
         description: {
@@ -128,7 +128,7 @@ const useTextAndStyle = ({
     } else if (reservationProgress === 'reservationCanceled') {
       return {
         title: {
-          text: '예약 취소',
+          text: '[핸디팟] 예약 취소',
           className: 'text-basic-red-400',
         },
         description: {
@@ -139,11 +139,11 @@ const useTextAndStyle = ({
   }, [reservationProgress, isWritingReviewPeriod]);
 
   const textAndStyle = useMemo(() => {
-    if (isTaxiRoute) {
-      return getTaxiRouteTextAndStyle();
+    if (isHandyParty) {
+      return getHandyPartyTextAndStyle();
     }
     return getShuttleBusTextAndStyle();
-  }, [isTaxiRoute, getShuttleBusTextAndStyle, getTaxiRouteTextAndStyle]);
+  }, [isHandyParty, getShuttleBusTextAndStyle, getHandyPartyTextAndStyle]);
 
   return textAndStyle;
 };

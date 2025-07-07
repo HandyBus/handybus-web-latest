@@ -9,6 +9,7 @@ import {
 import { CustomError } from '@/services/custom-error';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { dateString } from '@/utils/dateString.util';
+import { HANDY_PARTY_PREFIX } from '@/constants/common';
 
 interface Props {
   tripType: TripType;
@@ -16,7 +17,8 @@ interface Props {
   toDestinationHubId: string | null;
   fromDestinationHubId: string | null;
   passengerCount: number;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
+  desiredHubAddress?: string;
 }
 
 const ShuttleRouteInfoSection = ({
@@ -25,7 +27,8 @@ const ShuttleRouteInfoSection = ({
   toDestinationHubId,
   fromDestinationHubId,
   passengerCount,
-  isTaxiRoute,
+  isHandyParty,
+  desiredHubAddress,
 }: Props) => {
   const toDestinationHub = shuttleRoute.toDestinationShuttleRouteHubs?.find(
     (hub) => hub.shuttleRouteHubId === toDestinationHubId,
@@ -52,7 +55,8 @@ const ShuttleRouteInfoSection = ({
             shuttleRoute={shuttleRoute}
             withRoundTrip={tripType === 'ROUND_TRIP'}
             passengerCount={passengerCount}
-            isTaxiRoute={isTaxiRoute}
+            isHandyParty={isHandyParty}
+            desiredHubAddress={desiredHubAddress}
           />
         )}
       {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
@@ -63,7 +67,8 @@ const ShuttleRouteInfoSection = ({
             shuttleRoute={shuttleRoute}
             withRoundTrip={tripType === 'ROUND_TRIP'}
             passengerCount={passengerCount}
-            isTaxiRoute={isTaxiRoute}
+            isHandyParty={isHandyParty}
+            desiredHubAddress={desiredHubAddress}
           />
         )}
     </Section>
@@ -78,7 +83,8 @@ interface TripCardProps {
   shuttleRoute: ShuttleRoutesViewEntity;
   withRoundTrip: boolean;
   passengerCount: number;
-  isTaxiRoute: boolean;
+  isHandyParty: boolean;
+  desiredHubAddress?: string;
 }
 
 const TripCard = ({
@@ -87,11 +93,14 @@ const TripCard = ({
   shuttleRoute,
   withRoundTrip,
   passengerCount,
-  isTaxiRoute,
+  isHandyParty,
+  desiredHubAddress,
 }: TripCardProps) => {
-  const tripTypeText = withRoundTrip
-    ? '[왕복] ' + TRIP_STATUS_TO_STRING[tripType]
-    : TRIP_STATUS_TO_STRING[tripType];
+  const tripTypeText = isHandyParty
+    ? `[${HANDY_PARTY_PREFIX}] ${TRIP_STATUS_TO_STRING[tripType]}`
+    : withRoundTrip
+      ? '[왕복] ' + TRIP_STATUS_TO_STRING[tripType]
+      : TRIP_STATUS_TO_STRING[tripType];
   const formattedDate = dateString(hub.arrivalTime);
   const formattedTime = dateString(hub.arrivalTime, {
     showYear: false,
@@ -137,8 +146,12 @@ const TripCard = ({
               <HubItem
                 date={formattedDate}
                 time={formattedTime}
-                name={hub.name}
-                hideTime={isTaxiRoute}
+                name={
+                  isHandyParty && desiredHubAddress
+                    ? desiredHubAddress
+                    : hub.name
+                }
+                hideTime={isHandyParty}
               />
               <HubItem
                 date={formattedDestinationDate}
@@ -157,8 +170,12 @@ const TripCard = ({
               <HubItem
                 date={formattedDate}
                 time={formattedTime}
-                name={hub.name}
-                hideTime={isTaxiRoute}
+                name={
+                  isHandyParty && desiredHubAddress
+                    ? desiredHubAddress
+                    : hub.name
+                }
+                hideTime={isHandyParty}
               />
             </>
           )}

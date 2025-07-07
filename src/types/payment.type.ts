@@ -58,6 +58,9 @@ export const ReserveRequestSchema = z.object({
   issuedCouponId: z.string().optional(),
   isSupportingHandy: z.boolean(),
   passengerCount: z.number().int(),
+  desiredHubAddress: z.string().optional(),
+  desiredHubLatitude: z.number().optional(),
+  desiredHubLongitude: z.number().optional(),
 });
 export type ReserveRequest = z.infer<typeof ReserveRequestSchema>;
 
