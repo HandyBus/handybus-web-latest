@@ -66,8 +66,8 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
     <main className="grow pb-16">
       {isHandyParty && (
         <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
-          예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
-          승하차 위치를 꼭 확인하세요.
+          예약하신 셔틀은 <span className="font-700">핸디팟</span>입니다. 탑승
+          시 확인해주세요.
         </div>
       )}
       <Title progress={reservationProgress} />
