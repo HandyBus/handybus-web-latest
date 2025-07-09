@@ -38,7 +38,7 @@ import Skeleton from 'react-loading-skeleton';
 import useDemandTracking from '@/hooks/analytics/useDemandTracking';
 import {
   checkIsHandyParty,
-  createAvailableHandyPartyAreaGuideString,
+  createShortAvailableHandyPartyAreaGuideString,
 } from '@/utils/handyParty.util';
 import { HANDY_PARTY_AREA_GUIDE_ID } from '../EventInfo';
 
@@ -249,7 +249,7 @@ const Content = ({
   );
   const handyPartyAreaGuideString =
     handyPartyRoutes.length > 0
-      ? createAvailableHandyPartyAreaGuideString(handyPartyRoutes)
+      ? createShortAvailableHandyPartyAreaGuideString(handyPartyRoutes)
       : null;
   const setHandyPartyAreaGuide = useCallback(() => {
     const guideElement = document.getElementById(HANDY_PARTY_AREA_GUIDE_ID);
