@@ -9,7 +9,7 @@ import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { FormProvider, useForm } from 'react-hook-form';
 import {
-  HANDY_PARTY_AREA_TO_GUNGU,
+  HANDY_PARTY_AREA_TO_ADDRESS,
   HandyPartyRouteArea,
 } from '@/constants/handyPartyArea.const';
 
@@ -70,7 +70,7 @@ const HandyPartyModal = ({
     }, [] as HandyPartyRouteArea[]);
 
     const possibleGungus = possibleHandyPartyAreas.map((area) => {
-      return HANDY_PARTY_AREA_TO_GUNGU[area];
+      return HANDY_PARTY_AREA_TO_ADDRESS[area].gungu;
     });
     const flattenedGungus = possibleGungus.flat();
 
