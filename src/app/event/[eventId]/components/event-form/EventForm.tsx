@@ -4,7 +4,7 @@ import HubButton from './components/HubButton';
 import DateButton from './components/DateButton';
 import BottomBar from './components/BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { EVENT_FORM_DEFAULT_VALUES, EVENT_STEPS } from '../../form.const';
@@ -36,6 +36,11 @@ import {
 import { useAtom } from 'jotai';
 import Skeleton from 'react-loading-skeleton';
 import useDemandTracking from '@/hooks/analytics/useDemandTracking';
+import {
+  checkIsHandyParty,
+  createAvailableHandyPartyAreaGuideString,
+} from '@/utils/handyParty.util';
+import { HANDY_PARTY_AREA_GUIDE_ID } from '../EventInfo';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -237,6 +242,27 @@ const Content = ({
     openAlertRequestFeedbackScreen,
     closeAlertRequestFeedbackScreen,
   } = useAlertFeedBackScreen({ closeBottomSheet });
+
+  // 핸디팟 노선 개설 가능 지역 가이드 문구 추가
+  const handyPartyRoutes = shuttleRoutes.filter((route) =>
+    checkIsHandyParty(route),
+  );
+  const handyPartyAreaGuideString =
+    handyPartyRoutes.length > 0
+      ? createAvailableHandyPartyAreaGuideString(handyPartyRoutes)
+      : null;
+  const setHandyPartyAreaGuide = useCallback(() => {
+    const guideElement = document.getElementById(HANDY_PARTY_AREA_GUIDE_ID);
+    if (!handyPartyAreaGuideString || !guideElement) {
+      return;
+    }
+
+    guideElement.textContent = handyPartyAreaGuideString;
+    guideElement.classList.remove('hidden');
+  }, [handyPartyAreaGuideString]);
+  useEffect(() => {
+    setHandyPartyAreaGuide();
+  }, [setHandyPartyAreaGuide, handyPartyAreaGuideString]);
 
   return (
     <>
