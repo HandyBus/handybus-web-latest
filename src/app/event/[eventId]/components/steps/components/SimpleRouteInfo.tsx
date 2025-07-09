@@ -11,7 +11,6 @@ import { dateString } from '@/utils/dateString.util';
 import { customTwMerge } from 'tailwind.config';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
-import { TAXI_HUB_PREFIX } from '@/utils/taxiRoute.util';
 
 const ROUND_TRIP_TEXT = '[왕복] ';
 
@@ -87,10 +86,6 @@ const SimpleRouteInfo = ({
     setSelectedShuttleRouteHubId(stagedShuttleRouteHubId);
   };
 
-  const isTaxiRoute = hubs.some((hub) =>
-    hub.name.startsWith(TAXI_HUB_PREFIX ?? ''),
-  );
-
   return (
     <article className="flex flex-col gap-12 rounded-12 border border-basic-grey-100 p-12">
       <div className="flex h-[31px] w-full items-center justify-between">
@@ -148,7 +143,6 @@ const SimpleRouteInfo = ({
             isEditMode={isEditMode}
             stagedShuttleRouteHubId={stagedShuttleRouteHubId}
             setStagedShuttleRouteHubId={setStagedShuttleRouteHubId}
-            isTaxiRoute={isTaxiRoute}
           />
         </div>
         {isExpandable && (
@@ -179,7 +173,6 @@ interface HubsProps {
   isEditMode: boolean;
   stagedShuttleRouteHubId: string | undefined;
   setStagedShuttleRouteHubId: (shuttleRouteHubId: string | undefined) => void;
-  isTaxiRoute: boolean;
 }
 
 const Hubs = ({
@@ -190,7 +183,6 @@ const Hubs = ({
   isEditMode,
   stagedShuttleRouteHubId,
   setStagedShuttleRouteHubId,
-  isTaxiRoute,
 }: HubsProps) => {
   return (
     <>
@@ -201,7 +193,6 @@ const Hubs = ({
           tripType,
           length: hubs.length,
         });
-        const hideTime = isTaxiRoute && type !== 'eventLocation';
         return (
           <Hub
             key={hub.shuttleRouteHubId}
@@ -214,7 +205,6 @@ const Hubs = ({
               stagedShuttleRouteHubId === hub.shuttleRouteHubId
             }
             onClick={() => setStagedShuttleRouteHubId(hub.shuttleRouteHubId)}
-            hideTime={hideTime}
           />
         );
       })}
@@ -230,7 +220,6 @@ interface HubProps {
   isEditMode: boolean;
   isSelectedInEditMode: boolean;
   onClick: () => void;
-  hideTime?: boolean;
 }
 
 const Hub = ({
@@ -241,7 +230,6 @@ const Hub = ({
   isEditMode,
   isSelectedInEditMode,
   onClick,
-  hideTime = false,
 }: HubProps) => {
   const formattedTime = dateString(time, {
     showYear: false,
@@ -276,7 +264,7 @@ const Hub = ({
               : 'text-basic-grey-500'
         }`}
       >
-        {hideTime ? '운행시간 상이' : formattedTime}
+        {formattedTime}
       </span>
       <span
         className={`line-clamp-1 text-16 ${

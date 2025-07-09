@@ -60,8 +60,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
 
   const isHandyParty = checkIsHandyParty(shuttleRoute);
 
-  console.log(reservation);
-
   return (
     <main className="grow pb-16">
       {isHandyParty && (
