@@ -8,8 +8,9 @@ import {
   HandyPartyModalFormValues,
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import { checkIsHandyPartyArea } from '@/utils/handyParty.util';
+import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
+import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 
 interface SearchResult extends AddressSearchResult {
   placeName: string;
@@ -18,10 +19,10 @@ interface SearchResult extends AddressSearchResult {
 interface Props {
   onBack: () => void;
   onNext: () => void;
-  possibleGungus: string[];
+  possibleHandyPartyAreas: HandyPartyRouteArea[];
 }
 
-const AddressStep = ({ onBack, onNext, possibleGungus }: Props) => {
+const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
   const [searchValue, setSearchValue] = useState('');
 
@@ -48,7 +49,10 @@ const AddressStep = ({ onBack, onNext, possibleGungus }: Props) => {
     kakaoPlace.current.keywordSearch(value, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const filteredResult = result.filter((item) =>
-          checkIsHandyPartyArea(item.address_name, possibleGungus),
+          checkIsPossibleHandyPartyArea(
+            item.address_name,
+            possibleHandyPartyAreas,
+          ),
         );
 
         setSearchResult(() =>

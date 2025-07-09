@@ -4,14 +4,11 @@ import useFunnel from '@/hooks/useFunnel';
 import TripTypeStep from './components/steps/TripTypeStep';
 import AddressStep from './components/steps/AddressStep';
 import ReservationInfoStep from './components/steps/ReservationInfoStep';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { FormProvider, useForm } from 'react-hook-form';
-import {
-  HANDY_PARTY_AREA_TO_ADDRESS,
-  HandyPartyRouteArea,
-} from '@/constants/handyPartyArea.const';
+import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 
 const HANDY_PARTY_MODAL_STEPS = [
   '방향 선택',
@@ -57,25 +54,16 @@ const HandyPartyModal = ({
     },
   });
 
-  const possibleGungus = useMemo(() => {
-    const possibleHandyPartyAreas = handyPartyRoutes.reduce((acc, route) => {
-      // 어드민에서 핸디팟 노선들을 형식에 맞추어 만들어야함
-      const area = route.name.split('_')[1] as HandyPartyRouteArea;
-      const existingArea = acc.find((a) => a === area);
-      if (existingArea) {
-        return acc;
-      } else {
-        return [...acc, area];
-      }
-    }, [] as HandyPartyRouteArea[]);
-
-    const possibleGungus = possibleHandyPartyAreas.map((area) => {
-      return HANDY_PARTY_AREA_TO_ADDRESS[area].gungu;
-    });
-    const flattenedGungus = possibleGungus.flat();
-
-    return flattenedGungus;
-  }, [handyPartyRoutes]);
+  const possibleHandyPartyAreas = handyPartyRoutes.reduce((acc, route) => {
+    // 어드민에서 핸디팟 노선들을 형식에 맞추어 만들어야함
+    const area = route.name.split('_')[1] as HandyPartyRouteArea;
+    const existingArea = acc.find((a) => a === area);
+    if (existingArea) {
+      return acc;
+    } else {
+      return [...acc, area];
+    }
+  }, [] as HandyPartyRouteArea[]);
 
   return (
     <ModalPortal>
@@ -101,14 +89,14 @@ const HandyPartyModal = ({
               <AddressStep
                 onBack={handlePrevStep}
                 onNext={handleNextStep}
-                possibleGungus={possibleGungus}
+                possibleHandyPartyAreas={possibleHandyPartyAreas}
               />
             </Step>
             <Step name="지도">
               <MapStep
                 onBack={handlePrevStep}
                 onNext={handleNextStep}
-                possibleGungus={possibleGungus}
+                possibleHandyPartyAreas={possibleHandyPartyAreas}
               />
             </Step>
             <Step name="예약 확인">

@@ -7,23 +7,27 @@ import {
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
 // 주소가 핸디팟 노선 개설 지역인지 확인
-export const checkIsHandyPartyArea = (
+export const checkIsPossibleHandyPartyArea = (
   address: string,
-  possibleGungus: string[],
+  possibleHandyPartyAreas: HandyPartyRouteArea[],
 ) => {
-  const itemGungu = address.split(' ')?.[1];
+  const itemHandyPartyArea = getHandyPartyArea(address);
+
+  if (!itemHandyPartyArea) {
+    return false;
+  }
 
   // 개설된 노선 내에 해당하는지 확인
-  const isPossibleGungu = possibleGungus.find((gungu) => itemGungu === gungu);
-  // 서비스 가능 지역인지 확이
-  const isServiceableArea = !!getHandyPartyArea(address);
+  const isPossibleArea = !!possibleHandyPartyAreas.find(
+    (e) => e === itemHandyPartyArea,
+  );
 
-  return isPossibleGungu && isServiceableArea;
+  return isPossibleArea;
 };
 
 // 주소를 핸디팟 권역으로 변환
 export const getHandyPartyArea = (address: string) => {
-  const [itemSido, itemGungu] = address.split(' ');
+  const [itemSido, itemGungu, itemDong] = address.split(' ');
 
   // HANDY_PARTY_AREA_TO_ADDRESS에서 sido가 동일하고 gungu가 배열에 포함되는 entry 찾기
   const matchingArea = Object.entries(HANDY_PARTY_AREA_TO_ADDRESS).find(
@@ -32,10 +36,15 @@ export const getHandyPartyArea = (address: string) => {
       const isGunguMatch = addressInfo.gungu.some(
         (gungu) => itemGungu === gungu,
       );
+      const isDongMatch = addressInfo.dong
+        ? addressInfo.dong.some((dong) => itemDong === dong)
+        : true;
 
-      return isSidoMatch && isGunguMatch;
+      return isSidoMatch && isGunguMatch && isDongMatch;
     },
-  ) as [HandyPartyRouteArea, { sido: string; gungu: string[] }] | undefined;
+  ) as
+    | [HandyPartyRouteArea, { sido: string; gungu: string[]; dong?: string[] }]
+    | undefined;
 
   return matchingArea ? matchingArea[0] : null;
 };
