@@ -83,6 +83,7 @@ const HandyPartyModal = ({
                   }
                   handleNextStep();
                 }}
+                handyPartyRoutes={handyPartyRoutes}
               />
             </Step>
             <Step name="주소 입력">
@@ -90,6 +91,7 @@ const HandyPartyModal = ({
                 onBack={handlePrevStep}
                 onNext={handleNextStep}
                 possibleHandyPartyAreas={possibleHandyPartyAreas}
+                handyPartyRoutes={handyPartyRoutes}
               />
             </Step>
             <Step name="지도">

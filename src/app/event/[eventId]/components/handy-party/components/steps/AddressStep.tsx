@@ -8,9 +8,13 @@ import {
   HandyPartyModalFormValues,
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
+import {
+  checkIsPossibleHandyPartyArea,
+  createFullAvailableHandyPartyAreaGuideString,
+} from '@/utils/handyParty.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
 interface SearchResult extends AddressSearchResult {
   placeName: string;
@@ -20,9 +24,15 @@ interface Props {
   onBack: () => void;
   onNext: () => void;
   possibleHandyPartyAreas: HandyPartyRouteArea[];
+  handyPartyRoutes: ShuttleRoutesViewEntity[];
 }
 
-const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
+const AddressStep = ({
+  onBack,
+  onNext,
+  possibleHandyPartyAreas,
+  handyPartyRoutes,
+}: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
   const [searchValue, setSearchValue] = useState('');
 
@@ -85,31 +95,46 @@ const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   const tripType = getValues('tripType');
   const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[tripType] + ']';
 
+  const availableHandyPartyAreaGuideString =
+    createFullAvailableHandyPartyAreaGuideString(handyPartyRoutes);
+
   return (
     <div className="flex h-full grow flex-col">
       <Header
         onBack={onBack}
         title={`${tripTypePrefix} 주소를 입력해 주세요`}
-        description="원하는 승하차 장소를 정확하게 입력해 주세요. 왕복 선택 시, 탑승 장소에서 하차해요."
+        description="원하는 승하차 장소를 정확하게 입력해 주세요."
       />
       <DebouncedInput value={searchValue} setValue={setSearchValue} />
       <div className="h-8" />
       <ul className="w-full flex-1 overflow-y-auto px-16 pb-12">
-        {searchResult?.map((item) => (
-          <button
-            key={item.placeName + item.address}
-            onClick={() => handleSelectAddress(item)}
-            type="button"
-            className="w-full border-b border-basic-grey-200 py-12 text-left"
-          >
-            <div className="text-14 font-500 leading-[160%] text-basic-grey-700">
-              {item.placeName}
+        {searchResult &&
+          (searchResult.length > 0 ? (
+            searchResult.map((item) => (
+              <button
+                key={item.placeName + item.address}
+                onClick={() => handleSelectAddress(item)}
+                type="button"
+                className="w-full border-b border-basic-grey-200 py-12 text-left"
+              >
+                <div className="text-14 font-500 leading-[160%] text-basic-grey-700">
+                  {item.placeName}
+                </div>
+                <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
+                  {item.address}
+                </p>
+              </button>
+            ))
+          ) : (
+            <div>
+              <p className="mb-16 pt-12 text-14 font-500 leading-[160%] text-basic-grey-700">
+                핸디팟 이용이 불가한 지역이에요.
+              </p>
+              <div className="rounded-8 bg-basic-grey-50 p-8 text-14 font-500 text-basic-grey-500">
+                {availableHandyPartyAreaGuideString}
+              </div>
             </div>
-            <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-              {item.address}
-            </p>
-          </button>
-        ))}
+          ))}
       </ul>
     </div>
   );
