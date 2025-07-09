@@ -14,8 +14,6 @@ import handypartyGuideImageStep2 from './images/handyparty-guide-step-2.png';
 import handypartyGuideImageStep3 from './images/handyparty-guide-step-3.png';
 import handypartyGuideImageStep4 from './images/handyparty-guide-step-4.png';
 import handypartyGuideImageStep5 from './images/handyparty-guide-step-5.png';
-import handypartyGuideImageStep6 from './images/handyparty-guide-step-6.png';
-import handypartyGuideImageStep7 from './images/handyparty-guide-step-7.png';
 import Link from 'next/link';
 import ChevronRightEmIcon from 'public/icons/chevron-right-em.svg';
 import Header from '@/components/header/Header';
@@ -261,47 +259,25 @@ const HANDYPARTY_GUIDE_STEPS = [
   {
     order: 3,
     title: '예약하기',
-    description: (
-      <>
-        우리 동네 정류장을 골라주세요. 예를 들어, &apos;서울특별시 성북구 안암로
-        145&apos;라면 <strong>[집앞하차] 서울 성북구 정류장</strong>을 찾아
-        예약을 진행해 주세요.
-      </>
-    ),
+    description:
+      '핸디팟 예약을 선택 후, 승하차를 원하시는 주소를 정확하게 입력해 주세요. 예약 후에는 주소지 변경이 어려우니 반드시 지도에서 정확한 위치를 선택해 주세요.',
     image: handypartyGuideImageStep3,
   },
   {
     order: 4,
     title: '셔틀 확정 알림',
     description:
-      '탑승일 기준 5일 전까지 운행 확정 여부를 안내드려요. 확정 시 탑승 주소 입력 링크를, 무산 시 취소 안내 및 환불이 즉시 진행되니 핸디버스의 소식을 기다려주세요!',
+      '탑승일 기준 5일 전까지 운행 확정 여부를 안내드려요. 무산 시 취소 안내 및 환불이 즉시 진행되니 핸디버스의 소식을 기다려주세요!',
     image: handypartyGuideImageStep4,
     tagDescription: '탑승 5일 전',
   },
   {
     order: 5,
-    title: '탑승 주소 입력',
-    description:
-      '운행 확정 알림과 함께 문자로 발송되는 링크에 희망하는 정확한 주소를 남겨주세요. 해당 장소에서 탑승, 하차하실 수 있어요.',
-    subDescription:
-      '* 입력하신 주소는 서비스 이용 목적 외에 절대 사용되지 않습니다.',
-    image: handypartyGuideImageStep5,
-    tagDescription: '개별 안내',
-  },
-  {
-    order: 6,
-    title: '오픈채팅방 참여',
-    description:
-      '기사님과 차량 배차가 완료되면, 오픈채팅방 링크를 전달해 드려요. 탑승 전까지 오픈채팅방에서 자유롭게 이야기를 나누어 보세요!',
-    image: handypartyGuideImageStep6,
-    tagDescription: '탑승 1일 전 초대',
-  },
-  {
-    order: 7,
     title: '탑승',
     description:
-      '탑승 30분 전까지 기사님의 개별 연락으로 주차 위치를 안내받을 수 있어요. 정해진 시간에 맞춰 도착하지 않거나, 연락이 두절되는 경우 탑승이 어려울 수 있으니 꼭 주의해 주세요.',
-    image: handypartyGuideImageStep7,
+      '탑승 30분 전까지 기사님의 개별 연락으로 주차 위치를 안내받을 수 있어요. 정해진 시간에 맞춰 도착하지 않거나, 연락이 두절되는 경우 탑승이 어려울 수 있으니 꼭 주의해 주세요. ',
+    subDescription: '* 당일 공연 종료 시간 기준 최대 50분까지 대기',
+    image: handypartyGuideImageStep5,
     tagDescription: '탑승 당일',
   },
 ];
