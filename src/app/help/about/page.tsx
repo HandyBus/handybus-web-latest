@@ -27,13 +27,11 @@ const ServiceOverview = () => {
   return (
     <>
       <Image src={OverviewImage1} alt="overview" />
-      <section className="flex h-[82px] justify-center bg-basic-grey-50 px-16 pb-32">
+      <section className="relative h-0 w-full bg-brand-primary-50">
         <Link
           href="/help/handybus-guide"
-          className="flex h-[50px] w-[100%] items-center justify-center rounded-[8px] bg-brand-primary-400 text-16 font-600 leading-[160%] text-basic-white active:bg-brand-primary-500"
-        >
-          자세히 알아보기
-        </Link>
+          className="relative -top-100 mx-32 block h-[46px] w-[calc(100%-64px)] cursor-pointer bg-transparent"
+        />
       </section>
       <Image src={OverviewImage2} alt="overview" />
     </>

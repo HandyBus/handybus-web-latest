@@ -52,10 +52,12 @@ const useEventText = ({ reservation, event, dailyEvent }: Props) => {
 
     let hubText = '';
     if (isHandyParty) {
+      const desiredHubAddress =
+        reservation.metadata?.desiredHubAddress ?? '[집앞하차]';
       if (reservation.type === 'TO_DESTINATION') {
-        hubText = `${reservation.metadata?.desiredHubAddress} → ${toDestinationEndHub?.name}`;
+        hubText = `${desiredHubAddress} → ${toDestinationEndHub?.name}`;
       } else if (reservation.type === 'FROM_DESTINATION') {
-        hubText = `${fromDestinationStartHub?.name} → ${reservation.metadata?.desiredHubAddress}`;
+        hubText = `${fromDestinationStartHub?.name} → ${desiredHubAddress}`;
       }
     } else {
       if (reservation.type === 'TO_DESTINATION') {

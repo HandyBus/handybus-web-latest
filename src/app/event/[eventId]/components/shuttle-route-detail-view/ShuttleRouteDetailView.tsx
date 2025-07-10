@@ -156,8 +156,9 @@ const ShuttleRouteDetailView = () => {
         <div className="my-16 grid grid-cols-[20px_1fr] gap-4 rounded-6 bg-basic-grey-50 p-8">
           <InfoIcon />
           <p className="text-12 font-500 text-basic-grey-600">
-            배차 과정에서 추가 정류지가 생기거나 정차 시각이 변경될 수 있어요.
-            변동이 생기면 미리 알려드릴게요.
+            {currentTab === 'TO_DESTINATION'
+              ? '배차 과정에서 추가 정류지가 생기거나 정차 시각이 변경될 수 있어요. 변동이 생기면 미리 알려드릴게요.'
+              : '실제 공연이 끝나는 시간에 따라 출발 시간이 변경될 수 있어요. 변동이 생기면 미리 알려드릴게요.'}
           </p>
         </div>
         <div className="flex w-full gap-[6px]">
