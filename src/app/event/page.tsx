@@ -14,8 +14,10 @@ import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
 import { dateString } from '@/utils/dateString.util';
 
+export type EventTypeWithAll = EventType | 'ALL';
+
 const Page = () => {
-  const [type, setType] = useState<EventType>('CONCERT');
+  const [type, setType] = useState<EventTypeWithAll>('ALL');
   const [sort, setSort] = useState<EventSortType>('DATE_ASC');
   const {
     data: events,
@@ -31,10 +33,12 @@ const Page = () => {
     [events],
   );
 
-  const filteredEventsByType = useMemo(
-    () => filteredEventsByStatus?.filter((event) => event.eventType === type),
-    [filteredEventsByStatus, type],
-  );
+  const filteredEventsByType = useMemo(() => {
+    if (type === 'ALL') {
+      return filteredEventsByStatus;
+    }
+    return filteredEventsByStatus?.filter((event) => event.eventType === type);
+  }, [filteredEventsByStatus, type]);
 
   const sortedEvents = useMemo(
     () =>

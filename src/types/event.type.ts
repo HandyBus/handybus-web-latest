@@ -3,7 +3,7 @@ import { ArtistsViewEntitySchema } from './artist.type';
 
 //  ----- ENUM -----
 
-export const EventTypeEnum = z.enum(['CONCERT', 'FESTIVAL']);
+export const EventTypeEnum = z.enum(['CONCERT', 'FESTIVAL', 'SPORTS']);
 export type EventType = z.infer<typeof EventTypeEnum>;
 
 export const EventStatusEnum = z.enum([

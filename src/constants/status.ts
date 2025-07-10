@@ -10,4 +10,5 @@ export const TRIP_STATUS_TO_STRING: Record<TripType, string> = {
 export const EVENT_TYPE_TO_STRING: Record<EventType, string> = {
   CONCERT: '콘서트',
   FESTIVAL: '페스티벌',
+  SPORTS: '스포츠',
 } as const;
