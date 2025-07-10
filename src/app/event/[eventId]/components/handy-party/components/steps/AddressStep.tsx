@@ -127,7 +127,7 @@ const AddressStep = ({
             ))
           ) : (
             <div>
-              <p className="mb-16 pt-12 text-14 font-500 leading-[160%] text-basic-grey-700">
+              <p className="mb-16 pt-12 text-14 font-500 leading-[160%] text-basic-red-400">
                 핸디팟 이용이 불가한 지역이에요.
               </p>
               <div className="rounded-8 bg-basic-grey-50 p-8 text-14 font-500 text-basic-grey-500">
