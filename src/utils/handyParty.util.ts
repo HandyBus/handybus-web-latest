@@ -140,11 +140,33 @@ export const createShortAvailableHandyPartyAreaGuideString = (
     const seoulString = groupedBySido.서울.length > 0 ? '서울 전역' : '';
     const gyeonggiString =
       groupedBySido.경기.length > 0
-        ? `경기도 (${groupedBySido.경기.join(', ')} 일부)`
+        ? `경기도 일부 (${groupedBySido.경기
+            .map((area) => {
+              // 동탄 예외 처리
+              if (area === '동탄') {
+                return '동탄';
+              }
+              // 제한되는 지역들은 `일부` 접미사 추가
+              const dongLength = HANDY_PARTY_AREA_TO_ADDRESS[area].dong?.length;
+              if (dongLength && dongLength > 1) {
+                return `${area} 일부`;
+              }
+              return area;
+            })
+            .join(', ')})`
         : '';
     const incheonString =
       groupedBySido.인천.length > 0
-        ? `인천광역시 (${groupedBySido.인천.join(', ')} 일부)`
+        ? `인천광역시 일부 (${groupedBySido.인천
+            .map((area) => {
+              // 제한되는 지역들은 `일부` 접미사 추가
+              const dongLength = HANDY_PARTY_AREA_TO_ADDRESS[area].dong?.length;
+              if (dongLength && dongLength > 1) {
+                return `${area} 일부`;
+              }
+              return area;
+            })
+            .join(', ')})`
         : '';
 
     return [seoulString, gyeonggiString, incheonString]
