@@ -159,7 +159,7 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
               이 곳은 핸디팟 운행이 어려운 지역이에요.
             </span>
           ) : (
-            '예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
+            '원하는 위치로 지도를 움직여 핀을 놓아주세요. 예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
           )
         }
       />
