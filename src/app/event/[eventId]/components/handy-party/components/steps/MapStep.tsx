@@ -5,8 +5,9 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Header from '../Header';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import { checkIsHandyPartyArea } from '@/utils/handyParty.util';
+import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
 import { toast } from 'react-toastify';
+import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 
 const DEFAULT_MAP_CENTER = {
   x: 127.02761,
@@ -17,10 +18,10 @@ const DEFAULT_MAP_CENTER = {
 interface Props {
   onBack: () => void;
   onNext: () => void;
-  possibleGungus: string[];
+  possibleHandyPartyAreas: HandyPartyRouteArea[];
 }
 
-const MapStep = ({ onBack, onNext, possibleGungus }: Props) => {
+const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
 
   const mapRef = useRef<HTMLDivElement>(null);
@@ -58,11 +59,11 @@ const MapStep = ({ onBack, onNext, possibleGungus }: Props) => {
             });
             setDisplayedAddress(address.address_name);
 
-            const isHandyPartyArea = checkIsHandyPartyArea(
+            const isPossibleHandyPartyArea = checkIsPossibleHandyPartyArea(
               address.address_name,
-              possibleGungus,
+              possibleHandyPartyAreas,
             );
-            if (!isHandyPartyArea) {
+            if (!isPossibleHandyPartyArea) {
               setAddressSearchError(true);
             }
           } else {
@@ -72,7 +73,7 @@ const MapStep = ({ onBack, onNext, possibleGungus }: Props) => {
         },
       );
     },
-    [kakaoMarker, kakaoGeocoder, setValue],
+    [kakaoMarker, kakaoGeocoder, setValue, possibleHandyPartyAreas],
   );
 
   // 카카오 지도 초기화
@@ -154,9 +155,9 @@ const MapStep = ({ onBack, onNext, possibleGungus }: Props) => {
         title="정확한 위치를 설정해주세요"
         description={
           addressSearchError ? (
-            <p className="text-basic-red-500">
+            <span className="text-basic-red-500">
               이 곳은 핸디팟 운행이 어려운 지역이에요.
-            </p>
+            </span>
           ) : (
             '예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
           )
