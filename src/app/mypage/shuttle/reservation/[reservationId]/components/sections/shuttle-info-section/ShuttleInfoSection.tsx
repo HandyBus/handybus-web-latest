@@ -45,7 +45,7 @@ const ShuttleInfoSection = ({
               withRoundTrip={tripType === 'ROUND_TRIP'}
               passengerCount={passengerCount}
               isHandyParty={isHandyParty}
-              desiredHubAddress={desiredHubAddress}
+              desiredHubAddress={desiredHubAddress ?? '[집앞하차]'}
               desiredHubLatitude={desiredHubLatitude}
               desiredHubLongitude={desiredHubLongitude}
             />
@@ -59,7 +59,7 @@ const ShuttleInfoSection = ({
               withRoundTrip={tripType === 'ROUND_TRIP'}
               passengerCount={passengerCount}
               isHandyParty={isHandyParty}
-              desiredHubAddress={desiredHubAddress}
+              desiredHubAddress={desiredHubAddress ?? '[집앞하차]'}
               desiredHubLatitude={desiredHubLatitude}
               desiredHubLongitude={desiredHubLongitude}
             />
