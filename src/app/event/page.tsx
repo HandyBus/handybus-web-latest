@@ -62,23 +62,31 @@ const Page = () => {
         ) : (
           sortedEvents &&
           sortedEvents.length > 0 &&
-          sortedEvents?.map((event) => (
-            <div className="w-full px-[16px] py-[6px]" key={event.eventId}>
-              <Card
-                key={event.eventId}
-                image={event.eventImageUrl}
-                variant="SMALL"
-                title={event.eventName}
-                date={dateString([event.startDate, event.endDate], {
-                  showWeekday: false,
-                })}
-                location={event.eventLocationName}
-                price={`${event.minRoutePrice?.toLocaleString()}원 ~`}
-                isSaleStarted={event.hasOpenRoute}
-                href={`/event/${event.eventId}`}
-              />
-            </div>
-          ))
+          sortedEvents?.map((event) => {
+            const formattedDate = dateString(
+              event.startDate === event.endDate
+                ? event.startDate
+                : [event.startDate, event.endDate],
+              {
+                showWeekday: false,
+              },
+            );
+            return (
+              <div className="w-full px-[16px] py-[6px]" key={event.eventId}>
+                <Card
+                  key={event.eventId}
+                  image={event.eventImageUrl}
+                  variant="SMALL"
+                  title={event.eventName}
+                  date={formattedDate}
+                  location={event.eventLocationName}
+                  price={`${event.minRoutePrice?.toLocaleString()}원 ~`}
+                  isSaleStarted={event.hasOpenRoute}
+                  href={`/event/${event.eventId}`}
+                />
+              </div>
+            );
+          })
         )}
         {!isLoading && (
           <>
