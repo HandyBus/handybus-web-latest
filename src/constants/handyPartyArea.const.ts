@@ -64,7 +64,11 @@ export const HANDY_PARTY_AREA_TO_ADDRESS: Record<
   안산: { sido: '경기', gungu: ['안산시'] },
   하남: { sido: '경기', gungu: ['하남시'] },
   남양주: { sido: '경기', gungu: ['남양주시'] },
-  용인: { sido: '경기', gungu: ['수지구', '기흥구'] },
+  용인: {
+    sido: '경기',
+    gungu: ['용인시'],
+    dong: ['수지구', '기흥구'],
+  },
   시흥: { sido: '경기', gungu: ['시흥시'] },
   파주: {
     sido: '경기',
