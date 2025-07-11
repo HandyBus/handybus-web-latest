@@ -69,3 +69,16 @@ export const getRecentlyViewedHubId = () => {
 export const removeRecentlyViewedHubId = () => {
   localStorage.removeItem(RECENTLY_VIEWED_HUB_ID);
 };
+
+// T1 경품 추천 모달 (하루 동안 안보기)
+export const T1_GIFT_RECOMMENDATION_MODAL_SEEN_DATE =
+  't1-gift-recommendation-modal-seen-date';
+export const setT1GiftRecommendationModalSeenDate = (date: string) => {
+  localStorage.setItem(T1_GIFT_RECOMMENDATION_MODAL_SEEN_DATE, date);
+};
+export const getT1GiftRecommendationModalSeenDate = () => {
+  return localStorage.getItem(T1_GIFT_RECOMMENDATION_MODAL_SEEN_DATE);
+};
+export const removeT1GiftRecommendationModalSeenDate = () => {
+  localStorage.removeItem(T1_GIFT_RECOMMENDATION_MODAL_SEEN_DATE);
+};

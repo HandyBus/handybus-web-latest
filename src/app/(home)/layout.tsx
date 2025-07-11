@@ -26,6 +26,7 @@ export default function WithFooterLayout({
   event,
   greeting,
   help,
+  modal,
 }: Readonly<Props>) {
   return (
     <div className="flex h-full flex-grow flex-col">
@@ -36,6 +37,7 @@ export default function WithFooterLayout({
         {help}
         {bot}
         {greeting}
+        {modal}
       </main>
       <Footer />
     </div>
