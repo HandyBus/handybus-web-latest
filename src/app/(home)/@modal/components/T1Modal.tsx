@@ -51,7 +51,7 @@ const T1Modal = () => {
         className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 bg-transparent"
       >
         <Link
-          href="https://x.com/handy_bus/status/1943588733447545343?s=46"
+          href="https://x.com/Handy_Bus/status/1943596380662169976"
           target="_blank"
           className="relative aspect-square w-full"
         >
