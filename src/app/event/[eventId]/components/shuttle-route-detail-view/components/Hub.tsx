@@ -16,7 +16,6 @@ interface Props {
   index: number;
   addOpenedHubIndex: (index: number) => void;
   removeOpenedHubIndex: (index: number) => void;
-  isKakaoMapScriptLoaded: boolean;
   hideTime?: boolean;
 }
 
@@ -28,7 +27,6 @@ const Hub = ({
   index,
   addOpenedHubIndex,
   removeOpenedHubIndex,
-  isKakaoMapScriptLoaded,
   hideTime = false,
 }: Props) => {
   const formattedTime = dateString(hub.arrivalTime, {
@@ -89,11 +87,9 @@ const Hub = ({
             <ArrowDownIcon />
           </div>
         </div>
-        {type === 'eventDestination' && (
+        {type === 'eventDestination' && tripType === 'FROM_DESTINATION' && (
           <Badge className="mt-4 w-fit bg-basic-grey-100 text-basic-grey-700">
-            {tripType === 'TO_DESTINATION'
-              ? '공연 1시간 전 도착 예정이에요'
-              : '공연 종료 후 약 1시간 뒤 출발해요'}
+            공연 종료 후 약 1시간 뒤 출발해요
           </Badge>
         )}
       </summary>
@@ -103,7 +99,6 @@ const Hub = ({
             placeName={hub.name}
             latitude={hub.latitude}
             longitude={hub.longitude}
-            isKakaoMapScriptLoaded={isKakaoMapScriptLoaded}
           />
         </div>
       </div>

@@ -10,6 +10,7 @@ import { CustomError } from '@/services/custom-error';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { dateString } from '@/utils/dateString.util';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
+import InfoIcon from '../../icons/info.svg';
 
 interface Props {
   tripType: TripType;
@@ -61,15 +62,24 @@ const ShuttleRouteInfoSection = ({
         )}
       {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
         fromDestinationHub && (
-          <TripCard
-            tripType="FROM_DESTINATION"
-            hub={fromDestinationHub}
-            shuttleRoute={shuttleRoute}
-            withRoundTrip={tripType === 'ROUND_TRIP'}
-            passengerCount={passengerCount}
-            isHandyParty={isHandyParty}
-            desiredHubAddress={desiredHubAddress}
-          />
+          <>
+            <TripCard
+              tripType="FROM_DESTINATION"
+              hub={fromDestinationHub}
+              shuttleRoute={shuttleRoute}
+              withRoundTrip={tripType === 'ROUND_TRIP'}
+              passengerCount={passengerCount}
+              isHandyParty={isHandyParty}
+              desiredHubAddress={desiredHubAddress}
+            />
+            <div className="grid grid-cols-[24px_1fr] gap-4 rounded-6 bg-basic-grey-50 p-8">
+              <InfoIcon />
+              <p className="text-12 font-500 text-basic-grey-600">
+                오는 편 출발 시간은 조기 종료, 지연 등을 고려한 공연 종료 후
+                50분까지 대기 후 운행됩니다.
+              </p>
+            </div>
+          </>
         )}
     </Section>
   );

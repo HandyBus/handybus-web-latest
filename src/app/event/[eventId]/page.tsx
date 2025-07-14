@@ -6,6 +6,7 @@ import { getEvent } from '@/services/event.service';
 import EventContent from './components/EventContent';
 import EventOverview from './components/EventOverview';
 import EventModal from './components/EventModal';
+import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 
 interface Props {
   params: {
@@ -31,6 +32,7 @@ const Page = async ({ params }: Props) => {
         <EventModal eventId={params.eventId} />
         <div className="h-100 bg-basic-grey-50" />
       </main>
+      <KakaoMapScript libraries={['services']} />
     </>
   );
 };
