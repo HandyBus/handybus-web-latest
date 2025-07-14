@@ -4,8 +4,6 @@ import {
 } from '@/types/shuttleRoute.type';
 import { getHubType } from '../shuttleRouteDetailView.util';
 import Hub from './Hub';
-import { useState } from 'react';
-import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 
 interface Props {
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
@@ -24,10 +22,8 @@ const Hubs = ({
   removeOpenedHubIndex,
   isHandyParty,
 }: Props) => {
-  const [isKakaoMapScriptLoaded, setIsKakaoMapScriptLoaded] = useState(false);
   return (
     <>
-      <KakaoMapScript onReady={() => setIsKakaoMapScriptLoaded(true)} />
       {hubs.map((hub, index) => {
         const type = getHubType({
           index,
@@ -47,7 +43,6 @@ const Hubs = ({
             index={index}
             addOpenedHubIndex={addOpenedHubIndex}
             removeOpenedHubIndex={removeOpenedHubIndex}
-            isKakaoMapScriptLoaded={isKakaoMapScriptLoaded}
             hideTime={hideTime}
           />
         );

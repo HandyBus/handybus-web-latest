@@ -16,7 +16,6 @@ interface Props {
   index: number;
   addOpenedHubIndex: (index: number) => void;
   removeOpenedHubIndex: (index: number) => void;
-  isKakaoMapScriptLoaded: boolean;
   hideTime?: boolean;
 }
 
@@ -28,7 +27,6 @@ const Hub = ({
   index,
   addOpenedHubIndex,
   removeOpenedHubIndex,
-  isKakaoMapScriptLoaded,
   hideTime = false,
 }: Props) => {
   const formattedTime = dateString(hub.arrivalTime, {
@@ -103,7 +101,6 @@ const Hub = ({
             placeName={hub.name}
             latitude={hub.latitude}
             longitude={hub.longitude}
-            isKakaoMapScriptLoaded={isKakaoMapScriptLoaded}
           />
         </div>
       </div>

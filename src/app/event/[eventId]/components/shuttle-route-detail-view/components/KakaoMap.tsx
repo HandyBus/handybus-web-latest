@@ -6,15 +6,9 @@ interface Props {
   placeName: string;
   latitude: number;
   longitude: number;
-  isKakaoMapScriptLoaded: boolean;
 }
 
-const KakaoMap = ({
-  placeName,
-  latitude,
-  longitude,
-  isKakaoMapScriptLoaded,
-}: Props) => {
+const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const isInitialized = useRef(false);
 
@@ -44,12 +38,12 @@ const KakaoMap = ({
   };
 
   useEffect(() => {
-    if (!mapRef.current || isInitialized.current || !isKakaoMapScriptLoaded) {
+    if (!mapRef.current || isInitialized.current) {
       return;
     }
     isInitialized.current = true;
     window.kakao.maps.load(initializeMap);
-  }, [mapRef, isKakaoMapScriptLoaded]);
+  }, [mapRef]);
 
   return (
     <div
