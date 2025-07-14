@@ -13,8 +13,8 @@ const EventGuidelines = () => {
         <Guideline type="수요조사" />
       </section>
       <section className="py-16">
-        <h6 className="mb-8 text-18 font-600">문의</h6>
-        <Guideline type="문의" />
+        <h6 className="mb-8 text-18 font-600">주요 참고사항</h6>
+        <Guideline type="주요 참고사항" />
       </section>
       <section className="py-16">
         <h6 className="mb-8 text-18 font-600">상품별 유의사항</h6>
