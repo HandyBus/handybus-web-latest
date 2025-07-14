@@ -3,11 +3,11 @@ import Notice from './contents/Notice';
 import type { ReactNode } from 'react';
 import Inquiry from './contents/Inquiry';
 
-type Guidelines = '수요조사' | '문의' | '상품별 유의사항';
+type Guidelines = '수요조사' | '주요 참고사항' | '상품별 유의사항';
 
 const GUIDELINES: Record<Guidelines, ReactNode> = {
   수요조사: <Demand />,
-  문의: <Inquiry />,
+  '주요 참고사항': <Inquiry />,
   '상품별 유의사항': <Notice />,
 };
 
