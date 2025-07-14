@@ -67,7 +67,7 @@ const useEventText = ({ reservation, event, dailyEvent }: Props) => {
       } else {
         if (
           toDestinationStartHub?.regionHubId ===
-          fromDestinationStartHub?.regionHubId
+          fromDestinationEndHub?.regionHubId
         ) {
           hubText = `${toDestinationStartHub?.name} ↔ ${toDestinationEndHub?.name}`;
         } else {

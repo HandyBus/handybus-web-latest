@@ -4,9 +4,7 @@ import useFunnel from '@/hooks/useFunnel';
 import TripTypeStep from './components/steps/TripTypeStep';
 import AddressStep from './components/steps/AddressStep';
 import ReservationInfoStep from './components/steps/ReservationInfoStep';
-import { useState } from 'react';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
-import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { FormProvider, useForm } from 'react-hook-form';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 
@@ -45,8 +43,6 @@ const HandyPartyModal = ({
     HANDY_PARTY_MODAL_STEPS,
   );
 
-  const [isKakaoMapScriptLoaded, setIsKakaoMapScriptLoaded] = useState(false);
-
   const methods = useForm<HandyPartyModalFormValues>({
     defaultValues: {
       tripType: undefined,
@@ -69,20 +65,11 @@ const HandyPartyModal = ({
     <ModalPortal>
       <FormProvider {...methods}>
         <div className="fixed bottom-0 left-0 right-0 top-0 z-[9999] mx-auto flex h-[100dvh] max-w-500 flex-col bg-basic-white">
-          <KakaoMapScript
-            onReady={() => setIsKakaoMapScriptLoaded(true)}
-            libraries={['services']}
-          />
           <Funnel>
             <Step name="방향 선택">
               <TripTypeStep
                 onBack={closeModal}
-                onNext={() => {
-                  if (!isKakaoMapScriptLoaded) {
-                    return;
-                  }
-                  handleNextStep();
-                }}
+                onNext={handleNextStep}
                 handyPartyRoutes={handyPartyRoutes}
               />
             </Step>
