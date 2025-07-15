@@ -11,6 +11,7 @@ import { PaymentsViewEntitySchema } from '@/types/payment.type';
 // ----- GET -----
 
 export const getUserReservations = async (params?: {
+  eventId?: string;
   reservationStatus?: ReservationStatus;
   eventProgressStatus?: 'PAST' | 'CURRENT';
   monthsAgo?: number;
@@ -28,6 +29,7 @@ export const getUserReservations = async (params?: {
 };
 
 export const useGetUserReservations = (params?: {
+  eventId?: string;
   reservationStatus?: ReservationStatus;
   eventProgressStatus?: 'PAST' | 'CURRENT';
   monthsAgo?: number;
