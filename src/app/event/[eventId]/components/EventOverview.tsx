@@ -2,10 +2,22 @@ import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
+import FestivalLifeImage from './images/festival-life.png';
 
-const EventOverview = () => {
+const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
+
+interface Props {
+  eventId: string;
+}
+
+const EventOverview = ({ eventId }: Props) => {
+  const showFestivalLife = eventId === FESTIVAL_LIFE_EVENT_ID;
+
   return (
     <section>
+      {showFestivalLife && (
+        <Image src={FestivalLifeImage} alt="festival life" />
+      )}
       <Image src={OverviewImage} alt="event overview" />
       <div className="flex flex-col justify-center bg-basic-grey-50 px-32 pb-44">
         <Link

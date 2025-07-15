@@ -27,7 +27,7 @@ const Page = async ({ params }: Props) => {
         />
         <EventInfo event={event} />
         <EventContent event={event} />
-        <EventOverview />
+        <EventOverview eventId={params.eventId} />
         <EventGuidelines />
         <EventModal eventId={params.eventId} />
         <div className="h-100 bg-basic-grey-50" />
