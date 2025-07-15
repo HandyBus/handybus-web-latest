@@ -178,6 +178,7 @@ const Content = ({
           />
         )}
         <CouponSection
+          eventId={event.eventId}
           coupons={coupons}
           selectedCoupon={selectedCoupon}
           setSelectedCoupon={setSelectedCoupon}

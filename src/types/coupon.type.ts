@@ -31,6 +31,7 @@ export const IssuedCouponsViewEntitySchema = z
     maxApplicablePeople: z.number().nullable(),
     validFrom: z.string(),
     validTo: z.string(),
+    allowedEventId: z.string().nullable(),
     status: IssuedCouponStatusEnum,
   })
   .strict();
