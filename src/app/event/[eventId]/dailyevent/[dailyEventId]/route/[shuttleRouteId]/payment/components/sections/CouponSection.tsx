@@ -8,12 +8,14 @@ import RadioUncheckedIcon from '../../icons/radio-unchecked.svg';
 import dayjs from 'dayjs';
 
 interface Props {
+  eventId: string;
   coupons: IssuedCouponsViewEntity[];
   selectedCoupon: IssuedCouponsViewEntity | null;
   setSelectedCoupon: (coupon: IssuedCouponsViewEntity | null) => void;
 }
 
 const CouponSection = ({
+  eventId,
   coupons,
   selectedCoupon,
   setSelectedCoupon,
@@ -23,7 +25,14 @@ const CouponSection = ({
   const [stagedSelectedCoupon, setStagedSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);
 
-  const couponCount = coupons.length;
+  const allowedCouponsForEvent = coupons.filter((coupon) => {
+    if (coupon.allowedEventId === null) {
+      return true;
+    }
+    return coupon.allowedEventId === eventId;
+  });
+
+  const allowedCouponsForEventCount = allowedCouponsForEvent.length;
 
   return (
     <>
@@ -31,7 +40,7 @@ const CouponSection = ({
         <button
           type="button"
           onClick={() => setIsCouponModalOpen(true)}
-          disabled={couponCount === 0}
+          disabled={allowedCouponsForEventCount === 0}
           className="group flex h-[46px] w-full items-center justify-between gap-4 rounded-8 border border-basic-grey-200 p-12 disabled:text-basic-grey-300"
         >
           {selectedCoupon ? (
@@ -44,10 +53,12 @@ const CouponSection = ({
             </p>
           ) : (
             <>
-              {couponCount > 0 ? (
+              {allowedCouponsForEventCount > 0 ? (
                 <p className="text-black text-14 font-600">
                   사용 가능한 쿠폰이{' '}
-                  <span className="text-brand-primary-400">{couponCount}</span>
+                  <span className="text-brand-primary-400">
+                    {allowedCouponsForEventCount}
+                  </span>
                   장 있어요!
                 </p>
               ) : (
@@ -100,7 +111,7 @@ const CouponSection = ({
               쿠폰 적용 안함
             </div>
           </button>
-          {coupons.map((coupon) => {
+          {allowedCouponsForEvent.map((coupon) => {
             const formattedValidTo = dayjs(coupon.validTo)
               .subtract(1, 'minute')
               .format('YYYY년 M월 D일 H시 m분');
@@ -109,7 +120,10 @@ const CouponSection = ({
                 key={coupon.issuedCouponId}
                 type="button"
                 onClick={() => setStagedSelectedCoupon(coupon)}
-                className="flex gap-[6px] text-left"
+                disabled={
+                  !!coupon.allowedEventId && coupon.allowedEventId !== eventId
+                }
+                className="group flex gap-[6px] rounded-4 text-left disabled:bg-basic-grey-100"
               >
                 <div>
                   {stagedSelectedCoupon?.issuedCouponId ===
@@ -120,7 +134,7 @@ const CouponSection = ({
                   )}
                 </div>
                 <div>
-                  <p className="text-14 font-600">
+                  <p className="text-14 font-600 group-disabled:text-basic-grey-300">
                     [{coupon.name}]{' '}
                     {coupon.discountType === 'RATE'
                       ? `${coupon.discountRate}%`
@@ -128,16 +142,16 @@ const CouponSection = ({
                     할인
                   </p>
                   {coupon.maxDiscountAmount ? (
-                    <p className="text-12 font-500 text-basic-grey-700">
+                    <p className="text-12 font-500 text-basic-grey-700 group-disabled:text-basic-grey-300">
                       최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
                     </p>
                   ) : null}
                   {coupon.maxApplicablePeople ? (
-                    <p className="text-12 font-500 text-basic-grey-700">
+                    <p className="text-12 font-500 text-basic-grey-700 group-disabled:text-basic-grey-300">
                       예약 당 최대 {coupon.maxApplicablePeople}인 적용
                     </p>
                   ) : null}
-                  <p className="text-12 font-500 text-basic-grey-500">
+                  <p className="text-12 font-500 text-basic-grey-500 group-disabled:text-basic-grey-300">
                     {formattedValidTo}까지
                   </p>
                 </div>
