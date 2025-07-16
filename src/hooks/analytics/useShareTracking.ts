@@ -4,7 +4,6 @@ import {
   gtagShare,
   ShareChannel,
   UserActionInfo,
-  UserActionStatus,
 } from '@/utils/analytics/shareAnalytics.util';
 import dayjs from 'dayjs';
 import { useScrollDepth } from './useScrollDepth';
@@ -34,7 +33,7 @@ export const useShareTracking = ({ eventId, eventName }: Props) => {
 
       if (eventReservation) {
         return {
-          status: 'complete_reservation' as UserActionStatus,
+          status: 'complete_reservation' as const,
           user_action_timestamp: eventReservation.createdAt,
           time_since_action_text: formatTimeSinceActionCompact(
             eventReservation.createdAt,
@@ -42,7 +41,6 @@ export const useShareTracking = ({ eventId, eventName }: Props) => {
         };
       }
 
-      // 2. 수요조사 정보 조회 (해당 이벤트만)
       const demands = await getUserDemands({ eventId });
       const eventDemand = demands.shuttleDemands.toSorted((a, b) =>
         dayjs(b.createdAt).diff(dayjs(a.createdAt)),
@@ -50,7 +48,7 @@ export const useShareTracking = ({ eventId, eventName }: Props) => {
 
       if (eventDemand) {
         return {
-          status: 'complete_demand' as UserActionStatus,
+          status: 'complete_demand' as const,
           user_action_timestamp: eventDemand.createdAt,
           time_since_action_text: formatTimeSinceActionCompact(
             eventDemand.createdAt,
@@ -59,12 +57,12 @@ export const useShareTracking = ({ eventId, eventName }: Props) => {
       }
 
       return {
-        status: 'no_action' as UserActionStatus,
+        status: 'no_action' as const,
       };
     } catch (error) {
       console.error('Failed to get user action info:', error);
       return {
-        status: 'no_action' as UserActionStatus,
+        status: 'no_action' as const,
       };
     }
   };
