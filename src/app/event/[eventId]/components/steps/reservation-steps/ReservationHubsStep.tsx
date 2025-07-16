@@ -223,15 +223,13 @@ const Hub = ({
             {remainingSeatTypeText && (
               <div className="h-12 w-[1px] bg-basic-grey-300" />
             )}
-            <span
-              className={
-                remainingSeatCount > DANGER_SEAT_THRESHOLD
-                  ? 'text-basic-grey-500'
-                  : 'text-basic-red-400'
-              }
-            >
-              {remainingSeatCount}석 남음
-            </span>
+            {remainingSeatCount > DANGER_SEAT_THRESHOLD ? (
+              <span className="text-basic-grey-500">여유</span>
+            ) : (
+              <span className="text-basic-red-400">
+                {remainingSeatCount}석 남음
+              </span>
+            )}
           </p>
         )}
       </button>

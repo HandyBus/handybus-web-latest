@@ -109,15 +109,13 @@ const SeatText = ({
   }
   return (
     <div className="flex items-center gap-8">
-      <span
-        className={`text-14 font-500 ${
-          remainingSeatCount > DANGER_SEAT_THRESHOLD
-            ? 'text-basic-grey-500'
-            : 'text-basic-red-400'
-        }`}
-      >
-        {remainingSeatCount}석 남음
-      </span>
+      {remainingSeatCount > DANGER_SEAT_THRESHOLD ? (
+        <span className="text-14 font-500 text-basic-grey-500">여유</span>
+      ) : (
+        <span className="text-14 font-500 text-basic-red-400">
+          {remainingSeatCount}석 남음
+        </span>
+      )}
       <div className="flex items-center gap-4">
         {isEarlybird ? (
           <>
