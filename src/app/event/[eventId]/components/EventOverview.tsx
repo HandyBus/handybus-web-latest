@@ -3,8 +3,10 @@ import OverviewImage from './images/event-overview.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import FestivalLifeImage from './images/festival-life.png';
+import T1Image from './images/t1_faq.png';
 
 const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
+const T1_EVENT_ID = '596248857575166715';
 
 interface Props {
   eventId: string;
@@ -12,12 +14,14 @@ interface Props {
 
 const EventOverview = ({ eventId }: Props) => {
   const showFestivalLife = eventId === FESTIVAL_LIFE_EVENT_ID;
+  const showT1 = eventId === T1_EVENT_ID;
 
   return (
     <section>
       {showFestivalLife && (
         <Image src={FestivalLifeImage} alt="festival life" />
       )}
+      {showT1 && <Image src={T1Image} alt="t1" />}
       <Image src={OverviewImage} alt="event overview" />
       <div className="flex flex-col justify-center bg-basic-grey-50 px-32 pb-44">
         <Link
