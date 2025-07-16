@@ -14,6 +14,7 @@ import {
 } from '../../../store/dailyEventIdsWithHubsAtom';
 import { isCheckRouteDetailViewFlowAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
+import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -152,7 +153,14 @@ const Hub = ({
             </div>
             {!isToDestinationSoldOut && (
               <div className="shrink-0 text-14 font-500 text-basic-grey-500">
-                {hubWithInfo.remainingSeat.TO_DESTINATION}석 남음
+                {hubWithInfo.remainingSeat.TO_DESTINATION >
+                DANGER_SEAT_THRESHOLD ? (
+                  <span className="text-basic-grey-500">여유</span>
+                ) : (
+                  <span className="text-basic-red-400">
+                    {hubWithInfo.remainingSeat.TO_DESTINATION}석 남음
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -171,7 +179,14 @@ const Hub = ({
             </div>
             {!isFromDestinationSoldOut && (
               <div className="shrink-0 text-14 font-500 text-basic-grey-500">
-                {hubWithInfo.remainingSeat.FROM_DESTINATION}석 남음
+                {hubWithInfo.remainingSeat.FROM_DESTINATION >
+                DANGER_SEAT_THRESHOLD ? (
+                  <span className="text-basic-grey-500">여유</span>
+                ) : (
+                  <span className="text-basic-red-400">
+                    {hubWithInfo.remainingSeat.FROM_DESTINATION}석 남음
+                  </span>
+                )}
               </div>
             )}
           </div>

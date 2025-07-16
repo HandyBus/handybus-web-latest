@@ -115,7 +115,7 @@ const ExtraSelectProductStep = ({
               {handyPartyMinPrice?.toLocaleString()}~
             </h6>
             <p className="text-14 font-500 text-basic-grey-700">
-              수도권 전용 대형택시
+              5인 전용 소규모 셔틀
             </p>
           </div>
         </button>

@@ -8,17 +8,20 @@ import { useShare } from '@/hooks/useShare';
 type SharePlatform = 'kakao' | 'x' | 'copy';
 
 interface ShareBottomSheetProps extends BottomSheetRefs {
+  eventId: string;
   eventName: string;
   closeBottomSheet: () => void;
 }
 
 const ShareBottomSheet = ({
   bottomSheetRef,
+  eventId,
   eventName,
   closeBottomSheet,
 }: ShareBottomSheetProps) => {
   const { shareToKakao, shareToTwitter, copyToClipboard, KakaoScript } =
     useShare({
+      eventId,
       eventName,
     });
 

@@ -67,6 +67,7 @@ const BottomBar = ({
       </div>
       <ShareBottomSheet
         bottomSheetRef={shareBottomSheetRef}
+        eventId={eventId}
         eventName={eventName}
         closeBottomSheet={closeShareBottomSheet}
       />

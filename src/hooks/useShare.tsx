@@ -2,6 +2,7 @@
 
 import { toast } from 'react-toastify';
 import Script from 'next/script';
+import { useShareTracking } from './analytics/useShareTracking';
 
 declare global {
   interface Window {
@@ -17,10 +18,12 @@ declare global {
 }
 
 interface Props {
+  eventId: string;
   eventName: string;
 }
 
-export const useShare = ({ eventName }: Props) => {
+export const useShare = ({ eventId, eventName }: Props) => {
+  const { trackShare } = useShareTracking({ eventId, eventName });
   const initializeKakao = () => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
@@ -48,6 +51,7 @@ export const useShare = ({ eventName }: Props) => {
       '_blank',
       'noopener,noreferrer',
     );
+    trackShare('x');
   };
 
   const shareToKakao = () => {
@@ -63,11 +67,14 @@ export const useShare = ({ eventName }: Props) => {
         path: currentUrl,
       },
     });
+
+    trackShare('kakao');
   };
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(currentUrl);
+      trackShare('copy');
       toast.success('링크를 복사했어요.');
     } catch {
       toast.error('링크를 복사하지 못했어요.');
