@@ -1,6 +1,6 @@
 export const TITLE = '핸디버스';
 export const DESCRIPTION =
-  '내 최애 콘서트로 가는 셔틀을 핸디버스에서 찾아보세요!';
+  '집 앞에서 콘서트장까지, 번거로운 환승 없이 원하는 노선에서 핸디버스 타고 공연 보러 가요.';
 export const KEYWORDS =
   '핸디버스, 수요응답형 모빌리티, 콘서트 셔틀, 공연 셔틀, 행사 셔틀, 맞춤형 셔틀, 콘서트 이동, 공연 이동, 행사 이동, 셔틀, 버스, 택시, 택시팟, 핸디팟, 차대절, 버스 대절';
 export const URL = 'https://www.handybus.co.kr';
