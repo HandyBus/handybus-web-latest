@@ -86,7 +86,7 @@ const LargeCard = ({
     >
       <Image
         src={image || '/images/default-event.png'}
-        alt="card"
+        alt={`${title} 행사 셔틀 보러가기`}
         fill
         className={`rounded-[13px] object-cover`}
       />
@@ -134,7 +134,7 @@ const MediumCard = ({
       >
         <Image
           src={image || '/images/default-event.png'}
-          alt="card"
+          alt={`${title} 행사 셔틀 보러가기`}
           fill
           className={`rounded-[7px] object-cover`}
         />
@@ -179,7 +179,7 @@ const SmallCard = ({
       >
         <Image
           src={image || '/images/default-event.png'}
-          alt="card"
+          alt={`${title} 행사 셔틀 보러가기`}
           fill
           className={`rounded-[7px] object-cover`}
         />

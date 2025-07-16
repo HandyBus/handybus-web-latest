@@ -70,7 +70,7 @@ const bannerImages: AdminHandleBannerRequestBanners[] = [
     linkUrl: '/help/how-to',
     sequence: 2,
   },
-] as const;
+];
 
 const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
   <Link key={image.title} href={image.linkUrl}>
