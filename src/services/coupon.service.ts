@@ -49,7 +49,7 @@ export const usePostCoupon = ({ onSuccess }: { onSuccess?: () => void }) => {
     mutationFn: postCoupon,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'coupon'] });
-      toast.success('쿠폰이 등록되었어요.');
+      toast.success('쿠폰이 등록됐어요.');
       onSuccess?.();
     },
     onError: (error: CustomError) => {
@@ -57,7 +57,7 @@ export const usePostCoupon = ({ onSuccess }: { onSuccess?: () => void }) => {
         toast.error('쿠폰 코드가 올바르지 않아요.');
       } else if (error.statusCode === 409) {
         toast.error('이미 등록된 쿠폰이에요.');
-      } else if (error.statusCode === 403) {
+      } else if (error.statusCode === 400) {
         toast.error('쿠폰이 만료되었어요.');
       } else {
         toast.error('쿠폰을 등록하지 못했어요.');

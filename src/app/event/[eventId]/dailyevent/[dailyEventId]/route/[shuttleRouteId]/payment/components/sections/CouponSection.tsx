@@ -5,7 +5,9 @@ import { useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import RadioCheckedIcon from '../../icons/radio-checked.svg';
 import RadioUncheckedIcon from '../../icons/radio-unchecked.svg';
+import RadioDisabledIcon from '../../icons/radio-disabled.svg';
 import dayjs from 'dayjs';
+import { useGetEvent } from '@/services/event.service';
 
 interface Props {
   eventId: string;
@@ -30,6 +32,12 @@ const CouponSection = ({
       return true;
     }
     return coupon.allowedEventId === eventId;
+  });
+  const notAllowedCouponsForEvent = coupons.filter((coupon) => {
+    if (coupon.allowedEventId === null) {
+      return false;
+    }
+    return coupon.allowedEventId !== eventId;
   });
 
   const allowedCouponsForEventCount = allowedCouponsForEvent.length;
@@ -111,53 +119,28 @@ const CouponSection = ({
               쿠폰 적용 안함
             </div>
           </button>
-          {allowedCouponsForEvent.map((coupon) => {
-            const formattedValidTo = dayjs(coupon.validTo)
-              .subtract(1, 'minute')
-              .format('YYYY년 M월 D일 H시 m분');
-            return (
-              <button
-                key={coupon.issuedCouponId}
-                type="button"
-                onClick={() => setStagedSelectedCoupon(coupon)}
-                disabled={
-                  !!coupon.allowedEventId && coupon.allowedEventId !== eventId
-                }
-                className="group flex gap-[6px] rounded-4 text-left disabled:bg-basic-grey-100"
-              >
-                <div>
-                  {stagedSelectedCoupon?.issuedCouponId ===
-                  coupon.issuedCouponId ? (
-                    <RadioCheckedIcon />
-                  ) : (
-                    <RadioUncheckedIcon />
-                  )}
-                </div>
-                <div>
-                  <p className="text-14 font-600 group-disabled:text-basic-grey-300">
-                    [{coupon.name}]{' '}
-                    {coupon.discountType === 'RATE'
-                      ? `${coupon.discountRate}%`
-                      : `${coupon.discountAmount?.toLocaleString()}원`}{' '}
-                    할인
-                  </p>
-                  {coupon.maxDiscountAmount ? (
-                    <p className="text-12 font-500 text-basic-grey-700 group-disabled:text-basic-grey-300">
-                      최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
-                    </p>
-                  ) : null}
-                  {coupon.maxApplicablePeople ? (
-                    <p className="text-12 font-500 text-basic-grey-700 group-disabled:text-basic-grey-300">
-                      예약 당 최대 {coupon.maxApplicablePeople}인 적용
-                    </p>
-                  ) : null}
-                  <p className="text-12 font-500 text-basic-grey-500 group-disabled:text-basic-grey-300">
-                    {formattedValidTo}까지
-                  </p>
-                </div>
-              </button>
-            );
-          })}
+          {allowedCouponsForEvent.map((coupon) => (
+            <Coupon
+              key={coupon.issuedCouponId}
+              coupon={coupon}
+              onClick={setStagedSelectedCoupon}
+              selected={
+                stagedSelectedCoupon?.issuedCouponId === coupon.issuedCouponId
+              }
+              disabled={false}
+            />
+          ))}
+          {notAllowedCouponsForEvent.map((coupon) => (
+            <Coupon
+              key={coupon.issuedCouponId}
+              coupon={coupon}
+              onClick={setStagedSelectedCoupon}
+              selected={
+                stagedSelectedCoupon?.issuedCouponId === coupon.issuedCouponId
+              }
+              disabled={true}
+            />
+          ))}
         </ul>
       </Modal>
     </>
@@ -165,3 +148,78 @@ const CouponSection = ({
 };
 
 export default CouponSection;
+
+interface CouponProps {
+  coupon: IssuedCouponsViewEntity;
+  onClick: (coupon: IssuedCouponsViewEntity) => void;
+  selected: boolean;
+  disabled: boolean;
+}
+
+const Coupon = ({ coupon, onClick, selected, disabled }: CouponProps) => {
+  const title =
+    coupon.discountType === 'RATE'
+      ? `${coupon.discountRate}%`
+      : `${coupon.discountAmount?.toLocaleString()}원`;
+  const formattedValidTo = dayjs(coupon.validTo)
+    .subtract(1, 'minute')
+    .format('YYYY년 M월 D일 H시 m분');
+
+  const { data: allowedEvent } = useGetEvent(coupon.allowedEventId ?? '', {
+    enabled: !!coupon.allowedEventId,
+  });
+
+  const allowedEventIdText = !coupon.allowedEventId
+    ? '모든 행사에 사용 가능한 쿠폰'
+    : allowedEvent
+      ? `${allowedEvent.eventName} 쿠폰`
+      : ' ';
+
+  const maxApplicablePeopleText =
+    coupon.maxApplicablePeople === 0
+      ? '예약 당 인원 제한 없음'
+      : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`;
+
+  return (
+    <button
+      type="button"
+      onClick={() => onClick(coupon)}
+      disabled={disabled}
+      className="group flex gap-[6px] rounded-4 text-left"
+    >
+      <div>
+        {disabled ? (
+          <RadioDisabledIcon />
+        ) : selected ? (
+          <RadioCheckedIcon />
+        ) : (
+          <RadioUncheckedIcon />
+        )}
+      </div>
+      <div>
+        <p className="text-14 font-600 group-disabled:text-basic-grey-300">
+          {`[${coupon.name}] ${title} 할인`}
+        </p>
+        {coupon.discountType === 'RATE' && (
+          <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+            최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
+          </p>
+        )}
+        <p className="line-clamp-1 h-[19px] text-12 font-500 leading-[160%] text-basic-grey-700 group-disabled:text-basic-grey-300">
+          {allowedEventIdText}
+        </p>
+        <p className="line-clamp-1 h-[19px] text-12 font-500 leading-[160%] text-basic-grey-700 group-disabled:text-basic-grey-300">
+          {maxApplicablePeopleText}
+        </p>
+        <p className="text-12 font-500 text-basic-grey-500 group-disabled:text-basic-grey-300">
+          {formattedValidTo}까지
+        </p>
+        {disabled && (
+          <p className="text-12 font-500 leading-[160%] text-basic-red-400">
+            적용 가능한 행사가 아닙니다.
+          </p>
+        )}
+      </div>
+    </button>
+  );
+};

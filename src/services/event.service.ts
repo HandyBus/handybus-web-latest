@@ -45,8 +45,12 @@ export const getEvent = async (eventId: string) => {
   return res.event;
 };
 
-export const useGetEvent = (eventId: string) =>
+export const useGetEvent = (
+  eventId: string,
+  { enabled }: { enabled?: boolean } = { enabled: true },
+) =>
   useQuery({
     queryKey: ['event', eventId],
     queryFn: () => getEvent(eventId),
+    enabled,
   });
