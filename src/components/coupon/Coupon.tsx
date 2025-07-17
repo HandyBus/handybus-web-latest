@@ -1,3 +1,4 @@
+import { useGetEvent } from '@/services/event.service';
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import dayjs from 'dayjs';
 
@@ -17,9 +18,24 @@ const Coupon = ({ coupon }: Props) => {
     coupon.discountType === 'RATE'
       ? `${coupon.discountRate}%`
       : `${coupon.discountAmount?.toLocaleString()}원`;
-  const parsedValidTo = dayjs(coupon.validTo)
+  const formattedValidTo = dayjs(coupon.validTo)
     .subtract(1, 'minute')
     .format('YYYY년 M월 D일 H시 m분');
+
+  const { data: allowedEvent } = useGetEvent(coupon.allowedEventId ?? '', {
+    enabled: !!coupon.allowedEventId,
+  });
+
+  const allowedEventIdText = !coupon.allowedEventId
+    ? '예약 당 인원 제한 없음'
+    : allowedEvent
+      ? `${allowedEvent.eventName} 쿠폰`
+      : ' ';
+
+  const maxApplicablePeopleText =
+    coupon.maxApplicablePeople === 0
+      ? '예약 당 인원 제한 없음'
+      : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`;
 
   return (
     <div
@@ -33,13 +49,14 @@ const Coupon = ({ coupon }: Props) => {
           최대 {coupon.maxDiscountAmount?.toLocaleString()}원 할인
         </p>
       )}
-      <p className="line-clamp-1 text-12 font-500 leading-[160%] text-basic-grey-700">
-        {coupon.maxApplicablePeople === 0
-          ? '모든 탑승객에게 적용 가능'
-          : `예약 당 최대 ${coupon.maxApplicablePeople}인 적용`}
+      <p className="line-clamp-1 h-[19px] text-12 font-500 leading-[160%] text-basic-grey-700">
+        {allowedEventIdText}
+      </p>
+      <p className="line-clamp-1 h-[19px] text-12 font-500 leading-[160%] text-basic-grey-700">
+        {maxApplicablePeopleText}
       </p>
       <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-        {usable ? `${parsedValidTo}까지 사용 가능` : unusableReason}
+        {usable ? `${formattedValidTo}까지 사용` : unusableReason}
       </p>
     </div>
   );
