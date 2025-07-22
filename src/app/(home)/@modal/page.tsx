@@ -1,14 +1,12 @@
 'use client';
 
-import ModalPortal from '@/components/modals/ModalPortal';
-import T1Modal from './components/T1Modal';
-
 const Page = () => {
-  return (
-    <ModalPortal>
-      <T1Modal />
-    </ModalPortal>
-  );
+  return null;
+  // return (
+  //   <ModalPortal>
+  //     <OneDayModal image={T1ModalImage} />
+  //   </ModalPortal>
+  // );
 };
 
 export default Page;
