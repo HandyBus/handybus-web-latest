@@ -9,9 +9,7 @@ import {
   ReserveRequestSchema,
   ReserveResponseSchema,
 } from '@/types/payment.type';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
-import { CustomError } from './custom-error';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { silentParse } from '@/utils/config.util';
 
 // ----- GET -----
@@ -41,8 +39,7 @@ export const postRefund = async (paymentId: string, refundReason: string) => {
   });
 };
 
-export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
-  const queryClient = useQueryClient();
+export const usePostRefund = () => {
   return useMutation({
     mutationFn: ({
       paymentId,
@@ -51,22 +48,6 @@ export const usePostRefund = ({ onSuccess }: { onSuccess?: () => void }) => {
       paymentId: string;
       refundReason: string;
     }) => postRefund(paymentId, refundReason),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['user', 'reservation'],
-      });
-      toast.success('예약을 취소했어요.');
-      onSuccess?.();
-    },
-    onError: (error: CustomError) => {
-      if (error.statusCode === 409) {
-        toast.error('이미 환불을 신청한 셔틀이에요.');
-      } else if (error.statusCode === 403) {
-        toast.error('환불 날짜가 지나서 환불이 어려워요.');
-      } else {
-        toast.error('예약을 취소하지 못했어요.');
-      }
-    },
   });
 };
 
