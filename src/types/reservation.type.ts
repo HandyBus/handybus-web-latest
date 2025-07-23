@@ -58,11 +58,13 @@ export const ReservationsViewEntitySchema = z
     shuttleRoute: ShuttleRoutesViewEntitySchema,
     createdAt: z.string(),
     updatedAt: z.string(),
-    metadata: z.object({
-      desiredHubAddress: z.string().nullable(),
-      desiredHubLatitude: z.number().nullable(),
-      desiredHubLongitude: z.number().nullable(),
-    }),
+    metadata: z
+      .object({
+        desiredHubAddress: z.string().nullable(),
+        desiredHubLatitude: z.number().nullable(),
+        desiredHubLongitude: z.number().nullable(),
+      })
+      .nullable(),
   })
   .strict();
 export type ReservationsViewEntity = z.infer<
