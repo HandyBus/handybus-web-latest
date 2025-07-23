@@ -1,6 +1,7 @@
 import { getBanners } from '@/services/core.service';
 import PromotionBanner from './components/PromotionBanner';
 import { DEFAULT_SSG_REVALIDATE_TIME } from '@/constants/common';
+import AnnouncementBanner from './components/AnnouncementBanner';
 
 export const revalidate = DEFAULT_SSG_REVALIDATE_TIME;
 
@@ -10,6 +11,7 @@ const Page = async () => {
   });
   return (
     <>
+      <AnnouncementBanner />
       <PromotionBanner dynamicBannerImages={bannerImages} />
     </>
   );
