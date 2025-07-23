@@ -13,6 +13,7 @@ export const ShuttleBusTypeEnum = z.enum([
   'PREMIUM_BUS_21',
   'MEDIUM_BUS_21',
   'SMALL_BUS_33',
+  'STARIA_7',
 ]);
 export type ShuttleBusType = z.infer<typeof ShuttleBusTypeEnum>;
 
