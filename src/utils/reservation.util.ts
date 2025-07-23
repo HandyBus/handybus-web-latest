@@ -85,7 +85,7 @@ export const calculateRefundFee = (
   } else if (dDay === 6) {
     refundFee = paymentAmount * 0.5;
   } else {
-    return null;
+    refundFee = paymentAmount;
   }
 
   return Math.floor(refundFee);
@@ -95,9 +95,35 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
   if (!reservation) {
     return false;
   }
-  const refundFee = calculateRefundFee(reservation);
-  if (refundFee === null) {
+  // 1시간 이내 전액 환불
+  const nowTime = dayjs().tz();
+  const paymentTime = dayjs(reservation.paymentCreatedAt).tz();
+
+  if (nowTime.diff(paymentTime, 'hours') <= 1) {
+    return true;
+  }
+
+  // 탑승 5일 전 취소 시, 수수료 100% 발생 (즉 환불 X)
+  const boardingTime = getBoardingTime({
+    tripType: reservation.type,
+    toDestinationShuttleRouteHubs:
+      reservation.shuttleRoute.toDestinationShuttleRouteHubs ?? [],
+    fromDestinationShuttleRouteHubs:
+      reservation.shuttleRoute.fromDestinationShuttleRouteHubs ?? [],
+    toDestinationShuttleRouteHubId:
+      reservation.toDestinationShuttleRouteHubId ?? '',
+  });
+  if (!boardingTime) {
     return false;
   }
-  return refundFee !== reservation.paymentAmount;
+  const boardingDate = boardingTime.startOf('day');
+  const nowDate = dayjs().tz().startOf('day');
+
+  const dDay = boardingDate.diff(nowDate, 'day');
+
+  if (dDay >= 6) {
+    return true;
+  }
+
+  return false;
 };

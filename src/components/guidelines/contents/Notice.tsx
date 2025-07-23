@@ -232,7 +232,7 @@ const RefundTable = () => {
             <td className="border-r border-basic-grey-300 px-[10px] py-[6px]">
               탑승 5일 전 00:00 ~
             </td>
-            <td className="px-[10px] py-[6px]">취소 / 환불 불가</td>
+            <td className="px-[10px] py-[6px]">수수료 100% / 전액 환불 불가</td>
           </tr>
         </tbody>
       </table>

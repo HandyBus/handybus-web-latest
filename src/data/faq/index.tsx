@@ -47,7 +47,7 @@ export const faqs: FAQ[] = (
     ],
     [FAQReservation7, 'reservation', '예약 내역을 확인하고 싶어요.'],
     [FAQReservation8, 'reservation', '탑승지를 변경하고 싶어요.'],
-    [FAQReservation9, 'reservation', '예약을 취소하고 싶어요'],
+    [FAQReservation9, 'reservation', '예약을 취소하고 싶어요.'],
     [
       FAQReservation10,
       'reservation',

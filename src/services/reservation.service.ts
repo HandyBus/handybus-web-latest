@@ -103,3 +103,15 @@ export const usePostUpdateReservation = (
     },
   });
 };
+
+export const putCancelReservation = async (reservationId: string) => {
+  return await authInstance.put(
+    `/v1/shuttle-operation/reservations/${reservationId}/cancel`,
+    undefined,
+  );
+};
+
+export const usePutCancelReservation = () =>
+  useMutation({
+    mutationFn: (reservationId: string) => putCancelReservation(reservationId),
+  });
