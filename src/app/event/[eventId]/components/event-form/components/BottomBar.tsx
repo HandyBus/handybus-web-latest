@@ -63,7 +63,9 @@ const BottomBar = ({
         >
           {BUTTON_TEXT[phase][enabledStatus]}
         </Button>
-        {phase === 'demand' && <NotificationBubble />}
+        {phase === 'demand' && enabledStatus === 'enabled' && (
+          <NotificationBubble />
+        )}
       </div>
       <ShareBottomSheet
         bottomSheetRef={shareBottomSheetRef}
