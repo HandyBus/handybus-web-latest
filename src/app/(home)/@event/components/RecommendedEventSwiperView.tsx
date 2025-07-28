@@ -34,25 +34,33 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
           <SwiperSlide style={{ width: 'auto' }}>
             <div className="w-16" />
           </SwiperSlide>
-          {events?.map((v, idx) => (
-            <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
-              <div className="pr-[6px]">
-                <Card
-                  variant={'MEDIUM'}
-                  image={v.eventImageUrl}
-                  title={v.eventName}
-                  date={dateString([v.startDate, v.endDate], {
-                    showWeekday: false,
-                  })}
-                  location={v.eventLocationName}
-                  price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
-                  isSaleStarted={v.hasOpenRoute}
-                  order={idx + 1}
-                  href={`/event/${v.eventId}`}
-                />
-              </div>
-            </SwiperSlide>
-          ))}
+          {events?.map((v, idx) => {
+            const formattedDate = dateString(
+              v.startDate === v.endDate
+                ? v.startDate
+                : [v.startDate, v.endDate],
+              {
+                showWeekday: false,
+              },
+            );
+            return (
+              <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
+                <div className="pr-[6px]">
+                  <Card
+                    variant={'MEDIUM'}
+                    image={v.eventImageUrl}
+                    title={v.eventName}
+                    date={formattedDate}
+                    location={v.eventLocationName}
+                    price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
+                    isSaleStarted={v.hasOpenRoute}
+                    order={idx + 1}
+                    href={`/event/${v.eventId}`}
+                  />
+                </div>
+              </SwiperSlide>
+            );
+          })}
           {
             <SwiperSlide style={{ width: 'auto' }}>
               <Link
