@@ -13,13 +13,21 @@ export type DemandCompleteStatus =
 interface Props {
   status: DemandCompleteStatus;
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
+  demandCount?: number;
 }
 
-const DemandCompleteScreen = ({ status, setDemandCompleteStatus }: Props) => {
+const DemandCompleteScreen = ({
+  status,
+  setDemandCompleteStatus,
+  demandCount,
+}: Props) => {
   switch (status) {
     case 'success':
       return (
-        <SuccessScreen setDemandCompleteStatus={setDemandCompleteStatus} />
+        <SuccessScreen
+          setDemandCompleteStatus={setDemandCompleteStatus}
+          demandCount={demandCount}
+        />
       );
     case 'fail':
       return <FailScreen setDemandCompleteStatus={setDemandCompleteStatus} />;

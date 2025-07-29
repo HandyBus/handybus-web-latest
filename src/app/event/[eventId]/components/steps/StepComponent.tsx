@@ -31,6 +31,7 @@ interface Props {
     tripType: string,
     eventDate: string,
   ) => void;
+  setDemandCount: (count: number) => void;
 }
 
 const StepComponent = ({
@@ -43,6 +44,7 @@ const StepComponent = ({
   openAlertRequestFeedbackScreen,
   phase,
   trackCompleteDemand,
+  setDemandCount,
 }: Props) => {
   const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
     // 공통
@@ -70,6 +72,7 @@ const StepComponent = ({
         toNextStep={() => {
           setHistoryAndStep('[수요조사] 좌석 선택');
         }}
+        setDemandCount={setDemandCount}
       />
     ),
     '[수요조사] 좌석 선택': (

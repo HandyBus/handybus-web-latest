@@ -23,9 +23,10 @@ import SadFaceIcon from '../../../icons/sad-face.svg';
 
 interface Props {
   toNextStep: () => void;
+  setDemandCount: (count: number) => void;
 }
 
-const DemandHubsStep = ({ toNextStep }: Props) => {
+const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
   const event = useAtomValue(eventAtom);
   const userDemands = useAtomValue(userDemandsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
@@ -92,19 +93,36 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
     return gungusWithDemandStats;
   }, [regionsWithHubsPages, demandStats, prioritySido]);
 
-  const handleHubClick = (hub: RegionHubsResponseModel) => {
+  const handleHubClick = (
+    hub: RegionHubsResponseModel,
+    currentDemandCount: number,
+  ) => {
     setValue('selectedHubForDemand', hub);
     setRecentlyViewedHubId(hub.regionHubId);
+    setDemandCount(currentDemandCount + 1);
     toNextStep();
   };
 
   const recentlyViewedHubId = getRecentlyViewedHubId();
   const recentlyViewedHub = useMemo(() => {
+    if (!recentlyViewedHubId || !demandStats) {
+      return null;
+    }
     const hub = regionsWithHubsPages?.pages?.[0]?.regionHubs.find(
       (hub) => hub.regionHubId === recentlyViewedHubId,
     );
-    return hub;
-  }, [regionsWithHubsPages, recentlyViewedHubId]);
+    if (!hub) {
+      return null;
+    }
+
+    const gunguOfHub = ID_TO_REGION[hub.regionId].bigRegion;
+    const demandStat = demandStats.find(
+      (stat) => stat.cityFullName === gunguOfHub,
+    );
+
+    return { ...hub, demandCount: demandStat?.totalCount ?? 0 };
+  }, [regionsWithHubsPages, recentlyViewedHubId, demandStats]);
+
   const isUserDemandAvailableForRecentlyViewedHub = useMemo(() => {
     if (!recentlyViewedHub || !event) {
       return false;
@@ -125,7 +143,9 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
           </h6>
           <button
             key={recentlyViewedHub.regionHubId}
-            onClick={() => handleHubClick(recentlyViewedHub)}
+            onClick={() =>
+              handleHubClick(recentlyViewedHub, recentlyViewedHub.demandCount)
+            }
             disabled={isUserDemandAvailableForRecentlyViewedHub}
             type="button"
             className="group flex h-[55px] w-full items-center justify-between gap-8 py-12"
@@ -180,7 +200,9 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
                 {gunguWithHubs.hubs.map((hub) => (
                   <button
                     key={hub.regionHubId}
-                    onClick={() => handleHubClick(hub)}
+                    onClick={() =>
+                      handleHubClick(hub, gunguWithHubs.demandCount)
+                    }
                     disabled={isUserDemandAvailable}
                     type="button"
                     className="group flex h-[55px] w-full items-center justify-between gap-8 py-12"

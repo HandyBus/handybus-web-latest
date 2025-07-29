@@ -264,6 +264,8 @@ const Content = ({
     setHandyPartyAreaGuide();
   }, [setHandyPartyAreaGuide, handyPartyAreaGuideString]);
 
+  const [demandCount, setDemandCount] = useState(0);
+
   return (
     <>
       <form className="flex flex-col gap-8">
@@ -315,6 +317,7 @@ const Content = ({
                       }
                       phase={phase}
                       trackCompleteDemand={trackCompleteDemand}
+                      setDemandCount={setDemandCount}
                     />
                   </Step>
                 ))}
@@ -323,10 +326,16 @@ const Content = ({
           </FormProvider>
         </BottomSheet>
       </form>
+      {/* <DemandCompleteScreen
+        status={'success'}
+        setDemandCompleteStatus={setDemandCompleteStatus}
+        demandCount={demandCount}
+      /> */}
       {demandCompleteStatus !== null && (
         <DemandCompleteScreen
           status={demandCompleteStatus}
           setDemandCompleteStatus={setDemandCompleteStatus}
+          demandCount={demandCount}
         />
       )}
       {isAlertRequestFeedbackScreenOpen && (
