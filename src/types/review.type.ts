@@ -20,6 +20,7 @@ export const ReviewsViewEntitySchema = z
     updatedAt: z.string(),
     userId: z.string(),
     userNickname: z.string(),
+    userName: z.string().nullable(),
     userProfileImage: z.string().nullable(),
     toDestinationRegionId: z.string().nullable(),
     fromDestinationRegionId: z.string().nullable(),
