@@ -26,6 +26,7 @@ export const UsersViewEntitySchema = z
   .object({
     userId: z.string(),
     nickname: z.string().nullable(),
+    name: z.string().nullable(),
     profileImage: z.string().nullable(),
     phoneNumber: z.string().nullable(),
     gender: GenderEnum,
@@ -64,7 +65,7 @@ export type UserStatsReadModel = z.infer<typeof UserStatsReadModelSchema>;
 export const UpdateMeRequestSchema = z
   .object({
     profileImage: z.string().nullable(),
-    nickname: z.string(),
+    name: z.string(),
     phoneNumber: z.string(),
     gender: GenderEnum.exclude(['NONE']),
     ageRange: AgeRangeEnum.exclude(['연령대 미지정']),
