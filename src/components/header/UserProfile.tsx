@@ -5,11 +5,11 @@ import Image from 'next/image';
 
 interface Props {
   profileImage: string | undefined | null;
-  nickname: string | undefined | null;
+  name: string | undefined | null;
 }
 
-const UserProfile = ({ profileImage, nickname }: Props) => {
-  if (!nickname && !profileImage) return null;
+const UserProfile = ({ profileImage, name }: Props) => {
+  if (!name && !profileImage) return null;
   return (
     <>
       {profileImage ? (
@@ -24,9 +24,9 @@ const UserProfile = ({ profileImage, nickname }: Props) => {
       ) : (
         <div
           className="flex h-24 w-24 items-center justify-center rounded-full text-12 font-500 leading-[100%] text-basic-white"
-          style={{ backgroundColor: generateProfileBackgroundColor(nickname) }}
+          style={{ backgroundColor: generateProfileBackgroundColor(name) }}
         >
-          {nickname?.slice(0, 1)}
+          {name?.slice(0, 1)}
         </div>
       )}
     </>
