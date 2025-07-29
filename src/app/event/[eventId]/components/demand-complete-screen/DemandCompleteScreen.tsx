@@ -14,19 +14,25 @@ interface Props {
   status: DemandCompleteStatus;
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
+  openShareBottomSheet?: () => void;
 }
 
 const DemandCompleteScreen = ({
   status,
   setDemandCompleteStatus,
   demandCount,
+  openShareBottomSheet,
 }: Props) => {
   switch (status) {
     case 'success':
+      if (!openShareBottomSheet) {
+        return null;
+      }
       return (
         <SuccessScreen
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
+          openShareBottomSheet={openShareBottomSheet}
         />
       );
     case 'fail':

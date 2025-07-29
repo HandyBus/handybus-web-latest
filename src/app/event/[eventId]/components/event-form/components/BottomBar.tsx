@@ -7,23 +7,21 @@ import { EventEnabledStatus, EventPhase } from '@/utils/event.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
-import useBottomSheet from '@/hooks/useBottomSheet';
-import ShareBottomSheet from './ShareBottomSheet';
 
 interface Props {
   eventId: string;
-  eventName: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
+  openShareBottomSheet: () => void;
 }
 
 const BottomBar = ({
   eventId,
-  eventName,
   phase,
   enabledStatus,
   onClick,
+  openShareBottomSheet,
 }: Props) => {
   const router = useRouter();
 
@@ -36,12 +34,6 @@ const BottomBar = ({
     }
     onClick();
   };
-
-  const {
-    bottomSheetRef: shareBottomSheetRef,
-    openBottomSheet: openShareBottomSheet,
-    closeBottomSheet: closeShareBottomSheet,
-  } = useBottomSheet();
 
   return (
     <>
@@ -67,12 +59,6 @@ const BottomBar = ({
           <NotificationBubble />
         )}
       </div>
-      <ShareBottomSheet
-        bottomSheetRef={shareBottomSheetRef}
-        eventId={eventId}
-        eventName={eventName}
-        closeBottomSheet={closeShareBottomSheet}
-      />
     </>
   );
 };

@@ -7,9 +7,14 @@ import { DemandCompleteStatus } from './DemandCompleteScreen';
 interface Props {
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
+  openShareBottomSheet: () => void;
 }
 
-const SuccessScreen = ({ setDemandCompleteStatus, demandCount }: Props) => {
+const SuccessScreen = ({
+  setDemandCompleteStatus,
+  demandCount,
+  openShareBottomSheet,
+}: Props) => {
   return (
     <div className="fixed inset-0 z-[101] mx-auto flex max-w-[500px] flex-col items-center bg-basic-white">
       <section className="mt-180 flex flex-col items-center">
@@ -37,7 +42,7 @@ const SuccessScreen = ({ setDemandCompleteStatus, demandCount }: Props) => {
           <Button
             variant="secondary"
             size="large"
-            onClick={() => setDemandCompleteStatus('feedback-success')}
+            onClick={openShareBottomSheet}
           >
             친구도 알려주기
           </Button>
