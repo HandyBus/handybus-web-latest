@@ -61,7 +61,7 @@ const ReviewItem = ({ review, isMyReview }: Props) => {
                 <p className="text-12 font-500 leading-[160%] text-basic-black">
                   {review.userName
                     ? blurredName
-                    : (review.userNickname ?? '탈퇴한 유저')}
+                    : (review.userNickname ?? '핸디버스 탑승객')}
                 </p>
               </div>
               <Rating size="medium" value={review.rating} />
