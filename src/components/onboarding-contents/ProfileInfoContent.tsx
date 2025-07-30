@@ -10,6 +10,7 @@ import TextInput from '@/components/inputs/text-input/TextInput';
 import OnboardingTitle from './OnboardingTitle';
 import { MAX_FILE_SIZE } from '@/constants/common';
 import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroundColor';
+import InfoIcon from 'public/icons/info.svg';
 
 interface Props {
   hideTitle?: boolean;
@@ -147,7 +148,7 @@ const ProfileInfoContent = ({
           )}
         </div>
       </div>
-      <div className="px-16">
+      <div className="flex flex-col gap-8 px-16">
         <TextInput
           name="name"
           control={control}
@@ -164,6 +165,12 @@ const ProfileInfoContent = ({
         >
           이름
         </TextInput>
+        <div className="flex items-center gap-[2px]">
+          <InfoIcon />
+          <p className="text-14 font-400 leading-[160%] text-basic-grey-500">
+            안전하고 정확한 서비스 이용을 위해 실명을 입력해 주세요.
+          </p>
+        </div>
       </div>
     </>
   );
