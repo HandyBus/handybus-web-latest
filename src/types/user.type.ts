@@ -66,6 +66,7 @@ export const UpdateMeRequestSchema = z
   .object({
     profileImage: z.string().nullable(),
     name: z.string(),
+    nickname: z.string(),
     phoneNumber: z.string(),
     gender: GenderEnum.exclude(['NONE']),
     ageRange: AgeRangeEnum.exclude(['연령대 미지정']),
