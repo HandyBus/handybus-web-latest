@@ -11,6 +11,7 @@ import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
 import { usePutUser } from '@/services/user.service';
+import { toast } from 'react-toastify';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -64,20 +65,25 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
       return;
     }
 
-    await putUser({ name });
+    try {
+      await putUser({ name });
 
-    const url = createPaymentPageUrl({
-      eventId: event.eventId,
-      dailyEventId: dailyEvent.dailyEventId,
-      shuttleRouteId: route.shuttleRouteId,
-      tripType,
-      toDestinationHubId: toDestinationShuttleRouteHubId,
-      fromDestinationHubId: fromDestinationShuttleRouteHubId,
-      passengerCount,
-    });
+      const url = createPaymentPageUrl({
+        eventId: event.eventId,
+        dailyEventId: dailyEvent.dailyEventId,
+        shuttleRouteId: route.shuttleRouteId,
+        tripType,
+        toDestinationHubId: toDestinationShuttleRouteHubId,
+        fromDestinationHubId: fromDestinationShuttleRouteHubId,
+        passengerCount,
+      });
 
-    closeBottomSheet();
-    router.push(url);
+      closeBottomSheet();
+      router.push(url);
+    } catch (error) {
+      console.error(error);
+      toast.error('이름 변경에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   return (
