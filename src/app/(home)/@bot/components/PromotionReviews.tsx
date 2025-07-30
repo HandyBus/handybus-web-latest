@@ -32,7 +32,9 @@ const PromotionReview = async () => {
                     profileImage={review.userProfileImage}
                   />
                   <p className="text-12 font-500 leading-[160%] text-basic-black">
-                    {review.userName ? blurredName : review.userNickname}
+                    {review.userName
+                      ? blurredName
+                      : (review.userNickname ?? '탈퇴한 유저')}
                   </p>
                 </div>
                 <Rating size="medium" value={review.rating} />
