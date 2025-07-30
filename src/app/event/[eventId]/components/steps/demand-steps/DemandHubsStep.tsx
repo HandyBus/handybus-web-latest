@@ -23,9 +23,10 @@ import SadFaceIcon from '../../../icons/sad-face.svg';
 
 interface Props {
   toNextStep: () => void;
+  setDemandCount: (count: number) => void;
 }
 
-const DemandHubsStep = ({ toNextStep }: Props) => {
+const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
   const event = useAtomValue(eventAtom);
   const userDemands = useAtomValue(userDemandsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
@@ -92,19 +93,36 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
     return gungusWithDemandStats;
   }, [regionsWithHubsPages, demandStats, prioritySido]);
 
-  const handleHubClick = (hub: RegionHubsResponseModel) => {
+  const handleHubClick = (
+    hub: RegionHubsResponseModel,
+    currentDemandCount: number,
+  ) => {
     setValue('selectedHubForDemand', hub);
     setRecentlyViewedHubId(hub.regionHubId);
+    setDemandCount(currentDemandCount + 1);
     toNextStep();
   };
 
   const recentlyViewedHubId = getRecentlyViewedHubId();
   const recentlyViewedHub = useMemo(() => {
+    if (!recentlyViewedHubId || !demandStats) {
+      return null;
+    }
     const hub = regionsWithHubsPages?.pages?.[0]?.regionHubs.find(
       (hub) => hub.regionHubId === recentlyViewedHubId,
     );
-    return hub;
-  }, [regionsWithHubsPages, recentlyViewedHubId]);
+    if (!hub) {
+      return null;
+    }
+
+    const gunguOfHub = ID_TO_REGION[hub.regionId].bigRegion;
+    const demandStat = demandStats.find(
+      (stat) => stat.cityFullName === gunguOfHub,
+    );
+
+    return { ...hub, demandCount: demandStat?.totalCount ?? 0 };
+  }, [regionsWithHubsPages, recentlyViewedHubId, demandStats]);
+
   const isUserDemandAvailableForRecentlyViewedHub = useMemo(() => {
     if (!recentlyViewedHub || !event) {
       return false;
@@ -119,23 +137,20 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
   return (
     <section>
       {recentlyViewedHub && (
-        <div>
-          <h6 className="mb-4 text-16 font-600 text-basic-grey-600">
-            최근에 본 정류장
-          </h6>
-          <button
-            key={recentlyViewedHub.regionHubId}
-            onClick={() => handleHubClick(recentlyViewedHub)}
-            disabled={isUserDemandAvailableForRecentlyViewedHub}
-            type="button"
-            className="group flex h-[55px] w-full items-center justify-between gap-8 py-12"
-          >
-            <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-              {recentlyViewedHub.name}
-            </span>
-          </button>
-          <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
-        </div>
+        <button
+          key={recentlyViewedHub.regionHubId}
+          onClick={() => handleHubClick(recentlyViewedHub, recentlyViewedHub.demandCount)}
+          disabled={isUserDemandAvailableForRecentlyViewedHub}
+          type="button"
+          className="group mb-16 flex h-[55px] w-full items-center gap-8 rounded-[12px] border border-basic-grey-100 px-16 py-12"
+        >
+          <div className="whitespace-nowrap rounded-[10px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
+            최근 기록
+          </div>
+          <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+            {recentlyViewedHub.name}
+          </span>
+        </button>
       )}
       <div>
         {gungusWithHubs.map((gunguWithHubs, index) => {
@@ -180,7 +195,9 @@ const DemandHubsStep = ({ toNextStep }: Props) => {
                 {gunguWithHubs.hubs.map((hub) => (
                   <button
                     key={hub.regionHubId}
-                    onClick={() => handleHubClick(hub)}
+                    onClick={() =>
+                      handleHubClick(hub, gunguWithHubs.demandCount)
+                    }
                     disabled={isUserDemandAvailable}
                     type="button"
                     className="group flex h-[55px] w-full items-center justify-between gap-8 py-12"

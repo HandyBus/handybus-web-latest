@@ -4,6 +4,7 @@ import { AgeRange } from '@/types/user.type';
 
 export interface OnboardingFormValues {
   nickname: string;
+  name: string;
   phoneNumber: string;
   profileImage: File | null;
   gender: '남성' | '여성';

@@ -19,7 +19,7 @@ const MyPage = () => {
         {user && (
           <main>
             <Profile
-              nickname={user.nickname || ''}
+              name={user.name || user.nickname || ''}
               profileImage={user.profileImage || ''}
             />
             <Activity />

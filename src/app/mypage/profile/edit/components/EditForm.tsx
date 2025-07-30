@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import { EditType } from '../page';
-import { CustomError } from '@/services/custom-error';
 import { usePutUser } from '@/services/user.service';
 import { UsersViewEntity } from '@/types/user.type';
 import { getImageUrl } from '@/services/core.service';
@@ -30,6 +29,7 @@ const EditForm = ({ type, user }: Props) => {
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
       nickname: user.nickname ?? '',
+      name: user.name ?? '',
       gender: user.gender === 'MALE' ? '남성' : '여성',
       age: user.ageRange === '연령대 미지정' ? undefined : user.ageRange,
       bigRegion: region?.bigRegion ?? undefined,
@@ -46,11 +46,7 @@ const EditForm = ({ type, user }: Props) => {
       toast.success('프로필이 수정되었어요.');
       router.replace('/mypage');
     },
-    onError: (e: CustomError) => {
-      if (e.statusCode === 409) {
-        toast.error('이미 사용중인 닉네임이에요.');
-        return;
-      }
+    onError: () => {
       toast.error('프로필을 수정하지 못했어요.');
     },
     onSettled: () => {
@@ -90,7 +86,7 @@ const EditForm = ({ type, user }: Props) => {
     }
 
     const body = {
-      nickname: formData.nickname,
+      name: formData.name?.trim().replace(/\s+/g, ' '),
       ageRange: formData.age,
       gender:
         formData.gender === '남성' ? ('MALE' as const) : ('FEMALE' as const),
@@ -108,7 +104,7 @@ const EditForm = ({ type, user }: Props) => {
         return (
           <ProfileInfoContent
             hideTitle
-            initialNickname={user.nickname ?? ''}
+            initialName={user.name ?? user.nickname ?? ''}
             initialImageSrc={user.profileImage}
             setIsProfileImageReset={setIsProfileImageReset}
           />

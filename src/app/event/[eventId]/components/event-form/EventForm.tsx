@@ -41,6 +41,7 @@ import {
   createShortAvailableHandyPartyAreaGuideString,
 } from '@/utils/handyParty.util';
 import { HANDY_PARTY_AREA_GUIDE_ID } from '../EventInfo';
+import ShareBottomSheet from './components/ShareBottomSheet';
 
 interface Props {
   event: EventWithRoutesViewEntity;
@@ -130,6 +131,7 @@ const Content = ({
 
   const methods = useForm<EventFormValues>({
     defaultValues: EVENT_FORM_DEFAULT_VALUES,
+    mode: 'onBlur',
   });
 
   const initialStep = EVENT_STEPS[0];
@@ -264,8 +266,23 @@ const Content = ({
     setHandyPartyAreaGuide();
   }, [setHandyPartyAreaGuide, handyPartyAreaGuideString]);
 
+  const {
+    bottomSheetRef: shareBottomSheetRef,
+    openBottomSheet: openShareBottomSheet,
+    closeBottomSheet: closeShareBottomSheet,
+  } = useBottomSheet();
+
+  const [demandCount, setDemandCount] = useState(0);
+
   return (
     <>
+      <ShareBottomSheet
+        bottomSheetRef={shareBottomSheetRef}
+        eventId={event.eventId}
+        eventName={event.eventName}
+        closeBottomSheet={closeShareBottomSheet}
+        className="z-[101]"
+      />
       <form className="flex flex-col gap-8">
         {enabledStatus === 'enabled' && (
           <>
@@ -286,10 +303,10 @@ const Content = ({
         )}
         <BottomBar
           eventId={event.eventId}
-          eventName={event.eventName}
           phase={phase}
           enabledStatus={enabledStatus}
           onClick={handleOpenBottomSheet}
+          openShareBottomSheet={openShareBottomSheet}
         />
         <BottomSheet
           ref={bottomSheetRef}
@@ -315,6 +332,7 @@ const Content = ({
                       }
                       phase={phase}
                       trackCompleteDemand={trackCompleteDemand}
+                      setDemandCount={setDemandCount}
                     />
                   </Step>
                 ))}
@@ -327,6 +345,8 @@ const Content = ({
         <DemandCompleteScreen
           status={demandCompleteStatus}
           setDemandCompleteStatus={setDemandCompleteStatus}
+          demandCount={demandCount}
+          openShareBottomSheet={openShareBottomSheet}
         />
       )}
       {isAlertRequestFeedbackScreenOpen && (

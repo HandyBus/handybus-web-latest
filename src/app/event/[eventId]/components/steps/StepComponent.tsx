@@ -16,6 +16,7 @@ import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
 import ExtraSelectProductStep from './extra-steps/ExtraSelectProductStep';
+import ExtraRealNameInputStep from './extra-steps/ExtraRealNameInputStep';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
@@ -31,6 +32,7 @@ interface Props {
     tripType: string,
     eventDate: string,
   ) => void;
+  setDemandCount: (count: number) => void;
 }
 
 const StepComponent = ({
@@ -43,6 +45,7 @@ const StepComponent = ({
   openAlertRequestFeedbackScreen,
   phase,
   trackCompleteDemand,
+  setDemandCount,
 }: Props) => {
   const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
     // 공통
@@ -70,6 +73,7 @@ const StepComponent = ({
         toNextStep={() => {
           setHistoryAndStep('[수요조사] 좌석 선택');
         }}
+        setDemandCount={setDemandCount}
       />
     ),
     '[수요조사] 좌석 선택': (
@@ -104,7 +108,10 @@ const StepComponent = ({
       />
     ),
     '[예약] 예약 정보': (
-      <ReservationInfoStep closeBottomSheet={closeBottomSheet} />
+      <ReservationInfoStep
+        closeBottomSheet={closeBottomSheet}
+        toExtraRealNameInputStep={() => setHistoryAndStep('[기타] 이름 입력')}
+      />
     ),
     // 기타
     '[기타] 시/도 정보': (
@@ -142,6 +149,9 @@ const StepComponent = ({
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
         closeBottomSheet={closeBottomSheet}
       />
+    ),
+    '[기타] 이름 입력': (
+      <ExtraRealNameInputStep closeBottomSheet={closeBottomSheet} />
     ),
   };
 
