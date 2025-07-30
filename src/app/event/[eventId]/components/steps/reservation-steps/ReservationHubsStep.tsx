@@ -118,17 +118,10 @@ const ReservationHubsStep = ({
   return (
     <section>
       {recentlyViewedPossibleHubs && (
-        <div>
-          <h6 className="mb-4 text-16 font-600 text-basic-grey-600">
-            최근에 본 정류장
-          </h6>
-          <Hub
-            possibleHubs={recentlyViewedPossibleHubs}
-            handleHubClick={() => handleHubClick(recentlyViewedPossibleHubs)}
-            toExtraSeatAlarmStep={toExtraSeatAlarmStep}
-          />
-          <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
-        </div>
+        <RecentlyViewedHub
+          possibleHubs={recentlyViewedPossibleHubs}
+          handleHubClick={() => handleHubClick(recentlyViewedPossibleHubs)}
+        />
       )}
       <div>
         {gungusWithHubs.map((gunguWithHubs, index) => (
@@ -245,5 +238,36 @@ const Hub = ({
         </div>
       )}
     </div>
+  );
+};
+
+interface RecentlyViewedHubProps {
+  possibleHubs: HubWithInfo[];
+  handleHubClick: (hubsWithInfo: HubWithInfo[]) => void;
+}
+
+const RecentlyViewedHub = ({
+  possibleHubs,
+  handleHubClick,
+}: RecentlyViewedHubProps) => {
+  const isSoldOut = possibleHubs.every((hub) =>
+    checkIsSoldOut(hub.remainingSeat),
+  );
+  const hub = possibleHubs[0];
+
+  return (
+    <button
+      type="button"
+      onClick={() => handleHubClick(possibleHubs)}
+      disabled={isSoldOut}
+      className={`group mb-16 flex w-full items-center gap-8 rounded-[12px] border border-basic-grey-100 px-16 py-12 text-left`}
+    >
+      <div className="flex whitespace-nowrap rounded-[10px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
+        최근 기록
+      </div>
+      <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+        {hub.name}
+      </span>
+    </button>
   );
 };

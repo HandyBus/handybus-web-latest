@@ -137,25 +137,20 @@ const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
   return (
     <section>
       {recentlyViewedHub && (
-        <div>
-          <h6 className="mb-4 text-16 font-600 text-basic-grey-600">
-            최근에 본 정류장
-          </h6>
-          <button
-            key={recentlyViewedHub.regionHubId}
-            onClick={() =>
-              handleHubClick(recentlyViewedHub, recentlyViewedHub.demandCount)
-            }
-            disabled={isUserDemandAvailableForRecentlyViewedHub}
-            type="button"
-            className="group flex h-[55px] w-full items-center justify-between gap-8 py-12"
-          >
-            <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-              {recentlyViewedHub.name}
-            </span>
-          </button>
-          <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
-        </div>
+        <button
+          key={recentlyViewedHub.regionHubId}
+          onClick={() => handleHubClick(recentlyViewedHub, recentlyViewedHub.demandCount)}
+          disabled={isUserDemandAvailableForRecentlyViewedHub}
+          type="button"
+          className="group mb-16 flex h-[55px] w-full items-center gap-8 rounded-[12px] border border-basic-grey-100 px-16 py-12"
+        >
+          <div className="whitespace-nowrap rounded-[10px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
+            최근 기록
+          </div>
+          <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+            {recentlyViewedHub.name}
+          </span>
+        </button>
       )}
       <div>
         {gungusWithHubs.map((gunguWithHubs, index) => {
