@@ -15,15 +15,25 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
+import { useGetUser } from '@/services/user.service';
 
 interface Props {
   closeBottomSheet: () => void;
+  toExtraRealNameInputStep: () => void;
 }
 
-const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
+const ReservationInfoStep = ({
+  closeBottomSheet,
+  toExtraRealNameInputStep,
+}: Props) => {
   const router = useRouter();
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useGetUser();
   const event = useAtomValue(eventAtom);
-  const { getValues } = useFormContext<EventFormValues>();
+  const { getValues, setValue } = useFormContext<EventFormValues>();
   const [selectedHubWithInfo, tripType, dailyEvent] = getValues([
     'selectedHubWithInfo',
     'tripType',
@@ -82,6 +92,12 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
 
   const handleReservationClick = () => {
     if (!event || !route) {
+      return;
+    }
+
+    if (!user?.name) {
+      setValue('passengerCount', passengerCount);
+      toExtraRealNameInputStep();
       return;
     }
 
@@ -170,6 +186,7 @@ const ReservationInfoStep = ({ closeBottomSheet }: Props) => {
         size="large"
         type="button"
         onClick={handleReservationClick}
+        disabled={isUserLoading || isUserError}
       >
         예약하기
       </Button>

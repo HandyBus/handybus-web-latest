@@ -1,12 +1,12 @@
 export const generateProfileBackgroundColor = (
-  nickname: string | null | undefined,
+  name: string | null | undefined,
 ) => {
-  if (!nickname) {
+  if (!name) {
     return PROFILE_COLOR[0];
   }
 
-  // 닉네임 첫 글자의 유니코드를 사용하여 색상 인덱스 계산
-  const char = nickname.charCodeAt(0);
+  // 이름의 첫 글자의 유니코드를 사용하여 색상 인덱스 계산
+  const char = name.charCodeAt(0);
   const colorIndex = char % PROFILE_COLOR.length;
   return PROFILE_COLOR[colorIndex];
 };

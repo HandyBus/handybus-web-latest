@@ -39,6 +39,8 @@ const ReviewItem = ({ review }: Props) => {
     [useClamp],
   );
 
+  const blurredName = review.userName?.slice(0, 1) + '**';
+
   return (
     <>
       <article>
@@ -47,11 +49,13 @@ const ReviewItem = ({ review }: Props) => {
             <div className="flex w-full items-center justify-between">
               <div className="flex items-center gap-[6px]">
                 <UserProfile
-                  nickname={review.userNickname}
+                  name={review.userName ?? review.userNickname}
                   profileImage={review.userProfileImage}
                 />
                 <p className="text-12 font-500 leading-[160%] text-basic-black">
-                  {review.userNickname}
+                  {review.userName
+                    ? blurredName
+                    : (review.userNickname ?? '핸디버스 탑승객')}
                 </p>
               </div>
               <Rating size="medium" value={review.rating} />

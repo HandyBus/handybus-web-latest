@@ -23,6 +23,11 @@ const EventInfo = ({ event }: Props) => {
 
   return (
     <>
+      {phase === 'demand' && (
+        <div className="flex h-[38px] items-center justify-center bg-basic-black text-14 font-600 text-basic-white">
+          🤑 수요조사 참여 시 1,000원 할인 쿠폰 증정 🤑
+        </div>
+      )}
       <div
         id={HANDY_PARTY_AREA_GUIDE_ID}
         className="hidden bg-basic-grey-50 p-16 px-16 py-8 text-12 font-500 leading-[160%] text-basic-grey-700"

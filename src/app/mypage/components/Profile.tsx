@@ -3,12 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
-  nickname: string;
+  name: string;
   profileImage: string;
 }
 
-const Profile = ({ nickname, profileImage }: Props) => {
-  const firstLetter = nickname?.slice(0, 1);
+const Profile = ({ name, profileImage }: Props) => {
+  const firstLetter = name?.slice(0, 1);
   return (
     <section className="my-24 flex h-[34px] items-center gap-8 px-16">
       <div
@@ -16,7 +16,7 @@ const Profile = ({ nickname, profileImage }: Props) => {
         style={{
           backgroundColor: profileImage
             ? 'transparent'
-            : generateProfileBackgroundColor(nickname),
+            : generateProfileBackgroundColor(name),
         }}
       >
         {profileImage ? (
@@ -30,7 +30,7 @@ const Profile = ({ nickname, profileImage }: Props) => {
           <span>{firstLetter}</span>
         )}
       </div>
-      <h1 className="text-18 font-600">{nickname}</h1>
+      <h1 className="text-18 font-600">{name}</h1>
       <Link
         href="/mypage/profile/edit"
         className="ml-auto text-14 font-600 text-basic-grey-500"

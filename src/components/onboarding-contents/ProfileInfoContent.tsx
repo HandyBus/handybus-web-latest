@@ -14,7 +14,7 @@ import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroun
 interface Props {
   hideTitle?: boolean;
   handleSubmit?: () => void;
-  initialNickname: string;
+  initialName: string;
   initialImageSrc?: string | null;
   setIsProfileImageReset: (isProfileImageReset: boolean) => void;
 }
@@ -22,7 +22,7 @@ interface Props {
 const ProfileInfoContent = ({
   hideTitle = false,
   handleSubmit,
-  initialNickname,
+  initialName,
   initialImageSrc,
   setIsProfileImageReset,
 }: Props) => {
@@ -88,7 +88,7 @@ const ProfileInfoContent = ({
     }
   };
 
-  const firstLetter = initialNickname.slice(0, 1);
+  const firstLetter = initialName.slice(0, 1);
 
   return (
     <>
@@ -149,20 +149,20 @@ const ProfileInfoContent = ({
       </div>
       <div className="px-16">
         <TextInput
-          name="nickname"
+          name="name"
           control={control}
           setValue={setValue}
           onKeyDown={handleEnter}
-          placeholder={initialNickname}
+          placeholder={initialName}
           rules={{
-            required: ERROR_MESSAGES.nickname.required,
+            required: ERROR_MESSAGES.name.required,
             pattern: {
-              value: REG_EXP.nickname,
-              message: ERROR_MESSAGES.nickname.pattern,
+              value: REG_EXP.name,
+              message: ERROR_MESSAGES.name.pattern,
             },
           }}
         >
-          닉네임
+          이름
         </TextInput>
       </div>
     </>

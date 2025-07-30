@@ -3,6 +3,7 @@
 import { ReactNode, forwardRef } from 'react';
 import BottomSheetPortal from './BottomSheetPortal';
 import BackIcon from 'public/icons/back.svg';
+import { customTwMerge } from 'tailwind.config';
 
 interface Props {
   children: ReactNode;
@@ -10,13 +11,22 @@ interface Props {
   description?: ReactNode;
   showBackButton?: boolean;
   onBack?: () => void;
+  className?: string;
 }
 
 const BottomSheet = forwardRef<HTMLDivElement, Props>(
-  ({ children, title, description, showBackButton = false, onBack }, ref) => {
+  (
+    { children, title, description, showBackButton = false, onBack, className },
+    ref,
+  ) => {
     return (
       <BottomSheetPortal>
-        <div className="fixed bottom-0 left-0 right-0 top-0 z-[100] hidden bg-basic-black/50">
+        <div
+          className={customTwMerge(
+            'fixed bottom-0 left-0 right-0 top-0 z-[100] hidden bg-basic-black/50',
+            className,
+          )}
+        >
           <div
             ref={ref}
             role="dialog"
