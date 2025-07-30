@@ -11,6 +11,7 @@ interface ShareBottomSheetProps extends BottomSheetRefs {
   eventId: string;
   eventName: string;
   closeBottomSheet: () => void;
+  className?: string;
 }
 
 const ShareBottomSheet = ({
@@ -18,6 +19,7 @@ const ShareBottomSheet = ({
   eventId,
   eventName,
   closeBottomSheet,
+  className,
 }: ShareBottomSheetProps) => {
   const { shareToKakao, shareToTwitter, copyToClipboard, KakaoScript } =
     useShare({
@@ -42,7 +44,11 @@ const ShareBottomSheet = ({
 
   return (
     <>
-      <BottomSheet ref={bottomSheetRef} title="친구들과 함께 타고 가세요">
+      <BottomSheet
+        ref={bottomSheetRef}
+        title="친구들과 함께 타고 가세요"
+        className={className}
+      >
         <div className="flex items-center justify-between px-16">
           <button
             type="button"

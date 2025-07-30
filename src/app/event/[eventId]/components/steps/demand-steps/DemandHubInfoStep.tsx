@@ -8,6 +8,10 @@ import { usePostDemand } from '@/services/demand.service';
 import { eventAtom } from '../../../store/eventAtom';
 import { useAtomValue } from 'jotai';
 import { DemandCompleteStatus } from '../../demand-complete-screen/DemandCompleteScreen';
+import { usePostCoupon } from '@/services/coupon.service';
+import { useState } from 'react';
+
+const SHUTTLE_DEMAND_COUPON_CODE_PREFIX = 'DEMAND';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -34,9 +38,12 @@ const DemandHubInfoStep = ({
     'tripType',
   ]);
 
-  const { mutateAsync, isPending } = usePostDemand();
+  const { mutateAsync: postDemand } = usePostDemand();
+  const { mutateAsync: postCoupon } = usePostCoupon();
 
-  const handleDemandClick = async () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleDemand = async () => {
     if (!event) {
       return;
     }
@@ -63,11 +70,12 @@ const DemandHubInfoStep = ({
             };
 
     try {
-      await mutateAsync({
+      await postDemand({
         eventId: event.eventId,
         dailyEventId: dailyEvent.dailyEventId,
         body,
       });
+
       trackCompleteDemand?.(
         selectedHubForDemand.name,
         tripType,
@@ -77,9 +85,29 @@ const DemandHubInfoStep = ({
       updateUserDemands();
     } catch {
       setDemandCompleteStatus('fail');
-    } finally {
-      closeBottomSheet();
     }
+  };
+
+  const handleCoupon = async () => {
+    if (!event) {
+      return;
+    }
+
+    const code = `${SHUTTLE_DEMAND_COUPON_CODE_PREFIX}-${event.eventId}`;
+
+    try {
+      await postCoupon(code);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    await handleDemand();
+    await handleCoupon();
+    closeBottomSheet();
+    setIsLoading(false);
   };
 
   return (
@@ -96,8 +124,8 @@ const DemandHubInfoStep = ({
           variant="primary"
           size="large"
           type="button"
-          onClick={handleDemandClick}
-          disabled={isPending}
+          onClick={handleClick}
+          disabled={isLoading}
         >
           요청하기
         </Button>
