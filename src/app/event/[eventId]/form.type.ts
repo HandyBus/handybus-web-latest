@@ -15,4 +15,6 @@ export interface EventFormValues {
   selectedHubForSeatAlarm: HubWithInfo;
   selectedRouteForSeatAlarm: ShuttleRoutesViewEntity;
   selectedShuttleRouteAlertRequestIdForSeatAlarm: string;
+  name: string;
+  passengerCount: number;
 }

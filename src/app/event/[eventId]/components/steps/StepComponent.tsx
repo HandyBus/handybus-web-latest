@@ -16,6 +16,7 @@ import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
 import ExtraSelectProductStep from './extra-steps/ExtraSelectProductStep';
+import ExtraRealNameInputStep from './extra-steps/ExtraRealNameInputStep';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
@@ -104,7 +105,10 @@ const StepComponent = ({
       />
     ),
     '[예약] 예약 정보': (
-      <ReservationInfoStep closeBottomSheet={closeBottomSheet} />
+      <ReservationInfoStep
+        closeBottomSheet={closeBottomSheet}
+        toExtraRealNameInputStep={() => setHistoryAndStep('[기타] 이름 입력')}
+      />
     ),
     // 기타
     '[기타] 시/도 정보': (
@@ -142,6 +146,9 @@ const StepComponent = ({
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
         closeBottomSheet={closeBottomSheet}
       />
+    ),
+    '[기타] 이름 입력': (
+      <ExtraRealNameInputStep closeBottomSheet={closeBottomSheet} />
     ),
   };
 
