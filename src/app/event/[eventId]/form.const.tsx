@@ -30,6 +30,7 @@ export const EVENT_STEPS = [
   '[기타] 빈자리 알림',
   '[기타] 노선 내 정류장',
   '[기타] 상품 선택',
+  '[기타] 이름 입력',
 ] as const;
 
 export const EVENT_STEPS_TO_TEXT: Record<
@@ -104,6 +105,11 @@ export const EVENT_STEPS_TO_TEXT: Record<
   '[기타] 상품 선택': {
     title: '이 지역에는 두 가지 셔틀이 있어요!',
     description: '원하는 셔틀 유형을 골라주세요.',
+  },
+  '[기타] 이름 입력': {
+    title: '결제 전, 본인 이름을 확인해 주세요',
+    description:
+      '핸디버스는 2025.07.29부터 실명제로 운행돼요. 작성하신 이름은 프로필에도 적용해 드릴게요.',
   },
 } as const;
 

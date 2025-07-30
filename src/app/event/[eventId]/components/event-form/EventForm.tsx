@@ -131,6 +131,7 @@ const Content = ({
 
   const methods = useForm<EventFormValues>({
     defaultValues: EVENT_FORM_DEFAULT_VALUES,
+    mode: 'onBlur',
   });
 
   const initialStep = EVENT_STEPS[0];

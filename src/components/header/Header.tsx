@@ -14,7 +14,7 @@ const Header = () => {
     enabled: isLoggedIn !== null && isLoggedIn,
   });
   const profileImage = user?.profileImage;
-  const nickname = user?.nickname;
+  const name = user?.name ?? user?.nickname;
 
   useEffect(() => {
     const isLoggedIn = getIsLoggedIn();
@@ -41,7 +41,7 @@ const Header = () => {
             (isLoggedIn ? (
               <Link href="/mypage" className="group relative">
                 <div className="absolute inset-0 hidden h-full w-full rounded-full bg-[rgba(0,0,0,0.4)] group-active:block" />
-                <UserProfile nickname={nickname} profileImage={profileImage} />
+                <UserProfile name={name} profileImage={profileImage} />
               </Link>
             ) : (
               <Link href="/login">
