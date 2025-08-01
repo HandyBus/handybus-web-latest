@@ -104,7 +104,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         </WrapperWithDivider>
         <WrapperWithDivider>
           <ReservationPersonInfoSection
-            nickname={reservation.userNickname}
+            name={reservation.userName}
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
