@@ -31,6 +31,7 @@
     "jotai-cache": "^0.5.0",
     "next": "14.2.15",
     "react": "^18",
+    "react-apple-login": "^1.1.6",
     "react-cookie": "^7.2.2",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
