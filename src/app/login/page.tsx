@@ -1,8 +1,8 @@
 'use client';
 
 import Logo from './icons/logo.svg';
-import Kakao from 'public/icons/kakao.svg';
-import Naver from 'public/icons/naver.svg';
+import KakaoIcon from 'public/icons/kakao.svg';
+import NaverIcon from 'public/icons/naver.svg';
 import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
@@ -15,6 +15,8 @@ import {
   setRedirectUrl,
 } from '@/utils/localStorage';
 import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
+import AppleLogin from 'react-apple-login';
+import AppleIcon from './icons/apple.svg';
 
 const Login = () => {
   usePreventScroll();
@@ -63,14 +65,14 @@ const Login = () => {
         <button
           onClick={() => setLastLogin('kakao')}
           type="button"
-          className="w-full rounded-8"
+          className="mb-12 w-full rounded-8"
         >
           <Link
             href={OAUTH.kakao()}
             replace
-            className="relative mb-12 flex h-52 items-center justify-center gap-8 rounded-8 bg-[#FEE500] text-16 font-600 text-basic-black/85"
+            className="relative flex h-52 items-center justify-center gap-8 rounded-8 bg-[#FEE500] text-16 font-600 text-basic-black/85"
           >
-            <Kakao />
+            <KakaoIcon />
             카카오로 시작하기
             {lastLoginState === 'kakao' && <LastLoginChip />}
           </Link>
@@ -78,18 +80,35 @@ const Login = () => {
         <button
           onClick={() => setLastLogin('naver')}
           type="button"
-          className="w-full rounded-8"
+          className="mb-12 w-full rounded-8"
         >
           <Link
             href={OAUTH.naver()}
             replace
             className="relative flex h-52 items-center justify-center gap-8 rounded-8 bg-[#03C75A] text-16 font-600 text-basic-white"
           >
-            <Naver />
+            <NaverIcon />
             네이버로 시작하기
             {lastLoginState === 'naver' && <LastLoginChip />}
           </Link>
         </button>
+        <AppleLogin
+          clientId={'com.handybus.web'}
+          redirectURI={'https://www.handybus.co.kr/auth/login/apple'}
+          responseType={'code'}
+          responseMode={'query'}
+          usePopup={false}
+          render={({ onClick }) => (
+            <button
+              type="button"
+              onClick={onClick}
+              className="relative mb-12 flex h-52 w-full items-center justify-center gap-8 rounded-8 bg-[#000000] text-16 font-600 text-basic-white"
+            >
+              <AppleIcon width={24} height={24} />
+              Apple로 시작하기
+            </button>
+          )}
+        />
       </section>
       <section className="flex flex-1 grow flex-col">
         <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-basic-grey-400">
