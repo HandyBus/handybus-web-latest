@@ -34,6 +34,7 @@ export const ReservationsViewEntitySchema = z
   .object({
     reservationId: z.string(),
     userId: z.string(),
+    userName: z.string(),
     userNickname: z.string(),
     userPhoneNumber: z.string(),
     userProfileImage: z.string().nullable(),

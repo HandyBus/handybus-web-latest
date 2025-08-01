@@ -5,10 +5,11 @@ import { ReservationsViewEntity } from '@/types/reservation.type';
 
 interface Props {
   isCanceled: boolean;
+  isEnded: boolean;
   reservation: ReservationsViewEntity;
 }
 
-const RefundSection = ({ isCanceled, reservation }: Props) => {
+const RefundSection = ({ isCanceled, isEnded, reservation }: Props) => {
   const {
     bottomSheetRef: cancelBottomSheetRef,
     contentRef: cancelBottomSheetContentRef,
@@ -16,7 +17,7 @@ const RefundSection = ({ isCanceled, reservation }: Props) => {
     closeBottomSheet: closeCancelBottomSheet,
   } = useBottomSheet();
 
-  if (isCanceled) {
+  if (isCanceled || isEnded) {
     return <div className="h-64 w-full" />;
   }
 
