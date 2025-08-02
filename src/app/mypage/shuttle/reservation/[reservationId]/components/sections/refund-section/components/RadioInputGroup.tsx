@@ -34,19 +34,12 @@ const RadioInputGroup = ({
 
   const handleRadioChange = (value: string) => {
     setValue(name, value);
-    if (value !== CANCEL_REASON_OPTIONS.OTHER && otherOptionName) {
-      setValue(otherOptionName, '');
-    }
   };
 
   return (
     <div className="flex flex-col gap-16">
       {Object.entries(options).map(([key, item]) => (
-        <div
-          key={key}
-          className="group"
-          onClick={() => handleRadioChange(item)}
-        >
+        <div key={key} onClick={() => handleRadioChange(item)}>
           <div className="flex items-center gap-[6px]">
             <input
               type="radio"
@@ -70,12 +63,9 @@ const RadioInputGroup = ({
                   },
                 })}
                 className={`w-full border-b border-basic-grey-200 p-12 text-16 font-500 leading-[160%] text-basic-grey-700 focus:outline-none ${
-                  selectedItem !== item
-                    ? 'disabled:bg-basic-white disabled:opacity-50'
-                    : ''
+                  selectedItem !== item ? 'opacity-50' : ''
                 } ${errors?.[otherOptionName] ? 'border-basic-red-400' : ''}`}
                 placeholder={otherOptionPlaceholder}
-                disabled={selectedItem !== item}
               />
               {errors?.[otherOptionName] && (
                 <p className="mt-4 text-12 font-500 text-basic-red-400">
