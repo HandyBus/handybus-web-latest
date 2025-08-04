@@ -53,7 +53,6 @@ const Content = ({
 }: ContentProps) => {
   const pathname = usePathname();
 
-  const [isHandyApplied, setIsHandyApplied] = useState(false);
   const [selectedCoupon, setSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);
 
@@ -94,7 +93,7 @@ const Content = ({
           tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION'
             ? (fromDestinationHubId ?? undefined)
             : undefined,
-        isSupportingHandy: isHandyApplied,
+        isSupportingHandy: false, // NOTE : api 에서 핸디 지원 옵션 제거 여부에 따라 제거 필요
         passengerCount,
         desiredHubAddress,
         desiredHubLatitude,
@@ -169,13 +168,7 @@ const Content = ({
         />
         <ClientInfoSection user={user} />
         {!isHandyParty && ( // NOTE: 핸디팟인경우 임시로 핸디섹션 비활성화
-          <HandySection
-            user={user}
-            tripType={tripType}
-            priceOfTripType={priceOfTripType}
-            isHandyApplied={isHandyApplied}
-            setIsHandyApplied={setIsHandyApplied}
-          />
+          <HandySection />
         )}
         <CouponSection
           eventId={event.eventId}
@@ -189,7 +182,6 @@ const Content = ({
           totalCouponDiscountAmount={totalCouponDiscountAmount}
           totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
           passengerCount={passengerCount}
-          isHandyApplied={isHandyApplied}
         />
         <PaymentSection />
         <BottomBar

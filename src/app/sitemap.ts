@@ -54,11 +54,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/help/what-is-handy`,
-      lastModified: new Date('2025-01-15T00:00:00Z'),
-      priority: 0.6,
-    },
-    {
       url: `${baseUrl}/help/faq`,
       lastModified: new Date('2025-01-15T00:00:00Z'),
       priority: 0.6,
