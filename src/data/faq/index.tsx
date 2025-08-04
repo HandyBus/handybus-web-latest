@@ -17,11 +17,11 @@ import FAQBoarding3 from './boarding-3.mdx';
 import FAQBoarding4 from './boarding-4.mdx';
 import FAQBoarding5 from './boarding-5.mdx';
 import FAQBoarding6 from './boarding-6.mdx';
-import FAQEtc1 from './etc-1.mdx';
+import FAQBoarding7 from './boarding-7.mdx';
 
 interface FAQ {
   title: string;
-  tag: 'reservation' | 'boarding' | 'etc';
+  tag: 'reservation' | 'boarding';
   content: ReactNode;
 }
 
@@ -58,13 +58,13 @@ export const faqs: FAQ[] = (
       'reservation',
       '콘서트가 예정보다 늦게 끝나면 어떡하나요?',
     ],
-    [FAQBoarding1, 'boarding', '운행 시 휴게소에 정차하나요?'],
-    [FAQBoarding2, 'boarding', '어떤 차량으로 운행되나요?'],
-    [FAQBoarding3, 'boarding', '좌석은 어떻게 정해지나요?'],
-    [FAQBoarding4, 'boarding', '셔틀버스에 짐을 놓고 내려도 되나요?'],
-    [FAQBoarding5, 'boarding', '편도 예매 후, 왕복으로 바꾸고 싶어요.'],
-    [FAQBoarding6, 'boarding', '왕복 예매 후, 편도만 탑승해도 되나요?'],
-    [FAQEtc1, 'etc', '핸디가 뭐에요?'],
+    [FAQBoarding1, 'boarding', '공지방이 무엇인가요?'],
+    [FAQBoarding2, 'boarding', '운행 시 휴게소에 정차하나요?'],
+    [FAQBoarding3, 'boarding', '어떤 차량으로 운행되나요?'],
+    [FAQBoarding4, 'boarding', '좌석은 어떻게 정해지나요?'],
+    [FAQBoarding5, 'boarding', '셔틀버스에 짐을 놓고 내려도 되나요?'],
+    [FAQBoarding6, 'boarding', '편도 예매 후, 왕복으로 바꾸고 싶어요.'],
+    [FAQBoarding7, 'boarding', '왕복 예매 후, 편도만 탑승해도 되나요?'],
   ] as const
 ).map(([Content, tag, title]) => {
   return {
