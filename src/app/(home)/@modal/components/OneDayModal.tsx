@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import {
   getOneDayModalSeenDate,
   setOneDayModalSeenDate,
@@ -10,10 +10,11 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 
 interface Props {
-  image: string;
+  image: StaticImageData;
+  href: string;
 }
 
-const OneDayModal = ({ image }: Props) => {
+const OneDayModal = ({ image, href }: Props) => {
   const [isOneDayModalOpen, setIsOneDayModalOpen] = useState(false);
   const closeModal = () => {
     setIsOneDayModalOpen(false);
@@ -51,7 +52,7 @@ const OneDayModal = ({ image }: Props) => {
         className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 bg-transparent"
       >
         <Link
-          href="https://x.com/Handy_Bus/status/1943596380662169976"
+          href={href}
           target="_blank"
           className="relative aspect-square w-full"
         >

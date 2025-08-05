@@ -104,7 +104,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         </WrapperWithDivider>
         <WrapperWithDivider>
           <ReservationPersonInfoSection
-            nickname={reservation.userNickname}
+            name={reservation.userName}
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
@@ -127,7 +127,11 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
           />
         </WrapperWithDivider>
         <GuidelineSection />
-        <RefundSection isCanceled={isCanceled} reservation={reservation} />
+        <RefundSection
+          isCanceled={isCanceled}
+          isEnded={isEnded}
+          reservation={reservation}
+        />
       </ul>
     </main>
   );
