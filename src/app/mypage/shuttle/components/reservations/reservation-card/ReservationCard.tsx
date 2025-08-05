@@ -8,7 +8,6 @@ import useTextAndStyle from './hooks/useTextAndStyle';
 import useEventText from './hooks/useEventText';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
 import Link from 'next/link';
-import HandyBadge from './components/HandyBadge';
 import ShuttleBusBadge from './components/ShuttleBusBadge';
 import ChatButton from './components/ChatButton';
 
@@ -40,23 +39,15 @@ const ReservationCard = ({ reservation }: Props) => {
     ? reservation.paymentAmount.toLocaleString()
     : '0';
 
-  const {
-    reservationProgress,
-    handyStatus,
-    isOpenChatLinkCreated,
-    isWritingReviewPeriod,
-    reviewId,
-    isHandyParty,
-  } = useReservationProgress({
-    reservation,
-    dailyEvent,
-    shuttleBus,
-  });
+  const { reservationProgress, isWritingReviewPeriod, reviewId, isHandyParty } =
+    useReservationProgress({
+      reservation,
+      dailyEvent,
+      shuttleBus,
+    });
 
   const textAndStyle = useTextAndStyle({
     reservationProgress,
-    handyStatus,
-    isOpenChatLinkCreated,
     isWritingReviewPeriod,
     isHandyParty,
   });
@@ -80,21 +71,14 @@ const ReservationCard = ({ reservation }: Props) => {
                 {textAndStyle?.title.text}
               </h5>
               {reservationProgress !== 'reservationCanceled' &&
-                reservationProgress !== 'shuttleEnded' && (
-                  <>
-                    <HandyBadge handyStatus={handyStatus} />
-                    <ShuttleBusBadge shuttleBus={shuttleBus} />
-                  </>
-                )}
+                reservationProgress !== 'shuttleEnded' &&
+                isHandyParty && <ShuttleBusBadge shuttleBus={shuttleBus} />}
             </div>
             <ChatButton
               reservation={reservation}
               reservationProgress={reservationProgress}
-              handyStatus={handyStatus}
-              isOpenChatLinkCreated={isOpenChatLinkCreated}
               isWritingReviewPeriod={isWritingReviewPeriod}
               reviewId={reviewId}
-              openChatLink={shuttleBus?.openChatLink}
               reservationId={reservation.reservationId}
               isHandyParty={isHandyParty}
             />

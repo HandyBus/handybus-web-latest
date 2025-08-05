@@ -61,6 +61,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
 
   const isHandyParty = checkIsHandyParty(shuttleRoute);
 
+  // NOTE: 일자별 노선의 metadata에 오픈채팅방 링크를 임시로 반영하기로 함. 앱 출시 후 삭제예정
   const noticeRoomUrl = dailyEvent?.metadata?.openChatUrl;
   const handleOpenNoticeRoom = () => {
     if (noticeRoomUrl) {
