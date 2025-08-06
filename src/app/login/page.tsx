@@ -48,8 +48,9 @@ const Login = () => {
   }, []);
 
   const appleRedirectUrl = process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI;
+  const appleClientId = process.env.NEXT_PUBLIC_APPLE_CLIENT_ID;
 
-  if (!appleRedirectUrl) {
+  if (!appleRedirectUrl || !appleClientId) {
     return null;
   }
 
@@ -99,7 +100,7 @@ const Login = () => {
           </Link>
         </button>
         <AppleLogin
-          clientId={'com.handybus.web'}
+          clientId={appleClientId}
           redirectURI={appleRedirectUrl}
           responseType={'code'}
           responseMode={'query'}
