@@ -130,6 +130,11 @@ const Page = () => {
                           네이버 로그인
                         </div>
                       )}
+                      {user.isConnectedApple && (
+                        <div className="rounded-full bg-[#000000] px-8 py-4 text-10 font-600 text-basic-white">
+                          애플 로그인
+                        </div>
+                      )}
                       <span className="text-16 font-500 text-basic-grey-300">
                         {formattedPhoneNumber}
                       </span>
