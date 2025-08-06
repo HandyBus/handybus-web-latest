@@ -5,7 +5,7 @@ import { faqs } from '@/data/faq';
 import { useFAQTracking } from '@/hooks/analytics/useFAQTracking';
 
 interface Props {
-  selectedTab: 'reservation' | 'boarding' | 'etc';
+  selectedTab: 'reservation' | 'boarding';
 }
 
 const FAQList = ({ selectedTab }: Props) => {

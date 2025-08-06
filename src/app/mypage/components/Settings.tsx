@@ -15,7 +15,6 @@ const Settings = () => {
           핸디버스 완벽 정복
         </h3>
         <ListButton href="/help/handybus-guide">핸디버스 가이드</ListButton>
-        <ListButton href="/help/what-is-handy">핸디 알아보기</ListButton>
         <ListButton href="/help/about">서비스 소개</ListButton>
       </section>
       <div className="-mx-16 h-[8px] bg-basic-grey-50" />
