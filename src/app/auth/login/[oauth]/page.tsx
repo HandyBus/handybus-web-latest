@@ -76,7 +76,6 @@ const OAuth = ({ params, searchParams }: Props) => {
   };
 
   useEffect(() => {
-    return;
     if (isInitiated.current) {
       return;
     }

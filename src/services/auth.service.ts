@@ -23,6 +23,12 @@ export const postLogin = async (
             code,
           }
         : undefined,
+    appleUserRequest:
+      method === 'apple'
+        ? {
+            code,
+          }
+        : undefined,
   };
   const res = await instance.post('/v1/auth/login', body, {
     shape: TokenShape,
