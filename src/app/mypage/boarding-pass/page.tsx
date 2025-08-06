@@ -295,6 +295,7 @@ const BoardingPassPage = ({ searchParams }: Props) => {
             onClick={handleClickAndStopPropagation(() => {
               openOpenChatLink();
             })}
+            disabled={!noticeRoomUrl}
           >
             카카오톡 공지방 참여하기
           </Button>
