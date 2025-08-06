@@ -10,6 +10,7 @@ import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 interface Props {
   params: {
     eventId: string;
+    reservationId: string;
   };
 }
 
@@ -26,6 +27,8 @@ const PaymentsCompleted = ({ params }: Props) => {
     );
   }
 
+  const { reservationId } = params;
+
   return (
     <>
       <main className="relative grow">
@@ -41,11 +44,17 @@ const PaymentsCompleted = ({ params }: Props) => {
             <Button>완료</Button>
           </Link>
           <Button
-            variant="text"
+            variant="secondary"
             size="large"
-            onClick={() => setShowFeedbackScreen(true)}
+            onClick={() => {
+              window.open(
+                `/mypage/boarding-pass?reservationId=${reservationId}`,
+                '_blank',
+                'noopener,noreferrer',
+              );
+            }}
           >
-            의견 보내기
+            탑승권 확인하기
           </Button>
         </div>
       </main>

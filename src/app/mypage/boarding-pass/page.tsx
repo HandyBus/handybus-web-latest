@@ -261,7 +261,9 @@ const BoardingPassPage = ({ searchParams }: Props) => {
                 <p className="text-18 font-600 leading-[160%]">
                   {currentTripType === '가는편'
                     ? durationToDestination
-                    : durationFromDestination}
+                    : currentTripType === '오는편'
+                      ? durationFromDestination
+                      : null}
                 </p>
               </div>
               <div className="flex flex-col gap-8">
