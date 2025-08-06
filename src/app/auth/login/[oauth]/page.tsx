@@ -23,7 +23,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
-  params: { oauth: 'kakao' | 'naver' };
+  params: { oauth: 'kakao' | 'naver' | 'apple' };
   searchParams: { code: string; state?: string };
 }
 
@@ -76,6 +76,7 @@ const OAuth = ({ params, searchParams }: Props) => {
   };
 
   useEffect(() => {
+    return;
     if (isInitiated.current) {
       return;
     }

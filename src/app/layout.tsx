@@ -88,6 +88,10 @@ export default function RootLayout({
           `,
           }}
         />
+        <Script
+          strategy="afterInteractive"
+          src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/ko_KR/appleid.auth.js"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
