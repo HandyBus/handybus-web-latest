@@ -98,21 +98,22 @@ const BoardingPassPage = ({ searchParams }: Props) => {
   const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
-    return `${hours > 0 ? `${hours}시간 ` : ''}${minutes}분`;
+    const underTenMinutes = minutes < 10;
+    return `${hours > 0 ? `${hours}시간 ` : ''}${
+      underTenMinutes ? `0${minutes}` : minutes
+    }분`;
   };
 
   const durationToDestination = formatDuration(
-    dayjs(arrivalTimeToDestination).diff(
-      dayjs(boardingTimeToDestination),
-      'minute',
-    ),
+    dayjs(arrivalTimeToDestination)
+      .startOf('minute')
+      .diff(dayjs(boardingTimeToDestination).startOf('minute'), 'minute'),
   );
 
   const durationFromDestination = formatDuration(
-    dayjs(arrivalTimeFromDestination).diff(
-      dayjs(boardingTimeFromDestination),
-      'minute',
-    ),
+    dayjs(arrivalTimeFromDestination)
+      .startOf('minute')
+      .diff(dayjs(boardingTimeFromDestination).startOf('minute'), 'minute'),
   );
 
   const dailyEvent = reservation?.shuttleRoute.event.dailyEvents.find(
