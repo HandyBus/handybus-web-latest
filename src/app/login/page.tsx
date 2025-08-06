@@ -108,7 +108,10 @@ const Login = () => {
           render={({ onClick }) => (
             <button
               type="button"
-              onClick={onClick}
+              onClick={() => {
+                setLastLogin('apple');
+                onClick();
+              }}
               className="relative mb-12 flex h-52 w-full items-center justify-center gap-8 rounded-8 bg-[#000000] text-16 font-600 text-basic-white"
             >
               <AppleIcon width={24} height={24} />
