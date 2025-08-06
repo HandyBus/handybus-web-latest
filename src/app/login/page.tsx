@@ -37,7 +37,7 @@ const Login = () => {
   }, [searchParams]);
 
   const [lastLoginState, setLastLoginState] = useState<
-    'kakao' | 'naver' | null
+    'kakao' | 'naver' | 'apple' | null
   >(null);
 
   useEffect(() => {
@@ -46,6 +46,12 @@ const Login = () => {
       setLastLoginState(newLastLogin);
     }
   }, []);
+
+  const appleRedirectUrl = process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI;
+
+  if (!appleRedirectUrl) {
+    return null;
+  }
 
   return (
     <main className="flex grow flex-col">
@@ -94,7 +100,7 @@ const Login = () => {
         </button>
         <AppleLogin
           clientId={'com.handybus.web'}
-          redirectURI={'https://www.handybus.co.kr/auth/login/apple'}
+          redirectURI={appleRedirectUrl}
           responseType={'code'}
           responseMode={'query'}
           usePopup={false}
@@ -106,6 +112,7 @@ const Login = () => {
             >
               <AppleIcon width={24} height={24} />
               Apple로 시작하기
+              {lastLoginState === 'apple' && <LastLoginChip />}
             </button>
           )}
         />
