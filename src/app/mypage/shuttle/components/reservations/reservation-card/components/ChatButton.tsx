@@ -35,6 +35,13 @@ const ChatButton = ({
     }
   };
 
+  const openBoardingPassLink = () => {
+    window.open(
+      `/mypage/boarding-pass?reservationId=${reservationId}`,
+      '_blank',
+    );
+  };
+
   if (isHandyParty) {
     return null;
   }
@@ -59,7 +66,7 @@ const ChatButton = ({
             variant="primary"
             size="small"
             className="w-fit px-8"
-            onClick={handleClickAndStopPropagation(() => {})}
+            onClick={handleClickAndStopPropagation(openBoardingPassLink)}
           >
             탑승권 보기
           </Button>

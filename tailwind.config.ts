@@ -138,16 +138,25 @@ const config: Config = {
       },
       animation: {
         moveRoad: 'moveRoad 1.25s linear infinite',
+        'scroll-right': 'scrollRight 5s linear infinite',
       },
       keyframes: {
         moveRoad: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        scrollRight: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
     },
   },
-  plugins: [hideScrollbar, textShadowPlugin, require('@tailwindcss/typography')],
+  plugins: [
+    hideScrollbar,
+    textShadowPlugin,
+    require('@tailwindcss/typography'),
+  ],
 };
 export default config;
 

@@ -19,6 +19,7 @@ import WrapperWithDivider from './WrapperWithDivider';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
 import HandyPartyProgressSection from './sections/shuttle-progress-section/HandyPartyProgressSection';
 import Button from '@/components/buttons/button/Button';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -69,6 +70,13 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
     }
   };
 
+  const openBoardingPassLink = () => {
+    window.open(
+      `/mypage/boarding-pass?reservationId=${reservation.reservationId}`,
+      '_blank',
+    );
+  };
+
   return (
     <main className="grow pb-16">
       {isHandyParty && (
@@ -95,7 +103,13 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             <>
               <WrapperWithDivider>
                 <section className="flex flex-col gap-16 px-16">
-                  <Button>탑승권 확인하기</Button>
+                  <Button
+                    onClick={handleClickAndStopPropagation(
+                      openBoardingPassLink,
+                    )}
+                  >
+                    탑승권 확인하기
+                  </Button>
                   <p className="text-14 font-500 leading-[160%]">
                     현장에서 탑승권을 제시한 후 탑승해 주세요.{' '}
                     <span className="font-600 text-basic-red-400">
