@@ -98,7 +98,7 @@ const BoardingPassPage = ({ searchParams }: Props) => {
   const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
-    return `${hours > 0 ? `${hours}시 ` : ''}${minutes}분`;
+    return `${hours > 0 ? `${hours}시간 ` : ''}${minutes}분`;
   };
 
   const durationToDestination = formatDuration(
