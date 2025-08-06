@@ -2,6 +2,7 @@ import Button from '@/components/buttons/button/Button';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelBottomSheet from './components/CancelBottomSheet';
 import { ReservationsViewEntity } from '@/types/reservation.type';
+import { KAKAO_CHANNEL_URL } from '@/constants/common';
 
 interface Props {
   isCanceled: boolean;
@@ -29,7 +30,7 @@ const RefundSection = ({ isCanceled, isEnded, reservation }: Props) => {
           <li>
             문의사항은{' '}
             <a
-              href="http://pf.kakao.com/_AxncxhG"
+              href={KAKAO_CHANNEL_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-basic-grey-700 underline underline-offset-2"

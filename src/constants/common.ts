@@ -15,3 +15,5 @@ export const MAX_HANDY_DISCOUNT_AMOUNT = 40000; // 핸디 할인 최대 금액 (
 // 핸디팟 노선 형식: 핸디팟_${권역명}_${방향} ex) 핸디팟_중심권_가는편
 // 핸디팟 정류장 형식: 핸디팟_${권역명} ex) 핸디팟_중심권
 export const HANDY_PARTY_PREFIX = '핸디팟';
+
+export const KAKAO_CHANNEL_URL = 'http://pf.kakao.com/_AxncxhG';
