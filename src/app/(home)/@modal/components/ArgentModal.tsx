@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
-import { getOneDayModalSeenDate } from '@/utils/localStorage';
-import dayjs from 'dayjs';
 import Link from 'next/link';
 
 interface Props {
@@ -18,15 +16,7 @@ const ArgentModal = ({ image, href }: Props) => {
   };
 
   const handleArgentModalOpen = () => {
-    const isArgentModalSeenDate = getOneDayModalSeenDate();
-    if (!isArgentModalSeenDate) {
-      setIsArgentModalOpen(true);
-    }
-    const seenDate = dayjs(isArgentModalSeenDate).startOf('day');
-    const today = dayjs().startOf('day');
-    if (seenDate.isBefore(today)) {
-      setIsArgentModalOpen(true);
-    }
+    setIsArgentModalOpen(true);
   };
 
   useEffect(() => {
