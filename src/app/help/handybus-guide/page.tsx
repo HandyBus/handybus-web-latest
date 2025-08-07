@@ -216,17 +216,16 @@ const HANDYBUS_GUIDE_STEPS = [
   },
   {
     order: 4,
-    title: '오픈채팅방 참여',
+    title: '공지방 참여',
     description:
-      '모든 배차 정보와 인원이 확정되면, 핸디가 오픈채팅방을 개설해요. 채팅방 개설 알림톡으로 받은 링크를 통해 입장해 주세요. 오픈채팅방에서 자유롭게 이야기 나누세요!',
+      '예약내역 > 공지방 참여를 통해 공지방에 참여해 주세요. 탑승 당일까지 셔틀 안내사항과 실시간 현장 상황을 공유받을 수 있어요.',
     image: guideImageStep4,
-    tagDescription: '탑승 4일 전 초대',
   },
   {
     order: 5,
     title: '최종 공지',
     description:
-      '오픈채팅방을 통해 최종 탑승 안내를 드려요. 정류장 위치와 시간 등 꼭 확인해 주세요.',
+      '공지방을 통해 최종 탑승 안내를 드려요. 정류장 위치와 시간 등 꼭 확인해 주세요.',
     image: guideImageStep5,
     tagDescription: '탑승 2일 전 공지',
   },

@@ -1,6 +1,7 @@
 import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
 import KakaoIcon from 'public/icons/kakao.svg';
+import { KAKAO_CHANNEL_URL } from '@/constants/common';
 
 const Page = () => {
   return (
@@ -28,7 +29,7 @@ const Page = () => {
       </TitledSection>
       <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto w-full max-w-500 bg-basic-white">
         <a
-          href="http://pf.kakao.com/_AxncxhG"
+          href={KAKAO_CHANNEL_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="mx-16 my-8 flex items-center justify-center gap-[10px] rounded-8 bg-[#FAE100] px-16 py-12 text-16 font-600 leading-[160%] text-basic-black"

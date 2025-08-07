@@ -1,94 +1,22 @@
-import Button from '@/components/buttons/button/Button';
 import { HandyStatus } from '@/types/reservation.type';
-import { useState } from 'react';
-import CancelHandyApplyModal from './components/CancelHandyApplyModal';
-import { useRouter } from 'next/navigation';
 
 interface Props {
-  isCanceled: boolean;
-  isEnded: boolean;
   handyStatus: HandyStatus;
-  reservationId: string;
 }
 
-const HandySection = ({
-  isCanceled,
-  isEnded,
-  handyStatus,
-  reservationId,
-}: Props) => {
-  const historyText =
-    handyStatus === 'NOT_SUPPORTED' ? '지원 안함' : '지원 완료';
-  const statusText =
-    handyStatus === 'NOT_SUPPORTED'
-      ? '지원 안함'
-      : handyStatus === 'SUPPORTED'
-        ? '핸디 선정 중'
-        : handyStatus === 'ACCEPTED'
-          ? '선정'
-          : '미선정';
-
-  const router = useRouter();
-
-  const [isCancelHandyApplyModalOpen, setIsCancelHandyApplyModalOpen] =
-    useState(false);
-
+const HandySection = ({ handyStatus }: Props) => {
   return (
     <>
       <section className="px-16">
         <h3 className="flex items-center justify-between pb-16 text-16 font-600">
           <span>핸디 지원 내역</span>
-          {!isCanceled && !isEnded && handyStatus === 'SUPPORTED' && (
-            <Button
-              type="button"
-              variant="tertiary"
-              size="small"
-              onClick={() => setIsCancelHandyApplyModalOpen(true)}
-            >
-              지원 취소
-            </Button>
-          )}
-          {!isCanceled && !isEnded && handyStatus === 'ACCEPTED' && (
-            <Button
-              type="button"
-              variant="secondary"
-              size="small"
-              onClick={() => router.push('/help/what-is-handy')}
-            >
-              가이드
-            </Button>
-          )}
         </h3>
-        <div className="grid grid-cols-[72px_1fr] gap-x-16 gap-y-8 text-14 font-600">
-          <h5>지역 내역</h5>
-          <p className={isCanceled ? 'text-basic-grey-400' : ''}>
-            {historyText}
-          </p>
-          {!isCanceled && handyStatus !== 'NOT_SUPPORTED' && (
-            <>
-              <h5>상태</h5>
-              <p
-                className={
-                  handyStatus === 'ACCEPTED' ? 'text-basic-blue-400' : ''
-                }
-              >
-                {statusText}
-              </p>
-            </>
-          )}
-          {isCanceled && (
-            <>
-              <h5>상태</h5>
-              <p className="text-basic-grey-400">-</p>
-            </>
-          )}
-        </div>
+        <p className="rounded-[8px] bg-basic-grey-50 p-8 text-12 font-600 leading-[160%] text-basic-grey-500">
+          {handyStatus !== 'NOT_SUPPORTED'
+            ? '2025년 8월 1일부터 모바일 탑승권이 생기면서 핸디 없이도 안전하고 편리하게 탑승할 수 있게 되었어요. 핸디로 지원해주셔서 감사드리며, 앞으로는 더욱 편리해진 모바일 탑승권으로 셔틀을 이용해 주세요.'
+            : '2025년 8월 1일부터 모바일 탑승권이 생기면서 핸디 없이도 안전하고 편리하게 탑승할 수 있게 되었어요. 앞으로는 더욱 편리해진 모바일 탑승권으로 셔틀을 이용해 주세요.'}
+        </p>
       </section>
-      <CancelHandyApplyModal
-        reservationId={reservationId}
-        isOpen={isCancelHandyApplyModalOpen}
-        closeModal={() => setIsCancelHandyApplyModalOpen(false)}
-      />
     </>
   );
 };

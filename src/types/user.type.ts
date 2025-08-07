@@ -39,6 +39,7 @@ export const UsersViewEntitySchema = z
     status: ActiveStatusEnum,
     isConnectedKakao: z.boolean(),
     isConnectedNaver: z.boolean(),
+    isConnectedApple: z.boolean(),
     onboardingComplete: z.boolean(),
     marketingConsent: z.boolean(),
     serviceTermsAgreement: z.boolean(),

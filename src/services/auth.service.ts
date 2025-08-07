@@ -5,7 +5,7 @@ import { TokenShape } from '@/types/auth.type';
 // ----- POST -----
 
 export const postLogin = async (
-  method: 'kakao' | 'naver',
+  method: 'kakao' | 'naver' | 'apple',
   { code, state }: { code: string; state?: string },
 ) => {
   const body = {
@@ -19,6 +19,12 @@ export const postLogin = async (
         : undefined,
     kakaoUserRequest:
       method === 'kakao'
+        ? {
+            code,
+          }
+        : undefined,
+    appleUserRequest:
+      method === 'apple'
         ? {
             code,
           }

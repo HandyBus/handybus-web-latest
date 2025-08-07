@@ -27,11 +27,11 @@ export const removeEntryGreetingIncomplete = () => {
 
 // 최근 로그인
 export const LAST_LOGIN = 'last-login';
-export const setLastLogin = (type: 'kakao' | 'naver') => {
+export const setLastLogin = (type: 'kakao' | 'naver' | 'apple') => {
   localStorage.setItem(LAST_LOGIN, type);
 };
 export const getLastLogin = () => {
-  return localStorage.getItem(LAST_LOGIN) as 'kakao' | 'naver' | null;
+  return localStorage.getItem(LAST_LOGIN) as 'kakao' | 'naver' | 'apple' | null;
 };
 export const removeLastLogin = () => {
   localStorage.removeItem(LAST_LOGIN);
