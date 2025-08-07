@@ -9,6 +9,7 @@ import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { useEffect, useState } from 'react';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import { useGetUser } from '@/services/user.service';
 
 interface Props {
