@@ -9,6 +9,7 @@ import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { useEffect, useState } from 'react';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import { useGetUser } from '@/services/user.service';
 
 interface Props {
@@ -98,21 +99,22 @@ const BoardingPassPage = ({ searchParams }: Props) => {
   const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
-    return `${hours > 0 ? `${hours}시 ` : ''}${minutes}분`;
+    const underTenMinutes = minutes < 10;
+    return `${hours > 0 ? `${hours}시간 ` : ''}${
+      underTenMinutes ? `0${minutes}` : minutes
+    }분`;
   };
 
   const durationToDestination = formatDuration(
-    dayjs(arrivalTimeToDestination).diff(
-      dayjs(boardingTimeToDestination),
-      'minute',
-    ),
+    dayjs(arrivalTimeToDestination)
+      .startOf('minute')
+      .diff(dayjs(boardingTimeToDestination).startOf('minute'), 'minute'),
   );
 
   const durationFromDestination = formatDuration(
-    dayjs(arrivalTimeFromDestination).diff(
-      dayjs(boardingTimeFromDestination),
-      'minute',
-    ),
+    dayjs(arrivalTimeFromDestination)
+      .startOf('minute')
+      .diff(dayjs(boardingTimeFromDestination).startOf('minute'), 'minute'),
   );
 
   const dailyEvent = reservation?.shuttleRoute.event.dailyEvents.find(
@@ -295,6 +297,7 @@ const BoardingPassPage = ({ searchParams }: Props) => {
             onClick={handleClickAndStopPropagation(() => {
               openOpenChatLink();
             })}
+            disabled={!noticeRoomUrl}
           >
             카카오톡 공지방 참여하기
           </Button>
