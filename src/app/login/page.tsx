@@ -15,8 +15,8 @@ import {
   setRedirectUrl,
 } from '@/utils/localStorage';
 import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
-import AppleLogin from 'react-apple-login';
-import AppleIcon from './icons/apple.svg';
+// import AppleLogin from 'react-apple-login';
+// import AppleIcon from './icons/apple.svg';
 
 const Login = () => {
   usePreventScroll();
@@ -99,7 +99,7 @@ const Login = () => {
             {lastLoginState === 'naver' && <LastLoginChip />}
           </Link>
         </button>
-        <AppleLogin
+        {/* <AppleLogin
           clientId={appleClientId}
           redirectURI={appleRedirectUrl}
           responseType={'code'}
@@ -119,7 +119,7 @@ const Login = () => {
               {lastLoginState === 'apple' && <LastLoginChip />}
             </button>
           )}
-        />
+        /> */}
       </section>
       <section className="flex flex-1 grow flex-col">
         <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-basic-grey-400">
