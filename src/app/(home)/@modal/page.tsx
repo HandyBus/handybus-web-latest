@@ -10,7 +10,7 @@ const Page = () => {
   return (
     <ModalPortal>
       {/* <OneDayModal image={couponEventImage} href="/demand-reward-coupon" /> */}
-      <ArgentModal image={argentModalImage} href="/demand-reward-coupon" />
+      <ArgentModal image={argentModalImage} />
     </ModalPortal>
   );
 };
