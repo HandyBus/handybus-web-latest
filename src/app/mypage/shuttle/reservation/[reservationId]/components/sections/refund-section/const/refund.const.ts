@@ -12,7 +12,7 @@ export const CANCEL_REASON_OPTIONS = {
 export const CANCEL_REASON_DETAIL_OPTIONS = {
   BETTER_TIME: '원하는 시간대에 운행해요.',
   CLOSER_LOCATION: '출발지/도착지가 더 가까워요.',
-  LOWER_PRICE: '가격이 더 저렵해요.',
+  LOWER_PRICE: '가격이 더 저렴해요.',
   OTHER: '기타',
 } as const;
 
