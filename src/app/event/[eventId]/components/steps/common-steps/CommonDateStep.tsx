@@ -12,6 +12,7 @@ import Button from '@/components/buttons/button/Button';
 import { EventPhase } from '@/utils/event.util';
 import { useGetDemandStats } from '@/services/demand.service';
 import { useMemo } from 'react';
+import Loading from '@/components/loading/Loading';
 
 interface Props {
   toNextStep: () => void;
@@ -32,13 +33,14 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
     toNextStep();
   };
 
-  const { data: demandStats } = useGetDemandStats(
-    {
-      groupBy: 'DAILY_EVENT',
-      eventId: event?.eventId,
-    },
-    { enabled: !!event?.eventId },
-  );
+  const { data: demandStats, isLoading: isDemandStatsLoading } =
+    useGetDemandStats(
+      {
+        groupBy: 'DAILY_EVENT',
+        eventId: event?.eventId,
+      },
+      { enabled: !!event?.eventId },
+    );
 
   const dailyEventWithDemandStats = useMemo(() => {
     if (!event?.dailyEvents || !demandStats) {
@@ -54,6 +56,14 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       return { ...dailyEvent, demandStat };
     });
   }, [demandStats, event?.dailyEvents]);
+
+  if (isDemandStatsLoading) {
+    return (
+      <div className="flex h-60 items-center justify-center">
+        <Loading style="grow" />
+      </div>
+    );
+  }
 
   return (
     <section className="flex flex-col gap-8">
