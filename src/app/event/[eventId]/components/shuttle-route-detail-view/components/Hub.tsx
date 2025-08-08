@@ -59,7 +59,7 @@ const Hub = ({
         <div className="flex w-full items-center gap-[9px]">
           <span
             className={`w-[64px] shrink-0 whitespace-nowrap break-keep text-left text-12 font-500 ${
-              type === 'eventDestination'
+              type === 'destination'
                 ? 'text-basic-grey-700'
                 : type === 'primary'
                   ? 'text-basic-grey-700'
@@ -72,7 +72,7 @@ const Hub = ({
           </span>
           <span
             className={`line-clamp-1 grow text-14 font-500 ${
-              type === 'eventDestination'
+              type === 'destination'
                 ? 'font-600 text-basic-black'
                 : type === 'primary'
                   ? 'font-600 text-basic-black'
@@ -87,7 +87,7 @@ const Hub = ({
             <ArrowDownIcon />
           </div>
         </div>
-        {type === 'eventDestination' && tripType === 'FROM_DESTINATION' && (
+        {index === 0 && tripType === 'FROM_DESTINATION' && (
           <Badge className="mt-4 w-fit bg-basic-grey-100 text-basic-grey-700">
             공연 종료 후 약 1시간 뒤 출발해요
           </Badge>
