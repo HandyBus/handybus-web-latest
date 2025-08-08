@@ -18,24 +18,25 @@ export const getHubType = ({
   tripType: TripTypeWithoutRoundTrip;
   length: number;
 }): HubType => {
-  if (index === selectedHubIndex) {
-    return 'primary';
-  }
-
   if (tripType === 'TO_DESTINATION') {
     if (index === length - 1) {
-      return 'eventDestination';
+      return 'destination';
+    }
+    if (index === selectedHubIndex) {
+      return 'primary';
     }
     return index > selectedHubIndex ? 'secondary' : 'tertiary';
   }
 
   if (tripType === 'FROM_DESTINATION') {
     if (index === 0) {
-      return 'eventDestination';
+      return 'primary';
+    }
+    if (index === selectedHubIndex) {
+      return 'destination';
     }
     return index < selectedHubIndex ? 'secondary' : 'tertiary';
   }
-
   return 'secondary';
 };
 
@@ -47,7 +48,7 @@ export const getHubIcon = (type: HubType): ReactNode => {
       return <DotPrimaryIcon />;
     case 'tertiary':
       return <DotTertiaryIcon />;
-    case 'eventDestination':
+    case 'destination':
       return <PinIcon />;
     default:
       return null;

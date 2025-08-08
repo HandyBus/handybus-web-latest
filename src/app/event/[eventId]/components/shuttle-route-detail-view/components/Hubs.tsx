@@ -32,7 +32,13 @@ const Hubs = ({
           length: hubs.length,
         });
         const isLastHub = index === hubs.length - 1;
-        const hideTime = type !== 'eventDestination' && isHandyParty;
+        const isEventLocation =
+          tripType === 'TO_DESTINATION'
+            ? index === hubs.length - 1
+            : tripType === 'FROM_DESTINATION'
+              ? index === 0
+              : false;
+        const hideTime = !isEventLocation && isHandyParty;
         return (
           <Hub
             key={hub.shuttleRouteHubId}

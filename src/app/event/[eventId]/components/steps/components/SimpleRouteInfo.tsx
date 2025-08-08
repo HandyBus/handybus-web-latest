@@ -14,11 +14,11 @@ import { toast } from 'react-toastify';
 
 const ROUND_TRIP_TEXT = '[왕복] ';
 
-// eventLocation: 이벤트 장소
+// destination: 목적지 (가는편 : 행사장, 오는편 : 하차장소)
 // primary: 선택된 정류장
 // secondary: 경유 정류장 (유저 입장)
 // tertiary: 경유하지 않는 정류장 (유저 입장)
-type HubType = 'eventLocation' | 'primary' | 'secondary' | 'tertiary';
+type HubType = 'destination' | 'primary' | 'secondary' | 'tertiary';
 
 interface Props {
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
@@ -196,6 +196,9 @@ const Hubs = ({
         return (
           <Hub
             key={hub.shuttleRouteHubId}
+            tripType={tripType}
+            index={index}
+            length={hubs.length}
             type={type}
             time={hub.arrivalTime}
             name={hub.name}
@@ -213,6 +216,9 @@ const Hubs = ({
 };
 
 interface HubProps {
+  tripType: TripType;
+  index: number;
+  length: number;
   type: HubType;
   time: string;
   name: string;
@@ -223,6 +229,9 @@ interface HubProps {
 }
 
 const Hub = ({
+  tripType,
+  index,
+  length,
   type,
   time,
   name,
@@ -238,11 +247,16 @@ const Hub = ({
     showTime: true,
   });
   const isHidden = !showDetail && (type === 'secondary' || type === 'tertiary');
-
+  const isEventLocation =
+    tripType === 'TO_DESTINATION'
+      ? index === length - 1
+      : tripType === 'FROM_DESTINATION'
+        ? index === 0
+        : false;
   return (
     <button
       type="button"
-      disabled={!isEditMode || type === 'eventLocation'}
+      disabled={!isEditMode || isEventLocation}
       className={customTwMerge(
         'flex h-[26px] items-center gap-[9px]',
         isHidden && 'hidden',
@@ -252,14 +266,14 @@ const Hub = ({
       <span
         className={`w-[78px] shrink-0 whitespace-nowrap break-keep text-left text-14 font-500 ${
           !isEditMode
-            ? type === 'eventLocation'
+            ? type === 'destination'
               ? 'text-basic-grey-700'
               : type === 'primary'
                 ? 'text-basic-grey-700'
                 : type === 'secondary'
                   ? 'text-basic-grey-700'
                   : 'text-basic-grey-500'
-            : isSelectedInEditMode || type === 'eventLocation'
+            : isSelectedInEditMode || isEventLocation
               ? 'text-basic-grey-700'
               : 'text-basic-grey-500'
         }`}
@@ -269,14 +283,14 @@ const Hub = ({
       <span
         className={`line-clamp-1 text-16 ${
           !isEditMode
-            ? type === 'eventLocation'
+            ? type === 'destination'
               ? 'font-600 text-basic-black'
               : type === 'primary'
                 ? 'font-600 text-basic-black'
                 : type === 'secondary'
                   ? 'font-500 text-basic-grey-700'
                   : 'font-500 text-basic-grey-500'
-            : isSelectedInEditMode || type === 'eventLocation'
+            : isSelectedInEditMode || isEventLocation
               ? 'font-600 text-basic-black'
               : 'font-500 text-basic-grey-700'
         }`}
@@ -321,10 +335,18 @@ const RouteLine = ({
 
         const getHubIcon = (): ReactNode => {
           if (isEditMode) {
-            if (type === 'eventLocation') {
+            if (
+              (tripType === 'TO_DESTINATION' && index === hubs.length - 1) ||
+              (tripType === 'FROM_DESTINATION' &&
+                stagedShuttleRouteHubId === hub.shuttleRouteHubId)
+            ) {
               return <PinIcon />;
             }
-            if (stagedShuttleRouteHubId === hub.shuttleRouteHubId) {
+            if (
+              (tripType === 'TO_DESTINATION' &&
+                stagedShuttleRouteHubId === hub.shuttleRouteHubId) ||
+              (tripType === 'FROM_DESTINATION' && index === 0)
+            ) {
               return <DotPrimaryIcon />;
             }
             return <DotTertiaryIcon />;
@@ -337,7 +359,7 @@ const RouteLine = ({
               return <DotPrimaryIcon />;
             case 'tertiary':
               return <DotTertiaryIcon />;
-            case 'eventLocation':
+            case 'destination':
               return <PinIcon />;
             default:
               return null;
@@ -388,18 +410,22 @@ const getHubType = ({
   tripType: TripType;
   length: number;
 }): HubType => {
-  if (index === selectedHubIndex) {
-    return 'primary';
-  }
   if (tripType === 'TO_DESTINATION') {
     if (index === length - 1) {
-      return 'eventLocation';
+      return 'destination';
+    }
+    if (index === selectedHubIndex) {
+      return 'primary';
     }
     return index > selectedHubIndex ? 'secondary' : 'tertiary';
   }
+
   if (tripType === 'FROM_DESTINATION') {
     if (index === 0) {
-      return 'eventLocation';
+      return 'primary';
+    }
+    if (index === selectedHubIndex) {
+      return 'destination';
     }
     return index < selectedHubIndex ? 'secondary' : 'tertiary';
   }
