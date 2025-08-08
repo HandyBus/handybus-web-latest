@@ -12,6 +12,7 @@ import Button from '@/components/buttons/button/Button';
 import { EventPhase } from '@/utils/event.util';
 import { useGetDemandStats } from '@/services/demand.service';
 import { useMemo } from 'react';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 
 interface Props {
@@ -57,65 +58,77 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
     });
   }, [demandStats, event?.dailyEvents]);
 
-  if (isDemandStatsLoading) {
+  if (!event || !demandStats) {
     return (
       <div className="flex h-60 items-center justify-center">
         <Loading style="grow" />
       </div>
     );
   }
-
   return (
-    <section className="flex flex-col gap-8">
-      {dailyEventWithDemandStats.map((dailyEventWithDemandStat) => {
-        const isDemandPhase = phase === 'demand';
-        const isDemandOpen = dailyEventWithDemandStat.status === 'OPEN';
-        const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
-          dailyEventWithDemandStat.dailyEventId,
-        );
-        const isDailyEventEnded = !isDemandOpen && !isReservationOpen;
-        const onlyDemandPossibleDuringReservationPhase =
-          isDemandOpen && !isReservationOpen && phase === 'reservation';
-        return (
-          <div key={dailyEventWithDemandStat.dailyEventId} className="relative">
-            <button
-              type="button"
-              onClick={() => handleDateClick(dailyEventWithDemandStat)}
-              disabled={
-                isDailyEventEnded || onlyDemandPossibleDuringReservationPhase
-              }
-              className="group flex w-full items-center justify-between py-12 text-left"
+    // 동시접속자수가 몰려서 event 데이터 자체를 못받는 경우도 지속되는 로딩 UI를 보여줌. 에러화면을 보여주면 유저들의 새로고침을 유발해 서버에 더 많은 부하가중.
+    <DeferredSuspense
+      fallback={
+        <div className="flex h-60 items-center justify-center">
+          <Loading style="grow" />
+        </div>
+      }
+      isLoading={isDemandStatsLoading}
+    >
+      <section className="flex flex-col gap-8">
+        {dailyEventWithDemandStats.map((dailyEventWithDemandStat) => {
+          const isDemandPhase = phase === 'demand';
+          const isDemandOpen = dailyEventWithDemandStat.status === 'OPEN';
+          const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
+            dailyEventWithDemandStat.dailyEventId,
+          );
+          const isDailyEventEnded = !isDemandOpen && !isReservationOpen;
+          const onlyDemandPossibleDuringReservationPhase =
+            isDemandOpen && !isReservationOpen && phase === 'reservation';
+          return (
+            <div
+              key={dailyEventWithDemandStat.dailyEventId}
+              className="relative"
             >
-              <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-                {formatFullDate(dailyEventWithDemandStat.date)}
-              </span>
-              {isDailyEventEnded && (
-                <span className="text-14 font-500 text-basic-grey-500">
-                  마감
+              <button
+                type="button"
+                onClick={() => handleDateClick(dailyEventWithDemandStat)}
+                disabled={
+                  isDailyEventEnded || onlyDemandPossibleDuringReservationPhase
+                }
+                className="group flex w-full items-center justify-between py-12 text-left"
+              >
+                <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+                  {formatFullDate(dailyEventWithDemandStat.date)}
+                </span>
+                {isDailyEventEnded && (
+                  <span className="text-14 font-500 text-basic-grey-500">
+                    마감
+                  </span>
+                )}
+              </button>
+              {onlyDemandPossibleDuringReservationPhase && (
+                <Button
+                  variant="primary"
+                  size="small"
+                  className="absolute right-0 top-1/2 w-100 -translate-y-1/2"
+                  onClick={() => handleDateClick(dailyEventWithDemandStat)}
+                >
+                  수요조사 참여하기
+                </Button>
+              )}
+              {isDemandPhase && !isDailyEventEnded && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 whitespace-nowrap break-keep text-14 font-500 text-brand-primary-400">
+                  {getDemandText(
+                    dailyEventWithDemandStat.demandStat?.totalCount ?? 0,
+                  )}
                 </span>
               )}
-            </button>
-            {onlyDemandPossibleDuringReservationPhase && (
-              <Button
-                variant="primary"
-                size="small"
-                className="absolute right-0 top-1/2 w-100 -translate-y-1/2"
-                onClick={() => handleDateClick(dailyEventWithDemandStat)}
-              >
-                수요조사 참여하기
-              </Button>
-            )}
-            {isDemandPhase && !isDailyEventEnded && (
-              <span className="absolute right-0 top-1/2 -translate-y-1/2 whitespace-nowrap break-keep text-14 font-500 text-brand-primary-400">
-                {getDemandText(
-                  dailyEventWithDemandStat.demandStat?.totalCount ?? 0,
-                )}
-              </span>
-            )}
-          </div>
-        );
-      })}
-    </section>
+            </div>
+          );
+        })}
+      </section>
+    </DeferredSuspense>
   );
 };
 
