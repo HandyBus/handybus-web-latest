@@ -47,12 +47,12 @@ const Login = () => {
     }
   }, []);
 
-  const appleRedirectUrl = process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI;
-  const appleClientId = process.env.NEXT_PUBLIC_APPLE_CLIENT_ID;
+  // const appleRedirectUrl = process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI;
+  // const appleClientId = process.env.NEXT_PUBLIC_APPLE_CLIENT_ID;
 
-  if (!appleRedirectUrl || !appleClientId) {
-    return null;
-  }
+  // if (!appleRedirectUrl || !appleClientId) {
+  //   return null;
+  // }
 
   return (
     <main className="flex grow flex-col">
