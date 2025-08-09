@@ -43,7 +43,7 @@ export const EventsViewEntitySchema = z
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
     eventIsPinned: z.boolean(),
-    eventMinRoutePrice: z.number(),
+    eventMinRoutePrice: z.number().nullable(),
     eventHasOpenRoute: z.boolean(),
     eventRecommendationScore: z.number(),
     eventArtists: ArtistsViewEntitySchema.array().nullable(),
