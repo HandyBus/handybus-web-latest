@@ -42,7 +42,7 @@ export const EventsViewEntitySchema = z
     eventLocationAddress: z.string(),
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
-    eventIsPinned: z.number(), // TOOD: 백엔드 버그. boolean으로 변경 필요
+    eventIsPinned: z.boolean(),
     eventMinRoutePrice: z.number(),
     eventHasOpenRoute: z.boolean(),
     eventRecommendationScore: z.number(),
