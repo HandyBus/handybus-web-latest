@@ -14,7 +14,7 @@ interface Props {
   events: EventsViewEntity[] | null | undefined;
 }
 
-const RecommendedEventCard = ({ events }: Props) => {
+const PinnedEventCard = ({ events }: Props) => {
   const [type, setType] = useState<EventTypeWithAll>('ALL');
 
   // 각 이벤트 타입별로 이벤트가 있는지 확인
@@ -62,4 +62,4 @@ const RecommendedEventCard = ({ events }: Props) => {
   );
 };
 
-export default RecommendedEventCard;
+export default PinnedEventCard;

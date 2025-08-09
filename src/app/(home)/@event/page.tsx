@@ -1,16 +1,12 @@
 import TrendEventCard from './components/TrendEventCard';
-import RecommendedEventCard from './components/RecommendedEventCard';
-import { getEvents } from '@/services/event.service';
+import PinnedEventCard from './components/PinnedEventCard';
+import { getEvents, getTopRecommendedEvents } from '@/services/event.service';
 import { EventsViewEntity } from '@/types/event.type';
 
 const Page = async () => {
-  const popularEvents = await getEvents({
-    status: 'OPEN,CLOSED',
-    orderBy: 'eventRecommendationScore',
-    additionalOrderOptions: 'DESC',
-  });
+  const recommendedEvents = await getTopRecommendedEvents(5);
 
-  const recommendedEvents = await getEvents({
+  const pinnedEvents = await getEvents({
     status: 'OPEN,CLOSED',
     eventIsPinned: true,
   });
@@ -20,14 +16,14 @@ const Page = async () => {
       event.eventStatus === 'CLOSED' && !event.eventHasOpenRoute ? false : true,
     ) ?? [];
 
-  const filteredPopularEvents = filteredEventsByStatus(popularEvents);
   const filteredRecommendedEvents = filteredEventsByStatus(recommendedEvents);
+  const filteredPinnedEvents = filteredEventsByStatus(pinnedEvents);
 
   return (
     <>
-      <TrendEventCard events={filteredPopularEvents} />
+      <TrendEventCard events={filteredRecommendedEvents} />
       <div className="my-16 h-8 w-full bg-basic-grey-50" />
-      <RecommendedEventCard events={filteredRecommendedEvents} />
+      <PinnedEventCard events={filteredPinnedEvents} />
       <div className="my-16 h-8 w-full bg-basic-grey-50" />
     </>
   );

@@ -51,3 +51,23 @@ export const useGetEvent = (
     queryFn: () => getEvent(eventId),
     enabled,
   });
+
+// OPEN,CLOSED 인 행사 중 추천 점수가 높은 순으로 행사 조회
+export const getTopRecommendedEvents = async (limit?: number) => {
+  const searchParams = toSearchParams({ limit });
+  const res = await instance.get(
+    `/v2/shuttle-operation/events/top/recommended?${searchParams.toString()}`,
+    {
+      shape: {
+        events: EventsViewEntitySchema.array(),
+      },
+    },
+  );
+  return res.events;
+};
+
+export const useGetTopRecommendedEvents = (limit?: number) =>
+  useQuery({
+    queryKey: ['event', 'top', 'recommended', limit],
+    queryFn: () => getTopRecommendedEvents(limit),
+  });
