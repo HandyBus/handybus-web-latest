@@ -7,11 +7,11 @@ import 'swiper/css';
 import Card from '@/components/card/Card';
 import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 
 interface Props {
-  events: EventWithRoutesViewEntity[];
+  events: EventsViewEntity[];
 }
 
 const RecommendedEventSwiperView = ({ events }: Props) => {
@@ -52,8 +52,8 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
                     title={v.eventName}
                     date={formattedDate}
                     location={v.eventLocationName}
-                    price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
-                    isSaleStarted={v.hasOpenRoute}
+                    price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
+                    isSaleStarted={v.eventHasOpenRoute}
                     order={idx + 1}
                     href={`/event/${v.eventId}`}
                   />

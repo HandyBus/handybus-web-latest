@@ -1,14 +1,14 @@
 'use client';
 
 import Badge from '@/components/badge/Badge';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
 
 export const HANDY_PARTY_AREA_GUIDE_ID = 'handy-party-area-guide';
 
 interface Props {
-  event: EventWithRoutesViewEntity;
+  event: EventsViewEntity;
 }
 
 const EventInfo = ({ event }: Props) => {
@@ -43,7 +43,7 @@ const EventInfo = ({ event }: Props) => {
         {enabledStatus === 'enabled' &&
           (phase === 'reservation' ? (
             <h5 className="text-20 font-600">
-              {event.minRoutePrice?.toLocaleString()}원~
+              {event.eventMinRoutePrice?.toLocaleString()}원~
             </h5>
           ) : (
             <div className="flex items-center gap-4">

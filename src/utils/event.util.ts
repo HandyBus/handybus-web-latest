@@ -1,7 +1,7 @@
 import { MAX_HANDY_DISCOUNT_AMOUNT } from '@/constants/common';
 import { CustomError } from '@/services/custom-error';
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
 
@@ -9,7 +9,7 @@ export type EventPhase = 'demand' | 'reservation';
 export type EventEnabledStatus = 'enabled' | 'disabled';
 
 export const getPhaseAndEnabledStatus = (
-  event: EventWithRoutesViewEntity | null | undefined,
+  event: EventsViewEntity | null | undefined,
 ): {
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
@@ -18,8 +18,8 @@ export const getPhaseAndEnabledStatus = (
     return { phase: 'demand', enabledStatus: 'disabled' };
   }
   const isDemandOngoing = event.eventStatus === 'OPEN';
-  const isReservationOpen = event.minRoutePrice !== null;
-  const isReservationOngoing = event.hasOpenRoute;
+  const isReservationOpen = event.eventMinRoutePrice !== null;
+  const isReservationOngoing = event.eventHasOpenRoute;
 
   switch (true) {
     case isDemandOngoing && !isReservationOpen:

@@ -42,7 +42,10 @@ export const EventsViewEntitySchema = z
     eventLocationAddress: z.string(),
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
-    eventIsPinned: z.number(), // TOOD: 백엔드 버그. boolean으로 변경 필요
+    eventIsPinned: z.boolean(),
+    eventMinRoutePrice: z.number().nullable(),
+    eventHasOpenRoute: z.boolean(),
+    eventRecommendationScore: z.number(),
     eventArtists: ArtistsViewEntitySchema.array().nullable(),
     dailyEvents: DailyEventsInEventsViewEntitySchema.array(),
     startDate: z.string(),
@@ -53,13 +56,3 @@ export const EventsViewEntitySchema = z
   })
   .strict();
 export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;
-
-export const EventWithRoutesViewEntitySchema = EventsViewEntitySchema.extend({
-  minRoutePrice: z.number().nullable(),
-  hasOpenRoute: z.boolean(),
-  eventIsPinned: z.boolean(),
-  eventRecommendationScore: z.number(),
-});
-export type EventWithRoutesViewEntity = z.infer<
-  typeof EventWithRoutesViewEntitySchema
->;

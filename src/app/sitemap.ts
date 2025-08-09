@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const events = await getEvents({ status: 'OPEN' });
+  const events = await getEvents({ status: 'OPEN,CLOSED' });
   const eventsArray = events.map((event) => ({
     url: `${baseUrl}/event/${event.eventId}`,
     lastModified: new Date(event.updatedAt),

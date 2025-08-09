@@ -5,12 +5,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import Card from '@/components/card/Card';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 
 const MIN_CARD_COUNT = 5;
 
 interface Props {
-  events: EventWithRoutesViewEntity[];
+  events: EventsViewEntity[];
 }
 
 const TrendEventsSwiperView = ({ events }: Props) => {
@@ -46,8 +46,8 @@ const TrendEventsSwiperView = ({ events }: Props) => {
                     title={v.eventName}
                     date={v.startDate}
                     location={v.eventLocationName}
-                    price={`${v.minRoutePrice?.toLocaleString()}원 ~`}
-                    isSaleStarted={v.hasOpenRoute}
+                    price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
+                    isSaleStarted={v.eventHasOpenRoute}
                     order={(idx % cardCount) + 1}
                     href={`/event/${v.eventId}`}
                   />
