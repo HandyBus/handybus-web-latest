@@ -1,5 +1,5 @@
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { useEffect, useState } from 'react';
 import { UsersViewEntity } from '@/types/user.type';
@@ -27,7 +27,7 @@ interface ContentProps {
   toDestinationHubId: string | null;
   fromDestinationHubId: string | null;
   passengerCount: number;
-  event: EventWithRoutesViewEntity;
+  event: EventsViewEntity;
   shuttleRoute: ShuttleRoutesViewEntity;
   user: UsersViewEntity;
   coupons: IssuedCouponsViewEntity[];

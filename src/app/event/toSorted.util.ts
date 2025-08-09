@@ -1,12 +1,9 @@
 import { EventSortType } from '@/app/event/event.const';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import dayjs from 'dayjs';
 
-export const toSorted = (
-  events: EventWithRoutesViewEntity[],
-  sort: EventSortType,
-) => {
-  let newData: EventWithRoutesViewEntity[];
+export const toSorted = (events: EventsViewEntity[], sort: EventSortType) => {
+  let newData: EventsViewEntity[];
   switch (sort) {
     case 'NAME_ASC':
       newData = events.toSorted((a, b) =>

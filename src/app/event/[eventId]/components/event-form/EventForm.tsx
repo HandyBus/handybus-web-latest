@@ -8,7 +8,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useFunnel from '@/hooks/useFunnel';
 import { EVENT_FORM_DEFAULT_VALUES, EVENT_STEPS } from '../../form.const';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import {
   getPhaseAndEnabledStatus,
   EventEnabledStatus,
@@ -44,7 +44,7 @@ import { HANDY_PARTY_AREA_GUIDE_ID } from '../EventInfo';
 import ShareBottomSheet from './components/ShareBottomSheet';
 
 interface Props {
-  event: EventWithRoutesViewEntity;
+  event: EventsViewEntity;
 }
 
 const EventForm = ({ event }: Props) => {
@@ -57,7 +57,7 @@ const EventForm = ({ event }: Props) => {
       status: 'OPEN',
     },
     {
-      enabled: event.hasOpenRoute,
+      enabled: event.eventHasOpenRoute,
     },
   );
   const shuttleRoutes = useMemo(
@@ -65,7 +65,7 @@ const EventForm = ({ event }: Props) => {
     [shuttleRoutesPages],
   );
   const isShuttleRoutesLoading =
-    event.hasOpenRoute && shuttleRoutes.length === 0;
+    event.eventHasOpenRoute && shuttleRoutes.length === 0;
 
   if (isShuttleRoutesLoading) {
     return (
@@ -110,7 +110,7 @@ const EventForm = ({ event }: Props) => {
 export default EventForm;
 
 interface ContentProps {
-  event: EventWithRoutesViewEntity;
+  event: EventsViewEntity;
   shuttleRoutes: ShuttleRoutesViewEntity[];
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;

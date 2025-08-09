@@ -1,17 +1,17 @@
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
 
 interface Props {
-  event: EventWithRoutesViewEntity;
+  event: EventsViewEntity;
 }
 
 const EventInfoSection = ({ event }: Props) => {
   const formattedDate = dateString([event.startDate, event.endDate], {
     showWeekday: false,
   });
-  const formattedMinPrice = event.minRoutePrice?.toLocaleString();
+  const formattedMinPrice = event.eventMinRoutePrice?.toLocaleString();
   return (
     <section className="px-16 pb-24 pt-12">
       <h1 className="mb-24 text-22 font-700 leading-[140%]">예약 내역</h1>

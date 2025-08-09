@@ -1,7 +1,7 @@
 import TrendEventCard from './components/TrendEventCard';
 import RecommendedEventCard from './components/RecommendedEventCard';
 import { getEvents } from '@/services/event.service';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 
 const Page = async () => {
   const popularEvents = await getEvents({
@@ -15,9 +15,9 @@ const Page = async () => {
     eventIsPinned: true,
   });
 
-  const filteredEventsByStatus = (events: EventWithRoutesViewEntity[]) =>
+  const filteredEventsByStatus = (events: EventsViewEntity[]) =>
     events?.filter((event) =>
-      event.eventStatus === 'CLOSED' && !event.hasOpenRoute ? false : true,
+      event.eventStatus === 'CLOSED' && !event.eventHasOpenRoute ? false : true,
     ) ?? [];
 
   const filteredPopularEvents = filteredEventsByStatus(popularEvents);

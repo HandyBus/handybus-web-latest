@@ -1,4 +1,4 @@
 import { atom } from 'jotai';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 
-export const eventAtom = atom<EventWithRoutesViewEntity | null>(null);
+export const eventAtom = atom<EventsViewEntity | null>(null);
