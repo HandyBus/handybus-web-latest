@@ -8,10 +8,10 @@ import { getUserDemands } from '@/services/demand.service';
 import { userAlertRequestsAtom } from '../../../store/userAlertRequestsAtom';
 import { getUserAlertRequests } from '@/services/alertRequest.service';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 
 interface Props {
-  event: EventWithRoutesViewEntity;
+  event: EventsViewEntity;
   shuttleRoutes: ShuttleRoutesViewEntity[];
 }
 

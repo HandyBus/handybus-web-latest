@@ -2,11 +2,7 @@
 
 import Chip from '@/components/chips/Chip';
 import { useMemo, useState } from 'react';
-import {
-  EventType,
-  EventTypeEnum,
-  EventWithRoutesViewEntity,
-} from '@/types/event.type';
+import { EventType, EventTypeEnum, EventsViewEntity } from '@/types/event.type';
 import { EVENT_TYPE_TO_STRING } from '@/constants/status';
 import RecommendedEventSwiperView from './RecommendedEventSwiperView';
 import CardSection from './CardSection';
@@ -15,10 +11,10 @@ import Empty from '@/app/event/components/Empty';
 type EventTypeWithAll = EventType | 'ALL';
 
 interface Props {
-  events: EventWithRoutesViewEntity[] | null | undefined;
+  events: EventsViewEntity[] | null | undefined;
 }
 
-const RecommendedEventCard = ({ events }: Props) => {
+const PinnedEventCard = ({ events }: Props) => {
   const [type, setType] = useState<EventTypeWithAll>('ALL');
 
   // 각 이벤트 타입별로 이벤트가 있는지 확인
@@ -66,4 +62,4 @@ const RecommendedEventCard = ({ events }: Props) => {
   );
 };
 
-export default RecommendedEventCard;
+export default PinnedEventCard;

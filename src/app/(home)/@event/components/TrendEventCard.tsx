@@ -2,10 +2,10 @@
 
 import CardSection from './CardSection';
 import TrendEventsSwiperView from './TrendEventsSwiperView';
-import { EventWithRoutesViewEntity } from '@/types/event.type';
+import { EventsViewEntity } from '@/types/event.type';
 
 interface Props {
-  events: EventWithRoutesViewEntity[] | null | undefined;
+  events: EventsViewEntity[] | null | undefined;
 }
 
 const TrendEventCard = ({ events }: Props) => {
