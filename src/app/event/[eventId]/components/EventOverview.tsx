@@ -3,8 +3,10 @@ import OverviewImage from './images/event-overview.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import FestivalLifeImage from './images/festival-life.png';
+import Day6Image from './images/event_detail_day6.png';
 
 const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
+const DAY6_EVENT_ID = '607444571516834876';
 
 interface Props {
   eventId: string;
@@ -12,13 +14,18 @@ interface Props {
 
 const EventOverview = ({ eventId }: Props) => {
   const showFestivalLife = eventId === FESTIVAL_LIFE_EVENT_ID;
+  const showDay6 = eventId === DAY6_EVENT_ID;
 
   return (
     <section>
       {showFestivalLife && (
         <Image src={FestivalLifeImage} alt="festival life" />
       )}
-      <Image src={OverviewImage} alt="event overview" />
+      {showDay6 ? (
+        <Image src={Day6Image} alt="day6 event information detail" />
+      ) : (
+        <Image src={OverviewImage} alt="event overview" />
+      )}
       <div className="flex flex-col justify-center bg-basic-grey-50 px-32 pb-44">
         <Link
           href="/help/handybus-guide"

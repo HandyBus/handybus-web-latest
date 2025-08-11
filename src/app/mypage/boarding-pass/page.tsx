@@ -11,6 +11,7 @@ import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { useGetUser } from '@/services/user.service';
+import useBoardingPassData from './hooks/useBoardingPassData';
 
 interface Props {
   searchParams: {
@@ -20,7 +21,6 @@ interface Props {
 
 const BoardingPassPage = ({ searchParams }: Props) => {
   const { reservationId } = searchParams;
-  const [currentTripType, setCurrentTripType] = useState<'가는편' | '오는편'>();
   const {
     data,
     isLoading: isReservationLoading,
@@ -34,8 +34,23 @@ const BoardingPassPage = ({ searchParams }: Props) => {
     isError: isUserError,
   } = useGetUser();
 
+  const isUserMe = user?.userId === data?.reservation.userId;
+  const isLoading = isReservationLoading || isUserLoading;
+  const isError = isReservationError || isUserError;
+
+  if (isLoading) return <Loading />;
+  if (!isUserMe || isError || !reservation)
+    throw new Error('유효하지 않은 데이터 혹은 잘못된 접근입니다');
+  return <BoardingPass reservation={reservation} />;
+};
+
+interface BoardingPassProps {
+  reservation: ReservationsViewEntity;
+}
+
+const BoardingPass = ({ reservation }: BoardingPassProps) => {
+  const [currentTripType, setCurrentTripType] = useState<'가는편' | '오는편'>();
   useEffect(() => {
-    if (!reservation) return;
     setCurrentTripType(
       reservation?.type === 'ROUND_TRIP'
         ? '가는편'
@@ -47,87 +62,25 @@ const BoardingPassPage = ({ searchParams }: Props) => {
     );
   }, [reservation]);
 
-  const isUserMe = user?.userId === data?.reservation.userId;
-  const isLoading = isReservationLoading || isUserLoading;
-  const isError = isReservationError || isUserError;
-
-  if (isLoading) return <Loading />;
-  if (!isUserMe && isError)
-    throw new Error('유효하지 않은 데이터 혹은 잘못된 접근입니다');
-
-  const isRoundTrip = reservation?.type === 'ROUND_TRIP';
-
-  const shuttleName = reservation?.shuttleRoute.name;
-  const fromDestinationShuttleRouteHubs =
-    reservation?.shuttleRoute.fromDestinationShuttleRouteHubs;
-  const toDestinationShuttleRouteHubs =
-    reservation?.shuttleRoute.toDestinationShuttleRouteHubs;
-
-  const selectedHubToDestination = reservation?.toDestinationShuttleRouteHubId;
-  const selectedHubFromDestination =
-    reservation?.fromDestinationShuttleRouteHubId;
-
-  const selectedHubNameToDestination = toDestinationShuttleRouteHubs?.find(
-    (hub) => hub.shuttleRouteHubId === selectedHubToDestination,
-  )?.name;
-  const selectedHubNameFromDestination = fromDestinationShuttleRouteHubs?.find(
-    (hub) => hub.shuttleRouteHubId === selectedHubFromDestination,
-  )?.name;
-
-  const arrivalHubNameToDestination =
-    toDestinationShuttleRouteHubs?.[toDestinationShuttleRouteHubs?.length - 1]
-      ?.name;
-  const departureHubNameFromDestination =
-    fromDestinationShuttleRouteHubs?.[0]?.name;
-
-  const boardingTimeToDestination =
-    reservation?.shuttleRoute.toDestinationShuttleRouteHubs?.find(
-      (hub) => hub.shuttleRouteHubId === selectedHubToDestination,
-    )?.arrivalTime;
-  const arrivalTimeToDestination =
-    reservation?.shuttleRoute.toDestinationShuttleRouteHubs?.[
-      reservation?.shuttleRoute.toDestinationShuttleRouteHubs?.length - 1
-    ]?.arrivalTime;
-
-  const boardingTimeFromDestination =
-    reservation?.shuttleRoute.fromDestinationShuttleRouteHubs?.[0]?.arrivalTime;
-  const arrivalTimeFromDestination =
-    reservation?.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
-      (hub) => hub.shuttleRouteHubId === selectedHubFromDestination,
-    )?.arrivalTime;
-
-  const formatDuration = (duration: number) => {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
-    const underTenMinutes = minutes < 10;
-    return `${hours > 0 ? `${hours}시간 ` : ''}${
-      underTenMinutes ? `0${minutes}` : minutes
-    }분`;
-  };
-
-  const durationToDestination = formatDuration(
-    dayjs(arrivalTimeToDestination)
-      .startOf('minute')
-      .diff(dayjs(boardingTimeToDestination).startOf('minute'), 'minute'),
-  );
-
-  const durationFromDestination = formatDuration(
-    dayjs(arrivalTimeFromDestination)
-      .startOf('minute')
-      .diff(dayjs(boardingTimeFromDestination).startOf('minute'), 'minute'),
-  );
-
-  const dailyEvent = reservation?.shuttleRoute.event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation?.shuttleRoute.dailyEventId,
-  );
-  const noticeRoomUrl = dailyEvent?.metadata?.openChatUrl;
-
-  const openOpenChatLink = () => {
-    if (noticeRoomUrl) {
-      window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
+  const {
+    isRoundTrip,
+    shuttleName,
+    selectedHubNameToDestination,
+    selectedHubNameFromDestination,
+    arrivalHubNameToDestination,
+    departureHubNameFromDestination,
+    boardingTimeToDestination,
+    arrivalTimeToDestination,
+    boardingTimeFromDestination,
+    arrivalTimeFromDestination,
+    durationToDestination,
+    durationFromDestination,
+    passengerCount,
+    userName,
+    userPhoneNumber,
+    noticeRoomUrl,
+    openOpenChatLink,
+  } = useBoardingPassData(reservation);
 
   return (
     // 피시와 모바일 환경 모두에서 화면 높이를 설정
@@ -186,7 +139,7 @@ const BoardingPassPage = ({ searchParams }: Props) => {
                   <div className="flex gap-[6px]">
                     {/* 태그 */}
                     <Tag type="departure" />
-                    {/* 탑승지/하차지 */}
+                    {/* 탑승지 */}
                     <p className="text-24 font-700 leading-[140%]">
                       {currentTripType === '가는편'
                         ? selectedHubNameToDestination
@@ -199,7 +152,7 @@ const BoardingPassPage = ({ searchParams }: Props) => {
                   <div className="flex gap-[6px]">
                     {/* 태그 */}
                     <Tag type="arrival" />
-                    {/* 탑승지/하차지 */}
+                    {/* 하차지 */}
                     <p className="text-24 font-700 leading-[140%]">
                       {currentTripType === '가는편'
                         ? arrivalHubNameToDestination
@@ -254,8 +207,25 @@ const BoardingPassPage = ({ searchParams }: Props) => {
               <div className="mx-16 border-[1px] border-dashed border-basic-grey-300"></div>
             </div>
 
-            {/* 예상소요시간 및 좌석 */}
-            <section className="flex flex-col gap-16 px-16 py-24">
+            {/* 탑승인원, 예상소요시간 및 좌석 */}
+            <section className="grid grid-cols-2 gap-16 px-16 py-24">
+              <div className="flex flex-col gap-8">
+                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                  탑승자 정보
+                </h2>
+                <div className="text-18 font-600 leading-[160%]">
+                  <span className="block">{userName}</span>
+                  <span className="block">({userPhoneNumber})</span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-8">
+                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                  탑승인원
+                </h2>
+                <p className="text-18 font-600 leading-[160%]">
+                  {passengerCount}명
+                </p>
+              </div>
               <div className="flex flex-col gap-8">
                 <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
                   예상 소요시간
@@ -349,6 +319,7 @@ const Tag = ({ type }: { type: 'departure' | 'arrival' }) => {
 
 import PinIcon from './icons/pin-primary.svg';
 import DotPrimaryIcon from './icons/dot-primary.svg';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 
 const SimpleRouteLine = () => {
   return (
