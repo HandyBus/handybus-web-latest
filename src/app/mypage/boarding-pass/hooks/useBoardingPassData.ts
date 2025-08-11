@@ -1,6 +1,7 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 
+// 편도노선일 경우를 함께 고려하여 검증
 const useBoardingPassData = (reservation: ReservationsViewEntity) => {
   const isRoundTrip = reservation.type === 'ROUND_TRIP';
 
@@ -17,50 +18,42 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
   const selectedHubNameToDestination = toDestinationShuttleRouteHubs?.find(
     (hub) => hub.shuttleRouteHubId === selectedHubToDestination,
   )?.name;
-  if (!selectedHubNameToDestination)
-    throw new Error('가는편 선택한 정류장의 정보가 없습니다.');
   const selectedHubNameFromDestination = fromDestinationShuttleRouteHubs?.find(
     (hub) => hub.shuttleRouteHubId === selectedHubFromDestination,
   )?.name;
-  if (!selectedHubNameFromDestination)
-    throw new Error('오는편 선택한 정류장의 정보가 없습니다.');
+  if (!selectedHubNameToDestination && !selectedHubNameFromDestination)
+    throw new Error('선택한 정류장의 정보가 없습니다.');
 
   const arrivalHubNameToDestination = toDestinationShuttleRouteHubs?.find(
     (hub) => hub.sequence === toDestinationShuttleRouteHubs?.length,
   )?.name;
-  if (!arrivalHubNameToDestination)
-    throw new Error('가는편 도착 정류장의 정보가 없습니다.');
   const departureHubNameFromDestination = fromDestinationShuttleRouteHubs?.find(
     (hub) => hub.sequence === 1,
   )?.name;
-  if (!departureHubNameFromDestination)
-    throw new Error('오는편 출발 정류장의 정보가 없습니다.');
+  if (!arrivalHubNameToDestination && !departureHubNameFromDestination)
+    throw new Error('행사장의 정보가 없습니다.');
 
   const boardingTimeToDestination =
     reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
       (hub) => hub.shuttleRouteHubId === selectedHubToDestination,
     )?.arrivalTime;
-  if (!boardingTimeToDestination)
-    throw new Error('가는편 탑승 시간의 정보가 없습니다.');
-  const arrivalTimeToDestination =
-    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
-      (hub) => hub.sequence === toDestinationShuttleRouteHubs?.length,
-    )?.arrivalTime;
-  if (!arrivalTimeToDestination)
-    throw new Error('가는편 도착 시간의 정보가 없습니다.');
-
   const boardingTimeFromDestination =
     reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
       (hub) => hub.sequence === 1,
     )?.arrivalTime;
-  if (!boardingTimeFromDestination)
-    throw new Error('오는편 탑승 시간의 정보가 없습니다.');
+  if (!boardingTimeToDestination && !boardingTimeFromDestination)
+    throw new Error('탑승 시간의 정보가 없습니다.');
+
+  const arrivalTimeToDestination =
+    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+      (hub) => hub.sequence === toDestinationShuttleRouteHubs?.length,
+    )?.arrivalTime;
   const arrivalTimeFromDestination =
     reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
       (hub) => hub.shuttleRouteHubId === selectedHubFromDestination,
     )?.arrivalTime;
-  if (!arrivalTimeFromDestination)
-    throw new Error('오는편 도착 시간의 정보가 없습니다.');
+  if (!arrivalTimeToDestination && !arrivalTimeFromDestination)
+    throw new Error('도착 시간의 정보가 없습니다.');
 
   const formatDuration = (duration: number) => {
     const hours = Math.floor(duration / 60);
