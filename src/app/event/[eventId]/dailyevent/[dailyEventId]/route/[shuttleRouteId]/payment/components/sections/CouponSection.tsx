@@ -102,7 +102,7 @@ const CouponSection = ({
           },
         }}
       >
-        <ul className="flex flex-col gap-24 py-12">
+        <ul className="flex max-h-[300px] flex-col gap-24 overflow-y-auto py-12">
           <button
             type="button"
             onClick={() => setStagedSelectedCoupon(null)}
