@@ -76,6 +76,8 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
     durationToDestination,
     durationFromDestination,
     passengerCount,
+    userName,
+    userPhoneNumber,
     noticeRoomUrl,
     openOpenChatLink,
   } = useBoardingPassData(reservation);
@@ -206,7 +208,16 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
             </div>
 
             {/* 탑승인원, 예상소요시간 및 좌석 */}
-            <section className="flex flex-col gap-16 px-16 py-24">
+            <section className="grid grid-cols-2 gap-16 px-16 py-24">
+              <div className="flex flex-col gap-8">
+                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                  탑승자 정보
+                </h2>
+                <div className="text-18 font-600 leading-[160%]">
+                  <span className="block">{userName}</span>
+                  <span className="block">({userPhoneNumber})</span>
+                </div>
+              </div>
               <div className="flex flex-col gap-8">
                 <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
                   탑승인원

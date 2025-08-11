@@ -83,6 +83,10 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
       .diff(dayjs(boardingTimeFromDestination).startOf('minute'), 'minute'),
   );
 
+  const userName = reservation.userName;
+
+  const userPhoneNumber = formatPhoneNumber(reservation.userPhoneNumber);
+
   const passengerCount = reservation.passengerCount;
 
   const dailyEvent = reservation.shuttleRoute.event.dailyEvents.find(
@@ -111,9 +115,32 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
     durationToDestination,
     durationFromDestination,
     passengerCount,
+    userName,
+    userPhoneNumber,
     noticeRoomUrl,
     openOpenChatLink,
   };
 };
 
 export default useBoardingPassData;
+
+/* 
+  핸드폰번호를 한국 형식으로 변환하는 함수
+   - +82로 시작하는 경우 제거하고 0으로 시작하도록 변환
+   - 11자리인 경우 (01012345678 -> 010-1234-5678)
+   - 10자리인 경우 (0101234567 -> 010-123-4567)
+   - 변환할 수 없는 경우 원본 반환
+*/
+const formatPhoneNumber = (phoneNumber: string) => {
+  const digits = phoneNumber.replace(/^\+82/, '0').replace(/\D/g, '');
+
+  if (digits.length === 11) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+  }
+
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  return phoneNumber;
+};
