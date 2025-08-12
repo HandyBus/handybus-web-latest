@@ -24,9 +24,9 @@ const SuccessScreen = ({
           쿠폰이 발급되었어요
         </h3>
         <p className="mb-24 text-center text-16 font-500 text-basic-grey-600">
-          셔틀이 열리면 카카오톡으로 알려드릴게요.
+          신청하신 정류장 또는 인근 정류장에서
           <br />
-          예약 시 할인 쿠폰을 사용할 수 있어요.
+          셔틀이 열리면 알려드릴게요.
         </p>
         <SuccessIcon />
       </section>
