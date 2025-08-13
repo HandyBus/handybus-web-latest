@@ -67,7 +67,7 @@ const DemandCard = ({ demand }: Props) => {
     } else {
       return (
         <span>
-          현재{' '}
+          이 정류장은{' '}
           <span className="text-brand-primary-400">
             {demand.demandCountOnRegion}
           </span>

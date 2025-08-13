@@ -12,6 +12,10 @@ import Script from 'next/script';
 import 'react-loading-skeleton/dist/skeleton.css';
 // import ServiceMaintenanceScreen from '@/components/service-maintenance-screen/ServiceMaintenanceScreen';
 
+const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
+const FAVICON_PROD = '/favicons/favicon.ico';
+const FAVICON_DEV = '/favicons/favicon-dev.png';
+
 export const metadata: Metadata = {
   title: {
     template: `%s | ${TITLE}`,
@@ -19,6 +23,11 @@ export const metadata: Metadata = {
   },
   description: DESCRIPTION,
   keywords: KEYWORDS,
+  icons: {
+    icon: isProduction
+      ? [{ url: FAVICON_PROD, type: 'image/x-icon' }]
+      : [{ url: FAVICON_DEV, type: 'image/png' }],
+  },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
