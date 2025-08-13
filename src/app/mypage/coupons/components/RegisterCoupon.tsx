@@ -29,7 +29,7 @@ const RegisterCoupon = () => {
       } else if (error.statusCode === 409) {
         toast.error('이미 등록된 쿠폰이에요.');
       } else if (error.statusCode === 400) {
-        toast.error('쿠폰이 만료되었어요.');
+        toast.error(error.message);
       } else {
         toast.error('쿠폰을 등록하지 못했어요.');
       }
