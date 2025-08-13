@@ -18,11 +18,11 @@ const useText = ({ demand }: Props) => {
       return {
         progressText: (
           <span className="text-brand-primary-400">
-            요청한 정류장을 예약할 수 있어요
+            해당 구간의 셔틀을 예약할 수 있어요
           </span>
         ),
         descriptionText:
-          '좌석이 남아있을 때 미리 예약해 주세요. 마감 후엔 빈자리 알림을 통해 예약 가능 여부를 받아보실 수 있어요.',
+          '좌석이 남아있을 때 미리 예약해 주세요. 마감 후엔 빈자리 알림을 통해 예약 가능 여부를 받아보실 수 있어요. 요청하신 정류장 대신 인근 정류장에서 예약이 열릴 수 있습니다.',
       };
     } else if (isReservationOngoing && isDemandFulfilled) {
       return {
@@ -32,7 +32,7 @@ const useText = ({ demand }: Props) => {
       };
     } else {
       return {
-        progressText: `${demand.demandCountOnRegion}명이 요청했어요.`,
+        progressText: `같은 정류장을 ${demand.demandCountOnRegion}명이 요청했어요.`,
         descriptionText:
           '셔틀 개설 기준은 행사마다 달라져요. 인원 수 기준은 따로 제공되지 않는 점 양해 부탁드려요.',
       };
