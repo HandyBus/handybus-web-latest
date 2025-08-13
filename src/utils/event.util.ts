@@ -44,9 +44,16 @@ export const getRemainingSeat = (
   route: ShuttleRoutesViewEntity,
 ): RemainingSeat => {
   const maxSeatCount = route.maxPassengerCount ?? 0;
-  const toDestinationCount = maxSeatCount - (route?.toDestinationCount ?? 0);
+  const toDestinationCount =
+    route.regularPriceToDestination !== null &&
+    route.regularPriceToDestination > 0
+      ? maxSeatCount - (route?.toDestinationCount ?? 0)
+      : 0;
   const fromDestinationCount =
-    maxSeatCount - (route?.fromDestinationCount ?? 0);
+    route.regularPriceFromDestination !== null &&
+    route.regularPriceFromDestination > 0
+      ? maxSeatCount - (route?.fromDestinationCount ?? 0)
+      : 0;
   const roundTripCount = Math.min(toDestinationCount, fromDestinationCount);
 
   return {
