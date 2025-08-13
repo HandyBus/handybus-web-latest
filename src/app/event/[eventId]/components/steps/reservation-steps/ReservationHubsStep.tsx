@@ -199,7 +199,7 @@ const Hub = ({
         : '오는 편');
 
   return (
-    <div key={hub.regionHubId} className="relative w-full">
+    <div key={hub.regionHubId} className="relative flex w-full items-center">
       <button
         type="button"
         onClick={() => handleHubClick(possibleHubs)}
