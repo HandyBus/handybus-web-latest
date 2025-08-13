@@ -82,12 +82,16 @@ export const getHubsWithInfoInRoute = (
 
   const toDestinationHubs =
     route.toDestinationShuttleRouteHubs &&
-    route.toDestinationShuttleRouteHubs.length > 0
+    route.toDestinationShuttleRouteHubs.length > 0 &&
+    route.regularPriceToDestination !== null &&
+    route.regularPriceToDestination > 0
       ? route.toDestinationShuttleRouteHubs.filter((hub) => hub.role === 'HUB')
       : null;
   const fromDestinationHubs =
     route.fromDestinationShuttleRouteHubs &&
-    route.fromDestinationShuttleRouteHubs.length > 0
+    route.fromDestinationShuttleRouteHubs.length > 0 &&
+    route.regularPriceFromDestination !== null &&
+    route.regularPriceFromDestination > 0
       ? route.fromDestinationShuttleRouteHubs.filter(
           (hub) => hub.role === 'HUB',
         )
