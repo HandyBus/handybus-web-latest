@@ -22,17 +22,21 @@ interface Props {
   eventId: string;
   eventName: string;
   isBottomSheetOpen: boolean;
+  isActive?: boolean; // 추적 활성화 여부
 }
 
 const useDemandTracking = ({
   eventId,
   eventName,
   isBottomSheetOpen,
+  isActive = true,
 }: Props) => {
   const demandStartTimeRef = useRef<Dayjs | null>(null);
   const currentStepRef = useRef<DemandStep | null>(null);
 
   const setDemandTrackingStep = (eventStep: (typeof EVENT_STEPS)[number]) => {
+    if (!isActive) return; // 비활성화 시 추적하지 않음
+
     const demandStep = EVENT_STEP_TO_DEMAND_STEP.hasOwnProperty(eventStep)
       ? EVENT_STEP_TO_DEMAND_STEP[eventStep]
       : undefined;
@@ -45,12 +49,15 @@ const useDemandTracking = ({
   };
 
   const trackEnterDemand = useCallback(() => {
+    if (!isActive) return; // 비활성화 시 추적하지 않음
     demandStartTimeRef.current = dayjs();
     gtagEnterDemand(eventId, eventName);
-  }, [eventId, eventName]);
+  }, [eventId, eventName, isActive]);
 
   const trackAbandonDemand = useCallback(
     (exitType: 'page_leave' | 'bottom_sheet_close') => {
+      if (!isActive) return; // 비활성화 시 추적하지 않음
+
       const demandStartTime = demandStartTimeRef.current;
       const currentStep = currentStepRef.current;
 
@@ -62,12 +69,15 @@ const useDemandTracking = ({
       gtagAbandonDemand(currentStep, exitType, eventId, eventName, totalTimeMs);
 
       demandStartTimeRef.current = null;
+      currentStepRef.current = null;
     },
-    [eventId, eventName],
+    [eventId, eventName, isActive],
   );
 
   const trackCompleteDemand = useCallback(
     (selectedHub: string, tripType: string, eventDate: string) => {
+      if (!isActive) return; // 비활성화 시 추적하지 않음
+
       const demandStartTime = demandStartTimeRef.current;
       if (!demandStartTime) {
         return;
@@ -85,10 +95,12 @@ const useDemandTracking = ({
 
       demandStartTimeRef.current = null;
     },
-    [eventId, eventName],
+    [eventId, eventName, isActive],
   );
 
   useEffect(() => {
+    if (!isActive) return; // 비활성화 시 이벤트 리스너 등록하지 않음
+
     const handleBeforeUnload = () => {
       trackAbandonDemand('page_leave');
     };
@@ -112,17 +124,17 @@ const useDemandTracking = ({
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [trackAbandonDemand]);
+  }, [trackAbandonDemand, isActive]);
 
   useEffect(() => {
+    if (!isActive) return; // 비활성화 시 추적하지 않음
     if (!isBottomSheetOpen) {
       trackAbandonDemand('bottom_sheet_close');
     }
-  }, [isBottomSheetOpen, trackAbandonDemand]);
+  }, [isBottomSheetOpen, trackAbandonDemand, isActive]);
 
   return {
     trackEnterDemand,
-    trackAbandonDemand,
     trackCompleteDemand,
     setDemandTrackingStep,
   };

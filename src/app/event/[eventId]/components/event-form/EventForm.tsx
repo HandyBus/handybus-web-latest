@@ -42,6 +42,7 @@ import {
 } from '@/utils/handyParty.util';
 import { HANDY_PARTY_AREA_GUIDE_ID } from '../EventInfo';
 import ShareBottomSheet from './components/ShareBottomSheet';
+import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 
 interface Props {
   event: EventsViewEntity;
@@ -178,6 +179,11 @@ const Content = ({
       trackEnterDemand();
     }
 
+    // 예약 단계에서 바텀시트 열기 시 추적
+    if (phase === 'reservation') {
+      trackEnterReservation(event.eventId, event.eventName);
+    }
+
     if (
       isCheckRouteDetailViewFlow &&
       !isCheckRouteDetailFlowViewed &&
@@ -217,16 +223,31 @@ const Content = ({
     onClose: onBottomSheetClose,
   });
 
+  // 플로우별 조건부 추적 (훅은 항상 호출하되 내부에서 조건 처리)
   const { trackEnterDemand, trackCompleteDemand, setDemandTrackingStep } =
     useDemandTracking({
       eventId: event.eventId,
       eventName: event.eventName,
       isBottomSheetOpen: isOpen,
+      isActive: phase === 'demand', // 수요조사 플로우일 때만 활성화
+    });
+
+  const { trackEnterReservation, setReservationTrackingStep } =
+    useReservationTracking({
+      eventId: event.eventId,
+      eventName: event.eventName,
+      isBottomSheetOpen: isOpen,
+      isActive: phase === 'reservation', // 예약 플로우일 때만 활성화
     });
 
   useEffect(() => {
-    setDemandTrackingStep(stepName);
-  }, [stepName, setDemandTrackingStep]);
+    // 현재 플로우에 따라서만 스텝 추적
+    if (phase === 'demand') {
+      setDemandTrackingStep(stepName);
+    } else if (phase === 'reservation') {
+      setReservationTrackingStep(stepName);
+    }
+  }, [stepName, phase, setDemandTrackingStep, setReservationTrackingStep]);
 
   const { title: bottomSheetTitle, description: bottomSheetDescription } =
     useBottomSheetText({ stepName, getValues: methods.getValues });

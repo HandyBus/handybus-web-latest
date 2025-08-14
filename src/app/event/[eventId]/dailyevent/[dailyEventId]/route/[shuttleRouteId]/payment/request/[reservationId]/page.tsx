@@ -4,9 +4,14 @@ import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import Link from 'next/link';
 import SuccessBusIcon from '../icons/bus-success.svg';
-import { useGetUserReservation } from '@/services/reservation.service';
+import {
+  useGetUserReservation,
+  useGetUserReservations,
+} from '@/services/reservation.service';
 import Loading from '@/components/loading/Loading';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
+import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
+import { ReservationsViewEntity } from '@/types/reservation.type';
 
 interface Props {
   params: {
@@ -21,14 +26,41 @@ const PaymentsCompleted = ({ params }: Props) => {
   const { data, isLoading, isError } = useGetUserReservation(reservationId);
 
   if (isLoading) return <Loading />;
-  if (isError) throw new Error('예약 정보를 불러오는데 실패했습니다.');
+  if (isError || !data) throw new Error('예약 정보를 불러오는데 실패했습니다.');
+  return (
+    <PaymentsCompletedPage
+      reservation={data.reservation}
+      eventId={params.eventId}
+    />
+  );
+};
 
+interface PaymentsCompletedPageProps {
+  reservation: ReservationsViewEntity;
+  eventId: string;
+}
+
+const PaymentsCompletedPage = ({
+  reservation,
+  eventId,
+}: PaymentsCompletedPageProps) => {
   const isHandyParty =
-    data?.reservation.shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
-  const dailyEventId = data?.reservation.shuttleRoute.dailyEventId;
-  const noticeRoomUrl = data?.reservation.shuttleRoute.event.dailyEvents.find(
+    reservation.shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
+  const dailyEventId = reservation.shuttleRoute.dailyEventId;
+  const noticeRoomUrl = reservation.shuttleRoute.event.dailyEvents.find(
     (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
   )?.metadata?.openChatUrl;
+
+  const eventName = reservation.shuttleRoute.event.eventName;
+
+  const { executeTracking } = useCompleteReservationTracking({
+    eventId,
+    eventName,
+    reservation,
+    dailyEventId,
+  });
+
+  executeTracking();
 
   if (isHandyParty) {
     return (
@@ -41,7 +73,7 @@ const PaymentsCompleted = ({ params }: Props) => {
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href={`/event/${params.eventId}`}>
+          <Link href={`/event/${eventId}`}>
             <Button>완료</Button>
           </Link>
         </div>
@@ -73,7 +105,7 @@ const PaymentsCompleted = ({ params }: Props) => {
           >
             공지방 입장하기
           </Button>
-          <Link href={`/event/${params.eventId}`}>
+          <Link href={`/event/${eventId}`}>
             <Button variant="secondary">완료</Button>
           </Link>
         </div>
@@ -83,3 +115,74 @@ const PaymentsCompleted = ({ params }: Props) => {
 };
 
 export default PaymentsCompleted;
+
+// 커스텀 훅: 예약 완료 추적
+interface UseCompleteReservationTrackingProps {
+  eventId: string;
+  eventName: string;
+  reservation: ReservationsViewEntity;
+  dailyEventId: string;
+}
+
+const useCompleteReservationTracking = ({
+  eventId,
+  eventName,
+  reservation,
+  dailyEventId,
+}: UseCompleteReservationTrackingProps) => {
+  const eventDate = reservation.shuttleRoute.event.dailyEvents.find(
+    (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
+  )?.date;
+
+  const tripType = reservation.type;
+
+  const selectedHubToDestination = reservation.toDestinationShuttleRouteHubId;
+  const selectedHubFromDestination =
+    reservation.fromDestinationShuttleRouteHubId;
+
+  const selectedHubNameToDestination =
+    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+      (hub) => hub.shuttleRouteHubId === selectedHubToDestination,
+    )?.name;
+
+  const selectedHubNameFromDestination =
+    reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+      (hub) => hub.shuttleRouteHubId === selectedHubFromDestination,
+    )?.name;
+
+  const { data: userReservations } = useGetUserReservations({
+    eventProgressStatus: 'PAST',
+  });
+
+  const hasOtherEventReservation = userReservations?.some(
+    (reservation) => reservation.shuttleRoute.eventId !== eventId,
+  );
+
+  const { trackCompleteReservation } = useReservationTracking({
+    eventId,
+    eventName,
+    isBottomSheetOpen: false,
+  });
+
+  // 완료 예약 추적 실행
+  const executeTracking = () => {
+    trackCompleteReservation(
+      eventDate,
+      selectedHubNameToDestination,
+      selectedHubNameFromDestination,
+      tripType,
+      hasOtherEventReservation,
+    );
+  };
+
+  return {
+    executeTracking,
+    trackingData: {
+      eventDate,
+      selectedHubNameToDestination,
+      selectedHubNameFromDestination,
+      tripType,
+      hasOtherEventReservation,
+    },
+  };
+};
