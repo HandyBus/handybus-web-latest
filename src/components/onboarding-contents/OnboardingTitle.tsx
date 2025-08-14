@@ -7,9 +7,11 @@ interface Props {
 
 const OnboardingTitle = ({ title, description }: Props) => {
   return (
-    <div className="px-28 py-16">
-      <h2 className="text-basic-grey-700 pb-[6px] text-26 font-700">{title}</h2>
-      <p className="text-basic-grey-500 text-14 font-600">{description}</p>
+    <div className="p-24">
+      <h2 className="pb-[6px] text-22 font-700 leading-[140%] text-basic-black">
+        {title}
+      </h2>
+      <p className="text-14 font-600 text-basic-grey-500">{description}</p>
     </div>
   );
 };

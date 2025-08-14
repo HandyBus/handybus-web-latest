@@ -5,6 +5,7 @@ import { OnboardingFormValues } from './onboarding.type';
 import RadioButtons from '../buttons/radio-buttons/RadioButtons';
 import { ERROR_MESSAGES } from './formValidation.const';
 import OnboardingTitle from './OnboardingTitle';
+import { ReactNode } from 'react';
 
 const GENDER_OPTIONS = ['여성', '남성'] as const;
 const AGE_OPTIONS = [
@@ -18,14 +19,18 @@ const AGE_OPTIONS = [
   '80대 이상',
 ] as const;
 
-const PersonalInfoContent = () => {
+interface Props {
+  title: string | ReactNode;
+}
+
+const PersonalInfoContent = ({ title }: Props) => {
   const { control, setValue } = useFormContext<OnboardingFormValues>();
 
   return (
     <>
-      <OnboardingTitle title="성별과 연령대를 알려주세요" />
+      <OnboardingTitle title={title} />
       <div className="w-full px-28">
-        <div className="mb-16 text-16 font-500 text-basic-grey-600">
+        <div className="mb-16 text-16 font-500 text-basic-black">
           성별을 선택해주세요
         </div>
         <RadioButtons
@@ -39,7 +44,7 @@ const PersonalInfoContent = () => {
         />
       </div>
       <div className="w-full px-28">
-        <div className="mb-16 text-16 font-500 text-basic-grey-600">
+        <div className="mb-16 text-16 font-500 text-basic-black">
           연령대를 선택해주세요
         </div>
         <RadioButtons

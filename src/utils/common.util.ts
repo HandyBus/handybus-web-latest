@@ -6,8 +6,10 @@ import dayjs from 'dayjs';
 import { SyntheticEvent } from 'react';
 
 // +821012345678 -> 01012345678
-export const formatPhoneNumber = (phoneNumber: string) => {
-  return '0' + phoneNumber.slice(3);
+export const formatPhoneNumber = (phoneNumber: string, withHyphen = false) => {
+  const basePhoneNUmber = '0' + phoneNumber.slice(3);
+  const withHyphenPhoneNumber = `${basePhoneNUmber.slice(0, 3)}-${basePhoneNUmber.slice(3, 7)}-${basePhoneNUmber.slice(7)}`;
+  return withHyphen ? withHyphenPhoneNumber : basePhoneNUmber;
 };
 
 export const getBoardingTime = ({
