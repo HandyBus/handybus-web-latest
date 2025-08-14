@@ -3,7 +3,7 @@ export class CustomError extends Error {
     public statusCode: number,
     message: string,
   ) {
-    super(message);
+    super(statusCode + ' ' + message);
     this.name = 'CustomError';
   }
 }

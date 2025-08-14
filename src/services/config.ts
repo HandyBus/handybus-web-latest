@@ -79,9 +79,7 @@ class Instance {
       return silentParse(schema, data, { useToast: getNotifiedUsingToast });
     } catch (e) {
       // response가 없는 경우
-      if (res.status === 204) {
-        throw new CustomError(res.status, 'No Content');
-      } else if (res.status >= 400) {
+      if (res.status >= 400) {
         throw new CustomError(
           res.status,
           e instanceof Error ? e.message : '알 수 없는 오류',
