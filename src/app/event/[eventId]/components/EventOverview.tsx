@@ -4,6 +4,7 @@ import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import FestivalLifeImage from './images/festival-life.png';
 import Day6Image from './images/event_detail_day6.png';
+import MuseImage from './images/event_detail_muse.png';
 
 const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
 const DAY6_EVENT_ID = '607444571516834876';
@@ -26,7 +27,7 @@ const EventOverview = ({ eventId }: Props) => {
       {showDay6 ? (
         <Image src={Day6Image} alt="day6 event information detail" />
       ) : showMuse ? (
-        <Image src={Day6Image} alt="muse event overview" />
+        <Image src={MuseImage} alt="muse event overview" />
       ) : (
         <Image src={OverviewImage} alt="event overview" />
       )}
