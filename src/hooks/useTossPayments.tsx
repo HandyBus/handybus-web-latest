@@ -110,12 +110,14 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
     successUrl,
     failUrl,
     onError,
+    markAsIntentionalNavigation,
   }: {
     orderId: string;
     orderName: string;
     successUrl: string;
     failUrl: string;
     onError?: (error: CustomError) => void;
+    markAsIntentionalNavigation?: (hasNoTimeout: boolean) => void;
   }) => {
     if (!tossWidgets.current) {
       return;
@@ -123,6 +125,7 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
     setPaymentRequestLoading(true);
 
     try {
+      markAsIntentionalNavigation?.(true);
       await tossWidgets.current.requestPayment({
         orderId,
         orderName,

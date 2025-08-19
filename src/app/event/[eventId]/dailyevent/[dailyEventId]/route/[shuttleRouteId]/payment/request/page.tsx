@@ -10,13 +10,32 @@ import { getUserReservation } from '@/services/reservation.service';
 import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
 import RoadIcon from './icons/road.svg';
 import BusIcon from './icons/bus.svg';
+import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 
-const Page = () => {
+interface PageProps {
+  params: {
+    eventId: string;
+    dailyEventId: string;
+    shuttleRouteId: string;
+  };
+}
+
+const Page = ({ params }: PageProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const reservationId = searchParams.get('reservationId');
+  const reservationStartTime = searchParams.get('reservationStartTime');
   const isInitiated = useRef(false);
+
+  const { markAsIntentionalNavigation } = useReservationTracking({
+    eventId: params.eventId, // params에서 직접 가져오기
+    eventName: '결제 처리 중', // 실제 이벤트명을 모르므로 기본값
+    isBottomSheetOpen: false,
+    isActive: true,
+    reservationStartTime: reservationStartTime || undefined,
+    initialStep: 'request_payment',
+  });
 
   const polling = async (reservationId: string) => {
     const res = await getUserReservation(reservationId);
@@ -32,6 +51,7 @@ const Page = () => {
     try {
       await setTimeoutWithRetry(() => polling(reservationId), 3, 3000);
     } catch {
+      markAsIntentionalNavigation();
       router.replace(pathname + `/fail?code=${error?.statusCode}`);
     }
   };
@@ -46,7 +66,11 @@ const Page = () => {
       }
 
       const res = await postApprovePayment(orderId, paymentKey);
-      router.replace(pathname + `/${res.reservationId}`);
+      markAsIntentionalNavigation();
+      router.replace(
+        pathname +
+          `/${res.reservationId}${reservationStartTime ? `?reservationStartTime=${reservationStartTime}` : ''}`,
+      );
     } catch (e) {
       const error = e as CustomError;
       await handlePolling(reservationId ?? '', error);
