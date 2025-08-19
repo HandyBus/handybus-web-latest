@@ -28,8 +28,8 @@ const EditForm = ({ type, user }: Props) => {
   const methods = useForm<OnboardingFormValues>({
     defaultValues: {
       ...FORM_DEFAULT_VALUES,
-      nickname: user.nickname ?? '',
-      name: user.name ?? '',
+      nickname: user.nickname || '',
+      name: user.name || '',
       gender: user.gender === 'MALE' ? '남성' : '여성',
       age: user.ageRange === '연령대 미지정' ? undefined : user.ageRange,
       bigRegion: region?.bigRegion ?? undefined,
@@ -104,7 +104,7 @@ const EditForm = ({ type, user }: Props) => {
         return (
           <ProfileInfoContent
             hideTitle
-            initialName={user.name ?? user.nickname ?? ''}
+            initialName={user.name || user.nickname || ''}
             initialImageSrc={user.profileImage}
             setIsProfileImageReset={setIsProfileImageReset}
           />

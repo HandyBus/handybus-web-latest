@@ -14,7 +14,7 @@ const Header = () => {
     enabled: isLoggedIn !== null && isLoggedIn,
   });
   const profileImage = user?.profileImage;
-  const name = user?.name ?? user?.nickname;
+  const name = user?.name || user?.nickname;
 
   useEffect(() => {
     const isLoggedIn = getIsLoggedIn();

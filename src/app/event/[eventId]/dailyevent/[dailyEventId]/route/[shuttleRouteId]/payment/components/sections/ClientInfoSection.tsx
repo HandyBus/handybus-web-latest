@@ -17,7 +17,7 @@ const ClientInfoSection = ({ user }: Props) => {
             예약자명
           </p>
           <span className="text-14 font-600 leading-[160%]">
-            {user.name ?? user.nickname}
+            {user.name || user.nickname}
           </span>
         </li>
         <li className="flex gap-16">

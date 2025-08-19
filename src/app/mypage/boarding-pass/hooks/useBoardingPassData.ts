@@ -76,7 +76,7 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
       .diff(dayjs(boardingTimeFromDestination).startOf('minute'), 'minute'),
   );
 
-  const userName = reservation.userName;
+  const userName = reservation.userName || reservation.userNickname;
 
   const userPhoneNumber = formatPhoneNumber(reservation.userPhoneNumber);
 
