@@ -8,7 +8,7 @@ import EventOverview from './components/EventOverview';
 import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 
-const NO_DEMAND_REWARD_COUPON_EVENT_IDS = ['605615907175141432'];
+const NO_DEMAND_REWARD_COUPON_EVENT_IDS = ['612882322705879531'];
 
 interface Props {
   params: {

@@ -8,7 +8,7 @@ import MuseImage from './images/event_detail_muse.png';
 
 const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
 const DAY6_EVENT_ID = '607444571516834876';
-export const MUSE_EVENT_ID = '605615907175141432';
+export const MUSE_EVENT_ID = '612882322705879531';
 
 interface Props {
   eventId: string;
