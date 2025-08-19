@@ -79,7 +79,7 @@ const CommonSidoStep = ({
     const isMuseEvent = event?.eventId === MUSE_EVENT_ID;
 
     if (isMuseEvent && sido === '서울특별시') {
-      return false;
+      return true;
     }
 
     if (isDemandOpen) {
