@@ -63,16 +63,18 @@ const PaymentsCompleted = ({ params }: Props) => {
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Button
-            variant="primary"
-            size="large"
-            onClick={() => {
-              window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
-            }}
-            disabled={!noticeRoomUrl}
-          >
-            공지방 입장하기
-          </Button>
+          {noticeRoomUrl && (
+            <Button
+              variant="primary"
+              size="large"
+              onClick={() => {
+                window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
+              }}
+              disabled={!noticeRoomUrl}
+            >
+              공지방 입장하기
+            </Button>
+          )}
           <Link href={`/event/${params.eventId}`}>
             <Button variant="secondary">완료</Button>
           </Link>
