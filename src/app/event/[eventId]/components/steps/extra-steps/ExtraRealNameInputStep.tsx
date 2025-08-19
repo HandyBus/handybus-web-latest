@@ -12,7 +12,7 @@ import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
 import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 interface Props {
   closeBottomSheet: () => void;
 }

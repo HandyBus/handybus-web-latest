@@ -25,7 +25,7 @@ export const gtagEnterReservation = (
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'enter_reservation', {
-      event_category: 'reservation_funnel', // 이벤트 카테고리가 왜 들어가야 했지?
+      event_category: 'reservation_funnel',
       event_id: eventId,
       event_name: eventName.substring(0, 100),
       current_scroll_depth: currentScrollDepth,

@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { reservationTrackingMethodsAtom } from './reservationTracking.store';
+import { reservationTrackingMethodsAtom } from './store/reservationTracking.store';
 
 /**
  * 전역 상태에서 예약 추적 메소드들을 사용하는 훅

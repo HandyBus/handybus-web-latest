@@ -16,7 +16,7 @@ import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
 import { useGetUser } from '@/services/user.service';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 interface Props {
   closeBottomSheet: () => void;

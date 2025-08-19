@@ -13,7 +13,7 @@ import {
 import { useFormContext } from 'react-hook-form';
 import { createFullAvailableHandyPartyAreaGuideString } from '@/utils/handyParty.util';
 import { useEffect } from 'react';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 interface Props {
   onBack: () => void;

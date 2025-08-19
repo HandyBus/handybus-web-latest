@@ -7,7 +7,7 @@ import { EventEnabledStatus, EventPhase } from '@/utils/event.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 interface Props {
   eventId: string;

@@ -13,7 +13,7 @@ import { getHandyPartyArea } from '../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
 import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { useRouter } from 'next/navigation';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 const MAX_PASSENGER_COUNT = 5;
 

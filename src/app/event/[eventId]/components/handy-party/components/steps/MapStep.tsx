@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
 import { toast } from 'react-toastify';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 const DEFAULT_MAP_CENTER = {
   x: 127.02761,

@@ -15,7 +15,7 @@ import {
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 interface SearchResult extends AddressSearchResult {
   placeName: string;
