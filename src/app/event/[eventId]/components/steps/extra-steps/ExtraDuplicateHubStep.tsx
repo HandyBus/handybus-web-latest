@@ -15,6 +15,8 @@ import {
 import { isCheckRouteDetailViewFlowAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
+import { useMemo } from 'react';
+import dayjs from 'dayjs';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -33,6 +35,15 @@ const ExtraDuplicateHubStep = ({
     'dailyEvent',
   ]);
   const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
+
+  const sortedHubsWithInfoForDuplicates = useMemo(() => {
+    if (!hubsWithInfoForDuplicates) {
+      return [];
+    }
+    return hubsWithInfoForDuplicates.sort((a, b) => {
+      return dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime));
+    });
+  }, [hubsWithInfoForDuplicates]);
 
   const setSelectedHubWithInfoForDetailViewAtom = useSetAtom(
     selectedHubWithInfoForDetailViewAtom,
@@ -58,7 +69,7 @@ const ExtraDuplicateHubStep = ({
 
   return (
     <section className="flex w-full flex-col gap-8">
-      {hubsWithInfoForDuplicates?.map((hubWithInfo) => {
+      {sortedHubsWithInfoForDuplicates.map((hubWithInfo) => {
         const route = getRouteOfHubWithInfo({
           hubWithInfo,
           dailyEventIdsWithRoutes,
