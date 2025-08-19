@@ -22,6 +22,7 @@ interface Props {
     tripType: string,
     eventDate: string,
   ) => void;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
 const DemandHubInfoStep = ({
@@ -29,6 +30,7 @@ const DemandHubInfoStep = ({
   setDemandCompleteStatus,
   updateUserDemands,
   trackCompleteDemand,
+  isNoDemandRewardCouponEvent,
 }: Props) => {
   const event = useAtomValue(eventAtom);
   const { getValues } = useFormContext<EventFormValues>();
@@ -105,7 +107,9 @@ const DemandHubInfoStep = ({
   const handleClick = async () => {
     setIsLoading(true);
     await handleDemand();
-    await handleCoupon();
+    if (!isNoDemandRewardCouponEvent) {
+      await handleCoupon();
+    }
     closeBottomSheet();
     setIsLoading(false);
   };

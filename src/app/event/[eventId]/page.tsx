@@ -8,6 +8,8 @@ import EventOverview from './components/EventOverview';
 import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 
+const NO_DEMAND_REWARD_COUPON_EVENT_IDS = ['612882322705879531'];
+
 interface Props {
   params: {
     eventId: string;
@@ -17,6 +19,9 @@ interface Props {
 const Page = async ({ params }: Props) => {
   const event = await getEvent(params.eventId);
 
+  const isNoDemandRewardCouponEvent =
+    NO_DEMAND_REWARD_COUPON_EVENT_IDS.includes(event.eventId);
+
   return (
     <>
       <Header />
@@ -25,8 +30,14 @@ const Page = async ({ params }: Props) => {
           eventImageUrl={event.eventImageUrl}
           eventName={event.eventName}
         />
-        <EventInfo event={event} />
-        <EventContent event={event} />
+        <EventInfo
+          event={event}
+          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
+        />
+        <EventContent
+          event={event}
+          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
+        />
         <EventOverview eventId={params.eventId} />
         <EventGuidelines />
         <EventModal eventId={params.eventId} />

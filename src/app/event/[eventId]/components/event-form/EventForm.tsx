@@ -45,9 +45,10 @@ import ShareBottomSheet from './components/ShareBottomSheet';
 
 interface Props {
   event: EventsViewEntity;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
-const EventForm = ({ event }: Props) => {
+const EventForm = ({ event, isNoDemandRewardCouponEvent }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
 
@@ -102,6 +103,7 @@ const EventForm = ({ event }: Props) => {
         shuttleRoutes={shuttleRoutes}
         phase={phase}
         enabledStatus={enabledStatus}
+        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
       />
     </section>
   );
@@ -114,6 +116,7 @@ interface ContentProps {
   shuttleRoutes: ShuttleRoutesViewEntity[];
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
 const Content = ({
@@ -121,6 +124,7 @@ const Content = ({
   shuttleRoutes,
   phase,
   enabledStatus,
+  isNoDemandRewardCouponEvent,
 }: ContentProps) => {
   const { updateUserDemands, updateUserAlertRequests } = useEventInitialization(
     {
@@ -333,6 +337,7 @@ const Content = ({
                       phase={phase}
                       trackCompleteDemand={trackCompleteDemand}
                       setDemandCount={setDemandCount}
+                      isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
                     />
                   </Step>
                 ))}
@@ -343,10 +348,11 @@ const Content = ({
       </form>
       {demandCompleteStatus !== null && (
         <DemandCompleteScreen
-          status={demandCompleteStatus}
+          status={demandCompleteStatus ?? 'success'}
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
           openShareBottomSheet={openShareBottomSheet}
+          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
       )}
       {isAlertRequestFeedbackScreenOpen && (
