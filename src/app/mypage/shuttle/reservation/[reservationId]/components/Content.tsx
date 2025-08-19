@@ -158,7 +158,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         </WrapperWithDivider>
         <WrapperWithDivider>
           <ReservationPersonInfoSection
-            name={reservation.userName}
+            name={reservation.userName || reservation.userNickname} // 실명제 도입전 예약한 유저가 실명을 추가하지 않았을 경우 닉네임이 보여짐.
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
