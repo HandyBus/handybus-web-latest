@@ -48,6 +48,9 @@ const Page = ({ params }: Props) => {
   const desiredHubLongitude = Number(
     searchParams.get(PAYMENT_PARAMS_KEYS.desiredHubLongitude),
   );
+  const reservationStartTime = searchParams.get(
+    PAYMENT_PARAMS_KEYS.reservationStartTime,
+  );
 
   const isHandyParty = Boolean(
     desiredHubAddress && desiredHubLatitude && desiredHubLongitude,
@@ -88,6 +91,7 @@ const Page = ({ params }: Props) => {
             desiredHubAddress={desiredHubAddress ?? undefined}
             desiredHubLatitude={desiredHubLatitude ?? undefined}
             desiredHubLongitude={desiredHubLongitude ?? undefined}
+            reservationStartTime={reservationStartTime ?? undefined}
           />
         )}
       </DeferredSuspense>
