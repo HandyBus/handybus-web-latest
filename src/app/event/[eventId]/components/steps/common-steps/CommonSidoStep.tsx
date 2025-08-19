@@ -78,7 +78,7 @@ const CommonSidoStep = ({
   const checkIsSidoDisabled = (sido: BigRegionsType) => {
     const isMuseEvent = event?.eventId === MUSE_EVENT_ID;
 
-    if (isMuseEvent && sido === '서울특별시') {
+    if (isMuseEvent && (sido === '서울특별시' || sido === '경기도')) {
       return true;
     }
 
