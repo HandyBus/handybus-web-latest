@@ -7,12 +7,16 @@ import ShuttleRouteDetailView from './shuttle-route-detail-view/ShuttleRouteDeta
 
 interface Props {
   event: EventsViewEntity;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
-const EventContent = ({ event }: Props) => {
+const EventContent = ({ event, isNoDemandRewardCouponEvent }: Props) => {
   return (
     <JotaiProvider>
-      <EventForm event={event} />
+      <EventForm
+        event={event}
+        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
+      />
       <ShuttleRouteDetailView />
     </JotaiProvider>
   );
