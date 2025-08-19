@@ -15,6 +15,7 @@ import {
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 
 interface SearchResult extends AddressSearchResult {
   placeName: string;
@@ -34,6 +35,7 @@ const AddressStep = ({
   handyPartyRoutes,
 }: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
+  const { setReservationTrackingStep } = useReservationTrackingGlobal();
   const [searchValue, setSearchValue] = useState('');
 
   const kakaoPlace = useRef<kakao.maps.services.Places | null>(null);
@@ -97,6 +99,10 @@ const AddressStep = ({
 
   const availableHandyPartyAreaGuideString =
     createFullAvailableHandyPartyAreaGuideString(handyPartyRoutes);
+
+  useEffect(() => {
+    setReservationTrackingStep('[핸디팟] 주소 입력');
+  }, [setReservationTrackingStep]);
 
   return (
     <div className="flex h-full grow flex-col">

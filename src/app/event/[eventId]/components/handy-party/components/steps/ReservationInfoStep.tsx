@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Header from '../Header';
 import SimpleRouteInfo from '../SimpleRouteInfo';
 import SubtractIcon from '../../icons/subtract.svg';
@@ -13,6 +13,7 @@ import { getHandyPartyArea } from '../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
 import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { useRouter } from 'next/navigation';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 
 const MAX_PASSENGER_COUNT = 5;
 
@@ -31,6 +32,11 @@ const ReservationInfoStep = ({
 }: Props) => {
   const router = useRouter();
   const { getValues } = useFormContext<HandyPartyModalFormValues>();
+  const {
+    markAsIntentionalNavigation,
+    setReservationTrackingStep,
+    getReservationStartTime,
+  } = useReservationTrackingGlobal();
   const [passengerCount, setPassengerCount] = useState(1);
 
   const {
@@ -129,8 +135,11 @@ const ReservationInfoStep = ({
       desiredHubAddress: userAddress.address,
       desiredHubLatitude: userAddress.y,
       desiredHubLongitude: userAddress.x,
+      reservationStartTime: getReservationStartTime() ?? undefined,
     });
 
+    // 결제 페이지로 이동하는 것은 의도적 이동이므로 마킹
+    markAsIntentionalNavigation();
     router.push(url);
     closeBottomSheet();
     closeModal();
@@ -144,6 +153,10 @@ const ReservationInfoStep = ({
       : targetRoute?.fromDestinationShuttleRouteHubs?.find(
           (hub) => hub.role === 'DESTINATION',
         );
+
+  useEffect(() => {
+    setReservationTrackingStep('[핸디팟] 예약 확인');
+  }, [setReservationTrackingStep]);
 
   return (
     <div className="flex grow flex-col">

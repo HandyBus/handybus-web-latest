@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
 import { toast } from 'react-toastify';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 
 const DEFAULT_MAP_CENTER = {
   x: 127.02761,
@@ -23,6 +24,7 @@ interface Props {
 
 const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
+  const { setReservationTrackingStep } = useReservationTrackingGlobal();
 
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMarker = useRef<kakao.maps.Marker | null>(null);
@@ -147,6 +149,10 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
     }
     onNext();
   };
+
+  useEffect(() => {
+    setReservationTrackingStep('[핸디팟] 지도');
+  }, [setReservationTrackingStep]);
 
   return (
     <div className="flex grow flex-col">

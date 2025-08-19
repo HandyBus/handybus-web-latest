@@ -12,13 +12,15 @@ import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
 import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
-
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 interface Props {
   closeBottomSheet: () => void;
 }
 
 const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
   const router = useRouter();
+  const { markAsIntentionalNavigation, getReservationStartTime } =
+    useReservationTrackingGlobal();
   const event = useAtomValue(eventAtom);
   const { getValues, control, handleSubmit } =
     useFormContext<EventFormValues>();
@@ -27,7 +29,6 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
   );
 
   const { mutateAsync: putUser, isPending: isLoading } = usePutUser();
-
   const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
   const route = getRouteOfHubWithInfo({
     hubWithInfo: selectedHubWithInfo,
@@ -67,7 +68,7 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
 
     try {
       await putUser({ name });
-
+      markAsIntentionalNavigation();
       const url = createPaymentPageUrl({
         eventId: event.eventId,
         dailyEventId: dailyEvent.dailyEventId,
@@ -76,6 +77,7 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
         toDestinationHubId: toDestinationShuttleRouteHubId,
         fromDestinationHubId: fromDestinationShuttleRouteHubId,
         passengerCount,
+        reservationStartTime: getReservationStartTime() ?? undefined, // 예약 시작 시간 전달
       });
 
       closeBottomSheet();

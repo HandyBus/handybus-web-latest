@@ -16,6 +16,7 @@ import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[
 import { eventAtom } from '../../../store/eventAtom';
 import { useRouter } from 'next/navigation';
 import { useGetUser } from '@/services/user.service';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -27,6 +28,8 @@ const ReservationInfoStep = ({
   toExtraRealNameInputStep,
 }: Props) => {
   const router = useRouter();
+  const { markAsIntentionalNavigation, getReservationStartTime } =
+    useReservationTrackingGlobal();
   const {
     data: user,
     isLoading: isUserLoading,
@@ -101,6 +104,7 @@ const ReservationInfoStep = ({
       return;
     }
 
+    markAsIntentionalNavigation();
     const url = createPaymentPageUrl({
       eventId: event.eventId,
       dailyEventId: dailyEvent.dailyEventId,
@@ -109,6 +113,7 @@ const ReservationInfoStep = ({
       toDestinationHubId: toDestinationShuttleRouteHubId,
       fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount,
+      reservationStartTime: getReservationStartTime() ?? undefined, // 예약 시작 시간 전달
     });
 
     closeBottomSheet();

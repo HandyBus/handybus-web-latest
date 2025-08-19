@@ -35,17 +35,31 @@ const useDemandTracking = ({
   const currentStepRef = useRef<DemandStep | null>(null);
 
   const setDemandTrackingStep = (eventStep: (typeof EVENT_STEPS)[number]) => {
+    console.log('🔄 [DEMAND] setDemandTrackingStep called:', {
+      eventStep,
+      isActive,
+      phase: 'demand',
+    });
+
     if (!isActive) return; // 비활성화 시 추적하지 않음
 
     const demandStep = EVENT_STEP_TO_DEMAND_STEP.hasOwnProperty(eventStep)
       ? EVENT_STEP_TO_DEMAND_STEP[eventStep]
       : undefined;
 
+    console.log('📝 [DEMAND] Step mapping result:', {
+      eventStep,
+      demandStep,
+      hasMapping: !!demandStep,
+    });
+
     if (!demandStep) {
+      console.log('⚠️ [DEMAND] No mapping found for eventStep:', eventStep);
       return;
     }
 
     currentStepRef.current = demandStep;
+    console.log('✅ [DEMAND] Step set successfully:', demandStep);
   };
 
   const trackEnterDemand = useCallback(() => {
@@ -99,7 +113,7 @@ const useDemandTracking = ({
   );
 
   useEffect(() => {
-    if (!isActive) return; // 비활성화 시 이벤트 리스너 등록하지 않음
+    if (!isActive) return;
 
     const handleBeforeUnload = () => {
       trackAbandonDemand('page_leave');

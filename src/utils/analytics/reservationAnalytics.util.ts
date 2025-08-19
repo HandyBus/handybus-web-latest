@@ -3,10 +3,19 @@ import dayjs from 'dayjs';
 export type ReservationStep =
   | 'select_date'
   | 'select_sido'
+  | 'select_product'
   | 'select_hub'
+  | 'select_multiple_routes'
   | 'select_trip_type'
   | 'hub_info'
-  | 'write_name';
+  | 'handy_party_select_trip_type'
+  | 'handy_party_select_address'
+  | 'handy_party_select_map'
+  | 'handy_party_select_reservation_info'
+  | 'write_name'
+  | 'payment'
+  | 'request_payment'
+  | 'success_payment';
 
 export const gtagEnterReservation = (
   eventId: string,
@@ -32,6 +41,7 @@ export const gtagAbandonReservation = (
   reservationStep: ReservationStep,
   exitType: 'page_leave' | 'bottom_sheet_close',
   totalTimeMs: number,
+  debug?: string,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'abandon_reservation', {
@@ -40,6 +50,7 @@ export const gtagAbandonReservation = (
       event_name: eventName.substring(0, 100),
       reservation_step: reservationStep,
       exit_type: exitType,
+      debug,
       total_time_ms: totalTimeMs,
       timestamp: dayjs().toISOString(),
     });
@@ -55,6 +66,7 @@ export const gtagCompleteReservation = (
   tripType: string,
   totalTimeMs: number,
   hasOtherEventReservation: boolean | undefined,
+  paymentId: string | undefined,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'complete_reservation', {
@@ -66,6 +78,7 @@ export const gtagCompleteReservation = (
       selected_hub_from_destination: selectedHubFromDestination,
       trip_type: tripType,
       has_other_event_reservation: hasOtherEventReservation,
+      payment_id: paymentId,
       total_time_ms: totalTimeMs,
       timestamp: dayjs().toISOString(),
     });

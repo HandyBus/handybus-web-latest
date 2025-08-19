@@ -7,6 +7,7 @@ import { EventEnabledStatus, EventPhase } from '@/utils/event.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 
 interface Props {
   eventId: string;
@@ -24,11 +25,13 @@ const BottomBar = ({
   openShareBottomSheet,
 }: Props) => {
   const router = useRouter();
+  const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
   const handleClick = () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
       const redirectUrl = createLoginRedirectPath(`/event/${eventId}`);
+      markAsIntentionalNavigation();
       router.push(redirectUrl);
       return;
     }

@@ -12,6 +12,8 @@ import {
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
 import { createFullAvailableHandyPartyAreaGuideString } from '@/utils/handyParty.util';
+import { useEffect } from 'react';
+import { useReservationTrackingGlobal } from '@/hooks/analytics/store/useReservationTrackingGlobal';
 
 interface Props {
   onBack: () => void;
@@ -21,6 +23,7 @@ interface Props {
 
 const TripTypeStep = ({ onBack, onNext, handyPartyRoutes }: Props) => {
   const { setValue } = useFormContext<HandyPartyModalFormValues>();
+  const { setReservationTrackingStep } = useReservationTrackingGlobal();
   const tripTypesWithoutRoundTrip = TripTypeEnum.options.slice(
     0,
     2,
@@ -28,6 +31,10 @@ const TripTypeStep = ({ onBack, onNext, handyPartyRoutes }: Props) => {
 
   const availableHandyPartyAreaGuideString =
     createFullAvailableHandyPartyAreaGuideString(handyPartyRoutes);
+
+  useEffect(() => {
+    setReservationTrackingStep('[핸디팟] 방향 선택');
+  }, [setReservationTrackingStep]);
 
   return (
     <div className="flex grow flex-col">
