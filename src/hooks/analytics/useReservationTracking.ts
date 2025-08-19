@@ -97,15 +97,9 @@ export const useReservationTracking = ({
 
   const trackAbandonReservation = useCallback(
     (exitType: 'page_leave' | 'bottom_sheet_close', debug?: string) => {
-      console.log(
-        'coming here, currentStepRef.current',
-        currentStepRef.current,
-      );
       if (!isActive) return;
-      console.log('isActive is true', isActive);
       // 의도적 이동인 경우 모든 이탈 타입에 대해 집계하지 않음
       if (isNavigatingRef.current) {
-        console.log('isNavigatingRef.current is true', isNavigatingRef.current);
         return;
       }
 
@@ -113,11 +107,9 @@ export const useReservationTracking = ({
       const currentStep = currentStepRef.current;
 
       if (!reservationStartTime || !currentStep) {
-        console.log('return here');
         return;
       }
 
-      console.log('gtag');
       const totalTimeMs = dayjs().diff(reservationStartTime, 'ms');
       gtagAbandonReservation(
         eventId,

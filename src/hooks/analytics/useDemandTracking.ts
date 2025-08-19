@@ -35,42 +35,28 @@ const useDemandTracking = ({
   const currentStepRef = useRef<DemandStep | null>(null);
 
   const setDemandTrackingStep = (eventStep: (typeof EVENT_STEPS)[number]) => {
-    console.log('🔄 [DEMAND] setDemandTrackingStep called:', {
-      eventStep,
-      isActive,
-      phase: 'demand',
-    });
-
-    if (!isActive) return; // 비활성화 시 추적하지 않음
+    if (!isActive) return;
 
     const demandStep = EVENT_STEP_TO_DEMAND_STEP.hasOwnProperty(eventStep)
       ? EVENT_STEP_TO_DEMAND_STEP[eventStep]
       : undefined;
 
-    console.log('📝 [DEMAND] Step mapping result:', {
-      eventStep,
-      demandStep,
-      hasMapping: !!demandStep,
-    });
-
     if (!demandStep) {
-      console.log('⚠️ [DEMAND] No mapping found for eventStep:', eventStep);
       return;
     }
 
     currentStepRef.current = demandStep;
-    console.log('✅ [DEMAND] Step set successfully:', demandStep);
   };
 
   const trackEnterDemand = useCallback(() => {
-    if (!isActive) return; // 비활성화 시 추적하지 않음
+    if (!isActive) return;
     demandStartTimeRef.current = dayjs();
     gtagEnterDemand(eventId, eventName);
   }, [eventId, eventName, isActive]);
 
   const trackAbandonDemand = useCallback(
     (exitType: 'page_leave' | 'bottom_sheet_close') => {
-      if (!isActive) return; // 비활성화 시 추적하지 않음
+      if (!isActive) return;
 
       const demandStartTime = demandStartTimeRef.current;
       const currentStep = currentStepRef.current;
@@ -90,7 +76,7 @@ const useDemandTracking = ({
 
   const trackCompleteDemand = useCallback(
     (selectedHub: string, tripType: string, eventDate: string) => {
-      if (!isActive) return; // 비활성화 시 추적하지 않음
+      if (!isActive) return;
 
       const demandStartTime = demandStartTimeRef.current;
       if (!demandStartTime) {
@@ -141,7 +127,7 @@ const useDemandTracking = ({
   }, [trackAbandonDemand, isActive]);
 
   useEffect(() => {
-    if (!isActive) return; // 비활성화 시 추적하지 않음
+    if (!isActive) return;
     if (!isBottomSheetOpen) {
       trackAbandonDemand('bottom_sheet_close');
     }

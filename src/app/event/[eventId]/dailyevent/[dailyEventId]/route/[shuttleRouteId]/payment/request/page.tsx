@@ -28,7 +28,6 @@ const Page = ({ params }: PageProps) => {
   const reservationStartTime = searchParams.get('reservationStartTime');
   const isInitiated = useRef(false);
 
-  console.log('🔍 [PAGE] params:', params);
   const { markAsIntentionalNavigation } = useReservationTracking({
     eventId: params.eventId, // params에서 직접 가져오기
     eventName: '결제 처리 중', // 실제 이벤트명을 모르므로 기본값
