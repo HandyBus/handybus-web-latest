@@ -9,9 +9,10 @@ export const HANDY_PARTY_AREA_GUIDE_ID = 'handy-party-area-guide';
 
 interface Props {
   event: EventsViewEntity;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
-const EventInfo = ({ event }: Props) => {
+const EventInfo = ({ event, isNoDemandRewardCouponEvent }: Props) => {
   const parsedDateString = dateString(
     event.dailyEvents.map((v) => v.date),
     {
@@ -23,7 +24,7 @@ const EventInfo = ({ event }: Props) => {
 
   return (
     <>
-      {phase === 'demand' && (
+      {phase === 'demand' && !isNoDemandRewardCouponEvent && (
         <div className="flex h-[38px] items-center justify-center bg-basic-black text-14 font-600 text-basic-white">
           🤑 수요조사 참여 시 1,000원 할인 쿠폰 증정 🤑
         </div>
