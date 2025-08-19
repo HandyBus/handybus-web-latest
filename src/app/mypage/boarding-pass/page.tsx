@@ -261,16 +261,18 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
           </div>
 
           {/* 카카오톡 공지방 참여하기 */}
-          <Button
-            variant="primary"
-            size="large"
-            onClick={handleClickAndStopPropagation(() => {
-              openOpenChatLink();
-            })}
-            disabled={!noticeRoomUrl}
-          >
-            카카오톡 공지방 참여하기
-          </Button>
+          {noticeRoomUrl && (
+            <Button
+              variant="primary"
+              size="large"
+              onClick={handleClickAndStopPropagation(() => {
+                openOpenChatLink();
+              })}
+              disabled={!noticeRoomUrl}
+            >
+              카카오톡 공지방 참여하기
+            </Button>
+          )}
 
           {/* 주의사항 */}
           <aside className="rounded-[8px] bg-basic-grey-50 p-8 pl-28 text-14 font-500 leading-[160%] text-basic-grey-500">

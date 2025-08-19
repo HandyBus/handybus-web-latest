@@ -51,17 +51,19 @@ const ChatButton = ({
     case 'afterBusAssigned':
       return (
         <div className="flex gap-8">
-          <Button
-            variant="secondary"
-            size="small"
-            className="w-fit px-8"
-            disabled={!noticeRoomUrl}
-            onClick={handleClickAndStopPropagation(() => {
-              openOpenChatLink();
-            })}
-          >
-            공지방 참가
-          </Button>
+          {noticeRoomUrl && (
+            <Button
+              variant="secondary"
+              size="small"
+              className="w-fit px-8"
+              disabled={!noticeRoomUrl}
+              onClick={handleClickAndStopPropagation(() => {
+                openOpenChatLink();
+              })}
+            >
+              공지방 참가
+            </Button>
+          )}
           <Button
             variant="primary"
             size="small"
