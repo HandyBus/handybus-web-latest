@@ -53,7 +53,8 @@ const OnboardingFunnel = ({
     mode: 'onBlur',
   });
 
-  const initialStep = initialPhoneNumber ? 'personalInfo' : 'phoneNumber';
+  // const initialStep = initialPhoneNumber ? 'personalInfo' : 'phoneNumber';
+  const initialStep = 'phoneNumber';
 
   const { Funnel, Step, handleNextStep } = useFunnel(
     ONBOARDING_STEPS,
