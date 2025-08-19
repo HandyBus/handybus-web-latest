@@ -7,6 +7,7 @@ import Day6Image from './images/event_detail_day6.png';
 
 const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
 const DAY6_EVENT_ID = '607444571516834876';
+export const MUSE_EVENT_ID = '605615907175141432';
 
 interface Props {
   eventId: string;
@@ -15,6 +16,7 @@ interface Props {
 const EventOverview = ({ eventId }: Props) => {
   const showFestivalLife = eventId === FESTIVAL_LIFE_EVENT_ID;
   const showDay6 = eventId === DAY6_EVENT_ID;
+  const showMuse = eventId === MUSE_EVENT_ID;
 
   return (
     <section>
@@ -23,6 +25,8 @@ const EventOverview = ({ eventId }: Props) => {
       )}
       {showDay6 ? (
         <Image src={Day6Image} alt="day6 event information detail" />
+      ) : showMuse ? (
+        <Image src={Day6Image} alt="muse event overview" />
       ) : (
         <Image src={OverviewImage} alt="event overview" />
       )}
