@@ -55,10 +55,14 @@ const PaymentsCompleted = ({ params }: Props) => {
           <h1 className="pb-4 text-22 font-700">셔틀 예약이 완료되었어요</h1>
           <p className="pb-24 text-center text-16 font-500 text-basic-grey-600">
             탑승권은 마이페이지에서 확인할 수 있습니다.
-            <br />
-            모든 현장 안내는 공지방에서 전달드리니,
-            <br />
-            탑승 전 꼭 입장해 주세요.
+            {noticeRoomUrl && (
+              <>
+                <br />
+                모든 현장 안내는 공지방에서 전달드리니,
+                <br />
+                탑승 전 꼭 입장해 주세요.
+              </>
+            )}
           </p>
           <SuccessBusIcon />
         </section>
