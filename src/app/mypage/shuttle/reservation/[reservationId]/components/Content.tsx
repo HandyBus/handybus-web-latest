@@ -120,7 +120,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
               </WrapperWithDivider>
               {noticeRoomUrl && (
                 <WrapperWithDivider>
-                  {/* NOTE: 일자별 노선에 오픈채팅방이 먼저 반영되고 출시되어야 하는 기능 */}
                   <section className="flex flex-col gap-16 px-16">
                     <Button
                       variant="secondary"
