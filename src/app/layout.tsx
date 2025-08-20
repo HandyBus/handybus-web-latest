@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import * as Sentry from '@sentry/nextjs';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
 import '@/app/fonts/dm-sans/font.css';
@@ -59,6 +60,9 @@ export const metadata: Metadata = {
       'naver-site-verification':
         process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ?? '',
     },
+  },
+  other: {
+    ...Sentry.getTraceData(),
   },
 };
 
