@@ -69,7 +69,7 @@ const JSON_LD = {
   description: DESCRIPTION,
   url: URL,
 };
-
+console.log(process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production');
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -106,7 +106,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
       </head>
-      <body>
+      <body className="bg-basic-white">
         <Provider>
           {children}
           {/* NOTE: 서비스 점검 시 children 주석 처리 후 아래 주석 해제 */}
