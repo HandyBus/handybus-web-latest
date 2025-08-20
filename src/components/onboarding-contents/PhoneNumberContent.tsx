@@ -9,9 +9,14 @@ import { ReactNode, useState } from 'react';
 interface Props {
   title: string | ReactNode;
   handleNextStep: () => void;
+  disabled?: boolean;
 }
 
-const PhoneNumberContent = ({ title, handleNextStep }: Props) => {
+const PhoneNumberContent = ({
+  title,
+  handleNextStep,
+  disabled = false,
+}: Props) => {
   const { control } = useFormContext<OnboardingFormValues>();
   const [isFocused, setIsFocused] = useState(false);
 
@@ -88,7 +93,7 @@ const PhoneNumberContent = ({ title, handleNextStep }: Props) => {
               type="button"
               variant="primary"
               size="small"
-              disabled={!isPhoneNumberComplete(field.value || '')}
+              disabled={!isPhoneNumberComplete(field.value || '') || disabled}
               onClick={handleNextStep}
             >
               인증하기

@@ -1,4 +1,4 @@
-import { instance } from './config';
+import { authInstance, instance } from './config';
 import { getRefreshToken } from '@/utils/handleToken.util';
 import { TokenShape } from '@/types/auth.type';
 
@@ -47,4 +47,14 @@ export const postUpdateToken = async () => {
     shape: TokenShape,
   });
   return res;
+};
+
+// CSR 환경에서만 사용 가능
+export const postIdentityVerification = async (body: {
+  identityVerificationId: string;
+  phoneNumber: string;
+}) => {
+  return await authInstance.post('/v1/auth/identity-verification', body, {
+    skipCheckOnboarding: true,
+  });
 };
