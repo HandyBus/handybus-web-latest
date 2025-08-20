@@ -15,6 +15,7 @@ interface Props {
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
   openShareBottomSheet?: () => void;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
 const DemandCompleteScreen = ({
@@ -22,6 +23,7 @@ const DemandCompleteScreen = ({
   setDemandCompleteStatus,
   demandCount,
   openShareBottomSheet,
+  isNoDemandRewardCouponEvent,
 }: Props) => {
   switch (status) {
     case 'success':
@@ -33,6 +35,7 @@ const DemandCompleteScreen = ({
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
           openShareBottomSheet={openShareBottomSheet}
+          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
       );
     case 'fail':

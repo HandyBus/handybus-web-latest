@@ -9,6 +9,7 @@ export const PAYMENT_PARAMS_KEYS = {
   desiredHubAddress: 'desiredHubAddress',
   desiredHubLatitude: 'desiredHubLatitude',
   desiredHubLongitude: 'desiredHubLongitude',
+  reservationStartTime: 'reservationStartTime',
 };
 
 export const createPaymentPageUrl = ({
@@ -22,6 +23,7 @@ export const createPaymentPageUrl = ({
   desiredHubAddress,
   desiredHubLatitude,
   desiredHubLongitude,
+  reservationStartTime,
 }: {
   eventId: string;
   dailyEventId: string;
@@ -33,6 +35,7 @@ export const createPaymentPageUrl = ({
   desiredHubAddress?: string;
   desiredHubLatitude?: number;
   desiredHubLongitude?: number;
+  reservationStartTime?: string;
 }) => {
   const params = {
     [PAYMENT_PARAMS_KEYS.tripType]: tripType,
@@ -42,6 +45,7 @@ export const createPaymentPageUrl = ({
     [PAYMENT_PARAMS_KEYS.desiredHubAddress]: desiredHubAddress,
     [PAYMENT_PARAMS_KEYS.desiredHubLatitude]: desiredHubLatitude,
     [PAYMENT_PARAMS_KEYS.desiredHubLongitude]: desiredHubLongitude,
+    [PAYMENT_PARAMS_KEYS.reservationStartTime]: reservationStartTime,
   };
   return `/event/${eventId}/dailyevent/${dailyEventId}/route/${shuttleRouteId}/payment?${toSearchParams(params)}`;
 };

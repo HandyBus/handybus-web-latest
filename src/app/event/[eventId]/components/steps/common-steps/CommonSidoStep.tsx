@@ -11,6 +11,8 @@ import {
   setRecentlyViewedBigRegion,
 } from '@/utils/localStorage';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
+import { MUSE_EVENT_ID } from '../../EventOverview';
+import { eventAtom } from '../../../store/eventAtom';
 
 interface Props {
   toDemandHubsStep: () => void;
@@ -25,6 +27,7 @@ const CommonSidoStep = ({
   toExtraSidoInfoStep,
   toExtraSelectProductStep,
 }: Props) => {
+  const event = useAtomValue(eventAtom);
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const dailyEvent = getValues('dailyEvent');
@@ -73,6 +76,15 @@ const CommonSidoStep = ({
   const recentlyViewedSido = getRecentlyViewedBigRegion();
 
   const checkIsSidoDisabled = (sido: BigRegionsType) => {
+    const isMuseEvent = event?.eventId === MUSE_EVENT_ID;
+
+    if (
+      isMuseEvent &&
+      (sido === '서울특별시' || sido === '경기도' || sido === '인천광역시')
+    ) {
+      return true;
+    }
+
     if (isDemandOpen) {
       return false;
     }

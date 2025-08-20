@@ -118,22 +118,23 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
                   </p>
                 </section>
               </WrapperWithDivider>
-              <WrapperWithDivider>
-                {/* NOTE: 일자별 노선에 오픈채팅방이 먼저 반영되고 출시되어야 하는 기능 */}
-                <section className="flex flex-col gap-16 px-16">
-                  <Button
-                    variant="secondary"
-                    onClick={handleOpenNoticeRoom}
-                    disabled={!noticeRoomUrl}
-                  >
-                    공지방 참여하기
-                  </Button>
-                  <p className="text-14 font-500 leading-[160%]">
-                    탑승 당일, 셔틀버스 변동사항 및 실시간 안내사항은 공지방에서
-                    이루어져요. 탑승 전 반드시 참여해 주세요!
-                  </p>
-                </section>
-              </WrapperWithDivider>
+              {noticeRoomUrl && (
+                <WrapperWithDivider>
+                  <section className="flex flex-col gap-16 px-16">
+                    <Button
+                      variant="secondary"
+                      onClick={handleOpenNoticeRoom}
+                      disabled={!noticeRoomUrl}
+                    >
+                      공지방 참여하기
+                    </Button>
+                    <p className="text-14 font-500 leading-[160%]">
+                      탑승 당일, 셔틀버스 변동사항 및 실시간 안내사항은
+                      공지방에서 이루어져요. 탑승 전 반드시 참여해 주세요!
+                    </p>
+                  </section>
+                </WrapperWithDivider>
+              )}
             </>
           ))}
         <WrapperWithDivider>
@@ -157,7 +158,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         </WrapperWithDivider>
         <WrapperWithDivider>
           <ReservationPersonInfoSection
-            name={reservation.userName}
+            name={reservation.userName || reservation.userNickname} // 실명제 도입전 예약한 유저가 실명을 추가하지 않았을 경우 닉네임이 보여짐.
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>

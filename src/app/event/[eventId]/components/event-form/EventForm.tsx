@@ -42,12 +42,14 @@ import {
 } from '@/utils/handyParty.util';
 import { HANDY_PARTY_AREA_GUIDE_ID } from '../EventInfo';
 import ShareBottomSheet from './components/ShareBottomSheet';
+import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 
 interface Props {
   event: EventsViewEntity;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
-const EventForm = ({ event }: Props) => {
+const EventForm = ({ event, isNoDemandRewardCouponEvent }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
 
@@ -102,6 +104,7 @@ const EventForm = ({ event }: Props) => {
         shuttleRoutes={shuttleRoutes}
         phase={phase}
         enabledStatus={enabledStatus}
+        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
       />
     </section>
   );
@@ -114,6 +117,7 @@ interface ContentProps {
   shuttleRoutes: ShuttleRoutesViewEntity[];
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
 const Content = ({
@@ -121,6 +125,7 @@ const Content = ({
   shuttleRoutes,
   phase,
   enabledStatus,
+  isNoDemandRewardCouponEvent,
 }: ContentProps) => {
   const { updateUserDemands, updateUserAlertRequests } = useEventInitialization(
     {
@@ -178,6 +183,11 @@ const Content = ({
       trackEnterDemand();
     }
 
+    // 예약 단계에서 바텀시트 열기 시 추적
+    if (phase === 'reservation') {
+      trackEnterReservation();
+    }
+
     if (
       isCheckRouteDetailViewFlow &&
       !isCheckRouteDetailFlowViewed &&
@@ -217,16 +227,41 @@ const Content = ({
     onClose: onBottomSheetClose,
   });
 
-  const { trackEnterDemand, trackCompleteDemand, setDemandTrackingStep } =
-    useDemandTracking({
+  // 플로우별 조건부 추적 (훅은 항상 호출하되 내부에서 조건 처리)
+  const demandTrackingParams = useMemo(
+    () => ({
       eventId: event.eventId,
       eventName: event.eventName,
       isBottomSheetOpen: isOpen,
-    });
+      isActive: phase === 'demand',
+    }),
+    [event.eventId, event.eventName, isOpen, phase],
+  );
+
+  const reservationTrackingParams = useMemo(
+    () => ({
+      eventId: event.eventId,
+      eventName: event.eventName,
+      isBottomSheetOpen: isOpen,
+      isActive: phase === 'reservation',
+    }),
+    [event.eventId, event.eventName, isOpen, phase],
+  );
+
+  const { trackEnterDemand, trackCompleteDemand, setDemandTrackingStep } =
+    useDemandTracking(demandTrackingParams);
+
+  const { trackEnterReservation, setReservationTrackingStep } =
+    useReservationTracking(reservationTrackingParams);
 
   useEffect(() => {
-    setDemandTrackingStep(stepName);
-  }, [stepName, setDemandTrackingStep]);
+    // 현재 플로우에 따라서만 스텝 추적
+    if (phase === 'demand') {
+      setDemandTrackingStep(stepName);
+    } else if (phase === 'reservation') {
+      setReservationTrackingStep(stepName);
+    }
+  }, [stepName, phase, setDemandTrackingStep, setReservationTrackingStep]);
 
   const { title: bottomSheetTitle, description: bottomSheetDescription } =
     useBottomSheetText({ stepName, getValues: methods.getValues });
@@ -333,6 +368,7 @@ const Content = ({
                       phase={phase}
                       trackCompleteDemand={trackCompleteDemand}
                       setDemandCount={setDemandCount}
+                      isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
                     />
                   </Step>
                 ))}
@@ -343,10 +379,11 @@ const Content = ({
       </form>
       {demandCompleteStatus !== null && (
         <DemandCompleteScreen
-          status={demandCompleteStatus}
+          status={demandCompleteStatus ?? 'success'}
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
           openShareBottomSheet={openShareBottomSheet}
+          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
       )}
       {isAlertRequestFeedbackScreenOpen && (

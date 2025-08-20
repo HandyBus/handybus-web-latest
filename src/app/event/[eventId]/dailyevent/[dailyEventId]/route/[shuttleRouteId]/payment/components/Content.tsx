@@ -21,6 +21,7 @@ import { postPreparePayment } from '@/services/payment.service';
 import { postReserveReservation } from '@/services/payment.service';
 import { usePathname } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 
 interface ContentProps {
   tripType: TripType;
@@ -35,6 +36,7 @@ interface ContentProps {
   desiredHubAddress?: string;
   desiredHubLatitude?: number;
   desiredHubLongitude?: number;
+  reservationStartTime?: string;
 }
 
 const Content = ({
@@ -50,6 +52,7 @@ const Content = ({
   desiredHubAddress,
   desiredHubLatitude,
   desiredHubLongitude,
+  reservationStartTime,
 }: ContentProps) => {
   const pathname = usePathname();
 
@@ -79,6 +82,16 @@ const Content = ({
   useEffect(() => {
     changePrice(finalPrice);
   }, [changePrice, finalPrice]);
+
+  // 예약 추적 훅
+  const { markAsIntentionalNavigation } = useReservationTracking({
+    eventId: event.eventId,
+    eventName: event.eventName,
+    isBottomSheetOpen: false, // 결제 페이지에서는 바텀시트 없음
+    isActive: true,
+    reservationStartTime,
+    initialStep: 'payment',
+  });
 
   const submitPayment = async () => {
     try {
@@ -111,7 +124,7 @@ const Content = ({
       );
 
       const baseUrl = window.location.origin + pathname;
-      const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}`;
+      const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}${reservationStartTime ? `&reservationStartTime=${reservationStartTime}` : ''}`;
       const failUrl = `${baseUrl}/request/fail`;
       const orderName =
         `[${shuttleRoute.name}] ${shuttleRoute.event.eventName}`.slice(0, 99);
@@ -130,6 +143,7 @@ const Content = ({
         successUrl,
         failUrl,
         onError,
+        markAsIntentionalNavigation,
       });
     } catch (error) {
       console.error(error);
