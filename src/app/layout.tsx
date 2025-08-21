@@ -69,7 +69,7 @@ const JSON_LD = {
   description: DESCRIPTION,
   url: URL,
 };
-console.log(process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production');
+
 export default function RootLayout({
   children,
 }: Readonly<{
