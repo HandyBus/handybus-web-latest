@@ -52,7 +52,6 @@ export const postUpdateToken = async () => {
 // CSR 환경에서만 사용 가능
 export const postIdentityVerification = async (body: {
   identityVerificationId: string;
-  phoneNumber: string;
 }) => {
   return await authInstance.post('/v1/auth/identity-verification', body, {
     skipCheckOnboarding: true,

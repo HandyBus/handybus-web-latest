@@ -36,7 +36,7 @@ const PhoneNumberStep = () => {
       storeId,
       identityVerificationId: `identity-verification-${crypto.randomUUID()}`,
       channelKey: danalChannelKey,
-      redirectUrl: `${redirectUrl}?phoneNumber=${phoneNumber}`,
+      redirectUrl,
       popup: {
         center: true,
       },
@@ -54,7 +54,7 @@ const PhoneNumberStep = () => {
     }
 
     router.replace(
-      `${redirectUrl}?phoneNumber=${phoneNumber}&identityVerificationId=${response.identityVerificationId}`,
+      `${redirectUrl}?identityVerificationId=${response.identityVerificationId}`,
     );
   };
 
