@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import * as Sentry from '@sentry/nextjs';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
 import '@/app/fonts/dm-sans/font.css';
@@ -60,6 +61,9 @@ export const metadata: Metadata = {
         process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ?? '',
     },
   },
+  other: {
+    ...Sentry.getTraceData(),
+  },
 };
 
 const JSON_LD = {
@@ -106,7 +110,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
       </head>
-      <body>
+      <body className="bg-basic-white">
         <Provider>
           {children}
           {/* NOTE: 서비스 점검 시 children 주석 처리 후 아래 주석 해제 */}

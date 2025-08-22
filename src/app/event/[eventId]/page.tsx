@@ -38,7 +38,10 @@ const Page = async ({ params }: Props) => {
           event={event}
           isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
-        <EventOverview eventId={params.eventId} />
+        <EventOverview
+          eventId={params.eventId}
+          eventDetailImageUrl={event.eventDetailImageUrl}
+        />
         <EventGuidelines />
         <EventModal eventId={params.eventId} />
         <div className="h-100 bg-basic-grey-50" />

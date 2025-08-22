@@ -2,6 +2,9 @@
 
 import Image from 'next/image';
 import { logout } from '@/utils/handleToken.util';
+import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
+
 export const Error = ({
   error,
   reset,
@@ -9,7 +12,11 @@ export const Error = ({
   error: Error & { digest?: string };
   reset: () => void;
 }) => {
-  console.error(error);
+  useEffect(() => {
+    Sentry.captureException(error);
+    console.error(error);
+  }, [error]);
+
   return (
     <div className="flex grow flex-col px-20 py-28">
       <h2 className="pb-[10px] text-26 font-700 text-basic-grey-700">

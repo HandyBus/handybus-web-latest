@@ -68,10 +68,8 @@ const OAuth = ({ params, searchParams }: Props) => {
     } catch (e) {
       const error = e as CustomError;
       console.error(error);
+      toast.error('잠시 후 다시 시도해주세요.');
       router.replace('/login');
-      if (error.statusCode === 422) {
-        toast.error('전화번호가 등록된 계정으로만 가입할 수 있어요.');
-      }
     }
   };
 
