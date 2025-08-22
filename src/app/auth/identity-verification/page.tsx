@@ -10,11 +10,11 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
-  searchParams: { identityVerificationId: string; phoneNumber: string };
+  searchParams: { identityVerificationId: string };
 }
 
 const Page = ({ searchParams }: Props) => {
-  const { identityVerificationId, phoneNumber } = searchParams;
+  const { identityVerificationId } = searchParams;
   const router = useRouter();
   const isInitiated = useRef(false);
   usePreventRefresh();
@@ -24,7 +24,6 @@ const Page = ({ searchParams }: Props) => {
     try {
       await postIdentityVerification({
         identityVerificationId,
-        phoneNumber,
       });
       setOnboardingStatusComplete();
       router.replace('/');
