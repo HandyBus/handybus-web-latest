@@ -119,10 +119,10 @@ const Hub = ({
     !!route.fromDestinationShuttleRouteHubs &&
     route.fromDestinationShuttleRouteHubs.length > 0;
 
-  const toDestinationDepartureTime = toDestinationExists
+  const toDestinationArrivalTime = toDestinationExists
     ? dateString(
         route.toDestinationShuttleRouteHubs?.find(
-          (hub) => hub.regionHubId === hubWithInfo.regionHubId,
+          (hub) => hub.role === 'DESTINATION',
         )?.arrivalTime,
         {
           showYear: false,
@@ -160,7 +160,7 @@ const Hub = ({
               가는 편
             </Badge>
             <div className="flex-1 text-14 font-500 text-basic-grey-700">
-              {toDestinationDepartureTime} 출발
+              {toDestinationArrivalTime} 도착
             </div>
             {!isToDestinationSoldOut && (
               <div className="shrink-0 text-14 font-500 text-basic-grey-500">
