@@ -51,12 +51,10 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         )
       : null;
 
-  const { reservationProgress, handyStatus, isOpenChatLinkCreated } =
-    useReservationProgress({
-      reservation,
-      dailyEvent,
-      shuttleBus,
-    });
+  const { reservationProgress, handyStatus } = useReservationProgress({
+    reservation,
+    dailyEvent,
+  });
   const isCanceled = reservationProgress === 'reservationCanceled';
   const isEnded = reservationProgress === 'shuttleEnded';
 
@@ -93,10 +91,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             <WrapperWithDivider>
               <HandyPartyProgressSection
                 reservationProgress={reservationProgress}
-                isOpenChatLinkCreated={isOpenChatLinkCreated}
-                handyStatus={handyStatus}
                 shuttleBus={shuttleBus}
-                isHandyParty={isHandyParty}
               />
             </WrapperWithDivider>
           ) : (

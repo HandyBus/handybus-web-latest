@@ -16,9 +16,10 @@ interface Props {
 
 const EditReviewPage = ({ params }: Props) => {
   const { reviewId } = params;
-  const { data, isLoading } = useGetReview(reviewId);
+  const { data, isLoading, isError } = useGetReview(reviewId);
   const reservationId = data?.reservationId;
 
+  if (isError) throw new Error('리뷰 데이터를 찾을 수 없습니다.');
   return (
     <main>
       <Header />

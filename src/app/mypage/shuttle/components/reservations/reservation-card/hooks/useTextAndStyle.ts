@@ -15,7 +15,8 @@ const useTextAndStyle = ({
   const getShuttleBusTextAndStyle = useCallback(() => {
     if (
       reservationProgress === 'beforeBusAssigned' ||
-      reservationProgress === 'afterBusAssigned'
+      reservationProgress === 'afterBusAssigned' ||
+      reservationProgress === 'reviewAvailable'
     ) {
       const textAndClassName = {
         title: {
@@ -68,7 +69,10 @@ const useTextAndStyle = ({
         },
       };
       return textAndClassName;
-    } else if (reservationProgress === 'afterBusAssigned') {
+    } else if (
+      reservationProgress === 'afterBusAssigned' ||
+      reservationProgress === 'reviewAvailable'
+    ) {
       const textAndClassName = {
         title: {
           text: '[핸디팟] 예약 완료',
