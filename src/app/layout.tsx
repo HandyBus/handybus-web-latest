@@ -11,7 +11,7 @@ import { DESCRIPTION, KEYWORDS, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 import Script from 'next/script';
 import 'react-loading-skeleton/dist/skeleton.css';
-import ServiceMaintenanceScreen from '@/components/service-maintenance-screen/ServiceMaintenanceScreen';
+// import ServiceMaintenanceScreen from '@/components/service-maintenance-screen/ServiceMaintenanceScreen';
 
 const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
 const FAVICON_PROD = '/favicons/favicon.ico';
@@ -74,13 +74,11 @@ const JSON_LD = {
   url: URL,
 };
 
-export default function RootLayout(
-  {
-    // children,
-  }: Readonly<{
-    children: ReactNode;
-  }>,
-) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: ReactNode;
+}>) {
   return (
     <html lang="ko">
       <head>
@@ -114,9 +112,9 @@ export default function RootLayout(
       </head>
       <body className="bg-basic-white">
         <Provider>
-          {/* {children} */}
+          {children}
           {/* NOTE: 서비스 점검 시 children 주석 처리 후 아래 주석 해제 */}
-          <ServiceMaintenanceScreen />
+          {/* <ServiceMaintenanceScreen /> */}
           <PortalContainer />
           <ToastContainer />
         </Provider>
