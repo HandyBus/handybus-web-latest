@@ -21,24 +21,27 @@ const WrittenReviews = () => {
     () =>
       reservations?.filter((reservation) => {
         const tripType = reservation.type;
+        const selectedFromDestinationShuttleRouteHubId =
+          reservation.fromDestinationShuttleRouteHubId;
         const arrivalTime =
           tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
-            ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.[
-                reservation.shuttleRoute.toDestinationShuttleRouteHubs.length -
-                  1
-              ]?.arrivalTime
-            : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.[
-                reservation.shuttleRoute.fromDestinationShuttleRouteHubs
-                  .length - 1
-              ]?.arrivalTime;
+            ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+                (hub) =>
+                  hub.sequence ===
+                  reservation.shuttleRoute.toDestinationShuttleRouteHubs
+                    ?.length,
+              )?.arrivalTime
+            : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+                (hub) =>
+                  hub.shuttleRouteHubId ===
+                  selectedFromDestinationShuttleRouteHubId,
+              )?.arrivalTime;
         const reviewOpenTime = dayjs(arrivalTime).subtract(1, 'hour');
         const isReviewAvailable =
-          reservation.shuttleRoute.status === 'CLOSED' &&
+          (reservation.shuttleRoute.status === 'CLOSED' ||
+            reservation.shuttleRoute.status === 'ENDED') &&
           dayjs().isAfter(reviewOpenTime);
-        return (
-          reservation.reviewId &&
-          (reservation.shuttleRoute.status === 'ENDED' || isReviewAvailable)
-        );
+        return reservation.reviewId && isReviewAvailable;
       }),
     [reservations],
   );

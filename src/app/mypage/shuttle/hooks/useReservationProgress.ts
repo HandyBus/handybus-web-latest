@@ -24,18 +24,25 @@ const useReservationProgress = ({ reservation, dailyEvent }: Props) => {
 
     // 왕복 혹은 가는 편 일때 행사장 하차지 시간을 기준으로 리뷰 작성 가능 여부 판단
     const tripType = reservation.type;
+    const selectedFromDestinationShuttleRouteHubId =
+      reservation.fromDestinationShuttleRouteHubId;
     const arrivalTime =
       tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
-        ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.[
-            reservation.shuttleRoute.toDestinationShuttleRouteHubs.length - 1
-          ]?.arrivalTime
-        : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.[
-            reservation.shuttleRoute.fromDestinationShuttleRouteHubs.length - 1
-          ]?.arrivalTime;
+        ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+            (hub) =>
+              hub.sequence ===
+              reservation.shuttleRoute.toDestinationShuttleRouteHubs?.length,
+          )?.arrivalTime
+        : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+            (hub) =>
+              hub.shuttleRouteHubId ===
+              selectedFromDestinationShuttleRouteHubId,
+          )?.arrivalTime;
     const reviewOpenTime = dayjs(arrivalTime).subtract(1, 'hour');
     const isReviewAvailable =
       reservation.shuttleRoute.status === 'CLOSED' &&
       dayjs().isAfter(reviewOpenTime);
+    // 여기서는 isShuttleEnded 상태로 넘어가야하기 때문에 다른 WritableReviews, WrittenReivews, 리뷰작성페이지 등의 컴포넌트 로직처럼 || reservation.shuttleRoute.status === 'ENDED' 조건을 추가하지 않음
 
     if (isReservationCanceled) {
       return 'reservationCanceled';
