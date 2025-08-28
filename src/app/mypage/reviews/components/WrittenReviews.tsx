@@ -26,10 +26,7 @@ const WrittenReviews = () => {
         const arrivalTime =
           tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
             ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
-                (hub) =>
-                  hub.sequence ===
-                  reservation.shuttleRoute.toDestinationShuttleRouteHubs
-                    ?.length,
+                (hub) => hub.role === 'DESTINATION',
               )?.arrivalTime
             : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
                 (hub) =>
