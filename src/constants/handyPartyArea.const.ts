@@ -20,12 +20,13 @@ export const HANDY_PARTY_ROUTE_AREA = [
   '시흥',
   '파주',
   '평택',
+  '부천',
 ] as const;
 export type HandyPartyRouteArea = (typeof HANDY_PARTY_ROUTE_AREA)[number];
 
 export const HANDY_PARTY_AREA_TO_ADDRESS: Record<
   HandyPartyRouteArea,
-  { sido: string; gungu: string[]; dong?: string[] }
+  { sido: string; gungu: readonly string[]; dong?: readonly string[] }
 > = {
   동북권: { sido: '서울', gungu: ['도봉구', '강북구', '노원구', '성북구'] },
   서북권: { sido: '서울', gungu: ['은평구', '서대문구', '마포구'] },
@@ -84,4 +85,5 @@ export const HANDY_PARTY_AREA_TO_ADDRESS: Record<
     ],
   },
   평택: { sido: '경기', gungu: ['평택시'] },
+  부천: { sido: '경기', gungu: ['부천시'] },
 } as const;
