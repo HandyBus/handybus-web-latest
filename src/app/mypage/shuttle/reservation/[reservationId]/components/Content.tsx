@@ -51,12 +51,10 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         )
       : null;
 
-  const { reservationProgress, handyStatus, isOpenChatLinkCreated } =
-    useReservationProgress({
-      reservation,
-      dailyEvent,
-      shuttleBus,
-    });
+  const { reservationProgress, handyStatus } = useReservationProgress({
+    reservation,
+    dailyEvent,
+  });
   const isCanceled = reservationProgress === 'reservationCanceled';
   const isEnded = reservationProgress === 'shuttleEnded';
 
@@ -93,10 +91,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             <WrapperWithDivider>
               <HandyPartyProgressSection
                 reservationProgress={reservationProgress}
-                isOpenChatLinkCreated={isOpenChatLinkCreated}
-                handyStatus={handyStatus}
                 shuttleBus={shuttleBus}
-                isHandyParty={isHandyParty}
               />
             </WrapperWithDivider>
           ) : (
@@ -107,8 +102,11 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
                     onClick={handleClickAndStopPropagation(
                       openBoardingPassLink,
                     )}
+                    disabled={isEnded || isCanceled}
                   >
-                    탑승권 확인하기
+                    {isEnded || isCanceled
+                      ? '이용이 만료된 탑승권입니다'
+                      : '탑승권 확인하기'}
                   </Button>
                   <p className="text-14 font-500 leading-[160%]">
                     현장에서 탑승권을 제시한 후 탑승해 주세요.{' '}
@@ -124,13 +122,14 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
                     <Button
                       variant="secondary"
                       onClick={handleOpenNoticeRoom}
-                      disabled={!noticeRoomUrl}
+                      disabled={!noticeRoomUrl || isEnded || isCanceled}
                     >
                       공지방 참여하기
                     </Button>
                     <p className="text-14 font-500 leading-[160%]">
-                      탑승 당일, 셔틀버스 변동사항 및 실시간 안내사항은
-                      공지방에서 이루어져요. 탑승 전 반드시 참여해 주세요!
+                      {isEnded || isCanceled
+                        ? '종료된 공지방입니다.'
+                        : '탑승 당일, 셔틀버스 변동사항 및 실시간 안내사항은\n공지방에서 이루어져요. 탑승 전 반드시 참여해 주세요!'}
                     </p>
                   </section>
                 </WrapperWithDivider>

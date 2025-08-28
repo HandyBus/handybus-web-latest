@@ -16,8 +16,27 @@ const WritableReviews = () => {
   const reservationsWithNotWrittenReview = useMemo(
     () =>
       reservations?.filter((reservation) => {
+        const tripType = reservation.type;
+        const selectedFromDestinationShuttleRouteHubId =
+          reservation.fromDestinationShuttleRouteHubId;
+        const arrivalTime =
+          tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
+            ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+                (hub) => hub.role === 'DESTINATION',
+              )?.arrivalTime
+            : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+                (hub) =>
+                  hub.shuttleRouteHubId ===
+                  selectedFromDestinationShuttleRouteHubId,
+              )?.arrivalTime;
+        const reviewOpenTime = dayjs(arrivalTime).subtract(1, 'hour');
+        const isReviewAvailable =
+          (reservation.shuttleRoute.status === 'CLOSED' ||
+            reservation.shuttleRoute.status === 'ENDED') &&
+          dayjs().isAfter(reviewOpenTime);
+
         if (reservation.reviewId) return false;
-        if (reservation.shuttleRoute.status !== 'ENDED') return false;
+        if (!isReviewAvailable) return false;
         const dailyEvent = reservation.shuttleRoute.event.dailyEvents.find(
           (dailyEvent) =>
             dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,

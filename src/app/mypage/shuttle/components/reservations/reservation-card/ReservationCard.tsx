@@ -43,7 +43,6 @@ const ReservationCard = ({ reservation }: Props) => {
     useReservationProgress({
       reservation,
       dailyEvent,
-      shuttleBus,
     });
 
   const textAndStyle = useTextAndStyle({

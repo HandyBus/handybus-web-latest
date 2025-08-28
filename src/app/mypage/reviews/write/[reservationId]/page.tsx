@@ -7,6 +7,7 @@ import { useGetUserReservation } from '@/services/reservation.service';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useRouter } from 'next/navigation';
+import dayjs from 'dayjs';
 
 interface Props {
   params: {
@@ -21,7 +22,26 @@ const WriteReviewPage = ({ params }: Props) => {
   const reservation = data?.reservation;
   const { replace } = useRouter();
 
-  if (data?.reservation.reviewId) replace(`/mypage/reviews/`);
+  const tripType = reservation?.type;
+  const selectedFromDestinationShuttleRouteHubId =
+    reservation?.fromDestinationShuttleRouteHubId;
+  const arrivalTime =
+    tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
+      ? reservation?.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        )?.arrivalTime
+      : reservation?.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+          (hub) =>
+            hub.shuttleRouteHubId === selectedFromDestinationShuttleRouteHubId,
+        )?.arrivalTime;
+  const reviewOpenTime = dayjs(arrivalTime).subtract(1, 'hour');
+  const isReviewAvailable =
+    (reservation?.shuttleRoute.status === 'CLOSED' ||
+      reservation?.shuttleRoute.status === 'ENDED') &&
+    dayjs().isAfter(reviewOpenTime);
+
+  if (data?.reservation.reviewId) replace('/mypage/reviews');
+  if (reservation && !isReviewAvailable) replace('/mypage/reviews');
   return (
     <main>
       <Header />

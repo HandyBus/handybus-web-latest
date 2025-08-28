@@ -74,6 +74,40 @@ const ChatButton = ({
           </Button>
         </div>
       );
+    case 'reviewAvailable':
+      return (
+        <div className="flex gap-8">
+          {reviewId ? (
+            <Button
+              variant="tertiary"
+              size="small"
+              onClick={handleClickAndStopPropagation(() => {
+                router.push(`/mypage/reviews/${reservationId}`);
+              })}
+            >
+              내 후기
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={handleClickAndStopPropagation(() => {
+                router.push(`/mypage/reviews/write/${reservationId}`);
+              })}
+            >
+              후기 작성
+            </Button>
+          )}
+          <Button
+            variant="primary"
+            size="small"
+            className="w-fit px-8"
+            onClick={handleClickAndStopPropagation(openBoardingPassLink)}
+          >
+            탑승권 보기
+          </Button>
+        </div>
+      );
     case 'shuttleEnded':
       if (isWritingReviewPeriod) {
         if (!reviewId) {
@@ -92,7 +126,7 @@ const ChatButton = ({
           return (
             <div className="flex items-center gap-8">
               <Button
-                variant="secondary"
+                variant="tertiary"
                 size="small"
                 onClick={handleClickAndStopPropagation(() => {
                   router.push(`/mypage/reviews/edit/${reviewId}`);
@@ -101,7 +135,7 @@ const ChatButton = ({
                 후기 수정
               </Button>
               <Button
-                variant="primary"
+                variant="tertiary"
                 size="small"
                 onClick={handleClickAndStopPropagation(() => {
                   router.push(`/mypage/reviews/${reservationId}`);

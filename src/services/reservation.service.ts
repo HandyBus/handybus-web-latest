@@ -52,10 +52,16 @@ export const getUserReservation = async (reservationId: string) => {
   return res;
 };
 
-export const useGetUserReservation = (reservationId: string) =>
+export const useGetUserReservation = (
+  reservationId: string,
+  options?: {
+    enabled?: boolean;
+  },
+) =>
   useQuery({
     queryKey: ['user', 'reservation', reservationId],
     queryFn: () => getUserReservation(reservationId),
+    enabled: options?.enabled,
   });
 
 // ----- POST -----

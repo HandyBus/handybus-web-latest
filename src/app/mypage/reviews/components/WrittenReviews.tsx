@@ -8,6 +8,7 @@ import PeriodFilterBar from '../../components/period-filter-bar/PeriodFilterBar'
 import usePeriodFilter from '../../components/period-filter-bar/hooks/usePeriodFilter';
 import EmptyReview from './EmptyReview';
 import { useMemo } from 'react';
+import dayjs from 'dayjs';
 
 const WrittenReviews = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
@@ -18,10 +19,27 @@ const WrittenReviews = () => {
 
   const reservationsWithReview = useMemo(
     () =>
-      reservations?.filter(
-        (reservation) =>
-          reservation.reviewId && reservation.shuttleRoute.status === 'ENDED',
-      ),
+      reservations?.filter((reservation) => {
+        const tripType = reservation.type;
+        const selectedFromDestinationShuttleRouteHubId =
+          reservation.fromDestinationShuttleRouteHubId;
+        const arrivalTime =
+          tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
+            ? reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+                (hub) => hub.role === 'DESTINATION',
+              )?.arrivalTime
+            : reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+                (hub) =>
+                  hub.shuttleRouteHubId ===
+                  selectedFromDestinationShuttleRouteHubId,
+              )?.arrivalTime;
+        const reviewOpenTime = dayjs(arrivalTime).subtract(1, 'hour');
+        const isReviewAvailable =
+          (reservation.shuttleRoute.status === 'CLOSED' ||
+            reservation.shuttleRoute.status === 'ENDED') &&
+          dayjs().isAfter(reviewOpenTime);
+        return reservation.reviewId && isReviewAvailable;
+      }),
     [reservations],
   );
 

@@ -15,7 +15,8 @@ const useTextAndStyle = ({
   const getShuttleBusTextAndStyle = useCallback(() => {
     if (
       reservationProgress === 'beforeBusAssigned' ||
-      reservationProgress === 'afterBusAssigned'
+      reservationProgress === 'afterBusAssigned' ||
+      reservationProgress === 'reviewAvailable'
     ) {
       const textAndClassName = {
         title: {
@@ -23,7 +24,7 @@ const useTextAndStyle = ({
           className: 'text-brand-primary-400',
         },
         description: {
-          text: '채팅방에서 당일까지 탑승일 정보와 자세한 안내가 이루어져요.',
+          text: '자세한 정보는 탑승 전까지 알림톡을 통해 안내해 드려요.',
         },
       };
       return textAndClassName;
@@ -68,14 +69,17 @@ const useTextAndStyle = ({
         },
       };
       return textAndClassName;
-    } else if (reservationProgress === 'afterBusAssigned') {
+    } else if (
+      reservationProgress === 'afterBusAssigned' ||
+      reservationProgress === 'reviewAvailable'
+    ) {
       const textAndClassName = {
         title: {
           text: '[핸디팟] 예약 완료',
           className: 'text-brand-primary-400',
         },
         description: {
-          text: '배차가 확정되었어요. 상세 페이지에서 차량 정보를 확인해주세요.',
+          text: '자세한 정보는 탑승 전까지 알림톡을 통해 안내해 드려요.',
         },
       };
       return textAndClassName;

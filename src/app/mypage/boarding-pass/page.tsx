@@ -21,12 +21,15 @@ interface Props {
 
 const BoardingPassPage = ({ searchParams }: Props) => {
   const { reservationId } = searchParams;
+  const { replace } = useRouter();
   const {
     data,
     isLoading: isReservationLoading,
     isError: isReservationError,
   } = useGetUserReservation(reservationId);
   const reservation = data?.reservation;
+  const isShuttleEnded = reservation?.shuttleRoute.status === 'ENDED';
+  const isCanceled = reservation?.reservationStatus === 'CANCEL';
 
   const {
     data: user,
@@ -41,6 +44,7 @@ const BoardingPassPage = ({ searchParams }: Props) => {
   if (isLoading) return <Loading />;
   if (!isUserMe || isError || !reservation)
     throw new Error('유효하지 않은 데이터 혹은 잘못된 접근입니다');
+  if (isShuttleEnded || isCanceled) replace('/mypage/shuttle?type=reservation');
   return <BoardingPass reservation={reservation} />;
 };
 
@@ -322,6 +326,7 @@ const Tag = ({ type }: { type: 'departure' | 'arrival' }) => {
 import PinIcon from './icons/pin-primary.svg';
 import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
+import { useRouter } from 'next/navigation';
 
 const SimpleRouteLine = () => {
   return (
