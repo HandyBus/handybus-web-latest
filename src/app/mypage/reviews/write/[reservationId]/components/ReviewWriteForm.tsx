@@ -15,6 +15,8 @@ import { CreateReviewRequest } from '@/types/review.type';
 import { usePostReview } from '@/services/review.service';
 import { useRouter } from 'next/navigation';
 import { getImageUrl } from '@/services/core.service';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -89,7 +91,22 @@ const ReviewWriteForm = ({ reservation }: Props) => {
           .filter((url) => url !== null && url !== undefined)
           .map((url) => ({ imageUrl: url })),
       });
-    } catch {
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'ReviewWriteForm',
+          page: 'mypage',
+          feature: 'review',
+          action: 'create-review',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: reservation.shuttleRoute.event.eventId,
+          reservationId: reservation.reservationId,
+          imageCount: files.length,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       toast.error('후기를 등록하지 못했어요. 잠시 후 다시 시도해주세요.');
     }
   };

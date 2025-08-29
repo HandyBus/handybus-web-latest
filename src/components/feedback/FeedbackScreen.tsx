@@ -5,6 +5,8 @@ import TextArea from '@/components/inputs/text-area/TextArea';
 import { usePostFeedback } from '@/services/core.service';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 // NOTE: 피드백의 subject은 프론트에서 관리. 추후 기능 추가 및 기획 변경에 따라 타입 추가.
 type FeedbackSubject =
@@ -36,6 +38,19 @@ const FeedbackScreen = ({
       toast.success('소중한 의견 감사합니다!');
       closeFeedbackScreen();
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'FeedbackScreen',
+          feature: 'feedback',
+          action: 'submit-feedback',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          subject,
+          textLength: data.text ? data.text.length : 0,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
     }

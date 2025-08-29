@@ -21,6 +21,8 @@ import { getRedirectUrl } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' | 'apple' };
@@ -67,6 +69,23 @@ const OAuth = ({ params, searchParams }: Props) => {
       }
     } catch (e) {
       const error = e as CustomError;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'OAuthLogin',
+          page: 'auth',
+          feature: 'oauth-login',
+          oauthProvider: params.oauth,
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          oauthProvider: params.oauth,
+          code: searchParams.code ? 'provided' : 'missing',
+          state: searchParams.state ? 'provided' : 'missing',
+          errorStatusCode: error.statusCode,
+          errorMessage: error.message,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
       router.replace('/login');

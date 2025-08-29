@@ -8,6 +8,8 @@ import { logout, setOnboardingStatusComplete } from '@/utils/handleToken.util';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   searchParams: { identityVerificationId: string };
@@ -28,6 +30,18 @@ const Page = ({ searchParams }: Props) => {
       setOnboardingStatusComplete();
       router.replace('/');
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          component: 'IdentityVerification',
+          page: 'auth',
+          feature: 'identity-verification',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          identityVerificationId,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(e);
       toast.error('회원가입에 실패했어요.');
       logout();

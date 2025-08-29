@@ -7,6 +7,7 @@ import {
 } from '@/utils/analytics/shareAnalytics.util';
 import dayjs from 'dayjs';
 import { useScrollDepth } from './useScrollDepth';
+import * as Sentry from '@sentry/nextjs';
 
 /**
  * useShareTracking
@@ -60,6 +61,19 @@ export const useShareTracking = ({ eventId, eventName }: Props) => {
         status: 'no_action' as const,
       };
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'ShareTracking',
+          feature: 'analytics',
+          errorType: 'user-action-info-error',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId,
+          eventName,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error('Failed to get user action info:', error);
       return {
         status: 'no_action' as const,

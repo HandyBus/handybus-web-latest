@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   placeName: string;
@@ -33,6 +35,21 @@ const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
         marker.setMap(map);
       }
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'ShuttleRouteDetailKakaoMap',
+          page: 'event-detail',
+          feature: 'map',
+          action: 'initialize-kakao-map',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          placeName,
+          latitude,
+          longitude,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
     }
   };
