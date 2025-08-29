@@ -32,7 +32,7 @@ const ReviewButton = ({
       return (
         <div className="flex items-center gap-8">
           <Button
-            variant="secondary"
+            variant="tertiary"
             size="small"
             onClick={handleClickAndStopPropagation(() => {
               router.push(`/mypage/reviews/edit/${reviewId}`);
@@ -41,7 +41,7 @@ const ReviewButton = ({
             후기 수정
           </Button>
           <Button
-            variant="primary"
+            variant="tertiary"
             size="small"
             onClick={handleClickAndStopPropagation(() => {
               router.push(`/mypage/reviews/${reviewId}`);

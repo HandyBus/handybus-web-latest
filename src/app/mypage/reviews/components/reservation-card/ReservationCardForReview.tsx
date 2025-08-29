@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import ReviewButton from './ReviewButton';
 import useEventText from './hooks/useEventText';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
+import useReservationProgress from '@/app/mypage/shuttle/hooks/useReservationProgress';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -40,7 +41,13 @@ const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
 
   const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
 
+  const { reservationProgress } = useReservationProgress({
+    reservation,
+    dailyEvent,
+  });
+
   const textAndStyle = useTextAndStyleForReview({
+    reservationProgress,
     isWritingReviewPeriod,
     isHandyParty,
   });

@@ -1,35 +1,26 @@
-import { HandyStatus } from '@/types/reservation.type';
 import { ShuttleBusesViewEntity } from '@/types/shuttleBus.type';
-import useText from './hooks/useText';
 import { ReservationProgress } from '@/app/mypage/shuttle/hooks/useReservationProgress';
 import CheckIcon from './icons/icon-check.svg';
+import useHandyPartyProgressText from './hooks/useHandyPartyProgressText';
 
 interface Props {
   reservationProgress: ReservationProgress;
-  isOpenChatLinkCreated: boolean;
-  handyStatus: HandyStatus;
   shuttleBus: ShuttleBusesViewEntity | null | undefined;
-  isHandyParty: boolean;
 }
 
 const HandyPartyProgressSection = ({
   reservationProgress,
-  isOpenChatLinkCreated,
-  handyStatus,
   shuttleBus,
-  isHandyParty,
 }: Props) => {
-  const isHandy = handyStatus === 'ACCEPTED';
-
-  const { progressText, descriptionText } = useText({
+  const { progressText, descriptionText } = useHandyPartyProgressText({
     reservationProgress,
-    isOpenChatLinkCreated,
-    isHandy,
-    isHandyParty,
   });
 
   const shuttleBusNumber =
-    reservationProgress === 'afterBusAssigned' ? shuttleBus?.busNumber : '';
+    reservationProgress === 'afterBusAssigned' ||
+    reservationProgress === 'reviewAvailable'
+      ? shuttleBus?.busNumber
+      : '';
 
   return (
     <section className="px-16">
@@ -73,7 +64,9 @@ interface TaxiRouteProgressBarProps {
 const TaxiRouteProgressBar = ({
   reservationProgress,
 }: TaxiRouteProgressBarProps) => {
-  const isStep2Completed = reservationProgress === 'afterBusAssigned';
+  const isStep2Completed =
+    reservationProgress === 'afterBusAssigned' ||
+    reservationProgress === 'reviewAvailable';
   const isShuttleEnded = reservationProgress === 'shuttleEnded';
 
   return (
