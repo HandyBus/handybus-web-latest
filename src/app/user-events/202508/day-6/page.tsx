@@ -11,7 +11,7 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
 
 const DAY_6_EVENT_ID = process.env.NEXT_PUBLIC_DAY_6_EVENT_ID;
-
+console.log(DAY_6_EVENT_ID);
 const Day6 = () => {
   const { push } = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
