@@ -15,6 +15,7 @@ import { CreateReviewRequest } from '@/types/review.type';
 import { usePostReview } from '@/services/review.service';
 import { useRouter } from 'next/navigation';
 import { getImageUrl } from '@/services/core.service';
+import imageCompression from 'browser-image-compression';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -73,8 +74,16 @@ const ReviewWriteForm = ({ reservation }: Props) => {
 
   const onSubmit = async (data: CreateReviewRequest) => {
     try {
-      const imageUrls = await Promise.all(
+      const compressedFiles = await Promise.all(
         files.map(async (file) => {
+          return await imageCompression(file, {
+            maxSizeMB: 0.7,
+          });
+        }),
+      );
+
+      const imageUrls = await Promise.all(
+        compressedFiles.map(async (file) => {
           const imageUrl = await getImageUrl({
             key: 'reviews',
             file,
@@ -86,7 +95,7 @@ const ReviewWriteForm = ({ reservation }: Props) => {
       await postCreateReview({
         ...data,
         images: imageUrls
-          .filter((url) => url !== null && url !== undefined)
+          .filter((url): url is string => url !== null && url !== undefined)
           .map((url) => ({ imageUrl: url })),
       });
     } catch {

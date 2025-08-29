@@ -35,13 +35,14 @@ const WriteReviewPage = ({ params }: Props) => {
             hub.shuttleRouteHubId === selectedFromDestinationShuttleRouteHubId,
         )?.arrivalTime;
   const reviewOpenTime = dayjs(arrivalTime).subtract(1, 'hour');
-  const isReviewAvailable =
+  const isAbleToWriteReview =
     (reservation?.shuttleRoute.status === 'CLOSED' ||
       reservation?.shuttleRoute.status === 'ENDED') &&
     dayjs().isAfter(reviewOpenTime);
 
   if (data?.reservation.reviewId) replace('/mypage/reviews');
-  if (reservation && !isReviewAvailable) replace('/mypage/reviews');
+  if (reservation && !isAbleToWriteReview) replace('/mypage/reviews');
+
   return (
     <main>
       <Header />
