@@ -14,6 +14,8 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import CheckIcon from './icons/check.svg';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 const BOTTOM_SHEET_TEXT_MARKETING_AGREEMENT = {
   title: '정말 중요한 내용만 알려드릴게요',
@@ -55,6 +57,21 @@ const Page = () => {
       removeEntryGreetingIncomplete();
       closeBottomSheet();
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'GreetingPage',
+          page: 'home',
+          feature: 'onboarding',
+          section: 'marketing-consent',
+          userType: getIsLoggedIn() ? 'loggedIn' : 'anonymous',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          isMarketingAgreed,
+          hasEntryGreetingIncomplete: getEntryGreetingIncomplete(),
+          timestamp: dayjs().toISOString(),
+        },
+      });
       toast.error('잠시 후 다시 시도해주세요.');
       console.error(error);
     }

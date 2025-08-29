@@ -16,6 +16,8 @@ import { z } from 'zod';
 import { replacer, silentParse } from '@/utils/config.util';
 import { postUpdateToken } from './auth.service';
 import { UsersViewEntitySchema } from '@/types/user.type';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -78,6 +80,22 @@ class Instance {
 
       return silentParse(schema, data, { useToast: getNotifiedUsingToast });
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          component: 'APIConfig',
+          feature: 'http-client',
+          httpMethod: method,
+          errorType: 'parse-error',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          responseStatus: res.status,
+          requestUrl: url,
+          requestMethod: method,
+          requestBody: body,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       // response가 없는 경우
       if (res.status >= 400) {
         throw new CustomError(
@@ -187,6 +205,19 @@ class AuthInstance {
       return tokens;
     } catch (e) {
       const error = e as CustomError;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'AuthInstance',
+          feature: 'token-update',
+          errorType: 'token-refresh-error',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          errorStatusCode: error.statusCode,
+          errorMessage: error.message,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       removeOnboardingStatus();
       await logout();
       throw error;

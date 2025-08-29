@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 interface Props {
   closeBottomSheet: () => void;
 }
@@ -83,6 +85,24 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
       closeBottomSheet();
       router.push(url);
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'ExtraRealNameInputStep',
+          page: 'event-detail',
+          feature: 'reservation',
+          action: 'update-name-and-reserve',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: event?.eventId,
+          dailyEventId: dailyEvent.dailyEventId,
+          shuttleRouteId: route?.shuttleRouteId,
+          tripType,
+          passengerCount,
+          userName: name ? 'provided' : 'missing',
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('이름 변경에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }

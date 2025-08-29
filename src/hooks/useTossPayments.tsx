@@ -5,6 +5,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/services/custom-error';
 import { TossPaymentsWidgets } from '@tosspayments/tosspayments-sdk';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 export const PAYMENT_METHODS_ID = 'payment-method';
 export const AGREEMENT_ID = 'agreement';
@@ -92,6 +94,23 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
       setTossInitialized(true);
     } catch (e) {
       const error = e as CustomError;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'TossPayments',
+          feature: 'payment',
+          paymentMethod: 'toss',
+          paymentType: 'initialization',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          userId,
+          initialPrice,
+          clientKey: process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY
+            ? 'configured'
+            : 'missing',
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('잠시 후 다시 시도해 주세요.');
     }
@@ -133,6 +152,23 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
         failUrl,
       });
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          component: 'TossPayments',
+          feature: 'payment',
+          paymentMethod: 'toss',
+          paymentType: 'request',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          orderId,
+          orderName,
+          successUrl,
+          failUrl,
+          isDisabled,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(e);
       if (!(e instanceof CustomError)) {
         return;

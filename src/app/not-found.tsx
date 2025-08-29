@@ -1,7 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useNotFoundTracking } from '@/hooks/useNotFoundTracking';
 
 export const NotFound = () => {
+  useNotFoundTracking();
+
   return (
     <div className="flex grow flex-col px-20 py-28">
       <h2 className="pb-[10px] text-26 font-700 text-basic-grey-700">

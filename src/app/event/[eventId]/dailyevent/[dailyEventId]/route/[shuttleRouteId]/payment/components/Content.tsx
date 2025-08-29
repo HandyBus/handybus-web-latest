@@ -22,6 +22,8 @@ import { postReserveReservation } from '@/services/payment.service';
 import { usePathname } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface ContentProps {
   tripType: TripType;
@@ -146,6 +148,24 @@ const Content = ({
         markAsIntentionalNavigation,
       });
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'PaymentContent',
+          page: 'payment',
+          feature: 'payment',
+          action: 'request-payment',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: event.eventId,
+          shuttleRouteId: shuttleRoute.shuttleRouteId,
+          tripType,
+          passengerCount,
+          finalPrice: finalPrice,
+          couponId: selectedCoupon?.issuedCouponId,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('결제에 실패했어요. 잠시 후 다시 시도해주세요.');
     }

@@ -7,6 +7,8 @@ import { CustomError } from '@/services/custom-error';
 import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 const RegisterCoupon = () => {
   const { control, setValue, handleSubmit } = useForm<{ coupon: string }>();
@@ -22,6 +24,21 @@ const RegisterCoupon = () => {
       setValue('coupon', '');
     } catch (e) {
       const error = e as CustomError;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'RegisterCoupon',
+          page: 'mypage',
+          feature: 'coupon',
+          action: 'register-coupon',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          errorStatusCode: error.statusCode,
+          errorMessage: error.message,
+          couponCode: data.coupon ? 'provided' : 'empty',
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
 
       if (error.statusCode === 404) {

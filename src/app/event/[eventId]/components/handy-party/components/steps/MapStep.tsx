@@ -9,6 +9,8 @@ import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
 import { toast } from 'react-toastify';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 const DEFAULT_MAP_CENTER = {
   x: 127.02761,
@@ -131,6 +133,18 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
 
       kakaoGeocoder.current = new kakao.maps.services.Geocoder();
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'HandyPartyMapStep',
+          page: 'event-detail',
+          feature: 'handy-party',
+          action: 'initialize-kakao-map',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
     }
   }, [getValues, searchAddressAndSetResult]);

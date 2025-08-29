@@ -4,15 +4,18 @@
 
 import * as Sentry from '@sentry/nextjs';
 
-Sentry.init({
-  dsn: 'https://aeab1122ce73c3cb87f58b8d6dd5c945@o4509749985869824.ingest.us.sentry.io/4509874464817152',
+// 프로덕션 환경에서만 Sentry 활성화
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://aeab1122ce73c3cb87f58b8d6dd5c945@o4509749985869824.ingest.us.sentry.io/4509874464817152',
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+    // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+    tracesSampleRate: 1,
 
-  // Enable logs to be sent to Sentry
-  enableLogs: true,
+    // Enable logs to be sent to Sentry
+    enableLogs: true,
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: false,
-});
+    // Setting this option to true will print useful information to the console while you're setting up Sentry.
+    debug: false,
+  });
+}

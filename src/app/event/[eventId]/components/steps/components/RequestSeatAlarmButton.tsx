@@ -16,6 +16,8 @@ import {
   checkIsUserAlertRequestAvailable,
   userAlertRequestsAtom,
 } from '../../../store/userAlertRequestsAtom';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   toStep: () => void;
@@ -64,6 +66,25 @@ const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
 
       toStep();
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'RequestSeatAlarmButton',
+          page: 'event-detail',
+          feature: 'seat-alarm',
+          action: 'request-seat-alarm',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: event?.eventId,
+          dailyEventId,
+          shuttleRouteId: route?.shuttleRouteId,
+          hubInfo: {
+            regionHubId: hubWithInfo.regionHubId,
+            name: hubWithInfo.name,
+          },
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
     }
