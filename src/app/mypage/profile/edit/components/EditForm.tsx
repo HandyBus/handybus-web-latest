@@ -17,6 +17,7 @@ import { usePutUser } from '@/services/user.service';
 import { UsersViewEntity } from '@/types/user.type';
 import { getImageUrl } from '@/services/core.service';
 import Header from '@/components/header/Header';
+import imageCompression from 'browser-image-compression';
 
 interface Props {
   type: EditType;
@@ -63,10 +64,18 @@ const EditForm = ({ type, user }: Props) => {
     const favoriteArtistsIds = formData.favoriteArtists.map(
       (artist) => artist.artistId,
     );
+
+    const compressedProfileImage = formData.profileImage
+      ? await imageCompression(formData.profileImage, {
+          maxSizeMB: 0.3,
+        }) // 0.3MB로 압축
+      : null;
+
     const imageUrl = await getImageUrl({
       key: 'users/profiles',
-      file: formData.profileImage,
+      file: compressedProfileImage,
     });
+
     if (type === 'region' && !(formData.bigRegion && formData.smallRegion)) {
       methods.setError('bigRegion', {
         type: 'required',
@@ -75,10 +84,12 @@ const EditForm = ({ type, user }: Props) => {
       setIsSubmitting(false);
       return;
     }
+
     const regionId =
       formData.bigRegion && formData.smallRegion
         ? REGION_TO_ID[formData.bigRegion][formData.smallRegion]
         : undefined;
+
     if (type === 'region' && !regionId) {
       toast.error('프로필을 수정하지 못했어요.');
       setIsSubmitting(false);
