@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import LargeLogo from 'public/icons/logo-large.svg';
+// import Link from 'next/link';
+// import LargeLogo from 'public/icons/logo-large.svg';
 import ChatSolidIcon from 'public/icons/chat-solid.svg';
 import { useState } from 'react';
 import FeedbackScreen from '../feedback/FeedbackScreen';
@@ -24,7 +24,7 @@ const DeadZonePopup = () => {
   return (
     <>
       <div className="fixed bottom-52 right-[calc(50%-500px)] z-[99] flex flex-col gap-16 max-[1000px]:hidden">
-        <div className="flex h-252  w-[210px] flex-col items-center rounded-10 bg-basic-grey-50 px-16 py-20">
+        {/* <div className="flex h-252  w-[210px] flex-col items-center rounded-10 bg-basic-grey-50 px-16 py-20">
           <LargeLogo />
           <div className="mb-8 mt-12 text-20 font-700 tracking-[-0.5px]">
             집에서 콘서트장까지, <br />
@@ -39,7 +39,7 @@ const DeadZonePopup = () => {
               후기 보러 가기
             </Link>
           </div>
-        </div>
+        </div> */}
         <button
           onClick={handleFeedbackOpen}
           type="button"
