@@ -3,6 +3,7 @@ import Button from '@/components/buttons/button/Button';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
+import useTempSeventeen from '@/hooks/useTempSeventeen';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -23,11 +24,15 @@ const ChatButton = ({
 }: Props) => {
   const router = useRouter();
 
+  const { isSeventeenEvent, temporaryNoticeRoomUrl } =
+    useTempSeventeen(reservation);
   // NOTE: 일자별 노선의 metadata에 오픈채팅방 링크를 임시로 반영하기로 함. 앱 출시 후 삭제예정
-  const noticeRoomUrl = reservation.shuttleRoute.event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-  )?.metadata?.openChatUrl;
+  const noticeRoomUrl = isSeventeenEvent
+    ? temporaryNoticeRoomUrl
+    : reservation.shuttleRoute.event.dailyEvents.find(
+        (dailyEvent) =>
+          dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
+      )?.metadata?.openChatUrl;
 
   const openOpenChatLink = () => {
     if (noticeRoomUrl) {

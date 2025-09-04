@@ -13,7 +13,8 @@ import Loading from '@/components/loading/Loading';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
+import useTempSeventeen from '@/hooks/useTempSeventeen';
 
 interface Props {
   params: {
@@ -55,58 +56,8 @@ const PaymentsCompletedPage = ({
     reservation.shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
-  const isSeventeenEvent =
-    reservation.shuttleRoute.eventId === '603038379151464486';
-  const temporaryNoticeRoomUrl: string | null = useMemo(() => {
-    const SHUTTLE_ROUTE_ID_13_대구 = '613618546496246356';
-    const SHUTTLE_ROUTE_ID_13_부산 = '613620913623012086';
-    const SHUTTLE_ROUTE_ID_13_대전 = '611769613054644567';
-    const SHUTTLE_ROUTE_ID_13_천안아산 = '613615679391666718';
-    const SHUTTLE_ROUTE_ID_13_청주 = '611771163789496897';
-    const OPEN_CHAT_URL_13_대구 = 'https://open.kakao.com/o/gwew7bQh';
-    const OPEN_CHAT_URL_13_부산 = 'https://open.kakao.com/o/gp1J7bQh';
-    const OPEN_CHAT_URL_13_대전 = 'https://open.kakao.com/o/gaoW7bQh';
-    const OPEN_CHAT_URL_13_천안아산 = 'https://open.kakao.com/o/gOF77bQh';
-    const OPEN_CHAT_URL_13_청주 = 'https://open.kakao.com/o/grNn8bQh';
-    const SHUTTLE_ROUTE_ID_14_대구 = '613623549873099706';
-    const SHUTTLE_ROUTE_ID_14_부산 = '613622643945378707';
-    const SHUTTLE_ROUTE_ID_14_대전 = '611770340053357083';
-    const SHUTTLE_ROUTE_ID_14_천안아산 = '613624012286727144';
-    const SHUTTLE_ROUTE_ID_14_청주 = '611771616103240128';
-    const OPEN_CHAT_URL_14_대구 = 'https://open.kakao.com/o/gRTC8bQh';
-    const OPEN_CHAT_URL_14_부산 = 'https://open.kakao.com/o/gSJS8bQh';
-    const OPEN_CHAT_URL_14_대전 = 'https://open.kakao.com/o/gbVe9bQh';
-    const OPEN_CHAT_URL_14_천안아산 = 'https://open.kakao.com/o/gZau9bQh';
-    const OPEN_CHAT_URL_14_청주 = 'https://open.kakao.com/o/g1QhacQh';
-
-    switch (reservation.shuttleRouteId) {
-      // 세븐틴 9/13 노선목록
-      case SHUTTLE_ROUTE_ID_13_대구:
-        return OPEN_CHAT_URL_13_대구;
-      case SHUTTLE_ROUTE_ID_13_부산:
-        return OPEN_CHAT_URL_13_부산;
-      case SHUTTLE_ROUTE_ID_13_대전:
-        return OPEN_CHAT_URL_13_대전;
-      case SHUTTLE_ROUTE_ID_13_천안아산:
-        return OPEN_CHAT_URL_13_천안아산;
-      case SHUTTLE_ROUTE_ID_13_청주:
-        return OPEN_CHAT_URL_13_청주;
-      // 세븐틴 9/14 노선목록
-      case SHUTTLE_ROUTE_ID_14_대구:
-        return OPEN_CHAT_URL_14_대구;
-      case SHUTTLE_ROUTE_ID_14_부산:
-        return OPEN_CHAT_URL_14_부산;
-      case SHUTTLE_ROUTE_ID_14_대전:
-        return OPEN_CHAT_URL_14_대전;
-      case SHUTTLE_ROUTE_ID_14_천안아산:
-        return OPEN_CHAT_URL_14_천안아산;
-      case SHUTTLE_ROUTE_ID_14_청주:
-        return OPEN_CHAT_URL_14_청주;
-
-      default:
-        return null;
-    }
-  }, [reservation.shuttleRouteId]);
+  const { isSeventeenEvent, temporaryNoticeRoomUrl } =
+    useTempSeventeen(reservation);
 
   const noticeRoomUrl = isSeventeenEvent
     ? temporaryNoticeRoomUrl
