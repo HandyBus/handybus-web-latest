@@ -11,6 +11,8 @@ import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
 import RoadIcon from './icons/road.svg';
 import BusIcon from './icons/bus.svg';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface PageProps {
   params: {
@@ -73,6 +75,26 @@ const Page = ({ params }: PageProps) => {
       );
     } catch (e) {
       const error = e as CustomError;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'PaymentRequest',
+          page: 'payment',
+          feature: 'payment',
+          action: 'approve-payment',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: params.eventId,
+          dailyEventId: params.dailyEventId,
+          shuttleRouteId: params.shuttleRouteId,
+          orderId: searchParams.get('orderId'),
+          paymentKey: searchParams.get('paymentKey'),
+          reservationId,
+          errorStatusCode: error.statusCode,
+          errorMessage: error.message,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       await handlePolling(reservationId ?? '', error);
     }
   };

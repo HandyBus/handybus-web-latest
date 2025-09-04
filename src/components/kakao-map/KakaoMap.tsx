@@ -5,6 +5,8 @@ import Script from 'next/script';
 import LogoIcon from 'public/icons/logo-small.svg';
 import KakaoMapIcon from 'public/icons/kakaomap-logo.svg';
 import ChevronRightIcon from 'public/icons/chevron-right.svg';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   placeName: string;
@@ -51,6 +53,23 @@ const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
         geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
       }
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'KakaoMap',
+          feature: 'map',
+          errorType: 'map-initialization-error',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          placeName,
+          latitude,
+          longitude,
+          kakaoApiKey: process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
+            ? 'configured'
+            : 'missing',
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error('지도를 불러오는 중 오류가 발생했습니다. \n' + error);
     }
   };

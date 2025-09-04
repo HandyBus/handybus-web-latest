@@ -22,6 +22,8 @@ import useHistory from '../hooks/useHistory';
 import useBottomSheetText from '../hooks/useBottomSheetText';
 import { useForm } from 'react-hook-form';
 import { usePostFeedback } from '@/services/core.service';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 import { createFeedbackContent } from '../utils/createFeedbackContent.util';
 import RadioInputGroup from './RadioInputGroup';
 
@@ -110,6 +112,21 @@ const CancelBottomSheet = ({
         content,
       });
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          component: 'CancelBottomSheet',
+          page: 'mypage',
+          feature: 'refund',
+          action: 'submit-feedback',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          reservationId: reservation.reservationId,
+          subject: '셔틀 예약 취소 사유',
+          contentLength: content ? content.length : 0,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(e);
       toast.error('취소 사유를 제출하지 못했어요.');
     }
@@ -132,8 +149,26 @@ const CancelBottomSheet = ({
       closeBottomSheet();
       router.push('/mypage/shuttle?type=reservation');
     } catch (e) {
-      console.error(e);
       const error = e as CustomError;
+      Sentry.captureException(error, {
+        tags: {
+          component: 'CancelBottomSheet',
+          page: 'mypage',
+          feature: 'refund',
+          action: 'cancel-reservation',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          reservationId: reservation.reservationId,
+          paymentId: reservation.paymentId,
+          isRefundable,
+          refundFee,
+          errorStatusCode: error.statusCode,
+          errorMessage: error.message,
+          timestamp: dayjs().toISOString(),
+        },
+      });
+      console.error(e);
 
       if (error.statusCode === 409) {
         toast.error('이미 환불을 신청한 셔틀이에요.');
