@@ -20,6 +20,7 @@ import { checkIsHandyParty } from '@/utils/handyParty.util';
 import HandyPartyProgressSection from './sections/shuttle-progress-section/HandyPartyProgressSection';
 import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
+import { useMemo } from 'react';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -60,8 +61,63 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
 
   const isHandyParty = checkIsHandyParty(shuttleRoute);
 
+  const isSeventeenEvent =
+    reservation.shuttleRoute.eventId === '603038379151464486';
+  const temporaryNoticeRoomUrl: string | null = useMemo(() => {
+    const SHUTTLE_ROUTE_ID_13_대구 = '613618546496246356';
+    const SHUTTLE_ROUTE_ID_13_부산 = '613620913623012086';
+    const SHUTTLE_ROUTE_ID_13_대전 = '611769613054644567';
+    const SHUTTLE_ROUTE_ID_13_천안아산 = '613615679391666718';
+    const SHUTTLE_ROUTE_ID_13_청주 = '611771163789496897';
+    const OPEN_CHAT_URL_13_대구 = 'https://open.kakao.com/o/gwew7bQh';
+    const OPEN_CHAT_URL_13_부산 = 'https://open.kakao.com/o/gp1J7bQh';
+    const OPEN_CHAT_URL_13_대전 = 'https://open.kakao.com/o/gaoW7bQh';
+    const OPEN_CHAT_URL_13_천안아산 = 'https://open.kakao.com/o/gOF77bQh';
+    const OPEN_CHAT_URL_13_청주 = 'https://open.kakao.com/o/grNn8bQh';
+    const SHUTTLE_ROUTE_ID_14_대구 = '613623549873099706';
+    const SHUTTLE_ROUTE_ID_14_부산 = '613622643945378707';
+    const SHUTTLE_ROUTE_ID_14_대전 = '611770340053357083';
+    const SHUTTLE_ROUTE_ID_14_천안아산 = '613624012286727144';
+    const SHUTTLE_ROUTE_ID_14_청주 = '611771616103240128';
+    const OPEN_CHAT_URL_14_대구 = 'https://open.kakao.com/o/gRTC8bQh';
+    const OPEN_CHAT_URL_14_부산 = 'https://open.kakao.com/o/gSJS8bQh';
+    const OPEN_CHAT_URL_14_대전 = 'https://open.kakao.com/o/gbVe9bQh';
+    const OPEN_CHAT_URL_14_천안아산 = 'https://open.kakao.com/o/gZau9bQh';
+    const OPEN_CHAT_URL_14_청주 = 'https://open.kakao.com/o/g1QhacQh';
+
+    switch (reservation.shuttleRouteId) {
+      // 세븐틴 9/13 노선목록
+      case SHUTTLE_ROUTE_ID_13_대구:
+        return OPEN_CHAT_URL_13_대구;
+      case SHUTTLE_ROUTE_ID_13_부산:
+        return OPEN_CHAT_URL_13_부산;
+      case SHUTTLE_ROUTE_ID_13_대전:
+        return OPEN_CHAT_URL_13_대전;
+      case SHUTTLE_ROUTE_ID_13_천안아산:
+        return OPEN_CHAT_URL_13_천안아산;
+      case SHUTTLE_ROUTE_ID_13_청주:
+        return OPEN_CHAT_URL_13_청주;
+      // 세븐틴 9/14 노선목록
+      case SHUTTLE_ROUTE_ID_14_대구:
+        return OPEN_CHAT_URL_14_대구;
+      case SHUTTLE_ROUTE_ID_14_부산:
+        return OPEN_CHAT_URL_14_부산;
+      case SHUTTLE_ROUTE_ID_14_대전:
+        return OPEN_CHAT_URL_14_대전;
+      case SHUTTLE_ROUTE_ID_14_천안아산:
+        return OPEN_CHAT_URL_14_천안아산;
+      case SHUTTLE_ROUTE_ID_14_청주:
+        return OPEN_CHAT_URL_14_청주;
+
+      default:
+        return null;
+    }
+  }, [reservation.shuttleRouteId]);
+
   // NOTE: 일자별 노선의 metadata에 오픈채팅방 링크를 임시로 반영하기로 함. 앱 출시 후 삭제예정
-  const noticeRoomUrl = dailyEvent?.metadata?.openChatUrl;
+  const noticeRoomUrl = isSeventeenEvent
+    ? temporaryNoticeRoomUrl
+    : dailyEvent?.metadata?.openChatUrl;
   const handleOpenNoticeRoom = () => {
     if (noticeRoomUrl) {
       window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');

@@ -14,6 +14,8 @@ import { CreateReviewRequest, ReviewsViewEntity } from '@/types/review.type';
 import { usePutReview } from '@/services/review.service';
 import { useRouter } from 'next/navigation';
 import { getImageUrl } from '@/services/core.service';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -114,7 +116,23 @@ const ReviewEditForm = ({ review }: Props) => {
           .filter((url) => url !== null && url !== undefined)
           .map((url) => ({ imageUrl: url })),
       });
-    } catch {
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'ReviewEditForm',
+          page: 'mypage',
+          feature: 'review',
+          action: 'edit-review',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          reviewId: review.reviewId,
+          eventId: review.eventId,
+          reservationId: review.reservationId,
+          imageCount: displayImages.length,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       toast.error('후기를 수정하지 못했어요. 잠시 후 다시 시도해주세요.');
     }
   };

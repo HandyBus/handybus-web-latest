@@ -10,6 +10,8 @@ import { useAtomValue } from 'jotai';
 import { DemandCompleteStatus } from '../../demand-complete-screen/DemandCompleteScreen';
 import { usePostCoupon } from '@/services/coupon.service';
 import { useState } from 'react';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 const SHUTTLE_DEMAND_COUPON_CODE_PREFIX = 'DEMAND';
 
@@ -85,7 +87,27 @@ const DemandHubInfoStep = ({
       );
       setDemandCompleteStatus('success');
       updateUserDemands();
-    } catch {
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'DemandHubInfoStep',
+          page: 'event-detail',
+          feature: 'demand',
+          action: 'submit-demand',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: event?.eventId,
+          dailyEventId: dailyEvent.dailyEventId,
+          hubInfo: {
+            regionHubId: selectedHubForDemand.regionHubId,
+            name: selectedHubForDemand.name,
+          },
+          tripType,
+          demandDate: dailyEvent.date,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       setDemandCompleteStatus('fail');
     }
   };
@@ -100,6 +122,20 @@ const DemandHubInfoStep = ({
     try {
       await postCoupon(code);
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          component: 'DemandHubInfoStep',
+          page: 'event-detail',
+          feature: 'coupon',
+          action: 'register-demand-coupon',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: event?.eventId,
+          couponCode: code,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(e);
     }
   };

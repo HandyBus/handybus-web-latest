@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { toast } from 'react-toastify';
 import { useDeleteAlertRequest } from '@/services/alertRequest.service';
+import * as Sentry from '@sentry/nextjs';
+import dayjs from 'dayjs';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
@@ -28,6 +30,22 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
       });
       toast.success('알림 요청을 취소했어요.');
     } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          component: 'AlertRequestCard',
+          page: 'mypage',
+          feature: 'alert-request',
+          action: 'delete-alert-request',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          eventId: alertRequest.shuttleRoute.event.eventId,
+          dailyEventId: alertRequest.shuttleRoute.dailyEventId,
+          shuttleRouteId: alertRequest.shuttleRoute.shuttleRouteId,
+          shuttleRouteAlertRequestId: alertRequest.shuttleRouteAlertRequestId,
+          timestamp: dayjs().toISOString(),
+        },
+      });
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
     }

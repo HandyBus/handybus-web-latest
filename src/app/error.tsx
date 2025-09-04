@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { logout } from '@/utils/handleToken.util';
 import { useEffect } from 'react';
 import * as Sentry from '@sentry/nextjs';
+import { usePathname } from 'next/navigation';
+import dayjs from 'dayjs';
 
 export const Error = ({
   error,
@@ -12,10 +14,28 @@ export const Error = ({
   error: Error & { digest?: string };
   reset: () => void;
 }) => {
+  const pathname = usePathname();
+
   useEffect(() => {
-    Sentry.captureException(error);
+    Sentry.captureException(error, {
+      tags: {
+        component: 'ErrorBoundary',
+        page: 'global-error',
+        feature: 'error-handling',
+        errorType: 'unhandled-error',
+        environment: process.env.NODE_ENV || 'development',
+      },
+      extra: {
+        errorName: error.name,
+        errorMessage: error.message,
+        errorStack: error.stack,
+        errorDigest: error.digest,
+        pathname,
+        timestamp: dayjs().toISOString(),
+      },
+    });
     console.error(error);
-  }, [error]);
+  }, [error, pathname]);
 
   return (
     <div className="flex grow flex-col px-20 py-28">
