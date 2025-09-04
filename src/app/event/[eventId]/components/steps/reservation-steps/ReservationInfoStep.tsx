@@ -69,7 +69,7 @@ const ReservationInfoStep = ({
   const isRoundTrip = tripType === 'ROUND_TRIP';
   const isEarlybird = price?.isEarlybird;
 
-  // 가는 편 및 오는 편의 탑승하는 정류장 관리
+  // 행사장행 및 귀가행의 탑승하는 정류장 관리
   const [toDestinationShuttleRouteHubId, setToDestinationShuttleRouteHubId] =
     useState<string | undefined>(undefined);
   const [

@@ -1,7 +1,9 @@
 import Section from '../Section';
 import ArrowDownwardTipRightIcon from '../../icons/arrow-downward-tip-right.svg';
+import { TripType } from '@/types/shuttleRoute.type';
 
 interface Props {
+  tripType: TripType;
   regularPrice: number;
   finalPrice: number;
   totalCouponDiscountAmount: number;
@@ -9,7 +11,14 @@ interface Props {
   passengerCount: number;
 }
 
+const TRIP_TYPE_LABELS: Record<TripType, string> = {
+  TO_DESTINATION: '행사장행',
+  FROM_DESTINATION: '귀가행',
+  ROUND_TRIP: '왕복',
+} as const;
+
 const PriceSection = ({
+  tripType,
   regularPrice,
   finalPrice,
   totalCouponDiscountAmount,
@@ -20,7 +29,7 @@ const PriceSection = ({
     <Section heading="결제 금액">
       <div className="flex flex-col gap-8">
         <li className="flex h-[22px] w-full items-center justify-between">
-          <span className="text-14 font-600">가는 편</span>
+          <span className="text-14 font-600">{TRIP_TYPE_LABELS[tripType]}</span>
           <span className="text-14 font-600">
             {regularPrice.toLocaleString()}원
           </span>

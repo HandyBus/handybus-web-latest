@@ -157,7 +157,7 @@ const Hub = ({
             }`}
           >
             <Badge className="bg-basic-white text-basic-grey-700">
-              가는 편
+              행사장행
             </Badge>
             <div className="flex-1 text-14 font-500 text-basic-grey-700">
               {toDestinationArrivalTime} 도착
@@ -183,7 +183,7 @@ const Hub = ({
             }`}
           >
             <Badge className="bg-basic-grey-200 text-basic-grey-700">
-              오는 편
+              귀가행
             </Badge>
             <div className="flex-1 text-14 font-500 text-basic-grey-700">
               {fromDestinationDepartureTime} 출발

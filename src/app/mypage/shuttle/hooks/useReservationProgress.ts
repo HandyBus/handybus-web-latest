@@ -22,7 +22,7 @@ const useReservationProgress = ({ reservation, dailyEvent }: Props) => {
     const isShuttleEnded = reservation.shuttleRoute.status === 'ENDED';
     const isReservationCanceled = reservation.reservationStatus === 'CANCEL';
 
-    // 왕복 혹은 가는 편 일때 행사장 하차지 시간을 기준으로 리뷰 작성 가능 여부 판단
+    // 왕복 혹은 행사장행 일때 행사장 하차지 시간을 기준으로 리뷰 작성 가능 여부 판단
     const tripType = reservation.type;
     const selectedFromDestinationShuttleRouteHubId =
       reservation.fromDestinationShuttleRouteHubId;

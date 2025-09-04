@@ -60,7 +60,7 @@ const ReservationInfoStep = ({
       const tripTypeOfItem = route.name.split('_')?.[2] ?? '';
       const isSameArea = handyPartyAreaOfItem === handyPartyArea;
       const convertedTripTypeOfItem =
-        tripTypeOfItem === '가는편' ? 'TO_DESTINATION' : 'FROM_DESTINATION';
+        tripTypeOfItem === '행사장행' ? 'TO_DESTINATION' : 'FROM_DESTINATION'; // 핸디팟은 노선 이름에 방향이 기재되어있어야한다.
       const isSameTripType = convertedTripTypeOfItem === tripType;
       return isSameArea && isSameTripType;
     });
