@@ -30,7 +30,7 @@ GA4에서 수요조사 단계별 이탈을 측정하여 사용자 행동을 분�
 - `select_date`: 날짜 선택
 - `select_sido`: 시/도 선택
 - `select_hub`: 정류장 선택
-- `select_trip_type`: 방향 선택 (가는편/오는편/왕복)
+- `select_trip_type`: 방향 선택 (행사장행/귀가행/왕복)
 - `confirm_hub`: 정류장 정보 확인
 - `complete_demand`: 셔틀 요청 확정
 

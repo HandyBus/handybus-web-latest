@@ -11,7 +11,7 @@ const ShuttleRouteInfoSection = ({ shuttleRoute }: Props) => {
   const fromDestinationShuttleRouteHubs =
     shuttleRoute.fromDestinationShuttleRouteHubs?.map((hub) => hub.name);
 
-  // 오는편/가는편 둘 중 하나는 반드시 존재함. 또한 hub는 미러링이 보장됨
+  // 행사장행/귀가행 둘 중 하나는 반드시 존재함. 또한 hub는 미러링이 보장됨
   const shuttleRouteHubs =
     toDestinationShuttleRouteHubs || fromDestinationShuttleRouteHubs;
 

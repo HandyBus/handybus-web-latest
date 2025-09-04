@@ -13,7 +13,7 @@ GA4에서 예약 단계별 이탈을 측정하여 사용자 행동을 분석하�
 - `select_product`: 상품 선택
 - `select_hub`: 정류장 선택
 - `select_multiple_routes`: 복수 노선 선택
-- `select_trip_type`: 좌석 선택 (가는편/오는편/왕복)
+- `select_trip_type`: 좌석 선택 (행사장행/귀가행/왕복)
 - `hub_info`: 예약 정보 확인
 
 ### 핸디팟 전용 단계
@@ -75,8 +75,8 @@ GA4에서 예약 단계별 이탈을 측정하여 사용자 행동을 분석하�
 - `event_id`: 이벤트 ID
 - `event_name`: 이벤트 이름 (100자 제한)
 - `event_date`: 선택한 이벤트 날짜
-- `selected_hub_to_destination`: 선택한 가는편 정류장명
-- `selected_hub_from_destination`: 선택한 오는편 정류장명
+- `selected_hub_to_destination`: 선택한 행사장행 정류장명
+- `selected_hub_from_destination`: 선택한 귀가행 정류장명
 - `trip_type`: 선택한 방향 (ROUND_TRIP, TO_DESTINATION, FROM_DESTINATION)
 - `has_other_event_reservation`: 다른 이벤트 예약 여부
 - `payment_id`: 결제 ID
@@ -227,8 +227,8 @@ markAsIntentionalNavigation(true);
 // 결제 성공 시 호출
 trackCompleteReservation(
   eventDate, // 이벤트 날짜
-  hubToDestination, // 가는편 정류장
-  hubFromDestination, // 오는편 정류장
+  hubToDestination, // 행사장행 정류장
+  hubFromDestination, // 귀가행 정류장
   tripType, // 여행 타입
   hasOtherReservation, // 다른 예약 여부
   paymentId, // 결제 ID
