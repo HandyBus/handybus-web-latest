@@ -75,7 +75,7 @@ const ShuttleRouteInfoSection = ({
             <div className="grid grid-cols-[24px_1fr] gap-4 rounded-6 bg-basic-grey-50 p-8">
               <InfoIcon />
               <p className="text-12 font-500 text-basic-grey-600">
-                오는 편 출발 시간은 조기 종료, 지연 등을 고려한 공연 종료 후
+                귀가행 출발 시간은 조기 종료, 지연 등을 고려한 공연 종료 후
                 50분까지 대기 후 운행됩니다.
               </p>
             </div>

@@ -211,6 +211,7 @@ const Content = ({
           setSelectedCoupon={setSelectedCoupon}
         />
         <PriceSection
+          tripType={tripType}
           regularPrice={regularPrice}
           finalPrice={finalPrice}
           totalCouponDiscountAmount={totalCouponDiscountAmount}

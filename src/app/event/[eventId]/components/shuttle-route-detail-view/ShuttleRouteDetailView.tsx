@@ -139,12 +139,12 @@ const ShuttleRouteDetailView = () => {
           items={
             [
               {
-                label: '가는 편',
+                label: '행사장행',
                 value: 'TO_DESTINATION',
                 disabled: toDestinationHubs.length === 0,
               },
               {
-                label: '오는 편',
+                label: '귀가행',
                 value: 'FROM_DESTINATION',
                 disabled: fromDestinationHubs.length === 0,
               },

@@ -195,8 +195,8 @@ const Hub = ({
     (remainingSeat.type === 'ROUND_TRIP'
       ? null
       : remainingSeat.type === 'TO_DESTINATION'
-        ? '가는 편'
-        : '오는 편');
+        ? '행사장행'
+        : '귀가행');
 
   return (
     <div key={hub.regionHubId} className="relative flex w-full items-center">
