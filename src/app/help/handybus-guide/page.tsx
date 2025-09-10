@@ -219,6 +219,8 @@ const HANDYBUS_GUIDE_STEPS = [
     title: '공지방 참여',
     description:
       '예약내역 > 공지방 참여를 통해 공지방에 참여해 주세요. 탑승 당일까지 셔틀 안내사항과 실시간 현장 상황을 공유받을 수 있어요.',
+    subDescription:
+      '* 특정 행사의 경우, 공지방 없이 알림톡으로 운행됩니다. 예약 내역에서 공지방 버튼의 유무에 따라 확인하실 수 있어요.',
     image: guideImageStep4,
   },
   {
