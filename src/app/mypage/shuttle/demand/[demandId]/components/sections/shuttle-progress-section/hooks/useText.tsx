@@ -32,7 +32,7 @@ const useText = ({ demand }: Props) => {
       };
     } else {
       return {
-        progressText: `같은 정류장을 ${demand.demandCountOnRegion}명이 요청했어요.`,
+        progressText: `같은 지역을 ${demand.demandCountOnRegion}명이 요청했어요.`,
         descriptionText:
           '셔틀 개설 기준은 행사마다 달라져요. 인원 수 기준은 따로 제공되지 않는 점 양해 부탁드려요.',
       };
