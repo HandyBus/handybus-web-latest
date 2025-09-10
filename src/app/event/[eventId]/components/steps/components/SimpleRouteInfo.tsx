@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 
 const ROUND_TRIP_TEXT = '[왕복] ';
 
-// destination: 목적지 (가는편 : 행사장, 오는편 : 하차장소)
+// destination: 목적지 (행사장행 : 행사장, 귀가행 : 하차장소)
 // primary: 선택된 정류장
 // secondary: 경유 정류장 (유저 입장)
 // tertiary: 경유하지 않는 정류장 (유저 입장)
@@ -53,7 +53,7 @@ const SimpleRouteInfo = ({
   }, [hubs]);
 
   const tripTypeText = useMemo(() => {
-    const baseText = tripType === 'TO_DESTINATION' ? '가는 편' : '오는 편';
+    const baseText = tripType === 'TO_DESTINATION' ? '행사장행' : '귀가행';
     if (isRoundTrip) {
       return ROUND_TRIP_TEXT + baseText;
     }

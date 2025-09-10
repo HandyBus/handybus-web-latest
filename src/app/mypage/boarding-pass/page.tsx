@@ -53,15 +53,17 @@ interface BoardingPassProps {
 }
 
 const BoardingPass = ({ reservation }: BoardingPassProps) => {
-  const [currentTripType, setCurrentTripType] = useState<'가는편' | '오는편'>();
+  const [currentTripType, setCurrentTripType] = useState<
+    '행사장행' | '귀가행'
+  >();
   useEffect(() => {
     setCurrentTripType(
       reservation?.type === 'ROUND_TRIP'
-        ? '가는편'
+        ? '행사장행' // 왕복일 경우 첫 페이지 티켓은 행사장행
         : reservation?.type === 'TO_DESTINATION'
-          ? '가는편'
+          ? '행사장행'
           : reservation?.type === 'FROM_DESTINATION'
-            ? '오는편'
+            ? '귀가행'
             : undefined,
     );
   }, [reservation]);
@@ -106,23 +108,23 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
               {isRoundTrip && currentTripType && (
                 <div className="flex items-center gap-8 text-18 font-500 leading-[160%] text-basic-white">
                   <button
-                    onClick={() => setCurrentTripType('가는편')}
-                    disabled={currentTripType === '가는편'}
+                    onClick={() => setCurrentTripType('행사장행')}
+                    disabled={currentTripType === '행사장행'}
                   >
                     <ArrowIcon
                       className={`rotate-180 ${
-                        currentTripType === '가는편' ? 'opacity-50' : ''
+                        currentTripType === '행사장행' ? 'opacity-50' : ''
                       }`}
                     />
                   </button>
-                  {currentTripType === '가는편' ? 1 : 2}/2
+                  {currentTripType === '행사장행' ? 1 : 2}/2
                   <button
-                    onClick={() => setCurrentTripType('오는편')}
-                    disabled={currentTripType === '오는편'}
+                    onClick={() => setCurrentTripType('귀가행')}
+                    disabled={currentTripType === '귀가행'}
                   >
                     <ArrowIcon
                       className={`${
-                        currentTripType === '오는편' ? 'opacity-50' : ''
+                        currentTripType === '귀가행' ? 'opacity-50' : ''
                       }`}
                     />
                   </button>
@@ -145,9 +147,9 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
                     <Tag type="departure" />
                     {/* 탑승지 */}
                     <p className="text-24 font-700 leading-[140%]">
-                      {currentTripType === '가는편'
+                      {currentTripType === '행사장행'
                         ? selectedHubNameToDestination
-                        : currentTripType === '오는편'
+                        : currentTripType === '귀가행'
                           ? departureHubNameFromDestination
                           : null}
                     </p>
@@ -158,9 +160,9 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
                     <Tag type="arrival" />
                     {/* 하차지 */}
                     <p className="text-24 font-700 leading-[140%]">
-                      {currentTripType === '가는편'
+                      {currentTripType === '행사장행'
                         ? arrivalHubNameToDestination
-                        : currentTripType === '오는편'
+                        : currentTripType === '귀가행'
                           ? selectedHubNameFromDestination
                           : null}
                     </p>
@@ -176,7 +178,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
               <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
                 탑승일시
               </h2>
-              {currentTripType === '가는편' && (
+              {currentTripType === '행사장행' && (
                 <p className="text-24 font-700 leading-[140%]">
                   {dayjs(boardingTimeToDestination)
                     .locale('ko')
@@ -189,7 +191,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
                   </span>
                 </p>
               )}
-              {currentTripType === '오는편' && (
+              {currentTripType === '귀가행' && (
                 <p className="text-24 font-700 leading-[140%]">
                   {dayjs(boardingTimeFromDestination)
                     .locale('ko')
@@ -235,9 +237,9 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
                   예상 소요시간
                 </h2>
                 <p className="text-18 font-600 leading-[160%]">
-                  {currentTripType === '가는편'
+                  {currentTripType === '행사장행'
                     ? durationToDestination
-                    : currentTripType === '오는편'
+                    : currentTripType === '귀가행'
                       ? durationFromDestination
                       : null}
                 </p>

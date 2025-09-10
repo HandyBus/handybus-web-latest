@@ -17,7 +17,7 @@ interface Props {
 
 const SimpleRouteInfo = ({ tripType, destinationHub, userAddress }: Props) => {
   const tripTypeText = useMemo(() => {
-    const baseText = tripType === 'TO_DESTINATION' ? '가는 편' : '오는 편';
+    const baseText = tripType === 'TO_DESTINATION' ? '행사장행' : '귀가행';
     return '[핸디팟] ' + baseText;
   }, [tripType]);
 
