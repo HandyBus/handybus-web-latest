@@ -57,6 +57,8 @@ export const ReservationsViewEntitySchema = z
     shuttleBusId: z.string().nullable(),
     passengerCount: z.number().int(),
     shuttleRoute: ShuttleRoutesViewEntitySchema,
+    originalUserId: z.string(),
+    isTransferable: z.boolean(),
     createdAt: z.string(),
     updatedAt: z.string(),
     metadata: z
