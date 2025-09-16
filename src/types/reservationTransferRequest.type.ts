@@ -12,8 +12,11 @@ export const ReservationTransferRequestsEntitySchema = z.object({
   reservationId: z.string(),
   token: z.string(),
   receiverPhoneNumber: z.string(),
-  expiredAt: z.string(),
+  expiresAt: z.string(),
   status: ReservationTransferRequestStatusEnum,
   createdAt: z.string(),
   updatedAt: z.string(),
 });
+export type ReservationTransferRequestsEntity = z.infer<
+  typeof ReservationTransferRequestsEntitySchema
+>;

@@ -74,14 +74,16 @@ export const usePostCreateReservationTransferRequest = (
 
 export const postAcceptReservationTransferRequest = async (token: string) => {
   const res = await authInstance.post(
-    `/v1/shuttle-operation/reservation-transfer-requests/accept/${token}`,
-    undefined,
+    `/v1/shuttle-operation/reservation-transfer-requests/accept`,
+    {
+      token,
+    },
   );
   return res;
 };
 
-export const usePostAcceptReservationTransferRequest = (token: string) => {
+export const usePostAcceptReservationTransferRequest = () => {
   return useMutation({
-    mutationFn: () => postAcceptReservationTransferRequest(token),
+    mutationFn: (token: string) => postAcceptReservationTransferRequest(token),
   });
 };
