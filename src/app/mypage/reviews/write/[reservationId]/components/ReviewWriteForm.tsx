@@ -42,7 +42,9 @@ const ReviewWriteForm = ({ reservation }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: postCreateReview } = usePostReview({
     onSuccess: (res) => {
-      router.push(`/mypage/reviews/${res.id}`);
+      router.push(
+        `/mypage/reviews/write/${res.reservationId}/complete?review-id=${res.id}`,
+      );
     },
   });
 
