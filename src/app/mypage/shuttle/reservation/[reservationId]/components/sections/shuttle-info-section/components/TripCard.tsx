@@ -1,6 +1,6 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { CustomError } from '@/services/custom-error';
-import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
+import { TripType } from '@/types/shuttleRoute.type';
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 import DotIcon from '../icons/dot-primary.svg';
@@ -10,7 +10,7 @@ import HubItem from './HubItem';
 interface Props {
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
-  shuttleRoute: ShuttleRoutesViewEntity;
+  destinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
   withRoundTrip: boolean;
   passengerCount: number;
   isHandyParty: boolean;
@@ -22,7 +22,7 @@ interface Props {
 const TripCard = ({
   tripType,
   hub,
-  shuttleRoute,
+  destinationHub,
   withRoundTrip,
   passengerCount,
   isHandyParty,
@@ -42,14 +42,6 @@ const TripCard = ({
     showTime: true,
     showWeekday: false,
   });
-  const destinationHub =
-    tripType === 'TO_DESTINATION'
-      ? shuttleRoute.toDestinationShuttleRouteHubs
-          ?.sort((a, b) => a.sequence - b.sequence)
-          ?.at(-1)
-      : shuttleRoute.fromDestinationShuttleRouteHubs?.sort(
-          (a, b) => a.sequence - b.sequence,
-        )?.[0];
 
   if (!destinationHub) {
     throw new CustomError(404, '도착지를 찾을 수 없습니다.');

@@ -34,6 +34,15 @@ const ShuttleInfoSection = ({
   desiredHubLatitude,
   desiredHubLongitude,
 }: Props) => {
+  const destinationHub =
+    tripType === 'TO_DESTINATION'
+      ? shuttleRoute.toDestinationShuttleRouteHubs
+          ?.sort((a, b) => a.sequence - b.sequence)
+          ?.at(-1)
+      : shuttleRoute.fromDestinationShuttleRouteHubs?.sort(
+          (a, b) => a.sequence - b.sequence,
+        )?.[0];
+
   return (
     <>
       <section className="px-16">
@@ -44,11 +53,11 @@ const ShuttleInfoSection = ({
               <TripCard
                 tripType="TO_DESTINATION"
                 hub={toDestinationHub}
-                shuttleRoute={shuttleRoute}
+                destinationHub={destinationHub}
                 withRoundTrip={tripType === 'ROUND_TRIP'}
                 passengerCount={passengerCount}
                 isHandyParty={isHandyParty}
-                desiredHubAddress={desiredHubAddress ?? '[집앞하차]'}
+                desiredHubAddress={desiredHubAddress ?? '[집앞승차]'}
                 desiredHubLatitude={desiredHubLatitude}
                 desiredHubLongitude={desiredHubLongitude}
               />
@@ -58,7 +67,7 @@ const ShuttleInfoSection = ({
               <TripCard
                 tripType="FROM_DESTINATION"
                 hub={fromDestinationHub}
-                shuttleRoute={shuttleRoute}
+                destinationHub={destinationHub}
                 withRoundTrip={tripType === 'ROUND_TRIP'}
                 passengerCount={passengerCount}
                 isHandyParty={isHandyParty}
@@ -120,27 +129,15 @@ const ShuttleInfoSection = ({
           </>
         )}
       {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
-        fromDestinationHub && (
+        destinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
             <section className="px-16">
               <h3 className="pb-16 text-16 font-600">귀가행 탑승 장소</h3>
               <MapContainer
-                placeName={
-                  isHandyParty && desiredHubAddress
-                    ? desiredHubAddress
-                    : fromDestinationHub.name
-                }
-                latitude={
-                  isHandyParty && desiredHubLongitude
-                    ? desiredHubLongitude
-                    : fromDestinationHub.latitude
-                }
-                longitude={
-                  isHandyParty && desiredHubLongitude
-                    ? desiredHubLongitude
-                    : fromDestinationHub.longitude
-                }
+                placeName={destinationHub?.name}
+                latitude={destinationHub?.latitude}
+                longitude={destinationHub?.longitude}
                 type="MAP"
               />
               <div className="pb-8" />
