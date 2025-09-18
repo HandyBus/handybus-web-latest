@@ -50,7 +50,7 @@ const WrittenReviews = () => {
         setPeriodFilter={setPeriodFilter}
       />
       <DeferredSuspense
-        fallback={<Loading style="grow" />}
+        fallback={<Loading style="grow" className="pt-64" />}
         isLoading={isLoading}
       >
         {reservationsWithReview &&

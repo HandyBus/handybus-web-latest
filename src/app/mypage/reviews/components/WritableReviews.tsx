@@ -52,7 +52,10 @@ const WritableReviews = () => {
   );
 
   return (
-    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
+    <DeferredSuspense
+      fallback={<Loading style="grow" className="pt-64" />}
+      isLoading={isLoading}
+    >
       {reservationsWithNotWrittenReview &&
         (reservationsWithNotWrittenReview.length === 0 ? (
           <EmptyReview variant="writable-review" />
