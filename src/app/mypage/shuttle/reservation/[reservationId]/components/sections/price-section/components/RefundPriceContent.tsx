@@ -16,7 +16,10 @@ const RefundPriceContent = ({ payment }: Props) => {
           {paymentAmount.toLocaleString()}원
         </span>
       </li>
-      <RefundRequestList refundRequests={payment.refundRequests} />
+      <RefundRequestList
+        refundRequests={payment.refundRequests}
+        isCanceled={true}
+      />
     </div>
   );
 };

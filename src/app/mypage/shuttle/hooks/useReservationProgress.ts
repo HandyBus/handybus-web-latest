@@ -57,8 +57,6 @@ const useReservationProgress = ({ reservation, dailyEvent }: Props) => {
     return 'beforeBusAssigned';
   }, [reservation]);
 
-  const handyStatus = reservation.handyStatus;
-
   const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
 
   const reviewId = reservation.reviewId;
@@ -72,7 +70,6 @@ const useReservationProgress = ({ reservation, dailyEvent }: Props) => {
 
   return {
     reservationProgress,
-    handyStatus,
     reviewId,
     isWritingReviewPeriod,
     isHandyParty,

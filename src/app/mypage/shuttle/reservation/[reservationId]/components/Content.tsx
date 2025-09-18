@@ -9,7 +9,6 @@ import useReservationProgress, {
 } from '../../../hooks/useReservationProgress';
 import ShuttleInfoSection from './sections/shuttle-info-section/ShuttleInfoSection';
 import ReservationPersonInfoSection from './sections/ReservationPersonInfoSection';
-import HandySection from './sections/handy-section/HandySection';
 import PriceSection from './sections/price-section/PriceSection';
 import GuidelineSection from './sections/GuidelineSection';
 import RefundSection from './sections/refund-section/RefundSection';
@@ -52,7 +51,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
         )
       : null;
 
-  const { reservationProgress, handyStatus } = useReservationProgress({
+  const { reservationProgress } = useReservationProgress({
     reservation,
     dailyEvent,
   });
@@ -167,11 +166,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
             phoneNumber={reservation.userPhoneNumber}
           />
         </WrapperWithDivider>
-        {!isHandyParty && (
-          <WrapperWithDivider>
-            <HandySection handyStatus={handyStatus} />
-          </WrapperWithDivider>
-        )}
         <WrapperWithDivider>
           <PriceSection
             payment={payment}
