@@ -91,6 +91,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
   return (
     // 피시와 모바일 환경 모두에서 화면 높이를 설정
     <main className="min-h-[100dvh] min-h-screen bg-basic-black">
+      <Header />
       <aside className="bg-basic-red-100 px-16 py-8 text-center text-16 font-600 leading-[160%] text-basic-red-400">
         캡쳐화면은 탑승이 제한될 수 있습니다.
       </aside>
@@ -329,6 +330,7 @@ import PinIcon from './icons/pin-primary.svg';
 import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/header/Header';
 
 const SimpleRouteLine = () => {
   return (
