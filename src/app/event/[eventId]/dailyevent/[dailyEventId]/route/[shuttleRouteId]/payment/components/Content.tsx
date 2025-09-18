@@ -11,7 +11,6 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import EventInfoSection from './sections/EventInfoSection';
 import ShuttleRouteInfoSection from './sections/ShuttleRouteInfoSection';
 import ClientInfoSection from './sections/ClientInfoSection';
-import HandySection from './sections/HandySection';
 import CouponSection from './sections/CouponSection';
 import PriceSection from './sections/PriceSection';
 import PaymentSection from './sections/PaymentSection';
@@ -201,9 +200,6 @@ const Content = ({
           desiredHubAddress={desiredHubAddress}
         />
         <ClientInfoSection user={user} />
-        {!isHandyParty && ( // NOTE: 핸디팟인경우 임시로 핸디섹션 비활성화
-          <HandySection />
-        )}
         <CouponSection
           eventId={event.eventId}
           coupons={coupons}
