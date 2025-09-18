@@ -7,6 +7,7 @@ import { useGetUserReservation } from '@/services/reservation.service';
 import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import Header from '@/components/header/Header';
 import Content from './components/Content';
+import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 
 interface Props {
   params: {
@@ -56,6 +57,7 @@ const Page = ({ params }: Props) => {
           />
         )}
       </DeferredSuspense>
+      <KakaoMapScript libraries={['services']} />
     </>
   );
 };
