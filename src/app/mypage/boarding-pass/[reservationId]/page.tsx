@@ -10,41 +10,41 @@ import { useEffect, useState } from 'react';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { useGetUser } from '@/services/user.service';
 import useBoardingPassData from './hooks/useBoardingPassData';
 
 interface Props {
-  searchParams: {
+  params: {
     reservationId: string;
   };
 }
 
-const BoardingPassPage = ({ searchParams }: Props) => {
-  const { reservationId } = searchParams;
-  const { replace } = useRouter();
-  const {
-    data,
-    isLoading: isReservationLoading,
-    isError: isReservationError,
-  } = useGetUserReservation(reservationId);
+const BoardingPassPage = ({ params }: Props) => {
+  const { reservationId } = params;
+  const router = useRouter();
+  const { data, isLoading: isReservationLoading } =
+    useGetUserReservation(reservationId);
   const reservation = data?.reservation;
   const isShuttleEnded = reservation?.shuttleRoute.status === 'ENDED';
   const isCanceled = reservation?.reservationStatus === 'CANCEL';
 
-  const {
-    data: user,
-    isLoading: isUserLoading,
-    isError: isUserError,
-  } = useGetUser();
+  const isLoading = isReservationLoading;
 
-  const isUserMe = user?.userId === data?.reservation.userId;
-  const isLoading = isReservationLoading || isUserLoading;
-  const isError = isReservationError || isUserError;
+  useEffect(() => {
+    if (!isLoading && !reservation) {
+      router.replace('/mypage/shuttle?type=reservation');
+      return;
+    }
+  }, [isLoading, router, reservationId, reservation]);
 
-  if (isLoading) return <Loading />;
-  if (!isUserMe || isError || !reservation)
-    throw new Error('유효하지 않은 데이터 혹은 잘못된 접근입니다');
-  if (isShuttleEnded || isCanceled) replace('/mypage/shuttle?type=reservation');
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isShuttleEnded || isCanceled) {
+    router.replace('/mypage/shuttle?type=reservation');
+  }
+  if (!reservation) {
+    return null;
+  }
   return <BoardingPass reservation={reservation} />;
 };
 
@@ -91,6 +91,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
   return (
     // 피시와 모바일 환경 모두에서 화면 높이를 설정
     <main className="min-h-[100dvh] min-h-screen bg-basic-black">
+      <Header />
       <aside className="bg-basic-red-100 px-16 py-8 text-center text-16 font-600 leading-[160%] text-basic-red-400">
         캡쳐화면은 탑승이 제한될 수 있습니다.
       </aside>
@@ -329,6 +330,7 @@ import PinIcon from './icons/pin-primary.svg';
 import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/header/Header';
 
 const SimpleRouteLine = () => {
   return (

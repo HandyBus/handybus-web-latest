@@ -20,6 +20,7 @@ import HandyPartyProgressSection from './sections/shuttle-progress-section/Handy
 import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import useTempSeventeen from '@/hooks/useTempSeventeen';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -28,6 +29,7 @@ interface Props {
 }
 
 const Content = ({ reservation, payment, shuttleBus }: Props) => {
+  const router = useRouter();
   const event = reservation.shuttleRoute.event;
   const dailyEvent = event.dailyEvents.find(
     (dailyEvent) =>
@@ -74,10 +76,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
   };
 
   const openBoardingPassLink = () => {
-    window.open(
-      `/mypage/boarding-pass?reservationId=${reservation.reservationId}`,
-      '_blank',
-    );
+    router.push(`/mypage/boarding-pass/${reservation.reservationId}`);
   };
 
   return (

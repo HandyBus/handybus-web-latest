@@ -8,6 +8,7 @@ import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
+import { useEffect } from 'react';
 
 interface Props {
   params: {
@@ -18,11 +19,8 @@ interface Props {
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
   const router = useRouter();
-  const {
-    data: reservationDetail,
-    isLoading: isLoadingReservation,
-    isSuccess: isSuccessReservation,
-  } = useGetUserReservation(reservationId);
+  const { data: reservationDetail, isLoading: isLoadingReservation } =
+    useGetUserReservation(reservationId);
   const { data: shuttleBus, isLoading: isLoadingShuttleBus } = useGetShuttleBus(
     reservationDetail?.reservation.shuttleRoute.eventId ?? '',
     reservationDetail?.reservation.shuttleRoute.dailyEventId ?? '',
@@ -37,10 +35,12 @@ const Page = ({ params }: Props) => {
       isLoadingShuttleBus)
   );
 
-  if (isSuccessReservation && !reservationDetail) {
-    router.replace('/mypage/shuttle?type=reservation');
-    return <div className="h-[100dvh]" />;
-  }
+  useEffect(() => {
+    if (!isLoading && !reservationDetail) {
+      router.replace('/mypage/shuttle?type=reservation');
+      return;
+    }
+  }, [isLoading, router, reservationId, reservationDetail]);
 
   return (
     <>
