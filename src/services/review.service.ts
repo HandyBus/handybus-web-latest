@@ -140,7 +140,6 @@ export const usePostReview = ({
     mutationFn: postReview,
     onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'review'] });
-      toast.success('후기가 등록되었어요!');
       onSuccess?.(res);
     },
   });

@@ -41,10 +41,7 @@ const ChatButton = ({
   };
 
   const openBoardingPassLink = () => {
-    window.open(
-      `/mypage/boarding-pass?reservationId=${reservationId}`,
-      '_blank',
-    );
+    router.push(`/mypage/boarding-pass/${reservationId}`);
   };
 
   if (isHandyParty) {
