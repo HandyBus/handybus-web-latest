@@ -76,16 +76,39 @@ const ShuttleInfoSection = ({
             <div className="h-8 w-full bg-basic-grey-50" />
             <section className="px-16">
               <h3 className="pb-16 text-16 font-600">행사장행 탑승지 정보</h3>
+              {isHandyParty && (
+                <p className="mb-16 rounded-8 bg-basic-red-100 p-8 text-12 font-500 leading-[160%] text-basic-red-400">
+                  이면도로·주차장·주정차금지구역 등으로 운행이 어려울 경우, 탑승
+                  장소가 조정될 수 있습니다. 탑승 전 꼭 기사님의 연락을
+                  확인해주세요.
+                </p>
+              )}
               <MapContainer
-                placeName={toDestinationHub.name}
-                latitude={toDestinationHub.latitude}
+                placeName={
+                  isHandyParty && desiredHubAddress
+                    ? desiredHubAddress
+                    : toDestinationHub.name
+                }
+                latitude={
+                  isHandyParty && desiredHubLatitude
+                    ? desiredHubLatitude
+                    : toDestinationHub.latitude
+                }
                 longitude={toDestinationHub.longitude}
                 type="MAP"
               />
               <div className="pb-16" />
               <MapContainer
-                placeName={toDestinationHub.name}
-                latitude={toDestinationHub.latitude}
+                placeName={
+                  isHandyParty && desiredHubAddress
+                    ? desiredHubAddress
+                    : toDestinationHub.name
+                }
+                latitude={
+                  isHandyParty && desiredHubLatitude
+                    ? desiredHubLatitude
+                    : toDestinationHub.latitude
+                }
                 longitude={toDestinationHub.longitude}
                 type="LOAD_VIEW"
               />
@@ -103,9 +126,21 @@ const ShuttleInfoSection = ({
             <section className="px-16">
               <h3 className="pb-16 text-16 font-600">귀가행 탑승지 정보</h3>
               <MapContainer
-                placeName={fromDestinationHub.name}
-                latitude={fromDestinationHub.latitude}
-                longitude={fromDestinationHub.longitude}
+                placeName={
+                  isHandyParty && desiredHubAddress
+                    ? desiredHubAddress
+                    : fromDestinationHub.name
+                }
+                latitude={
+                  isHandyParty && desiredHubLongitude
+                    ? desiredHubLongitude
+                    : fromDestinationHub.latitude
+                }
+                longitude={
+                  isHandyParty && desiredHubLongitude
+                    ? desiredHubLongitude
+                    : fromDestinationHub.longitude
+                }
                 type="MAP"
               />
               <div className="pb-8" />
