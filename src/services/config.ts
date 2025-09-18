@@ -3,7 +3,7 @@
 import {
   getAccessToken,
   getOnboardingStatus,
-  logout,
+  logoutWithLoginRedirect,
   ONBOARDING_STATUS_VALUES,
   removeOnboardingStatus,
   setAccessToken,
@@ -219,7 +219,7 @@ class AuthInstance {
         },
       });
       removeOnboardingStatus();
-      await logout();
+      await logoutWithLoginRedirect();
       throw error;
     } finally {
       this.tokenUpdatePromise = null;

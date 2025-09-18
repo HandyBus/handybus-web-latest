@@ -10,41 +10,41 @@ import { useEffect, useState } from 'react';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { useGetUser } from '@/services/user.service';
 import useBoardingPassData from './hooks/useBoardingPassData';
 
 interface Props {
-  searchParams: {
+  params: {
     reservationId: string;
   };
 }
 
-const BoardingPassPage = ({ searchParams }: Props) => {
-  const { reservationId } = searchParams;
-  const { replace } = useRouter();
-  const {
-    data,
-    isLoading: isReservationLoading,
-    isError: isReservationError,
-  } = useGetUserReservation(reservationId);
+const BoardingPassPage = ({ params }: Props) => {
+  const { reservationId } = params;
+  const router = useRouter();
+  const { data, isLoading: isReservationLoading } =
+    useGetUserReservation(reservationId);
   const reservation = data?.reservation;
   const isShuttleEnded = reservation?.shuttleRoute.status === 'ENDED';
   const isCanceled = reservation?.reservationStatus === 'CANCEL';
 
-  const {
-    data: user,
-    isLoading: isUserLoading,
-    isError: isUserError,
-  } = useGetUser();
+  const isLoading = isReservationLoading;
 
-  const isUserMe = user?.userId === data?.reservation.userId;
-  const isLoading = isReservationLoading || isUserLoading;
-  const isError = isReservationError || isUserError;
+  useEffect(() => {
+    if (!isLoading && !reservation) {
+      router.replace('/mypage/shuttle?type=reservation');
+      return;
+    }
+  }, [isLoading, router, reservationId, reservation]);
 
-  if (isLoading) return <Loading />;
-  if (!isUserMe || isError || !reservation)
-    throw new Error('유효하지 않은 데이터 혹은 잘못된 접근입니다');
-  if (isShuttleEnded || isCanceled) replace('/mypage/shuttle?type=reservation');
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isShuttleEnded || isCanceled) {
+    router.replace('/mypage/shuttle?type=reservation');
+  }
+  if (!reservation) {
+    return null;
+  }
   return <BoardingPass reservation={reservation} />;
 };
 

@@ -8,8 +8,6 @@ import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
-import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
-import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { useEffect } from 'react';
 
 interface Props {
@@ -21,11 +19,8 @@ interface Props {
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
   const router = useRouter();
-  const {
-    data: reservationDetail,
-    isLoading: isLoadingReservation,
-    isError: isErrorReservation,
-  } = useGetUserReservation(reservationId);
+  const { data: reservationDetail, isLoading: isLoadingReservation } =
+    useGetUserReservation(reservationId);
   const { data: shuttleBus, isLoading: isLoadingShuttleBus } = useGetShuttleBus(
     reservationDetail?.reservation.shuttleRoute.eventId ?? '',
     reservationDetail?.reservation.shuttleRoute.dailyEventId ?? '',
@@ -41,21 +36,11 @@ const Page = ({ params }: Props) => {
   );
 
   useEffect(() => {
-    const isLoggedIn = getIsLoggedIn();
-
-    if (!isLoggedIn) {
-      const redirectUrl = createLoginRedirectPath(
-        `/mypage/shuttle/reservation/${reservationId}`,
-      );
-      router.replace(redirectUrl);
-      return;
-    }
-
-    if (isLoggedIn && !isLoading && !reservationDetail) {
+    if (!isLoading && !reservationDetail) {
       router.replace('/mypage/shuttle?type=reservation');
       return;
     }
-  }, [isLoading, isErrorReservation, router, reservationId, reservationDetail]);
+  }, [isLoading, router, reservationId, reservationDetail]);
 
   return (
     <>

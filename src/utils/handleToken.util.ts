@@ -1,6 +1,7 @@
 'use client';
 
 import revalidateUserPath from '@/app/actions/revalidateUserPath.action';
+import revalidateUserPathWithLoginRedirect from '@/app/actions/revalidateUserPathWithLoginRedirect.action';
 
 // ACCESS TOKEN
 export const ACCESS_TOKEN = 'access-token';
@@ -69,4 +70,13 @@ export const logout = async () => {
   removeAccessToken();
   removeRefreshToken();
   await revalidateUserPath();
+};
+
+// 로그아웃 (모든 토큰 삭제 및 로그인 페이지로 이동)
+export const logoutWithLoginRedirect = async () => {
+  const currentPath = window.location.pathname;
+  removeOnboardingStatus();
+  removeAccessToken();
+  removeRefreshToken();
+  await revalidateUserPathWithLoginRedirect(currentPath);
 };

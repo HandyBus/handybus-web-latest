@@ -75,10 +75,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
   };
 
   const openBoardingPassLink = () => {
-    window.open(
-      `/mypage/boarding-pass?reservationId=${reservation.reservationId}`,
-      '_blank',
-    );
+    window.open(`/mypage/boarding-pass/${reservation.reservationId}`, '_blank');
   };
 
   return (
