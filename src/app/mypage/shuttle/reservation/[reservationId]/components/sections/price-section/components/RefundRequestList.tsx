@@ -7,13 +7,31 @@ const REFUND_INFO_TEXT = '수수료 정책에 따라 수수료가 제외된 금�
 
 interface Props {
   refundRequests: RefundRequestsInPaymentsViewEntity[] | null;
+  isCanceled?: boolean;
 }
 
-const RefundRequestList = ({ refundRequests }: Props) => {
+const RefundRequestList = ({ refundRequests, isCanceled }: Props) => {
   const totalRefundAmount = refundRequests?.reduce((acc, curr) => {
     return acc + curr.refundAmount;
   }, 0);
 
+  // NOTE: 수수료 100%가 적용되어 환불되지 않는 경우
+  if (isCanceled && (!refundRequests || refundRequests.length === 0))
+    return (
+      <>
+        <li className="flex h-[22px] w-full items-center justify-between">
+          <span className="flex items-center gap-4 text-14 font-400 text-basic-red-300">
+            <ArrowDownwardTipRightIcon /> 결제 취소
+          </span>
+          <span className="text-14 font-400 text-basic-red-300">
+            {totalRefundAmount?.toLocaleString()}원
+          </span>
+        </li>
+        <p className="text-14 font-400 leading-[160%] text-basic-grey-500">
+          해당 취소 건은 수수료 100%가 적용되어 환불되지 않습니다
+        </p>
+      </>
+    );
   if (!refundRequests || refundRequests.length === 0) return;
   return (
     <>
