@@ -121,9 +121,12 @@ const ShuttleInfoSection = ({
                   longitude={toDestinationHub.longitude}
                   type="LOAD_VIEW"
                 />
-                <p className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
-                  카카오맵에서 제공되는 이미지로, 현재와 다를 수 있습니다.
-                </p>
+                <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
+                  이미지를 돌려가며 주변을 확인해보세요.
+                  <div className="text-12 font-500 leading-[160%] text-basic-grey-600">
+                    카카오맵에서 제공되는 이미지로, 현재와 다를 수 있습니다.
+                  </div>
+                </div>
               </div>
             </section>
           </>
