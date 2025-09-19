@@ -59,7 +59,7 @@ const KakaoMap = ({ placeName, latitude, longitude }: Props) => {
       return;
     }
     isInitialized.current = true;
-    window.kakao.maps.load(initializeMap);
+    window.kakao?.maps?.load(initializeMap);
   }, [mapRef]);
 
   return (
