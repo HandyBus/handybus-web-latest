@@ -36,12 +36,12 @@ const ShuttleInfoSection = ({
 }: Props) => {
   const destinationHub =
     tripType === 'TO_DESTINATION'
-      ? shuttleRoute.toDestinationShuttleRouteHubs
-          ?.sort((a, b) => a.sequence - b.sequence)
-          ?.at(-1)
-      : shuttleRoute.fromDestinationShuttleRouteHubs?.sort(
-          (a, b) => a.sequence - b.sequence,
-        )?.[0];
+      ? shuttleRoute.toDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        )
+      : shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        );
 
   return (
     <>
