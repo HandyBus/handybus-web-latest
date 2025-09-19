@@ -8,7 +8,6 @@ import guideImageStep2 from './images/handybus-guide-step-2.png';
 import guideImageStep3 from './images/handybus-guide-step-3.png';
 import guideImageStep4 from './images/handybus-guide-step-4.png';
 import guideImageStep5 from './images/handybus-guide-step-5.png';
-import guideImageStep6 from './images/handybus-guide-step-6.png';
 import handypartyGuideImageStep1 from './images/handyparty-guide-step-1.png';
 import handypartyGuideImageStep2 from './images/handyparty-guide-step-2.png';
 import handypartyGuideImageStep3 from './images/handyparty-guide-step-3.png';
@@ -201,7 +200,7 @@ const HANDYBUS_GUIDE_STEPS = [
         요청한 지역에 셔틀이 열리면 카카오톡으로 알림을 보내드려요.
         공지사항에서도 노선에 대한 정보를 확인할 수 있어요. 예약을 받는
         셔틀버스는 <strong>무산 없이 100% 운행돼요.</strong> 인기 정류장은
-        빠르게 매진되니 서둘러 예약하세요!,
+        빠르게 매진되니 서둘러 예약하세요!
       </>
     ),
     image: guideImageStep2,
@@ -216,27 +215,17 @@ const HANDYBUS_GUIDE_STEPS = [
   },
   {
     order: 4,
-    title: '공지방 참여',
+    title: '탑승 정보 확인하기',
     description:
-      '예약내역 > 공지방 참여를 통해 공지방에 참여해 주세요. 탑승 당일까지 셔틀 안내사항과 실시간 현장 상황을 공유받을 수 있어요.',
-    subDescription:
-      '* 특정 행사의 경우, 공지방 없이 알림톡으로 운행됩니다. 예약 내역에서 공지방 버튼의 유무에 따라 확인하실 수 있어요.',
+      '예약 후, [마이페이지-예약내역]에서 탑승 정보를 확인하세요. 탑승 시각과 장소, 탑승권까지 간편하게 원클릭으로 조회할 수 있어요!',
     image: guideImageStep4,
   },
   {
     order: 5,
-    title: '최종 공지',
-    description:
-      '공지방을 통해 최종 탑승 안내를 드려요. 정류장 위치와 시간 등 꼭 확인해 주세요.',
-    image: guideImageStep5,
-    tagDescription: '탑승 2일 전 공지',
-  },
-  {
-    order: 6,
     title: '탑승',
     description:
-      '예약하신 시간과 정류장에 맞춰 셔틀버스에 탑승하세요! 당일 교통 상황 등으로 인한 실시간 변동 사항은 오픈 채팅방을 통해 공지드릴게요.',
-    image: guideImageStep6,
+      '예약하신 시간과 정류장에 맞춰 셔틀버스에 탑승하세요! 모바일 탑승권으로 간편하게 이용하실 수 있습니다.',
+    image: guideImageStep5,
     tagDescription: '탑승 당일',
   },
 ];
