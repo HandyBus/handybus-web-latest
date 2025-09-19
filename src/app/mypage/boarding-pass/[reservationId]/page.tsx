@@ -1,13 +1,11 @@
 'use client';
 
-import Button from '@/components/buttons/button/Button';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/reservation.service';
 import ArrowIcon from './icons/white-arrow-right.svg';
 import InfoIcon from '/public/icons/info.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { useEffect, useState } from 'react';
-import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import useBoardingPassData from './hooks/useBoardingPassData';
@@ -84,8 +82,6 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
     passengerCount,
     userName,
     userPhoneNumber,
-    noticeRoomUrl,
-    openOpenChatLink,
   } = useBoardingPassData(reservation);
 
   return (
@@ -266,20 +262,6 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
               </h2>
             </a>
           </div>
-
-          {/* 카카오톡 공지방 참여하기 */}
-          {noticeRoomUrl && (
-            <Button
-              variant="primary"
-              size="large"
-              onClick={handleClickAndStopPropagation(() => {
-                openOpenChatLink();
-              })}
-              disabled={!noticeRoomUrl}
-            >
-              카카오톡 공지방 참여하기
-            </Button>
-          )}
 
           {/* 주의사항 */}
           <aside className="rounded-[8px] bg-basic-grey-50 p-8 pl-28 text-14 font-500 leading-[160%] text-basic-grey-500">
