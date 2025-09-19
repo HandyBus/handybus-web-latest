@@ -34,6 +34,15 @@ const ShuttleInfoSection = ({
   desiredHubLatitude,
   desiredHubLongitude,
 }: Props) => {
+  const destinationHub =
+    tripType === 'TO_DESTINATION'
+      ? shuttleRoute.toDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        )
+      : shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        );
+
   return (
     <>
       <section className="px-16">
@@ -44,11 +53,11 @@ const ShuttleInfoSection = ({
               <TripCard
                 tripType="TO_DESTINATION"
                 hub={toDestinationHub}
-                shuttleRoute={shuttleRoute}
+                destinationHub={destinationHub}
                 withRoundTrip={tripType === 'ROUND_TRIP'}
                 passengerCount={passengerCount}
                 isHandyParty={isHandyParty}
-                desiredHubAddress={desiredHubAddress ?? '[집앞하차]'}
+                desiredHubAddress={desiredHubAddress ?? '[집앞승차]'}
                 desiredHubLatitude={desiredHubLatitude}
                 desiredHubLongitude={desiredHubLongitude}
               />
@@ -58,7 +67,7 @@ const ShuttleInfoSection = ({
               <TripCard
                 tripType="FROM_DESTINATION"
                 hub={fromDestinationHub}
-                shuttleRoute={shuttleRoute}
+                destinationHub={destinationHub}
                 withRoundTrip={tripType === 'ROUND_TRIP'}
                 passengerCount={passengerCount}
                 isHandyParty={isHandyParty}
@@ -74,50 +83,74 @@ const ShuttleInfoSection = ({
         toDestinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
-            <section className="px-16">
-              <h3 className="pb-16 text-16 font-600">행사장행 탑승지 정보</h3>
+            <section className="flex flex-col gap-16 px-16">
+              <h3 className="text-16 font-600">행사장행 탑승 장소</h3>
+              {isHandyParty && (
+                <p className="rounded-8 bg-basic-red-100 p-8 text-12 font-500 leading-[160%] text-basic-red-400">
+                  이면도로·주차장·주정차금지구역 등으로 운행이 어려울 경우, 탑승
+                  장소가 조정될 수 있습니다. 탑승 전 꼭 기사님의 연락을
+                  확인해주세요.
+                </p>
+              )}
               <MapContainer
-                placeName={toDestinationHub.name}
-                latitude={toDestinationHub.latitude}
+                placeName={
+                  isHandyParty && desiredHubAddress
+                    ? desiredHubAddress
+                    : toDestinationHub.name
+                }
+                latitude={
+                  isHandyParty && desiredHubLatitude
+                    ? desiredHubLatitude
+                    : toDestinationHub.latitude
+                }
                 longitude={toDestinationHub.longitude}
                 type="MAP"
               />
-              <div className="pb-16" />
-              <MapContainer
-                placeName={toDestinationHub.name}
-                latitude={toDestinationHub.latitude}
-                longitude={toDestinationHub.longitude}
-                type="LOAD_VIEW"
-              />
-              <div className="pb-8" />
-              <p className="text-14 font-500 leading-[160%] text-basic-grey-600">
-                카카오맵에서 제공되는 이미지로, 현재와 다를 수 있습니다.
-              </p>
+              <div>
+                <MapContainer
+                  placeName={
+                    isHandyParty && desiredHubAddress
+                      ? desiredHubAddress
+                      : toDestinationHub.name
+                  }
+                  latitude={
+                    isHandyParty && desiredHubLatitude
+                      ? desiredHubLatitude
+                      : toDestinationHub.latitude
+                  }
+                  longitude={toDestinationHub.longitude}
+                  type="LOAD_VIEW"
+                />
+                <p className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
+                  카카오맵에서 제공되는 이미지로, 현재와 다를 수 있습니다.
+                </p>
+              </div>
             </section>
           </>
         )}
       {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
-        fromDestinationHub && (
+        destinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
-            <section className="px-16">
-              <h3 className="pb-16 text-16 font-600">귀가행 탑승지 정보</h3>
-              <MapContainer
-                placeName={fromDestinationHub.name}
-                latitude={fromDestinationHub.latitude}
-                longitude={fromDestinationHub.longitude}
-                type="MAP"
-              />
-              <div className="pb-8" />
-              <ul className="list-disc pl-20 text-14 font-500 leading-[160%] text-basic-grey-600">
-                <li>
-                  정확한 탑승 위치는 당일 공연 종료 직후 문자로 안내됩니다.
-                </li>
-                <li>
-                  귀가행 탑승 시간은 공연 종료 시간에 따라 지연되며, 변경된 탑승
-                  시간은 당일에 문자로 안내됩니다.
-                </li>
-              </ul>
+            <section className="flex flex-col gap-16 px-16">
+              <h3 className="text-16 font-600">귀가행 탑승 장소</h3>
+              <div>
+                <MapContainer
+                  placeName={destinationHub?.name}
+                  latitude={destinationHub?.latitude}
+                  longitude={destinationHub?.longitude}
+                  type="MAP"
+                />
+                <ul className="list-disc pl-20 pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
+                  <li>
+                    정확한 탑승 위치는 당일 공연 종료 직후 문자로 안내됩니다.
+                  </li>
+                  <li>
+                    귀가행 탑승 시간은 공연 종료 시간에 따라 지연되며, 변경된
+                    탑승 시간은 당일에 문자로 안내됩니다.
+                  </li>
+                </ul>
+              </div>
             </section>
           </>
         )}
