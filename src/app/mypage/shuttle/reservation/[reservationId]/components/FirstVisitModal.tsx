@@ -10,9 +10,10 @@ import Button from '@/components/buttons/button/Button';
 
 interface Props {
   reservationId: string;
+  isHidden: boolean;
 }
 
-const FirstVisitModal = ({ reservationId }: Props) => {
+const FirstVisitModal = ({ reservationId, isHidden }: Props) => {
   const [isFirstVisitModalOpen, setIsFirstVisitModalOpen] = useState(false);
 
   const closeModal = () => {
@@ -28,7 +29,7 @@ const FirstVisitModal = ({ reservationId }: Props) => {
   };
 
   useEffect(() => {
-    handleFirstVisitModalCheck();
+    if (!isHidden) handleFirstVisitModalCheck();
   }, []);
 
   return (
