@@ -81,3 +81,31 @@ export const getOneDayModalSeenDate = () => {
 export const removeOneDayModalSeenDate = () => {
   localStorage.removeItem(ONE_DAY_MODAL_SEEN_DATE);
 };
+
+// 예약 직후 예약 상세 페이지 첫 방문 모달
+export const RESERVATION_DETAIL_FIRST_VISIT_MODAL_SEEN =
+  'reservation-detail-first-visit-modal-seen';
+export const setReservationDetailFirstVisitModalSeen = (
+  reservationId: string,
+) => {
+  localStorage.setItem(
+    `${RESERVATION_DETAIL_FIRST_VISIT_MODAL_SEEN}-${reservationId}`,
+    '1',
+  );
+};
+export const getReservationDetailFirstVisitModalSeen = (
+  reservationId: string,
+) => {
+  return Boolean(
+    localStorage.getItem(
+      `${RESERVATION_DETAIL_FIRST_VISIT_MODAL_SEEN}-${reservationId}`,
+    ),
+  );
+};
+export const removeReservationDetailFirstVisitModalSeen = (
+  reservationId: string,
+) => {
+  localStorage.removeItem(
+    `${RESERVATION_DETAIL_FIRST_VISIT_MODAL_SEEN}-${reservationId}`,
+  );
+};

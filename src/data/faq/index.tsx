@@ -11,7 +11,6 @@ import FAQReservation8 from './reservation-8.mdx';
 import FAQReservation9 from './reservation-9.mdx';
 import FAQReservation10 from './reservation-10.mdx';
 import FAQReservation11 from './reservation-11.mdx';
-import FAQBoarding1 from './boarding-1.mdx';
 import FAQBoarding2 from './boarding-2.mdx';
 import FAQBoarding3 from './boarding-3.mdx';
 import FAQBoarding4 from './boarding-4.mdx';
@@ -58,7 +57,6 @@ export const faqs: FAQ[] = (
       'reservation',
       '콘서트가 예정보다 늦게 끝나면 어떡하나요?',
     ],
-    [FAQBoarding1, 'boarding', '공지방이 무엇인가요?'],
     [FAQBoarding2, 'boarding', '운행 시 휴게소에 정차하나요?'],
     [FAQBoarding3, 'boarding', '어떤 차량으로 운행되나요?'],
     [FAQBoarding4, 'boarding', '좌석은 어떻게 정해지나요?'],

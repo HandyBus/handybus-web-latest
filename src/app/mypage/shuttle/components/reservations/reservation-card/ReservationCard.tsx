@@ -74,7 +74,6 @@ const ReservationCard = ({ reservation }: Props) => {
                 isHandyParty && <ShuttleBusBadge shuttleBus={shuttleBus} />}
             </div>
             <ChatButton
-              reservation={reservation}
               reservationProgress={reservationProgress}
               isWritingReviewPeriod={isWritingReviewPeriod}
               reviewId={reviewId}

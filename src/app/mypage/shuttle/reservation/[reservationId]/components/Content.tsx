@@ -19,7 +19,6 @@ import { checkIsHandyParty } from '@/utils/handyParty.util';
 import HandyPartyProgressSection from './sections/shuttle-progress-section/HandyPartyProgressSection';
 import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
-import useTempSeventeen from '@/hooks/useTempSeventeen';
 import { useRouter } from 'next/navigation';
 
 interface Props {
@@ -61,19 +60,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
   const isEnded = reservationProgress === 'shuttleEnded';
 
   const isHandyParty = checkIsHandyParty(shuttleRoute);
-
-  const { isSeventeenEvent, temporaryNoticeRoomUrl } =
-    useTempSeventeen(reservation);
-
-  // NOTE: 일자별 노선의 metadata에 오픈채팅방 링크를 임시로 반영하기로 함. 앱 출시 후 삭제예정
-  const noticeRoomUrl = isSeventeenEvent
-    ? temporaryNoticeRoomUrl
-    : dailyEvent?.metadata?.openChatUrl;
-  const handleOpenNoticeRoom = () => {
-    if (noticeRoomUrl) {
-      window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   const openBoardingPassLink = () => {
     router.push(`/mypage/boarding-pass/${reservation.reservationId}`);
@@ -120,24 +106,6 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
                   </p>
                 </section>
               </WrapperWithDivider>
-              {noticeRoomUrl && (
-                <WrapperWithDivider>
-                  <section className="flex flex-col gap-16 px-16">
-                    <Button
-                      variant="secondary"
-                      onClick={handleOpenNoticeRoom}
-                      disabled={!noticeRoomUrl || isEnded || isCanceled}
-                    >
-                      공지방 참여하기
-                    </Button>
-                    <p className="text-14 font-500 leading-[160%]">
-                      {isEnded || isCanceled
-                        ? '종료된 공지방입니다.'
-                        : '탑승 당일, 셔틀버스 변동사항 및 실시간 안내사항은\n공지방에서 이루어져요. 탑승 전 반드시 참여해 주세요!'}
-                    </p>
-                  </section>
-                </WrapperWithDivider>
-              )}
             </>
           ))}
         <WrapperWithDivider>

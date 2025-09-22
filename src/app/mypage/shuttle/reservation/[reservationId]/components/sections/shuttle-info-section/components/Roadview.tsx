@@ -54,7 +54,7 @@ const Roadview = ({ placeName, latitude, longitude }: Props) => {
   useEffect(() => {
     if (!mapRef.current || isInitialized.current) return;
     isInitialized.current = true;
-    window.kakao.maps.load(initializeRoadview);
+    window.kakao?.maps?.load(initializeRoadview);
   }, []);
 
   return (

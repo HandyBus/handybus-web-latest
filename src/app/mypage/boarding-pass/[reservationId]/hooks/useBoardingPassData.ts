@@ -1,6 +1,5 @@
 'use client';
 
-import useTempSeventeen from '@/hooks/useTempSeventeen';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 
@@ -85,23 +84,6 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
 
   const passengerCount = reservation.passengerCount;
 
-  const dailyEvent = reservation.shuttleRoute.event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-  );
-
-  const { isSeventeenEvent, temporaryNoticeRoomUrl } =
-    useTempSeventeen(reservation);
-  const noticeRoomUrl = isSeventeenEvent
-    ? temporaryNoticeRoomUrl
-    : dailyEvent?.metadata?.openChatUrl;
-
-  const openOpenChatLink = () => {
-    if (noticeRoomUrl) {
-      window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
-
   return {
     isRoundTrip,
     shuttleName,
@@ -118,8 +100,6 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
     passengerCount,
     userName,
     userPhoneNumber,
-    noticeRoomUrl,
-    openOpenChatLink,
   };
 };
 

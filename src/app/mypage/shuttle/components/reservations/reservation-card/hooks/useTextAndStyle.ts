@@ -24,7 +24,7 @@ const useTextAndStyle = ({
           className: 'text-brand-primary-400',
         },
         description: {
-          text: '자세한 정보는 탑승 전까지 알림톡을 통해 안내해 드려요.',
+          text: '탑승 전 자세한 탑승 정보를 꼭 확인하세요.',
         },
       };
       return textAndClassName;
@@ -79,7 +79,7 @@ const useTextAndStyle = ({
           className: 'text-brand-primary-400',
         },
         description: {
-          text: '자세한 정보는 탑승 전까지 알림톡을 통해 안내해 드려요.',
+          text: '탑승 전 자세한 탑승 정보를 꼭 확인하세요.',
         },
       };
       return textAndClassName;
