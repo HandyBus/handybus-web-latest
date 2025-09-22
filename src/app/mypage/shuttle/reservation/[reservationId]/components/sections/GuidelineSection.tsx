@@ -8,6 +8,7 @@ const GuidelineSection = () => {
         title="상품별 유의사항"
         containerClassName="bg-basic-grey-50"
         titleClassName="text-16 font-600"
+        open={true}
       >
         <section className="py-16">
           <h6 className="mb-8 text-18 font-600">주요 참고사항</h6>

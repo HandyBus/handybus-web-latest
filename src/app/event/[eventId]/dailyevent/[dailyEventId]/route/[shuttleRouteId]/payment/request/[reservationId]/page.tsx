@@ -14,7 +14,6 @@ import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
-import useTempSeventeen from '@/hooks/useTempSeventeen';
 
 interface Props {
   params: {
@@ -56,16 +55,8 @@ const PaymentsCompletedPage = ({
     reservation.shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
-  const { isSeventeenEvent, temporaryNoticeRoomUrl } =
-    useTempSeventeen(reservation);
-
-  const noticeRoomUrl = isSeventeenEvent
-    ? temporaryNoticeRoomUrl
-    : reservation.shuttleRoute.event.dailyEvents.find(
-        (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
-      )?.metadata?.openChatUrl;
-
   const eventName = reservation.shuttleRoute.event.eventName;
+  const reservationId = reservation.reservationId;
 
   useCompleteReservationTracking({
     eventId,
@@ -87,7 +78,7 @@ const PaymentsCompletedPage = ({
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href={`/event/${eventId}`}>
+          <Link href={`/mypage/shuttle/reservation/${reservationId}`}>
             <Button>완료</Button>
           </Link>
         </div>
@@ -101,31 +92,11 @@ const PaymentsCompletedPage = ({
           <h1 className="pb-4 text-22 font-700">셔틀 예약이 완료되었어요</h1>
           <p className="pb-24 text-center text-16 font-500 text-basic-grey-600">
             탑승권은 마이페이지에서 확인할 수 있습니다.
-            {noticeRoomUrl && (
-              <>
-                <br />
-                모든 현장 안내는 공지방에서 전달드리니,
-                <br />
-                탑승 전 꼭 입장해 주세요.
-              </>
-            )}
           </p>
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          {noticeRoomUrl && (
-            <Button
-              variant="primary"
-              size="large"
-              onClick={() => {
-                window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
-              }}
-              disabled={!noticeRoomUrl}
-            >
-              공지방 입장하기
-            </Button>
-          )}
-          <Link href={`/event/${eventId}`}>
+          <Link href={`/mypage/shuttle/reservation/${reservationId}`}>
             <Button variant="secondary">완료</Button>
           </Link>
         </div>

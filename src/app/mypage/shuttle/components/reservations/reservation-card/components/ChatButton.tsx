@@ -1,12 +1,9 @@
 import { ReservationProgress } from '@/app/mypage/shuttle/hooks/useReservationProgress';
 import Button from '@/components/buttons/button/Button';
-import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
-import useTempSeventeen from '@/hooks/useTempSeventeen';
 
 interface Props {
-  reservation: ReservationsViewEntity;
   reservationProgress: ReservationProgress;
   isWritingReviewPeriod: boolean;
   reviewId: string | null | undefined;
@@ -15,7 +12,6 @@ interface Props {
 }
 
 const ChatButton = ({
-  reservation,
   reservationProgress,
   isWritingReviewPeriod,
   reviewId,
@@ -23,22 +19,6 @@ const ChatButton = ({
   isHandyParty,
 }: Props) => {
   const router = useRouter();
-
-  const { isSeventeenEvent, temporaryNoticeRoomUrl } =
-    useTempSeventeen(reservation);
-  // NOTE: 일자별 노선의 metadata에 오픈채팅방 링크를 임시로 반영하기로 함. 앱 출시 후 삭제예정
-  const noticeRoomUrl = isSeventeenEvent
-    ? temporaryNoticeRoomUrl
-    : reservation.shuttleRoute.event.dailyEvents.find(
-        (dailyEvent) =>
-          dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-      )?.metadata?.openChatUrl;
-
-  const openOpenChatLink = () => {
-    if (noticeRoomUrl) {
-      window.open(noticeRoomUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   const openBoardingPassLink = () => {
     router.push(`/mypage/boarding-pass/${reservationId}`);
@@ -53,19 +33,6 @@ const ChatButton = ({
     case 'afterBusAssigned':
       return (
         <div className="flex gap-8">
-          {noticeRoomUrl && (
-            <Button
-              variant="secondary"
-              size="small"
-              className="w-fit px-8"
-              disabled={!noticeRoomUrl}
-              onClick={handleClickAndStopPropagation(() => {
-                openOpenChatLink();
-              })}
-            >
-              공지방 참가
-            </Button>
-          )}
           <Button
             variant="primary"
             size="small"

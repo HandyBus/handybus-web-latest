@@ -1,4 +1,3 @@
-import Button from '@/components/buttons/button/Button';
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
 interface Props {
@@ -19,24 +18,7 @@ const HubItem = ({
   hideTime = false,
   isHandyParty = false,
   desiredHubAddress,
-  desiredHubLatitude,
-  desiredHubLongitude,
 }: Props) => {
-  const openKakaoMapWithLocation = () => {
-    if (isHandyParty) {
-      window.open(
-        `https://map.kakao.com/link/map/${desiredHubAddress},${desiredHubLatitude},${desiredHubLongitude}`,
-        '_blank',
-        'noopener,noreferrer',
-      );
-    } else {
-      window.open(
-        `https://map.kakao.com/link/map/${hub.name},${hub.latitude},${hub.longitude}`,
-        '_blank',
-        'noopener,noreferrer',
-      );
-    }
-  };
   return (
     <li className="flex h-36 w-full items-center gap-16">
       <div className="shrink-0">
@@ -51,15 +33,6 @@ const HubItem = ({
       <div className="text-16 font-600">
         {isHandyParty ? desiredHubAddress : hub.name}
       </div>
-      <Button
-        type="button"
-        variant="tertiary"
-        size="small"
-        onClick={openKakaoMapWithLocation}
-        className="ml-auto"
-      >
-        지도
-      </Button>
     </li>
   );
 };

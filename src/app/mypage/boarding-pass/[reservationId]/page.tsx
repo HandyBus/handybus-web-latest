@@ -1,13 +1,11 @@
 'use client';
 
-import Button from '@/components/buttons/button/Button';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/reservation.service';
 import ArrowIcon from './icons/white-arrow-right.svg';
 import InfoIcon from '/public/icons/info.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { useEffect, useState } from 'react';
-import { handleClickAndStopPropagation } from '@/utils/common.util';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import useBoardingPassData from './hooks/useBoardingPassData';
@@ -84,8 +82,6 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
     passengerCount,
     userName,
     userPhoneNumber,
-    noticeRoomUrl,
-    openOpenChatLink,
   } = useBoardingPassData(reservation);
 
   return (
@@ -267,27 +263,12 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
             </a>
           </div>
 
-          {/* 카카오톡 공지방 참여하기 */}
-          {noticeRoomUrl && (
-            <Button
-              variant="primary"
-              size="large"
-              onClick={handleClickAndStopPropagation(() => {
-                openOpenChatLink();
-              })}
-              disabled={!noticeRoomUrl}
-            >
-              카카오톡 공지방 참여하기
-            </Button>
-          )}
-
           {/* 주의사항 */}
           <aside className="rounded-[8px] bg-basic-grey-50 p-8 pl-28 text-14 font-500 leading-[160%] text-basic-grey-500">
             <ul>
               <li className="list-disc pl-4 marker:text-basic-grey-500">
-                탑승 시간은 현장 운영 상황에 따라 변경될 수 있으며, 관련된 모든
-                사항은 카카오톡 공지방에서 안내가 이루어집니다. 불참으로 인한
-                불이익은 책임지지 않습니다.
+                탑승 시간은 현장 운영 상황에 따라 변경될 수 있으며, 변경 시
+                카카오톡 및 문자로 안내가 이루어집니다.
               </li>
             </ul>
           </aside>

@@ -8,6 +8,7 @@ import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
+import FirstVisitModal from '@/app/mypage/shuttle/reservation/[reservationId]/components/FirstVisitModal';
 import { useEffect } from 'react';
 
 interface Props {
@@ -58,6 +59,7 @@ const Page = ({ params }: Props) => {
         )}
       </DeferredSuspense>
       <KakaoMapScript libraries={['services']} />
+      <FirstVisitModal reservationId={reservationId} />
     </>
   );
 };
