@@ -28,12 +28,19 @@ const Page = ({ params }: Props) => {
     reservationDetail?.reservation.shuttleRoute.shuttleRouteId ?? '',
     reservationDetail?.reservation.shuttleBusId ?? '',
   );
-
   const isLoading = !!(
     isLoadingReservation ||
     (reservationDetail &&
       reservationDetail.reservation.shuttleBusId &&
       isLoadingShuttleBus)
+  );
+  const isShuttleRouteEnded = Boolean(
+    reservationDetail?.reservation.shuttleRoute.status === 'ENDED' ||
+      reservationDetail?.reservation.shuttleRoute.status === 'CANCELLED' ||
+      reservationDetail?.reservation.shuttleRoute.status === 'INACTIVE',
+  );
+  const isReservationCanceled = Boolean(
+    reservationDetail?.reservation.reservationStatus === 'CANCEL',
   );
 
   useEffect(() => {
@@ -59,7 +66,12 @@ const Page = ({ params }: Props) => {
         )}
       </DeferredSuspense>
       <KakaoMapScript libraries={['services']} />
-      <FirstVisitModal reservationId={reservationId} />
+      {reservationDetail && (
+        <FirstVisitModal
+          reservationId={reservationId}
+          isHidden={isShuttleRouteEnded || isReservationCanceled}
+        />
+      )}
     </>
   );
 };
