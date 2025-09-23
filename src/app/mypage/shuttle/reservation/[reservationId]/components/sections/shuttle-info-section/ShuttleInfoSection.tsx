@@ -106,11 +106,9 @@ const ShuttleInfoSection = ({
                     : toDestinationHub.latitude
                 }
                 longitude={toDestinationHub.longitude}
-                roadviewPan={null}
-                type="MAP"
               />
               <div>
-                <MapContainer
+                <RoadviewContainer
                   placeName={
                     isHandyParty && desiredHubAddress
                       ? desiredHubAddress
@@ -123,7 +121,6 @@ const ShuttleInfoSection = ({
                   }
                   longitude={toDestinationHub.longitude}
                   roadviewPan={toDestinationHub.roadviewPan}
-                  type="LOAD_VIEW"
                 />
                 <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
                   이미지를 돌려가며 주변을 확인해보세요.
@@ -160,8 +157,6 @@ const ShuttleInfoSection = ({
                   placeName={destinationHub?.name}
                   latitude={destinationHub?.latitude}
                   longitude={destinationHub?.longitude}
-                  roadviewPan={null}
-                  type="MAP"
                 />
                 <ul className="list-disc pl-20 pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
                   <li>
@@ -186,39 +181,54 @@ const MapContainer = ({
   placeName,
   latitude,
   longitude,
-  type,
+}: {
+  placeName: string;
+  latitude: number;
+  longitude: number;
+}) => {
+  return (
+    <section>
+      <section className="rounded-t-8 border-[1px] border-basic-grey-200 px-12 py-8">
+        <h4 className="text-14 font-600 leading-[160%] text-basic-black">
+          지도
+        </h4>
+      </section>
+      <section className="h-[195px] rounded-b-8 border-[1px] border-basic-grey-200">
+        <KakaoMap
+          placeName={placeName}
+          latitude={latitude}
+          longitude={longitude}
+        />
+      </section>
+    </section>
+  );
+};
+
+const RoadviewContainer = ({
+  placeName,
+  latitude,
+  longitude,
   roadviewPan,
 }: {
   placeName: string;
   latitude: number;
   longitude: number;
-  type: 'MAP' | 'LOAD_VIEW';
   roadviewPan: number | null;
 }) => {
   return (
     <section>
       <section className="rounded-t-8 border-[1px] border-basic-grey-200 px-12 py-8">
         <h4 className="text-14 font-600 leading-[160%] text-basic-black">
-          {type === 'MAP' ? '지도' : '로드뷰'}
+          로드뷰
         </h4>
       </section>
       <section className="h-[195px] rounded-b-8 border-[1px] border-basic-grey-200">
-        {type === 'MAP' ? (
-          <KakaoMap
-            placeName={placeName}
-            latitude={latitude}
-            longitude={longitude}
-          />
-        ) : (
-          roadviewPan !== null && (
-            <Roadview
-              placeName={placeName}
-              latitude={latitude}
-              longitude={longitude}
-              roadviewPan={roadviewPan}
-            />
-          )
-        )}
+        <Roadview
+          placeName={placeName}
+          latitude={latitude}
+          longitude={longitude}
+          roadviewPan={roadviewPan ?? 90}
+        />
       </section>
     </section>
   );
