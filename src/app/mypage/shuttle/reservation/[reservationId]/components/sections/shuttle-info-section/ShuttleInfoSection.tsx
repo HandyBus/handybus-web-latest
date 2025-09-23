@@ -4,6 +4,8 @@ import { TripType } from '@/types/shuttleRoute.type';
 import TripCard from './components/TripCard';
 import KakaoMap from './components/KakaoMap';
 import Roadview from './components/Roadview';
+import testImage from './images/shuttle-hub-detail-spot.png';
+import Image from 'next/image';
 
 interface Props {
   tripType: TripType;
@@ -104,6 +106,7 @@ const ShuttleInfoSection = ({
                     : toDestinationHub.latitude
                 }
                 longitude={toDestinationHub.longitude}
+                roadviewPan={null}
                 type="MAP"
               />
               <div>
@@ -119,6 +122,7 @@ const ShuttleInfoSection = ({
                       : toDestinationHub.latitude
                   }
                   longitude={toDestinationHub.longitude}
+                  roadviewPan={toDestinationHub.roadviewPan}
                   type="LOAD_VIEW"
                 />
                 <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
@@ -128,6 +132,20 @@ const ShuttleInfoSection = ({
                   </div>
                 </div>
               </div>
+              {toDestinationHub.regionHubId === '544768704622104610' && ( // 천안아산역의 경우에서만 부가 설명
+                <div className="h-full rounded-8 bg-basic-grey-100">
+                  <h3 className="px-12 py-8 text-12 font-600 leading-[160%] text-basic-grey-600">
+                    *주차장 상세 이미지
+                  </h3>
+                  <article className="relative w-full">
+                    <Image src={testImage} alt="로드뷰" />
+                  </article>
+                  <p className="px-12 py-8 text-10 font-400 leading-[160%]">
+                    천안아산역 3번출구 셔틀버스 정류장 1번 플랫폼(삼성디스플레이
+                    · 도고온천 방향)입니다.
+                  </p>
+                </div>
+              )}
             </section>
           </>
         )}
@@ -142,6 +160,7 @@ const ShuttleInfoSection = ({
                   placeName={destinationHub?.name}
                   latitude={destinationHub?.latitude}
                   longitude={destinationHub?.longitude}
+                  roadviewPan={null}
                   type="MAP"
                 />
                 <ul className="list-disc pl-20 pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
@@ -168,11 +187,13 @@ const MapContainer = ({
   latitude,
   longitude,
   type,
+  roadviewPan,
 }: {
   placeName: string;
   latitude: number;
   longitude: number;
   type: 'MAP' | 'LOAD_VIEW';
+  roadviewPan: number | null;
 }) => {
   return (
     <section>
@@ -189,11 +210,14 @@ const MapContainer = ({
             longitude={longitude}
           />
         ) : (
-          <Roadview
-            placeName={placeName}
-            latitude={latitude}
-            longitude={longitude}
-          />
+          roadviewPan !== null && (
+            <Roadview
+              placeName={placeName}
+              latitude={latitude}
+              longitude={longitude}
+              roadviewPan={roadviewPan}
+            />
+          )
         )}
       </section>
     </section>
