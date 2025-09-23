@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import GuidelineSection from './sections/GuidelineSection';
 
 interface ContentProps {
   tripType: TripType;
@@ -74,11 +75,19 @@ const Content = ({
     coupon: selectedCoupon,
   });
 
-  const { TossPaymentsScript, isDisabled, requestPayment, changePrice } =
-    useTossPayments({
-      userId: user.userId,
-      initialPrice: finalPrice,
-    });
+  const {
+    TossPaymentsScript,
+    isDisabled: isTossPaymentsDisabled,
+    requestPayment,
+    changePrice,
+  } = useTossPayments({
+    userId: user.userId,
+    initialPrice: finalPrice,
+  });
+
+  const [isGuidelineSeen, setIsGuidelineSeen] = useState(false);
+
+  const isDisabled = isTossPaymentsDisabled || !isGuidelineSeen;
 
   useEffect(() => {
     changePrice(finalPrice);
@@ -215,6 +224,9 @@ const Content = ({
           passengerCount={passengerCount}
         />
         <PaymentSection />
+        <GuidelineSection
+          setGuidelineSeenTrue={() => setIsGuidelineSeen(true)}
+        />
         <BottomBar
           isDisabled={isDisabled}
           finalPrice={finalPrice}
