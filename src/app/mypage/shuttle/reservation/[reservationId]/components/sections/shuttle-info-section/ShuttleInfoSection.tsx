@@ -111,7 +111,11 @@ const ShuttleInfoSection = ({
                     ? desiredHubLatitude
                     : toDestinationHub.latitude
                 }
-                longitude={toDestinationHub.longitude}
+                longitude={
+                  isHandyParty && desiredHubLongitude
+                    ? desiredHubLongitude
+                    : toDestinationHub.longitude
+                }
               />
               <div>
                 <RoadviewContainer
@@ -125,7 +129,11 @@ const ShuttleInfoSection = ({
                       ? desiredHubLatitude
                       : toDestinationHub.latitude
                   }
-                  longitude={toDestinationHub.longitude}
+                  longitude={
+                    isHandyParty && desiredHubLongitude
+                      ? desiredHubLongitude
+                      : toDestinationHub.longitude
+                  }
                   roadviewPan={toDestinationHub.roadViewPan}
                 />
                 <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
