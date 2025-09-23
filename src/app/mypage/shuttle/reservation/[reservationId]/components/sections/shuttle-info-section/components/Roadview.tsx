@@ -8,7 +8,7 @@ interface Props {
   placeName: string;
   latitude: number;
   longitude: number;
-  roadviewPan: number;
+  roadviewPan: number | null;
 }
 
 const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
@@ -34,7 +34,7 @@ const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
         // 로드뷰 초기화 완료 이벤트 대기
         window.kakao.maps.event.addListener(roadview, 'init', () => {
           roadview.setViewpoint({
-            pan: roadviewPan,
+            pan: roadviewPan ?? 0,
             tilt: 0,
             zoom: 1,
           });

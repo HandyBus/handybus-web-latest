@@ -233,7 +233,7 @@ const RoadviewContainer = ({
           placeName={placeName}
           latitude={latitude}
           longitude={longitude}
-          roadviewPan={roadviewPan ?? 90}
+          roadviewPan={roadviewPan}
         />
       </section>
     </section>
