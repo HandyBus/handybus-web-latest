@@ -61,12 +61,25 @@ const WritableReviews = () => {
           <EmptyReview variant="writable-review" />
         ) : (
           <ul>
-            {reservationsWithNotWrittenReview.map((reservation) => (
-              <ReservationCardForReview
-                key={reservation.reservationId}
-                reservation={reservation}
-              />
-            ))}
+            {reservationsWithNotWrittenReview.map((reservation) => {
+              const event = reservation.shuttleRoute.event;
+              const dailyEvent = event.dailyEvents.find(
+                (dailyEvent) =>
+                  dailyEvent.dailyEventId ===
+                  reservation.shuttleRoute.dailyEventId,
+              );
+              if (!event || !dailyEvent) {
+                return null;
+              }
+              return (
+                <ReservationCardForReview
+                  key={reservation.reservationId}
+                  reservation={reservation}
+                  event={event}
+                  dailyEvent={dailyEvent}
+                />
+              );
+            })}
           </ul>
         ))}
     </DeferredSuspense>
