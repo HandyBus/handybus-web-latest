@@ -4,6 +4,8 @@ import { TripType } from '@/types/shuttleRoute.type';
 import TripCard from './components/TripCard';
 import KakaoMap from './components/KakaoMap';
 import Roadview from './components/Roadview';
+import guideImage from './images/cheonan-asan-station-guide.png';
+import Image from 'next/image';
 
 interface Props {
   tripType: TripType;
@@ -109,11 +111,14 @@ const ShuttleInfoSection = ({
                     ? desiredHubLatitude
                     : toDestinationHub.latitude
                 }
-                longitude={toDestinationHub.longitude}
-                type="MAP"
+                longitude={
+                  isHandyParty && desiredHubLongitude
+                    ? desiredHubLongitude
+                    : toDestinationHub.longitude
+                }
               />
               <div>
-                <MapContainer
+                <RoadviewContainer
                   placeName={
                     isHandyParty && desiredHubAddress
                       ? desiredHubAddress
@@ -124,8 +129,12 @@ const ShuttleInfoSection = ({
                       ? desiredHubLatitude
                       : toDestinationHub.latitude
                   }
-                  longitude={toDestinationHub.longitude}
-                  type="LOAD_VIEW"
+                  longitude={
+                    isHandyParty && desiredHubLongitude
+                      ? desiredHubLongitude
+                      : toDestinationHub.longitude
+                  }
+                  roadviewPan={toDestinationHub.roadViewPan}
                 />
                 <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
                   이미지를 돌려가며 주변을 확인해보세요.
@@ -134,6 +143,20 @@ const ShuttleInfoSection = ({
                   </div>
                 </div>
               </div>
+              {toDestinationHub.regionHubId === '544768704622104610' && ( // 천안아산역의 경우에서만 부가 설명
+                <div className="h-full rounded-8 bg-basic-grey-100">
+                  <h3 className="px-12 py-8 text-12 font-600 leading-[160%] text-basic-grey-600">
+                    *주차장 상세 이미지
+                  </h3>
+                  <article className="relative w-full">
+                    <Image src={guideImage} alt="로드뷰" />
+                  </article>
+                  <p className="px-12 py-8 text-10 font-400 leading-[160%]">
+                    천안아산역 3번출구 셔틀버스 정류장 1번 플랫폼(삼성디스플레이
+                    · 도고온천 방향)입니다.
+                  </p>
+                </div>
+              )}
             </section>
           </>
         )}
@@ -148,7 +171,6 @@ const ShuttleInfoSection = ({
                   placeName={fromDestinationDestinationHub?.name}
                   latitude={fromDestinationDestinationHub?.latitude}
                   longitude={fromDestinationDestinationHub?.longitude}
-                  type="MAP"
                 />
                 <ul className="list-disc pl-20 pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
                   <li>
@@ -173,34 +195,54 @@ const MapContainer = ({
   placeName,
   latitude,
   longitude,
-  type,
 }: {
   placeName: string;
   latitude: number;
   longitude: number;
-  type: 'MAP' | 'LOAD_VIEW';
 }) => {
   return (
     <section>
       <section className="rounded-t-8 border-[1px] border-basic-grey-200 px-12 py-8">
         <h4 className="text-14 font-600 leading-[160%] text-basic-black">
-          {type === 'MAP' ? '지도' : '로드뷰'}
+          지도
         </h4>
       </section>
       <section className="h-[195px] rounded-b-8 border-[1px] border-basic-grey-200">
-        {type === 'MAP' ? (
-          <KakaoMap
-            placeName={placeName}
-            latitude={latitude}
-            longitude={longitude}
-          />
-        ) : (
-          <Roadview
-            placeName={placeName}
-            latitude={latitude}
-            longitude={longitude}
-          />
-        )}
+        <KakaoMap
+          placeName={placeName}
+          latitude={latitude}
+          longitude={longitude}
+        />
+      </section>
+    </section>
+  );
+};
+
+const RoadviewContainer = ({
+  placeName,
+  latitude,
+  longitude,
+  roadviewPan,
+}: {
+  placeName: string;
+  latitude: number;
+  longitude: number;
+  roadviewPan: number | null;
+}) => {
+  return (
+    <section>
+      <section className="rounded-t-8 border-[1px] border-basic-grey-200 px-12 py-8">
+        <h4 className="text-14 font-600 leading-[160%] text-basic-black">
+          로드뷰
+        </h4>
+      </section>
+      <section className="h-[195px] rounded-b-8 border-[1px] border-basic-grey-200">
+        <Roadview
+          placeName={placeName}
+          latitude={latitude}
+          longitude={longitude}
+          roadviewPan={roadviewPan}
+        />
       </section>
     </section>
   );

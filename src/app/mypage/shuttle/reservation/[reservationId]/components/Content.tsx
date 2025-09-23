@@ -2,7 +2,6 @@
 
 import { PaymentsViewEntity } from '@/types/payment.type';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { ShuttleBusesViewEntity } from '@/types/shuttleBus.type';
 import EventCard from './EventCard';
 import useReservationProgress, {
   ReservationProgress,
@@ -20,20 +19,22 @@ import HandyPartyProgressSection from './sections/shuttle-progress-section/Handy
 import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { useRouter } from 'next/navigation';
+import {
+  DailyEventsInEventsViewEntity,
+  EventsViewEntity,
+} from '@/types/event.type';
+import dayjs from 'dayjs';
 
 interface Props {
   reservation: ReservationsViewEntity;
   payment: PaymentsViewEntity;
-  shuttleBus: ShuttleBusesViewEntity | null | undefined;
+  event: EventsViewEntity;
+  dailyEvent: DailyEventsInEventsViewEntity;
 }
 
-const Content = ({ reservation, payment, shuttleBus }: Props) => {
+const Content = ({ reservation, payment, event, dailyEvent }: Props) => {
   const router = useRouter();
-  const event = reservation.shuttleRoute.event;
-  const dailyEvent = event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-  );
+
   const shuttleRoute = reservation.shuttleRoute;
   const toDestinationHub =
     reservation.type !== 'FROM_DESTINATION'
@@ -54,7 +55,7 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
 
   const { reservationProgress } = useReservationProgress({
     reservation,
-    dailyEvent,
+    dailyEventDate: dayjs(dailyEvent.date),
   });
   const isCanceled = reservationProgress === 'reservationCanceled';
   const isEnded = reservationProgress === 'shuttleEnded';
@@ -76,38 +77,31 @@ const Content = ({ reservation, payment, shuttleBus }: Props) => {
       <Title progress={reservationProgress} />
       <EventCard event={event} />
       <ul className="flex flex-col gap-24">
-        {!isCanceled &&
-          (isHandyParty ? (
-            <WrapperWithDivider>
-              <HandyPartyProgressSection
-                reservationProgress={reservationProgress}
-                shuttleBus={shuttleBus}
-              />
-            </WrapperWithDivider>
-          ) : (
-            <>
-              <WrapperWithDivider>
-                <section className="flex flex-col gap-16 px-16">
-                  <Button
-                    onClick={handleClickAndStopPropagation(
-                      openBoardingPassLink,
-                    )}
-                    disabled={isEnded || isCanceled}
-                  >
-                    {isEnded || isCanceled
-                      ? '이용이 만료된 탑승권입니다'
-                      : '탑승권 확인하기'}
-                  </Button>
-                  <p className="text-14 font-500 leading-[160%]">
-                    현장에서 탑승권을 제시한 후 탑승해 주세요.{' '}
-                    <span className="font-600 text-basic-red-400">
-                      캡쳐 이미지로는 탑승이 제한될 수 있는 점 참고해 주세요.
-                    </span>
-                  </p>
-                </section>
-              </WrapperWithDivider>
-            </>
-          ))}
+        {isHandyParty && (
+          <WrapperWithDivider>
+            <HandyPartyProgressSection />
+          </WrapperWithDivider>
+        )}
+        {!isCanceled && !isHandyParty && (
+          <WrapperWithDivider>
+            <section className="flex flex-col gap-16 px-16">
+              <Button
+                onClick={handleClickAndStopPropagation(openBoardingPassLink)}
+                disabled={isEnded || isCanceled}
+              >
+                {isEnded || isCanceled
+                  ? '이용이 만료된 탑승권입니다'
+                  : '탑승권 확인하기'}
+              </Button>
+              <p className="text-14 font-500 leading-[160%]">
+                현장에서 탑승권을 제시한 후 탑승해 주세요.{' '}
+                <span className="font-600 text-basic-red-400">
+                  캡쳐 이미지로는 탑승이 제한될 수 있는 점 참고해 주세요.
+                </span>
+              </p>
+            </section>
+          </WrapperWithDivider>
+        )}
         <WrapperWithDivider>
           <ShuttleInfoSection
             tripType={reservation.type}

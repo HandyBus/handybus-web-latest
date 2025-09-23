@@ -2,33 +2,24 @@
 
 import { dateString } from '@/utils/dateString.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import useReservationProgress from '../../../hooks/useReservationProgress';
 import useTextAndStyle from './hooks/useTextAndStyle';
 import useEventText from './hooks/useEventText';
 import ArrowRightIcon from '../../../icons/arrow-right.svg';
 import Link from 'next/link';
-import ShuttleBusBadge from './components/ShuttleBusBadge';
 import ChatButton from './components/ChatButton';
+import dayjs from 'dayjs';
+import { EventsViewEntity } from '@/types/event.type';
+import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 
 interface Props {
   reservation: ReservationsViewEntity;
+  event: EventsViewEntity;
+  dailyEvent: DailyEventsInEventsViewEntity;
 }
 
 // NOTE: 비활성화 된 예약은 처리하지 않음. 무산된 행사는 예약 취소로 처리.
-const ReservationCard = ({ reservation }: Props) => {
-  const event = reservation.shuttleRoute.event;
-  const dailyEvent = event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-  );
-  const { data: shuttleBus } = useGetShuttleBus(
-    reservation.shuttleRoute.eventId,
-    reservation.shuttleRoute.dailyEventId,
-    reservation.shuttleRoute.shuttleRouteId,
-    reservation.shuttleBusId ?? '',
-  );
-
+const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
   const formattedReservationDate = dateString(reservation.createdAt, {
     showYear: true,
     showDate: true,
@@ -42,7 +33,7 @@ const ReservationCard = ({ reservation }: Props) => {
   const { reservationProgress, isWritingReviewPeriod, reviewId, isHandyParty } =
     useReservationProgress({
       reservation,
-      dailyEvent,
+      dailyEventDate: dayjs(dailyEvent.date),
     });
 
   const textAndStyle = useTextAndStyle({
@@ -58,6 +49,8 @@ const ReservationCard = ({ reservation }: Props) => {
       dailyEvent,
     });
 
+  console.log(isWritingReviewPeriod);
+
   return (
     <div>
       <article className="flex flex-col gap-16 px-16 py-24">
@@ -69,9 +62,6 @@ const ReservationCard = ({ reservation }: Props) => {
               >
                 {textAndStyle?.title.text}
               </h5>
-              {reservationProgress !== 'reservationCanceled' &&
-                reservationProgress !== 'shuttleEnded' &&
-                isHandyParty && <ShuttleBusBadge shuttleBus={shuttleBus} />}
             </div>
             <ChatButton
               reservationProgress={reservationProgress}

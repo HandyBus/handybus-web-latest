@@ -30,12 +30,25 @@ const ReservationTab = () => {
             <EmptyView />
           ) : (
             <ul>
-              {reservations.map((reservation) => (
-                <ReservationCard
-                  key={reservation.reservationId}
-                  reservation={reservation}
-                />
-              ))}
+              {reservations.map((reservation) => {
+                const event = reservation.shuttleRoute.event;
+                const dailyEvent = event.dailyEvents.find(
+                  (dailyEvent) =>
+                    dailyEvent.dailyEventId ===
+                    reservation.shuttleRoute.dailyEventId,
+                );
+                if (!event || !dailyEvent) {
+                  return null;
+                }
+                return (
+                  <ReservationCard
+                    key={reservation.reservationId}
+                    reservation={reservation}
+                    event={event}
+                    dailyEvent={dailyEvent}
+                  />
+                );
+              })}
             </ul>
           ))}
       </DeferredSuspense>

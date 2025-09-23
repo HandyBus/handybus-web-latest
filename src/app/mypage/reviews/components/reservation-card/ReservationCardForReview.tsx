@@ -8,19 +8,22 @@ import ReviewButton from './ReviewButton';
 import useEventText from './hooks/useEventText';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
 import useReservationProgress from '@/app/mypage/shuttle/hooks/useReservationProgress';
+import { EventsViewEntity } from '@/types/event.type';
+import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 
 interface Props {
   reservation: ReservationsViewEntity;
   reviewId?: string;
+  event: EventsViewEntity;
+  dailyEvent: DailyEventsInEventsViewEntity;
 }
 
-const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
-  const event = reservation.shuttleRoute.event;
-  const dailyEvent = event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-  );
-
+const ReservationCardForReview = ({
+  reservation,
+  reviewId,
+  event,
+  dailyEvent,
+}: Props) => {
   const formattedReservationDate = dateString(reservation.createdAt, {
     showYear: true,
     showDate: true,
@@ -33,7 +36,7 @@ const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
     : '0';
 
   const isWritingReviewPeriod = !!(
-    dailyEvent?.date &&
+    dailyEvent.date &&
     dayjs()
       .tz('Asia/Seoul')
       .isBefore(dayjs(dailyEvent.date).tz('Asia/Seoul').add(7, 'day'))
@@ -43,7 +46,7 @@ const ReservationCardForReview = ({ reservation, reviewId }: Props) => {
 
   const { reservationProgress } = useReservationProgress({
     reservation,
-    dailyEvent,
+    dailyEventDate: dayjs(dailyEvent.date),
   });
 
   const textAndStyle = useTextAndStyleForReview({

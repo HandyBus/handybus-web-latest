@@ -20,21 +20,17 @@ const useTextAndStyleForReview = ({
             ? isHandyParty
               ? '[핸디팟] 셔틀 종료'
               : '셔틀 종료'
-            : reservationProgress === 'reviewAvailable'
-              ? '예약 완료'
-              : '',
+            : '',
         className:
-          reservationProgress === 'shuttleEnded'
-            ? 'text-basic-grey-500'
-            : reservationProgress === 'reviewAvailable'
-              ? 'text-brand-primary-400'
-              : '',
+          reservationProgress === 'shuttleEnded' ? 'text-basic-grey-500' : '',
       },
       description: {
         text: '',
       },
     };
     if (isWritingReviewPeriod) {
+      textAndClassName.title.text = '예약 완료';
+      textAndClassName.title.className = 'text-brand-primary-400';
       textAndClassName.description.text =
         '여러분의 생생한 경험을 공유해주세요.';
     }

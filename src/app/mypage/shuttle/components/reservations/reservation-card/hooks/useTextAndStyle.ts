@@ -13,11 +13,7 @@ const useTextAndStyle = ({
   isHandyParty,
 }: Props) => {
   const getShuttleBusTextAndStyle = useCallback(() => {
-    if (
-      reservationProgress === 'beforeBusAssigned' ||
-      reservationProgress === 'afterBusAssigned' ||
-      reservationProgress === 'reviewAvailable'
-    ) {
+    if (reservationProgress === 'beforeShuttle') {
       const textAndClassName = {
         title: {
           text: '예약 완료',
@@ -58,21 +54,7 @@ const useTextAndStyle = ({
 
   // NOTE: 핸디팟은 핸디 및 오픈채팅방이 존재하지 않음
   const getHandyPartyTextAndStyle = useCallback(() => {
-    if (reservationProgress === 'beforeBusAssigned') {
-      const textAndClassName = {
-        title: {
-          text: '[핸디팟] 예약 완료',
-          className: 'text-brand-primary-400',
-        },
-        description: {
-          text: '함께 갈 인원을 모으고 있어요. 조금만 기다려주세요!',
-        },
-      };
-      return textAndClassName;
-    } else if (
-      reservationProgress === 'afterBusAssigned' ||
-      reservationProgress === 'reviewAvailable'
-    ) {
+    if (reservationProgress === 'beforeShuttle') {
       const textAndClassName = {
         title: {
           text: '[핸디팟] 예약 완료',
