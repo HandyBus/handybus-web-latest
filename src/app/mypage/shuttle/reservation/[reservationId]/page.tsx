@@ -4,12 +4,10 @@ import { useRouter } from 'next/navigation';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/reservation.service';
-import { useGetShuttleBus } from '@/services/shuttleBus.service';
 import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import FirstVisitModal from '@/app/mypage/shuttle/reservation/[reservationId]/components/FirstVisitModal';
-import { useEffect } from 'react';
 
 interface Props {
   params: {
@@ -20,35 +18,34 @@ interface Props {
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
   const router = useRouter();
-  const { data: reservationDetail, isLoading: isLoadingReservation } =
+  const { data: reservationDetail, isLoading } =
     useGetUserReservation(reservationId);
-  const { data: shuttleBus, isLoading: isLoadingShuttleBus } = useGetShuttleBus(
-    reservationDetail?.reservation.shuttleRoute.eventId ?? '',
-    reservationDetail?.reservation.shuttleRoute.dailyEventId ?? '',
-    reservationDetail?.reservation.shuttleRoute.shuttleRouteId ?? '',
-    reservationDetail?.reservation.shuttleBusId ?? '',
-  );
-  const isLoading = !!(
-    isLoadingReservation ||
-    (reservationDetail &&
-      reservationDetail.reservation.shuttleBusId &&
-      isLoadingShuttleBus)
-  );
+  const reservation = reservationDetail?.reservation;
+  const payment = reservationDetail?.payment;
+
   const isShuttleRouteEnded = Boolean(
-    reservationDetail?.reservation.shuttleRoute.status === 'ENDED' ||
-      reservationDetail?.reservation.shuttleRoute.status === 'CANCELLED' ||
-      reservationDetail?.reservation.shuttleRoute.status === 'INACTIVE',
+    reservation?.shuttleRoute.status === 'ENDED' ||
+      reservation?.shuttleRoute.status === 'CANCELLED' ||
+      reservation?.shuttleRoute.status === 'INACTIVE',
   );
   const isReservationCanceled = Boolean(
-    reservationDetail?.reservation.reservationStatus === 'CANCEL',
+    reservation?.reservationStatus === 'CANCEL',
   );
 
-  useEffect(() => {
-    if (!isLoading && !reservationDetail) {
-      router.replace('/mypage/shuttle?type=reservation');
-      return;
-    }
-  }, [isLoading, router, reservationId, reservationDetail]);
+  if (!isLoading && !reservation && !payment) {
+    router.replace('/mypage/shuttle?type=reservation');
+    return;
+  }
+
+  const event = reservation?.shuttleRoute.event;
+  const dailyEvent = event?.dailyEvents.find(
+    (dailyEvent) =>
+      dailyEvent.dailyEventId === reservation?.shuttleRoute.dailyEventId,
+  );
+
+  if (!reservation || !payment || !event || !dailyEvent) {
+    return null;
+  }
 
   return (
     <>
@@ -57,21 +54,20 @@ const Page = ({ params }: Props) => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {reservationDetail && (
+        {reservation && payment && event && dailyEvent && (
           <Content
-            reservation={reservationDetail.reservation}
-            payment={reservationDetail.payment}
-            shuttleBus={shuttleBus}
+            reservation={reservation}
+            payment={payment}
+            event={event}
+            dailyEvent={dailyEvent}
           />
         )}
       </DeferredSuspense>
       <KakaoMapScript libraries={['services']} />
-      {reservationDetail && (
-        <FirstVisitModal
-          reservationId={reservationId}
-          isHidden={isShuttleRouteEnded || isReservationCanceled}
-        />
-      )}
+      <FirstVisitModal
+        reservationId={reservationId}
+        isHidden={isShuttleRouteEnded || isReservationCanceled}
+      />
     </>
   );
 };
