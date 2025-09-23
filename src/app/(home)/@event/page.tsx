@@ -4,7 +4,7 @@ import { getEvents, getTopRecommendedEvents } from '@/services/event.service';
 import { EventsViewEntity } from '@/types/event.type';
 
 const Page = async () => {
-  const recommendedEvents = await getTopRecommendedEvents(5);
+  const recommendedEvents = await getTopRecommendedEvents(10);
 
   const pinnedEvents = await getEvents({
     status: 'OPEN,CLOSED',

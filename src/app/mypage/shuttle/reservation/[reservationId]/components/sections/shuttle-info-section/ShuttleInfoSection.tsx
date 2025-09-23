@@ -34,14 +34,18 @@ const ShuttleInfoSection = ({
   desiredHubLatitude,
   desiredHubLongitude,
 }: Props) => {
-  const destinationHub =
-    tripType === 'TO_DESTINATION'
+  const toDestinationDestinationHub =
+    tripType === 'TO_DESTINATION' || tripType === 'ROUND_TRIP'
       ? shuttleRoute.toDestinationShuttleRouteHubs?.find(
           (hub) => hub.role === 'DESTINATION',
         )
-      : shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+      : null;
+  const fromDestinationDestinationHub =
+    tripType === 'FROM_DESTINATION' || tripType === 'ROUND_TRIP'
+      ? shuttleRoute.fromDestinationShuttleRouteHubs?.find(
           (hub) => hub.role === 'DESTINATION',
-        );
+        )
+      : null;
 
   return (
     <>
@@ -49,11 +53,12 @@ const ShuttleInfoSection = ({
         <h3 className="pb-16 text-16 font-600">셔틀 정보</h3>
         <div className="flex flex-col gap-16">
           {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') &&
-            toDestinationHub && (
+            toDestinationHub &&
+            toDestinationDestinationHub && (
               <TripCard
                 tripType="TO_DESTINATION"
                 hub={toDestinationHub}
-                destinationHub={destinationHub}
+                destinationHub={toDestinationDestinationHub}
                 withRoundTrip={tripType === 'ROUND_TRIP'}
                 passengerCount={passengerCount}
                 isHandyParty={isHandyParty}
@@ -63,11 +68,12 @@ const ShuttleInfoSection = ({
               />
             )}
           {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
-            fromDestinationHub && (
+            fromDestinationHub &&
+            fromDestinationDestinationHub && (
               <TripCard
                 tripType="FROM_DESTINATION"
                 hub={fromDestinationHub}
-                destinationHub={destinationHub}
+                destinationHub={fromDestinationDestinationHub}
                 withRoundTrip={tripType === 'ROUND_TRIP'}
                 passengerCount={passengerCount}
                 isHandyParty={isHandyParty}
@@ -132,16 +138,16 @@ const ShuttleInfoSection = ({
           </>
         )}
       {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
-        destinationHub && (
+        fromDestinationDestinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
             <section className="flex flex-col gap-16 px-16">
               <h3 className="text-16 font-600">귀가행 탑승 장소</h3>
               <div>
                 <MapContainer
-                  placeName={destinationHub?.name}
-                  latitude={destinationHub?.latitude}
-                  longitude={destinationHub?.longitude}
+                  placeName={fromDestinationDestinationHub?.name}
+                  latitude={fromDestinationDestinationHub?.latitude}
+                  longitude={fromDestinationDestinationHub?.longitude}
                   type="MAP"
                 />
                 <ul className="list-disc pl-20 pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
