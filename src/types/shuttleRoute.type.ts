@@ -39,7 +39,8 @@ export const ShuttleRouteHubsInShuttleRoutesViewEntitySchema = z
     arrivalTime: z.string(),
     status: ActiveStatusEnum,
     regionId: z.string(),
-    roadviewPan: z.number().nullable(),
+    roadViewPan: z.number().nullable(),
+    roadViewTilt: z.number().nullable(),
   })
   .strict();
 export type ShuttleRouteHubsInShuttleRoutesViewEntity = z.infer<

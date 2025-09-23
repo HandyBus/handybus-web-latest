@@ -4,7 +4,7 @@ import { TripType } from '@/types/shuttleRoute.type';
 import TripCard from './components/TripCard';
 import KakaoMap from './components/KakaoMap';
 import Roadview from './components/Roadview';
-import testImage from './images/shuttle-hub-detail-spot.png';
+import guideImage from './images/cheonan-asan-station-guide.png';
 import Image from 'next/image';
 
 interface Props {
@@ -126,7 +126,7 @@ const ShuttleInfoSection = ({
                       : toDestinationHub.latitude
                   }
                   longitude={toDestinationHub.longitude}
-                  roadviewPan={toDestinationHub.roadviewPan}
+                  roadviewPan={toDestinationHub.roadViewPan}
                 />
                 <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
                   이미지를 돌려가며 주변을 확인해보세요.
@@ -141,7 +141,7 @@ const ShuttleInfoSection = ({
                     *주차장 상세 이미지
                   </h3>
                   <article className="relative w-full">
-                    <Image src={testImage} alt="로드뷰" />
+                    <Image src={guideImage} alt="로드뷰" />
                   </article>
                   <p className="px-12 py-8 text-10 font-400 leading-[160%]">
                     천안아산역 3번출구 셔틀버스 정류장 1번 플랫폼(삼성디스플레이
