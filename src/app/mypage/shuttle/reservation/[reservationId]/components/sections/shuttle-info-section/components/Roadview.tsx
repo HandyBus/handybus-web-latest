@@ -102,7 +102,7 @@ export default Roadview;
 const CUSTOM_OVERLAY = `<div style="
                  background: #00C896;
                  color: #fff;
-                 padding: 12px 20px;
+                 padding: 8px 12px;
                  font-size: 14px;
                  font-weight: 600;
                  border-radius: 6px;
