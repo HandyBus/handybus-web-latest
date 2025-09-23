@@ -8,9 +8,10 @@ interface Props {
   placeName: string;
   latitude: number;
   longitude: number;
+  roadviewPan: number;
 }
 
-const Roadview = ({ placeName, latitude, longitude }: Props) => {
+const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const isInitialized = useRef(false);
   const [isAvailable, setIsAvailable] = useState(true);
@@ -29,6 +30,15 @@ const Roadview = ({ placeName, latitude, longitude }: Props) => {
           return;
         }
         roadview.setPanoId(panoId, position);
+
+        // 로드뷰 초기화 완료 이벤트 대기
+        window.kakao.maps.event.addListener(roadview, 'init', () => {
+          roadview.setViewpoint({
+            pan: roadviewPan,
+            tilt: 0,
+            zoom: 1,
+          });
+        });
         setIsAvailable(true);
       });
     } catch (error) {
