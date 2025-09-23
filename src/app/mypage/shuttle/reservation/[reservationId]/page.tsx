@@ -8,6 +8,7 @@ import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import FirstVisitModal from '@/app/mypage/shuttle/reservation/[reservationId]/components/FirstVisitModal';
+import { useState } from 'react';
 
 interface Props {
   params: {
@@ -18,6 +19,9 @@ interface Props {
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
   const router = useRouter();
+
+  const [isKakaoScriptLoaded, setIsKakaoScriptLoaded] = useState(false);
+
   const { data: reservationDetail, isLoading } =
     useGetUserReservation(reservationId);
   const reservation = reservationDetail?.reservation;
@@ -43,10 +47,6 @@ const Page = ({ params }: Props) => {
       dailyEvent.dailyEventId === reservation?.shuttleRoute.dailyEventId,
   );
 
-  if (!reservation || !payment || !event || !dailyEvent) {
-    return null;
-  }
-
   return (
     <>
       <Header />
@@ -54,16 +54,23 @@ const Page = ({ params }: Props) => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {reservation && payment && event && dailyEvent && (
-          <Content
-            reservation={reservation}
-            payment={payment}
-            event={event}
-            dailyEvent={dailyEvent}
-          />
-        )}
+        {reservation &&
+          payment &&
+          event &&
+          dailyEvent &&
+          isKakaoScriptLoaded && (
+            <Content
+              reservation={reservation}
+              payment={payment}
+              event={event}
+              dailyEvent={dailyEvent}
+            />
+          )}
       </DeferredSuspense>
-      <KakaoMapScript libraries={['services']} />
+      <KakaoMapScript
+        libraries={['services']}
+        onReady={() => setIsKakaoScriptLoaded(true)}
+      />
       <FirstVisitModal
         reservationId={reservationId}
         isHidden={isShuttleRouteEnded || isReservationCanceled}
