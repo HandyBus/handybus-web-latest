@@ -1,6 +1,7 @@
 'use client';
 
 import useBottomSheet from '@/hooks/useBottomSheet';
+import useScrollToBottom from '@/hooks/useScrollToBottom';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
@@ -18,8 +19,19 @@ const GuidelineSection = ({
   guidelineSeen,
   setGuidelineSeen,
 }: Props) => {
-  const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
-    useBottomSheet();
+  const {
+    bottomSheetRef,
+    contentRef,
+    openBottomSheet,
+    closeBottomSheet,
+    isOpen,
+  } = useBottomSheet();
+
+  const isScrolledToBottom = useScrollToBottom({
+    containerRef: contentRef,
+    threshold: 70,
+    isActive: isOpen,
+  });
 
   const handleClick = () => {
     setGuidelineSeen(true);
@@ -56,15 +68,16 @@ const GuidelineSection = ({
         ref={bottomSheetRef}
         title="결제 전, 유의사항을 확인해주세요"
       >
-        <div ref={contentRef} className="overflow-y-auto">
+        <div ref={contentRef} className="relative overflow-y-auto">
           {isHandyParty ? <HandyPartyGuideline /> : <ShuttleBusGuideline />}
           <div className="h-16 w-full" />
-          <div className="py-16">
+          <div className="sticky bottom-0 left-0 right-0 bg-basic-white py-16">
             <Button
               type="button"
               variant="primary"
               size="large"
               onClick={handleClick}
+              disabled={!isScrolledToBottom}
             >
               확인했어요
             </Button>
