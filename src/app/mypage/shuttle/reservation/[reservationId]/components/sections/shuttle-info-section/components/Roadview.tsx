@@ -15,6 +15,8 @@ const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const isInitialized = useRef(false);
   const [isAvailable, setIsAvailable] = useState(true);
+  const latitudeFixed8 = Number(latitude.toFixed(8));
+  const longitudeFixed8 = Number(longitude.toFixed(8));
 
   const initializeRoadview = () => {
     try {
@@ -22,7 +24,10 @@ const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
 
       const roadview = new window.kakao.maps.Roadview(mapRef.current);
       const roadviewClient = new window.kakao.maps.RoadviewClient();
-      const position = new window.kakao.maps.LatLng(latitude, longitude);
+      const position = new window.kakao.maps.LatLng(
+        latitudeFixed8,
+        longitudeFixed8,
+      );
 
       roadviewClient.getNearestPanoId(position, 50, (panoId) => {
         if (!panoId) {
