@@ -2,16 +2,22 @@
 
 import useBottomSheet from '@/hooks/useBottomSheet';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
-import Guideline from '@/components/guidelines/Guideline';
 import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
+import ShuttleBusGuideline from '../payment-guidelines/ShuttleBusGuideline';
+import HandyPartyGuideline from '../payment-guidelines/HandyPartyGuideline';
 
 interface Props {
+  isHandyParty: boolean;
   guidelineSeen: boolean;
   setGuidelineSeen: (value: boolean) => void;
 }
 
-const GuidelineSection = ({ guidelineSeen, setGuidelineSeen }: Props) => {
+const GuidelineSection = ({
+  isHandyParty,
+  guidelineSeen,
+  setGuidelineSeen,
+}: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
@@ -51,7 +57,7 @@ const GuidelineSection = ({ guidelineSeen, setGuidelineSeen }: Props) => {
         title="결제 전, 유의사항을 확인해주세요"
       >
         <div ref={contentRef} className="overflow-y-auto">
-          <Guideline type="상품별 유의사항" />
+          {isHandyParty ? <HandyPartyGuideline /> : <ShuttleBusGuideline />}
           <div className="h-16 w-full" />
           <div className="py-16">
             <Button

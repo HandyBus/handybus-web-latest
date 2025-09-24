@@ -225,6 +225,7 @@ const Content = ({
         />
         <PaymentSection />
         <GuidelineSection
+          isHandyParty={isHandyParty}
           guidelineSeen={isGuidelineSeen}
           setGuidelineSeen={setIsGuidelineSeen}
         />
