@@ -1,32 +1,51 @@
 'use client';
 
 import useBottomSheet from '@/hooks/useBottomSheet';
-import Divider from '../Divider';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import Guideline from '@/components/guidelines/Guideline';
 import Button from '@/components/buttons/button/Button';
+import CheckBox from '@/components/buttons/checkbox/CheckBox';
 
 interface Props {
-  setGuidelineSeenTrue: () => void;
+  guidelineSeen: boolean;
+  setGuidelineSeen: (value: boolean) => void;
 }
 
-const GuidelineSection = ({ setGuidelineSeenTrue }: Props) => {
+const GuidelineSection = ({ guidelineSeen, setGuidelineSeen }: Props) => {
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
 
   const handleClick = () => {
-    setGuidelineSeenTrue();
+    setGuidelineSeen(true);
     closeBottomSheet();
+  };
+
+  const handleCheckBoxClick = () => {
+    if (guidelineSeen) {
+      setGuidelineSeen(false);
+      return;
+    }
+    openBottomSheet();
   };
 
   return (
     <>
-      <Divider />
-      <section className="">
-        <button type="button" onClick={openBottomSheet}>
-          유의사항
+      <div className="px-16">
+        <button
+          type="button"
+          onClick={openBottomSheet}
+          className="flex w-full items-center gap-[6px] rounded-8 border border-basic-grey-200 bg-basic-grey-50 p-12 leading-[160%]"
+        >
+          <CheckBox
+            isChecked={guidelineSeen}
+            setIsChecked={handleCheckBoxClick}
+          />
+          <div className="text-14 font-600">
+            <span className="text-brand-primary-400">[필수]</span> 유의사항을
+            확인해주세요
+          </div>
         </button>
-      </section>
+      </div>
       <BottomSheet
         ref={bottomSheetRef}
         title="결제 전, 유의사항을 확인해주세요"
@@ -41,7 +60,7 @@ const GuidelineSection = ({ setGuidelineSeenTrue }: Props) => {
               size="large"
               onClick={handleClick}
             >
-              닫기
+              확인했어요
             </Button>
           </div>
         </div>

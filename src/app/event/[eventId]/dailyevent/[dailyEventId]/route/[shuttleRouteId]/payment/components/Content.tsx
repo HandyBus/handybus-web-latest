@@ -225,7 +225,8 @@ const Content = ({
         />
         <PaymentSection />
         <GuidelineSection
-          setGuidelineSeenTrue={() => setIsGuidelineSeen(true)}
+          guidelineSeen={isGuidelineSeen}
+          setGuidelineSeen={setIsGuidelineSeen}
         />
         <BottomBar
           isDisabled={isDisabled}
