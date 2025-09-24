@@ -8,9 +8,14 @@ interface Props {
 }
 
 const EventInfoSection = ({ event }: Props) => {
-  const formattedDate = dateString([event.startDate, event.endDate], {
-    showWeekday: false,
-  });
+  const formattedDate = dateString(
+    event.startDate === event.endDate
+      ? event.startDate
+      : [event.startDate, event.endDate],
+    {
+      showWeekday: false,
+    },
+  );
   const formattedMinPrice = event.eventMinRoutePrice?.toLocaleString();
   return (
     <section className="px-16 pb-24 pt-12">
