@@ -209,7 +209,8 @@ export const calculateTotalPrice = ({
   });
   const totalCouponDiscountAmount = coupon
     ? calculateTotalCouponDiscountAmount({
-        price: price.regularPrice - totalEarlybirdDiscountAmount,
+        price:
+          price.regularPrice - totalEarlybirdDiscountAmount / passengerCount,
         passengerCount,
         coupon,
       })
