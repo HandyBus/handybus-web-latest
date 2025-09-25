@@ -135,6 +135,7 @@ const ShuttleInfoSection = ({
                       : toDestinationHub.longitude
                   }
                   roadviewPan={toDestinationHub.roadViewPan}
+                  roadviewTilt={toDestinationHub.roadViewTilt}
                 />
                 <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
                   이미지를 돌려가며 주변을 확인해보세요.
@@ -223,11 +224,13 @@ const RoadviewContainer = ({
   latitude,
   longitude,
   roadviewPan,
+  roadviewTilt,
 }: {
   placeName: string;
   latitude: number;
   longitude: number;
   roadviewPan: number | null;
+  roadviewTilt: number | null;
 }) => {
   return (
     <section>
@@ -242,6 +245,7 @@ const RoadviewContainer = ({
           latitude={latitude}
           longitude={longitude}
           roadviewPan={roadviewPan}
+          roadviewTilt={roadviewTilt}
         />
       </section>
     </section>
