@@ -59,21 +59,23 @@ const Page = ({ params }: Props) => {
           event &&
           dailyEvent &&
           isKakaoScriptLoaded && (
-            <Content
-              reservation={reservation}
-              payment={payment}
-              event={event}
-              dailyEvent={dailyEvent}
-            />
+            <>
+              <Content
+                reservation={reservation}
+                payment={payment}
+                event={event}
+                dailyEvent={dailyEvent}
+              />
+              <FirstVisitModal
+                reservationId={reservationId}
+                isHidden={isShuttleRouteEnded || isReservationCanceled}
+              />
+            </>
           )}
       </DeferredSuspense>
       <KakaoMapScript
         libraries={['services']}
         onReady={() => setIsKakaoScriptLoaded(true)}
-      />
-      <FirstVisitModal
-        reservationId={reservationId}
-        isHidden={isShuttleRouteEnded || isReservationCanceled}
       />
     </>
   );
