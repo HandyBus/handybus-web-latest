@@ -28,12 +28,14 @@ const Page = () => {
   const filteredEventsByStatus = useMemo(
     () =>
       events?.filter((event) =>
-        event.eventStatus === 'CLOSED' && !event.eventHasOpenRoute
+        event.eventStatus === 'CLOSED' && event.eventMinRoutePrice === null
           ? false
           : true,
       ),
     [events],
   );
+
+  console.log(filteredEventsByStatus);
 
   const filteredEventsByType = useMemo(() => {
     if (type === 'ALL') {
@@ -83,7 +85,7 @@ const Page = () => {
                   date={formattedDate}
                   location={event.eventLocationName}
                   price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                  isSaleStarted={event.eventHasOpenRoute}
+                  isSaleStarted={event.eventMinRoutePrice !== null}
                   href={`/event/${event.eventId}`}
                 />
               </div>
