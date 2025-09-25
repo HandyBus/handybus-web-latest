@@ -53,7 +53,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
                     date={formattedDate}
                     location={v.eventLocationName}
                     price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                    isSaleStarted={v.eventHasOpenRoute}
+                    isSaleStarted={v.eventMinRoutePrice !== null}
                     order={idx + 1}
                     href={`/event/${v.eventId}`}
                   />
