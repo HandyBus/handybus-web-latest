@@ -9,14 +9,19 @@ interface Props {
   latitude: number;
   longitude: number;
   roadviewPan: number | null;
+  roadviewTilt: number | null;
 }
 
-const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
+const Roadview = ({
+  placeName,
+  latitude,
+  longitude,
+  roadviewPan,
+  roadviewTilt,
+}: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const isInitialized = useRef(false);
   const [isAvailable, setIsAvailable] = useState(true);
-  const latitudeFixed8 = Number(latitude.toFixed(8));
-  const longitudeFixed8 = Number(longitude.toFixed(8));
 
   const initializeRoadview = () => {
     try {
@@ -24,10 +29,7 @@ const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
 
       const roadview = new window.kakao.maps.Roadview(mapRef.current);
       const roadviewClient = new window.kakao.maps.RoadviewClient();
-      const position = new window.kakao.maps.LatLng(
-        latitudeFixed8,
-        longitudeFixed8,
-      );
+      const position = new window.kakao.maps.LatLng(latitude, longitude);
 
       roadviewClient.getNearestPanoId(position, 50, (panoId) => {
         if (!panoId) {
@@ -40,8 +42,8 @@ const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
         window.kakao.maps.event.addListener(roadview, 'init', () => {
           roadview.setViewpoint({
             pan: roadviewPan ?? 0,
-            tilt: 28,
-            zoom: 1,
+            tilt: roadviewTilt ?? 0,
+            zoom: -3,
           });
 
           // 커스텀 오버레이 생성
@@ -71,6 +73,8 @@ const Roadview = ({ placeName, latitude, longitude, roadviewPan }: Props) => {
           placeName,
           latitude,
           longitude,
+          roadviewPan,
+          roadviewTilt,
           timestamp: dayjs().toISOString(),
         },
       });
