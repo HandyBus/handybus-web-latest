@@ -7,6 +7,7 @@ import Button from '@/components/buttons/button/Button';
 import CheckBox from '@/components/buttons/checkbox/CheckBox';
 import ShuttleBusGuideline from '../payment-guidelines/ShuttleBusGuideline';
 import HandyPartyGuideline from '../payment-guidelines/HandyPartyGuideline';
+import { useRef } from 'react';
 
 interface Props {
   isHandyParty: boolean;
@@ -27,8 +28,10 @@ const GuidelineSection = ({
     isOpen,
   } = useBottomSheet();
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const isScrolledToBottom = useScrollToBottom({
-    containerRef: contentRef,
+    containerRef: scrollRef,
     threshold: 70,
     isActive: isOpen,
   });
@@ -68,10 +71,14 @@ const GuidelineSection = ({
         ref={bottomSheetRef}
         title="결제 전, 유의사항을 확인해주세요"
       >
-        <div ref={contentRef} className="relative overflow-y-auto">
-          {isHandyParty ? <HandyPartyGuideline /> : <ShuttleBusGuideline />}
-          <div className="h-16 w-full" />
-          <div className="sticky bottom-0 left-0 right-0 bg-basic-white py-16">
+        <div
+          ref={contentRef}
+          className="flex h-full max-h-[calc(90dvh-100px)] flex-col"
+        >
+          <div ref={scrollRef} className="flex-1 overflow-y-auto pb-16">
+            {isHandyParty ? <HandyPartyGuideline /> : <ShuttleBusGuideline />}
+          </div>
+          <div className="shrink-0 bg-basic-white py-16">
             <Button
               type="button"
               variant="primary"

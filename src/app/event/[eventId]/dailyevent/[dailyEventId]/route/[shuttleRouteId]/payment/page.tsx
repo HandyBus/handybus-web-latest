@@ -11,6 +11,8 @@ import { useGetUser } from '@/services/user.service';
 import { useGetUserCoupons } from '@/services/coupon.service';
 import Content from './components/Content';
 import { PAYMENT_PARAMS_KEYS } from './payment.const';
+import { useState } from 'react';
+import TossPaymentsScript from '@/components/script/TossPaymentsScript';
 
 interface Props {
   params: {
@@ -64,6 +66,9 @@ const Page = ({ params }: Props) => {
     issuedCouponStatus: 'BEFORE_USE',
   });
 
+  const [isTossPaymentsScriptLoaded, setIsTossPaymentsScriptLoaded] =
+    useState(false);
+
   const isLoading =
     !tripType ||
     (!toDestinationHubId && !fromDestinationHubId) ||
@@ -71,29 +76,35 @@ const Page = ({ params }: Props) => {
     isEventLoading ||
     isShuttleRouteLoading ||
     isUserLoading ||
-    isCouponsLoading;
+    isCouponsLoading ||
+    !isTossPaymentsScriptLoaded;
 
   return (
     <>
       <Header />
+      <TossPaymentsScript onReady={() => setIsTossPaymentsScriptLoaded(true)} />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {event && shuttleRoute && user && coupons && (
-          <Content
-            event={event}
-            shuttleRoute={shuttleRoute}
-            user={user}
-            coupons={coupons}
-            tripType={tripType}
-            toDestinationHubId={toDestinationHubId}
-            fromDestinationHubId={fromDestinationHubId}
-            passengerCount={passengerCount}
-            isHandyParty={isHandyParty}
-            desiredHubAddress={desiredHubAddress ?? undefined}
-            desiredHubLatitude={desiredHubLatitude ?? undefined}
-            desiredHubLongitude={desiredHubLongitude ?? undefined}
-            reservationStartTime={reservationStartTime ?? undefined}
-          />
-        )}
+        {event &&
+          shuttleRoute &&
+          user &&
+          coupons &&
+          isTossPaymentsScriptLoaded && (
+            <Content
+              event={event}
+              shuttleRoute={shuttleRoute}
+              user={user}
+              coupons={coupons}
+              tripType={tripType}
+              toDestinationHubId={toDestinationHubId}
+              fromDestinationHubId={fromDestinationHubId}
+              passengerCount={passengerCount}
+              isHandyParty={isHandyParty}
+              desiredHubAddress={desiredHubAddress ?? undefined}
+              desiredHubLatitude={desiredHubLatitude ?? undefined}
+              desiredHubLongitude={desiredHubLongitude ?? undefined}
+              reservationStartTime={reservationStartTime ?? undefined}
+            />
+          )}
       </DeferredSuspense>
     </>
   );

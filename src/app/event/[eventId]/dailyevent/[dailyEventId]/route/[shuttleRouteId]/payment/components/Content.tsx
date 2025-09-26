@@ -76,7 +76,6 @@ const Content = ({
   });
 
   const {
-    TossPaymentsScript,
     isDisabled: isTossPaymentsDisabled,
     requestPayment,
     changePrice,
@@ -204,53 +203,50 @@ const Content = ({
   }
 
   return (
-    <>
-      <TossPaymentsScript />
-      <main className="pb-100">
-        {isHandyParty && (
-          <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
-            예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
-            승하차 위치를 꼭 확인하세요.
-          </div>
-        )}
-        <EventInfoSection event={event} />
-        <ShuttleRouteInfoSection
-          tripType={tripType}
-          shuttleRoute={shuttleRoute}
-          toDestinationHubId={toDestinationHubId}
-          fromDestinationHubId={fromDestinationHubId}
-          passengerCount={passengerCount}
-          isHandyParty={isHandyParty}
-          desiredHubAddress={desiredHubAddress}
-        />
-        <ClientInfoSection user={user} />
-        <CouponSection
-          eventId={event.eventId}
-          coupons={coupons}
-          selectedCoupon={selectedCoupon}
-          setSelectedCoupon={setSelectedCoupon}
-        />
-        <PriceSection
-          tripType={tripType}
-          regularPrice={regularPrice}
-          finalPrice={finalPrice}
-          totalCouponDiscountAmount={totalCouponDiscountAmount}
-          totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
-          passengerCount={passengerCount}
-        />
-        <PaymentSection />
-        <GuidelineSection
-          isHandyParty={isHandyParty}
-          guidelineSeen={isGuidelineSeen}
-          setGuidelineSeen={setIsGuidelineSeen}
-        />
-        <BottomBar
-          isDisabled={isTossPaymentsDisabled}
-          finalPrice={finalPrice}
-          onSubmit={submitPayment}
-        />
-      </main>
-    </>
+    <main className="pb-100">
+      {isHandyParty && (
+        <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
+          예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
+          승하차 위치를 꼭 확인하세요.
+        </div>
+      )}
+      <EventInfoSection event={event} />
+      <ShuttleRouteInfoSection
+        tripType={tripType}
+        shuttleRoute={shuttleRoute}
+        toDestinationHubId={toDestinationHubId}
+        fromDestinationHubId={fromDestinationHubId}
+        passengerCount={passengerCount}
+        isHandyParty={isHandyParty}
+        desiredHubAddress={desiredHubAddress}
+      />
+      <ClientInfoSection user={user} />
+      <CouponSection
+        eventId={event.eventId}
+        coupons={coupons}
+        selectedCoupon={selectedCoupon}
+        setSelectedCoupon={setSelectedCoupon}
+      />
+      <PriceSection
+        tripType={tripType}
+        regularPrice={regularPrice}
+        finalPrice={finalPrice}
+        totalCouponDiscountAmount={totalCouponDiscountAmount}
+        totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
+        passengerCount={passengerCount}
+      />
+      <PaymentSection />
+      <GuidelineSection
+        isHandyParty={isHandyParty}
+        guidelineSeen={isGuidelineSeen}
+        setGuidelineSeen={setIsGuidelineSeen}
+      />
+      <BottomBar
+        isDisabled={isTossPaymentsDisabled}
+        finalPrice={finalPrice}
+        onSubmit={submitPayment}
+      />
+    </main>
   );
 };
 
