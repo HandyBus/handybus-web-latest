@@ -5,7 +5,7 @@ const PaymentSection = () => {
   return (
     <>
       <Divider />
-      <section className="">
+      <section className="min-h-[180px]">
         <div id={PAYMENT_METHODS_ID} />
         <div id={AGREEMENT_ID} />
       </section>
