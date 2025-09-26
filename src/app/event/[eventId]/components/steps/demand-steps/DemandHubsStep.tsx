@@ -217,7 +217,11 @@ const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
           );
         })}
       </div>
-      {isLoading && <div className="h-340" />}
+      {isLoading && (
+        <div
+          className={`${gungusWithHubs.length === 0 ? 'h-[455px]' : 'h-[340px]'}`}
+        />
+      )}
       {!isLoading && gungusWithHubs.length === 0 && <EmptyView />}
     </section>
   );
