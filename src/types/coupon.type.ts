@@ -21,6 +21,7 @@ export const IssuedCouponsViewEntitySchema = z
     issuedCouponId: z.string(),
     userId: z.string(),
     userNickname: z.string(),
+    userName: z.string().nullable(),
     userProfileImage: z.string().nullable(),
     code: z.string(),
     name: z.string(),

@@ -1,6 +1,5 @@
 'use client';
 
-import Script from 'next/script';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/services/custom-error';
@@ -22,11 +21,16 @@ declare global {
 interface Props {
   userId: string;
   initialPrice: number;
+  isScriptLoaded?: boolean;
 }
 
-const useTossPayments = ({ userId, initialPrice }: Props) => {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
-  const [tossInitialized, setTossInitialized] = useState(false);
+const useTossPayments = ({
+  userId,
+  initialPrice,
+  isScriptLoaded = true,
+}: Props) => {
+  const isInitializing = useRef(false);
+  const [isTossInitialized, setIsTossInitialized] = useState(false);
   const tossWidgets = useRef<TossPaymentsWidgets | null>(null);
   // NOTE: 토스 개발자 센터에서 약관의 초기값을 '동의'로 설정함
   const [isAgreementAccepted, setIsAgreementAccepted] = useState(true);
@@ -36,19 +40,23 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
 
   useEffect(() => {
     const newIsDisabled =
-      !scriptLoaded ||
-      !tossInitialized ||
+      !isScriptLoaded ||
+      !isTossInitialized ||
       !isAgreementAccepted ||
       paymentRequestLoading;
     setIsDisabled(newIsDisabled);
   }, [
-    scriptLoaded,
-    tossInitialized,
+    isScriptLoaded,
+    isTossInitialized,
     isAgreementAccepted,
     paymentRequestLoading,
   ]);
 
   const initializeTossPayments = useCallback(async () => {
+    if (isTossInitialized || tossWidgets.current || isInitializing.current) {
+      return;
+    }
+    isInitializing.current = true;
     try {
       if (typeof window.TossPayments === 'undefined') {
         throw new CustomError(400, 'TossPayments SDK가 로드되지 않았습니다.');
@@ -91,7 +99,8 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
         }
       });
 
-      setTossInitialized(true);
+      setIsTossInitialized(true);
+      isInitializing.current = false;
     } catch (e) {
       const error = e as CustomError;
       Sentry.captureException(error, {
@@ -113,14 +122,16 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
       });
       console.error(error);
       toast.error('잠시 후 다시 시도해 주세요.');
+    } finally {
+      isInitializing.current = false;
     }
-  }, []);
+  }, [userId, initialPrice]);
 
   useEffect(() => {
-    if (scriptLoaded) {
+    if (isScriptLoaded && !isTossInitialized) {
       initializeTossPayments();
     }
-  }, [scriptLoaded]);
+  }, [isScriptLoaded, initializeTossPayments, isTossInitialized]);
 
   // 결제 요청
   const requestPayment = async ({
@@ -193,19 +204,9 @@ const useTossPayments = ({ userId, initialPrice }: Props) => {
     [tossWidgets],
   );
 
-  const TossPaymentsScript = () => {
-    return (
-      <Script
-        src="https://js.tosspayments.com/v2/standard"
-        onReady={() => setScriptLoaded(true)}
-        strategy="afterInteractive"
-      />
-    );
-  };
-
   return {
-    TossPaymentsScript,
     isDisabled,
+    isInitialized: isTossInitialized,
     requestPayment,
     changePrice,
   };
