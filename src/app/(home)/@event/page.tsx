@@ -13,7 +13,9 @@ const Page = async () => {
 
   const filteredEventsByStatus = (events: EventsViewEntity[]) =>
     events?.filter((event) =>
-      event.eventStatus === 'CLOSED' && !event.eventHasOpenRoute ? false : true,
+      event.eventStatus === 'CLOSED' && event.eventMinRoutePrice === null
+        ? false
+        : true,
     ) ?? [];
 
   const filteredRecommendedEvents = filteredEventsByStatus(recommendedEvents);

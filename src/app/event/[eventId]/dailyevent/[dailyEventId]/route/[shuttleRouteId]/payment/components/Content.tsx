@@ -87,8 +87,6 @@ const Content = ({
 
   const [isGuidelineSeen, setIsGuidelineSeen] = useState(false);
 
-  const isDisabled = isTossPaymentsDisabled || !isGuidelineSeen;
-
   useEffect(() => {
     changePrice(finalPrice);
   }, [changePrice, finalPrice]);
@@ -103,7 +101,19 @@ const Content = ({
     initialStep: 'payment',
   });
 
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
+
   const submitPayment = async () => {
+    if (!isGuidelineSeen) {
+      toast.error('유의사항을 확인해주세요.');
+      scrollToBottom();
+      return;
+    }
     try {
       const parsedFormValues = {
         shuttleRouteId: shuttleRoute.shuttleRouteId,
@@ -155,7 +165,8 @@ const Content = ({
         onError,
         markAsIntentionalNavigation,
       });
-    } catch (error) {
+    } catch (e) {
+      const error = e as CustomError;
       Sentry.captureException(error, {
         tags: {
           component: 'PaymentContent',
@@ -175,6 +186,10 @@ const Content = ({
         },
       });
       console.error(error);
+      if (error.statusCode === 403) {
+        toast.error('예약이 마감되었어요.');
+        return;
+      }
       toast.error('결제에 실패했어요. 잠시 후 다시 시도해주세요.');
     }
   };
@@ -230,7 +245,7 @@ const Content = ({
           setGuidelineSeen={setIsGuidelineSeen}
         />
         <BottomBar
-          isDisabled={isDisabled}
+          isDisabled={isTossPaymentsDisabled}
           finalPrice={finalPrice}
           onSubmit={submitPayment}
         />

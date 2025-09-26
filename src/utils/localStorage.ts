@@ -82,6 +82,16 @@ export const removeOneDayModalSeenDate = () => {
   localStorage.removeItem(ONE_DAY_MODAL_SEEN_DATE);
 };
 
+// 이벤트 프로모션 하루 동안 안보기 모달
+export const EVENT_PROMOTION_MODAL_SEEN_DATE =
+  'event-promotion-modal-seen-date';
+export const setEventPromotionModalSeenDate = (date: string) => {
+  localStorage.setItem(EVENT_PROMOTION_MODAL_SEEN_DATE, date);
+};
+export const getEventPromotionModalSeenDate = () => {
+  return localStorage.getItem(EVENT_PROMOTION_MODAL_SEEN_DATE);
+};
+
 // 예약 직후 예약 상세 페이지 첫 방문 모달
 export const RESERVATION_DETAIL_FIRST_VISIT_MODAL_SEEN =
   'reservation-detail-first-visit-modal-seen';

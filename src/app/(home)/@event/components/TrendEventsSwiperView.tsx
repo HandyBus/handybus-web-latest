@@ -47,7 +47,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
                     date={v.startDate}
                     location={v.eventLocationName}
                     price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                    isSaleStarted={v.eventHasOpenRoute}
+                    isSaleStarted={v.eventMinRoutePrice !== null}
                     order={(idx % cardCount) + 1}
                     href={`/event/${v.eventId}`}
                   />
