@@ -5,11 +5,11 @@ import ModalPortal from '@/components/modals/ModalPortal';
 // import couponEventImage from './images/coupon-event.png';
 import argentModalImage from './images/argent-modal2.png';
 import ArgentModal from './components/ArgentModal';
-import EventPromotionModalImage from './images/event-promotion-modal-image-muse.png';
-import EventPromotionModal from './components/EventPromotionModal';
+// import EventPromotionModalImage from './images/event-promotion-modal-image-muse.png';
+// import EventPromotionModal from './components/EventPromotionModal';
 
-const EVENT_PROMOTION_MODAL_URL =
-  'https://www.instagram.com/p/DPDTVn0k_dM/?utm_source=ig_web_copy_link&igsh=ZG12czFlOHVzaWIw';
+// const EVENT_PROMOTION_MODAL_URL =
+//   'https://www.instagram.com/p/DPDTVn0k_dM/?utm_source=ig_web_copy_link&igsh=ZG12czFlOHVzaWIw';
 
 const Page = () => {
   const showEmergencyModal =
@@ -22,10 +22,10 @@ const Page = () => {
         <OneDayModal image={couponEventImage} href="/demand-reward-coupon" />
       )} */}
       {showEmergencyModal && <ArgentModal image={argentModalImage} />}
-      <EventPromotionModal
+      {/* <EventPromotionModal
         image={EventPromotionModalImage}
         href={EVENT_PROMOTION_MODAL_URL}
-      />
+      /> */}
     </ModalPortal>
   );
 };
