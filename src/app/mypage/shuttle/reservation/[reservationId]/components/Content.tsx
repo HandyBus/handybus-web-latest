@@ -76,6 +76,7 @@ const Content = ({ reservation, payment, event, dailyEvent }: Props) => {
       )}
       <Title progress={reservationProgress} />
       <EventCard event={event} />
+      <FinalNoticeInfoSection />
       <ul className="flex flex-col gap-24">
         {isHandyParty && (
           <WrapperWithDivider>
@@ -172,5 +173,16 @@ const Title = ({ progress }: TitleProps) => {
       <PrimaryCheckIcon />
       <span>예약 완료</span>
     </h1>
+  );
+};
+
+const FinalNoticeInfoSection = () => {
+  return (
+    <section className="mb-24 px-16">
+      <div className="rounded-8 bg-basic-grey-50 py-8 text-center text-14 font-500 leading-[160%]">
+        최종 탑승 정보는 탑승{' '}
+        <span className="text-brand-primary-400">1일 전</span> 알려드려요.
+      </div>
+    </section>
   );
 };
