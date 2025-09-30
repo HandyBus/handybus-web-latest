@@ -130,6 +130,9 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
 
             {/* 탑승지/하차지 */}
             <section className="flex flex-col gap-8 px-16 py-24">
+              <h2 className="text-16 font-600 leading-[140%]">
+                {reservation.shuttleRoute.event.eventName}
+              </h2>
               <div className="flex gap-8">
                 <div>
                   <SimpleRouteLine />
