@@ -37,6 +37,10 @@ const Footer = () => {
         <Link href="/help/faq">고객센터</Link>
         <span className="font-400"> | </span>
         <Link href="/help/faq/terms-of-service">이용약관</Link>
+        <span className="font-400"> | </span>
+        <Link href="/help/faq/privacy-policy">개인정보 처리 방침</Link>
+        <span className="font-400"> | </span>
+        <Link href="/help/faq/marketing-consent">마케팅 활용 동의</Link>
       </div>
       <div className="text-12 font-400 leading-[1.6] text-basic-grey-400">
         상호명: 핸디버스 | 대표자: 정지용 | 전화번호: 0507-1372-6141 | 이메일:
