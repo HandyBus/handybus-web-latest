@@ -178,13 +178,18 @@ const ReviewWriteForm = ({ reservation }: Props) => {
         name="content"
         rules={{
           required: '최소 20자 이상 작성해 주세요.',
-          minLength: {
-            value: 20,
-            message: '최소 20자 이상 작성해 주세요.',
-          },
-          maxLength: {
-            value: 300,
-            message: '입력 가능한 글자 수를 초과했어요.',
+          validate: (value) => {
+            if (!value) {
+              return '최소 20자 이상 작성해 주세요.';
+            }
+            const textWithoutNewlines = value.replace(/\n/g, '');
+            if (textWithoutNewlines.length < 20) {
+              return '최소 20자 이상 작성해 주세요.';
+            }
+            if (value.length > 300) {
+              return '입력 가능한 글자 수를 초과했어요.';
+            }
+            return true;
           },
         }}
         render={({ field }) => (
