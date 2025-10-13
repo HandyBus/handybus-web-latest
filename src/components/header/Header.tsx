@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import LogoIcon from 'public/icons/logo-v2.svg';
+import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
+import useAppRouter, { createAppRedirectPath } from '@/hooks/useAppRouter';
 
 const Header = () => {
   // 경로에 따른 페이지명 표시
+  const { isApp, back } = useAppRouter();
   const pathname = usePathname();
   const isHome = pathname === '/';
 
@@ -33,18 +36,29 @@ const Header = () => {
       {isHome ? (
         <LogoIcon />
       ) : (
-        <h1 className="text-18 font-700 leading-[140%] text-basic-black">
-          {pageName}
-        </h1>
+        <div className="flex items-center">
+          {isApp && (
+            <button type="button" onClick={() => back()}>
+              <BackIcon />
+            </button>
+          )}
+          <h1 className="text-18 font-700 leading-[140%] text-basic-black">
+            {pageName}
+          </h1>
+        </div>
       )}
 
       <div className="flex items-center gap-8">
         {!isHome && (
-          <Link href="/">
+          <Link href={isApp ? createAppRedirectPath('/') : '/'}>
             <HomeIcon />
           </Link>
         )}
-        <Link href="/announcements">
+        <Link
+          href={
+            isApp ? createAppRedirectPath('/announcements') : '/announcements'
+          }
+        >
           <AnnouncementsIcon />
         </Link>
       </div>
