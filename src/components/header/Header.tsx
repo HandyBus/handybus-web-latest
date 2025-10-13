@@ -1,57 +1,83 @@
 'use client';
 
-import UserIcon from 'public/icons/user.svg';
-import LogoIcon from 'public/icons/logo-v2.svg';
 import Link from 'next/link';
-import { getIsLoggedIn } from '@/utils/handleToken.util';
-import { useEffect, useState } from 'react';
-import UserProfile from './UserProfile';
-import { useGetUser } from '@/services/user.service';
+import { usePathname } from 'next/navigation';
+import LogoIcon from 'public/icons/logo-v2.svg';
+import HomeIcon from './icons/home.svg';
+import AnnouncementsIcon from './icons/announcement.svg';
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const { data: user } = useGetUser({
-    enabled: isLoggedIn !== null && isLoggedIn,
-  });
-  const profileImage = user?.profileImage;
-  const name = user?.name || user?.nickname;
+  // 경로에 따른 페이지명 표시
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
-  useEffect(() => {
-    const isLoggedIn = getIsLoggedIn();
-    setIsLoggedIn(isLoggedIn);
-  }, []);
+  const normalizePath = (path: string) => {
+    return path
+      .split('/')
+      .map((segment) =>
+        /^\d+$/.test(segment) ? ':' + segment.replace(/\d+/, 'id') : segment,
+      )
+      .join('/');
+  };
+
+  const getPageName = (path: string) => {
+    const normalizedPath = normalizePath(path);
+    return (
+      URL_TO_PAGE_NAME?.[normalizedPath as keyof typeof URL_TO_PAGE_NAME] || ''
+    );
+  };
+  const pageName = getPageName(pathname);
 
   return (
-    <header className="sticky top-0 z-50 flex h-48 w-full items-center justify-between bg-basic-white px-16 py-12">
-      <h1 className="sr-only">핸디버스</h1>
-      <Link href="/">
+    <header className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16 py-12">
+      {isHome ? (
         <LogoIcon />
-      </Link>
+      ) : (
+        <h1 className="text-18 font-700 leading-[140%] text-basic-black">
+          {pageName}
+        </h1>
+      )}
 
       <div className="flex items-center gap-8">
-        <Link
-          href="/event"
-          className="px-4 text-14 font-600 active:text-basic-grey-600"
-        >
-          모든 행사
+        {!isHome && (
+          <Link href="/">
+            <HomeIcon />
+          </Link>
+        )}
+        <Link href="/announcements">
+          <AnnouncementsIcon />
         </Link>
-        <div className="h-16 w-[1px] bg-basic-grey-200" />
-        <div className="h-24 w-24">
-          {isLoggedIn !== null &&
-            (isLoggedIn ? (
-              <Link href="/mypage" className="group relative">
-                <div className="absolute inset-0 hidden h-full w-full rounded-full bg-[rgba(0,0,0,0.4)] group-active:block" />
-                <UserProfile name={name} profileImage={profileImage} />
-              </Link>
-            ) : (
-              <Link href="/login">
-                <UserIcon />
-              </Link>
-            ))}
-        </div>
       </div>
     </header>
   );
 };
 
 export default Header;
+
+// 새로운 페이지 개발 시 이곳에 페이지명을 추가해주세요.
+const URL_TO_PAGE_NAME = {
+  '/login': '로그인',
+  '/event': '모든 행사',
+  '/event/:id': '행사 정보',
+  '/boarding-pass': '탑승권 목록',
+  '/boarding-pass/:id': '탑승권',
+  '/activity': '참여/내역',
+  '/activity/reservation/:id': '예약 내역 상세',
+  '/activity/demand/:id': '수요조사 내역 상세',
+  '/mypage': '마이페이지',
+  '/mypage/profile/edit': '프로필 수정',
+  '/mypage/settings': '환경설정',
+  '/mypage/coupons': '쿠폰',
+  '/mypage/reviews': '후기 관리',
+  '/mypage/reviews/write/:reservationId': '후기 작성',
+  '/mypage/alert-requests': '빈자리 알림',
+  '/mypage/alert-requests/:id': '빈자리 알림 상세',
+  '/announcements': '공지사항',
+  '/announcements/:id': '공지글',
+  '/help/handybus-guide': '이용 방법',
+  '/help/faq': '도움말',
+  '/help/faq/direct-inquiry': '직접 문의하기',
+  '/help/faq/terms-of-service': '서비스 이용 약관',
+  '/help/faq/privacy-policy': '개인정보 처리 방침',
+  '/help/faq/marketing-consent': '마케팅 활용 동의',
+};
