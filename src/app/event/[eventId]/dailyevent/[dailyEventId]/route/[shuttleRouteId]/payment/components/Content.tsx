@@ -196,7 +196,7 @@ const Content = ({
 
   // 에러 처리
   if (remainingSeat[tripType] < passengerCount) {
-    toast.error('좌석이 부족합니다.');
+    toast.error('남은 좌석이 없습니다.');
     replace(`/event/${event.eventId}`);
     return;
   } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
