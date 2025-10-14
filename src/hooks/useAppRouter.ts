@@ -3,6 +3,10 @@
 import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+/**
+ * @requires Suspense로 감싸져 있어야 함
+ */
+
 const useAppRouter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();

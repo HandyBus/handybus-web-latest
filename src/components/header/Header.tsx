@@ -7,8 +7,23 @@ import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
 import useAppRouter, { createAppRedirectPath } from '@/hooks/useAppRouter';
+import { Suspense } from 'react';
 
 const Header = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16 py-12" />
+      }
+    >
+      <HeaderContent />
+    </Suspense>
+  );
+};
+
+export default Header;
+
+const HeaderContent = () => {
   // 경로에 따른 페이지명 표시
   const { isApp, back } = useAppRouter();
   const pathname = usePathname();
@@ -61,8 +76,6 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;
 
 // 새로운 페이지 개발 시 이곳에 페이지명을 추가해주세요.
 const URL_TO_PAGE_NAME = {

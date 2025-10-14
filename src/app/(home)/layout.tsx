@@ -1,16 +1,6 @@
 import type { ReactNode } from 'react';
 import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
-
-interface Props {
-  top: ReactNode;
-  bot: ReactNode;
-  event: ReactNode;
-  modal: ReactNode;
-  greeting: ReactNode;
-  help: ReactNode;
-}
-
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -21,14 +11,23 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Seoul');
 dayjs.locale('ko');
 
-export default function WithFooterLayout({
+interface Props {
+  top: ReactNode;
+  bot: ReactNode;
+  event: ReactNode;
+  modal: ReactNode;
+  greeting: ReactNode;
+  help: ReactNode;
+}
+
+const WithFooterLayout = ({
   top,
   bot,
   event,
   greeting,
   help,
   modal,
-}: Readonly<Props>) {
+}: Readonly<Props>) => {
   return (
     <div className="flex h-full flex-grow flex-col">
       <Header />
@@ -44,4 +43,6 @@ export default function WithFooterLayout({
       <NavBar />
     </div>
   );
-}
+};
+
+export default WithFooterLayout;
