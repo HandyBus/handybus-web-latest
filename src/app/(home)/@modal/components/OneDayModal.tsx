@@ -7,7 +7,6 @@ import {
   setOneDayModalSeenDate,
 } from '@/utils/localStorage';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 
 interface Props {
   image: StaticImageData;
@@ -51,13 +50,12 @@ const OneDayModal = ({ image, href }: Props) => {
         onClick={(e) => e.stopPropagation()}
         className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 bg-transparent"
       >
-        <Link
-          href={href}
-          target="_blank"
+        <button
+          onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
           className="relative aspect-square w-full"
         >
           <Image src={image} alt="modal" fill className="object-contain" />
-        </Link>
+        </button>
         <div className="grid grid-cols-2">
           <button
             onClick={handleOneDayModalCloseForToday}
