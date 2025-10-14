@@ -50,15 +50,11 @@ const Header = () => {
 
       <div className="flex items-center gap-8">
         {!isHome && (
-          <Link href={isApp ? createAppRedirectPath('/') : '/'}>
+          <Link href={createAppRedirectPath('/', { isApp })}>
             <HomeIcon />
           </Link>
         )}
-        <Link
-          href={
-            isApp ? createAppRedirectPath('/announcements') : '/announcements'
-          }
-        >
+        <Link href={createAppRedirectPath('/announcements', { isApp })}>
           <AnnouncementsIcon />
         </Link>
       </div>
@@ -73,11 +69,11 @@ const URL_TO_PAGE_NAME = {
   '/login': '로그인',
   '/event': '모든 행사',
   '/event/:id': '행사 정보',
-  '/boarding-pass': '탑승권 목록',
-  '/boarding-pass/:id': '탑승권',
-  '/activity': '참여/내역',
-  '/activity/reservation/:id': '예약 내역 상세',
-  '/activity/demand/:id': '수요조사 내역 상세',
+  '/ticket': '탑승권 목록',
+  '/ticket/:id': '탑승권',
+  '/history': '참여/내역',
+  '/history/reservation/:id': '예약 내역 상세',
+  '/history/demand/:id': '수요조사 내역 상세',
   '/mypage': '마이페이지',
   '/mypage/profile/edit': '프로필 수정',
   '/mypage/settings': '환경설정',

@@ -9,18 +9,12 @@ const useAppRouter = () => {
   const isApp = searchParams.get(ACCESS_ENV) === 'app';
 
   const push = (href: string, options?: NavigateOptions) => {
-    let loginPath = href;
-    if (isApp) {
-      loginPath = createAppRedirectPath(href);
-    }
+    const loginPath = createAppRedirectPath(href, { isApp });
     router.push(loginPath, options);
   };
 
   const replace = (href: string, options?: NavigateOptions) => {
-    let loginPath = href;
-    if (isApp) {
-      loginPath = createAppRedirectPath(href);
-    }
+    const loginPath = createAppRedirectPath(href, { isApp });
     router.replace(loginPath, options);
   };
 
@@ -35,7 +29,17 @@ export default useAppRouter;
 
 const ACCESS_ENV = 'access-env';
 
-export const createAppRedirectPath = (href: string) => {
+export const createAppRedirectPath = (
+  href: string,
+  options: {
+    isApp: boolean;
+  },
+) => {
+  const { isApp } = options;
+  if (!isApp) {
+    return href;
+  }
+
   const [path, query] = href.split('?');
   const pathString = path.startsWith('/') ? path : `/${path}`;
 

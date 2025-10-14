@@ -14,6 +14,7 @@ interface Props {
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import NavBar from '@/components/nav-bar/NavBar';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -40,6 +41,7 @@ export default function WithFooterLayout({
         {modal}
       </main>
       <Footer />
+      <NavBar />
     </div>
   );
 }
