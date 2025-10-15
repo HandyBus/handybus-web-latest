@@ -10,6 +10,10 @@ import ArrowRightIcon from '../../icons/arrow-right.svg';
 import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ShuttleDemandsViewEntity } from '@/types/demand.type';
+import Button from '@/components/buttons/button/Button';
+import useAppRouter from '@/hooks/useAppRouter';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
+import Tooltip from '@/components/tooltip/Tooltip';
 
 interface Props {
   demand: ShuttleDemandsViewEntity;
@@ -43,9 +47,34 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     demand.desiredFromDestinationRegionHub;
 
   const isDemandFulfilled = demand.status === 'FULFILLED';
+  const isShuttleRouteCreated = demand.hasShuttleRoute;
+
+  const showDemandCount =
+    event.eventStatus === 'OPEN' &&
+    !isDemandFulfilled &&
+    !isShuttleRouteCreated;
+  const showReservationCTA =
+    (event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') &&
+    !isDemandFulfilled &&
+    isShuttleRouteCreated;
+
+  const router = useAppRouter();
+  const handleDemandCardClick = handleClickAndStopPropagation(() => {
+    router.push(`/history/demand/${demand.shuttleDemandId}`);
+  });
+  const handleReservationCTAClick = handleClickAndStopPropagation(() => {
+    router.push(`/event/${event.eventId}`);
+  });
 
   return (
-    <div className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16">
+    <button
+      type="button"
+      onClick={handleDemandCardClick}
+      disabled={
+        event.eventStatus === 'ENDED' || event.eventStatus === 'INACTIVE'
+      }
+      className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left"
+    >
       <div className="flex w-full">
         <div className="flex grow flex-col">
           <h4
@@ -98,16 +127,35 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
           </p>
         </div>
       </div>
-      <div className="my-8 h-[1px] w-full bg-basic-grey-100" />
-      <div className="flex h-[22px] items-center justify-between">
-        <span className="text-14 font-600 leading-[160%] text-basic-grey-700">
-          신청 인원
-        </span>
-        <span className="text-14 font-600 leading-[160%] text-basic-grey-700">
-          {demand.demandCountOnRegion} 명
-        </span>
-      </div>
-    </div>
+      {showDemandCount && (
+        <>
+          <div className="my-8 h-[1px] w-full bg-basic-grey-100" />
+          <div className="flex h-[22px] items-center justify-between">
+            <div className="flex items-center">
+              <span className="text-14 font-600 leading-[160%] text-basic-grey-700">
+                신청 인원
+              </span>
+              <Tooltip content="셔틀 개설 기준은 행사마다 달라져요. 인원 수 기준은 따로 제공되지 않는 점 양해 부탁드려요." />
+            </div>
+            <div className="text-14 font-600 leading-[160%] text-basic-grey-700">
+              {demand.demandCountOnRegion} 명
+            </div>
+          </div>
+        </>
+      )}
+      {showReservationCTA && (
+        <div className="mt-16">
+          <Button
+            type="button"
+            variant="primary"
+            size="large"
+            onClick={handleReservationCTAClick}
+          >
+            예약하기
+          </Button>
+        </div>
+      )}
+    </button>
   );
 };
 

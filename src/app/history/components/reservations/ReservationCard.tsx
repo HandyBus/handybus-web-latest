@@ -11,6 +11,8 @@ import ArrowRightIcon from '../../icons/arrow-right.svg';
 import { getHubText } from '@/utils/event.util';
 import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
+import useAppRouter from '@/hooks/useAppRouter';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -42,8 +44,17 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
         ? '셔틀 종료'
         : '예약 완료';
 
+  const router = useAppRouter();
+  const handleReservationCardClick = handleClickAndStopPropagation(() => {
+    router.push(`/history/reservation/${reservation.reservationId}`);
+  });
+
   return (
-    <div className="flex w-full flex-col gap-12 rounded-12 border border-basic-grey-200 bg-basic-white p-16">
+    <button
+      type="button"
+      onClick={handleReservationCardClick}
+      className="flex w-full flex-col gap-12 rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left"
+    >
       <div className="flex w-full">
         <div className="flex grow flex-col">
           <h4
@@ -97,7 +108,7 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
           </p>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
