@@ -7,9 +7,7 @@ const Page = () => {
   return (
     <main className="h-full">
       <Header />
-      <h1 className="px-16 pt-32 text-20 font-700 leading-[140%]">
-        직접 문의하기
-      </h1>
+      <h1 className="sr-only">직접 문의하기</h1>
       <TitledSection
         title={`문제가 생기셨나요?\n핸디버스 팀에게 직접 문의해 주세요.`}
       >

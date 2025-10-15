@@ -64,12 +64,6 @@ const bannerImages: AdminHandleBannerRequestBanners[] = [
     linkUrl: '/help/about',
     sequence: 1,
   },
-  {
-    imageUrl: '/images/default-banner-2.png',
-    title: '핸디버스는 어떻게 이용해요?',
-    linkUrl: '/help/how-to',
-    sequence: 2,
-  },
 ];
 
 const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
