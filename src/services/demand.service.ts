@@ -212,7 +212,7 @@ export const usePostDemand = ({
   });
 };
 
-export const deleteDemand = async ({
+export const putCancelDemand = async ({
   eventId,
   dailyEventId,
   shuttleDemandId,
@@ -221,15 +221,16 @@ export const deleteDemand = async ({
   dailyEventId: string;
   shuttleDemandId: string;
 }) => {
-  await authInstance.delete(
-    `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/${shuttleDemandId}`,
+  await authInstance.put(
+    `/v2/shuttle-operation/events/${eventId}/dates/${dailyEventId}/demands/${shuttleDemandId}/cancel`,
+    undefined,
   );
 };
 
-export const useDeleteDemand = () => {
+export const usePutCancelDemand = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: deleteDemand,
+    mutationFn: putCancelDemand,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'demand'] });
     },

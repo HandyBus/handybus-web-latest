@@ -18,9 +18,24 @@ const Page = ({ params }: Props) => {
   const router = useAppRouter();
   const { data: demand, isLoading, isSuccess } = useGetUserDemand(demandId);
 
-  if (isSuccess && !demand) {
+  const redirectToDemandList = () => {
     router.replace('/history?type=demand');
     return <div className="h-[100dvh]" />;
+  };
+
+  if (isSuccess) {
+    const dailyEvent = demand?.event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === demand?.dailyEventId,
+    );
+    if (!dailyEvent || !demand) {
+      return redirectToDemandList();
+    }
+    if (demand.status === 'CANCELLED') {
+      return redirectToDemandList();
+    }
+    if (dailyEvent.status === 'ENDED' || dailyEvent.status === 'INACTIVE') {
+      return redirectToDemandList();
+    }
   }
 
   return (

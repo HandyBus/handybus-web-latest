@@ -5,7 +5,7 @@ import Button from '@/components/buttons/button/Button';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import { ShuttleDemandsViewEntity } from '@/types/demand.type';
-import { useDeleteDemand } from '@/services/demand.service';
+import { usePutCancelDemand } from '@/services/demand.service';
 import useAppRouter from '@/hooks/useAppRouter';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -29,12 +29,12 @@ const CancelDemandBottomSheet = ({
   const tripTypeText = TRIP_STATUS_TO_STRING[demand.type];
 
   const router = useAppRouter();
-  const { mutateAsync: deleteDemand } = useDeleteDemand();
+  const { mutateAsync: putCancelDemand } = usePutCancelDemand();
   const [isLoading, setIsLoading] = useState(false);
   const handleCancelDemand = async () => {
     setIsLoading(true);
     try {
-      await deleteDemand({
+      await putCancelDemand({
         eventId: demand.eventId,
         dailyEventId: demand.dailyEventId,
         shuttleDemandId: demand.shuttleDemandId,

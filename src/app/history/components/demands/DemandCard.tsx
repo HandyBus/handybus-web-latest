@@ -37,7 +37,11 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
   });
   const tripTypeText = TRIP_STATUS_TO_STRING[demand.type];
   const demandStatusText =
-    event.eventStatus === 'OPEN' ? '수요조사 완료' : '수요조사 마감';
+    demand.status === 'CANCELLED'
+      ? '수요조사 취소'
+      : dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED'
+        ? '수요조사 완료'
+        : '수요조사 마감';
 
   const demandRegionHub =
     demand.toDestinationRegionHub ?? demand.fromDestinationRegionHub;
@@ -46,26 +50,34 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     demand.desiredToDestinationRegionHub ??
     demand.desiredFromDestinationRegionHub;
 
-  const isDemandFulfilled = demand.status === 'FULFILLED';
+  const isDemandFulfilled = demand.isFulfilled;
+  const isDemandCancelled = demand.status === 'CANCELLED';
   const isShuttleRouteCreatedInDemandHub = demand.hasShuttleRoute;
   const isShuttleRouteCreatedOnlyInRelatedRegion =
     demand.hasShuttleRouteInRelatedRegion && !demand.hasShuttleRoute;
 
   const showDemandCount =
-    event.eventStatus === 'OPEN' &&
+    dailyEvent.status === 'OPEN' &&
     !isDemandFulfilled &&
+    !isDemandCancelled &&
     !isShuttleRouteCreatedInDemandHub &&
     !isShuttleRouteCreatedOnlyInRelatedRegion;
   const showShuttleRouteCreatedInDemandHubCTA =
-    (event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') &&
+    (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
     !isDemandFulfilled &&
+    !isDemandCancelled &&
     isShuttleRouteCreatedInDemandHub &&
     !isShuttleRouteCreatedOnlyInRelatedRegion;
   const showShuttleRouteCreatedOnlyInRelatedRegionCTA =
-    (event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') &&
+    (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
     !isDemandFulfilled &&
+    !isDemandCancelled &&
     !isShuttleRouteCreatedInDemandHub &&
     isShuttleRouteCreatedOnlyInRelatedRegion;
+
+  const ableToRedirectToDemandDetail =
+    (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
+    !isDemandCancelled;
 
   const router = useAppRouter();
   const redirectToDemandDetail = handleClickAndStopPropagation(() => {
@@ -81,17 +93,23 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
         <div className="flex grow flex-col">
           <h4
             className={customTwMerge(
-              'h-28 whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
-              event.eventStatus === 'OPEN' && 'text-brand-primary-400',
-              event.eventStatus === 'CLOSED' && 'text-basic-black',
-              (event.eventStatus === 'ENDED' ||
-                event.eventStatus === 'INACTIVE') &&
+              'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
+              demand.status === 'SUBMITTED' &&
+                'OPEN' &&
+                'text-brand-primary-400',
+              demand.status === 'SUBMITTED' &&
+                dailyEvent.status === 'CLOSED' &&
+                'text-basic-black',
+              demand.status === 'SUBMITTED' &&
+                (dailyEvent.status === 'ENDED' ||
+                  dailyEvent.status === 'INACTIVE') &&
                 'text-basic-grey-500',
+              demand.status === 'CANCELLED' && 'text-basic-red-400',
             )}
           >
             {demandStatusText}
-            {isDemandFulfilled && (
-              <Badge className="ml-[6px] border border-basic-grey-200 text-basic-grey-700">
+            {isDemandFulfilled && !isDemandCancelled && (
+              <Badge className="border border-basic-grey-200 text-basic-grey-700">
                 예약 완료
               </Badge>
             )}
@@ -100,14 +118,16 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             {formattedDemandDate} 수요조사 참여
           </p>
         </div>
-        {(event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') && (
-          <button
-            type="button"
-            className="w-24 shrink-0"
-            onClick={redirectToDemandDetail}
-          >
-            <ArrowRightIcon />
-          </button>
+        {ableToRedirectToDemandDetail && (
+          <div className="w-24 shrink-0">
+            <button
+              type="button"
+              className="w-full"
+              onClick={redirectToDemandDetail}
+            >
+              <ArrowRightIcon />
+            </button>
+          </div>
         )}
       </div>
       <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
@@ -129,6 +149,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
         <button
           type="button"
           className="flex grow flex-col pl-12 text-left"
+          disabled={!ableToRedirectToDemandDetail}
           onClick={redirectToDemandDetail}
         >
           <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
@@ -138,8 +159,10 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             {formattedEventDate}
           </p>
           <p className="line-clamp-1 flex h-24 items-center gap-4 text-14 font-500 leading-[160%] text-basic-grey-700">
-            {demandRegionHub?.name ?? desiredDemandRegionHub} {tripTypeText}{' '}
-            요청
+            <Badge className="border border-basic-grey-200 text-basic-grey-700">
+              {tripTypeText}
+            </Badge>
+            {demandRegionHub?.name ?? desiredDemandRegionHub} 요청
           </p>
         </button>
       </div>

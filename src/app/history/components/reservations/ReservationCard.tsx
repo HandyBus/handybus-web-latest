@@ -58,7 +58,7 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
         <div className="flex grow flex-col">
           <h4
             className={customTwMerge(
-              'h-28 whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
+              'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
               reservation.reservationStatus === 'COMPLETE_PAYMENT' &&
                 'text-brand-primary-400',
               reservation.reservationStatus === 'CANCEL' &&
@@ -70,7 +70,7 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
           >
             {reservationStatusText}
             {isHandyParty && (
-              <Badge className="bg-[rgba(0, 0, 0, 0.80)] ml-[6px] text-basic-white">
+              <Badge className="bg-[rgba(0, 0, 0, 0.80)] text-basic-white">
                 핸디팟
               </Badge>
             )}
@@ -79,13 +79,15 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             {formattedReservationDate} 예약
           </p>
         </div>
-        <button
-          type="button"
-          className="w-24 shrink-0"
-          onClick={redirectToReservationDetail}
-        >
-          <ArrowRightIcon />
-        </button>
+        <div className="w-24 shrink-0">
+          <button
+            type="button"
+            className="w-full"
+            onClick={redirectToReservationDetail}
+          >
+            <ArrowRightIcon />
+          </button>
+        </div>
       </div>
       <div className="h-[1px] w-full bg-basic-grey-100" />
       <div className="flex">
