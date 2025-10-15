@@ -13,6 +13,7 @@ import { EventType } from '@/types/event.type';
 import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
 import { dateString } from '@/utils/dateString.util';
+import NavBar from '@/components/nav-bar/NavBar';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -106,6 +107,7 @@ const Page = () => {
           </>
         )}
       </div>
+      <NavBar />
     </>
   );
 };
