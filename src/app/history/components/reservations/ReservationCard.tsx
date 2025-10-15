@@ -70,7 +70,7 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
           >
             {reservationStatusText}
             {isHandyParty && (
-              <Badge className="bg-[rgba(0, 0, 0, 0.80)] text-basic-white">
+              <Badge className="bg-[rgba(0,0,0,0.80)] text-basic-white">
                 핸디팟
               </Badge>
             )}
