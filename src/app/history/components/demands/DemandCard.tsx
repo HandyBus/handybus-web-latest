@@ -135,7 +135,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
               <span className="text-14 font-600 leading-[160%] text-basic-grey-700">
                 신청 인원
               </span>
-              <Tooltip content="셔틀 개설 기준은 행사마다 달라져요. 인원 수 기준은 따로 제공되지 않는 점 양해 부탁드려요." />
+              <Tooltip content="신청 인원은 동일한 행사에서 같은 지역을 신청한 인원을 의미해요." />
             </div>
             <div className="text-14 font-600 leading-[160%] text-basic-grey-700">
               {demand.demandCountOnRegion} 명
