@@ -68,22 +68,15 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     isShuttleRouteCreatedOnlyInRelatedRegion;
 
   const router = useAppRouter();
-  const handleDemandCardClick = handleClickAndStopPropagation(() => {
+  const redirectToDemandDetail = handleClickAndStopPropagation(() => {
     router.push(`/history/demand/${demand.shuttleDemandId}`);
   });
-  const handleReservationCTAClick = handleClickAndStopPropagation(() => {
+  const redirectToEventDetail = handleClickAndStopPropagation(() => {
     router.push(`/event/${event.eventId}`);
   });
 
   return (
-    <button
-      type="button"
-      onClick={handleDemandCardClick}
-      disabled={
-        event.eventStatus === 'ENDED' || event.eventStatus === 'INACTIVE'
-      }
-      className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left"
-    >
+    <div className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">
       <div className="flex w-full">
         <div className="flex grow flex-col">
           <h4
@@ -108,9 +101,13 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
           </p>
         </div>
         {(event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') && (
-          <div className="w-24 shrink-0">
+          <button
+            type="button"
+            className="w-24 shrink-0"
+            onClick={redirectToDemandDetail}
+          >
             <ArrowRightIcon />
-          </div>
+          </button>
         )}
       </div>
       <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
@@ -120,7 +117,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
           <Tooltip content="내가 요청한 정류장이 포함된 지역에서 예약이 가능한 셔틀이 있어요." />
         </div>
       )}
-      <div className="flex gap-12">
+      <div className="flex">
         <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
           <Image
             src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
@@ -129,7 +126,11 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col">
+        <button
+          type="button"
+          className="flex flex-col pl-12"
+          onClick={redirectToDemandDetail}
+        >
           <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
             {event.eventName}
           </h5>
@@ -140,7 +141,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             {demandRegionHub?.name ?? desiredDemandRegionHub} {tripTypeText}{' '}
             요청
           </p>
-        </div>
+        </button>
       </div>
       {showDemandCount && (
         <>
@@ -164,7 +165,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             type="button"
             variant="primary"
             size="large"
-            onClick={handleReservationCTAClick}
+            onClick={redirectToEventDetail}
           >
             예약하기
           </Button>
@@ -176,13 +177,13 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             type="button"
             variant="secondary"
             size="large"
-            onClick={handleReservationCTAClick}
+            onClick={redirectToEventDetail}
           >
             인근 정류장 확인하기
           </Button>
         </div>
       )}
-    </button>
+    </div>
   );
 };
 

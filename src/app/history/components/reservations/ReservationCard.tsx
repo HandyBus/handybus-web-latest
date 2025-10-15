@@ -48,16 +48,12 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
   const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
 
   const router = useAppRouter();
-  const handleReservationCardClick = handleClickAndStopPropagation(() => {
+  const redirectToReservationDetail = handleClickAndStopPropagation(() => {
     router.push(`/history/reservation/${reservation.reservationId}`);
   });
 
   return (
-    <button
-      type="button"
-      onClick={handleReservationCardClick}
-      className="flex w-full flex-col gap-12 rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left"
-    >
+    <div className="flex w-full flex-col gap-12 rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">
       <div className="flex w-full">
         <div className="flex grow flex-col">
           <h4
@@ -83,12 +79,16 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             {formattedReservationDate} 예약
           </p>
         </div>
-        <div className="w-24 shrink-0">
+        <button
+          type="button"
+          className="w-24 shrink-0"
+          onClick={redirectToReservationDetail}
+        >
           <ArrowRightIcon />
-        </div>
+        </button>
       </div>
       <div className="h-[1px] w-full bg-basic-grey-100" />
-      <div className="flex gap-12">
+      <div className="flex">
         <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
           <Image
             src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
@@ -97,7 +97,11 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col">
+        <button
+          type="button"
+          className="flex flex-col pl-12"
+          onClick={redirectToReservationDetail}
+        >
           <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
             {event.eventName}
           </h5>
@@ -114,9 +118,9 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
               {hubText}
             </span>
           </p>
-        </div>
+        </button>
       </div>
-    </button>
+    </div>
   );
 };
 
