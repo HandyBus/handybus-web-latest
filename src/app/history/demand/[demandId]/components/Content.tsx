@@ -19,7 +19,7 @@ const Content = ({ demand }: Props) => {
       <ShuttleProgressSection demand={demand} />
       <DemandInfoSection demand={demand} />
       <GuidelineSection />
-      <CancelSection />
+      <CancelSection demand={demand} />
     </main>
   );
 };

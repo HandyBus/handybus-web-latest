@@ -128,7 +128,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
         </div>
         <button
           type="button"
-          className="flex flex-col pl-12"
+          className="flex grow flex-col pl-12 text-left"
           onClick={redirectToDemandDetail}
         >
           <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">

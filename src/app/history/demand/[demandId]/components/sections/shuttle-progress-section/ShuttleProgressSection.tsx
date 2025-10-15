@@ -13,7 +13,7 @@ const ShuttleProgressSection = ({ demand }: Props) => {
     <WrapperWithDivider>
       <section className="flex flex-col gap-16 px-16 py-24">
         <h3 className="text-16 font-600">셔틀 진행 상황</h3>
-        <div className="flex h-[50px] w-full items-center justify-center rounded-8 bg-basic-grey-50 text-16 font-600">
+        <div className="h-[50px] w-full rounded-8 bg-basic-grey-50 py-12 text-center text-16 font-600">
           {isDemandFulfilled ? (
             <span className="text-basic-grey-600">예약한 셔틀이에요</span>
           ) : (

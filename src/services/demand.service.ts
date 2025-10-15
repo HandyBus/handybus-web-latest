@@ -14,7 +14,6 @@ import {
 } from '@tanstack/react-query';
 import { toSearchParams } from '@/utils/searchParams.util';
 import { silentParse } from '@/utils/config.util';
-import { toast } from 'react-toastify';
 import { CustomError } from './custom-error';
 import { LONG_QUERY_STALE_TIME } from '@/constants/common';
 import { PaginationParams, withPagination } from '@/types/common.type';
@@ -233,10 +232,6 @@ export const useDeleteDemand = () => {
     mutationFn: deleteDemand,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['user', 'demand'] });
-      toast.success('수요조사 참여를 취소했어요.');
-    },
-    onError: () => {
-      toast.error('수요조사를 취소하지 못했어요.');
     },
   });
 };
