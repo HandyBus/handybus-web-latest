@@ -13,6 +13,7 @@ import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import useAppRouter from '@/hooks/useAppRouter';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -44,6 +45,8 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
         ? '셔틀 종료'
         : '예약 완료';
 
+  const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
+
   const router = useAppRouter();
   const handleReservationCardClick = handleClickAndStopPropagation(() => {
     router.push(`/history/reservation/${reservation.reservationId}`);
@@ -70,6 +73,11 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             )}
           >
             {reservationStatusText}
+            {isHandyParty && (
+              <Badge className="bg-[rgba(0, 0, 0, 0.80)] ml-[6px] text-basic-white">
+                핸디팟
+              </Badge>
+            )}
           </h4>
           <p className="h-[19px] whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-grey-400">
             {formattedReservationDate} 예약
