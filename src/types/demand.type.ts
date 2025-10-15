@@ -48,7 +48,8 @@ export const ShuttleDemandsViewEntitySchema = z
     type: TripTypeEnum,
     passengerCount: z.number(),
     status: ShuttleDemandStatusEnum,
-    hasShuttleRoute: z.boolean(),
+    hasShuttleRoute: z.boolean(), // 수요조사 한 정류장에 셔틀 노선이 있는지 여부
+    hasShuttleRouteInRelatedRegion: z.boolean(), // 수요조사 한 정류장을 포함하여 인접한 정류장에 셔틀 노선이 있는지 여부
     demandCountOnRegion: z.number(),
     createdAt: z.string(),
     updatedAt: z.string(),

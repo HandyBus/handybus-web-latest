@@ -5,7 +5,7 @@ import {
   getReservationDetailFirstVisitModalSeen,
   setReservationDetailFirstVisitModalSeen,
 } from '@/utils/localStorage';
-import AlertIcon from '../icons/icon-alert.svg';
+import AlertIcon from '../icons/alert.svg';
 import Button from '@/components/buttons/button/Button';
 
 interface Props {

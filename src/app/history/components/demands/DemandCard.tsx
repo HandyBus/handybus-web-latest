@@ -47,16 +47,25 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     demand.desiredFromDestinationRegionHub;
 
   const isDemandFulfilled = demand.status === 'FULFILLED';
-  const isShuttleRouteCreated = demand.hasShuttleRoute;
+  const isShuttleRouteCreatedInDemandHub = demand.hasShuttleRoute;
+  const isShuttleRouteCreatedOnlyInRelatedRegion =
+    demand.hasShuttleRouteInRelatedRegion && !demand.hasShuttleRoute;
 
   const showDemandCount =
     event.eventStatus === 'OPEN' &&
     !isDemandFulfilled &&
-    !isShuttleRouteCreated;
-  const showReservationCTA =
+    !isShuttleRouteCreatedInDemandHub &&
+    !isShuttleRouteCreatedOnlyInRelatedRegion;
+  const showShuttleRouteCreatedInDemandHubCTA =
     (event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') &&
     !isDemandFulfilled &&
-    isShuttleRouteCreated;
+    isShuttleRouteCreatedInDemandHub &&
+    !isShuttleRouteCreatedOnlyInRelatedRegion;
+  const showShuttleRouteCreatedOnlyInRelatedRegionCTA =
+    (event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') &&
+    !isDemandFulfilled &&
+    !isShuttleRouteCreatedInDemandHub &&
+    isShuttleRouteCreatedOnlyInRelatedRegion;
 
   const router = useAppRouter();
   const handleDemandCardClick = handleClickAndStopPropagation(() => {
@@ -105,6 +114,12 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
         )}
       </div>
       <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+      {showShuttleRouteCreatedOnlyInRelatedRegionCTA && (
+        <div className="mb-12 flex h-[26px] items-center text-16 font-600 leading-[160%] text-basic-grey-700">
+          인근 정류장이 열렸어요
+          <Tooltip content="내가 요청한 정류장이 포함된 지역에서 예약이 가능한 셔틀이 있어요." />
+        </div>
+      )}
       <div className="flex gap-12">
         <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
           <Image
@@ -143,7 +158,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
           </div>
         </>
       )}
-      {showReservationCTA && (
+      {showShuttleRouteCreatedInDemandHubCTA && (
         <div className="mt-16">
           <Button
             type="button"
@@ -152,6 +167,18 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             onClick={handleReservationCTAClick}
           >
             예약하기
+          </Button>
+        </div>
+      )}
+      {showShuttleRouteCreatedOnlyInRelatedRegionCTA && (
+        <div className="mt-16">
+          <Button
+            type="button"
+            variant="secondary"
+            size="large"
+            onClick={handleReservationCTAClick}
+          >
+            인근 정류장 확인하기
           </Button>
         </div>
       )}
