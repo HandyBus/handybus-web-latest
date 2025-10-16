@@ -4,7 +4,7 @@ import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 
 // 편도노선일 경우를 함께 고려하여 검증
-const useBoardingPassData = (reservation: ReservationsViewEntity) => {
+const useTicketData = (reservation: ReservationsViewEntity) => {
   const isRoundTrip = reservation.type === 'ROUND_TRIP';
 
   const shuttleName = reservation.shuttleRoute.name;
@@ -103,7 +103,7 @@ const useBoardingPassData = (reservation: ReservationsViewEntity) => {
   };
 };
 
-export default useBoardingPassData;
+export default useTicketData;
 
 /* 
   핸드폰번호를 한국 형식으로 변환하는 함수

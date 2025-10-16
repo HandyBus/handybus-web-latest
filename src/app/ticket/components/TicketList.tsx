@@ -75,7 +75,7 @@ const TicketItem = ({ reservation }: TicketItemProps) => {
           size="small"
           onClick={() =>
             push(
-              `/mypage/boarding-pass/${reservation.reservationId}${isRoundTrip && '?direction=' + tripType}`,
+              `/ticket/${reservation.reservationId}${isRoundTrip && '?direction=' + tripType}`,
             )
           }
         >

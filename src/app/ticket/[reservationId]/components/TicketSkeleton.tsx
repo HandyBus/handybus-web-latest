@@ -1,6 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 
-const BoardingPassSkeleton = () => {
+const TicketSkeleton = () => {
   return (
     <main className="min-h-[100dvh] min-h-screen bg-basic-black">
       {/* 캡쳐화면 경고 */}
@@ -59,6 +59,7 @@ const BoardingPassSkeleton = () => {
               <div className="flex flex-col gap-8">
                 <Skeleton width="80px" height={16} />
                 <Skeleton width="120px" height={18} />
+                <Skeleton width="120px" height={18} />
               </div>
               <div className="flex flex-col gap-8">
                 <Skeleton width="60px" height={16} />
@@ -85,4 +86,4 @@ const BoardingPassSkeleton = () => {
   );
 };
 
-export default BoardingPassSkeleton;
+export default TicketSkeleton;

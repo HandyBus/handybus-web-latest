@@ -20,7 +20,7 @@ interface Props {
   };
 }
 
-const BoardingPassPage = ({ params, searchParams }: Props) => {
+const TicketPage = ({ params, searchParams }: Props) => {
   const { reservationId } = params;
   const { direction } = searchParams;
   const router = useRouter();
@@ -56,17 +56,17 @@ const BoardingPassPage = ({ params, searchParams }: Props) => {
   return (
     <>
       <Header />
-      <BoardingPass reservation={reservation} direction={direction} />
+      <Ticket reservation={reservation} direction={direction} />
     </>
   );
 };
 
-interface BoardingPassProps {
+interface TicketProps {
   reservation: ReservationsViewEntity;
   direction?: string;
 }
 
-const BoardingPass = ({ reservation, direction }: BoardingPassProps) => {
+const Ticket = ({ reservation, direction }: TicketProps) => {
   const [currentTripType, setCurrentTripType] = useState<
     '행사장행' | '귀가행'
   >();
@@ -305,7 +305,7 @@ const BoardingPass = ({ reservation, direction }: BoardingPassProps) => {
   );
 };
 
-export default BoardingPassPage;
+export default TicketPage;
 
 const AntiCapture = () => {
   return (
