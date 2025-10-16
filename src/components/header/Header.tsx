@@ -95,6 +95,7 @@ const URL_TO_PAGE_NAME = {
   '/mypage/reviews/write/:reservationId': '후기 작성',
   '/mypage/alert-requests': '빈자리 알림',
   '/mypage/alert-requests/:id': '빈자리 알림 정보',
+  '/mypage/boarding-pass/:id': '탑승권',
   '/announcements': '공지사항',
   '/announcements/:id': '공지글',
   '/help/about': '서비스 소개',

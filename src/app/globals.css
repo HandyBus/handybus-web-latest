@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --brand-primary-50: 230 255 247;
-  --brand-primary-100: 193 246 235;
-  --brand-primary-200: 138 237 215;
-  --brand-primary-300: 84 228 197;
-  --brand-primary-400: 0 200 150;
-  --brand-primary-500: 0 153 119;
-  --brand-primary-600: 0 118 92;
+  --brand-primary-50: 231 255 249;
+  --brand-primary-100: 186 252 236;
+  --brand-primary-200: 128 255 223;
+  --brand-primary-300: 65 248 202;
+  --brand-primary-400: 0 224 168;
+  --brand-primary-500: 0 200 150;
+  --brand-primary-600: 0 153 119;
 
   --basic-grey-50: 247 248 249;
   --basic-grey-100: 243 243 243;
