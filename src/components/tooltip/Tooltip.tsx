@@ -46,7 +46,7 @@ const Tooltip = ({ content }: Props) => {
 
   const getTooltipClassName = () => {
     const baseClassName =
-      'bg-basic-grey-50 rounded-6 text-basic-grey-500 absolute hidden max-w-212 p-8 text-12 font-500 group-hover:inline break-keep w-max';
+      'bg-basic-grey-50 rounded-6 text-basic-grey-500 absolute hidden max-w-212 p-8 text-12 font-500 group-hover:inline break-keep w-max shadow-[2px_3px_16px_0_rgba(0,0,0,0.08)]';
 
     const positionClassName = {
       top: 'bottom-full left-1/2 -translate-x-1/2',

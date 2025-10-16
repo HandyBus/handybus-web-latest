@@ -28,7 +28,7 @@ const useEventInitialization = ({ event, shuttleRoutes }: Props) => {
     }
     const userDemands = await getUserDemands({
       eventId: event.eventId,
-      status: 'OPEN',
+      status: 'SUBMITTED',
     });
     setUserDemands(userDemands.shuttleDemands);
   };

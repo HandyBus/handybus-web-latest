@@ -11,7 +11,10 @@ import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 
 const RegisterCoupon = () => {
-  const { control, setValue, handleSubmit } = useForm<{ coupon: string }>();
+  const { control, setValue, handleSubmit, watch } = useForm<{
+    coupon: string;
+  }>();
+  const coupon = watch('coupon');
 
   const queryClient = useQueryClient();
   const { mutateAsync: postCoupon, isPending } = usePostCoupon();
@@ -52,13 +55,17 @@ const RegisterCoupon = () => {
   };
   return (
     <form
-      className="flex flex-col gap-16 px-16 pb-16 pt-32"
+      className="flex flex-col gap-16 px-16 pb-16 pt-16"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-20 font-700 leading-[140%]">쿠폰</h1>
       <section className="flex items-center gap-16">
-        <TextInput name="coupon" control={control} setValue={setValue} />
-        <Button size="small" disabled={isPending}>
+        <TextInput
+          name="coupon"
+          control={control}
+          setValue={setValue}
+          placeholder="쿠폰 코드를 입력해 주세요."
+        />
+        <Button size="small" disabled={isPending || !coupon}>
           등록
         </Button>
       </section>
