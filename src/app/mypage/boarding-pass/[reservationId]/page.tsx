@@ -1,6 +1,5 @@
 'use client';
 
-import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/reservation.service';
 import ArrowIcon from './icons/white-arrow-right.svg';
 import InfoIcon from '/public/icons/info.svg';
@@ -9,6 +8,7 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import useBoardingPassData from './hooks/useBoardingPassData';
+import Link from 'next/link';
 
 interface Props {
   params: {
@@ -35,7 +35,12 @@ const BoardingPassPage = ({ params }: Props) => {
   }, [isLoading, router, reservationId, reservation]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <>
+        <Header />
+        <BoardingPassSkeleton />
+      </>
+    );
   }
   if (isShuttleEnded || isCanceled) {
     router.replace('/mypage/shuttle?type=reservation');
@@ -43,7 +48,12 @@ const BoardingPassPage = ({ params }: Props) => {
   if (!reservation) {
     return null;
   }
-  return <BoardingPass reservation={reservation} />;
+  return (
+    <>
+      <Header />
+      <BoardingPass reservation={reservation} />
+    </>
+  );
 };
 
 interface BoardingPassProps {
@@ -86,8 +96,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
   return (
     // 피시와 모바일 환경 모두에서 화면 높이를 설정
     <main className="min-h-[100dvh] min-h-screen bg-basic-black">
-      <Header />
-      <aside className="bg-basic-red-100 px-16 py-8 text-center text-16 font-600 leading-[160%] text-basic-red-400">
+      <aside className="bg-basic-red-100 px-16 py-8 text-center text-14 font-600 leading-[160%] text-basic-red-400">
         캡쳐화면은 탑승이 제한될 수 있습니다.
       </aside>
 
@@ -97,8 +106,8 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
         <div className="flex flex-col gap-24 px-[22px]">
           <div className="rounded-[8px] bg-basic-white">
             {/* 여정타입 */}
-            <section className="flex justify-between rounded-t-[8px] bg-brand-primary-400 p-16 ">
-              <h1 className="text-20 font-700 leading-[140%] text-basic-white">
+            <section className="flex items-center justify-between rounded-t-[8px] bg-brand-primary-400 px-16 py-12 ">
+              <h1 className="text-18 font-600 leading-[140%] text-basic-white">
                 {isRoundTrip ? `왕복 | ${currentTripType}` : currentTripType}
               </h1>
               {isRoundTrip && currentTripType && (
@@ -175,11 +184,11 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
                 탑승일시
               </h2>
               {currentTripType === '행사장행' && (
-                <p className="text-24 font-700 leading-[140%]">
+                <p className="text-22 font-600 leading-[140%]">
                   {dayjs(boardingTimeToDestination)
                     .locale('ko')
                     .format('YYYY.MM.DD (ddd) HH:mm')}
-                  <span className="text-16 font-500 leading-[160%] text-basic-grey-400">
+                  <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
                     ~
                     {dayjs(arrivalTimeToDestination)
                       .locale('ko')
@@ -250,7 +259,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
 
             {/* 핸디버스 채널 문의하기 */}
             <a
-              className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-24"
+              className="py- flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16"
               href={KAKAO_CHANNEL_URL}
               target="_blank"
               rel="noopener noreferrer"
@@ -263,7 +272,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
           </div>
 
           {/* 주의사항 */}
-          <aside className="rounded-[8px] bg-basic-grey-50 p-8 pl-28 text-14 font-500 leading-[160%] text-basic-grey-500">
+          <aside className="rounded-[8px] bg-[#F7F8F91A] p-8 pl-28 text-14 font-500 leading-[160%] text-basic-grey-500">
             <ul>
               <li className="list-disc pl-4 marker:text-basic-grey-500">
                 탑승 시간은 현장 운영 상황에 따라 변경될 수 있으며, 변경 시
@@ -271,6 +280,13 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
               </li>
             </ul>
           </aside>
+
+          <Link
+            href="/ticket"
+            className="flex items-center justify-center rounded-[8px] bg-basic-grey-50 px-16 py-12 text-14 font-600 leading-[160%] text-basic-grey-700 active:bg-basic-grey-200"
+          >
+            모든 탑승권 보기
+          </Link>
         </div>
 
         <AntiCapture />
@@ -311,6 +327,7 @@ import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
+import BoardingPassSkeleton from './components/BoardingPassSkeleton';
 
 const SimpleRouteLine = () => {
   return (
