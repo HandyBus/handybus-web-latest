@@ -18,10 +18,7 @@ const MyPage = () => {
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
           <main>
-            <Profile
-              name={user.name || user.nickname || ''}
-              profileImage={user.profileImage || ''}
-            />
+            <Profile user={user} />
             <Activity />
             <Settings />
           </main>
