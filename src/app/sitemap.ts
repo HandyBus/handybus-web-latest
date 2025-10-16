@@ -1,16 +1,10 @@
 import { MetadataRoute } from 'next';
 import { getEvents } from '@/services/event.service';
+import { stat, readdir } from 'fs/promises';
+import { join } from 'path';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.handybus.co.kr';
-  type ChangeFreq =
-    | 'always'
-    | 'hourly'
-    | 'daily'
-    | 'weekly'
-    | 'monthly'
-    | 'yearly'
-    | 'never';
 
   /*
    * priority: 0 ~ 1 사이의 값으로 설정해주세요. 검색엔진의 크롤링 빈도에 영향을 줍니다.
@@ -28,34 +22,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/demand`,
       lastModified: new Date(),
-      changeFrequency: 'daily' as ChangeFreq,
       priority: 0.9,
     },
     {
       url: `${baseUrl}/reservation`,
       lastModified: new Date(),
-      changeFrequency: 'daily' as ChangeFreq,
       priority: 0.9,
     },
     {
       url: `${baseUrl}/help/about`,
-      lastModified: new Date('2025-01-15T00:00:00Z'),
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/help/how-to`,
-      lastModified: new Date('2025-01-15T00:00:00Z'),
+      lastModified: aboutLastModified,
       priority: 0.6,
     },
     {
       url: `${baseUrl}/help/faq`,
-      lastModified: new Date('2025-01-15T00:00:00Z'),
+      lastModified: faqLastModified,
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/policy`,
-      lastModified: new Date('2025-01-15T00:00:00Z'),
-      priority: 0.5,
+      url: `${baseUrl}/help/faq/terms-of-service`,
+      lastModified: termsLastModified,
+      priority: 0.1,
+    },
+    {
+      url: `${baseUrl}/help/faq/privacy-policy`,
+      lastModified: privacyLastModified,
+      priority: 0.1,
+    },
+    {
+      url: `${baseUrl}/help/faq/marketing-consent`,
+      lastModified: marketingLastModified,
+      priority: 0.1,
     },
   ];
 
@@ -63,10 +60,67 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const eventsArray = events.map((event) => ({
     url: `${baseUrl}/event/${event.eventId}`,
     lastModified: new Date(event.updatedAt),
-    // changeFrequency: 'weekly' as ChangeFreq,
     priority: 0.8,
   }));
   const dynamicRoutes = [...eventsArray];
 
   return [...staticRoutes, ...dynamicRoutes];
 }
+
+// 약관 파일들의 실제 수정일을 가져오는 함수
+const getPolicyLastModified = async (policyPath: string): Promise<Date> => {
+  try {
+    const fullPath = join(
+      process.cwd(),
+      'src/data/policy',
+      `${policyPath}.mdx`,
+    );
+    const stats = await stat(fullPath);
+    return stats.mtime;
+  } catch {
+    console.warn(`Policy file not found: ${policyPath}.mdx`);
+    return new Date();
+  }
+};
+
+// 디렉토리 내 모든 파일의 수정일을 검사하여 가장 최근 날짜를 반환하는 함수
+const getDirectoryLastModified = async (
+  directoryPath: string,
+): Promise<Date> => {
+  try {
+    const fullPath = join(process.cwd(), 'src/app', directoryPath);
+    const files = await readdir(fullPath, { withFileTypes: true });
+
+    let latestDate = new Date('2025-01-15T00:00:00Z');
+
+    for (const file of files) {
+      if (file.isFile()) {
+        const filePath = join(fullPath, file.name);
+        const stats = await stat(filePath);
+        if (stats.mtime > latestDate) {
+          latestDate = stats.mtime;
+        }
+      }
+    }
+
+    return latestDate;
+  } catch {
+    console.warn(`Directory not found or error reading: ${directoryPath}`);
+    return new Date('2025-01-15T00:00:00Z');
+  }
+};
+
+// 실제 수정일을 가져옵니다
+const [
+  termsLastModified,
+  privacyLastModified,
+  marketingLastModified,
+  aboutLastModified,
+  faqLastModified,
+] = await Promise.all([
+  getPolicyLastModified('service'),
+  getPolicyLastModified('privacy'),
+  getPolicyLastModified('marketing'),
+  getDirectoryLastModified('help/about'),
+  getDirectoryLastModified('help/faq'),
+]);

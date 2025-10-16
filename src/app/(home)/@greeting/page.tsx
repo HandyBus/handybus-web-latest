@@ -102,7 +102,7 @@ const Page = () => {
         >
           <Link
             onClick={(e) => e.stopPropagation()}
-            href="/policy"
+            href="/help/faq/marketing-consent"
             target="_blank"
             className="line-clamp-1 text-14 font-600 underline underline-offset-2"
           >

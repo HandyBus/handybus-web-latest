@@ -97,6 +97,7 @@ const URL_TO_PAGE_NAME = {
   '/mypage/alert-requests/:id': '빈자리 알림 정보',
   '/announcements': '공지사항',
   '/announcements/:id': '공지글',
+  '/help/about': '서비스 소개',
   '/help/handybus-guide': '이용 방법',
   '/help/faq': '도움말',
   '/help/faq/direct-inquiry': '직접 문의하기',
