@@ -17,7 +17,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <main className="flex grow flex-col">
+      <main className="flex grow flex-col bg-basic-grey-50">
         <DeferredSuspense
           fallback={<Loading style="grow" />}
           isLoading={isLoading}
@@ -26,7 +26,7 @@ const Page = () => {
             (alertRequests.length === 0 ? (
               <EmptyView />
             ) : (
-              <ul>
+              <ul className="flex flex-col gap-16 px-16 py-24">
                 {alertRequests.map((alertRequest) => (
                   <AlertRequestCard
                     key={alertRequest.shuttleRouteAlertRequestId}

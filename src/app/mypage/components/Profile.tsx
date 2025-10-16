@@ -3,12 +3,15 @@ import { formatPhoneNumber } from '@/utils/common.util';
 import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroundColor';
 import Image from 'next/image';
 import Link from 'next/link';
+import useAppRouter, { createAppRedirectPath } from '@/hooks/useAppRouter';
 
 interface Props {
   user: UsersViewEntity;
 }
 
 const Profile = ({ user }: Props) => {
+  const { isApp } = useAppRouter();
+
   const name = user.name || user.nickname || '';
 
   const getSimplifiedName = (name: string) => {
@@ -36,7 +39,7 @@ const Profile = ({ user }: Props) => {
           안녕하세요!
         </h2>
         <Link
-          href="/mypage/profile/edit"
+          href={createAppRedirectPath('/mypage/profile/edit', { isApp })}
           className="shrink-0 text-14 font-600 text-basic-grey-500"
         >
           프로필 수정
