@@ -133,6 +133,8 @@ interface TicketNavButtonProps {
 }
 
 const TicketNavButton = ({ isApp, name, href, icon }: TicketNavButtonProps) => {
+  const pathname = usePathname();
+  const isSelected = pathname === href;
   return (
     <Link
       href={createAppRedirectPath(href, { isApp })}
@@ -142,6 +144,7 @@ const TicketNavButton = ({ isApp, name, href, icon }: TicketNavButtonProps) => {
       <div
         className={customTwMerge(
           'flex h-[19px] items-center justify-center whitespace-nowrap break-keep text-12 font-600 leading-[160%] text-basic-grey-600',
+          isSelected && 'font-700 text-basic-black',
         )}
       >
         {name}

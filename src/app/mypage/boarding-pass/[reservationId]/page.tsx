@@ -14,10 +14,14 @@ interface Props {
   params: {
     reservationId: string;
   };
+  searchParams: {
+    direction?: string;
+  };
 }
 
-const BoardingPassPage = ({ params }: Props) => {
+const BoardingPassPage = ({ params, searchParams }: Props) => {
   const { reservationId } = params;
+  const { direction } = searchParams;
   const router = useRouter();
   const { data, isLoading: isReservationLoading } =
     useGetUserReservation(reservationId);
@@ -51,30 +55,35 @@ const BoardingPassPage = ({ params }: Props) => {
   return (
     <>
       <Header />
-      <BoardingPass reservation={reservation} />
+      <BoardingPass reservation={reservation} direction={direction} />
     </>
   );
 };
 
 interface BoardingPassProps {
   reservation: ReservationsViewEntity;
+  direction?: string;
 }
 
-const BoardingPass = ({ reservation }: BoardingPassProps) => {
+const BoardingPass = ({ reservation, direction }: BoardingPassProps) => {
   const [currentTripType, setCurrentTripType] = useState<
     '행사장행' | '귀가행'
   >();
   useEffect(() => {
     setCurrentTripType(
       reservation?.type === 'ROUND_TRIP'
-        ? '행사장행' // 왕복일 경우 첫 페이지 티켓은 행사장행
+        ? direction === 'TO_DESTINATION'
+          ? '행사장행'
+          : direction === 'FROM_DESTINATION'
+            ? '귀가행'
+            : '행사장행'
         : reservation?.type === 'TO_DESTINATION'
           ? '행사장행'
           : reservation?.type === 'FROM_DESTINATION'
             ? '귀가행'
             : undefined,
     );
-  }, [reservation]);
+  }, [reservation, direction]);
 
   const {
     isRoundTrip,
@@ -197,11 +206,11 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
                 </p>
               )}
               {currentTripType === '귀가행' && (
-                <p className="text-24 font-700 leading-[140%]">
+                <p className="text-22 font-600 leading-[140%]">
                   {dayjs(boardingTimeFromDestination)
                     .locale('ko')
                     .format('YYYY.MM.DD (ddd) HH:mm')}
-                  <span className="text-16 font-500 leading-[160%] text-basic-grey-400">
+                  <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
                     ~
                     {dayjs(arrivalTimeFromDestination)
                       .locale('ko')
@@ -259,7 +268,7 @@ const BoardingPass = ({ reservation }: BoardingPassProps) => {
 
             {/* 핸디버스 채널 문의하기 */}
             <a
-              className="py- flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16"
+              className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
               href={KAKAO_CHANNEL_URL}
               target="_blank"
               rel="noopener noreferrer"
