@@ -40,7 +40,6 @@
     "react-hook-form": "^7.53.1",
     "react-loading-skeleton": "^3.5.0",
     "react-markdown": "^10.1.0",
-    "react-spinners": "^0.15.0",
     "react-toastify": "^10.0.6",
     "remark-gfm": "^4.0.0",
     "server-only": "^0.0.1",
