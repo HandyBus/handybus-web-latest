@@ -6,7 +6,7 @@ import ListButton from './ListButton';
 const Settings = () => {
   const { isApp } = useAppRouter();
   return (
-    <div className="flex flex-col gap-[18px] pb-32">
+    <div className="flex flex-col gap-[18px]">
       <section className="px-16">
         <ListButton href="/mypage/coupons" isApp={isApp}>
           쿠폰

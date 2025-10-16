@@ -18,7 +18,7 @@ const MyPage = () => {
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
-          <main>
+          <main className="grow">
             <Profile user={user} />
             <Activity />
             <Settings />
