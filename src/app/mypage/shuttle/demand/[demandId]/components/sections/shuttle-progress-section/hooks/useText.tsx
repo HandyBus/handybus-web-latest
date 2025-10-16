@@ -6,12 +6,8 @@ interface Props {
 }
 
 const useText = ({ demand }: Props) => {
-  const isReservationOngoing =
-    demand.hasShuttleRoute &&
-    (demand.status === 'OPEN' ||
-      demand.status === 'CLOSED' ||
-      demand.status === 'FULFILLED');
-  const isDemandFulfilled = demand.status === 'FULFILLED';
+  const isReservationOngoing = demand.hasShuttleRoute;
+  const isDemandFulfilled = demand.isFulfilled;
 
   const text = useMemo(() => {
     if (isReservationOngoing && !isDemandFulfilled) {

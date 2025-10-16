@@ -38,14 +38,14 @@ const DemandCard = ({ demand }: Props) => {
 
   const isReservationOngoing =
     demand.hasShuttleRoute &&
-    (demand.status === 'OPEN' ||
-      demand.status === 'CLOSED' ||
-      demand.status === 'FULFILLED');
-  const isDemandFulfilled = demand.status === 'FULFILLED';
+    (dailyEvent?.status === 'OPEN' ||
+      dailyEvent?.status === 'CLOSED' ||
+      demand.isFulfilled);
+  const isDemandFulfilled = demand.isFulfilled;
   const isDemandClosed =
-    (demand.status === 'CLOSED' && !demand.hasShuttleRoute) ||
-    demand.status === 'ENDED' ||
-    demand.status === 'INACTIVE';
+    (dailyEvent?.status === 'CLOSED' && !demand.hasShuttleRoute) ||
+    dailyEvent?.status === 'ENDED' ||
+    dailyEvent?.status === 'INACTIVE';
 
   const router = useRouter();
   const handleReserveClick = (eventId: string) => {

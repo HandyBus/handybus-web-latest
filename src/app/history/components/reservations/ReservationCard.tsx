@@ -13,6 +13,7 @@ import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import useAppRouter from '@/hooks/useAppRouter';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -44,22 +45,20 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
         ? '셔틀 종료'
         : '예약 완료';
 
+  const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
+
   const router = useAppRouter();
-  const handleReservationCardClick = handleClickAndStopPropagation(() => {
+  const redirectToReservationDetail = handleClickAndStopPropagation(() => {
     router.push(`/history/reservation/${reservation.reservationId}`);
   });
 
   return (
-    <button
-      type="button"
-      onClick={handleReservationCardClick}
-      className="flex w-full flex-col gap-12 rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left"
-    >
+    <div className="flex w-full flex-col gap-12 rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">
       <div className="flex w-full">
         <div className="flex grow flex-col">
           <h4
             className={customTwMerge(
-              'h-28 whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
+              'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
               reservation.reservationStatus === 'COMPLETE_PAYMENT' &&
                 'text-brand-primary-400',
               reservation.reservationStatus === 'CANCEL' &&
@@ -70,17 +69,28 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             )}
           >
             {reservationStatusText}
+            {isHandyParty && (
+              <Badge className="bg-[rgba(0,0,0,0.80)] text-basic-white">
+                핸디팟
+              </Badge>
+            )}
           </h4>
           <p className="h-[19px] whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-grey-400">
             {formattedReservationDate} 예약
           </p>
         </div>
         <div className="w-24 shrink-0">
-          <ArrowRightIcon />
+          <button
+            type="button"
+            className="w-full"
+            onClick={redirectToReservationDetail}
+          >
+            <ArrowRightIcon />
+          </button>
         </div>
       </div>
       <div className="h-[1px] w-full bg-basic-grey-100" />
-      <div className="flex gap-12">
+      <div className="flex">
         <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
           <Image
             src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
@@ -89,7 +99,11 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col">
+        <button
+          type="button"
+          className="flex grow flex-col pl-12 text-left"
+          onClick={redirectToReservationDetail}
+        >
           <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
             {event.eventName}
           </h5>
@@ -106,9 +120,9 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
               {hubText}
             </span>
           </p>
-        </div>
+        </button>
       </div>
-    </button>
+    </div>
   );
 };
 
