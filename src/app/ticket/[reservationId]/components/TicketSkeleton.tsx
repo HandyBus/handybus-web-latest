@@ -29,11 +29,11 @@ const TicketSkeleton = () => {
                 <div className="flex flex-col gap-24">
                   <div className="flex gap-[6px]">
                     <Skeleton width="40px" height={16} />
-                    <Skeleton width="120px" height={24} />
+                    <Skeleton width="120px" height={28.5} />
                   </div>
                   <div className="flex gap-[6px]">
                     <Skeleton width="40px" height={16} />
-                    <Skeleton width="120px" height={24} />
+                    <Skeleton width="120px" height={28.5} />
                   </div>
                 </div>
               </div>
@@ -44,7 +44,7 @@ const TicketSkeleton = () => {
             {/* 탑승일시 */}
             <section className="flex flex-col gap-8 px-16 py-24">
               <Skeleton width="60px" height={16} />
-              <Skeleton width="200px" height={22} />
+              <Skeleton width="200px" height={23} />
             </section>
 
             {/* 노선도 구분선 */}
@@ -77,7 +77,7 @@ const TicketSkeleton = () => {
 
             {/* 채널 문의하기 */}
             <div className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12">
-              <Skeleton width="120px" height={22} />
+              <Skeleton width="120px" height={18} />
             </div>
           </div>
         </div>
