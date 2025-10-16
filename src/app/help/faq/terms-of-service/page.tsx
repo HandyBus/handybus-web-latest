@@ -14,7 +14,6 @@ const Page = () => {
     <>
       <main>
         <Header />
-        <h1 className="sr-only">서비스 이용 약관</h1>
         <TitledSection>
           <PolicyViewer type="서비스이용약관" />
         </TitledSection>

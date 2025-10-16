@@ -14,7 +14,6 @@ const Page = () => {
     <>
       <main>
         <Header />
-        <h1 className="sr-only">마케팅 활용 동의</h1>
         <TitledSection>
           <PolicyViewer type="마케팅활용동의" />
         </TitledSection>

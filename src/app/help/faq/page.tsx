@@ -28,7 +28,6 @@ const CustomerSupport = () => {
     <>
       <main>
         <Header />
-        <h1 className="sr-only">도움말</h1>
         <TitledSection title="자주 묻는 질문">
           <Tabs
             items={TAB_ITEMS}

@@ -22,7 +22,6 @@ const AnnouncementList = () => {
 
   return (
     <div className="px-16">
-      <h1 className="sr-only">공지사항</h1>
       {isLoading ? (
         <div className="flex w-full items-center justify-center">
           <LoadingCircle className=" animate-spin" />

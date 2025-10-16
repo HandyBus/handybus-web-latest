@@ -14,7 +14,6 @@ const Page = () => {
     <>
       <main>
         <Header />
-        <h1 className="sr-only">개인정보 처리 방침</h1>
         <TitledSection>
           <PolicyViewer type="개인정보처리방침" />
         </TitledSection>
