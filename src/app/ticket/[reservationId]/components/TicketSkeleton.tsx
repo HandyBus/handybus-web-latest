@@ -29,11 +29,11 @@ const TicketSkeleton = () => {
                 <div className="flex flex-col gap-24">
                   <div className="flex gap-[6px]">
                     <Skeleton width="40px" height={16} />
-                    <Skeleton width="120px" height={24} />
+                    <Skeleton width="120px" height={28.5} />
                   </div>
                   <div className="flex gap-[6px]">
                     <Skeleton width="40px" height={16} />
-                    <Skeleton width="120px" height={24} />
+                    <Skeleton width="120px" height={28.5} />
                   </div>
                 </div>
               </div>
@@ -44,22 +44,23 @@ const TicketSkeleton = () => {
             {/* 탑승일시 */}
             <section className="flex flex-col gap-8 px-16 py-24">
               <Skeleton width="60px" height={16} />
-              <Skeleton width="200px" height={22} />
+              <Skeleton width="200px" height={23} />
             </section>
 
             {/* 노선도 구분선 */}
             <div className="relative">
-              <div className="absolute -left-[16px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 rounded-full bg-basic-black"></div>
-              <div className="absolute -right-[16px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 rounded-full bg-basic-black"></div>
-              <div className="mx-16 border-[1px] border-dashed border-basic-grey-300"></div>
+              <div className="absolute -left-[10px] top-1/2 h-[20px] w-[20px] -translate-y-1/2 rounded-full bg-basic-black"></div>
+              <div className="absolute -right-[10px] top-1/2 h-[20px] w-[20px] -translate-y-1/2 rounded-full bg-basic-black"></div>
+              <div className="mx-10 border-[1px] border-dashed border-basic-grey-300"></div>
             </div>
 
             {/* 탑승자 정보 그리드 */}
             <section className="grid grid-cols-2 gap-16 px-16 py-24">
               <div className="flex flex-col gap-8">
                 <Skeleton width="80px" height={16} />
-                <Skeleton width="120px" height={18} />
-                <Skeleton width="120px" height={18} />
+                <Skeleton width="120px" height={14} />
+                <Skeleton width="120px" height={14} />
+                <Skeleton width="120px" height={14} />
               </div>
               <div className="flex flex-col gap-8">
                 <Skeleton width="60px" height={16} />
@@ -77,7 +78,7 @@ const TicketSkeleton = () => {
 
             {/* 채널 문의하기 */}
             <div className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12">
-              <Skeleton width="120px" height={22} />
+              <Skeleton width="120px" height={18} />
             </div>
           </div>
         </div>

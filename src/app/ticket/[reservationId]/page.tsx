@@ -1,7 +1,6 @@
 'use client';
 
 import { useGetUserReservation } from '@/services/reservation.service';
-import ArrowIcon from './icons/white-arrow-right.svg';
 import InfoIcon from '/public/icons/info.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { useEffect, useState } from 'react';
@@ -10,6 +9,7 @@ import 'dayjs/locale/ko';
 import useTicketData from './hooks/useTicketData';
 import Link from 'next/link';
 import TicketSkeleton from './components/TicketSkeleton';
+import TicketSwiperView from './components/TicketSwiperView';
 
 interface Props {
   params: {
@@ -113,190 +113,174 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
       <article className="flex flex-col gap-16">
         <AntiCapture />
 
-        <div className="flex flex-col gap-24 px-[22px]">
-          <div className="rounded-[8px] bg-basic-white">
-            {/* 여정타입 */}
-            <section className="flex items-center justify-between rounded-t-[8px] bg-brand-primary-400 px-16 py-12 ">
-              <h1 className="text-18 font-600 leading-[140%] text-basic-white">
-                {isRoundTrip ? `왕복 | ${currentTripType}` : currentTripType}
-              </h1>
-              {isRoundTrip && currentTripType && (
-                <div className="flex items-center gap-8 text-18 font-500 leading-[160%] text-basic-white">
-                  <button
-                    onClick={() => setCurrentTripType('행사장행')}
-                    disabled={currentTripType === '행사장행'}
-                  >
-                    <ArrowIcon
-                      className={`rotate-180 ${
-                        currentTripType === '행사장행' ? 'opacity-50' : ''
-                      }`}
-                    />
-                  </button>
-                  {currentTripType === '행사장행' ? 1 : 2}/2
-                  <button
-                    onClick={() => setCurrentTripType('귀가행')}
-                    disabled={currentTripType === '귀가행'}
-                  >
-                    <ArrowIcon
-                      className={`${
-                        currentTripType === '귀가행' ? 'opacity-50' : ''
-                      }`}
-                    />
-                  </button>
-                </div>
-              )}
-            </section>
+        <div className="flex flex-col gap-24">
+          {/* 왕복일 때는 스와이프 뷰 사용, 편도일 때는 기존 뷰 사용 */}
+          {isRoundTrip ? (
+            <TicketSwiperView reservation={reservation} />
+          ) : (
+            <div className="px-[22px]">
+              <div className="rounded-[8px] bg-basic-white">
+                {/* 여정타입 */}
+                <section className="flex items-center justify-between rounded-t-[8px] bg-brand-primary-400 px-16 py-12 ">
+                  <h1 className="text-18 font-600 leading-[140%] text-basic-white">
+                    {currentTripType}
+                  </h1>
+                </section>
 
-            {/* 탑승지/하차지 */}
-            <section className="flex flex-col gap-8 px-16 py-24">
-              <h2 className="text-16 font-600 leading-[140%]">
-                {reservation.shuttleRoute.event.eventName}
-              </h2>
-              <div className="flex gap-8">
-                <div>
-                  <SimpleRouteLine />
+                {/* 탑승지/하차지 */}
+                <section className="flex flex-col gap-8 px-16 py-24">
+                  <h2 className="text-16 font-600 leading-[140%]">
+                    {reservation.shuttleRoute.event.eventName}
+                  </h2>
+                  <div className="flex gap-8">
+                    <div>
+                      <SimpleRouteLine />
+                    </div>
+                    <div className="flex flex-col gap-24">
+                      <div className="flex gap-[6px]">
+                        {/* 태그 */}
+                        <Tag type="departure" />
+                        {/* 탑승지 */}
+                        <p className="text-24 font-700 leading-[140%]">
+                          {currentTripType === '행사장행'
+                            ? selectedHubNameToDestination
+                            : currentTripType === '귀가행'
+                              ? departureHubNameFromDestination
+                              : null}
+                        </p>
+                      </div>
+
+                      <div className="flex gap-[6px]">
+                        {/* 태그 */}
+                        <Tag type="arrival" />
+                        {/* 하차지 */}
+                        <p className="text-24 font-700 leading-[140%]">
+                          {currentTripType === '행사장행'
+                            ? arrivalHubNameToDestination
+                            : currentTripType === '귀가행'
+                              ? selectedHubNameFromDestination
+                              : null}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <div className="border-t border-basic-grey-100" />
+
+                {/* 탑승일시 */}
+                <section className="flex flex-col gap-8 px-16 py-24">
+                  <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                    탑승일시
+                  </h2>
+                  {currentTripType === '행사장행' && (
+                    <p className="text-22 font-600 leading-[140%]">
+                      {dayjs(boardingTimeToDestination)
+                        .locale('ko')
+                        .format('YYYY.MM.DD (ddd) HH:mm')}
+                      <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
+                        ~
+                        {dayjs(arrivalTimeToDestination)
+                          .locale('ko')
+                          .format('HH:mm')}
+                      </span>
+                    </p>
+                  )}
+                  {currentTripType === '귀가행' && (
+                    <p className="text-22 font-600 leading-[140%]">
+                      {dayjs(boardingTimeFromDestination)
+                        .locale('ko')
+                        .format('YYYY.MM.DD (ddd) HH:mm')}
+                      <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
+                        ~
+                        {dayjs(arrivalTimeFromDestination)
+                          .locale('ko')
+                          .format('HH:mm')}
+                      </span>
+                    </p>
+                  )}
+                </section>
+
+                {/* 노선도 구분선 */}
+                <div className="relative">
+                  <div className="absolute -left-[10px] top-1/2 h-[20px] w-[20px] -translate-y-1/2 rounded-full bg-basic-black"></div>
+                  <div className="absolute -right-[10px] top-1/2 h-[20px] w-[20px] -translate-y-1/2 rounded-full bg-basic-black"></div>
+                  <div className="mx-10 border-[1px] border-dashed border-basic-grey-300"></div>
                 </div>
-                <div className="flex flex-col gap-24">
-                  <div className="flex gap-[6px]">
-                    {/* 태그 */}
-                    <Tag type="departure" />
-                    {/* 탑승지 */}
-                    <p className="text-24 font-700 leading-[140%]">
+
+                {/* 탑승인원, 예상소요시간 및 좌석 */}
+                <section className="grid grid-cols-2 gap-16 px-16 py-24">
+                  <div className="flex flex-col gap-8">
+                    <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                      탑승자 정보
+                    </h2>
+                    <div className="text-18 font-600 leading-[160%]">
+                      <span className="block">{userName}</span>
+                      <span className="block">({userPhoneNumber})</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-8">
+                    <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                      탑승인원
+                    </h2>
+                    <p className="text-18 font-600 leading-[160%]">
+                      {passengerCount}명
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-8">
+                    <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                      예상 소요시간
+                    </h2>
+                    <p className="text-18 font-600 leading-[160%]">
                       {currentTripType === '행사장행'
-                        ? selectedHubNameToDestination
+                        ? durationToDestination
                         : currentTripType === '귀가행'
-                          ? departureHubNameFromDestination
+                          ? durationFromDestination
                           : null}
                     </p>
                   </div>
-
-                  <div className="flex gap-[6px]">
-                    {/* 태그 */}
-                    <Tag type="arrival" />
-                    {/* 하차지 */}
-                    <p className="text-24 font-700 leading-[140%]">
-                      {currentTripType === '행사장행'
-                        ? arrivalHubNameToDestination
-                        : currentTripType === '귀가행'
-                          ? selectedHubNameFromDestination
-                          : null}
-                    </p>
+                  <div className="flex flex-col gap-8">
+                    <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                      좌석
+                    </h2>
+                    <p className="text-18 font-600 leading-[160%]">자율석</p>
                   </div>
-                </div>
+                </section>
+
+                {/* 핸디버스 채널 문의하기 */}
+                <a
+                  className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
+                  href={KAKAO_CHANNEL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InfoIcon />
+                  <h2 className="text-16 font-600 leading-[140%] text-basic-grey-600">
+                    핸디버스 채널 문의하기
+                  </h2>
+                </a>
               </div>
-            </section>
-
-            <div className="border-t border-basic-grey-100" />
-
-            {/* 탑승일시 */}
-            <section className="flex flex-col gap-8 px-16 py-24">
-              <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
-                탑승일시
-              </h2>
-              {currentTripType === '행사장행' && (
-                <p className="text-22 font-600 leading-[140%]">
-                  {dayjs(boardingTimeToDestination)
-                    .locale('ko')
-                    .format('YYYY.MM.DD (ddd) HH:mm')}
-                  <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
-                    ~
-                    {dayjs(arrivalTimeToDestination)
-                      .locale('ko')
-                      .format('HH:mm')}
-                  </span>
-                </p>
-              )}
-              {currentTripType === '귀가행' && (
-                <p className="text-22 font-600 leading-[140%]">
-                  {dayjs(boardingTimeFromDestination)
-                    .locale('ko')
-                    .format('YYYY.MM.DD (ddd) HH:mm')}
-                  <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
-                    ~
-                    {dayjs(arrivalTimeFromDestination)
-                      .locale('ko')
-                      .format('HH:mm')}
-                  </span>
-                </p>
-              )}
-            </section>
-
-            {/* 노선도 구분선 */}
-            <div className="relative">
-              <div className="absolute -left-[16px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 rounded-full bg-basic-black"></div>
-              <div className="absolute -right-[16px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 rounded-full bg-basic-black"></div>
-              <div className="mx-16 border-[1px] border-dashed border-basic-grey-300"></div>
             </div>
-
-            {/* 탑승인원, 예상소요시간 및 좌석 */}
-            <section className="grid grid-cols-2 gap-16 px-16 py-24">
-              <div className="flex flex-col gap-8">
-                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
-                  탑승자 정보
-                </h2>
-                <div className="text-18 font-600 leading-[160%]">
-                  <span className="block">{userName}</span>
-                  <span className="block">({userPhoneNumber})</span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-8">
-                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
-                  탑승인원
-                </h2>
-                <p className="text-18 font-600 leading-[160%]">
-                  {passengerCount}명
-                </p>
-              </div>
-              <div className="flex flex-col gap-8">
-                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
-                  예상 소요시간
-                </h2>
-                <p className="text-18 font-600 leading-[160%]">
-                  {currentTripType === '행사장행'
-                    ? durationToDestination
-                    : currentTripType === '귀가행'
-                      ? durationFromDestination
-                      : null}
-                </p>
-              </div>
-              <div className="flex flex-col gap-8">
-                <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
-                  좌석
-                </h2>
-                <p className="text-18 font-600 leading-[160%]">자율석</p>
-              </div>
-            </section>
-
-            {/* 핸디버스 채널 문의하기 */}
-            <a
-              className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
-              href={KAKAO_CHANNEL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <InfoIcon />
-              <h2 className="text-16 font-600 leading-[140%] text-basic-grey-600">
-                핸디버스 채널 문의하기
-              </h2>
-            </a>
-          </div>
+          )}
 
           {/* 주의사항 */}
-          <aside className="rounded-[8px] bg-[#F7F8F91A] p-8 pl-28 text-14 font-500 leading-[160%] text-basic-grey-500">
-            <ul>
-              <li className="list-disc pl-4 marker:text-basic-grey-500">
+          <div className="px-[22px]">
+            <section className="rounded-[8px] bg-[#F7F8F91A] px-16 py-8 ">
+              <p className="text-14 font-500 leading-[160%] text-basic-grey-600">
                 탑승 시간은 현장 운영 상황에 따라 변경될 수 있으며, 변경 시
                 카카오톡 및 문자로 안내가 이루어집니다.
-              </li>
-            </ul>
-          </aside>
+              </p>
+            </section>
+          </div>
 
-          <Link
-            href="/ticket"
-            className="flex items-center justify-center rounded-[8px] bg-basic-grey-50 px-16 py-12 text-14 font-600 leading-[160%] text-basic-grey-700 active:bg-basic-grey-200"
-          >
-            모든 탑승권 보기
-          </Link>
+          <div className="px-[22px]">
+            <Link
+              href="/ticket"
+              className="flex items-center justify-center rounded-[8px] bg-basic-grey-50 px-16 py-12 text-14 font-600 leading-[160%] text-basic-grey-700 active:bg-basic-grey-200"
+            >
+              모든 탑승권 보기
+            </Link>
+          </div>
         </div>
 
         <AntiCapture />
