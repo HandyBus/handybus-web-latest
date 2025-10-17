@@ -49,17 +49,18 @@ const TicketSkeleton = () => {
 
             {/* 노선도 구분선 */}
             <div className="relative">
-              <div className="absolute -left-[16px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 rounded-full bg-basic-black"></div>
-              <div className="absolute -right-[16px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 rounded-full bg-basic-black"></div>
-              <div className="mx-16 border-[1px] border-dashed border-basic-grey-300"></div>
+              <div className="absolute -left-[10px] top-1/2 h-[20px] w-[20px] -translate-y-1/2 rounded-full bg-basic-black"></div>
+              <div className="absolute -right-[10px] top-1/2 h-[20px] w-[20px] -translate-y-1/2 rounded-full bg-basic-black"></div>
+              <div className="mx-10 border-[1px] border-dashed border-basic-grey-300"></div>
             </div>
 
             {/* 탑승자 정보 그리드 */}
             <section className="grid grid-cols-2 gap-16 px-16 py-24">
               <div className="flex flex-col gap-8">
                 <Skeleton width="80px" height={16} />
-                <Skeleton width="120px" height={18} />
-                <Skeleton width="120px" height={18} />
+                <Skeleton width="120px" height={14} />
+                <Skeleton width="120px" height={14} />
+                <Skeleton width="120px" height={14} />
               </div>
               <div className="flex flex-col gap-8">
                 <Skeleton width="60px" height={16} />

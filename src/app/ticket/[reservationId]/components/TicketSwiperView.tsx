@@ -65,7 +65,7 @@ const TicketSwiperView = ({ reservation }: Props) => {
       <Swiper
         ref={swiper}
         modules={[Pagination]}
-        slidesPerView={1.1}
+        slidesPerView={1.125}
         spaceBetween={12}
         centeredSlides={true}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
