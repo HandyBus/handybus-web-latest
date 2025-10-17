@@ -9,10 +9,10 @@ export const HANDY_PARTY_AREA_GUIDE_ID = 'handy-party-area-guide';
 
 interface Props {
   event: EventsViewEntity;
-  isNoDemandRewardCouponEvent: boolean;
+  isBookingClosingSoon: boolean;
 }
 
-const EventInfo = ({ event, isNoDemandRewardCouponEvent }: Props) => {
+const EventInfo = ({ event, isBookingClosingSoon }: Props) => {
   const parsedDateString = dateString(
     event.dailyEvents.map((v) => v.date),
     {
@@ -24,11 +24,6 @@ const EventInfo = ({ event, isNoDemandRewardCouponEvent }: Props) => {
 
   return (
     <>
-      {phase === 'demand' && !isNoDemandRewardCouponEvent && (
-        <div className="flex h-[38px] items-center justify-center bg-basic-black text-14 font-600 text-basic-white">
-          🤑 수요조사 참여 시 1,000원 할인 쿠폰 증정 🤑
-        </div>
-      )}
       <div
         id={HANDY_PARTY_AREA_GUIDE_ID}
         className="hidden bg-basic-grey-50 p-16 px-16 py-8 text-12 font-500 leading-[160%] text-basic-grey-700"
@@ -43,9 +38,16 @@ const EventInfo = ({ event, isNoDemandRewardCouponEvent }: Props) => {
         </h4>
         {enabledStatus === 'enabled' &&
           (phase === 'reservation' ? (
-            <h5 className="text-20 font-600">
-              {event.eventMinRoutePrice?.toLocaleString()}원~
-            </h5>
+            <div className="flex items-center gap-4">
+              <h5 className="text-20 font-600">
+                {event.eventMinRoutePrice?.toLocaleString()}원~
+              </h5>
+              {isBookingClosingSoon && (
+                <Badge className="bg-basic-red-100 text-basic-red-400">
+                  마감임박
+                </Badge>
+              )}
+            </div>
           ) : (
             <div className="flex items-center gap-4">
               <span className="text-20 font-600 text-basic-grey-500">

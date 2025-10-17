@@ -48,9 +48,7 @@ const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
           <button
             onClick={() => handleSort('DATE_ASC')}
             className={`w-full px-16 py-12 text-left text-14 font-600 leading-[160%] hover:bg-basic-grey-50 ${
-              sort === 'DATE_ASC'
-                ? 'text-brand-primary-400'
-                : 'text-basic-grey-700'
+              sort === 'DATE_ASC' ? 'text-basic-black' : 'text-basic-grey-500'
             }`}
           >
             행사 임박 순
@@ -58,9 +56,7 @@ const FilterButton = ({ sort, onSort }: FilterButtonProps) => {
           <button
             onClick={() => handleSort('NAME_ASC')}
             className={`w-full px-16 py-12 text-left text-14 font-600 leading-[160%] hover:bg-basic-grey-50 ${
-              sort === 'NAME_ASC'
-                ? 'text-brand-primary-400'
-                : 'text-basic-grey-700'
+              sort === 'NAME_ASC' ? 'text-basic-black' : 'text-basic-grey-500'
             }`}
           >
             가나다 순

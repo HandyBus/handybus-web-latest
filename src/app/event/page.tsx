@@ -14,6 +14,7 @@ import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
 import { dateString } from '@/utils/dateString.util';
 import NavBar from '@/components/nav-bar/NavBar';
+import dayjs from 'dayjs';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -36,8 +37,6 @@ const Page = () => {
     [events],
   );
 
-  console.log(filteredEventsByStatus);
-
   const filteredEventsByType = useMemo(() => {
     if (type === 'ALL') {
       return filteredEventsByStatus;
@@ -56,43 +55,55 @@ const Page = () => {
   return (
     <>
       <Header />
-      <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
-      <div className="flex w-full flex-col items-center">
-        {isLoading ? (
-          <Loading />
-        ) : error ? (
-          <Error />
-        ) : sortedEvents?.length === 0 ? (
-          <Empty />
-        ) : (
-          sortedEvents &&
-          sortedEvents.length > 0 &&
-          sortedEvents?.map((event) => {
-            const formattedDate = dateString(
-              event.startDate === event.endDate
-                ? event.startDate
-                : [event.startDate, event.endDate],
-              {
-                showWeekday: false,
-              },
-            );
-            return (
-              <div className="w-full px-[16px] py-[6px]" key={event.eventId}>
-                <Card
-                  key={event.eventId}
-                  image={event.eventImageUrl}
-                  variant="SMALL"
-                  title={event.eventName}
-                  date={formattedDate}
-                  location={event.eventLocationName}
-                  price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                  isSaleStarted={event.eventMinRoutePrice !== null}
-                  href={`/event/${event.eventId}`}
-                />
-              </div>
-            );
-          })
-        )}
+      <main className="flex flex-1 flex-col">
+        <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
+        <div className="w-full px-16">
+          {isLoading ? (
+            <Loading />
+          ) : error ? (
+            <Error />
+          ) : sortedEvents?.length === 0 ? (
+            <Empty />
+          ) : (
+            <div className="grid grid-cols-2 gap-8">
+              {sortedEvents &&
+                sortedEvents.length > 0 &&
+                sortedEvents?.map((event) => {
+                  const formattedDate = dateString(
+                    event.startDate === event.endDate
+                      ? event.startDate
+                      : [event.startDate, event.endDate],
+                    {
+                      showWeekday: false,
+                    },
+                  );
+
+                  // 행사 첫날을 기준으로 8일 전부터 마감임박 표시 (5일전 예약마감 이므로 3일간 표시)
+                  const isBookingClosingSoon =
+                    event.eventStatus === 'OPEN' &&
+                    event.eventHasOpenRoute &&
+                    dayjs(event.startDate).subtract(8, 'day').isBefore(dayjs());
+
+                  return (
+                    <div className="w-full" key={event.eventId}>
+                      <Card
+                        key={event.eventId}
+                        image={event.eventImageUrl}
+                        variant="GRID"
+                        title={event.eventName}
+                        date={formattedDate}
+                        location={event.eventLocationName}
+                        price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
+                        isSaleStarted={event.eventMinRoutePrice !== null}
+                        isBookingClosingSoon={isBookingClosingSoon}
+                        href={`/event/${event.eventId}`}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+        </div>
         {!isLoading && (
           <>
             <div className="mt-[26px] h-8 w-full bg-basic-grey-50" />
@@ -106,7 +117,7 @@ const Page = () => {
             </a>
           </>
         )}
-      </div>
+      </main>
       <NavBar />
     </>
   );

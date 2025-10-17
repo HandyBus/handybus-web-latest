@@ -4,12 +4,15 @@ import Link from 'next/link';
 
 const DEMAND_ONGOING_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
+const BOOKING_CLOSING_SOON_BADGE_CLASS_NAME =
+  'inline-flex shrink-0 bg-basic-red-100 leading-[160%] text-basic-red-400';
 
 interface Props {
-  variant: 'LARGE' | 'MEDIUM' | 'SMALL';
+  variant: 'GRID' | 'LARGE' | 'MEDIUM' | 'SMALL';
   image: string | null;
   order?: number;
   isSaleStarted?: boolean;
+  isBookingClosingSoon?: boolean;
   title?: string;
   date?: string;
   location?: string;
@@ -22,12 +25,28 @@ const Card = ({
   image,
   order,
   isSaleStarted = true,
+  isBookingClosingSoon,
   title,
   date,
   location,
   price,
   href,
 }: Props) => {
+  if (variant === 'GRID') {
+    return (
+      <GridCard
+        variant={variant}
+        image={image}
+        isSaleStarted={isSaleStarted}
+        isBookingClosingSoon={isBookingClosingSoon}
+        title={title}
+        date={date}
+        price={price}
+        location={location}
+        href={href}
+      />
+    );
+  }
   if (variant === 'LARGE') {
     return (
       <LargeCard
@@ -70,6 +89,60 @@ const Card = ({
 };
 
 export default Card;
+
+const GridCard = ({
+  image,
+  isSaleStarted,
+  isBookingClosingSoon,
+  title,
+  date,
+  price,
+  href,
+}: Props) => {
+  return (
+    <Link href={href || ''} className="block w-full">
+      <div
+        className={`relative aspect-[165/220] w-full shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]`}
+      >
+        <Image
+          src={image || '/images/default-event.png'}
+          alt={`${title} 행사 셔틀 보러가기`}
+          fill
+          className={`rounded-[7px] object-cover`}
+        />
+        {!isSaleStarted && (
+          <Badge
+            className={`absolute right-12 top-12 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}
+          >
+            수요조사중
+          </Badge>
+        )}
+        {isBookingClosingSoon && (
+          <Badge
+            className={`absolute right-12 top-12 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}
+          >
+            마감임박
+          </Badge>
+        )}
+      </div>
+      <div className="py-12 pl-4 pr-12">
+        <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black">
+          {title}
+        </p>
+        <p className="text-12 font-500 leading-[160%] text-basic-black ">
+          {date}
+        </p>
+        <p
+          className={`text-14 font-600 leading-[140%] ${
+            isSaleStarted ? 'text-basic-black' : 'text-basic-grey-500'
+          }`}
+        >
+          {isSaleStarted ? price : '판매대기'}
+        </p>
+      </div>
+    </Link>
+  );
+};
 
 const LargeCard = ({
   image,
@@ -122,6 +195,7 @@ const LargeCard = ({
 const MediumCard = ({
   image,
   isSaleStarted,
+  isBookingClosingSoon = true,
   title,
   date,
   price,
@@ -158,11 +232,17 @@ const MediumCard = ({
             수요조사 진행 중
           </Badge>
         )}
+        {isBookingClosingSoon && (
+          <Badge className={`mt-4 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}>
+            마감임박
+          </Badge>
+        )}
       </div>
     </Link>
   );
 };
 
+// deprecated: 모든 행사페이지에서 GridCard로 대체됨
 const SmallCard = ({
   image,
   isSaleStarted,
