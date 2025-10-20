@@ -1,4 +1,5 @@
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
+import { createAppRedirectPath } from '@/hooks/useAppRouter';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
@@ -6,9 +7,10 @@ import Link from 'next/link';
 
 interface Props {
   event: EventsViewEntity;
+  isApp: boolean;
 }
 
-const EventCard = ({ event }: Props) => {
+const EventCard = ({ event, isApp }: Props) => {
   const dates = event.dailyEvents.map((dailyEvent) => dailyEvent.date);
   const formattedEventDate = dateString(dates, {
     showWeekday: false,
@@ -16,9 +18,9 @@ const EventCard = ({ event }: Props) => {
 
   return (
     <Link
-      href={`/event/${event.eventId}`}
+      href={createAppRedirectPath(`/event/${event.eventId}`, { isApp })}
       target="_blank"
-      className="mb-24 flex h-[70px] shrink-0 gap-12 px-16"
+      className="mb-24 mt-16 flex h-[70px] shrink-0 gap-12 px-16"
     >
       <div className="relative h-full w-52 shrink-0 overflow-hidden rounded-4">
         <Image
@@ -30,7 +32,9 @@ const EventCard = ({ event }: Props) => {
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="line-clamp-2 text-16 font-600">{event.eventName}</h2>
-        <p className="text-grey-700 text-12 font-500">{formattedEventDate}</p>
+        <p className="text-12 font-500 text-basic-grey-700">
+          {formattedEventDate}
+        </p>
       </div>
     </Link>
   );

@@ -6,7 +6,6 @@ import { putUser, useDeleteUser, useGetUser } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
 import ListButton from '../components/ListButton';
 import { logout } from '@/utils/handleToken.util';
-import { formatPhoneNumber } from '@/utils/common.util';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { removeLastLogin } from '@/utils/localStorage';
@@ -18,8 +17,6 @@ import Button from '@/components/buttons/button/Button';
 const Page = () => {
   const { data: user, isLoading: isLoadingUser } = useGetUser();
   const isLoading = isLoadingUser;
-
-  const formattedPhoneNumber = formatPhoneNumber(user?.phoneNumber ?? '');
 
   // 마케팅 수신
   const [isMarketingAgreed, setIsMarketingAgreed] = useState(
@@ -116,31 +113,6 @@ const Page = () => {
                 <h3 className="pb-8 text-14 font-600 text-basic-grey-500">
                   계정
                 </h3>
-                <ListButton className="cursor-default" hideArrow>
-                  <div className="flex grow items-center text-left">
-                    <span>연락처</span>
-                    <div className="ml-auto flex items-center gap-[6px]">
-                      {user.isConnectedKakao && (
-                        <div className="rounded-full bg-[#FEE500] px-8 py-4 text-10 font-600 text-basic-grey-700">
-                          카카오 로그인
-                        </div>
-                      )}
-                      {user.isConnectedNaver && (
-                        <div className="rounded-full bg-[#03C75A] px-8 py-4 text-10 font-600 text-basic-grey-100">
-                          네이버 로그인
-                        </div>
-                      )}
-                      {user.isConnectedApple && (
-                        <div className="rounded-full bg-[#000000] px-8 py-4 text-10 font-600 text-basic-white">
-                          애플 로그인
-                        </div>
-                      )}
-                      <span className="text-16 font-500 text-basic-grey-300">
-                        {formattedPhoneNumber}
-                      </span>
-                    </div>
-                  </div>
-                </ListButton>
                 <ListButton hideArrow onClick={handleLogout}>
                   로그아웃
                 </ListButton>
