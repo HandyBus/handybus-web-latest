@@ -12,7 +12,7 @@ interface Props {
   image: string | null;
   order?: number;
   isSaleStarted?: boolean;
-  isBookingClosingSoon?: boolean;
+  isReservationClosingSoon?: boolean;
   title?: string;
   date?: string;
   location?: string;
@@ -25,7 +25,7 @@ const Card = ({
   image,
   order,
   isSaleStarted = true,
-  isBookingClosingSoon,
+  isReservationClosingSoon,
   title,
   date,
   location,
@@ -38,7 +38,7 @@ const Card = ({
         variant={variant}
         image={image}
         isSaleStarted={isSaleStarted}
-        isBookingClosingSoon={isBookingClosingSoon}
+        isReservationClosingSoon={isReservationClosingSoon}
         title={title}
         date={date}
         price={price}
@@ -93,7 +93,7 @@ export default Card;
 const GridCard = ({
   image,
   isSaleStarted,
-  isBookingClosingSoon,
+  isReservationClosingSoon,
   title,
   date,
   price,
@@ -117,7 +117,7 @@ const GridCard = ({
             수요조사중
           </Badge>
         )}
-        {isBookingClosingSoon && (
+        {isReservationClosingSoon && (
           <Badge
             className={`absolute right-12 top-12 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}
           >
@@ -195,7 +195,7 @@ const LargeCard = ({
 const MediumCard = ({
   image,
   isSaleStarted,
-  isBookingClosingSoon,
+  isReservationClosingSoon,
   title,
   date,
   price,
@@ -232,7 +232,7 @@ const MediumCard = ({
             수요조사 진행 중
           </Badge>
         )}
-        {isBookingClosingSoon && (
+        {isReservationClosingSoon && (
           <Badge className={`mt-4 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}>
             마감임박
           </Badge>

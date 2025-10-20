@@ -9,10 +9,10 @@ export const HANDY_PARTY_AREA_GUIDE_ID = 'handy-party-area-guide';
 
 interface Props {
   event: EventsViewEntity;
-  isBookingClosingSoon: boolean;
+  isReservationClosingSoon: boolean;
 }
 
-const EventInfo = ({ event, isBookingClosingSoon }: Props) => {
+const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
   const parsedDateString = dateString(
     event.dailyEvents.map((v) => v.date),
     {
@@ -42,7 +42,7 @@ const EventInfo = ({ event, isBookingClosingSoon }: Props) => {
               <h5 className="text-20 font-600">
                 {event.eventMinRoutePrice?.toLocaleString()}원~
               </h5>
-              {isBookingClosingSoon && (
+              {isReservationClosingSoon && (
                 <Badge className="bg-basic-red-100 text-basic-red-400">
                   마감임박
                 </Badge>

@@ -14,7 +14,7 @@ import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
 import { dateString } from '@/utils/dateString.util';
 import NavBar from '@/components/nav-bar/NavBar';
-import dayjs from 'dayjs';
+import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosingSoon.util';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -78,11 +78,9 @@ const Page = () => {
                     },
                   );
 
-                  // 행사 첫날을 기준으로 8일 전부터 마감임박 표시 (5일전 예약마감 이므로 3일간 표시)
-                  const isBookingClosingSoon =
-                    event.eventStatus === 'OPEN' &&
-                    event.eventHasOpenRoute &&
-                    dayjs(event.startDate).subtract(8, 'day').isBefore(dayjs());
+                  const isClosingSoon = checkIsReservationClosingSoon({
+                    event,
+                  });
 
                   return (
                     <div className="w-full" key={event.eventId}>
@@ -95,7 +93,7 @@ const Page = () => {
                         location={event.eventLocationName}
                         price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
                         isSaleStarted={event.eventMinRoutePrice !== null}
-                        isBookingClosingSoon={isBookingClosingSoon}
+                        isReservationClosingSoon={isClosingSoon}
                         href={`/event/${event.eventId}`}
                       />
                     </div>

@@ -18,7 +18,6 @@ import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import DemandCompleteScreen, {
   DemandCompleteStatus,
 } from '../demand-complete-screen/DemandCompleteScreen';
-import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import Button from '@/components/buttons/button/Button';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 import useBottomSheetText from './hooks/useBottomSheetText';
@@ -43,27 +42,19 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 interface Props {
   event: EventsViewEntity;
   isNoDemandRewardCouponEvent: boolean;
+  shuttleRoutesOpen: ShuttleRoutesViewEntity[];
 }
 
-const EventForm = ({ event, isNoDemandRewardCouponEvent }: Props) => {
+const EventForm = ({
+  event,
+  isNoDemandRewardCouponEvent,
+  shuttleRoutesOpen,
+}: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
 
-  const { data: shuttleRoutesPages } = useGetShuttleRoutesOfEventWithPagination(
-    {
-      eventId: event.eventId,
-      status: 'OPEN',
-    },
-    {
-      enabled: event.eventHasOpenRoute,
-    },
-  );
-  const shuttleRoutes = useMemo(
-    () => shuttleRoutesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [],
-    [shuttleRoutesPages],
-  );
   const isShuttleRoutesLoading =
-    event.eventHasOpenRoute && shuttleRoutes.length === 0;
+    event.eventHasOpenRoute && shuttleRoutesOpen.length === 0;
 
   if (isShuttleRoutesLoading) {
     return (
@@ -83,7 +74,7 @@ const EventForm = ({ event, isNoDemandRewardCouponEvent }: Props) => {
     <section className={isDisabled ? '' : 'px-16'}>
       <Content
         event={event}
-        shuttleRoutes={shuttleRoutes}
+        shuttleRoutes={shuttleRoutesOpen}
         phase={phase}
         enabledStatus={enabledStatus}
         isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
