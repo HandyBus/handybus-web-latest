@@ -195,7 +195,7 @@ const LargeCard = ({
 const MediumCard = ({
   image,
   isSaleStarted,
-  isBookingClosingSoon = true,
+  isBookingClosingSoon,
   title,
   date,
   price,
