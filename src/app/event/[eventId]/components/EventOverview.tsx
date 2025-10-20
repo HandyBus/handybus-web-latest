@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
-import DemandInfoImage from './images/demand-info.png';
+import DemandCouponInfoImage from './images/demand-coupon-info.png';
+import OngoingDemandPeriodImage from './images/ongoing-demand-period.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import FestivalLifeImage from './images/festival-life.png';
@@ -41,10 +42,20 @@ const EventOverview = ({
         </div>
       )}
       <div className="relative w-full">
+        {phase === 'demand' && (
+          <Image
+            src={OngoingDemandPeriodImage}
+            alt="수요조사 기간 안내 이미지"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto w-full"
+          />
+        )}
         {phase === 'demand' && !isNoDemandRewardCouponEvent && (
           <Image
-            src={DemandInfoImage}
-            alt="수요조사 참여 안내 이미지"
+            src={DemandCouponInfoImage}
+            alt="수요조사 참여 쿠폰 안내 이미지"
             width={0}
             height={0}
             sizes="100vw"
