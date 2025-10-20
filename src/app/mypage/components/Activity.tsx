@@ -26,8 +26,8 @@ const Activity = () => {
       if (isReviewAvailable) {
         return false;
       }
-      const { isWritingReviewPeriod } = checkIsReviewWritingPeriod(reservation);
-      if (!isWritingReviewPeriod) {
+      const { isReviewWritingPeriod } = checkIsReviewWritingPeriod(reservation);
+      if (!isReviewWritingPeriod) {
         return false;
       }
       return true;

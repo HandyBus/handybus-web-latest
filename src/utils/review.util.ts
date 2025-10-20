@@ -13,7 +13,7 @@ export const checkIsReviewWritingPeriod = (
   );
 
   if (!dailyEvent) {
-    return { isWritingReviewPeriod: false, leftDays: 0 };
+    return { isReviewWritingPeriod: false, leftDays: 0 };
   }
 
   const tripType = reservation.type;
@@ -31,7 +31,7 @@ export const checkIsReviewWritingPeriod = (
         )?.arrivalTime;
 
   if (!arrivalTime) {
-    return { isWritingReviewPeriod: false, leftDays: 0 };
+    return { isReviewWritingPeriod: false, leftDays: 0 };
   }
 
   const reviewOpenTime = dayjs(arrivalTime)
@@ -42,12 +42,12 @@ export const checkIsReviewWritingPeriod = (
     .add(7, 'day');
   const now = dayjs().tz('Asia/Seoul');
 
-  const isWritingReviewPeriod =
+  const isReviewWritingPeriod =
     (shuttleRoute.status === 'CLOSED' || shuttleRoute.status === 'ENDED') &&
     now.isAfter(reviewOpenTime) &&
     now.isBefore(reviewClosingTime);
 
   const leftDays = reviewClosingTime.diff(now, 'day');
 
-  return { isWritingReviewPeriod, leftDays, reviewDeadline: reviewClosingTime };
+  return { isReviewWritingPeriod, leftDays, reviewDeadline: reviewClosingTime };
 };

@@ -28,11 +28,11 @@ const ReviewCard = ({ review, reservation }: Props) => {
     showTime: true,
     showWeekday: true,
   });
-  const { isWritingReviewPeriod } = checkIsReviewWritingPeriod(reservation);
+  const { isReviewWritingPeriod } = checkIsReviewWritingPeriod(reservation);
 
   const router = useAppRouter();
   const redirectToEditReview = handleClickAndStopPropagation(() => {
-    if (!isWritingReviewPeriod) {
+    if (!isReviewWritingPeriod) {
       return;
     }
     router.push(`/mypage/reviews/edit/${review.reviewId}`);
@@ -81,16 +81,18 @@ const ReviewCard = ({ review, reservation }: Props) => {
         <p className="text-14 font-500 leading-[160%] text-basic-grey-600">
           {review.content}
         </p>
-        <div className="mt-16">
-          <Button
-            type="button"
-            variant="tertiary"
-            size="large"
-            onClick={redirectToEditReview}
-          >
-            후기 수정하기
-          </Button>
-        </div>
+        {isReviewWritingPeriod && (
+          <div className="mt-16">
+            <Button
+              type="button"
+              variant="tertiary"
+              size="large"
+              onClick={redirectToEditReview}
+            >
+              후기 수정하기
+            </Button>
+          </div>
+        )}
       </div>
       {openImageUrl && (
         <ImageModal

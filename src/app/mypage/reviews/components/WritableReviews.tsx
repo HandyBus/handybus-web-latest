@@ -21,9 +21,9 @@ const WritableReviews = () => {
         if (isReviewAvailable) {
           return false;
         }
-        const { isWritingReviewPeriod } =
+        const { isReviewWritingPeriod } =
           checkIsReviewWritingPeriod(reservation);
-        return isWritingReviewPeriod;
+        return isReviewWritingPeriod;
       }),
     [reservations],
   );
