@@ -27,21 +27,23 @@ const Reviews = ({ searchParams }: Props) => {
     }
   };
   return (
-    <main>
+    <>
       <Header />
-      <Tabs
-        items={[
-          { label: '작성 가능한 후기', value: 'writable-reviews' },
-          { label: '작성한 후기', value: 'written-reviews' },
-        ]}
-        selected={currentTab}
-        onSelect={(value) => {
-          router.replace(`/mypage/reviews?type=${value}`);
-        }}
-        className="sticky top-48 z-10 mt-16"
-      />
-      {renderTab()}
-    </main>
+      <main className="grow bg-basic-grey-50">
+        <Tabs
+          items={[
+            { label: '작성 가능한 후기', value: 'writable-reviews' },
+            { label: '작성한 후기', value: 'written-reviews' },
+          ]}
+          selected={currentTab}
+          onSelect={(value) => {
+            router.replace(`/mypage/reviews?type=${value}`);
+          }}
+          className="sticky top-56 z-10 pt-8"
+        />
+        {renderTab()}
+      </main>
+    </>
   );
 };
 

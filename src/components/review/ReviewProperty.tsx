@@ -4,9 +4,17 @@ import { ReviewsViewEntity } from '@/types/review.type';
 
 interface Props {
   review: ReviewsViewEntity;
+  hidePassengerRegion?: boolean;
+  hideServiceRating?: boolean;
+  hideRideRating?: boolean;
 }
 
-const ReviewProperty = ({ review }: Props) => {
+const ReviewProperty = ({
+  review,
+  hidePassengerRegion = false,
+  hideServiceRating = false,
+  hideRideRating = false,
+}: Props) => {
   const regionId =
     review.toDestinationRegionId ?? review.fromDestinationRegionId;
   const regionName = regionId
@@ -18,11 +26,21 @@ const ReviewProperty = ({ review }: Props) => {
 
   return (
     <div className="flex gap-[6px] ">
-      {regionName && <PassengerRegion regionName={regionName} />}
-      {regionName && <TextDivider />}
-      <ExperienceSatisfaction type="서비스" text={serviceRating} />
-      <TextDivider />
-      <ExperienceSatisfaction type="탑승" text={rideRating} />
+      {!hidePassengerRegion && regionName && (
+        <PassengerRegion regionName={regionName} />
+      )}
+      {!hideServiceRating && (
+        <>
+          {!hidePassengerRegion && regionName && <TextDivider />}
+          <ExperienceSatisfaction type="서비스" text={serviceRating} />
+        </>
+      )}
+      {!hideRideRating && (
+        <>
+          {(!hideServiceRating || !hidePassengerRegion) && <TextDivider />}
+          <ExperienceSatisfaction type="탑승" text={rideRating} />
+        </>
+      )}
     </div>
   );
 };
