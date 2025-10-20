@@ -19,7 +19,7 @@ const PhoneNumberStep = () => {
   const router = useAppRouter();
   const { getValues } = useFormContext<OnboardingFormValues>();
 
-  const handlePhoneNumberValidation = async () => {
+  const handlePhoneNumberVerification = async () => {
     const redirectUrl =
       process.env.NEXT_PUBLIC_PORTONE_IDENTITY_VERIFICATION_REDIRECT_URI;
     const storeId = process.env.NEXT_PUBLIC_PORTONE_STORE_ID;
@@ -92,7 +92,7 @@ const PhoneNumberStep = () => {
               본인 인증을 진행할게요
             </>
           }
-          handleNextStep={handlePhoneNumberValidation}
+          handleNextStep={handlePhoneNumberVerification}
           disabled={!isAgreementChecked}
         />
         <div className="mt-auto flex items-center justify-center gap-4 pb-20">
