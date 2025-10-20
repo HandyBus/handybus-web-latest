@@ -1,7 +1,5 @@
 'use client';
 
-import HubButton from './components/HubButton';
-import DateButton from './components/DateButton';
 import BottomBar from './components/BottomBar';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -24,7 +22,6 @@ import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRout
 import Button from '@/components/buttons/button/Button';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
 import useBottomSheetText from './hooks/useBottomSheetText';
-import useInputSectionText from './hooks/useInputSectionText';
 import useHistory from './hooks/useHistory';
 import useEventInitialization from './hooks/useEventInitialization';
 import useAlertFeedBackScreen from './hooks/useAlertFeedBackScreen';
@@ -34,7 +31,6 @@ import {
   selectedHubWithInfoForDetailViewAtom,
 } from '../../store/selectedHubWithInfoForDetailViewAtom';
 import { useAtom } from 'jotai';
-import Skeleton from 'react-loading-skeleton';
 import useDemandTracking from '@/hooks/analytics/useDemandTracking';
 import {
   checkIsHandyParty,
@@ -71,34 +67,20 @@ const EventForm = ({ event, isNoDemandRewardCouponEvent }: Props) => {
 
   if (isShuttleRoutesLoading) {
     return (
-      <>
-        <div className="flex flex-col gap-8 px-16 pb-24">
-          <div className="-mx-16 mb-16 h-8 w-[calc(100%+32px)] bg-basic-grey-50" />
-          <Skeleton width="35%" height={30} />
-          <Skeleton width="55%" height={24} className="mb-16" />
-          <Skeleton width="100%" height={78} />
-          <Skeleton width="100%" height={78} />
-        </div>
-        <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
-          <Button
-            variant="secondary"
-            size="medium"
-            type="button"
-            disabled={true}
-          />
-          <Button
-            variant="primary"
-            size="large"
-            type="button"
-            disabled={true}
-          />
-        </div>
-      </>
+      <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
+        <Button
+          variant="secondary"
+          size="medium"
+          type="button"
+          disabled={true}
+        />
+        <Button variant="primary" size="large" type="button" disabled={true} />
+      </div>
     );
   }
 
   return (
-    <section className={isDisabled ? '' : 'px-16 pb-24'}>
+    <section className={isDisabled ? '' : 'px-16'}>
       <Content
         event={event}
         shuttleRoutes={shuttleRoutes}
@@ -168,14 +150,6 @@ const Content = ({
 
   const [isCheckRouteDetailFlowViewed, setIsCheckRouteDetailFlowViewed] =
     useState(false);
-
-  const handleInputSectionClick = () => {
-    resetBottomSheet();
-    setIsCheckRouteDetailViewFlow(true);
-    setIsCheckRouteDetailFlowViewed(false);
-    setSelectedHubWithInfoForDetailView(null);
-    openBottomSheet();
-  };
 
   const handleOpenBottomSheet = () => {
     // 수요조사 단계에서 바텀시트 열기 시 추적
@@ -266,11 +240,6 @@ const Content = ({
   const { title: bottomSheetTitle, description: bottomSheetDescription } =
     useBottomSheetText({ stepName, getValues: methods.getValues });
 
-  const isReservationOpen =
-    phase === 'reservation' && enabledStatus === 'enabled';
-  const { title: inputSectionTitle, description: inputSectionDescription } =
-    useInputSectionText(isReservationOpen);
-
   const [demandCompleteStatus, setDemandCompleteStatus] =
     useState<DemandCompleteStatus | null>(null);
 
@@ -319,23 +288,6 @@ const Content = ({
         className="z-[101]"
       />
       <form className="flex flex-col gap-8">
-        {enabledStatus === 'enabled' && (
-          <>
-            <div className="-mx-16 mb-16 h-8 w-[calc(100%+32px)] bg-basic-grey-50" />
-            <h3 className="mb-4 text-20 font-700">{inputSectionTitle}</h3>
-            <p className="mb-16 text-16 font-500 text-basic-grey-600">
-              {inputSectionDescription}
-            </p>
-            <DateButton
-              disabled={!isReservationOpen}
-              onClick={handleInputSectionClick}
-            />
-            <HubButton
-              disabled={!isReservationOpen}
-              onClick={handleInputSectionClick}
-            />
-          </>
-        )}
         <BottomBar
           eventId={event.eventId}
           phase={phase}
