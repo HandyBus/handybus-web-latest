@@ -5,7 +5,7 @@ interface Props {
   className?: string;
 }
 
-const Loading = ({ style = 'screen', className }: Props) => {
+const Loading = ({ style = 'grow', className }: Props) => {
   return (
     <div
       className={customTwMerge(
