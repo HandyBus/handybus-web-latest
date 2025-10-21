@@ -1,5 +1,5 @@
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import ShuttleScheduleSkeleton from './skeleton';
+import ShuttleScheduleSkeleton from './ShuttleScheduleSkeleton';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { getEarliestDestinationTime } from '@/app/event/utils/getEarliestDestinationTime.util';

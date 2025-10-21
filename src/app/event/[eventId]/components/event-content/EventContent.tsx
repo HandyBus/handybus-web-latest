@@ -35,7 +35,7 @@ const EventContent = ({ event, isNoDemandRewardCouponEvent }: Props) => {
         isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         shuttleRoutesOpen={shuttleRoutesOpen}
       />
-      {event.eventMinRoutePrice && (
+      {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
       )}
     </JotaiProvider>
