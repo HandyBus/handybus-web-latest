@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import LogoIcon from 'public/icons/logo-v2.svg';
+import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useIsApp } from '@/hooks/useEnvironment';
 
 const Header = () => {
@@ -29,6 +29,23 @@ const HeaderContent = () => {
   const isApp = useIsApp();
   const pathname = usePathname();
   const isHome = pathname === '/';
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) return;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 10);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isHome]);
 
   const normalizePath = (path: string) => {
     return path
@@ -47,10 +64,22 @@ const HeaderContent = () => {
   };
   const pageName = getPageName(pathname);
 
+  const headerBgClass = isHome
+    ? isScrolled
+      ? 'bg-basic-white'
+      : 'bg-transparent'
+    : 'bg-basic-white';
+
+  const iconColorClass = isHome && !isScrolled ? 'brightness-0 invert' : '';
+
   return (
-    <header className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16 py-12">
+    <header
+      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass}`}
+    >
       {isHome ? (
-        <LogoIcon />
+        <LogoIcon
+          className={`duration-1100 transition-all ${iconColorClass}`}
+        />
       ) : (
         <div className="flex items-center">
           {isApp && (
@@ -71,7 +100,9 @@ const HeaderContent = () => {
           </Link>
         )}
         <Link href="/announcements">
-          <AnnouncementsIcon />
+          <AnnouncementsIcon
+            className={`transition-all duration-300 ${iconColorClass}`}
+          />
         </Link>
       </div>
     </header>
