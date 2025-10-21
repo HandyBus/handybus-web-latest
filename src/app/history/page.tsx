@@ -3,7 +3,6 @@
 import Tabs from '@/components/tab/Tabs';
 import Header from '@/components/header/Header';
 import NavBar from '@/components/nav-bar/NavBar';
-import { Suspense } from 'react';
 import useAppRouter from '@/hooks/useAppRouter';
 import DemandTab from './components/demands/DemandTab';
 import ReservationTab from './components/reservations/ReservationTab';
@@ -17,16 +16,6 @@ interface Props {
 }
 
 const Page = ({ searchParams }: Props) => {
-  return (
-    <Suspense>
-      <Content searchParams={searchParams} />
-    </Suspense>
-  );
-};
-
-export default Page;
-
-const Content = ({ searchParams }: Props) => {
   const router = useAppRouter();
   const currentTab: HistoryTabType = searchParams.type || 'demand';
 
@@ -60,3 +49,5 @@ const Content = ({ searchParams }: Props) => {
     </>
   );
 };
+
+export default Page;
