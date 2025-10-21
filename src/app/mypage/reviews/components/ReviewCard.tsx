@@ -7,11 +7,11 @@ import Image from 'next/image';
 import { dateString } from '@/utils/dateString.util';
 import ImageModal from './ImageModal';
 import ReviewProperty from '@/components/review/ReviewProperty';
-import useAppRouter from '@/hooks/useAppRouter';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import Button from '@/components/buttons/button/Button';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -30,7 +30,7 @@ const ReviewCard = ({ review, reservation }: Props) => {
   });
   const { isReviewWritingPeriod } = checkIsReviewWritingPeriod(reservation);
 
-  const router = useAppRouter();
+  const router = useRouter();
   const redirectToEditReview = handleClickAndStopPropagation(() => {
     if (!isReviewWritingPeriod) {
       return;

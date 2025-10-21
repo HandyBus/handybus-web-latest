@@ -11,9 +11,9 @@ import { getHubText } from '@/utils/event.util';
 import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
-import useAppRouter from '@/hooks/useAppRouter';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import Button from '@/components/buttons/button/Button';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -42,7 +42,7 @@ const ReservationCardForReview = ({
   const hubText = getHubText(reservation);
   const tripTypeText = TRIP_STATUS_TO_STRING[reservation.type];
 
-  const router = useAppRouter();
+  const router = useRouter();
   const redirectToWriteReview = handleClickAndStopPropagation(() => {
     router.push(`/mypage/reviews/write/${reservation.reservationId}`);
   });
