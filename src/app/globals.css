@@ -49,6 +49,7 @@
 html {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  overscroll-behavior: none; /* Prevent bounce effect on mobile */
 }
 
 html::-webkit-scrollbar {
@@ -58,5 +59,6 @@ html::-webkit-scrollbar {
 @layer base {
   body {
     @apply text-16 font-400 text-basic-black;
+    overscroll-behavior: none; /* Prevent bounce effect on mobile */
   }
 }
