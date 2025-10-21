@@ -38,7 +38,7 @@ const Footer = () => {
         <span className="font-400"> | </span>
         <Link href="/help/faq/terms-of-service">이용약관</Link>
         <span className="font-400"> | </span>
-        <Link href="/help/faq/privacy-policy">개인정보 처리 방침</Link>
+        <Link href="/help/faq/privacy-policy">개인정보처리방침</Link>
         <span className="font-400"> | </span>
         <Link href="/help/faq/marketing-consent">마케팅 활용 동의</Link>
       </div>
