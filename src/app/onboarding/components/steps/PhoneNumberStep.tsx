@@ -12,11 +12,11 @@ import CheckedIcon from '../../icons/checked.svg';
 import UncheckedIcon from '../../icons/unchecked.svg';
 import PrivacyPolicyBottomSheet from '../PrivacyPolicyBottomSheet';
 import ServicePolicyBottomSheet from '../ServicePolicyBottomSheet';
-import useAppRouter from '@/hooks/useAppRouter';
 import XIcon from 'public/icons/x.svg';
+import { useRouter } from 'next/navigation';
 
 const PhoneNumberStep = () => {
-  const router = useAppRouter();
+  const router = useRouter();
   const { getValues } = useFormContext<OnboardingFormValues>();
 
   const handlePhoneNumberVerification = async () => {

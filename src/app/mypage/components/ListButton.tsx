@@ -5,12 +5,10 @@ import ArrowRightIcon from '../icons/arrow-right.svg';
 import ArrowRightGreyIcon from '../icons/arrow-right-grey.svg';
 import { ReactNode } from 'react';
 import { customTwMerge } from 'tailwind.config';
-import { createAppRedirectPath } from '@/hooks/useAppRouter';
 
 interface Props {
   children: ReactNode;
   href?: string;
-  isApp?: boolean;
   onClick?: () => void;
   hideArrow?: boolean;
   replace?: boolean;
@@ -20,7 +18,6 @@ interface Props {
 const ListButton = ({
   children,
   href,
-  isApp = false,
   onClick,
   hideArrow = false,
   replace = false,
@@ -30,7 +27,7 @@ const ListButton = ({
     <>
       {href ? (
         <Link
-          href={createAppRedirectPath(href, { isApp })}
+          href={href}
           onClick={onClick}
           className={customTwMerge(
             'group flex h-[50px] w-full items-center gap-16 text-left text-16 font-600 active:text-basic-grey-600',

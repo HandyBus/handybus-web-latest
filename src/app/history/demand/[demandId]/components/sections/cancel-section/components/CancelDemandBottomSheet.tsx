@@ -6,9 +6,9 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { BottomSheetRefs } from '@/hooks/useBottomSheet';
 import { ShuttleDemandsViewEntity } from '@/types/demand.type';
 import { usePutCancelDemand } from '@/services/demand.service';
-import useAppRouter from '@/hooks/useAppRouter';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Props extends BottomSheetRefs {
   closeBottomSheet: () => void;
@@ -28,7 +28,7 @@ const CancelDemandBottomSheet = ({
     demand.desiredFromDestinationRegionHub;
   const tripTypeText = TRIP_STATUS_TO_STRING[demand.type];
 
-  const router = useAppRouter();
+  const router = useRouter();
   const { mutateAsync: putCancelDemand } = usePutCancelDemand();
   const [isLoading, setIsLoading] = useState(false);
   const handleCancelDemand = async () => {

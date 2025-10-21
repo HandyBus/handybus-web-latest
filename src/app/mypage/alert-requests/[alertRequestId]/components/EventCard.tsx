@@ -1,5 +1,4 @@
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import { createAppRedirectPath } from '@/hooks/useAppRouter';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
@@ -7,10 +6,9 @@ import Link from 'next/link';
 
 interface Props {
   event: EventsViewEntity;
-  isApp: boolean;
 }
 
-const EventCard = ({ event, isApp }: Props) => {
+const EventCard = ({ event }: Props) => {
   const dates = event.dailyEvents.map((dailyEvent) => dailyEvent.date);
   const formattedEventDate = dateString(dates, {
     showWeekday: false,
@@ -18,7 +16,7 @@ const EventCard = ({ event, isApp }: Props) => {
 
   return (
     <Link
-      href={createAppRedirectPath(`/event/${event.eventId}`, { isApp })}
+      href={`/event/${event.eventId}`}
       target="_blank"
       className="mb-24 mt-16 flex h-[70px] shrink-0 gap-12 px-16"
     >

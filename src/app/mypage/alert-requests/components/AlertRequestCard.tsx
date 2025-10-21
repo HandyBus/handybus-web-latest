@@ -7,10 +7,10 @@ import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import Image from 'next/image';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import useAppRouter from '@/hooks/useAppRouter';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelAlertRequestBottomSheet from './CancelAlertRequestBottomSheet';
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
@@ -58,7 +58,7 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
     shuttleRoute.remainingSeatType === 'ROUND_TRIP';
   const isReservationEnded = shuttleRoute.status !== 'OPEN';
 
-  const router = useAppRouter();
+  const router = useRouter();
   const redirectToAlertRequestDetail = handleClickAndStopPropagation(() => {
     router.push(
       `/mypage/alert-requests/${alertRequest.shuttleRouteAlertRequestId}`,

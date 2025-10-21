@@ -2,8 +2,8 @@ import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
-import useAppRouter from '@/hooks/useAppRouter';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   event: EventsViewEntity;
@@ -15,7 +15,7 @@ const EventCard = ({ event }: Props) => {
     showWeekday: false,
   });
 
-  const router = useAppRouter();
+  const router = useRouter();
   const redirectToEventDetail = handleClickAndStopPropagation(() => {
     router.push(`/event/${event.eventId}`);
   });

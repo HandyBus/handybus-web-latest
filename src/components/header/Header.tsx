@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import LogoIcon from 'public/icons/logo-v2.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import useAppRouter, { createAppRedirectPath } from '@/hooks/useAppRouter';
 import { Suspense } from 'react';
+import { useIsApp } from '@/hooks/useEnvironment';
 
 const Header = () => {
   return (
@@ -25,7 +25,8 @@ export default Header;
 
 const HeaderContent = () => {
   // 경로에 따른 페이지명 표시
-  const { isApp, back } = useAppRouter();
+  const router = useRouter();
+  const isApp = useIsApp();
   const pathname = usePathname();
   const isHome = pathname === '/';
 
@@ -53,7 +54,7 @@ const HeaderContent = () => {
       ) : (
         <div className="flex items-center">
           {isApp && (
-            <button type="button" onClick={() => back()}>
+            <button type="button" onClick={() => router.back()}>
               <BackIcon />
             </button>
           )}
@@ -65,11 +66,11 @@ const HeaderContent = () => {
 
       <div className="flex items-center gap-8">
         {!isHome && (
-          <Link href={createAppRedirectPath('/', { isApp })}>
+          <Link href="/">
             <HomeIcon />
           </Link>
         )}
-        <Link href={createAppRedirectPath('/announcements', { isApp })}>
+        <Link href="/announcements">
           <AnnouncementsIcon />
         </Link>
       </div>

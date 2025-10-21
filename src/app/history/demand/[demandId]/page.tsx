@@ -5,7 +5,7 @@ import Loading from '@/components/loading/Loading';
 import Header from '@/components/header/Header';
 import { useGetUserDemand } from '@/services/demand.service';
 import Content from './components/Content';
-import useAppRouter from '@/hooks/useAppRouter';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -15,7 +15,7 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { demandId } = params;
-  const router = useAppRouter();
+  const router = useRouter();
   const { data: demand, isLoading, isSuccess } = useGetUserDemand(demandId);
 
   const redirectToDemandList = () => {

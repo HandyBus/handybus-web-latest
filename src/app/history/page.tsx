@@ -4,14 +4,14 @@ import Tabs from '@/components/tab/Tabs';
 import Header from '@/components/header/Header';
 import NavBar from '@/components/nav-bar/NavBar';
 import { useSearchParams } from 'next/navigation';
-import useAppRouter from '@/hooks/useAppRouter';
+import { useRouter } from 'next/navigation';
 import DemandTab from './components/demands/DemandTab';
 import ReservationTab from './components/reservations/ReservationTab';
 
 type HistoryTabType = 'demand' | 'reservation';
 
 const Page = () => {
-  const router = useAppRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const currentTab: HistoryTabType =
     (searchParams.get('type') as HistoryTabType) || 'demand';
