@@ -2,21 +2,17 @@
 
 import Header from '@/components/header/Header';
 import Tabs from '@/components/tab/Tabs';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import WritableReviews from './components/WritableReviews';
 import WrittenReviews from './components/WrittenReviews';
 
 type ReviewTabType = 'writable-reviews' | 'written-reviews';
 
-interface Props {
-  searchParams: {
-    type: ReviewTabType;
-  };
-}
-
-const Reviews = ({ searchParams }: Props) => {
+const Reviews = () => {
   const router = useRouter();
-  const currentTab: ReviewTabType = searchParams.type || 'writable-reviews';
+  const searchParams = useSearchParams();
+  const currentTab: ReviewTabType =
+    (searchParams.get('type') as ReviewTabType) || 'writable-reviews';
 
   const renderTab = () => {
     switch (currentTab) {
