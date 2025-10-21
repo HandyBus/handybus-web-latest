@@ -14,13 +14,17 @@ import MyPageIcon from './icons/mypage.svg';
 import MyPageSelectedIcon from './icons/mypage-selected.svg';
 import MyPageClickedIcon from './icons/mypage-clicked.svg';
 import TicketIcon from './icons/ticket.svg';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { customTwMerge } from 'tailwind.config';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 
 const NavBar = () => {
-  const isLoggedIn = getIsLoggedIn();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(getIsLoggedIn());
+  }, []);
   return (
     <div className="sticky bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
       <div className="flex w-full max-w-[400px] items-center justify-between">
