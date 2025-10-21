@@ -12,8 +12,8 @@ dayjs.tz.setDefault('Asia/Seoul');
 dayjs.locale('ko');
 
 interface Props {
-  top: ReactNode;
-  bot: ReactNode;
+  banner: ReactNode;
+  announcement: ReactNode;
   event: ReactNode;
   modal: ReactNode;
   greeting: ReactNode;
@@ -21,8 +21,8 @@ interface Props {
 }
 
 const WithFooterLayout = ({
-  top,
-  bot,
+  banner,
+  announcement,
   event,
   greeting,
   help,
@@ -32,10 +32,10 @@ const WithFooterLayout = ({
     <div className="flex h-full flex-grow flex-col">
       <Header />
       <main className="w-full flex-grow pb-12">
-        {top}
         {event}
         {help}
-        {bot}
+        {banner}
+        {announcement}
         {greeting}
         {modal}
       </main>
