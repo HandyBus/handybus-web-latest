@@ -5,7 +5,7 @@ import Loading from '@/components/loading/Loading';
 import Header from '@/components/header/Header';
 import { useGetUserAlertRequest } from '@/services/alertRequest.service';
 import Content from './components/Content';
-import useAppRouter from '@/hooks/useAppRouter';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -15,7 +15,7 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { alertRequestId } = params;
-  const router = useAppRouter();
+  const router = useRouter();
   const {
     data: alertRequest,
     isLoading,
@@ -34,9 +34,7 @@ const Page = ({ params }: Props) => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {alertRequest && (
-          <Content alertRequest={alertRequest} isApp={router.isApp} />
-        )}
+        {alertRequest && <Content alertRequest={alertRequest} />}
       </DeferredSuspense>
     </>
   );

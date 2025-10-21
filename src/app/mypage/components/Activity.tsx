@@ -6,11 +6,8 @@ import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { customTwMerge } from 'tailwind.config';
-import useAppRouter, { createAppRedirectPath } from '@/hooks/useAppRouter';
 
 const Activity = () => {
-  const { isApp } = useAppRouter();
-
   const reservations = useGetUserReservations({
     reservationStatus: 'COMPLETE_PAYMENT',
     monthsAgo: 3,
@@ -48,7 +45,7 @@ const Activity = () => {
   return (
     <section className="mx-16 mb-24 mt-12 flex gap-12">
       <Link
-        href={createAppRedirectPath('/mypage/reviews', { isApp })}
+        href="/mypage/reviews"
         className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 active:bg-basic-grey-50"
       >
         <h3 className="text-16 font-600">작성 가능 후기</h3>
@@ -62,7 +59,7 @@ const Activity = () => {
         </div>
       </Link>
       <Link
-        href={createAppRedirectPath('/mypage/alert-requests', { isApp })}
+        href="/mypage/alert-requests"
         className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 active:bg-basic-grey-50"
       >
         <h3 className="text-16 font-600">빈자리 알림</h3>

@@ -8,13 +8,12 @@ import ShuttleRouteInfoSection from './section/ShuttleRouteInfoSection';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
-  isApp: boolean;
 }
 
-const Content = ({ alertRequest, isApp }: Props) => {
+const Content = ({ alertRequest }: Props) => {
   return (
     <main className="grow">
-      <EventCard event={alertRequest.shuttleRoute.event} isApp={isApp} />
+      <EventCard event={alertRequest.shuttleRoute.event} />
       <ul className="flex flex-col gap-24 pb-20">
         <ShuttleProgressSection alertRequest={alertRequest} />
         <ShuttleRouteInfoSection shuttleRoute={alertRequest.shuttleRoute} />

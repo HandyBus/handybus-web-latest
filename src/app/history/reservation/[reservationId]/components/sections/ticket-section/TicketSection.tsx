@@ -1,11 +1,11 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import useAppRouter from '@/hooks/useAppRouter';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import WrapperWithDivider from '../../WrapperWithDivider';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -48,7 +48,7 @@ const ShuttleBusTicketSection = ({
   const isTicketExpired =
     shuttleRoute.status === 'ENDED' || shuttleRoute.status === 'INACTIVE';
 
-  const router = useAppRouter();
+  const router = useRouter();
   const openTicketLink = handleClickAndStopPropagation(() => {
     router.push(`/ticket/${reservation.reservationId}`);
   });

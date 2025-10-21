@@ -14,39 +14,17 @@ import MyPageIcon from './icons/mypage.svg';
 import MyPageSelectedIcon from './icons/mypage-selected.svg';
 import MyPageClickedIcon from './icons/mypage-clicked.svg';
 import TicketIcon from './icons/ticket.svg';
-import useAppRouter, { createAppRedirectPath } from '@/hooks/useAppRouter';
-import { ReactNode, Suspense } from 'react';
+import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { customTwMerge } from 'tailwind.config';
 
 const NavBar = () => {
   return (
-    <Suspense
-      fallback={
-        <div className="sticky bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16" />
-      }
-    >
-      <NavBarContent />
-    </Suspense>
-  );
-};
-
-export default NavBar;
-
-const NavBarContent = () => {
-  const { isApp } = useAppRouter();
-  return (
     <div className="sticky bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
       <div className="flex w-full max-w-[400px] items-center justify-between">
-        <TicketNavButton
-          isApp={isApp}
-          name="탑승권"
-          href="/ticket"
-          icon={<TicketIcon />}
-        />
+        <TicketNavButton name="탑승권" href="/ticket" icon={<TicketIcon />} />
         <div className="h-[46px] w-[1px] bg-basic-grey-200" />
         <NavButton
-          isApp={isApp}
           name="홈"
           href="/"
           icon={<HomeIcon />}
@@ -54,7 +32,6 @@ const NavBarContent = () => {
           clickedIcon={<HomeClickedIcon />}
         />
         <NavButton
-          isApp={isApp}
           name="탐색"
           href="/event"
           icon={<ExploreIcon />}
@@ -62,7 +39,6 @@ const NavBarContent = () => {
           clickedIcon={<ExploreClickedIcon />}
         />
         <NavButton
-          isApp={isApp}
           name="참여/내역"
           href="/history"
           icon={<HistoryIcon />}
@@ -70,7 +46,6 @@ const NavBarContent = () => {
           clickedIcon={<HistoryClickedIcon />}
         />
         <NavButton
-          isApp={isApp}
           name="마이"
           href="/mypage"
           icon={<MyPageIcon />}
@@ -82,8 +57,9 @@ const NavBarContent = () => {
   );
 };
 
+export default NavBar;
+
 interface NavButtonProps {
-  isApp: boolean;
   name: string;
   href: string;
   icon: ReactNode;
@@ -92,7 +68,6 @@ interface NavButtonProps {
 }
 
 const NavButton = ({
-  isApp,
   name,
   href,
   icon,
@@ -104,7 +79,7 @@ const NavButton = ({
 
   return (
     <Link
-      href={createAppRedirectPath(href, { isApp })}
+      href={href}
       className="group flex w-44 flex-col items-center justify-center px-8"
     >
       <div className="flex h-32 w-32 items-center justify-center group-active:hidden">
@@ -126,18 +101,17 @@ const NavButton = ({
 };
 
 interface TicketNavButtonProps {
-  isApp: boolean;
   name: string;
   href: string;
   icon: ReactNode;
 }
 
-const TicketNavButton = ({ isApp, name, href, icon }: TicketNavButtonProps) => {
+const TicketNavButton = ({ name, href, icon }: TicketNavButtonProps) => {
   const pathname = usePathname();
   const isSelected = pathname === href;
   return (
     <Link
-      href={createAppRedirectPath(href, { isApp })}
+      href={href}
       className="flex w-44 flex-col items-center justify-center rounded-4 px-8 active:bg-basic-grey-100"
     >
       <div className="flex h-32 w-32 items-center justify-center">{icon}</div>

@@ -8,7 +8,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
-import useAppRouter from '@/hooks/useAppRouter';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   searchParams: { identityVerificationId: string };
@@ -16,7 +16,7 @@ interface Props {
 
 const Page = ({ searchParams }: Props) => {
   const { identityVerificationId } = searchParams;
-  const router = useAppRouter();
+  const router = useRouter();
   const isInitiated = useRef(false);
   usePreventRefresh();
   usePreventScroll();

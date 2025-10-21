@@ -6,10 +6,9 @@ import { useGetUserReservation } from '@/services/reservation.service';
 import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
-
 import { useState } from 'react';
-import useAppRouter from '@/hooks/useAppRouter';
 import FirstVisitModal from './components/FirstVisitModal';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -19,7 +18,7 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
-  const router = useAppRouter();
+  const router = useRouter();
 
   const [isKakaoScriptLoaded, setIsKakaoScriptLoaded] = useState(false);
 

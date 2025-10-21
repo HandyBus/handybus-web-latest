@@ -4,7 +4,7 @@ import Button from '@/components/buttons/button/Button';
 import { useState } from 'react';
 import * as PortOne from '@portone/browser-sdk/v2';
 import { toast } from 'react-toastify';
-import useAppRouter from '@/hooks/useAppRouter';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   initialPhoneNumber: string;
@@ -58,7 +58,7 @@ const PhoneNumberSection = ({ initialPhoneNumber }: Props) => {
     }
   };
 
-  const router = useAppRouter();
+  const router = useRouter();
   const handlePhoneNumberVerification = async () => {
     const redirectUrl =
       process.env

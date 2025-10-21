@@ -12,8 +12,8 @@ import { getHubText } from '@/utils/event.util';
 import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
-import useAppRouter from '@/hooks/useAppRouter';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -47,7 +47,7 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
 
   const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
 
-  const router = useAppRouter();
+  const router = useRouter();
   const redirectToReservationDetail = handleClickAndStopPropagation(() => {
     router.push(`/history/reservation/${reservation.reservationId}`);
   });
