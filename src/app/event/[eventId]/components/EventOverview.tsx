@@ -1,20 +1,32 @@
 import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
+import DemandCouponInfoImage from './images/demand-coupon-info.png';
+import OngoingDemandPeriodImage from './images/ongoing-demand-period.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import FestivalLifeImage from './images/festival-life.png';
+import { getPhaseAndEnabledStatus } from '@/utils/event.util';
+import { EventsViewEntity } from '@/types/event.type';
 
 const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
 export const MUSE_EVENT_ID = '612882322705879531';
 
 interface Props {
+  event: EventsViewEntity;
   eventId: string;
   eventDetailImageUrl: string | null;
+  isNoDemandRewardCouponEvent: boolean;
 }
 
-const EventOverview = ({ eventId, eventDetailImageUrl }: Props) => {
+const EventOverview = ({
+  event,
+  eventId,
+  eventDetailImageUrl,
+  isNoDemandRewardCouponEvent,
+}: Props) => {
   const showFestivalLife = eventId === FESTIVAL_LIFE_EVENT_ID;
 
+  const { phase } = getPhaseAndEnabledStatus(event);
   return (
     <section className="relative w-full">
       {showFestivalLife && (
@@ -30,6 +42,26 @@ const EventOverview = ({ eventId, eventDetailImageUrl }: Props) => {
         </div>
       )}
       <div className="relative w-full">
+        {phase === 'demand' && (
+          <Image
+            src={OngoingDemandPeriodImage}
+            alt="수요조사 기간 안내 이미지"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto w-full"
+          />
+        )}
+        {phase === 'demand' && !isNoDemandRewardCouponEvent && (
+          <Image
+            src={DemandCouponInfoImage}
+            alt="수요조사 참여 쿠폰 안내 이미지"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto w-full"
+          />
+        )}
         <Image
           src={eventDetailImageUrl || OverviewImage}
           alt="행사 상세 이미지"
