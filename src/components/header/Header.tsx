@@ -95,7 +95,7 @@ const URL_TO_PAGE_NAME = {
   '/mypage/settings': '환경설정',
   '/mypage/coupons': '쿠폰',
   '/mypage/reviews': '내 후기',
-  '/mypage/reviews/write/:reservationId': '후기 작성',
+  '/mypage/reviews/write/:id': '후기 작성',
   '/mypage/alert-requests': '빈자리 알림',
   '/mypage/alert-requests/:id': '빈자리 알림 정보',
   '/mypage/boarding-pass/:id': '탑승권',
@@ -108,4 +108,5 @@ const URL_TO_PAGE_NAME = {
   '/help/faq/terms-of-service': '서비스 이용 약관',
   '/help/faq/privacy-policy': '개인정보 처리 방침',
   '/help/faq/marketing-consent': '마케팅 활용 동의',
+  '/accept-reservation-transfer/:id': '탑승권 선물',
 };
