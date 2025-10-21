@@ -87,6 +87,7 @@ const URL_TO_PAGE_NAME = {
   '/ticket/:id': '탑승권',
   '/history': '참여/예약 내역',
   '/history/reservation/:id': '예약 정보',
+  '/history/reservation/:id/reservation-transfer': '선물하기',
   '/history/demand/:id': '수요조사 정보',
   '/mypage': '마이페이지',
   '/mypage/profile/edit': '프로필 수정',
