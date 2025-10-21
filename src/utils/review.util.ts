@@ -2,7 +2,6 @@ import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 
 // 예약에 대하여 리뷰 작성 가능 기간인지 판단
-
 // 왕복 혹은 행사장행 일때 행사장 하차지 시간을 기준으로(귀가행은 귀가행 하차지 시간 기준) 1시간 전부터 행사일 기준 7일 후까지 리뷰 작성 가능
 export const checkIsReviewWritingPeriod = (
   reservation: ReservationsViewEntity,
@@ -14,7 +13,7 @@ export const checkIsReviewWritingPeriod = (
   );
 
   if (!dailyEvent) {
-    return false;
+    return { isReviewWritingPeriod: false, leftDays: 0 };
   }
 
   const tripType = reservation.type;
@@ -32,7 +31,7 @@ export const checkIsReviewWritingPeriod = (
         )?.arrivalTime;
 
   if (!arrivalTime) {
-    return false;
+    return { isReviewWritingPeriod: false, leftDays: 0 };
   }
 
   const reviewOpenTime = dayjs(arrivalTime)
@@ -43,10 +42,12 @@ export const checkIsReviewWritingPeriod = (
     .add(7, 'day');
   const now = dayjs().tz('Asia/Seoul');
 
-  const isWritingReviewPeriod =
+  const isReviewWritingPeriod =
     (shuttleRoute.status === 'CLOSED' || shuttleRoute.status === 'ENDED') &&
     now.isAfter(reviewOpenTime) &&
     now.isBefore(reviewClosingTime);
 
-  return isWritingReviewPeriod;
+  const leftDays = reviewClosingTime.diff(now, 'day');
+
+  return { isReviewWritingPeriod, leftDays, reviewDeadline: reviewClosingTime };
 };
