@@ -10,20 +10,6 @@ import { Suspense, useEffect, useState } from 'react';
 import { useIsApp } from '@/hooks/useEnvironment';
 
 const Header = () => {
-  return (
-    <Suspense
-      fallback={
-        <div className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16 py-12" />
-      }
-    >
-      <HeaderContent />
-    </Suspense>
-  );
-};
-
-export default Header;
-
-const HeaderContent = () => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
   const isApp = useIsApp();
@@ -46,6 +32,7 @@ const HeaderContent = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isHome]);
+  const isHideBackButton = PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname);
 
   const normalizePath = (path: string) => {
     return path
@@ -82,7 +69,7 @@ const HeaderContent = () => {
         />
       ) : (
         <div className="flex items-center">
-          {isApp && (
+          {isApp && !isHideBackButton && (
             <button type="button" onClick={() => router.back()}>
               <BackIcon />
             </button>
@@ -108,6 +95,8 @@ const HeaderContent = () => {
     </header>
   );
 };
+
+export default Header;
 
 // 새로운 페이지 개발 시 이곳에 페이지명을 추가해주세요.
 const URL_TO_PAGE_NAME = {
@@ -138,3 +127,12 @@ const URL_TO_PAGE_NAME = {
   '/help/faq/privacy-policy': '개인정보 처리 방침',
   '/help/faq/marketing-consent': '마케팅 활용 동의',
 };
+
+// TODO: 추후 홈에서 전체보기로 이동되는 /event에 대한 예외 경우를 추가해야함
+const PATHNAME_TO_HIDE_BACK_BUTTON = [
+  '/',
+  '/event',
+  '/history',
+  '/mypage',
+  '/ticket',
+];

@@ -14,15 +14,25 @@ import MyPageIcon from './icons/mypage.svg';
 import MyPageSelectedIcon from './icons/mypage-selected.svg';
 import MyPageClickedIcon from './icons/mypage-clicked.svg';
 import TicketIcon from './icons/ticket.svg';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { customTwMerge } from 'tailwind.config';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
 
 const NavBar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(getIsLoggedIn());
+  }, []);
   return (
     <div className="sticky bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
       <div className="flex w-full max-w-[400px] items-center justify-between">
-        <TicketNavButton name="탑승권" href="/ticket" icon={<TicketIcon />} />
+        <TicketNavButton
+          name="탑승권"
+          href={isLoggedIn ? '/ticket' : '/login'}
+          icon={<TicketIcon />}
+        />
         <div className="h-[46px] w-[1px] bg-basic-grey-200" />
         <NavButton
           name="홈"
@@ -40,14 +50,14 @@ const NavBar = () => {
         />
         <NavButton
           name="참여/내역"
-          href="/history"
+          href={isLoggedIn ? '/history' : '/login'}
           icon={<HistoryIcon />}
           selectedIcon={<HistorySelectedIcon />}
           clickedIcon={<HistoryClickedIcon />}
         />
         <NavButton
           name="마이"
-          href="/mypage"
+          href={isLoggedIn ? '/mypage' : '/login'}
           icon={<MyPageIcon />}
           selectedIcon={<MyPageSelectedIcon />}
           clickedIcon={<MyPageClickedIcon />}
