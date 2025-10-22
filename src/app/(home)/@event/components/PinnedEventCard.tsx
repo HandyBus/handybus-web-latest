@@ -31,7 +31,7 @@ const PinnedEventCard = ({ events }: Props) => {
 
   return (
     <section>
-      <CardSection richTitle={`이달의 추천 행사`} showMore="/event">
+      <CardSection richTitle={`이달의 추천 행사`} showMore="/event?from=home">
         {availableEventTypes.length > 1 && (
           <div className="flex gap-8 pb-16">
             <Chip

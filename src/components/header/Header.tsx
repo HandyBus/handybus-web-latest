@@ -9,14 +9,17 @@ import AnnouncementsIcon from './icons/announcement.svg';
 import { useEffect, useState } from 'react';
 import { useIsApp } from '@/hooks/useEnvironment';
 
-const Header = () => {
+interface HeaderProps {
+  isFromHome?: boolean;
+}
+
+const Header = ({ isFromHome = false }: HeaderProps) => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
   const isApp = useIsApp();
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
-
   useEffect(() => {
     if (!isHome) return;
 
@@ -32,7 +35,9 @@ const Header = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isHome]);
-  const isHideBackButton = PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname);
+
+  const isHideBackButton =
+    PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname) && !isFromHome;
 
   const normalizePath = (path: string) => {
     return path
@@ -128,7 +133,6 @@ const URL_TO_PAGE_NAME = {
   '/help/faq/marketing-consent': '마케팅 활용 동의',
 };
 
-// TODO: 추후 홈에서 전체보기로 이동되는 /event에 대한 예외 경우를 추가해야함
 const PATHNAME_TO_HIDE_BACK_BUTTON = [
   '/',
   '/event',
