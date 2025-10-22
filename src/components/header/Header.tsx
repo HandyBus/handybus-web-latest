@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useIsApp } from '@/hooks/useEnvironment';
 
 interface HeaderProps {
-  isFromHome?: boolean;
+  isFromHome?: boolean; // 홈에서 모든 행사페이지로 이동한 경우를 판단합니다.
 }
 
 const Header = ({ isFromHome = false }: HeaderProps) => {
@@ -20,21 +20,6 @@ const Header = ({ isFromHome = false }: HeaderProps) => {
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
-  useEffect(() => {
-    if (!isHome) return;
-
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 10);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isHome]);
 
   const isHideBackButton =
     PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname) && !isFromHome;
@@ -55,6 +40,23 @@ const Header = ({ isFromHome = false }: HeaderProps) => {
     );
   };
   const pageName = getPageName(pathname);
+
+  // 스크롤을 내리면 헤더의 색상이 투명에서 흰색으로 변경됩니다.
+  useEffect(() => {
+    if (!isHome) return;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 10);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isHome]);
 
   const headerBgClass = isHome
     ? isScrolled
