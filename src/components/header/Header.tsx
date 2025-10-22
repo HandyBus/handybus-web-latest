@@ -6,7 +6,7 @@ import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIsApp } from '@/hooks/useEnvironment';
 
 const Header = () => {
