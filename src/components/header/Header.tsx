@@ -7,7 +7,7 @@ import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
 import { useEffect, useState } from 'react';
-import { useIsApp } from '@/hooks/useEnvironment';
+import useEnvironment from '@/hooks/useEnvironment';
 
 interface HeaderProps {
   isFromHome?: boolean; // 홈에서 모든 행사페이지로 이동한 경우를 판단합니다.
@@ -16,7 +16,7 @@ interface HeaderProps {
 const Header = ({ isFromHome = false }: HeaderProps) => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
-  const isApp = useIsApp();
+  const { isApp, platform } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,9 +66,17 @@ const Header = ({ isFromHome = false }: HeaderProps) => {
 
   const iconColorClass = isHome && !isScrolled ? 'brightness-0 invert' : '';
 
+  const statusBarPaddingClass = isApp
+    ? platform === 'ios'
+      ? 'pt-68 h-112'
+      : platform === 'android'
+        ? 'pt-32 h-76'
+        : ''
+    : '';
+
   return (
     <header
-      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass}`}
+      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass} ${statusBarPaddingClass}`}
     >
       {isHome ? (
         <LogoIcon
