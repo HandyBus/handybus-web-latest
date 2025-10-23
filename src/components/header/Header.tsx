@@ -6,29 +6,15 @@ import LogoIcon from 'public/icons/logo-v2.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import { Suspense } from 'react';
 import { useIsApp } from '@/hooks/useEnvironment';
 
 const Header = () => {
-  return (
-    <Suspense
-      fallback={
-        <div className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16 py-12" />
-      }
-    >
-      <HeaderContent />
-    </Suspense>
-  );
-};
-
-export default Header;
-
-const HeaderContent = () => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
   const isApp = useIsApp();
   const pathname = usePathname();
   const isHome = pathname === '/';
+  const isHideBackButton = PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname);
 
   const normalizePath = (path: string) => {
     return path
@@ -53,7 +39,7 @@ const HeaderContent = () => {
         <LogoIcon />
       ) : (
         <div className="flex items-center">
-          {isApp && (
+          {isApp && !isHideBackButton && (
             <button type="button" onClick={() => router.back()}>
               <BackIcon />
             </button>
@@ -77,6 +63,8 @@ const HeaderContent = () => {
     </header>
   );
 };
+
+export default Header;
 
 // 새로운 페이지 개발 시 이곳에 페이지명을 추가해주세요.
 const URL_TO_PAGE_NAME = {
@@ -112,3 +100,12 @@ const URL_TO_PAGE_NAME = {
   '/accept-reservation-transfer/:id/success': '선물 완료',
   '/accept-reservation-transfer/:id/fail': '탑승권 선물',
 };
+
+// TODO: 추후 홈에서 전체보기로 이동되는 /event에 대한 예외 경우를 추가해야함
+const PATHNAME_TO_HIDE_BACK_BUTTON = [
+  '/',
+  '/event',
+  '/history',
+  '/mypage',
+  '/ticket',
+];
