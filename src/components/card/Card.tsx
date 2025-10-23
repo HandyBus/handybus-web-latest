@@ -152,6 +152,15 @@ const LargeCard = ({
   price,
   href,
 }: Props) => {
+  const orderColorClass =
+    order === 1
+      ? 'ml-[-5px]'
+      : order === 2
+        ? 'ml-[-4px]'
+        : order === 3
+          ? 'ml-[-5px]'
+          : '';
+
   return (
     <Link
       href={href || ''}
@@ -164,18 +173,13 @@ const LargeCard = ({
         className={`rounded-[13px] object-cover`}
       />
       {order && (
-        <div className="absolute left-0 right-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order">
+        <div
+          className={`absolute left-0 right-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order ${orderColorClass}`}
+        >
           {order}
         </div>
       )}
       <div className="absolute bottom-0 left-0 right-0 flex h-136 w-full flex-col justify-end break-words rounded-b-12 bg-opacity-60 p-16 ">
-        <div className="flex items-center pb-[6px]">
-          {!isSaleStarted && (
-            <Badge className={`${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
-              수요조사 진행 중
-            </Badge>
-          )}
-        </div>
         <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
           {title}
         </p>
