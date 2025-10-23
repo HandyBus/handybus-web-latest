@@ -109,4 +109,6 @@ const URL_TO_PAGE_NAME = {
   '/help/faq/privacy-policy': '개인정보 처리 방침',
   '/help/faq/marketing-consent': '마케팅 활용 동의',
   '/accept-reservation-transfer/:id': '탑승권 선물',
+  '/accept-reservation-transfer/:id/success': '선물 완료',
+  '/accept-reservation-transfer/:id/fail': '탑승권 선물',
 };
