@@ -26,7 +26,7 @@ const Page = () => {
     isLoading,
     error,
   } = useGetEvents({ status: 'OPEN,CLOSED' });
-  const [isFromHome, setIsFromHome] = useState(false);
+  const [showBackButton, setShowBackButton] = useState(false);
 
   const filteredEventsByStatus = useMemo(
     () =>
@@ -54,12 +54,12 @@ const Page = () => {
   );
 
   useEffect(() => {
-    setIsFromHome(window.location.search.includes('from=home'));
+    setShowBackButton(window.location.search.includes('from=home'));
   }, []);
 
   return (
     <>
-      <Header isFromHome={isFromHome} />
+      <Header showBackButton={showBackButton} />
       <main className="flex flex-1 flex-col">
         <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
         <div className="w-full px-16">
@@ -121,7 +121,7 @@ const Page = () => {
           </>
         )}
       </main>
-      {!isFromHome && <NavBar />}
+      {!showBackButton && <NavBar />}
     </>
   );
 };

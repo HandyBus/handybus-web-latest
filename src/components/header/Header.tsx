@@ -10,10 +10,10 @@ import { useEffect, useState } from 'react';
 import useEnvironment from '@/hooks/useEnvironment';
 
 interface HeaderProps {
-  isFromHome?: boolean; // 홈에서 모든 행사페이지로 이동한 경우를 판단합니다.
+  showBackButton?: boolean; // 홈에서 모든 행사페이지로 이동한 경우를 판단합니다.
 }
 
-const Header = ({ isFromHome = false }: HeaderProps) => {
+const Header = ({ showBackButton = false }: HeaderProps) => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
   const { isApp, platform } = useEnvironment();
@@ -22,7 +22,7 @@ const Header = ({ isFromHome = false }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const isHideBackButton =
-    PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname) && !isFromHome;
+    PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname) && !showBackButton;
 
   const normalizePath = (path: string) => {
     return path
