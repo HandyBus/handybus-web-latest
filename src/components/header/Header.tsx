@@ -68,7 +68,7 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
 
   const statusBarPaddingClass = isApp
     ? platform === 'ios'
-      ? 'pt-68 h-112'
+      ? 'pt-48 h-[88px]'
       : platform === 'android'
         ? 'pt-32 h-76'
         : ''

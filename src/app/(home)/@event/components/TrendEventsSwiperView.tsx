@@ -37,10 +37,9 @@ const TrendEventsSwiperView = ({ events }: Props) => {
 
   return (
     <div className="relative pt-24">
-      {/* 블러 처리된 배경 이미지 */}
       {activeImage && (
         <div
-          className={`absolute left-0 right-0 top-[calc(-80px)] h-[calc(400px)] ${statusBarPaddingClass}`}
+          className={`absolute left-0 right-0 top-[calc(-100px)] h-[calc(380px)] ${statusBarPaddingClass}`}
         >
           <div className="relative h-full w-full overflow-hidden">
             <Image
@@ -61,8 +60,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
           </div>
         </div>
       )}
-
-      <div className={'relative -mx-16 h-[309px] w-[calc(100%+32px)] px-16'}>
+      <div className={'relative h-[309px] w-full'}>
         <div
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         >
