@@ -122,13 +122,15 @@ const URL_TO_PAGE_NAME = {
   '/ticket/:id': '탑승권',
   '/history': '참여/예약 내역',
   '/history/reservation/:id': '예약 정보',
+  '/history/reservation/:id/reservation-transfer': '선물하기',
+  '/history/reservation/:id/reservation-transfer/success': '선물 완료',
   '/history/demand/:id': '수요조사 정보',
   '/mypage': '마이페이지',
   '/mypage/profile/edit': '프로필 수정',
   '/mypage/settings': '환경설정',
   '/mypage/coupons': '쿠폰',
   '/mypage/reviews': '내 후기',
-  '/mypage/reviews/write/:reservationId': '후기 작성',
+  '/mypage/reviews/write/:id': '후기 작성',
   '/mypage/alert-requests': '빈자리 알림',
   '/mypage/alert-requests/:id': '빈자리 알림 정보',
   '/mypage/boarding-pass/:id': '탑승권',
@@ -141,6 +143,9 @@ const URL_TO_PAGE_NAME = {
   '/help/faq/terms-of-service': '서비스 이용 약관',
   '/help/faq/privacy-policy': '개인정보 처리 방침',
   '/help/faq/marketing-consent': '마케팅 활용 동의',
+  '/accept-reservation-transfer/:id': '탑승권 선물',
+  '/accept-reservation-transfer/:id/success': '선물 완료',
+  '/accept-reservation-transfer/:id/fail': '탑승권 선물',
 };
 
 const PATHNAME_TO_HIDE_BACK_BUTTON = [
