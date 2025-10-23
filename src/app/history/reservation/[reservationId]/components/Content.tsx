@@ -11,6 +11,7 @@ import { checkIsHandyParty } from '@/utils/handyParty.util';
 import { EventsViewEntity } from '@/types/event.type';
 import TitleSection from './sections/title-section/TitleSection';
 import TicketSection from './sections/ticket-section/TicketSection';
+import ReservationTransferSection from './sections/reservation-transfer-section/ReservationTransferSection';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -77,6 +78,7 @@ const Content = ({ reservation, payment, event }: Props) => {
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
       />
+      <ReservationTransferSection reservation={reservation} />
       <GuidelineSection />
       <RefundSection
         isCanceled={isReservationCanceled}
