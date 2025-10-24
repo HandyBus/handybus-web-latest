@@ -1,8 +1,9 @@
-import Button from '@/components/buttons/button/Button';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import RightArrowIcon from '../icons/arrow-right.svg';
+import { Fragment } from 'react';
 
 interface Props {
   reservations: ReservationsViewEntity[];
@@ -10,17 +11,14 @@ interface Props {
 
 const TicketList = ({ reservations }: Props) => {
   return (
-    <section className="flex flex-col">
-      {reservations.map((reservation, index) => (
-        <section
-          className="mx-16 flex flex-col"
-          key={`${reservation.reservationId}}`}
-        >
+    <ul className="flex flex-col">
+      {reservations.map((reservation) => (
+        <Fragment key={reservation.reservationId}>
           <TicketItem reservation={reservation} />
-          {index !== reservations.length - 1 && <Divider />}
-        </section>
+          <Divider />
+        </Fragment>
       ))}
-    </section>
+    </ul>
   );
 };
 
@@ -35,38 +33,41 @@ const TicketItem = ({ reservation }: TicketItemProps) => {
   const { departureTime, departureLocation } =
     getBoardingInformation(reservation);
 
+  const redirectToTicketDetail = () => {
+    push(`/ticket/${reservation.reservationId}`);
+  };
+
   return (
-    <section className="my-[25px] flex justify-between">
-      <div className="flex flex-col gap-[1px]">
-        <h2 className="text-16 font-600 leading-[140%] text-basic-grey-700">
+    <button
+      type="button"
+      className="flex w-full gap-12 p-16 text-left"
+      onClick={redirectToTicketDetail}
+    >
+      <div className="flex grow flex-col gap-[1px]">
+        <h2 className="line-clamp-1 text-16 font-600 leading-[140%] text-basic-grey-700">
           {TRIP_STATUS_TO_STRING[type]}
         </h2>
-        <p className="text-24 font-700 leading-[140%]">
+        <p className="line-clamp-1 text-24 font-700 leading-[140%]">
           {formatDepartureTime(departureTime)}
         </p>
-        <p className="text-16 font-600 leading-[140%] text-basic-grey-700">
+        <p className="line-clamp-1 text-16 font-600 leading-[140%] text-basic-grey-700">
           {eventName}
         </p>
-        <p className="text-14 font-500 leading-[160%] text-basic-grey-500">
+        <p className="line-clamp-1 text-14 font-500 leading-[160%] text-basic-grey-500">
           {passengerCount}인 | {departureLocation}
         </p>
       </div>
-      <div className="flex items-center">
-        <Button
-          size="small"
-          onClick={() => push(`/ticket/${reservation.reservationId}`)}
-        >
-          보기
-        </Button>
+      <div className="w-24 shrink-0">
+        <RightArrowIcon />
       </div>
-    </section>
+    </button>
   );
 };
 
 export default TicketList;
 
 const Divider = () => {
-  return <div className="h-[1.5px] w-full bg-basic-grey-100" />;
+  return <div className="mx-16 my-8 h-[1.5px] bg-basic-grey-100" />;
 };
 
 const formatDepartureTime = (timeString: string | undefined) => {
