@@ -34,25 +34,25 @@ const ShuttleProgressSection = ({ demand }: Props) => {
           )}
         </div>
         <ul
-          className="space-y-2 list-outside pl-16 text-12 font-500 text-basic-grey-500"
+          className="space-y-2 list-outside pl-4 text-12 font-500 text-basic-grey-500"
           style={{ listStyleType: 'none' }}
         >
           {isDemandFulfilled ? (
-            <li className="relative pl-16 before:absolute before:left-0 before:content-['*']">
+            <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">
               이 행사의 예약 정보는 예약 내역에서 확인할 수 있어요.
             </li>
           ) : !isDemandFulfilled &&
             isShuttleRouteCreatedIncludingRelatedRegion ? (
-            <li className="relative pl-16 before:absolute before:left-0 before:content-['*']">
+            <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">
               좌석이 남아있을 때 미리 예약해 주세요. 마감 후엔 빈자리 알림을
               통해 예약 가능 여부를 받아보실 수 있어요.
             </li>
           ) : (
             <>
-              <li className="relative pl-16 before:absolute before:left-0 before:content-['*']">
+              <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">
                 셔틀 오픈을 위한 최소 인원 기준은 매번 상이합니다.
               </li>
-              <li className="relative pl-16 before:absolute before:left-0 before:content-['*']">
+              <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">
                 수요조사 참여 인원 외에도 행사장 주차 여건, 주최 측 협의 등
                 복합적인 요인에 따라 개설 여부가 결정됩니다. 수요 충족 시에도
                 셔틀 개설이 불가할 수 있습니다.
