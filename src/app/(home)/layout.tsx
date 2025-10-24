@@ -31,7 +31,7 @@ const WithFooterLayout = ({
   return (
     <>
       <Header />
-      <main className="w-full grow pb-12">
+      <main className="w-full grow">
         {event}
         {help}
         {banner}

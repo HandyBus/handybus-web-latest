@@ -179,7 +179,14 @@ const LargeCard = ({
           {order}
         </div>
       )}
-      <div className="absolute bottom-0 left-0 right-0 flex h-136 w-full flex-col justify-end break-words rounded-b-12 bg-opacity-60 p-16 ">
+      <div
+        className="absolute bottom-0 left-0 right-0 flex h-136 w-full flex-col justify-end break-words rounded-b-12 p-16"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 9.23%, rgba(0, 0, 0, 0.60) 80.82%)',
+          backdropFilter: 'blur(2.5px)',
+        }}
+      >
         <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
           {title}
         </p>
