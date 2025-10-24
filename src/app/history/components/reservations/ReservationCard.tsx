@@ -29,6 +29,16 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
     showTime: true,
     showWeekday: true,
   });
+  // TODO: 여기 수령 날짜를 예약 취소를 고려하여 reservationTransferRequest.updatedAt로 변경해야 함.
+  const formattedReservationTransferredDate = dateString(
+    reservation.updatedAt,
+    {
+      showYear: true,
+      showDate: true,
+      showTime: true,
+      showWeekday: true,
+    },
+  );
   const formattedEventDate = dateString(dailyEvent.date, {
     showYear: true,
     showDate: true,
@@ -46,6 +56,8 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
         : '예약 완료';
 
   const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
+  const isTransferredReservation =
+    reservation.originalUserId !== reservation.userId;
 
   const router = useRouter();
   const redirectToReservationDetail = handleClickAndStopPropagation(() => {
@@ -69,6 +81,11 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             )}
           >
             {reservationStatusText}
+            {isTransferredReservation && (
+              <Badge className="border border-basic-grey-200 text-basic-grey-700">
+                받은 탑승권
+              </Badge>
+            )}
             {isHandyParty && (
               <Badge className="bg-[rgba(0,0,0,0.80)] text-basic-white">
                 핸디팟
@@ -76,7 +93,9 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
             )}
           </h4>
           <p className="h-[19px] whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-grey-400">
-            {formattedReservationDate} 예약
+            {isTransferredReservation
+              ? `${formattedReservationTransferredDate} 수령`
+              : `${formattedReservationDate} 예약`}
           </p>
         </div>
         <div className="w-24 shrink-0">

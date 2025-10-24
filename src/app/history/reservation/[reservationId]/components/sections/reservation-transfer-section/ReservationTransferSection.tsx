@@ -12,11 +12,13 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import { toast } from 'react-toastify';
 
 interface Props {
+  isTransferredReservation: boolean;
   reservation: ReservationsViewEntity;
   reservationTransferRequests: ReservationTransferRequestsEntity[];
 }
 
 const ReservationTransferSection = ({
+  isTransferredReservation,
   reservation,
   reservationTransferRequests,
 }: Props) => {
@@ -49,7 +51,7 @@ const ReservationTransferSection = ({
     toast.success('선물을 취소했어요.');
   };
 
-  if (isReservationCanceled) {
+  if (isReservationCanceled || isTransferredReservation) {
     return null;
   }
 

@@ -49,13 +49,14 @@ const Content = ({
   const isReservationCanceled = reservation.reservationStatus === 'CANCEL';
   const isShuttleRouteEnded =
     shuttleRoute.status === 'ENDED' || shuttleRoute.status === 'INACTIVE';
+  const isTransferredReservation =
+    reservation.originalUserId !== reservation.userId;
 
   return (
     <main className="grow pb-16">
-      {isHandyParty && (
-        <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
-          예약하신 셔틀은 <span className="font-700">핸디팟</span>입니다. 탑승
-          시 확인해주세요.
+      {isTransferredReservation && (
+        <div className="bg-basic-grey-50 py-8 text-center text-14 font-600 leading-[160%] text-basic-grey-600">
+          선물 받은 탑승권이에요.
         </div>
       )}
       <TitleSection
@@ -85,12 +86,15 @@ const Content = ({
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
       />
+
       <ReservationTransferSection
+        isTransferredReservation={isTransferredReservation}
         reservation={reservation}
         reservationTransferRequests={reservationTransferRequests}
       />
       <GuidelineSection />
       <RefundSection
+        isTransferredReservation={isTransferredReservation}
         isCanceled={isReservationCanceled}
         isEnded={isShuttleRouteEnded}
         reservation={reservation}

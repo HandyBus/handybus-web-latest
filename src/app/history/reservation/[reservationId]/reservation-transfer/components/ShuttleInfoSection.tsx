@@ -24,6 +24,9 @@ const ShuttleInfoSection = ({ reservation }: Props) => {
   const tripTypeText = TRIP_STATUS_TO_STRING[tripType];
   const hubText = getHubText(reservation);
   const passengerCount = reservation.passengerCount;
+
+  const isTransferredReservation =
+    reservation.originalUserId !== reservation.userId;
   return (
     <WrapperWithDivider>
       <section className="p-16">
@@ -34,7 +37,10 @@ const ShuttleInfoSection = ({ reservation }: Props) => {
           <h5>탑승 일시</h5>
           <p>{formattedBoardingTime}</p>
           <h5>탑승 유형</h5>
-          <p>{tripTypeText}</p>
+          <p>
+            {isTransferredReservation && '[핸디팟] '}
+            {tripTypeText}
+          </p>
           <h5>탑승 정보</h5>
           <p>{hubText}</p>
           <h5>인원</h5>

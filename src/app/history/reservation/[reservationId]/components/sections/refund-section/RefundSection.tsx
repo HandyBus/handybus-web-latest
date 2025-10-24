@@ -8,9 +8,15 @@ interface Props {
   isCanceled: boolean;
   isEnded: boolean;
   reservation: ReservationsViewEntity;
+  isTransferredReservation: boolean;
 }
 
-const RefundSection = ({ isCanceled, isEnded, reservation }: Props) => {
+const RefundSection = ({
+  isCanceled,
+  isEnded,
+  isTransferredReservation,
+  reservation,
+}: Props) => {
   const {
     bottomSheetRef: cancelBottomSheetRef,
     contentRef: cancelBottomSheetContentRef,
@@ -39,6 +45,9 @@ const RefundSection = ({ isCanceled, isEnded, reservation }: Props) => {
             </a>
             로 문의해 주세요.
           </li>
+          {!isTransferredReservation && (
+            <li>예약을 취소할 경우, 예약자의 결제 수단으로 환불됩니다.</li>
+          )}
         </ul>
         <Button
           variant="s-destructive"
@@ -49,6 +58,7 @@ const RefundSection = ({ isCanceled, isEnded, reservation }: Props) => {
         </Button>
       </section>
       <CancelBottomSheet
+        isTransferredReservation={isTransferredReservation}
         reservation={reservation}
         bottomSheetRef={cancelBottomSheetRef}
         contentRef={cancelBottomSheetContentRef}
