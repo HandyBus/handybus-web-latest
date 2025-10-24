@@ -64,7 +64,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
           {
             <SwiperSlide style={{ width: 'auto' }}>
               <Link
-                href="/event"
+                href="/event?from=home"
                 className="group flex h-[300px] w-92 cursor-pointer flex-col items-center gap-[8px] pr-[6px]
     pt-72
     transition-colors"

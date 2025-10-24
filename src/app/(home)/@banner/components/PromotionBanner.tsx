@@ -35,7 +35,7 @@ const PromotionBanner = ({ dynamicBannerImages }: Props) => {
         modules={[Autoplay]}
       >
         {images.map((image) => (
-          <SwiperSlide key={image.title} className="aspect-[375/160]">
+          <SwiperSlide key={image.title} className="aspect-[375/113]">
             <BannerItem image={image} />
           </SwiperSlide>
         ))}
