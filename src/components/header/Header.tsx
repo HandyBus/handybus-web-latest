@@ -78,10 +78,12 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
     <header
       className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass} ${statusBarPaddingClass}`}
     >
-      {isHome ? (
-        <LogoIcon
-          className={`duration-1100 transition-all ${iconColorClass}`}
-        />
+      {isHome || !isApp ? (
+        <Link href="/">
+          <LogoIcon
+            className={`duration-1100 transition-all ${iconColorClass}`}
+          />
+        </Link>
       ) : (
         <div className="flex items-center">
           {isApp && !isHideBackButton && (
@@ -96,7 +98,7 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
       )}
 
       <div className="flex items-center gap-8">
-        {!isHome && (
+        {!isHome && isApp && (
           <Link href="/">
             <HomeIcon />
           </Link>
