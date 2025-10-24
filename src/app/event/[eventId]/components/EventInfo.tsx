@@ -29,7 +29,7 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
         className="hidden bg-basic-grey-50 p-16 px-16 py-8 text-12 font-500 leading-[160%] text-basic-grey-700"
       />
       <section className="flex flex-col px-16 py-24">
-        <h1 className="mb-4 break-keep text-20 font-700">{event.eventName}</h1>
+        <h1 className="mb-4 text-20 font-700">{event.eventName}</h1>
         <h3 className="mb-[2px] text-16 font-500 text-basic-grey-700">
           {parsedDateString}
         </h3>

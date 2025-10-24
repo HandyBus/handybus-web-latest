@@ -89,7 +89,11 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
 
   return (
     <div className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">
-      <div className="flex w-full">
+      <button
+        type="button"
+        className="flex w-full text-left"
+        onClick={redirectToDemandDetail}
+      >
         <div className="flex grow flex-col">
           <h4
             className={customTwMerge(
@@ -129,7 +133,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             </button>
           </div>
         )}
-      </div>
+      </button>
       <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
       {showShuttleRouteCreatedOnlyInRelatedRegionCTA && (
         <div className="mb-12 flex h-[26px] items-center text-16 font-600 leading-[160%] text-basic-grey-700">
