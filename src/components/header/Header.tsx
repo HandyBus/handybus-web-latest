@@ -16,7 +16,7 @@ interface HeaderProps {
 const Header = ({ showBackButton = false }: HeaderProps) => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
-  const { isApp, platform } = useEnvironment();
+  const { isApp } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,17 +66,17 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
 
   const iconColorClass = isHome && !isScrolled ? 'brightness-0 invert' : '';
 
-  const statusBarPaddingClass = isApp
-    ? platform === 'ios'
-      ? 'pt-48 h-[88px]'
-      : platform === 'android'
-        ? 'pt-32 h-76'
-        : ''
-    : '';
+  const headerStyle = isApp
+    ? {
+        paddingTop: 'var(--safe-area-inset-top)',
+        height: 'calc(56px + var(--safe-area-inset-top))',
+      }
+    : {};
 
   return (
     <header
-      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass} ${statusBarPaddingClass}`}
+      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass}`}
+      style={headerStyle}
     >
       {isHome || !isApp ? (
         <Link href="/">

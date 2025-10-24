@@ -41,6 +41,9 @@
   --basic-orange-50: 255 235 226;
   --basic-orange-100: 244 137 83;
 
+  /* 모바일 기기에서 상단 safe area inset */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smooth: never;
