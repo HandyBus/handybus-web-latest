@@ -3,9 +3,10 @@ import RefundRequestList from './RefundRequestList';
 
 interface Props {
   payment: PaymentsViewEntity;
+  isTransferredReservation: boolean;
 }
 
-const RefundPriceContent = ({ payment }: Props) => {
+const RefundPriceContent = ({ payment, isTransferredReservation }: Props) => {
   const paymentAmount = payment.paymentAmount;
 
   return (
@@ -20,6 +21,11 @@ const RefundPriceContent = ({ payment }: Props) => {
         refundRequests={payment.refundRequests}
         isCanceled={true}
       />
+      {isTransferredReservation && (
+        <p className="mt-8 text-14 font-400 leading-[160%] text-basic-grey-500">
+          환불 총액은 발송인에게 자동으로 환불됩니다.
+        </p>
+      )}
     </div>
   );
 };

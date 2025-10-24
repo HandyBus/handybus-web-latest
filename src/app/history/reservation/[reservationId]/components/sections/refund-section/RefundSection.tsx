@@ -45,7 +45,7 @@ const RefundSection = ({
             </a>
             로 문의해 주세요.
           </li>
-          {!isTransferredReservation && (
+          {isTransferredReservation && (
             <li>예약을 취소할 경우, 예약자의 결제 수단으로 환불됩니다.</li>
           )}
         </ul>

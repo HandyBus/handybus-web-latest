@@ -85,6 +85,7 @@ const Content = ({
         payment={payment}
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
+        isTransferredReservation={isTransferredReservation}
       />
 
       <ReservationTransferSection
