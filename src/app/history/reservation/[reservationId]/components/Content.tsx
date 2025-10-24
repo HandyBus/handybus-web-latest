@@ -99,6 +99,7 @@ const Content = ({
         isCanceled={isReservationCanceled}
         isEnded={isShuttleRouteEnded}
         reservation={reservation}
+        reservationTransferRequests={reservationTransferRequests}
       />
     </main>
   );

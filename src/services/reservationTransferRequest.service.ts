@@ -87,3 +87,22 @@ export const usePostAcceptReservationTransferRequest = () => {
     mutationFn: (token: string) => postAcceptReservationTransferRequest(token),
   });
 };
+
+export const putCancelReservationTransferRequest = async (
+  reservationTransferRequestId: string,
+) => {
+  const res = await authInstance.put(
+    `/v1/shuttle-operation/reservation-transfer-requests/cancel`,
+    {
+      reservationTransferRequestId,
+    },
+  );
+  return res;
+};
+
+export const usePutCancelReservationTransferRequest = () => {
+  return useMutation({
+    mutationFn: (reservationTransferRequestId: string) =>
+      putCancelReservationTransferRequest(reservationTransferRequestId),
+  });
+};

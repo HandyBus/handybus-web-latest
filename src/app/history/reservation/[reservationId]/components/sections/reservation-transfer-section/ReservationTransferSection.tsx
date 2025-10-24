@@ -10,6 +10,7 @@ import { dateString } from '@/utils/dateString.util';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { toast } from 'react-toastify';
+import { putCancelReservationTransferRequest } from '@/services/reservationTransferRequest.service';
 
 interface Props {
   isTransferredReservation: boolean;
@@ -46,9 +47,17 @@ const ReservationTransferSection = ({
 
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
     useBottomSheet();
-  const handleCancelReservationTransfer = async () => {
-    closeBottomSheet();
-    toast.success('선물을 취소했어요.');
+  const handleCancelReservationTransfer = async (
+    reservationTransferRequestId: string,
+  ) => {
+    try {
+      await putCancelReservationTransferRequest(reservationTransferRequestId);
+      closeBottomSheet();
+      toast.success('선물을 취소했어요.');
+    } catch (error) {
+      console.error(error);
+      toast.error('잠시 후 다시 시도해주세요.');
+    }
   };
 
   if (isReservationCanceled || isTransferredReservation) {
@@ -114,7 +123,11 @@ const ReservationTransferSection = ({
                     type="button"
                     variant="p-destructive"
                     size="large"
-                    onClick={handleCancelReservationTransfer}
+                    onClick={() =>
+                      handleCancelReservationTransfer(
+                        pendingReservationTransferRequest.id,
+                      )
+                    }
                   >
                     취소하기
                   </Button>
