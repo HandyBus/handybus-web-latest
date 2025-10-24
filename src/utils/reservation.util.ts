@@ -1,47 +1,60 @@
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import {
-  ShuttleRouteHubsInShuttleRoutesViewEntity,
-  TripType,
-} from '@/types/shuttleRoute.type';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { checkIsHandyParty } from './handyParty.util';
 
-export const getBoardingTime = ({
-  tripType,
-  toDestinationShuttleRouteHubs,
-  fromDestinationShuttleRouteHubs,
-  toDestinationShuttleRouteHubId,
-}: {
-  tripType: TripType;
-  toDestinationShuttleRouteHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
-  fromDestinationShuttleRouteHubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
-  toDestinationShuttleRouteHubId: string;
-}) => {
-  const sortedToDestinationShuttleRouteHubs =
-    toDestinationShuttleRouteHubs?.toSorted((a, b) => a.sequence - b.sequence);
-  const sortedFromDestinationShuttleRouteHubs =
-    fromDestinationShuttleRouteHubs?.toSorted(
-      (a, b) => a.sequence - b.sequence,
-    );
-  const boardingHubs =
-    tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION'
-      ? {
-          hubs: sortedToDestinationShuttleRouteHubs,
-          hubId: toDestinationShuttleRouteHubId,
-        }
-      : {
-          hubs: sortedFromDestinationShuttleRouteHubs,
-          hubId: sortedFromDestinationShuttleRouteHubs?.[0]?.shuttleRouteHubId,
-        };
-
-  const boardingTime = boardingHubs.hubs?.find(
-    (hub) => hub.shuttleRouteHubId === boardingHubs.hubId,
-  )?.arrivalTime;
-
-  if (!boardingTime) {
+export const getBoardingTime = (
+  reservation: ReservationsViewEntity,
+): Dayjs | null => {
+  const shuttleRoute = reservation.shuttleRoute;
+  const dailyEvent = shuttleRoute.event.dailyEvents.find(
+    (dailyEvent) => dailyEvent.dailyEventId === shuttleRoute.dailyEventId,
+  );
+  if (!dailyEvent) {
     return null;
   }
 
-  return dayjs(boardingTime).tz('Asia/Seoul');
+  // 핸디팟의 경우 행사장행 탑승 시간 별도로 지정 X
+  const isHandyParty = checkIsHandyParty(shuttleRoute);
+  if (isHandyParty) {
+    if (
+      reservation.type === 'TO_DESTINATION' ||
+      reservation.type === 'ROUND_TRIP'
+    ) {
+      return dayjs(dailyEvent.date).tz('Asia/Seoul').startOf('day');
+    } else {
+      const fromDestinationDestinationHub =
+        shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        );
+      if (!fromDestinationDestinationHub) {
+        return null;
+      }
+      return dayjs(fromDestinationDestinationHub.arrivalTime).tz('Asia/Seoul');
+    }
+  }
+
+  if (
+    reservation.type === 'TO_DESTINATION' ||
+    reservation.type === 'ROUND_TRIP'
+  ) {
+    const toDestinationHub = shuttleRoute.toDestinationShuttleRouteHubs?.find(
+      (hub) =>
+        hub.shuttleRouteHubId === reservation.toDestinationShuttleRouteHubId,
+    );
+    if (!toDestinationHub) {
+      return null;
+    }
+    return dayjs(toDestinationHub.arrivalTime).tz('Asia/Seoul');
+  } else {
+    const fromDestinationDestinationHub =
+      shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+        (hub) => hub.role === 'DESTINATION',
+      );
+    if (!fromDestinationDestinationHub) {
+      return null;
+    }
+    return dayjs(fromDestinationDestinationHub.arrivalTime).tz('Asia/Seoul');
+  }
 };
 
 export const calculateRefundFee = (
@@ -59,15 +72,7 @@ export const calculateRefundFee = (
   }
 
   const paymentAmount = reservation.paymentAmount ?? 0;
-  const boardingTime = getBoardingTime({
-    tripType: reservation.type,
-    toDestinationShuttleRouteHubs:
-      reservation.shuttleRoute.toDestinationShuttleRouteHubs ?? [],
-    fromDestinationShuttleRouteHubs:
-      reservation.shuttleRoute.fromDestinationShuttleRouteHubs ?? [],
-    toDestinationShuttleRouteHubId:
-      reservation.toDestinationShuttleRouteHubId ?? '',
-  });
+  const boardingTime = getBoardingTime(reservation);
   if (!boardingTime) {
     return null;
   }
@@ -104,15 +109,7 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
   }
 
   // 탑승 5일 전 취소 시, 수수료 100% 발생 (즉 환불 X)
-  const boardingTime = getBoardingTime({
-    tripType: reservation.type,
-    toDestinationShuttleRouteHubs:
-      reservation.shuttleRoute.toDestinationShuttleRouteHubs ?? [],
-    fromDestinationShuttleRouteHubs:
-      reservation.shuttleRoute.fromDestinationShuttleRouteHubs ?? [],
-    toDestinationShuttleRouteHubId:
-      reservation.toDestinationShuttleRouteHubId ?? '',
-  });
+  const boardingTime = getBoardingTime(reservation);
   if (!boardingTime) {
     return false;
   }

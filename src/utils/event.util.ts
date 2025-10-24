@@ -1,4 +1,3 @@
-import { MAX_HANDY_DISCOUNT_AMOUNT } from '@/constants/common';
 import { CustomError } from '@/services/custom-error';
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { EventsViewEntity } from '@/types/event.type';
@@ -230,23 +229,6 @@ export const calculateTotalPrice = ({
     totalCouponDiscountAmount,
     totalEarlybirdDiscountAmount,
   };
-};
-
-export const calculateHandyDiscountAmount = (
-  priceOfTripType: PriceOfTripType,
-  tripType: TripType,
-) => {
-  const price = priceOfTripType[tripType];
-  if (!price.regularPrice) {
-    throw new CustomError(400, '가격이 존재하지 않는 상품입니다.');
-  }
-  const priceWithEarlybirdDiscount = price.isEarlybird
-    ? (price.earlybirdPrice ?? 0)
-    : price.regularPrice;
-  return Math.min(
-    Math.ceil(priceWithEarlybirdDiscount * 0.5),
-    MAX_HANDY_DISCOUNT_AMOUNT,
-  );
 };
 
 export const getHubText = (reservation: ReservationsViewEntity) => {

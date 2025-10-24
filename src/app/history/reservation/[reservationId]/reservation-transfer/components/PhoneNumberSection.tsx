@@ -1,9 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import InfoIcon from 'public/icons/info.svg';
 
-const PhoneNumberSection = () => {
+interface Props {
+  value: string;
+  setValue: (value: string) => void;
+}
+
+const PhoneNumberSection = ({ value, setValue }: Props) => {
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/[^0-9]/g, '');
     if (numbers.length > 11) {
@@ -17,13 +21,6 @@ const PhoneNumberSection = () => {
     }
     return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7)}`;
   };
-
-  const [value, setValue] = useState('');
-
-  // const isPhoneNumberComplete = (phoneNumber: string) => {
-  //   const numbers = phoneNumber.replace(/[^0-9]/g, '');
-  //   return numbers.length === 11;
-  // };
 
   const handlePhoneNumberChange = (value: string) => {
     const formatted = formatPhoneNumber(value);

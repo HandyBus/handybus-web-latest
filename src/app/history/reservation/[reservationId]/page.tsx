@@ -9,6 +9,7 @@ import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { useState } from 'react';
 import FirstVisitModal from './components/FirstVisitModal';
 import { useRouter } from 'next/navigation';
+import { useGetReservationTransferRequestWithReservationId } from '@/services/reservationTransferRequest.service';
 
 interface Props {
   params: {
@@ -22,12 +23,19 @@ const Page = ({ params }: Props) => {
 
   const [isKakaoScriptLoaded, setIsKakaoScriptLoaded] = useState(false);
 
-  const { data: reservationDetail, isLoading } =
+  const { data: reservationDetail, isLoading: isReservationDetailLoading } =
     useGetUserReservation(reservationId);
+  const {
+    data: reservationTransferRequests,
+    isLoading: isReservationTransferRequestLoading,
+  } = useGetReservationTransferRequestWithReservationId(reservationId);
   const reservation = reservationDetail?.reservation;
   const payment = reservationDetail?.payment;
 
-  if (!isLoading && !reservation && !payment) {
+  const isLoading =
+    isReservationDetailLoading || isReservationTransferRequestLoading;
+
+  if (!isLoading && !reservation && !payment && !reservationTransferRequests) {
     router.replace('/history?type=reservation');
     return;
   }
@@ -37,6 +45,8 @@ const Page = ({ params }: Props) => {
   const isTransferredReservation =
     reservation?.userId !== reservation?.originalUserId;
 
+  console.log(reservationTransferRequests);
+
   return (
     <>
       <Header />
@@ -44,19 +54,24 @@ const Page = ({ params }: Props) => {
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
       >
-        {reservation && payment && event && isKakaoScriptLoaded && (
-          <>
-            <Content
-              reservation={reservation}
-              payment={payment}
-              event={event}
-            />
-            <FirstVisitModal
-              reservationId={reservationId}
-              isHidden={!isTransferredReservation}
-            />
-          </>
-        )}
+        {reservation &&
+          payment &&
+          event &&
+          reservationTransferRequests &&
+          isKakaoScriptLoaded && (
+            <>
+              <Content
+                reservation={reservation}
+                payment={payment}
+                event={event}
+                reservationTransferRequests={reservationTransferRequests}
+              />
+              <FirstVisitModal
+                reservationId={reservationId}
+                isHidden={!isTransferredReservation}
+              />
+            </>
+          )}
       </DeferredSuspense>
       <KakaoMapScript
         libraries={['services']}

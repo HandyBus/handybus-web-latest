@@ -12,14 +12,21 @@ import { EventsViewEntity } from '@/types/event.type';
 import TitleSection from './sections/title-section/TitleSection';
 import TicketSection from './sections/ticket-section/TicketSection';
 import ReservationTransferSection from './sections/reservation-transfer-section/ReservationTransferSection';
+import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 
 interface Props {
   reservation: ReservationsViewEntity;
   payment: PaymentsViewEntity;
   event: EventsViewEntity;
+  reservationTransferRequests: ReservationTransferRequestsEntity[];
 }
 
-const Content = ({ reservation, payment, event }: Props) => {
+const Content = ({
+  reservation,
+  payment,
+  event,
+  reservationTransferRequests,
+}: Props) => {
   const shuttleRoute = reservation.shuttleRoute;
   const toDestinationHub =
     reservation.type !== 'FROM_DESTINATION'
@@ -78,7 +85,10 @@ const Content = ({ reservation, payment, event }: Props) => {
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
       />
-      <ReservationTransferSection reservation={reservation} />
+      <ReservationTransferSection
+        reservation={reservation}
+        reservationTransferRequests={reservationTransferRequests}
+      />
       <GuidelineSection />
       <RefundSection
         isCanceled={isReservationCanceled}
