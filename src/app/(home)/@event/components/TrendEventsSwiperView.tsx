@@ -39,14 +39,14 @@ const TrendEventsSwiperView = ({ events }: Props) => {
     <div className="relative pt-24">
       {activeImage && (
         <div
-          className={`absolute left-0 right-0 top-[calc(-100px)] h-[calc(380px)] ${statusBarPaddingClass}`}
+          className={`absolute left-0 right-0 top-[calc(-100px)] h-[420px] ${statusBarPaddingClass}`}
         >
           <div className="relative h-full w-full overflow-hidden">
             <Image
               src={activeImage}
               alt="background"
               fill
-              className="object-cover blur-[100px] "
+              className="object-cover blur-[100px]"
               priority
             />
             {/* 흰색 페이드 오버레이 */}
@@ -54,7 +54,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0.2) 70%, rgba(255,255,255,0.3) 80%, rgba(255,255,255,0.5) 90%, #ffffff 100%)',
+                  'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0.2) 85%, rgba(255,255,255,0.3) 90%, rgba(255,255,255,0.5) 95%, #ffffff 100%)',
               }}
             />
           </div>
