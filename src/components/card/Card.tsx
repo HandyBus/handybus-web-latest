@@ -129,7 +129,7 @@ const GridCard = ({
         <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black">
           {title}
         </p>
-        <p className="text-12 font-500 leading-[160%] text-basic-black ">
+        <p className="text-12 font-500 leading-[160%] text-basic-grey-500 ">
           {date}
         </p>
         <p
@@ -221,7 +221,7 @@ const MediumCard = ({
         <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black">
           {title}
         </p>
-        <p className="text-12 font-500 leading-[160%] text-basic-black ">
+        <p className="text-12 font-500 leading-[160%] text-basic-grey-500 ">
           {date}
         </p>
         <p

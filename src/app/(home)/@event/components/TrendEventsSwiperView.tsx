@@ -80,7 +80,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
           >
             {extendedEvents?.map((v: EventsViewEntity, idx: number) => (
               <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
-                <div className="pr-[16px]">
+                <div className="pr-[12px]">
                   <Card
                     variant={'LARGE'}
                     image={v.eventImageUrl}
