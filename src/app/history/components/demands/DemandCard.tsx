@@ -89,83 +89,93 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
 
   return (
     <div className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">
-      <div className="flex w-full">
-        <div className="flex grow flex-col">
-          <h4
-            className={customTwMerge(
-              'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
-              demand.status === 'SUBMITTED' &&
-                'OPEN' &&
-                'text-brand-primary-400',
-              demand.status === 'SUBMITTED' &&
-                dailyEvent.status === 'CLOSED' &&
-                'text-basic-black',
-              demand.status === 'SUBMITTED' &&
-                (dailyEvent.status === 'ENDED' ||
-                  dailyEvent.status === 'INACTIVE') &&
-                'text-basic-grey-500',
-              demand.status === 'CANCELLED' && 'text-basic-red-400',
-            )}
-          >
-            {demandStatusText}
-            {isDemandFulfilled && !isDemandCancelled && (
-              <Badge className="border border-basic-grey-200 text-basic-grey-700">
-                예약 완료
-              </Badge>
-            )}
-          </h4>
-          <p className="h-[19px] whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-grey-400">
-            {formattedDemandDate} 수요조사 참여
-          </p>
-        </div>
-        {ableToRedirectToDemandDetail && (
-          <div className="w-24 shrink-0">
-            <button
-              type="button"
-              className="w-full"
-              onClick={redirectToDemandDetail}
+      <button
+        type="button"
+        className="w-full text-left"
+        onClick={redirectToDemandDetail}
+        disabled={!ableToRedirectToDemandDetail}
+      >
+        <div className="flex w-full">
+          <div className="flex grow flex-col">
+            <h4
+              className={customTwMerge(
+                'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
+                demand.status === 'SUBMITTED' &&
+                  'OPEN' &&
+                  'text-brand-primary-400',
+                demand.status === 'SUBMITTED' &&
+                  dailyEvent.status === 'CLOSED' &&
+                  'text-basic-black',
+                demand.status === 'SUBMITTED' &&
+                  (dailyEvent.status === 'ENDED' ||
+                    dailyEvent.status === 'INACTIVE') &&
+                  'text-basic-grey-500',
+                demand.status === 'CANCELLED' && 'text-basic-red-400',
+              )}
             >
-              <ArrowRightIcon />
-            </button>
+              {demandStatusText}
+              {isDemandFulfilled && !isDemandCancelled && (
+                <Badge className="border border-basic-grey-200 text-basic-grey-700">
+                  예약 완료
+                </Badge>
+              )}
+            </h4>
+            <p className="h-[19px] whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-grey-400">
+              {formattedDemandDate} 수요조사 참여
+            </p>
+          </div>
+
+          <div className="w-24 shrink-0">
+            {ableToRedirectToDemandDetail && <ArrowRightIcon />}
+          </div>
+        </div>
+        <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+        {showShuttleRouteCreatedOnlyInRelatedRegionCTA && (
+          <div className="mb-12 flex h-[26px] items-center text-16 font-600 leading-[160%] text-basic-grey-700">
+            인근 정류장이 열렸어요
+            <Tooltip content="내가 요청한 정류장이 포함된 지역에서 예약이 가능한 셔틀이 있어요." />
           </div>
         )}
-      </div>
-      <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
-      {showShuttleRouteCreatedOnlyInRelatedRegionCTA && (
-        <div className="mb-12 flex h-[26px] items-center text-16 font-600 leading-[160%] text-basic-grey-700">
-          인근 정류장이 열렸어요
-          <Tooltip content="내가 요청한 정류장이 포함된 지역에서 예약이 가능한 셔틀이 있어요." />
+        <div className="flex">
+          <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
+            <Image
+              src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
+              alt={`${event.eventName} 행사 포스터`}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="flex grow flex-col pl-12 text-left">
+            <h5
+              className={customTwMerge(
+                'line-clamp-1 h-[23px] text-16 font-600 leading-[140%]',
+                !ableToRedirectToDemandDetail && 'text-basic-grey-400',
+              )}
+            >
+              {event.eventName}
+            </h5>
+            <p
+              className={customTwMerge(
+                'flex h-[22px] items-center gap-[6px] whitespace-nowrap break-keep text-14 font-500 leading-[160%] text-basic-grey-700',
+                !ableToRedirectToDemandDetail && 'text-basic-grey-400',
+              )}
+            >
+              {formattedEventDate}
+            </p>
+            <p
+              className={customTwMerge(
+                'line-clamp-1 flex h-24 items-center gap-4 text-14 font-500 leading-[160%] text-basic-grey-700',
+                !ableToRedirectToDemandDetail && 'text-basic-grey-400',
+              )}
+            >
+              <Badge className="border border-basic-grey-200 text-basic-grey-700">
+                {tripTypeText}
+              </Badge>
+              {demandRegionHub?.name ?? desiredDemandRegionHub} 요청
+            </p>
+          </div>
         </div>
-      )}
-      <div className="flex">
-        <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
-          <Image
-            src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
-            alt={`${event.eventName} 행사 포스터`}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <button
-          type="button"
-          className="flex grow flex-col pl-12 text-left"
-          disabled={!ableToRedirectToDemandDetail}
-          onClick={redirectToDemandDetail}
-        >
-          <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
-            {event.eventName}
-          </h5>
-          <p className="flex h-[22px] items-center gap-[6px] whitespace-nowrap break-keep text-14 font-500 leading-[160%] text-basic-grey-700">
-            {formattedEventDate}
-          </p>
-          <p className="line-clamp-1 flex h-24 items-center gap-4 text-14 font-500 leading-[160%] text-basic-grey-700">
-            <Badge className="border border-basic-grey-200 text-basic-grey-700">
-              {tripTypeText}
-            </Badge>
-            {demandRegionHub?.name ?? desiredDemandRegionHub} 요청
-          </p>
-        </button>
-      </div>
+      </button>
       {showDemandCount && (
         <>
           <div className="my-8 h-[1px] w-full bg-basic-grey-100" />
