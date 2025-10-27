@@ -7,12 +7,14 @@ import ReservationInfoStep from './components/steps/ReservationInfoStep';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { FormProvider, useForm } from 'react-hook-form';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
+import ExtraRealNameInputStep from './components/steps/ExtraRealNameInputStep';
 
 const HANDY_PARTY_MODAL_STEPS = [
   '방향 선택',
   '주소 입력',
   '지도',
   '예약 확인',
+  '이름 입력',
 ] as const;
 
 export type TripTypeWithoutRoundTrip = Exclude<TripType, 'ROUND_TRIP'>;
@@ -26,6 +28,8 @@ export interface AddressSearchResult {
 export interface HandyPartyModalFormValues {
   tripType: TripTypeWithoutRoundTrip;
   addressSearchResult: AddressSearchResult;
+  userName: string;
+  passengerCount: number;
 }
 
 interface Props {
@@ -47,6 +51,7 @@ const HandyPartyModal = ({
     defaultValues: {
       tripType: undefined,
       addressSearchResult: undefined,
+      passengerCount: 1,
     },
   });
 
@@ -90,6 +95,15 @@ const HandyPartyModal = ({
             </Step>
             <Step name="예약 확인">
               <ReservationInfoStep
+                onBack={handlePrevStep}
+                toExtraRealNameInputStep={handleNextStep}
+                handyPartyRoutes={handyPartyRoutes}
+                closeBottomSheet={closeBottomSheet}
+                closeModal={closeModal}
+              />
+            </Step>
+            <Step name="이름 입력">
+              <ExtraRealNameInputStep
                 onBack={handlePrevStep}
                 handyPartyRoutes={handyPartyRoutes}
                 closeBottomSheet={closeBottomSheet}
