@@ -22,6 +22,7 @@ export const EVENT_STEP_TO_RESERVATION_STEP: Record<string, ReservationStep> = {
   '[핸디팟] 주소 입력': 'handy_party_select_address',
   '[핸디팟] 지도': 'handy_party_select_map',
   '[핸디팟] 예약 확인': 'handy_party_select_reservation_info',
+  '[핸디팟] 이름 입력': 'handy_party_write_name',
   '[기타] 이름 입력': 'write_name',
   '[예약] 결제 페이지': 'payment',
   '[예약] 결제 요청': 'request_payment',
@@ -213,7 +214,12 @@ export const useReservationTracking = ({
         isNavigatingRef.current ? '의도적 페이지 이동' : '바텀시트 닫기',
       );
     }
-  }, [isBottomSheetOpen, trackAbandonReservation, isActive]);
+  }, [
+    isBottomSheetOpen,
+    isNoBottomSheetPage,
+    trackAbandonReservation,
+    isActive,
+  ]);
 
   // 현재 예약 시작 시간을 반환하는 함수
   const getReservationStartTime = useCallback(() => {
