@@ -29,9 +29,9 @@ const WithFooterLayout = ({
   modal,
 }: Readonly<Props>) => {
   return (
-    <div className="flex h-full flex-grow flex-col">
+    <>
       <Header />
-      <main className="w-full flex-grow pb-12">
+      <main className="w-full grow">
         {event}
         {help}
         {banner}
@@ -41,7 +41,7 @@ const WithFooterLayout = ({
       </main>
       <Footer />
       <NavBar />
-    </div>
+    </>
   );
 };
 

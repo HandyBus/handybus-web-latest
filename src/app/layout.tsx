@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import * as Sentry from '@sentry/nextjs';
 import './globals.css';
 import '@/app/fonts/pretendard/font.css';
@@ -16,6 +16,12 @@ import 'react-loading-skeleton/dist/skeleton.css';
 const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
 const FAVICON_PROD = '/favicons/favicon.ico';
 const FAVICON_DEV = '/favicons/favicon-dev.png';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: {

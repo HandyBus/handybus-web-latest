@@ -20,7 +20,7 @@ const Article = ({
   return (
     <article
       {...props}
-      className={customTwMerge('px-16 pb-24 pt-32', props.className)}
+      className={customTwMerge('px-16 py-24', props.className)}
     >
       <Title
         title={richTitle}

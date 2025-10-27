@@ -15,7 +15,7 @@ const PeriodFilterBar = ({ periodFilter, setPeriodFilter }: Props) => {
         type="button"
         onClick={() => setPeriodFilter(3)}
         className={customTwMerge(
-          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-16 font-500 text-basic-grey-500',
+          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-14 font-500 text-basic-grey-500',
           periodFilter === 3 && 'bg-basic-black text-basic-white',
         )}
       >
@@ -25,7 +25,7 @@ const PeriodFilterBar = ({ periodFilter, setPeriodFilter }: Props) => {
         type="button"
         onClick={() => setPeriodFilter(6)}
         className={customTwMerge(
-          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-16 font-500 text-basic-grey-500',
+          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-14 font-500 text-basic-grey-500',
           periodFilter === 6 && 'bg-basic-black text-basic-white',
         )}
       >
@@ -35,7 +35,7 @@ const PeriodFilterBar = ({ periodFilter, setPeriodFilter }: Props) => {
         type="button"
         onClick={() => setPeriodFilter(12)}
         className={customTwMerge(
-          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-16 font-500 text-basic-grey-500',
+          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-14 font-500 text-basic-grey-500',
           periodFilter === 12 && 'bg-basic-black text-basic-white',
         )}
       >
@@ -45,7 +45,7 @@ const PeriodFilterBar = ({ periodFilter, setPeriodFilter }: Props) => {
         type="button"
         onClick={() => setPeriodFilter('ALL')}
         className={customTwMerge(
-          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-16 font-500 text-basic-grey-500',
+          'flex h-32 flex-1 items-center justify-center rounded-full bg-basic-white text-14 font-500 text-basic-grey-500',
           periodFilter === 'ALL' && 'bg-basic-black text-basic-white',
         )}
       >

@@ -45,14 +45,14 @@ const ShuttleRouteInfoSection = ({ shuttleRoute }: Props) => {
           보여지는 모든 정류장은 동일한 노선을 지나고 있어요.
         </div>
         <ul
-          className="space-y-2 list-outside pl-16 text-14 font-400 text-basic-grey-500"
+          className="space-y-2 list-outside pl-4 text-14 font-400 text-basic-grey-500"
           style={{ listStyleType: 'none' }}
         >
-          <li className="relative pl-16 before:absolute before:left-0 before:content-['*']">
+          <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">
             모든 버스는 단일 노선으로 운행되므로 빈자리가 생기면 노선 내 모든
             정류장에서 예약이 가능합니다.
           </li>
-          <li className="relative pl-16 before:absolute before:left-0 before:content-['*']">
+          <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">
             알림 신청은 1회 신청으로 노선 내 모든 정류장에 동일하게 적용됩니다.
           </li>
         </ul>

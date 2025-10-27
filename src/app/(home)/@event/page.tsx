@@ -24,7 +24,6 @@ const Page = async () => {
   return (
     <>
       <TrendEventCard events={filteredRecommendedEvents} />
-      <div className="my-16 h-8 w-full bg-basic-grey-50" />
       <PinnedEventCard events={filteredPinnedEvents} />
       <div className="my-16 h-8 w-full bg-basic-grey-50" />
     </>
