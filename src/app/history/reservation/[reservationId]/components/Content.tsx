@@ -11,14 +11,22 @@ import { checkIsHandyParty } from '@/utils/handyParty.util';
 import { EventsViewEntity } from '@/types/event.type';
 import TitleSection from './sections/title-section/TitleSection';
 import TicketSection from './sections/ticket-section/TicketSection';
+import ReservationTransferSection from './sections/reservation-transfer-section/ReservationTransferSection';
+import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 
 interface Props {
   reservation: ReservationsViewEntity;
   payment: PaymentsViewEntity;
   event: EventsViewEntity;
+  reservationTransferRequests: ReservationTransferRequestsEntity[];
 }
 
-const Content = ({ reservation, payment, event }: Props) => {
+const Content = ({
+  reservation,
+  payment,
+  event,
+  reservationTransferRequests,
+}: Props) => {
   const shuttleRoute = reservation.shuttleRoute;
   const toDestinationHub =
     reservation.type !== 'FROM_DESTINATION'
@@ -41,13 +49,14 @@ const Content = ({ reservation, payment, event }: Props) => {
   const isReservationCanceled = reservation.reservationStatus === 'CANCEL';
   const isShuttleRouteEnded =
     shuttleRoute.status === 'ENDED' || shuttleRoute.status === 'INACTIVE';
+  const isTransferredReservation =
+    reservation.originalUserId !== reservation.userId;
 
   return (
     <main className="grow pb-16">
-      {isHandyParty && (
-        <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
-          예약하신 셔틀은 <span className="font-700">핸디팟</span>입니다. 탑승
-          시 확인해주세요.
+      {isTransferredReservation && (
+        <div className="bg-basic-grey-50 py-8 text-center text-14 font-600 leading-[160%] text-basic-grey-600">
+          선물 받은 탑승권이에요.
         </div>
       )}
       <TitleSection
@@ -76,12 +85,21 @@ const Content = ({ reservation, payment, event }: Props) => {
         payment={payment}
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
+        isTransferredReservation={isTransferredReservation}
+      />
+
+      <ReservationTransferSection
+        isTransferredReservation={isTransferredReservation}
+        reservation={reservation}
+        reservationTransferRequests={reservationTransferRequests}
       />
       <GuidelineSection />
       <RefundSection
+        isTransferredReservation={isTransferredReservation}
         isCanceled={isReservationCanceled}
         isEnded={isShuttleRouteEnded}
         reservation={reservation}
+        reservationTransferRequests={reservationTransferRequests}
       />
     </main>
   );

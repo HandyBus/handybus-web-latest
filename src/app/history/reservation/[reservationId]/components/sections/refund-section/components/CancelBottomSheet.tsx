@@ -39,6 +39,7 @@ export interface CancelReasonForm {
 interface Props extends BottomSheetRefs {
   reservation: ReservationsViewEntity | null;
   closeBottomSheet: () => void;
+  isTransferredReservation: boolean;
 }
 
 const CancelBottomSheet = ({
@@ -46,6 +47,7 @@ const CancelBottomSheet = ({
   contentRef,
   reservation,
   closeBottomSheet,
+  isTransferredReservation,
 }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -66,7 +68,7 @@ const CancelBottomSheet = ({
   );
 
   const { title: bottomSheetTitle, description: bottomSheetDescription } =
-    useBottomSheetText({ stepName });
+    useBottomSheetText({ stepName, isTransferredReservation });
 
   const { isHistoryAvailable, handleBack, setHistoryAndStep } = useHistory({
     stepName,

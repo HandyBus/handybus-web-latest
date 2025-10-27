@@ -92,7 +92,7 @@ const ShuttleInfoSection = ({
         toDestinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
-            <section className="flex flex-col gap-16 px-16">
+            <section className="flex flex-col gap-16 px-16 py-24">
               <h3 className="text-16 font-600">행사장행 탑승 장소</h3>
               {isHandyParty && (
                 <p className="rounded-8 bg-basic-red-100 p-8 text-12 font-500 leading-[160%] text-basic-red-400">
@@ -166,7 +166,7 @@ const ShuttleInfoSection = ({
         fromDestinationDestinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
-            <section className="flex flex-col gap-16 px-16">
+            <section className="flex flex-col gap-16 px-16 py-24">
               <h3 className="text-16 font-600">귀가행 탑승 장소</h3>
               <div>
                 <MapContainer

@@ -4,29 +4,118 @@ import Header from '@/components/header/Header';
 import ShuttleInfoSection from './components/ShuttleInfoSection';
 import NoticeSection from './components/NoticeSection';
 import SubmitSection from './components/SubmitSection';
-import GiftIcon from './icons/gift.svg';
 import SenderSection from './components/SenderSection';
+import { useGetReservationTransferRequestWithToken } from '@/services/reservationTransferRequest.service';
+import { useRouter } from 'next/navigation';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
+import TitleSection from './components/TitleSection';
+import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
+import { useGetUser } from '@/services/user.service';
+import { UsersViewEntity } from '@/types/user.type';
+import { formatPhoneNumber } from '@/utils/common.util';
 
-const Page = () => {
+interface Props {
+  params: {
+    token: string;
+  };
+}
+
+const Page = ({ params }: Props) => {
+  const { token } = params;
+
+  const { data: user, isLoading: isUserLoading } = useGetUser();
+  const {
+    data: reservationTransferRequestDetail,
+    isLoading: isReservationTransferRequestLoading,
+  } = useGetReservationTransferRequestWithToken(token);
+
+  const router = useRouter();
+  if (
+    !isUserLoading &&
+    !isReservationTransferRequestLoading &&
+    !user &&
+    !reservationTransferRequestDetail
+  ) {
+    router.replace('/');
+    return;
+  }
+
+  const isLoading = isUserLoading || isReservationTransferRequestLoading;
+
   return (
     <>
       <Header />
-      <main className="flex grow flex-col">
-        <section className="flex flex-col gap-16 px-16 pb-8 pt-12">
-          <GiftIcon />
-          <h1 className="text-18 font-600 leading-[140%]">
-            윤딩동님께서
-            <br />
-            탑승권을 보냈어요!
-          </h1>
-        </section>
-        <ShuttleInfoSection />
-        <SenderSection />
-        <NoticeSection />
-        <SubmitSection />
-      </main>
+      <DeferredSuspense
+        fallback={<Loading style="grow" />}
+        isLoading={isLoading}
+      >
+        {user && reservationTransferRequestDetail && (
+          <Content
+            user={user}
+            reservation={reservationTransferRequestDetail.reservation}
+            reservationTransferRequest={
+              reservationTransferRequestDetail.reservationTransferRequest
+            }
+            token={token}
+          />
+        )}
+      </DeferredSuspense>
     </>
   );
 };
 
 export default Page;
+
+interface ContentProps {
+  user: UsersViewEntity;
+  reservation: ReservationsViewEntity;
+  reservationTransferRequest: ReservationTransferRequestsEntity;
+  token: string;
+}
+
+const Content = ({
+  user,
+  reservation,
+  reservationTransferRequest,
+  token,
+}: ContentProps) => {
+  const router = useRouter();
+
+  const userPhoneNumber = user.phoneNumber;
+  const receiverPhoneNumber = reservationTransferRequest.receiverPhoneNumber;
+  if (userPhoneNumber !== receiverPhoneNumber) {
+    const formattedReceiverPhoneNumber = formatPhoneNumber(
+      receiverPhoneNumber,
+      true,
+    );
+    router.replace(
+      `/accept-reservation-transfer/fail?receiverPhoneNumber=${formattedReceiverPhoneNumber}`,
+    );
+    return;
+  }
+
+  const isAccepted = reservationTransferRequest.status === 'ACCEPTED';
+  if (isAccepted) {
+    router.replace(
+      `/accept-reservation-transfer/${token}/success?status=already-accepted`,
+    );
+    return;
+  }
+
+  const isPending = reservationTransferRequest.status === 'PENDING';
+
+  return (
+    <main className="flex grow flex-col">
+      <TitleSection
+        reservation={reservation}
+        reservationTransferRequest={reservationTransferRequest}
+      />
+      <ShuttleInfoSection reservation={reservation} />
+      <SenderSection reservation={reservation} />
+      <NoticeSection />
+      {isPending && <SubmitSection token={token} />}
+    </main>
+  );
+};

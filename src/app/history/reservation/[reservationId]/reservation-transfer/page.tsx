@@ -5,17 +5,41 @@ import PhoneNumberSection from './components/PhoneNumberSection';
 import ShuttleInfoSection from './components/ShuttleInfoSection';
 import NoticeSection from './components/NoticeSection';
 import SubmitSection from './components/SubmitSection';
+import { useGetUserReservation } from '@/services/reservation.service';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
+import Loading from '@/components/loading/Loading';
+import { useState } from 'react';
 
-const Page = () => {
+interface Props {
+  params: {
+    reservationId: string;
+  };
+}
+
+const Page = ({ params }: Props) => {
+  const { reservationId } = params;
+  const { data: reservationDetail, isLoading } =
+    useGetUserReservation(reservationId);
+  const reservation = reservationDetail?.reservation;
+
+  const [value, setValue] = useState('');
+
   return (
     <>
       <Header />
-      <main className="flex grow flex-col">
-        <PhoneNumberSection />
-        <ShuttleInfoSection />
-        <NoticeSection />
-        <SubmitSection />
-      </main>
+      <DeferredSuspense
+        fallback={<Loading style="grow" />}
+        isLoading={isLoading}
+      >
+        {reservation && (
+          <main className="flex grow flex-col">
+            <PhoneNumberSection value={value} setValue={setValue} />
+            <ShuttleInfoSection reservation={reservation} />
+            <NoticeSection />
+            <SubmitSection value={value} reservationId={reservationId} />
+          </main>
+        )}
+      </DeferredSuspense>
     </>
   );
 };

@@ -7,19 +7,27 @@ interface Props {
   payment: PaymentsViewEntity;
   passengerCount: number;
   isReservationCanceled: boolean;
+  isTransferredReservation: boolean;
 }
 
 const PriceSection = ({
   payment,
   passengerCount,
   isReservationCanceled,
+  isTransferredReservation,
 }: Props) => {
+  if (isTransferredReservation && !isReservationCanceled) {
+    return null;
+  }
   return (
     <WrapperWithDivider>
       <section className="px-16 py-24">
         <h3 className="pb-16 text-16 font-600">결제 정보</h3>
         {isReservationCanceled ? (
-          <RefundPriceContent payment={payment} />
+          <RefundPriceContent
+            payment={payment}
+            isTransferredReservation={isTransferredReservation}
+          />
         ) : (
           <RegularPriceContent
             payment={payment}

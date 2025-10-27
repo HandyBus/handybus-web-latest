@@ -9,10 +9,14 @@ interface Props {
   params: {
     token: string;
   };
+  searchParams: {
+    receiverPhoneNumber: string;
+  };
 }
 
-const Page = ({ params }: Props) => {
+const Page = ({ params, searchParams }: Props) => {
   const { token } = params;
+  const { receiverPhoneNumber } = searchParams;
   const router = useRouter();
   const redirectUrl = `/accept-reservation-transfer/${token}`;
   return (
@@ -27,7 +31,7 @@ const Page = ({ params }: Props) => {
             아래 연락처로 가입된 계정으로 로그인해주세요.
           </p>
           <div className="flex h-40 w-288 items-center justify-center rounded-8 bg-basic-grey-50 p-8 text-18 font-600 text-basic-grey-700">
-            010-1234-1232
+            {receiverPhoneNumber}
           </div>
         </section>
         <div className="flex-1" />

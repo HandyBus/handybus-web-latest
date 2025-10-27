@@ -26,14 +26,18 @@ export const REFUND_STEPS = [
 export const REFUND_STEPS_TO_TEXT: Record<
   (typeof REFUND_STEPS)[number],
   {
-    title: ReactNode | ((input: string) => ReactNode);
-    description?: ReactNode | ((input: string) => ReactNode);
+    title: ReactNode;
+    description?:
+      | ReactNode
+      | ((isTransferredReservation: boolean) => ReactNode);
   }
 > = {
   '취소하시겠어요?': {
     title: '취소하시겠어요?',
-    description:
-      '지금 예약을 취소하시면 서비스 정책에 따라 아래와 같은 취소 수수료가 발생해요.',
+    description: (isTransferredReservation: boolean) =>
+      isTransferredReservation
+        ? '예약을 취소하시면 서비스 정책에 따라 취소 수수료가 발생하며, 예약자의 결제 수단으로 수수료를 제외한 금액이 자동 환불됩니다.'
+        : '지금 예약을 취소하시면 서비스 정책에 따라 아래와 같은 취소 수수료가 발생해요.',
   },
   '취소 사유를 알려주세요': {
     title: '취소 사유를 알려주세요',

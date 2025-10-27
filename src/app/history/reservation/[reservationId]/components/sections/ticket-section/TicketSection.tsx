@@ -76,7 +76,7 @@ const ShuttleBusTicketSection = ({
 
 const HandyPartyTicketSection = () => {
   return (
-    <section className="px-16">
+    <section className="px-16 py-24">
       <h3 className="pb-16 text-16 font-600">핸디팟 탑승</h3>
       <ul className="space-y-2 list-outside list-disc pl-16 text-14 font-400 text-basic-grey-700">
         <li>탑승 4일 전 확정 여부를 알려드려요.</li>
