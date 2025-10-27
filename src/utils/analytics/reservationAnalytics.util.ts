@@ -12,6 +12,7 @@ export type ReservationStep =
   | 'handy_party_select_address'
   | 'handy_party_select_map'
   | 'handy_party_select_reservation_info'
+  | 'handy_party_write_name'
   | 'write_name'
   | 'payment'
   | 'request_payment'
