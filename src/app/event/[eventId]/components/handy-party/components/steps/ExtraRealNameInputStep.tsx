@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@/components/buttons/button/Button';
 import Header from '../Header';
 import { Controller, useFormContext } from 'react-hook-form';
