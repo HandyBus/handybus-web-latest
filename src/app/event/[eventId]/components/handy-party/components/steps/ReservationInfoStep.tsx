@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import Header from '../Header';
 import SimpleRouteInfo from '../SimpleRouteInfo';
 import SubtractIcon from '../../icons/subtract.svg';
 import AddIcon from '../../icons/add.svg';
 import Button from '@/components/buttons/button/Button';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { getHandyPartyArea } from '../../../../../../../utils/handyParty.util';
@@ -14,11 +14,14 @@ import dayjs from 'dayjs';
 import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
+import { useGetUser } from '@/services/user.service';
+import Loading from '@/components/loading/Loading';
 
 const MAX_PASSENGER_COUNT = 5;
 
 interface Props {
   onBack: () => void;
+  toExtraRealNameInputStep: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
   closeBottomSheet: () => void;
   closeModal: () => void;
@@ -26,18 +29,25 @@ interface Props {
 
 const ReservationInfoStep = ({
   onBack,
+  toExtraRealNameInputStep,
   handyPartyRoutes,
   closeBottomSheet,
   closeModal,
 }: Props) => {
   const router = useRouter();
-  const { getValues } = useFormContext<HandyPartyModalFormValues>();
+  const { getValues, setValue, control } =
+    useFormContext<HandyPartyModalFormValues>();
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useGetUser();
   const {
     markAsIntentionalNavigation,
     setReservationTrackingStep,
     getReservationStartTime,
   } = useReservationTrackingGlobal();
-  const [passengerCount, setPassengerCount] = useState(1);
+  const passengerCount = useWatch({ control, name: 'passengerCount' });
 
   const {
     targetRoute,
@@ -104,10 +114,15 @@ const ReservationInfoStep = ({
       discountRate,
       isEarlybird,
     };
-  }, [handyPartyRoutes]);
+  }, [handyPartyRoutes, getValues]);
 
   const handleSubmit = () => {
     if (!targetRoute || !userAddress!) {
+      return;
+    }
+
+    if (!user?.name) {
+      toExtraRealNameInputStep();
       return;
     }
 
@@ -138,7 +153,7 @@ const ReservationInfoStep = ({
       reservationStartTime: getReservationStartTime() ?? undefined,
     });
 
-    // 결제 페이지로 이동하는 것은 의도적 이동이므로 마킹
+    // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹
     markAsIntentionalNavigation();
     router.push(url);
     closeBottomSheet();
@@ -158,6 +173,8 @@ const ReservationInfoStep = ({
     setReservationTrackingStep('[핸디팟] 예약 확인');
   }, [setReservationTrackingStep]);
 
+  if (isUserLoading) return <Loading style="grow" />;
+  if (isUserError) throw new Error('fetching user failed');
   return (
     <div className="flex grow flex-col">
       <Header onBack={onBack} title="이 셔틀로 예약을 진행할게요" />
@@ -179,7 +196,7 @@ const ReservationInfoStep = ({
         <article className="flex items-center justify-between rounded-12 border border-basic-grey-100 p-8">
           <button
             type="button"
-            onClick={() => setPassengerCount((prev) => prev - 1)}
+            onClick={() => setValue('passengerCount', passengerCount - 1)}
             disabled={passengerCount <= 1}
             className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 disabled:text-basic-grey-300 active:[&:not([disabled])]:bg-basic-grey-200"
           >
@@ -188,7 +205,7 @@ const ReservationInfoStep = ({
           <span className="text-16 font-500">{passengerCount}</span>
           <button
             type="button"
-            onClick={() => setPassengerCount((prev) => prev + 1)}
+            onClick={() => setValue('passengerCount', passengerCount + 1)}
             disabled={passengerCount >= MAX_PASSENGER_COUNT}
             className="flex h-[35px] w-[51px] items-center justify-center rounded-8 bg-basic-grey-50 disabled:text-basic-grey-300 active:[&:not([disabled])]:bg-basic-grey-200"
           >
