@@ -63,37 +63,71 @@ export const calculateRefundFee = (
   if (!reservation) {
     return null;
   }
-  // 1시간 이내 전액 환불
-  const nowTime = dayjs().tz();
-  const paymentTime = dayjs(reservation.paymentCreatedAt).tz();
+  const shuttleRoute = reservation.shuttleRoute;
+  const isHandyParty = shuttleRoute.isHandyParty;
 
-  if (nowTime.diff(paymentTime, 'hours') <= 1) {
-    return 0;
-  }
+  // 핸디팟과 셔틀버스 취소 수수료 구분
+  if (isHandyParty) {
+    // 1시간 이내 전액 환불
+    const nowTime = dayjs().tz('Asia/Seoul');
+    const paymentTime = dayjs(reservation.paymentCreatedAt).tz('Asia/Seoul');
 
-  const paymentAmount = reservation.paymentAmount ?? 0;
-  const boardingTime = getBoardingTime(reservation);
-  if (!boardingTime) {
-    return null;
-  }
-  const boardingDate = boardingTime.startOf('day');
-  const nowDate = dayjs().tz().startOf('day');
+    if (nowTime.diff(paymentTime, 'hours') <= 1) {
+      return 0;
+    }
 
-  const dDay = boardingDate.diff(nowDate, 'day');
+    const paymentAmount = reservation.paymentAmount ?? 0;
+    const boardingTime = getBoardingTime(reservation);
+    if (!boardingTime) {
+      return null;
+    }
+    const boardingDate = boardingTime.startOf('day');
+    const nowDate = dayjs().tz('Asia/Seoul').startOf('day');
 
-  let refundFee = 0;
+    const dDay = boardingDate.diff(nowDate, 'day');
 
-  if (dDay >= 12) {
-    refundFee = 0;
-  } else if (dDay === 9) {
-    refundFee = paymentAmount * 0.2;
-  } else if (dDay === 5) {
-    refundFee = paymentAmount * 0.5;
+    let refundFee = 0;
+
+    if (dDay >= 5) {
+      refundFee = 0;
+    } else {
+      refundFee = paymentAmount;
+    }
+
+    return Math.floor(refundFee);
   } else {
-    refundFee = paymentAmount;
-  }
+    // 1시간 이내 전액 환불
+    const nowTime = dayjs().tz('Asia/Seoul');
+    const paymentTime = dayjs(reservation.paymentCreatedAt).tz('Asia/Seoul');
 
-  return Math.floor(refundFee);
+    if (nowTime.diff(paymentTime, 'hours') <= 1) {
+      return 0;
+    }
+
+    const paymentAmount = reservation.paymentAmount ?? 0;
+    const boardingTime = getBoardingTime(reservation);
+    if (!boardingTime) {
+      return null;
+    }
+    const boardingDate = boardingTime.startOf('day');
+    const nowDate = dayjs().tz('Asia/Seoul').startOf('day');
+
+    const dDay = boardingDate.diff(nowDate, 'day');
+
+    let refundFee = 0;
+
+    if (dDay >= 12) {
+      refundFee = 0;
+    } else if (dDay === 9) {
+      refundFee = paymentAmount * 0.2;
+    } else if (dDay === 5) {
+      refundFee = paymentAmount * 0.5;
+    } else {
+      refundFee = paymentAmount;
+    }
+
+    return Math.floor(refundFee);
+  }
 };
 
 export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
@@ -101,8 +135,8 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
     return false;
   }
   // 1시간 이내 전액 환불
-  const nowTime = dayjs().tz();
-  const paymentTime = dayjs(reservation.paymentCreatedAt).tz();
+  const nowTime = dayjs().tz('Asia/Seoul');
+  const paymentTime = dayjs(reservation.paymentCreatedAt).tz('Asia/Seoul');
 
   if (nowTime.diff(paymentTime, 'hours') <= 1) {
     return true;
@@ -114,7 +148,7 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
     return false;
   }
   const boardingDate = boardingTime.startOf('day');
-  const nowDate = dayjs().tz().startOf('day');
+  const nowDate = dayjs().tz('Asia/Seoul').startOf('day');
 
   const dDay = boardingDate.diff(nowDate, 'day');
 
