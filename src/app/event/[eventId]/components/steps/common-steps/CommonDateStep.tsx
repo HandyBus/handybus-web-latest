@@ -10,10 +10,14 @@ import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import Button from '@/components/buttons/button/Button';
 import { EventPhase } from '@/utils/event.util';
-import { useGetDemandStats } from '@/services/demand.service';
+import {
+  useGetDemandStats,
+  useGetUserDemandsWithPagination,
+} from '@/services/demand.service';
 import { useMemo } from 'react';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { toast } from 'react-toastify';
 
 interface Props {
   toNextStep: () => void;
@@ -22,12 +26,26 @@ interface Props {
 
 const CommonDateStep = ({ toNextStep, phase }: Props) => {
   const event = useAtomValue(eventAtom);
+  const { data: userDemandsPages } = useGetUserDemandsWithPagination({
+    eventId: event?.eventId,
+  });
+  const userDemandsOfEvent = userDemandsPages?.pages;
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
 
   const { setValue } = useFormContext<EventFormValues>();
 
   const handleDateClick = (dailyEvent: DailyEventsInEventsViewEntity) => {
     if (!event) {
+      return;
+    }
+    const isDemandSubmitted = userDemandsOfEvent?.some(
+      (demand) =>
+        demand.shuttleDemands.find(
+          (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
+        )?.status === 'SUBMITTED',
+    );
+    if (isDemandSubmitted) {
+      toast.error('이미 참여한 일자예요.');
       return;
     }
     setValue('dailyEvent', dailyEvent);

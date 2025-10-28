@@ -56,7 +56,7 @@ export const EVENT_STEPS_TO_TEXT: Record<
   },
   '[수요조사] 정류장 정보': {
     title: '이 곳에 셔틀을 요청할까요?',
-    description: '이 정류장에서 셔틀이 열리면 바로 알려드릴게요.',
+    description: '셔틀이 열리는 즉시 알려드려요.',
   },
   // 예약
   '[예약] 정류장 선택': {
