@@ -1,11 +1,15 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import { useGetDemandStats } from '@/services/demand.service';
+import {
+  useGetDemandStats,
+  useGetUserDemandsWithPagination,
+} from '@/services/demand.service';
 import { useAtomValue } from 'jotai';
 import { eventAtom } from '../../../store/eventAtom';
 import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
+import { toast } from 'react-toastify';
 
 interface Props {
   toExtraOpenSidoStep: () => void;
@@ -32,7 +36,22 @@ const ExtraSidoInfoStep = ({
   );
   const demandCount = demandStats?.[0]?.totalCount ?? 0;
 
+  const { data: userDemandsPages } = useGetUserDemandsWithPagination({
+    eventId: event?.eventId,
+  });
+  const userDemandsOfEvent = userDemandsPages?.pages;
+
   const handleDemandClick = () => {
+    const isDemandSubmitted = userDemandsOfEvent?.some(
+      (demand) =>
+        demand.shuttleDemands.find(
+          (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
+        )?.status === 'SUBMITTED',
+    );
+    if (isDemandSubmitted) {
+      toast.error('이미 참여한 일자예요.');
+      return;
+    }
     setValue('openSido', undefined);
     toDemandHubsStep();
   };

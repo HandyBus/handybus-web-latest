@@ -80,19 +80,14 @@ export const EVENT_STEPS_TO_TEXT: Record<
         </>
       );
     },
-    description: '셔틀이 필요한 인원을 확인하고 있어요.',
+    description: '셔틀이 열릴 수 있도록 수요를 확인하고 있어요.',
   },
   '[기타] 예약 가능 시/도': {
     title: '현재 예약이 가능한 지역이에요',
   },
   '[기타] 복수 노선': {
-    title: (input) => `${input}개의 노선이 있어요`,
-    description: (input) => (
-      <>
-        <span className="font-700">{input}</span> 정류장을 지나는 셔틀 중 원하는
-        시간을 선택해 주세요.
-      </>
-    ),
+    title: '원하는 정류장을 선택하세요',
+    description: '원하는 시간대의 노선을 선택해주세요.',
   },
   '[기타] 빈자리 알림': {
     title: '알림 신청이 완료되었어요',

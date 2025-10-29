@@ -1,10 +1,9 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import PinIcon from '../../../icons/pin-small.svg';
+import PinIcon from '../../../icons/pin-circle.svg';
 import Tooltip from '@/components/tooltip/Tooltip';
 import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
-import Badge from '@/components/badge/Badge';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useFormContext } from 'react-hook-form';
@@ -13,6 +12,7 @@ import { checkIsSoldOut, getPriorityRemainingSeat } from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import {
   dailyEventIdsWithHubsAtom,
+  getRouteOfHubWithInfo,
   HubWithInfo,
 } from '../../../store/dailyEventIdsWithHubsAtom';
 import {
@@ -24,6 +24,9 @@ import {
   selectedHubWithInfoForDetailViewAtom,
 } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
+import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
+import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -47,6 +50,7 @@ const ReservationHubsStep = ({
     'sido',
     'openSido',
   ]);
+  const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
   const gungusWithHubs = useMemo(() => {
     const prioritySido = openSido ?? sido;
     const gungusWithHubsAsObject =
@@ -115,41 +119,67 @@ const ReservationHubsStep = ({
 
   const isDemandPossible = dailyEvent.status === 'OPEN';
 
+  const recentlyViewedRoute = useMemo(() => {
+    if (!recentlyViewedPossibleHubs) return;
+    return getRouteOfHubWithInfo({
+      hubWithInfo: recentlyViewedPossibleHubs[0],
+      dailyEventIdsWithRoutes,
+      dailyEventId: dailyEvent.dailyEventId,
+    });
+  }, [recentlyViewedPossibleHubs, dailyEventIdsWithRoutes, dailyEvent]);
+
   return (
     <section>
-      {recentlyViewedPossibleHubs && (
-        <RecentlyViewedHub
-          possibleHubs={recentlyViewedPossibleHubs}
-          handleHubClick={() => handleHubClick(recentlyViewedPossibleHubs)}
-        />
+      {recentlyViewedPossibleHubs && recentlyViewedRoute && (
+        <>
+          <div className="flex flex-col gap-12 pt-4">
+            <p className="text-14 font-600 text-basic-grey-700">
+              최근에 본 정류장
+            </p>
+            <Hub
+              possibleHubs={recentlyViewedPossibleHubs}
+              handleHubClick={() => handleHubClick(recentlyViewedPossibleHubs)}
+              toExtraSeatAlarmStep={toExtraSeatAlarmStep}
+              route={recentlyViewedRoute}
+            />
+          </div>
+          <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+        </>
       )}
-      <div>
-        {gungusWithHubs.map((gunguWithHubs, index) => (
+      <div className="flex flex-col gap-24 pt-16">
+        {gungusWithHubs.map((gunguWithHubs) => (
           <article key={gunguWithHubs.gungu}>
             <div className="mb-4 flex h-[26px] items-center gap-[2px]">
-              <PinIcon />
               <h6 className="text-14 font-600 text-basic-grey-400">
                 {gunguWithHubs.gungu}
               </h6>
             </div>
-            <ul className="flex flex-col gap-8">
-              {gunguWithHubs.hubs.map((possibleHubs) => (
-                <Hub
-                  key={possibleHubs[0].regionHubId}
-                  possibleHubs={possibleHubs}
-                  handleHubClick={() => handleHubClick(possibleHubs)}
-                  toExtraSeatAlarmStep={toExtraSeatAlarmStep}
-                />
-              ))}
+            <ul className="flex flex-col ">
+              {gunguWithHubs.hubs.map((possibleHubs) => {
+                const route = getRouteOfHubWithInfo({
+                  hubWithInfo: possibleHubs[0],
+                  dailyEventIdsWithRoutes,
+                  dailyEventId: dailyEvent.dailyEventId,
+                });
+
+                if (!route) return null;
+                return (
+                  <Hub
+                    key={possibleHubs[0].regionHubId}
+                    possibleHubs={possibleHubs}
+                    handleHubClick={() => handleHubClick(possibleHubs)}
+                    toExtraSeatAlarmStep={toExtraSeatAlarmStep}
+                    route={route}
+                  />
+                );
+              })}
             </ul>
-            {(index !== gungusWithHubs.length - 1 || isDemandPossible) && (
-              <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
-            )}
           </article>
         ))}
       </div>
+      <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
       {isDemandPossible && (
-        <div className="flex items-center justify-between gap-8 pb-12">
+        <div className="flex items-center justify-between gap-8 pb-12 pt-12">
           <div className="flex h-[26px] items-center gap-4">
             <span className="text-16 font-600 text-basic-grey-700">
               찾는 정류장이 없나요?
@@ -176,27 +206,59 @@ interface HubProps {
   possibleHubs: HubWithInfo[];
   handleHubClick: (hubsWithInfo: HubWithInfo[]) => void;
   toExtraSeatAlarmStep: () => void;
+  route: ShuttleRoutesViewEntity;
 }
 
 const Hub = ({
   possibleHubs,
   handleHubClick,
   toExtraSeatAlarmStep,
+  route,
 }: HubProps) => {
   const isDuplicate = possibleHubs.length > 1;
   const isSoldOut = possibleHubs.every((hub) =>
     checkIsSoldOut(hub.remainingSeat),
   );
+  const isSoldOutForToDestination = possibleHubs
+    .filter((hub) => hub.type === 'TO_DESTINATION')
+    .every((hub) => checkIsSoldOut(hub.remainingSeat));
+  const isSoldOutForFromDestination = possibleHubs
+    .filter((hub) => hub.type === 'FROM_DESTINATION')
+    .every((hub) => checkIsSoldOut(hub.remainingSeat));
+
   const hub = possibleHubs[0];
   const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
   const remainingSeatCount = remainingSeat?.count ?? 0;
-  const remainingSeatTypeText =
-    remainingSeat &&
-    (remainingSeat.type === 'ROUND_TRIP'
-      ? null
-      : remainingSeat.type === 'TO_DESTINATION'
-        ? '행사장행'
-        : '귀가행');
+
+  const toDestinationExists =
+    !!route.toDestinationShuttleRouteHubs &&
+    route.toDestinationShuttleRouteHubs.length > 0;
+  const fromDestinationExists =
+    !!route.fromDestinationShuttleRouteHubs &&
+    route.fromDestinationShuttleRouteHubs.length > 0;
+
+  const toDestinationArrivalTime = toDestinationExists
+    ? dateString(
+        route.toDestinationShuttleRouteHubs?.find(
+          (hub) => hub.role === 'DESTINATION',
+        )?.arrivalTime,
+        {
+          showYear: false,
+          showDate: false,
+          showWeekday: false,
+          showTime: true,
+        },
+      )
+    : null;
+
+  const fromDestinationDepartureTime = fromDestinationExists
+    ? dateString(route.fromDestinationShuttleRouteHubs?.[0]?.arrivalTime, {
+        showYear: false,
+        showDate: false,
+        showWeekday: false,
+        showTime: true,
+      })
+    : null;
 
   return (
     <div key={hub.regionHubId} className="relative flex w-full items-center">
@@ -204,70 +266,59 @@ const Hub = ({
         type="button"
         onClick={() => handleHubClick(possibleHubs)}
         disabled={isSoldOut}
-        className={`group flex w-full justify-between gap-8 py-12 text-left ${!isDuplicate && isSoldOut && 'pr-[166px]'}`}
+        className={`group mb-16 flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left`}
       >
-        <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-          {hub.name}
-        </span>
-        {isDuplicate && <Badge className="bg-basic-grey-50">복수 노선</Badge>}
-        {!isDuplicate && !isSoldOut && (
-          <p className="flex shrink-0 items-center gap-8 text-14 font-500">
-            <span className="text-basic-grey-500">{remainingSeatTypeText}</span>
-            {remainingSeatTypeText && (
-              <div className="h-12 w-[1px] bg-basic-grey-300" />
-            )}
-            {remainingSeatCount > DANGER_SEAT_THRESHOLD ? (
-              <span className="text-basic-grey-500">여유</span>
-            ) : (
-              <span className="text-basic-red-400">
-                {remainingSeatCount}석 남음
+        <div className="flex items-center justify-between">
+          <div className="flex w-[calc(100%-50px)] items-center gap-[6px]">
+            <PinIcon className="shrink-0" />
+            <span className="overflow-x-auto whitespace-nowrap text-16 font-600 text-basic-grey-700 scrollbar-hidden group-disabled:text-basic-grey-300">
+              {hub.name}
+            </span>
+          </div>
+          {!isDuplicate && isSoldOut ? (
+            <span className="whitespace-nowrap break-keep text-14 font-600 text-basic-grey-300">
+              매진
+            </span>
+          ) : (
+            remainingSeatCount <= DANGER_SEAT_THRESHOLD && (
+              <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+                매진 임박
               </span>
-            )}
-          </p>
+            )
+          )}
+        </div>
+        <div className="flex pl-[29px] text-12 font-500 leading-[160%] text-basic-grey-600">
+          {toDestinationArrivalTime && (
+            <div
+              className={`${isSoldOutForToDestination && 'text-basic-grey-300'}`}
+            >
+              행사장행: {toDestinationArrivalTime} 도착 {isDuplicate && ' 외'}
+            </div>
+          )}
+          {toDestinationArrivalTime && fromDestinationDepartureTime && (
+            <div
+              className={`${(isSoldOutForToDestination || isSoldOutForFromDestination) && 'text-basic-grey-300'}`}
+            >
+              &nbsp;|&nbsp;
+            </div>
+          )}
+          {fromDestinationDepartureTime && (
+            <div
+              className={`${isSoldOutForFromDestination && 'text-basic-grey-300'}`}
+            >
+              귀가행: {fromDestinationDepartureTime} 출발 {isDuplicate && ' 외'}
+            </div>
+          )}
+        </div>
+        {!isDuplicate && isSoldOut && (
+          <div className="flex w-full justify-center">
+            <RequestSeatAlarmButton
+              toStep={toExtraSeatAlarmStep}
+              hubWithInfo={hub}
+            />
+          </div>
         )}
       </button>
-      {!isDuplicate && isSoldOut && (
-        <div className="absolute right-0 top-12 flex w-fit items-center gap-8">
-          <RequestSeatAlarmButton
-            toStep={toExtraSeatAlarmStep}
-            hubWithInfo={hub}
-          />
-          <span className="whitespace-nowrap break-keep text-14 font-600 text-basic-grey-300">
-            전석 매진
-          </span>
-        </div>
-      )}
     </div>
-  );
-};
-
-interface RecentlyViewedHubProps {
-  possibleHubs: HubWithInfo[];
-  handleHubClick: (hubsWithInfo: HubWithInfo[]) => void;
-}
-
-const RecentlyViewedHub = ({
-  possibleHubs,
-  handleHubClick,
-}: RecentlyViewedHubProps) => {
-  const isSoldOut = possibleHubs.every((hub) =>
-    checkIsSoldOut(hub.remainingSeat),
-  );
-  const hub = possibleHubs[0];
-
-  return (
-    <button
-      type="button"
-      onClick={() => handleHubClick(possibleHubs)}
-      disabled={isSoldOut}
-      className={`group mb-16 flex w-full items-center gap-8 rounded-[12px] border border-basic-grey-100 px-16 py-12 text-left`}
-    >
-      <div className="flex whitespace-nowrap rounded-[10px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
-        최근 기록
-      </div>
-      <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-        {hub.name}
-      </span>
-    </button>
   );
 };

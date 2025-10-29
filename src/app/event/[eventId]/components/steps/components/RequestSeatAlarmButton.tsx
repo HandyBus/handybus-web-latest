@@ -33,7 +33,6 @@ const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
 
   const handleClick = async (e: SyntheticEvent) => {
     e.stopPropagation();
-
     const { dailyEventId } = getValues('dailyEvent');
     const route = getRouteOfHubWithInfo({
       hubWithInfo,
