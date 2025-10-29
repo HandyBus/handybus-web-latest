@@ -118,9 +118,9 @@ export const calculateRefundFee = (
 
     if (dDay >= 12) {
       refundFee = 0;
-    } else if (dDay === 9) {
+    } else if (dDay >= 9) {
       refundFee = paymentAmount * 0.2;
-    } else if (dDay === 5) {
+    } else if (dDay >= 5) {
       refundFee = paymentAmount * 0.5;
     } else {
       refundFee = paymentAmount;
