@@ -54,9 +54,6 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
                   )}
                 </div>
               )}
-              <div className="rounded-[10px] border border-basic-grey-200 px-8 py-4 text-10 font-600 text-basic-grey-700">
-                2/5
-              </div>
             </div>
             {children}
             <div className="h-16" />
