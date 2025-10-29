@@ -149,7 +149,7 @@ const CancelBottomSheet = ({
 
       toast.success('예약을 취소했어요.');
       closeBottomSheet();
-      router.push('/mypage/shuttle?type=reservation');
+      router.push('/history?type=reservation');
     } catch (e) {
       const error = e as CustomError;
       Sentry.captureException(error, {

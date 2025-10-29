@@ -34,7 +34,7 @@ const TicketPage = ({ params, searchParams }: Props) => {
 
   useEffect(() => {
     if (!isLoading && !reservation) {
-      router.replace('/mypage/shuttle?type=reservation');
+      router.replace('/history?type=reservation');
       return;
     }
   }, [isLoading, router, reservationId, reservation]);
@@ -48,7 +48,7 @@ const TicketPage = ({ params, searchParams }: Props) => {
     );
   }
   if (isShuttleEnded || isCanceled) {
-    router.replace('/mypage/shuttle?type=reservation');
+    router.replace('/history?type=reservation');
   }
   if (!reservation) {
     return null;
