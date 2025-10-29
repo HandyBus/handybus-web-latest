@@ -7,7 +7,7 @@ import { DailyEventsInEventsViewEntity } from '@/types/event.type';
 import Image from 'next/image';
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import Badge from '@/components/badge/Badge';
-import ArrowRightIcon from '../../icons/arrow-right.svg';
+import ArrowRightIcon from '../../icons/arrow-right-black.svg';
 import { getHubText } from '@/utils/event.util';
 import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
