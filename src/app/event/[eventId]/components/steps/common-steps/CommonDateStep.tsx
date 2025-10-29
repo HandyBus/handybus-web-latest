@@ -181,7 +181,7 @@ const dailyEventStatusChip = ({
       );
     case '예약마감':
       return (
-        <span className="rounded-[42px] bg-basic-grey-50 text-10 font-600 leading-[160%] text-basic-grey-300">
+        <span className="rounded-[42px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-300">
           예약마감
         </span>
       );
