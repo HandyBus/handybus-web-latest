@@ -266,7 +266,7 @@ const Hub = ({
         type="button"
         onClick={() => handleHubClick(possibleHubs)}
         disabled={isSoldOut}
-        className={`group mb-16 flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left`}
+        className={`group mb-16 flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left ${isSoldOut && 'pb-[49px]'}`}
       >
         <div className="flex items-center justify-between">
           <div className="flex w-[calc(100%-50px)] items-center gap-[6px]">
@@ -310,15 +310,15 @@ const Hub = ({
             </div>
           )}
         </div>
-        {!isDuplicate && isSoldOut && (
-          <div className="flex w-full justify-center">
-            <RequestSeatAlarmButton
-              toStep={toExtraSeatAlarmStep}
-              hubWithInfo={hub}
-            />
-          </div>
-        )}
       </button>
+      {!isDuplicate && isSoldOut && (
+        <div className="absolute bottom-[25px] left-1/2 -translate-x-1/2 transform">
+          <RequestSeatAlarmButton
+            toStep={toExtraSeatAlarmStep}
+            hubWithInfo={hub}
+          />
+        </div>
+      )}
     </div>
   );
 };
