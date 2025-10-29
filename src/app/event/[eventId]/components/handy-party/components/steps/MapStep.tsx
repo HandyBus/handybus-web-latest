@@ -31,7 +31,7 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMarker = useRef<kakao.maps.Marker | null>(null);
   const kakaoGeocoder = useRef<kakao.maps.services.Geocoder | null>(null);
-
+  const selectedArea = getValues('selectedArea');
   // 주소 검색 오류 or 운행하지 않는 지역
   const [addressSearchError, setAddressSearchError] = useState<boolean>(false);
 
@@ -66,6 +66,7 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
             const isPossibleHandyPartyArea = checkIsPossibleHandyPartyArea(
               address.address_name,
               possibleHandyPartyAreas,
+              selectedArea,
             );
             if (!isPossibleHandyPartyArea) {
               setAddressSearchError(true);
@@ -182,6 +183,7 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
             '원하는 위치로 지도를 움직여 핀을 놓아주세요. 예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
           )
         }
+        displayCloseButton={true}
       />
       <section className="relative mx-12 my-0 grow overflow-hidden rounded-6 border border-basic-grey-200">
         <div ref={mapRef} className="h-full w-full" />

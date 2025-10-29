@@ -122,7 +122,7 @@ const ExtraSelectProductStep = ({
         <button
           onClick={toReservationHubsStep}
           type="button"
-          className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100"
+          className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left enabled:active:bg-basic-grey-100"
           disabled={!isShuttleBusAvailable}
         >
           <div className="relative group-disabled:opacity-40">

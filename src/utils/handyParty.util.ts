@@ -10,10 +10,12 @@ import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 export const checkIsPossibleHandyPartyArea = (
   address: string,
   possibleHandyPartyAreas: HandyPartyRouteArea[],
+  selectedArea: HandyPartyRouteArea,
 ) => {
   const itemHandyPartyArea = getHandyPartyArea(address);
 
-  if (!itemHandyPartyArea) {
+  // 선택한 권역에 해당하지는지 확인
+  if (!itemHandyPartyArea || selectedArea !== itemHandyPartyArea) {
     return false;
   }
 
