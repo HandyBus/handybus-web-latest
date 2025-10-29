@@ -98,9 +98,7 @@ const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   }, [setReservationTrackingStep]);
 
   const displayedSelectedArea =
-    HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].sido === '서울'
-      ? HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ')
-      : selectedArea;
+    HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ');
 
   return (
     <div className="flex h-full grow flex-col">
