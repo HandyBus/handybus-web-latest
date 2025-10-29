@@ -14,6 +14,7 @@ import PossibleRegionStep from './components/steps/PossibleRegionStep';
 import { EventFormValues } from '../../form.type';
 import { BigRegionsType } from '@/constants/regions';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
+import ExtraRealNameInputStep from './components/steps/ExtraRealNameInputStep';
 
 const HANDY_PARTY_MODAL_STEPS = [
   '지역 선택',
@@ -21,6 +22,7 @@ const HANDY_PARTY_MODAL_STEPS = [
   '주소 입력',
   '지도',
   '예약 확인',
+  '이름 입력',
 ] as const;
 
 export type TripTypeWithoutRoundTrip = Exclude<TripType, 'ROUND_TRIP'>;
@@ -38,6 +40,8 @@ export interface HandyPartyModalFormValues {
   openSido: BigRegionsType;
   dailyEvent: DailyEventsInEventsViewEntity;
   selectedArea: HandyPartyRouteArea;
+  userName: string;
+  passengerCount: number;
 }
 
 interface Props {
@@ -68,6 +72,7 @@ const HandyPartyModal = ({
       sido,
       openSido,
       dailyEvent,
+      passengerCount: 1,
     },
   });
 
@@ -117,6 +122,15 @@ const HandyPartyModal = ({
             </Step>
             <Step name="예약 확인">
               <ReservationInfoStep
+                onBack={handlePrevStep}
+                toExtraRealNameInputStep={handleNextStep}
+                handyPartyRoutes={handyPartyRoutes}
+                closeBottomSheet={closeBottomSheet}
+                closeModal={closeModal}
+              />
+            </Step>
+            <Step name="이름 입력">
+              <ExtraRealNameInputStep
                 onBack={handlePrevStep}
                 handyPartyRoutes={handyPartyRoutes}
                 closeBottomSheet={closeBottomSheet}
