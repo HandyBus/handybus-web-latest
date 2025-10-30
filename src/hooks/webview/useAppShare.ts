@@ -20,10 +20,10 @@ const useAppShare = () => {
               url: params.url,
             })
             .catch((error) => {
-              console.error('[WebShare] Error:', error);
+              console.error('[WebView] Error:', error);
             });
         } else {
-          console.log('[Share] Web Share API not supported');
+          console.log('[WebView] Web Share API not supported');
         }
         return false;
       }

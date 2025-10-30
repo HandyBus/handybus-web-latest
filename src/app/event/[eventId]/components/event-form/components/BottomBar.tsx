@@ -8,21 +8,22 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
+import useAppShare from '@/hooks/webview/useAppShare';
 
 interface Props {
   eventId: string;
+  eventName: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
-  openShareBottomSheet: () => void;
 }
 
 const BottomBar = ({
   eventId,
+  eventName,
   phase,
   enabledStatus,
   onClick,
-  openShareBottomSheet,
 }: Props) => {
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
@@ -38,6 +39,15 @@ const BottomBar = ({
     onClick();
   };
 
+  const share = useAppShare();
+  const handleShare = () => {
+    share({
+      title: `${eventName} 셔틀`,
+      message: `${eventName}까지 편리하게 이동하기!`,
+      url: window.location.href,
+    });
+  };
+
   return (
     <>
       <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
@@ -45,7 +55,7 @@ const BottomBar = ({
           variant="secondary"
           size="medium"
           type="button"
-          onClick={openShareBottomSheet}
+          onClick={handleShare}
         >
           공유하기
         </Button>

@@ -14,6 +14,7 @@ interface ShareBottomSheetProps extends BottomSheetRefs {
   className?: string;
 }
 
+// @deprecated
 const ShareBottomSheet = ({
   bottomSheetRef,
   eventId,

@@ -4,31 +4,40 @@ import Button from '@/components/buttons/button/Button';
 import SuccessIconWithReward from '../../icons/demand-success-with-reward.svg';
 import SuccessIconWithoutReward from '../../icons/demand-success-without-reward.svg';
 import { DemandCompleteStatus } from './DemandCompleteScreen';
+import useAppShare from '@/hooks/webview/useAppShare';
 
 interface Props {
+  eventName: string;
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
-  openShareBottomSheet: () => void;
   isNoDemandRewardCouponEvent: boolean;
 }
 
 const SuccessScreen = ({
+  eventName,
   setDemandCompleteStatus,
   demandCount,
-  openShareBottomSheet,
   isNoDemandRewardCouponEvent,
 }: Props) => {
+  const share = useAppShare();
+  const handleShare = () => {
+    share({
+      title: `${eventName} 셔틀`,
+      message: `${eventName}까지 편리하게 이동하기!`,
+      url: window.location.href,
+    });
+  };
   return isNoDemandRewardCouponEvent ? (
     <NoDemandRewardCouponSuccessScreen
       setDemandCompleteStatus={setDemandCompleteStatus}
       demandCount={demandCount}
-      openShareBottomSheet={openShareBottomSheet}
+      handleShare={handleShare}
     />
   ) : (
     <DemandRewardCouponSuccessScreen
       setDemandCompleteStatus={setDemandCompleteStatus}
       demandCount={demandCount}
-      openShareBottomSheet={openShareBottomSheet}
+      handleShare={handleShare}
     />
   );
 };
@@ -38,13 +47,13 @@ export default SuccessScreen;
 interface DemandRewardCouponSuccessScreenProps {
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
-  openShareBottomSheet: () => void;
+  handleShare: () => void;
 }
 
 const DemandRewardCouponSuccessScreen = ({
   setDemandCompleteStatus,
   demandCount,
-  openShareBottomSheet,
+  handleShare,
 }: DemandRewardCouponSuccessScreenProps) => {
   return (
     <div className="fixed inset-0 z-[101] mx-auto flex max-w-[500px] flex-col items-center bg-basic-white">
@@ -70,11 +79,7 @@ const DemandRewardCouponSuccessScreen = ({
           </p>
         )}
         <div className="flex w-full items-center gap-8 p-16">
-          <Button
-            variant="secondary"
-            size="large"
-            onClick={openShareBottomSheet}
-          >
+          <Button variant="secondary" size="large" onClick={handleShare}>
             친구도 알려주기
           </Button>
           <Button
@@ -93,13 +98,13 @@ const DemandRewardCouponSuccessScreen = ({
 interface NoDemandRewardCouponSuccessScreenProps {
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
-  openShareBottomSheet: () => void;
+  handleShare: () => void;
 }
 
 const NoDemandRewardCouponSuccessScreen = ({
   setDemandCompleteStatus,
   demandCount,
-  openShareBottomSheet,
+  handleShare,
 }: NoDemandRewardCouponSuccessScreenProps) => {
   return (
     <div className="fixed inset-0 z-[101] mx-auto flex max-w-[500px] flex-col items-center bg-basic-white">
@@ -121,11 +126,7 @@ const NoDemandRewardCouponSuccessScreen = ({
           </p>
         )}
         <div className="flex w-full items-center gap-8 p-16">
-          <Button
-            variant="secondary"
-            size="large"
-            onClick={openShareBottomSheet}
-          >
+          <Button variant="secondary" size="large" onClick={handleShare}>
             친구도 알려주기
           </Button>
           <Button
