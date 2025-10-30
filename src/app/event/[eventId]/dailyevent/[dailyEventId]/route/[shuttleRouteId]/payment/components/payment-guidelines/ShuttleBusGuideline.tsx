@@ -14,6 +14,7 @@ const ShuttleBusGuideline = () => {
               핸디버스는 본 셔틀 노선의 판매 중개자로, 직접 제공자는 각
               운송업체에 있습니다.
             </li>
+            <li>★셔틀버스 운행 여부는 탑승 11일 전까지 확정됩니다. </li>
             <li>★최종 탑승 정보는 탑승 1일 전 안내드립니다.</li>
             <li>
               ★승하차위치는 현장 상황에 따라 변경될 수 있으며, 변경 시 문자로
@@ -36,7 +37,10 @@ const ShuttleBusGuideline = () => {
           <article>
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
             <ul className={TEXT_STYLE}>
-              <li>예약한 셔틀은 모두 100% 운행됩니다.</li>
+              <li>
+                ★최소 인원 미달로 인해 무산될 수 있으며, 무산 시 탑승 11일 전
+                개별 안내드립니다.
+              </li>
               <li>
                 최소 인원 미달로 인해 경유 노선으로 운행될 수 있습니다. (★경유로
                 인한 취소/환불 불가)
@@ -62,6 +66,10 @@ const ShuttleBusGuideline = () => {
           <article>
             <h6 className={SUB_TITLE_STYLE}>취소 및 환불 안내</h6>
             <ul className={TEXT_STYLE}>
+              <li>
+                운행 무산 시 공지 후 영업일 기준 3-5일 이내로 전액 환불
+                처리됩니다.
+              </li>
               <li>
                 예약한 셔틀은 환불 신청 시점에 따라 수수료가 발생하거나 환불이
                 불가할 수 있습니다.
