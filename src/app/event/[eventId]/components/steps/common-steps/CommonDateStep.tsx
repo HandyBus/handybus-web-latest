@@ -27,18 +27,26 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
 
   const { setValue } = useFormContext<EventFormValues>();
-
   const handleDateClick = (dailyEvent: DailyEventsInEventsViewEntity) => {
     if (!event) {
       return;
     }
+
+    if (phase !== 'demand') {
+      setValue('dailyEvent', dailyEvent);
+      toNextStep();
+      return;
+    }
+
     const isDemandSubmitted = userDemands?.some(
       (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
     );
+
     if (isDemandSubmitted) {
       toast.error('이미 참여한 일자예요.');
       return;
     }
+
     setValue('dailyEvent', dailyEvent);
     toNextStep();
   };
