@@ -19,12 +19,17 @@ const Header = ({
   displayCloseButton = false,
 }: Props) => {
   const isApp = useIsApp();
+  const appHeaderHeight = description
+    ? 'calc(56px + var(--safe-area-inset-top))'
+    : 'calc(26px + var(--safe-area-inset-top))';
   const headerStyle = isApp
     ? {
         paddingTop: 'var(--safe-area-inset-top)',
-        height: 'calc(56px + var(--safe-area-inset-top))',
+        height: appHeaderHeight,
       }
-    : {};
+    : {
+        paddingBottom: displayCloseButton ? '12px' : '0px',
+      };
 
   return (
     <header className="shrink-0 px-24 pt-16" style={headerStyle}>

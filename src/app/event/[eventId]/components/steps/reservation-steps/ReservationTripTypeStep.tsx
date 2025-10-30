@@ -63,15 +63,17 @@ const ReservationTripTypeStep = ({
                 <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
                   {TRIP_STATUS_TO_STRING[tripType]}
                 </span>
-                {remainingSeatCount > DANGER_SEAT_THRESHOLD ? (
+                {remainingSeatCount > DANGER_SEAT_THRESHOLD && (
                   <span className="text-14 font-500 text-basic-grey-500">
                     좌석 여유
                   </span>
-                ) : (
-                  <span className="text-14 font-500 text-basic-red-400">
-                    {remainingSeatCount}석 남음
-                  </span>
                 )}
+                {remainingSeatCount <= DANGER_SEAT_THRESHOLD &&
+                  remainingSeatCount > 0 && (
+                    <span className="text-14 font-500 text-basic-red-400">
+                      {remainingSeatCount}석 남음
+                    </span>
+                  )}
                 {isSoldOut && (
                   <span className="text-14 font-600 text-basic-grey-500">
                     매진
@@ -93,9 +95,6 @@ const ReservationTripTypeStep = ({
                   toStep={toExtraSeatAlarmStep}
                   hubWithInfo={selectedHubWithInfo}
                 />
-                <span className="text-14 font-600 text-basic-grey-500">
-                  매진
-                </span>
               </div>
             )}
           </div>

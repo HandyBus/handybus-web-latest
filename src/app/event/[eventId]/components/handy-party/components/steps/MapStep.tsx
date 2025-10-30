@@ -171,21 +171,22 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
 
   return (
     <div className="flex grow flex-col">
-      <Header
-        onBack={onBack}
-        title="정확한 위치를 설정해주세요"
-        description={
-          addressSearchError ? (
+      <Header onBack={onBack} title="주소 입력" displayCloseButton={true} />
+      <section className="px-16 pb-16 pt-12">
+        <h2 className="text-18 font-600 leading-[140%]">
+          정확한 위치를 설정해 주세요
+        </h2>
+        <p className="text-16 font-500 leading-[160%] text-basic-grey-600">
+          {addressSearchError ? (
             <span className="text-basic-red-500">
               이 곳은 핸디팟 운행이 어려운 지역이에요.
             </span>
           ) : (
             '원하는 위치로 지도를 움직여 핀을 놓아주세요. 예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
-          )
-        }
-        displayCloseButton={true}
-      />
-      <section className="relative mx-12 my-0 grow overflow-hidden rounded-6 border border-basic-grey-200">
+          )}
+        </p>
+      </section>
+      <section className="relative mx-16 my-0 grow overflow-hidden rounded-6 border border-basic-grey-200">
         <div ref={mapRef} className="h-full w-full" />
       </section>
       <section

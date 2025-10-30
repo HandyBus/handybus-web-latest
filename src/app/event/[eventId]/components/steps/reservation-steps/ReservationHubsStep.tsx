@@ -130,7 +130,7 @@ const ReservationHubsStep = ({
 
   return (
     <section>
-      {recentlyViewedPossibleHubs && recentlyViewedRoute && (
+      {!1 && recentlyViewedPossibleHubs && recentlyViewedRoute && (
         <>
           <div className="flex flex-col gap-12 pt-4">
             <p className="text-14 font-600 text-basic-grey-700">
@@ -143,18 +143,18 @@ const ReservationHubsStep = ({
               route={recentlyViewedRoute}
             />
           </div>
-          <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+          <div className="my-24 h-[1px] w-full bg-basic-grey-100" />
         </>
       )}
-      <div className="flex flex-col gap-24 pt-16">
+      <div className="flex flex-col gap-24">
         {gungusWithHubs.map((gunguWithHubs) => (
           <article key={gunguWithHubs.gungu}>
-            <div className="mb-4 flex h-[26px] items-center gap-[2px]">
-              <h6 className="text-14 font-600 text-basic-grey-400">
+            <div className="mb-12 flex items-center">
+              <h6 className="text-14 font-600 text-basic-grey-700">
                 {gunguWithHubs.gungu}
               </h6>
             </div>
-            <ul className="flex flex-col ">
+            <ul className="flex flex-col gap-12">
               {gunguWithHubs.hubs.map((possibleHubs) => {
                 const route = getRouteOfHubWithInfo({
                   hubWithInfo: possibleHubs[0],
@@ -266,9 +266,9 @@ const Hub = ({
         type="button"
         onClick={() => handleHubClick(possibleHubs)}
         disabled={isSoldOut}
-        className={`group mb-16 flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left ${isSoldOut && 'pb-[49px]'}`}
+        className={`group flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left ${isSoldOut && 'pb-[49px]'}`}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <div className="flex w-[calc(100%-50px)] items-center gap-[6px]">
             <PinIcon className="shrink-0" />
             <span className="overflow-x-auto whitespace-nowrap text-16 font-600 text-basic-grey-700 scrollbar-hidden group-disabled:text-basic-grey-300">
@@ -312,7 +312,7 @@ const Hub = ({
         </div>
       </button>
       {!isDuplicate && isSoldOut && (
-        <div className="absolute bottom-[25px] left-1/2 -translate-x-1/2 transform">
+        <div className="absolute bottom-[10px] left-1/2 -translate-x-1/2 transform">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hub}
