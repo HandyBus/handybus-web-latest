@@ -9,14 +9,12 @@ import dayjs from 'dayjs';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import { EventPhase } from '@/utils/event.util';
-import {
-  useGetDemandStats,
-  useGetUserDemandsWithPagination,
-} from '@/services/demand.service';
+import { useGetDemandStats } from '@/services/demand.service';
 import { useMemo } from 'react';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { toast } from 'react-toastify';
+import { userDemandsAtom } from '../../../store/userDemandsAtom';
 
 interface Props {
   toNextStep: () => void;
@@ -25,10 +23,7 @@ interface Props {
 
 const CommonDateStep = ({ toNextStep, phase }: Props) => {
   const event = useAtomValue(eventAtom);
-  const { data: userDemandsPages } = useGetUserDemandsWithPagination({
-    eventId: event?.eventId,
-  });
-  const userDemandsOfEvent = userDemandsPages?.pages;
+  const userDemands = useAtomValue(userDemandsAtom);
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
 
   const { setValue } = useFormContext<EventFormValues>();
@@ -37,11 +32,8 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
     if (!event) {
       return;
     }
-    const isDemandSubmitted = userDemandsOfEvent?.some(
-      (demand) =>
-        demand.shuttleDemands.find(
-          (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
-        )?.status === 'SUBMITTED',
+    const isDemandSubmitted = userDemands?.some(
+      (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
     );
     if (isDemandSubmitted) {
       toast.error('이미 참여한 일자예요.');
@@ -116,13 +108,16 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
                 <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
                   {formatFullDate(dailyEventWithDemandStat.date)}
                 </span>
-                {isDailyEventEnded
-                  ? dailyEventStatusChip({ status: '예약마감' })
-                  : onlyDemandPossibleDuringReservationPhase
-                    ? dailyEventStatusChip({ status: '수요조사중' })
-                    : !isDemandPhase &&
-                      !isDailyEventEnded &&
-                      dailyEventStatusChip({ status: '셔틀예약중' })}
+                {isDailyEventEnded ? (
+                  <DailyEventStatusChip status="예약마감" />
+                ) : onlyDemandPossibleDuringReservationPhase ? (
+                  <DailyEventStatusChip status="수요조사중" />
+                ) : (
+                  !isDemandPhase &&
+                  !isDailyEventEnded && (
+                    <DailyEventStatusChip status="셔틀예약중" />
+                  )
+                )}
               </button>
               {isDemandPhase && !isDailyEventEnded && (
                 <span className="absolute right-0 top-1/2 -translate-y-1/2 whitespace-nowrap break-keep text-14 font-500 text-brand-primary-400">
@@ -161,7 +156,7 @@ const getDemandText = (demandCount: number) => {
   return `${parsedDemandCount}명 이상 요청했어요`;
 };
 
-const dailyEventStatusChip = ({
+const DailyEventStatusChip = ({
   status,
 }: {
   status: '셔틀예약중' | '수요조사중' | '예약마감';
@@ -185,5 +180,7 @@ const dailyEventStatusChip = ({
           예약마감
         </span>
       );
+    default:
+      return;
   }
 };
