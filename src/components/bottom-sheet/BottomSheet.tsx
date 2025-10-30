@@ -34,27 +34,25 @@ const BottomSheet = forwardRef<HTMLDivElement, Props>(
             className="fixed -bottom-[800px] left-0 right-0 z-[101] mx-auto hidden max-h-[calc(90dvh+800px)] min-h-100 w-full max-w-500 -translate-x-1/2 flex-col rounded-t-[20px] bg-basic-white px-24 pb-[800px] transition-transform duration-0 ease-out"
           >
             <div className="mx-auto my-8 h-4 w-[70px] shrink-0 rounded-full bg-basic-grey-200" />
-            <div className="flex items-center justify-between">
-              {(title || description) && (
-                <div className="flex flex-col gap-4 break-keep pb-16 pt-12">
-                  {title && (
-                    <h2 className="flex w-full items-center gap-4 text-20 font-700">
-                      {showBackButton && (
-                        <button type="button" onClick={onBack}>
-                          <BackIcon />
-                        </button>
-                      )}
-                      {title}
-                    </h2>
-                  )}
-                  {description && (
-                    <p className="text-16 font-500 leading-[22.4px] text-basic-grey-600">
-                      {description}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
+            {(title || description) && (
+              <div className="flex flex-col gap-4 break-keep pb-16 pt-12">
+                {title && (
+                  <h2 className="flex w-full items-center gap-4 text-20 font-700">
+                    {showBackButton && (
+                      <button type="button" onClick={onBack}>
+                        <BackIcon />
+                      </button>
+                    )}
+                    {title}
+                  </h2>
+                )}
+                {description && (
+                  <p className="text-16 font-500 leading-[22.4px] text-basic-grey-600">
+                    {description}
+                  </p>
+                )}
+              </div>
+            )}
             {children}
             <div className="h-16" />
           </div>
