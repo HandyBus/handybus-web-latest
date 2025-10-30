@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  ShuttleRoutesViewEntity,
-  TripTypeEnum,
-} from '@/types/shuttleRoute.type';
+import { TripTypeEnum } from '@/types/shuttleRoute.type';
 import Header from '../Header';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import {
@@ -11,26 +8,21 @@ import {
   TripTypeWithoutRoundTrip,
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import { createFullAvailableHandyPartyAreaGuideString } from '@/utils/handyParty.util';
 import { useEffect } from 'react';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 interface Props {
   onBack: () => void;
   onNext: () => void;
-  handyPartyRoutes: ShuttleRoutesViewEntity[];
 }
 
-const TripTypeStep = ({ onBack, onNext, handyPartyRoutes }: Props) => {
+const TripTypeStep = ({ onBack, onNext }: Props) => {
   const { setValue } = useFormContext<HandyPartyModalFormValues>();
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
   const tripTypesWithoutRoundTrip = TripTypeEnum.options.slice(
     0,
     2,
   ) as TripTypeWithoutRoundTrip[];
-
-  const availableHandyPartyAreaGuideString =
-    createFullAvailableHandyPartyAreaGuideString(handyPartyRoutes);
 
   useEffect(() => {
     setReservationTrackingStep('[핸디팟] 방향 선택');
@@ -39,7 +31,7 @@ const TripTypeStep = ({ onBack, onNext, handyPartyRoutes }: Props) => {
   return (
     <div className="flex grow flex-col">
       <Header onBack={onBack} title="이용 방향을 선택해 주세요" />
-      <ul className="">
+      <ul className="pt-16">
         {tripTypesWithoutRoundTrip.map((tripType) => (
           <button
             key={tripType}
@@ -54,10 +46,6 @@ const TripTypeStep = ({ onBack, onNext, handyPartyRoutes }: Props) => {
           </button>
         ))}
       </ul>
-      <div className="my-24 h-8 w-full bg-basic-grey-50" />
-      <div className="mx-16 rounded-8 bg-basic-grey-50 p-8 text-14 font-500 text-basic-grey-500">
-        {availableHandyPartyAreaGuideString}
-      </div>
     </div>
   );
 };

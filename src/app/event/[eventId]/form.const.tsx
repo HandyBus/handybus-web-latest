@@ -28,7 +28,6 @@ export const EVENT_STEPS = [
   '[기타] 예약 가능 시/도',
   '[기타] 복수 노선',
   '[기타] 빈자리 알림',
-  '[기타] 노선 내 정류장',
   '[기타] 상품 선택',
   '[기타] 이름 입력',
 ] as const;
@@ -56,7 +55,7 @@ export const EVENT_STEPS_TO_TEXT: Record<
   },
   '[수요조사] 정류장 정보': {
     title: '이 곳에 셔틀을 요청할까요?',
-    description: '이 정류장에서 셔틀이 열리면 바로 알려드릴게요.',
+    description: '셔틀이 열리는 즉시 알려드려요.',
   },
   // 예약
   '[예약] 정류장 선택': {
@@ -80,27 +79,18 @@ export const EVENT_STEPS_TO_TEXT: Record<
         </>
       );
     },
-    description: '셔틀이 필요한 인원을 확인하고 있어요.',
+    description: '셔틀이 열릴 수 있도록 수요를 확인하고 있어요.',
   },
   '[기타] 예약 가능 시/도': {
     title: '현재 예약이 가능한 지역이에요',
   },
   '[기타] 복수 노선': {
-    title: (input) => `${input}개의 노선이 있어요`,
-    description: (input) => (
-      <>
-        <span className="font-700">{input}</span> 정류장을 지나는 셔틀 중 원하는
-        시간을 선택해 주세요.
-      </>
-    ),
+    title: '원하는 정류장을 선택하세요',
+    description: '원하는 시간대의 노선을 선택해주세요.',
   },
   '[기타] 빈자리 알림': {
     title: '알림 신청이 완료되었어요',
-    description: (input) =>
-      `이 정류장은 [${input}]에 포함돼 있어요. 이 노선의 다른 정류장도 알림 신청이 함께 적용돼요.`,
-  },
-  '[기타] 노선 내 정류장': {
-    title: '노선 내 정류장',
+    description: '신청한 빈자리는 마이페이지에서 확인할 수 있어요.',
   },
   '[기타] 상품 선택': {
     title: '이 지역에는 두 가지 셔틀이 있어요!',
