@@ -18,12 +18,12 @@ const Header = ({
   displayCloseButton = false,
 }: Props) => {
   const headerStyle = {
-    paddingTop: 'var(--safe-area-inset-top)',
+    paddingTop: 'calc(16px + var(--safe-area-inset-top))',
     height: 'calc(56px + var(--safe-area-inset-top))',
   };
 
   return (
-    <header className="shrink-0 px-24 pt-16" style={headerStyle}>
+    <header className="shrink-0 px-24" style={headerStyle}>
       <div
         className={`flex items-center ${displayCloseButton ? 'gap-[6px]' : 'gap-4'}`}
       >
