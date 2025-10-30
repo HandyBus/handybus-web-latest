@@ -3,7 +3,6 @@
 import { ReactNode } from 'react';
 import BackIcon from '../icons/arrow-left.svg';
 import CloseIcon from '../icons/close.svg';
-import { useIsApp } from '@/hooks/useEnvironment';
 
 interface Props {
   onBack: () => void;
@@ -18,13 +17,10 @@ const Header = ({
   description,
   displayCloseButton = false,
 }: Props) => {
-  const isApp = useIsApp();
-  const headerStyle = isApp
-    ? {
-        paddingTop: 'var(--safe-area-inset-top)',
-        height: 'calc(56px + var(--safe-area-inset-top))',
-      }
-    : {};
+  const headerStyle = {
+    paddingTop: 'var(--safe-area-inset-top)',
+    height: 'calc(56px + var(--safe-area-inset-top))',
+  };
 
   return (
     <header className="shrink-0 px-24 pt-16" style={headerStyle}>

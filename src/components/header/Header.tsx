@@ -74,12 +74,10 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
 
   const iconColorClass = isHome && !isScrolled ? 'brightness-0 invert' : '';
 
-  const headerStyle = isApp
-    ? {
-        paddingTop: 'var(--safe-area-inset-top)',
-        height: 'calc(56px + var(--safe-area-inset-top))',
-      }
-    : {};
+  const headerStyle = {
+    paddingTop: 'var(--safe-area-inset-top)',
+    height: 'calc(56px + var(--safe-area-inset-top))',
+  };
 
   return (
     <header
