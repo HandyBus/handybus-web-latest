@@ -3,6 +3,17 @@
  */
 
 /**
+ * React Native WebView의 postMessage API 타입 확장
+ */
+declare global {
+  interface Window {
+    ReactNativeWebView?: {
+      postMessage: (message: string) => void;
+    };
+  }
+}
+
+/**
  * 웹에서 앱으로 보낼 수 있는 메시지 타입들
  * 새로운 메시지 타입을 추가할 때는 이 인터페이스를 확장하세요.
  */

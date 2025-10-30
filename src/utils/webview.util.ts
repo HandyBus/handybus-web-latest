@@ -15,17 +15,6 @@ import type {
 import { getIsAppFromUserAgent } from './environment.util';
 
 /**
- * React Native WebView의 postMessage API 타입 확장
- */
-declare global {
-  interface Window {
-    ReactNativeWebView?: {
-      postMessage: (message: string) => void;
-    };
-  }
-}
-
-/**
  * 웹에서 React Native 앱으로 메시지를 전송합니다.
  *
  * @param type - 메시지 타입
