@@ -2,15 +2,6 @@
 
 Next.js 웹과 React Native WebView 앱 간의 postMessage 통신을 위한 가이드입니다.
 
-## 목차
-
-1. [개요](#개요)
-2. [설치 및 설정](#설치-및-설정)
-3. [기본 사용법](#기본-사용법)
-4. [고급 사용법](#고급-사용법)
-5. [메시지 타입 추가하기](#메시지-타입-추가하기)
-6. [React Native 앱 측 구현](#react-native-앱-측-구현)
-
 ## 개요
 
 Next.js 웹 애플리케이션과 React Native WebView 앱 간의 양방향 통신을 타입 안전하게 지원합니다.
@@ -390,88 +381,6 @@ const PaymentComponent = () => {
   };
 
   return <button onClick={handlePayment}>결제하기</button>;
-};
-```
-
-## React Native 앱 측 구현
-
-### 메시지 핸들러 구현
-
-```tsx
-// React Native App
-import { WebView, WebViewMessageEvent } from 'react-native-webview';
-import { Share, ToastAndroid, PermissionsAndroid } from 'react-native';
-
-const App = () => {
-  const webViewRef = useRef<WebView>(null);
-
-  const handleMessage = async (event: WebViewMessageEvent) => {
-    try {
-      const message = JSON.parse(event.nativeEvent.data);
-
-      switch (message.type) {
-        case 'SHOW_TOAST':
-          ToastAndroid.show(
-            message.payload.message,
-            message.payload.duration === 'long'
-              ? ToastAndroid.LONG
-              : ToastAndroid.SHORT,
-          );
-          break;
-
-        case 'SHARE':
-          await Share.share({
-            title: message.payload.title,
-            message: message.payload.message,
-            url: message.payload.url,
-          });
-          break;
-
-        case 'REQUEST_PERMISSION':
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-          );
-
-          // 웹으로 결과 전송
-          sendMessageToWeb({
-            type: 'PERMISSION_RESULT',
-            payload: {
-              permission: 'camera',
-              granted: granted === PermissionsAndroid.RESULTS.GRANTED,
-            },
-            timestamp: Date.now(),
-          });
-          break;
-
-        case 'OPEN_EXTERNAL_BROWSER':
-          Linking.openURL(message.payload.url);
-          break;
-
-        case 'GO_BACK':
-          navigation.goBack();
-          break;
-
-        default:
-          console.warn('Unknown message type:', message.type);
-      }
-    } catch (error) {
-      console.error('Failed to handle message:', error);
-    }
-  };
-
-  const sendMessageToWeb = (message: any) => {
-    const messageString = JSON.stringify(message);
-    webViewRef.current?.postMessage(messageString);
-  };
-
-  return (
-    <WebView
-      ref={webViewRef}
-      source={{ uri: 'https://handybus.co.kr' }}
-      onMessage={handleMessage}
-      userAgent="HandybusApp/1.0.0"
-    />
-  );
 };
 ```
 
