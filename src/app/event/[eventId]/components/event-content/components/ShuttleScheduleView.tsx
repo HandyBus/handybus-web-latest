@@ -50,11 +50,11 @@ const ShuttleScheduleView = ({
       <div className="flex gap-[6px] ">
         <section className="flex w-12 shrink-0 flex-col items-center py-[24px] pl-[5px]">
           <DotIcon />
-          <div className="-my-[2px] h-[45px] w-[2px] bg-brand-primary-400" />
+          <div className="-my-[2px] h-[46.8px] w-[2px] bg-brand-primary-400" />
           <PinIcon />
-          <div className="-my-[2px] h-[45px] w-[2px] bg-brand-primary-400" />
+          <div className="-my-[2px] h-[46.8px] w-[2px] bg-brand-primary-400" />
           <DotIcon />
-          <div className="-my-[2px] h-[45px] w-[2px] bg-brand-primary-400" />
+          <div className="-my-[2px] h-[46.8px] w-[2px] bg-brand-primary-400" />
           <PinIcon />
         </section>
 

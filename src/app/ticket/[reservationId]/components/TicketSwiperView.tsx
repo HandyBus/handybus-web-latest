@@ -222,11 +222,11 @@ const Tag = ({ type }: { type: 'departure' | 'arrival' }) => {
 
 const SimpleRouteLine = () => {
   return (
-    <section className="flex h-full flex-col justify-between pb-16 pt-8">
+    <section className="flex h-full flex-col items-center justify-between pb-[14px] pt-[10px]">
       <div className="relative z-10 h-[11px]">
         <DotPrimaryIcon />
       </div>
-      <div className="my-[-2px] ml-4 h-full w-[2px] bg-brand-primary-400" />
+      <div className="my-[-2px] h-full w-[2px] bg-brand-primary-400" />
       <div className="relative z-10 h-[11px]">
         <PinIcon />
       </div>

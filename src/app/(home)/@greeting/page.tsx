@@ -109,7 +109,7 @@ const Page = () => {
             마케팅 활용/광고성 정보 수신 동의
           </Link>
           <CheckIcon
-            className={`${isMarketingAgreed ? 'text-[#00C896]' : 'text-[#CCCCCC]'}`}
+            className={`${isMarketingAgreed ? 'text-brand-primary-400' : 'text-[#CCCCCC]'}`}
           />
         </button>
         <Button className="my-16" disabled={isMarketingAgreementButtonDisabled}>
