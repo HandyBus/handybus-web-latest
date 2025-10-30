@@ -8,12 +8,13 @@ import { useFormContext } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
-import Button from '@/components/buttons/button/Button';
 import { EventPhase } from '@/utils/event.util';
 import { useGetDemandStats } from '@/services/demand.service';
 import { useMemo } from 'react';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { toast } from 'react-toastify';
+import { userDemandsAtom } from '../../../store/userDemandsAtom';
 
 interface Props {
   toNextStep: () => void;
@@ -22,14 +23,30 @@ interface Props {
 
 const CommonDateStep = ({ toNextStep, phase }: Props) => {
   const event = useAtomValue(eventAtom);
+  const userDemands = useAtomValue(userDemandsAtom);
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
 
   const { setValue } = useFormContext<EventFormValues>();
-
   const handleDateClick = (dailyEvent: DailyEventsInEventsViewEntity) => {
     if (!event) {
       return;
     }
+
+    if (phase !== 'demand') {
+      setValue('dailyEvent', dailyEvent);
+      toNextStep();
+      return;
+    }
+
+    const isDemandSubmitted = userDemands?.some(
+      (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
+    );
+
+    if (isDemandSubmitted) {
+      toast.error('이미 참여한 일자예요.');
+      return;
+    }
+
     setValue('dailyEvent', dailyEvent);
     toNextStep();
   };
@@ -93,30 +110,23 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
               <button
                 type="button"
                 onClick={() => handleDateClick(dailyEventWithDemandStat)}
-                disabled={
-                  isDailyEventEnded || onlyDemandPossibleDuringReservationPhase
-                }
+                disabled={isDailyEventEnded}
                 className="group flex w-full items-center justify-between py-12 text-left"
               >
                 <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
                   {formatFullDate(dailyEventWithDemandStat.date)}
                 </span>
-                {isDailyEventEnded && (
-                  <span className="text-14 font-500 text-basic-grey-500">
-                    마감
-                  </span>
+                {isDailyEventEnded ? (
+                  <DailyEventStatusChip status="예약마감" />
+                ) : onlyDemandPossibleDuringReservationPhase ? (
+                  <DailyEventStatusChip status="수요조사중" />
+                ) : (
+                  !isDemandPhase &&
+                  !isDailyEventEnded && (
+                    <DailyEventStatusChip status="셔틀예약중" />
+                  )
                 )}
               </button>
-              {onlyDemandPossibleDuringReservationPhase && (
-                <Button
-                  variant="primary"
-                  size="small"
-                  className="absolute right-0 top-1/2 w-100 -translate-y-1/2"
-                  onClick={() => handleDateClick(dailyEventWithDemandStat)}
-                >
-                  수요조사 참여하기
-                </Button>
-              )}
               {isDemandPhase && !isDailyEventEnded && (
                 <span className="absolute right-0 top-1/2 -translate-y-1/2 whitespace-nowrap break-keep text-14 font-500 text-brand-primary-400">
                   {getDemandText(
@@ -152,4 +162,33 @@ const getDemandText = (demandCount: number) => {
   }
   const parsedDemandCount = Math.floor(demandCount / 10) * 10;
   return `${parsedDemandCount}명 이상 요청했어요`;
+};
+
+const DailyEventStatusChip = ({
+  status,
+}: {
+  status: '셔틀예약중' | '수요조사중' | '예약마감';
+}) => {
+  switch (status) {
+    case '셔틀예약중':
+      return (
+        <span className="rounded-[42px] bg-brand-primary-50 px-8 py-4 text-10 font-600 leading-[160%] text-brand-primary-400">
+          셔틀 예약중
+        </span>
+      );
+    case '수요조사중':
+      return (
+        <span className="rounded-[42px] border border-basic-grey-200 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
+          수요조사중
+        </span>
+      );
+    case '예약마감':
+      return (
+        <span className="rounded-[42px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-300">
+          예약마감
+        </span>
+      );
+    default:
+      return;
+  }
 };

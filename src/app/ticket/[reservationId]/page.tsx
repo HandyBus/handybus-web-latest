@@ -34,7 +34,7 @@ const TicketPage = ({ params, searchParams }: Props) => {
 
   useEffect(() => {
     if (!isLoading && !reservation) {
-      router.replace('/mypage/shuttle?type=reservation');
+      router.replace('/history?type=reservation');
       return;
     }
   }, [isLoading, router, reservationId, reservation]);
@@ -48,7 +48,7 @@ const TicketPage = ({ params, searchParams }: Props) => {
     );
   }
   if (isShuttleEnded || isCanceled) {
-    router.replace('/mypage/shuttle?type=reservation');
+    router.replace('/history?type=reservation');
   }
   if (!reservation) {
     return null;
@@ -324,11 +324,11 @@ import Header from '@/components/header/Header';
 
 const SimpleRouteLine = () => {
   return (
-    <section className="flex h-full flex-col justify-between pb-16 pt-8">
+    <section className="flex h-full flex-col items-center justify-between pb-[14px] pt-[10px]">
       <div className="relative z-10 h-[11px]">
         <DotPrimaryIcon />
       </div>
-      <div className="my-[-2px] ml-4 h-full w-[2px] bg-brand-primary-400" />
+      <div className="my-[-2px] h-full w-[2px] bg-brand-primary-400" />
       <div className="relative z-10 h-[11px]">
         <PinIcon />
       </div>

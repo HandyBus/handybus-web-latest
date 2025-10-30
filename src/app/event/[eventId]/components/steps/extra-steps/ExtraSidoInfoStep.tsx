@@ -6,6 +6,8 @@ import { useAtomValue } from 'jotai';
 import { eventAtom } from '../../../store/eventAtom';
 import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
+import { toast } from 'react-toastify';
+import { userDemandsAtom } from '../../../store/userDemandsAtom';
 
 interface Props {
   toExtraOpenSidoStep: () => void;
@@ -32,7 +34,16 @@ const ExtraSidoInfoStep = ({
   );
   const demandCount = demandStats?.[0]?.totalCount ?? 0;
 
+  const userDemands = useAtomValue(userDemandsAtom);
+
   const handleDemandClick = () => {
+    const isDemandSubmitted = userDemands?.some(
+      (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
+    );
+    if (isDemandSubmitted) {
+      toast.error('이미 참여한 일자예요.');
+      return;
+    }
     setValue('openSido', undefined);
     toDemandHubsStep();
   };

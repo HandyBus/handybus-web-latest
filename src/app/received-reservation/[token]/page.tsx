@@ -54,7 +54,7 @@ const Page = ({ params }: Props) => {
     try {
       await postAcceptReservationTransferRequest(token);
       toast.success('예약을 수락했어요.');
-      router.replace('/mypage/shuttle?type=reservation');
+      router.replace('/history?type=reservation');
     } catch (error) {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');

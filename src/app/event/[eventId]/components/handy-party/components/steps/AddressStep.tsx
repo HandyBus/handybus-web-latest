@@ -8,13 +8,12 @@ import {
   HandyPartyModalFormValues,
 } from '../../HandyPartyModal';
 import { useFormContext } from 'react-hook-form';
-import {
-  checkIsPossibleHandyPartyArea,
-  createFullAvailableHandyPartyAreaGuideString,
-} from '@/utils/handyParty.util';
+import { checkIsPossibleHandyPartyArea } from '@/utils/handyParty.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
-import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
-import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import {
+  HANDY_PARTY_AREA_TO_ADDRESS,
+  HandyPartyRouteArea,
+} from '@/constants/handyPartyArea.const';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
 interface SearchResult extends AddressSearchResult {
@@ -25,16 +24,11 @@ interface Props {
   onBack: () => void;
   onNext: () => void;
   possibleHandyPartyAreas: HandyPartyRouteArea[];
-  handyPartyRoutes: ShuttleRoutesViewEntity[];
 }
 
-const AddressStep = ({
-  onBack,
-  onNext,
-  possibleHandyPartyAreas,
-  handyPartyRoutes,
-}: Props) => {
+const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
+  const selectedArea = getValues('selectedArea');
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
   const [searchValue, setSearchValue] = useState('');
 
@@ -64,6 +58,7 @@ const AddressStep = ({
           checkIsPossibleHandyPartyArea(
             item.address_name,
             possibleHandyPartyAreas,
+            selectedArea,
           ),
         );
 
@@ -81,6 +76,7 @@ const AddressStep = ({
       }
     });
   };
+
   useEffect(() => {
     handleSearch(searchValue);
   }, [searchValue]);
@@ -97,20 +93,24 @@ const AddressStep = ({
   const tripType = getValues('tripType');
   const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[tripType] + ']';
 
-  const availableHandyPartyAreaGuideString =
-    createFullAvailableHandyPartyAreaGuideString(handyPartyRoutes);
-
   useEffect(() => {
     setReservationTrackingStep('[핸디팟] 주소 입력');
   }, [setReservationTrackingStep]);
 
+  const displayedSelectedArea =
+    HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ');
+
   return (
     <div className="flex h-full grow flex-col">
-      <Header
-        onBack={onBack}
-        title={`${tripTypePrefix} 주소를 입력해 주세요`}
-        description="원하는 승하차 장소를 정확하게 입력해 주세요."
-      />
+      <Header onBack={onBack} title={`주소 입력`} displayCloseButton={true} />
+      <div className="px-16 pb-16 pt-16">
+        <h2 className="text-16 font-600 leading-[160%]">
+          {tripTypePrefix} 주소를 입력해주세요
+        </h2>
+        <p className="text-16 font-500 leading-[160%] text-basic-grey-600">
+          원하는 승하차 장소를 정확하게 입력해 주세요.
+        </p>
+      </div>
       <DebouncedInput value={searchValue} setValue={setSearchValue} />
       <div className="h-8" />
       <ul className="w-full flex-1 overflow-y-auto px-16 pb-12">
@@ -132,14 +132,10 @@ const AddressStep = ({
               </button>
             ))
           ) : (
-            <div>
-              <p className="mb-16 pt-12 text-14 font-500 leading-[160%] text-basic-red-400">
-                핸디팟 이용이 불가한 지역이에요.
-              </p>
-              <div className="rounded-8 bg-basic-grey-50 p-8 text-14 font-500 text-basic-grey-500">
-                {availableHandyPartyAreaGuideString}
-              </div>
-            </div>
+            <p className="mb-16 pt-12 text-14 font-500 leading-[160%] text-basic-red-400">
+              해당 주소지를 찾을 수 없어요. {displayedSelectedArea} 내 주소지를
+              입력해 주세요.
+            </p>
           ))}
       </ul>
     </div>

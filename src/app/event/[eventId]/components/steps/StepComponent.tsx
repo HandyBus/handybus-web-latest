@@ -10,7 +10,6 @@ import ExtraSidoInfoStep from './extra-steps/ExtraSidoInfoStep';
 import ExtraOpenSidoStep from './extra-steps/ExtraOpenSidoStep';
 import ExtraDuplicateHubStep from './extra-steps/ExtraDuplicateHubStep';
 import ExtraSeatAlarmStep from './extra-steps/ExtraSeatAlarmStep';
-import ExtraHubsInRouteStep from './extra-steps/ExtraHubsInRouteStep';
 import { EventPhase } from '@/utils/event.util';
 import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
@@ -138,15 +137,11 @@ const StepComponent = ({
     ),
     '[기타] 빈자리 알림': (
       <ExtraSeatAlarmStep
-        toExtraHubsInRouteStep={() =>
-          setHistoryAndStep('[기타] 노선 내 정류장')
-        }
         closeBottomSheet={closeBottomSheet}
         updateUserAlertRequests={updateUserAlertRequests}
         openAlertRequestFeedbackScreen={openAlertRequestFeedbackScreen}
       />
     ),
-    '[기타] 노선 내 정류장': <ExtraHubsInRouteStep />,
     '[기타] 상품 선택': (
       <ExtraSelectProductStep
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
