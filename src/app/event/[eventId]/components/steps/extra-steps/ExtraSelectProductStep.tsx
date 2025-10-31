@@ -106,7 +106,7 @@ const ExtraSelectProductStep = ({
           className="flex flex-1 flex-col gap-20 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100 disabled:opacity-70"
           disabled={!isHandyPartyAvailable}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-8">
               <div className="group-disabled:opacity-40">
                 <HandyPartyIcon />
@@ -127,7 +127,7 @@ const ExtraSelectProductStep = ({
           className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left enabled:active:bg-basic-grey-100"
           disabled={!isShuttleBusAvailable}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-8">
               <div className="group-disabled:opacity-40">
                 <ShuttleBusIcon />
@@ -136,12 +136,12 @@ const ExtraSelectProductStep = ({
                 셔틀버스
               </h5>
             </div>
+            {isShuttleBusAvailable && (
+              <h6 className="text-18 font-600 leading-[160%] group-disabled:opacity-40">
+                {shuttleBusMinPrice?.toLocaleString()}~
+              </h6>
+            )}
           </div>
-          {isShuttleBusAvailable && (
-            <h6 className="text-18 font-600 leading-[160%] group-disabled:opacity-40">
-              {shuttleBusMinPrice?.toLocaleString()}~
-            </h6>
-          )}
           <div>
             <p className="text-14 font-500 text-basic-grey-700 group-disabled:opacity-40">
               {isShuttleBusAvailable
