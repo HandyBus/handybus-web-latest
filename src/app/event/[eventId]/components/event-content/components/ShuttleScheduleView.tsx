@@ -65,18 +65,17 @@ const ShuttleScheduleView = ({
           />
           <div className="h-[1px] border border-basic-grey-100" />
           <ShuttleHubItem
-            boardingTime={dateString(
-              earliestDestinationArrival,
-              DATE_STRING_OPTIONS,
-            )}
+            boardingTime={
+              dateString(earliestDestinationArrival, DATE_STRING_OPTIONS) + '~'
+            }
             description={eventLocationName}
           />
           <div className="h-[1px] border border-basic-grey-100" />
           <ShuttleHubItem
-            boardingTime={dateString(
-              earliestDestinationDeparture,
-              DATE_STRING_OPTIONS,
-            )}
+            boardingTime={
+              dateString(earliestDestinationDeparture, DATE_STRING_OPTIONS) +
+              '~'
+            }
             description="행사 종료 후 탑승"
           />
           <div className="h-[1px] border border-basic-grey-100" />
