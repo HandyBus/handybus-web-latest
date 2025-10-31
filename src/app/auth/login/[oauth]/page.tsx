@@ -23,6 +23,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { getIsAppFromUserAgent } from '@/utils/environment.util';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' | 'apple' };
@@ -36,6 +37,28 @@ const OAuth = ({ params, searchParams }: Props) => {
   usePreventScroll();
 
   const handleOAuth = async () => {
+    const isAppFromState =
+      searchParams?.state && searchParams.state.toLowerCase().includes('app');
+    const isAppFromUserAgent = getIsAppFromUserAgent();
+    const isApp = isAppFromState || isAppFromUserAgent;
+
+    // 앱 환경인 경우 딥링크로 리다이렉트
+    if (isApp && searchParams.code) {
+      const deepLinkUrl = `handybus://auth/callback?oauth=${encodeURIComponent(
+        params.oauth,
+      )}&code=${encodeURIComponent(searchParams.code)}`;
+
+      // Safari는 window.location.href에 커스텀 스킴을 허용하지 않으므로 임시 <a> 태그를 생성하여 클릭하는 방식 사용
+      const link = document.createElement('a');
+      link.href = deepLinkUrl;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      return;
+    }
+
     try {
       const tokens = await postLogin(params.oauth, {
         code: searchParams.code,

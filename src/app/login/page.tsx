@@ -17,12 +17,13 @@ import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
 import AppleLogin from 'react-apple-login';
 import AppleIcon from './icons/apple.svg';
 import Header from '@/components/header/Header';
+import { handleExternalLink } from '@/utils/externalLink.util';
+import { getIsAppFromUserAgent } from '@/utils/environment.util';
 
 const Login = () => {
   usePreventScroll();
 
   const searchParams = useSearchParams();
-
   const handleRedirectUrl = () => {
     const redirectUrl = searchParams.get(LOGIN_REDIRECT_URL_KEY);
     if (redirectUrl) {
@@ -30,6 +31,16 @@ const Login = () => {
     } else {
       removeRedirectUrl();
     }
+  };
+
+  const isApp = getIsAppFromUserAgent();
+  const handleKakaoLogin = () => {
+    setLastLogin('kakao');
+    handleExternalLink(OAUTH.kakao(isApp));
+  };
+  const handleNaverLogin = () => {
+    setLastLogin('naver');
+    handleExternalLink(OAUTH.naver(isApp));
   };
 
   useEffect(() => {
@@ -72,34 +83,22 @@ const Login = () => {
           원하는 행사까지 편하게 이동하세요.
         </p>
         <button
-          onClick={() => setLastLogin('kakao')}
+          onClick={handleKakaoLogin}
           type="button"
-          className="mb-12 w-full rounded-8"
+          className="relative mb-12 flex h-52 w-full items-center justify-center gap-8 rounded-8 bg-[#FEE500] text-16 font-600 text-basic-black/85"
         >
-          <Link
-            href={OAUTH.kakao()}
-            replace
-            className="relative flex h-52 items-center justify-center gap-8 rounded-8 bg-[#FEE500] text-16 font-600 text-basic-black/85"
-          >
-            <KakaoIcon />
-            카카오로 시작하기
-            {lastLoginState === 'kakao' && <LastLoginChip />}
-          </Link>
+          <KakaoIcon />
+          카카오로 시작하기
+          {lastLoginState === 'kakao' && <LastLoginChip />}
         </button>
         <button
-          onClick={() => setLastLogin('naver')}
+          onClick={handleNaverLogin}
           type="button"
-          className="mb-12 w-full rounded-8"
+          className="relative mb-12 flex h-52 w-full items-center justify-center gap-8 rounded-8 bg-[#03C75A] text-16 font-600 text-basic-white"
         >
-          <Link
-            href={OAUTH.naver()}
-            replace
-            className="relative flex h-52 items-center justify-center gap-8 rounded-8 bg-[#03C75A] text-16 font-600 text-basic-white"
-          >
-            <NaverIcon />
-            네이버로 시작하기
-            {lastLoginState === 'naver' && <LastLoginChip />}
-          </Link>
+          <NaverIcon />
+          네이버로 시작하기
+          {lastLoginState === 'naver' && <LastLoginChip />}
         </button>
         <AppleLogin
           clientId={appleClientId}
@@ -127,7 +126,7 @@ const Login = () => {
         <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-basic-grey-400">
           로그인은{' '}
           <Link href="/help/faq/privacy-policy" className="underline">
-            개인정보 처리 방침
+            개인정보처리방침
           </Link>{' '}
           및{' '}
           <Link href="/help/faq/terms-of-service" className="underline">
