@@ -74,16 +74,14 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
 
   const iconColorClass = isHome && !isScrolled ? 'brightness-0 invert' : '';
 
-  const headerStyle = isApp
-    ? {
-        paddingTop: 'var(--safe-area-inset-top)',
-        height: 'calc(56px + var(--safe-area-inset-top))',
-      }
-    : {};
+  const headerStyle = {
+    paddingTop: 'var(--safe-area-inset-top)',
+    height: 'calc(56px + var(--safe-area-inset-top))',
+  };
 
   return (
     <header
-      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 py-12 transition-colors duration-300 ${headerBgClass}`}
+      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 transition-colors duration-300 ${headerBgClass}`}
       style={headerStyle}
     >
       {isHome || !isApp ? (

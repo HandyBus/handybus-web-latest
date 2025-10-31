@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   getIsAppFromUserAgent,
   getIsMobileWeb,
@@ -25,22 +25,17 @@ import {
  *
  */
 const useEnvironment = () => {
-  const [isApp, setIsApp] = useState(false);
-  const [isMobileWeb, setIsMobileWeb] = useState(false);
-  const [platform, setPlatform] = useState<'ios' | 'android' | 'unknown'>(
-    'unknown',
-  );
-  const [appVersion, setAppVersion] = useState<string | null>(null);
-
-  useEffect(() => {
+  // lazy initialization을 사용하여 초기 렌더링 시에도 올바른 값으로 설정하여 깜빡임 방지
+  const [isApp] = useState(() => getIsAppFromUserAgent());
+  const [isMobileWeb] = useState(() => getIsMobileWeb());
+  const [platform] = useState<'ios' | 'android' | 'unknown'>(() => {
     const envInfo = parseEnvironmentFromUserAgent();
-    setIsApp(envInfo.isApp);
-    setPlatform(envInfo.platform);
-    setAppVersion(envInfo.appVersion);
-
-    const mobileWeb = getIsMobileWeb();
-    setIsMobileWeb(mobileWeb);
-  }, []);
+    return envInfo.platform;
+  });
+  const [appVersion] = useState<string | null>(() => {
+    const envInfo = parseEnvironmentFromUserAgent();
+    return envInfo.appVersion;
+  });
 
   return {
     /** React Native WebView 환경 여부 */
@@ -81,11 +76,8 @@ export default useEnvironment;
  * };
  */
 export const useIsApp = (): boolean => {
-  const [isApp, setIsApp] = useState(false);
-
-  useEffect(() => {
-    setIsApp(getIsAppFromUserAgent());
-  }, []);
+  // lazy initialization을 사용하여 초기 렌더링 시에도 올바른 값으로 설정하여 깜빡임 방지
+  const [isApp] = useState(() => getIsAppFromUserAgent());
 
   return isApp;
 };
