@@ -130,7 +130,7 @@ const ReservationHubsStep = ({
 
   return (
     <section>
-      {!1 && recentlyViewedPossibleHubs && recentlyViewedRoute && (
+      {recentlyViewedPossibleHubs && recentlyViewedRoute && (
         <>
           <div className="flex flex-col gap-12 pt-4">
             <p className="text-14 font-600 text-basic-grey-700">
