@@ -104,7 +104,7 @@ const HandyPartyModal = ({
               />
             </Step>
             <Step name="방향 선택">
-              <TripTypeStep onBack={closeModal} onNext={handleNextStep} />
+              <TripTypeStep onBack={handlePrevStep} onNext={handleNextStep} />
             </Step>
             <Step name="주소 입력">
               <AddressStep
