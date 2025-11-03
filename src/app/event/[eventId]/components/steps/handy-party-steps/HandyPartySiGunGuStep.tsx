@@ -10,7 +10,7 @@ import {
 import { useMemo, useState } from 'react';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
-import HandyPartyModal from '../../handy-party/HandyPartyModal';
+import HandyPartyModal from './HandyPartyModal';
 
 interface Props {
   closeBottomSheet: () => void;

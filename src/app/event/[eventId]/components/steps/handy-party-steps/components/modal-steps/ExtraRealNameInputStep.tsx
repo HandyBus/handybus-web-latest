@@ -122,7 +122,9 @@ const ExtraRealNameInputStep = ({
   return (
     <div className="flex grow flex-col">
       <Header
+        variant="reservation-info"
         onBack={onBack}
+        closeModal={closeModal}
         title="결제 전, 본인 이름을 확인해 주세요"
         description="핸디버스는 2025.07.29부터 실명제로 운행돼요. 작성하신 이름은 프로필에도 적용해 드릴게요."
       />

@@ -1,15 +1,15 @@
 import ModalPortal from '@/components/modals/ModalPortal';
-import MapStep from './components/steps/MapStep';
+import MapStep from './components/modal-steps/MapStep';
 import useFunnel from '@/hooks/useFunnel';
-import AddressStep from './components/steps/AddressStep';
-import ReservationInfoStep from './components/steps/ReservationInfoStep';
+import AddressStep from './components/modal-steps/AddressStep';
+import ReservationInfoStep from './components/modal-steps/ReservationInfoStep';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { HandyPartyRouteArea } from '@/constants/handyPartyArea.const';
-import { EventFormValues } from '../../form.type';
+import { EventFormValues } from '../../../form.type';
 import { BigRegionsType } from '@/constants/regions';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
-import ExtraRealNameInputStep from './components/steps/ExtraRealNameInputStep';
+import ExtraRealNameInputStep from './components/modal-steps/ExtraRealNameInputStep';
 
 export const HANDY_PARTY_MODAL_STEPS = [
   '주소 입력',

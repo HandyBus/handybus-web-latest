@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo } from 'react';
-import PinIcon from '../../../icons/pin-primary.svg';
-import DotPrimaryIcon from '../../../icons/dot-primary.svg';
+import PinIcon from '../icons/pin-primary.svg';
+import DotPrimaryIcon from '../icons/dot-primary.svg';
 import { TripType } from '@/types/shuttleRoute.type';
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';

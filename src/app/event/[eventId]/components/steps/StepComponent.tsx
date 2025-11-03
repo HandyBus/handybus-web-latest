@@ -16,8 +16,8 @@ import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
 import ExtraSelectProductStep from './extra-steps/ExtraSelectProductStep';
 import ExtraRealNameInputStep from './extra-steps/ExtraRealNameInputStep';
-import HandyPartySiGunGuStep from './handy-party-steps/HandyPartySiGunGuStep';
 import HandyPartyTripTypeStep from './handy-party-steps/HandyPartyTripTypeStep';
+import HandyPartySiGunGuStep from './handy-party-steps/HandyPartySiGunGuStep';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
@@ -120,7 +120,7 @@ const StepComponent = ({
     // 핸디팟
     '[핸디팟] 방향 선택': (
       <HandyPartyTripTypeStep
-        toHandyPartySiGunGuStep={() => {
+        toHandyPartySigunguStep={() => {
           setHistoryAndStep('[핸디팟] 시/군/구 선택');
         }}
       />

@@ -9,7 +9,7 @@ import Button from '@/components/buttons/button/Button';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { getHandyPartyArea } from '../../../../../../../utils/handyParty.util';
+import { getHandyPartyArea } from '../../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
 import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { useRouter } from 'next/navigation';
