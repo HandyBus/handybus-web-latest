@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import useEnvironment from '@/hooks/useEnvironment';
 
 const DEEP_LINK_TIMEOUT = 300;
-const IOS_USER_AGENT_PATTERN = /iPhone|iPad|iPod/i;
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -12,15 +12,13 @@ const Page = () => {
   const deepLinkTimeout = useRef<NodeJS.Timeout | null>(null);
   const visibilityChangeHandler = useRef<(() => void) | null>(null);
   const blurHandler = useRef<(() => void) | null>(null);
-  const isIOS = useRef(false);
+  const { platform } = useEnvironment();
+  const isIOS = platform === 'ios';
 
   useEffect(() => {
     if (hasRedirected.current) {
       return;
     }
-
-    // iOS 여부 확인
-    isIOS.current = IOS_USER_AGENT_PATTERN.test(navigator.userAgent);
 
     const path = searchParams.get('path');
 
@@ -80,39 +78,23 @@ const Page = () => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('blur', handleBlur);
 
-    // iOS Safari에서 에러를 방지하기 위한 딥링크 시도
     const attemptDeepLink = () => {
       try {
-        if (isIOS.current) {
-          // iOS에서는 iframe을 사용하여 에러를 방지
-          const iframe = document.createElement('iframe');
-          iframe.style.display = 'none';
-          iframe.style.width = '0';
-          iframe.style.height = '0';
-          iframe.src = deepLinkUrl;
-          document.body.appendChild(iframe);
+        const link = document.createElement('a');
+        link.href = deepLinkUrl;
+        link.style.display = 'none';
+        document.body.appendChild(link);
 
-          // iframe이 로드되면 제거
-          setTimeout(() => {
-            try {
-              document.body.removeChild(iframe);
-            } catch {
-              // 이미 제거된 경우 무시
+        link.click();
+
+        setTimeout(() => {
+          try {
+            if (document.body.contains(link)) {
+              document.body.removeChild(link);
             }
-          }, 100);
-        } else {
-          // Android 및 다른 브라우저에서는 기존 방식 사용
-          const link = document.createElement('a');
-          link.href = deepLinkUrl;
-          link.style.display = 'none';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      } catch (error) {
-        // 에러가 발생해도 fallback으로 진행
-        console.warn('Deep link attempt failed:', error);
-      }
+          } catch {}
+        }, 100);
+      } catch {}
     };
 
     // 딥링크 시도
@@ -123,7 +105,7 @@ const Page = () => {
     deepLinkTimeout.current = setTimeout(() => {
       if (!hasRedirected.current) {
         // iOS에서는 visibilitychange가 더 안정적이므로 추가 확인
-        if (isIOS.current && document.hidden) {
+        if (isIOS && document.hidden) {
           // 앱이 열린 것으로 간주
           hasRedirected.current = true;
           return;
@@ -152,7 +134,7 @@ const Page = () => {
         window.removeEventListener('blur', blurHandler.current);
       }
     };
-  }, [searchParams]);
+  }, [searchParams, isIOS]);
 
   return null;
 };
