@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
 
 const DEEP_LINK_TIMEOUT = 300;
+const IOS_DEEP_LINK_TIMEOUT = 100; // iOS에서 에러 메시지가 보이기 전에 빠르게 fallback
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -97,29 +98,32 @@ const Page = () => {
       } catch {}
     };
 
-    // 딥링크 시도
-    attemptDeepLink();
+    if (isIOS) {
+      attemptDeepLink();
 
-    // 딥링크가 실패하면 웹 URL로 fallback (300ms 후)
-    // 페이지가 여전히 포커스되어 있고 리다이렉트가 발생하지 않았다면 웹으로 이동
-    deepLinkTimeout.current = setTimeout(() => {
-      if (!hasRedirected.current) {
-        // iOS에서는 visibilitychange가 더 안정적이므로 추가 확인
-        if (isIOS && document.hidden) {
-          // 앱이 열린 것으로 간주
+      // iOS에서는 즉시 fallback 타이머 설정 (에러 메시지가 보이기 전에)
+      deepLinkTimeout.current = setTimeout(() => {
+        if (!hasRedirected.current) {
+          if (document.hidden) {
+            hasRedirected.current = true;
+            return;
+          }
+
           hasRedirected.current = true;
-          return;
+          window.location.replace(webUrl);
         }
+      }, IOS_DEEP_LINK_TIMEOUT);
+    } else {
+      attemptDeepLink();
 
-        // 여전히 포커스가 있다면 웹으로 fallback
-        if (document.hasFocus() || !document.hidden) {
+      deepLinkTimeout.current = setTimeout(() => {
+        if (!hasRedirected.current) {
           hasRedirected.current = true;
           window.location.href = webUrl;
         }
-      }
-    }, DEEP_LINK_TIMEOUT);
+      }, DEEP_LINK_TIMEOUT);
+    }
 
-    // cleanup
     return () => {
       if (deepLinkTimeout.current) {
         clearTimeout(deepLinkTimeout.current);
