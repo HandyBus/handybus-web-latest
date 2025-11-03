@@ -67,7 +67,7 @@ const Page = () => {
     link.click();
     document.body.removeChild(link);
 
-    // 딥링크가 실패하면 웹 URL로 fallback (500ms 후)
+    // 딥링크가 실패하면 웹 URL로 fallback (300ms 후)
     // 페이지가 여전히 포커스되어 있고 리다이렉트가 발생하지 않았다면 웹으로 이동
     deepLinkTimeout.current = setTimeout(() => {
       if (!hasRedirected.current && document.hasFocus()) {
