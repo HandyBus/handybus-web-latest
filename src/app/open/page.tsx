@@ -9,7 +9,6 @@ const DEEP_LINK_TIMEOUT = 300;
 const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const hasRedirected = useRef(false);
   const deepLinkTimeout = useRef<NodeJS.Timeout | null>(null);
   const visibilityChangeHandler = useRef<(() => void) | null>(null);
   const blurHandler = useRef<(() => void) | null>(null);
@@ -54,12 +53,6 @@ const Page = () => {
   }
 
   const attemptDeepLink = () => {
-    if (hasRedirected.current) {
-      return;
-    }
-
-    hasRedirected.current = true;
-
     const handleAppOpened = () => {
       if (deepLinkTimeout.current) {
         clearTimeout(deepLinkTimeout.current);
@@ -124,12 +117,6 @@ const Page = () => {
   };
 
   const handleWebRedirect = () => {
-    if (hasRedirected.current) {
-      return;
-    }
-
-    hasRedirected.current = true;
-
     // 타이머 정리
     if (deepLinkTimeout.current) {
       clearTimeout(deepLinkTimeout.current);
