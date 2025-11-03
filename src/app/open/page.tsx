@@ -37,18 +37,14 @@ const Page = () => {
     const deepLinkParams = new URLSearchParams();
     deepLinkParams.set('path', path);
 
+    const webParams = new URLSearchParams();
+
     Object.entries(otherParams).forEach(([key, value]) => {
       deepLinkParams.set(key, value);
-    });
-
-    const deepLinkUrl = `handybus://?${deepLinkParams.toString()}`;
-
-    // 웹 URL 생성
-    const webParams = new URLSearchParams();
-    Object.entries(otherParams).forEach(([key, value]) => {
       webParams.set(key, value);
     });
 
+    const deepLinkUrl = `handybus://?${deepLinkParams.toString()}`;
     const webUrl = `${path}${webParams.toString() ? `?${webParams.toString()}` : ''}`;
 
     // 페이지가 blur되면 딥링크가 성공한 것으로 간주
