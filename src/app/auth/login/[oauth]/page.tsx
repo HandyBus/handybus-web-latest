@@ -44,9 +44,7 @@ const OAuth = ({ params, searchParams }: Props) => {
 
     // 앱 환경인 경우 딥링크로 리다이렉트
     if (isApp && searchParams.code) {
-      const deepLinkUrl = `handybus://auth/callback?oauth=${encodeURIComponent(
-        params.oauth,
-      )}&code=${encodeURIComponent(searchParams.code)}`;
+      const deepLinkUrl = `handybus://?path=auth/login/${params.oauth}&code=${encodeURIComponent(searchParams.code)}`;
 
       // Safari는 window.location.href에 커스텀 스킴을 허용하지 않으므로 임시 <a> 태그를 생성하여 클릭하는 방식 사용
       const link = document.createElement('a');
