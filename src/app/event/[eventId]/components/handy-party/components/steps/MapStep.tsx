@@ -22,9 +22,15 @@ interface Props {
   onBack: () => void;
   onNext: () => void;
   possibleHandyPartyAreas: HandyPartyRouteArea[];
+  closeModal: () => void;
 }
 
-const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
+const MapStep = ({
+  onBack,
+  onNext,
+  possibleHandyPartyAreas,
+  closeModal,
+}: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
 
@@ -171,7 +177,12 @@ const MapStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
 
   return (
     <div className="flex grow flex-col">
-      <Header onBack={onBack} title="주소 입력" displayCloseButton={true} />
+      <Header
+        onBack={onBack}
+        title="주소 입력"
+        variant="address"
+        closeModal={closeModal}
+      />
       <section className="px-16 pb-16 pt-12">
         <h2 className="text-18 font-600 leading-[140%]">
           정확한 위치를 설정해 주세요

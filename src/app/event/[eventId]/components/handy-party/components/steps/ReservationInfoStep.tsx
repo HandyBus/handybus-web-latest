@@ -177,7 +177,12 @@ const ReservationInfoStep = ({
   if (isUserError) throw new Error('fetching user failed');
   return (
     <div className="flex grow flex-col">
-      <Header onBack={onBack} title="예약하기" />
+      <Header
+        title="예약하기"
+        variant="reservation-info"
+        onBack={onBack}
+        closeModal={closeModal}
+      />
       <section className="px-16 pb-16 pt-[28px]">
         <h2 className="text-18 font-600 leading-[140%]">
           이 셔틀로 예약을 진행할게요
