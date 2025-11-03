@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import useEnvironment from '@/hooks/useEnvironment';
 
 const DEEP_LINK_TIMEOUT = 300;
 
@@ -9,7 +10,10 @@ const Page = () => {
   const searchParams = useSearchParams();
   const hasRedirected = useRef(false);
   const deepLinkTimeout = useRef<NodeJS.Timeout | null>(null);
+  const visibilityChangeHandler = useRef<(() => void) | null>(null);
   const blurHandler = useRef<(() => void) | null>(null);
+  const { platform } = useEnvironment();
+  const isIOS = platform === 'ios';
 
   useEffect(() => {
     if (hasRedirected.current) {
@@ -47,8 +51,8 @@ const Page = () => {
     const deepLinkUrl = `handybus://?${deepLinkParams.toString()}`;
     const webUrl = `${path}${webParams.toString() ? `?${webParams.toString()}` : ''}`;
 
-    // 페이지가 blur되면 딥링크가 성공한 것으로 간주
-    const handleBlur = () => {
+    // 앱이 열렸는지 확인하는 핸들러
+    const handleAppOpened = () => {
       if (deepLinkTimeout.current) {
         clearTimeout(deepLinkTimeout.current);
         deepLinkTimeout.current = null;
@@ -56,23 +60,62 @@ const Page = () => {
       hasRedirected.current = true;
     };
 
+    // visibilitychange 이벤트: iOS에서 더 안정적으로 작동
+    const handleVisibilityChange = () => {
+      if (document.hidden && !hasRedirected.current) {
+        handleAppOpened();
+      }
+    };
+
+    // blur 이벤트: Android 및 다른 브라우저 지원
+    const handleBlur = () => {
+      handleAppOpened();
+    };
+
+    visibilityChangeHandler.current = handleVisibilityChange;
     blurHandler.current = handleBlur;
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('blur', handleBlur);
 
+    const attemptDeepLink = () => {
+      try {
+        const link = document.createElement('a');
+        link.href = deepLinkUrl;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+
+        link.click();
+
+        setTimeout(() => {
+          try {
+            if (document.body.contains(link)) {
+              document.body.removeChild(link);
+            }
+          } catch {}
+        }, 100);
+      } catch {}
+    };
+
     // 딥링크 시도
-    const link = document.createElement('a');
-    link.href = deepLinkUrl;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    attemptDeepLink();
 
     // 딥링크가 실패하면 웹 URL로 fallback (300ms 후)
     // 페이지가 여전히 포커스되어 있고 리다이렉트가 발생하지 않았다면 웹으로 이동
     deepLinkTimeout.current = setTimeout(() => {
-      if (!hasRedirected.current && document.hasFocus()) {
-        hasRedirected.current = true;
-        window.location.href = webUrl;
+      if (!hasRedirected.current) {
+        // iOS에서는 visibilitychange가 더 안정적이므로 추가 확인
+        if (isIOS && document.hidden) {
+          // 앱이 열린 것으로 간주
+          hasRedirected.current = true;
+          return;
+        }
+
+        // 여전히 포커스가 있다면 웹으로 fallback
+        if (document.hasFocus() || !document.hidden) {
+          hasRedirected.current = true;
+          window.location.href = webUrl;
+        }
       }
     }, DEEP_LINK_TIMEOUT);
 
@@ -81,11 +124,17 @@ const Page = () => {
       if (deepLinkTimeout.current) {
         clearTimeout(deepLinkTimeout.current);
       }
+      if (visibilityChangeHandler.current) {
+        document.removeEventListener(
+          'visibilitychange',
+          visibilityChangeHandler.current,
+        );
+      }
       if (blurHandler.current) {
         window.removeEventListener('blur', blurHandler.current);
       }
     };
-  }, [searchParams]);
+  }, [searchParams, isIOS]);
 
   return null;
 };
