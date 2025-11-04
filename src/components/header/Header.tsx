@@ -154,6 +154,7 @@ const URL_TO_PAGE_NAME = {
   '/accept-reservation-transfer/:id': '탑승권 선물',
   '/accept-reservation-transfer/:id/success': '선물 완료',
   '/accept-reservation-transfer/:id/fail': '탑승권 선물',
+  '/app-launch-event': '이벤트',
 };
 
 const PATHNAME_TO_HIDE_BACK_BUTTON = [
