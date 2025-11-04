@@ -6,7 +6,7 @@ import { TokenShape } from '@/types/auth.type';
 
 export const postLogin = async (
   method: 'kakao' | 'naver' | 'apple',
-  { code }: { code: string },
+  { code, state }: { code: string; state?: string },
 ) => {
   const body = {
     authChannel: method,
@@ -14,7 +14,7 @@ export const postLogin = async (
       method === 'naver'
         ? {
             code,
-            // NOTE: state를 앱 진입 판별 용도로 사용하며 state은 백엔드 상에서 사용 X
+            state,
           }
         : undefined,
     kakaoUserRequest:
