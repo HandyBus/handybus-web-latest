@@ -18,6 +18,8 @@ export const HANDY_PARTY_MODAL_STEPS = [
   '이름 입력',
 ] as const;
 
+export type HandyPartyTripType = Exclude<TripType, 'ROUND_TRIP'>;
+
 export interface AddressSearchResult {
   address: string;
   x: number;
@@ -25,7 +27,7 @@ export interface AddressSearchResult {
 }
 
 export interface HandyPartyModalFormValues {
-  tripType: TripType;
+  handyPartyTripType: HandyPartyTripType;
   addressSearchResult: AddressSearchResult;
   sido: BigRegionsType;
   openSido: BigRegionsType;
@@ -52,11 +54,11 @@ const HandyPartyModal = ({
   handleBack,
 }: Props) => {
   const { getValues: getEventFormValues } = useFormContext<EventFormValues>();
-  const [dailyEvent, sido, openSido, tripType] = getEventFormValues([
+  const [dailyEvent, sido, openSido, handyPartyTripType] = getEventFormValues([
     'dailyEvent',
     'sido',
     'openSido',
-    'tripType',
+    'handyPartyTripType',
   ]);
   const { Funnel, Step, handleNextStep, handlePrevStep } = useFunnel(
     HANDY_PARTY_MODAL_STEPS,
@@ -64,7 +66,7 @@ const HandyPartyModal = ({
 
   const methods = useForm<HandyPartyModalFormValues>({
     defaultValues: {
-      tripType,
+      handyPartyTripType,
       addressSearchResult: undefined,
       sido,
       openSido,

@@ -36,9 +36,9 @@ const ExtraRealNameInputStep = ({
     getReservationStartTime,
   } = useReservationTrackingGlobal();
 
-  const { targetRoute, tripType, userAddress } = useMemo(() => {
-    const [tripType, addressSearchResult] = getValues([
-      'tripType',
+  const { targetRoute, handyPartyTripType, userAddress } = useMemo(() => {
+    const [handyPartyTripType, addressSearchResult] = getValues([
+      'handyPartyTripType',
       'addressSearchResult',
     ]);
 
@@ -50,20 +50,20 @@ const ExtraRealNameInputStep = ({
       const isSameArea = handyPartyAreaOfItem === handyPartyArea;
       const convertedTripTypeOfItem =
         tripTypeOfItem === '행사장행' ? 'TO_DESTINATION' : 'FROM_DESTINATION'; // 핸디팟은 노선 이름에 방향이 기재되어있어야한다.
-      const isSameTripType = convertedTripTypeOfItem === tripType;
+      const isSameTripType = convertedTripTypeOfItem === handyPartyTripType;
       return isSameArea && isSameTripType;
     });
 
     if (!targetRoute) {
       return {
         targetRoute: undefined,
-        tripType: undefined,
+        handyPartyTripType: undefined,
       };
     }
 
     return {
       targetRoute,
-      tripType,
+      handyPartyTripType,
       userAddress: addressSearchResult,
     };
   }, [handyPartyRoutes, getValues]);
@@ -86,13 +86,13 @@ const ExtraRealNameInputStep = ({
     }
 
     const toDestinationShuttleRouteHubId =
-      tripType === 'TO_DESTINATION'
+      handyPartyTripType === 'TO_DESTINATION'
         ? targetRoute.toDestinationShuttleRouteHubs?.find(
             (hub) => hub.role === 'HUB',
           )?.shuttleRouteHubId
         : undefined;
     const fromDestinationShuttleRouteHubId =
-      tripType === 'FROM_DESTINATION'
+      handyPartyTripType === 'FROM_DESTINATION'
         ? targetRoute.fromDestinationShuttleRouteHubs?.find(
             (hub) => hub.role === 'HUB',
           )?.shuttleRouteHubId
@@ -102,7 +102,7 @@ const ExtraRealNameInputStep = ({
       eventId: targetRoute.eventId,
       dailyEventId: targetRoute.dailyEventId,
       shuttleRouteId: targetRoute.shuttleRouteId,
-      tripType,
+      tripType: handyPartyTripType,
       toDestinationHubId: toDestinationShuttleRouteHubId,
       fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount: getValues('passengerCount'),

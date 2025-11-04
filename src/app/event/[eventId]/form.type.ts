@@ -3,6 +3,7 @@ import { BigRegionsType } from '@/constants/regions';
 import { HubWithInfo } from './store/dailyEventIdsWithHubsAtom';
 import { RegionHubsResponseModel } from '@/types/hub.type';
 import { DailyEventsInEventsViewEntity } from '@/types/event.type';
+import { HandyPartyTripType } from './components/steps/handy-party-steps/HandyPartyModal';
 
 export interface EventFormValues {
   dailyEvent: DailyEventsInEventsViewEntity;
@@ -11,6 +12,7 @@ export interface EventFormValues {
   selectedHubWithInfo: HubWithInfo;
   hubsWithInfoForDuplicates?: HubWithInfo[];
   tripType: TripType;
+  handyPartyTripType: HandyPartyTripType;
   selectedHubForDemand: RegionHubsResponseModel;
   selectedHubForSeatAlarm: HubWithInfo;
   selectedRouteForSeatAlarm: ShuttleRoutesViewEntity;

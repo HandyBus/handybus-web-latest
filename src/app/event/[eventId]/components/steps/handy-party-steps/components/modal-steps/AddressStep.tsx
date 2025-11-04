@@ -98,8 +98,8 @@ const AddressStep = ({
     onNext();
   };
 
-  const tripType = getValues('tripType');
-  const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[tripType] + ']';
+  const handyPartyTripType = getValues('handyPartyTripType');
+  const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[handyPartyTripType] + ']';
 
   useEffect(() => {
     setReservationTrackingStep('[핸디팟] 주소 입력');

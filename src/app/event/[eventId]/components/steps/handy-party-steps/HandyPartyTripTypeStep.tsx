@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
+import { HandyPartyTripType } from './HandyPartyModal';
 
 interface Props {
   toHandyPartySiGunGuStep: () => void;
@@ -12,7 +13,10 @@ interface Props {
 const HandyPartyTripTypeStep = ({ toHandyPartySiGunGuStep }: Props) => {
   const { setValue } = useFormContext<EventFormValues>();
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
-  const tripTypesWithoutRoundTrip = TripTypeEnum.options.slice(0, 2);
+  const tripTypesWithoutRoundTrip = TripTypeEnum.options.slice(
+    0,
+    2,
+  ) as HandyPartyTripType[];
 
   useEffect(() => {
     setReservationTrackingStep('[핸디팟] 방향 선택');
@@ -27,7 +31,7 @@ const HandyPartyTripTypeStep = ({ toHandyPartySiGunGuStep }: Props) => {
             type="button"
             className="flex w-full items-center py-12 text-16 font-600 text-basic-grey-700 first-line:text-left"
             onClick={() => {
-              setValue('tripType', tripType);
+              setValue('handyPartyTripType', tripType);
               toHandyPartySiGunGuStep();
             }}
           >
