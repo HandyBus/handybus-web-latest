@@ -184,7 +184,10 @@ const ReservationHubsStep = ({
             <span className="text-16 font-600 text-basic-grey-700">
               찾는 정류장이 없나요?
             </span>
-            <Tooltip content="원하는 지역이 보이지 않는다면, 해당 정류장은 수요조사가 진행 중이에요. 셔틀이 열릴 수 있도록 수요조사에 참여해 보세요." />
+            <Tooltip
+              position="top"
+              content="원하는 지역이 보이지 않는다면, 해당 정류장은 수요조사가 진행 중이에요. 셔틀이 열릴 수 있도록 수요조사에 참여해 보세요."
+            />
           </div>
           <Button
             onClick={toDemandHubsStep}

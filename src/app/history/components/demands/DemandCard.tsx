@@ -133,7 +133,10 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
         {showShuttleRouteCreatedOnlyInRelatedRegionCTA && (
           <div className="mb-12 flex h-[26px] items-center text-16 font-600 leading-[160%] text-basic-grey-700">
             인근 정류장이 열렸어요
-            <Tooltip content="내가 요청한 정류장이 포함된 지역에서 예약이 가능한 셔틀이 있어요." />
+            <Tooltip
+              position="top"
+              content="내가 요청한 정류장이 포함된 지역에서 예약이 가능한 셔틀이 있어요."
+            />
           </div>
         )}
         <div className="flex">
@@ -184,7 +187,10 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
               <span className="text-14 font-600 leading-[160%] text-basic-grey-700">
                 신청 인원
               </span>
-              <Tooltip content="신청 인원은 동일한 행사에서 같은 지역을 신청한 인원을 의미해요." />
+              <Tooltip
+                position="right"
+                content="신청 인원은 동일한 행사에서 같은 지역을 신청한 인원을 의미해요."
+              />
             </div>
             <div className="text-14 font-600 leading-[160%] text-basic-grey-700">
               {demand.demandCountOnRegion} 명

@@ -36,6 +36,22 @@ const OAuth = ({ params, searchParams }: Props) => {
   usePreventScroll();
 
   const handleOAuth = async () => {
+    const isAppFromState =
+      searchParams?.state && searchParams.state.toLowerCase().includes('app');
+
+    if (isAppFromState && searchParams.code) {
+      const deepLinkUrl = `handybus://?path=/auth/login/${params.oauth}&code=${encodeURIComponent(searchParams.code)}`;
+
+      const link = document.createElement('a');
+      link.href = deepLinkUrl;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      return;
+    }
+
     try {
       const tokens = await postLogin(params.oauth, {
         code: searchParams.code,
