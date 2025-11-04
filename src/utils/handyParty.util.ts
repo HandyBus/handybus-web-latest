@@ -6,16 +6,30 @@ import {
 } from '@/constants/handyPartyArea.const';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 
+const SEOUL_AREAS = [
+  '동북권',
+  '서북권',
+  '중심권',
+  '성동.광진권',
+  '강서권',
+  '서남권',
+  '동남권',
+];
+
 // 주소가 핸디팟 노선 개설 지역인지 확인
 export const checkIsPossibleHandyPartyArea = (
   address: string,
   possibleHandyPartyAreas: HandyPartyRouteArea[],
-  selectedArea: HandyPartyRouteArea,
+  selectedArea: HandyPartyRouteArea | null,
 ) => {
   const itemHandyPartyArea = getHandyPartyArea(address);
 
-  // 선택한 권역에 해당하지는지 확인
-  if (!itemHandyPartyArea || selectedArea !== itemHandyPartyArea) {
+  // 선택한 권역에 해당하지는지 확인 (selectedArea가 null인 경우 서울 지역만 가능)
+  if (
+    !itemHandyPartyArea ||
+    (selectedArea !== null && selectedArea !== itemHandyPartyArea) ||
+    (selectedArea === null && !SEOUL_AREAS.includes(itemHandyPartyArea))
+  ) {
     return false;
   }
 

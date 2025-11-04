@@ -22,6 +22,7 @@ import HandyPartySiGunGuStep from './handy-party-steps/HandyPartySiGunGuStep';
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
   setHistoryAndStep: (step: (typeof EVENT_STEPS)[number]) => void;
+  handleBack: () => void;
   closeBottomSheet: () => void;
   setDemandCompleteStatus: (status: DemandCompleteStatus) => void;
   updateUserDemands: () => void;
@@ -40,6 +41,7 @@ interface Props {
 const StepComponent = ({
   stepName,
   setHistoryAndStep,
+  handleBack,
   closeBottomSheet,
   setDemandCompleteStatus,
   updateUserDemands,
@@ -126,7 +128,10 @@ const StepComponent = ({
       />
     ),
     '[핸디팟] 시/군/구 선택': (
-      <HandyPartySiGunGuStep closeBottomSheet={closeBottomSheet} />
+      <HandyPartySiGunGuStep
+        closeBottomSheet={closeBottomSheet}
+        handleBack={handleBack}
+      />
     ),
     // 기타
     '[기타] 시/도 정보': (

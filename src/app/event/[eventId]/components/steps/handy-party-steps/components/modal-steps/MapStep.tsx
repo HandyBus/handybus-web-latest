@@ -187,10 +187,10 @@ const MapStep = ({
         <h2 className="text-18 font-600 leading-[140%]">
           정확한 위치를 설정해 주세요
         </h2>
-        <p className="text-16 font-500 leading-[160%] text-basic-grey-600">
+        <p className="min-h-52 text-16 font-500 leading-[160%] text-basic-grey-600">
           {addressSearchError ? (
             <span className="text-basic-red-500">
-              이 곳은 핸디팟 운행이 어려운 지역이에요.
+              입력한 장소와 거리가 멀어요. 핀을 다시 찍어주세요.
             </span>
           ) : (
             '원하는 위치로 지도를 움직여 핀을 놓아주세요. 예약 후에는 장소 변경이 어려우니 꼭 확인해 주세요.'
@@ -205,7 +205,7 @@ const MapStep = ({
           addressSearchError ? 'text-basic-grey-600' : ''
         }`}
       >
-        {addressSearchError ? '주소를 못 찾았어요.' : displayedAddress}
+        {addressSearchError ? `` : displayedAddress}
       </section>
       <section className="mt-[6px] p-16">
         <Button

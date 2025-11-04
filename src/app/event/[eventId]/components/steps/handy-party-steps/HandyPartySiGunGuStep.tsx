@@ -7,16 +7,17 @@ import {
   HANDY_PARTY_AREA_TO_ADDRESS,
   HandyPartyRouteArea,
 } from '@/constants/handyPartyArea.const';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { dailyEventIdsWithHubsAtom } from '../../../store/dailyEventIdsWithHubsAtom';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import HandyPartyModal from './HandyPartyModal';
 
 interface Props {
   closeBottomSheet: () => void;
+  handleBack: () => void;
 }
 
-const HandyPartySiGunGuStep = ({ closeBottomSheet }: Props) => {
+const HandyPartySiGunGuStep = ({ closeBottomSheet, handleBack }: Props) => {
   const { getValues } = useFormContext<EventFormValues>();
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
@@ -80,9 +81,18 @@ const HandyPartySiGunGuStep = ({ closeBottomSheet }: Props) => {
     setIsHandyPartyModalOpen(true);
   };
 
-  const [isHandyPartyModalOpen, setIsHandyPartyModalOpen] = useState(false);
-  const [selectedArea, setSelectedArea] =
-    useState<HandyPartyRouteArea>('동북권');
+  const [isHandyPartyModalOpen, setIsHandyPartyModalOpen] = useState(
+    prioritySido === '서울특별시' ? true : false,
+  );
+  const [selectedArea, setSelectedArea] = useState<HandyPartyRouteArea | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (prioritySido === '서울특별시') {
+      setSelectedArea(null);
+    }
+  }, [prioritySido]);
 
   return (
     <>
@@ -93,6 +103,7 @@ const HandyPartySiGunGuStep = ({ closeBottomSheet }: Props) => {
           selectedArea={selectedArea}
           handyPartyRoutes={handyPartyRoutes}
           possibleHandyPartyAreas={possibleHandyPartyAreas}
+          handleBack={handleBack}
         />
       )}
       <section className="flex flex-col gap-12">
@@ -109,10 +120,8 @@ const HandyPartySiGunGuStep = ({ closeBottomSheet }: Props) => {
                     {area}
                   </div>
                   <div className="text-12 font-500 leading-[160%] text-basic-grey-600">
-                    {HANDY_PARTY_AREA_TO_ADDRESS[area].sido === '서울'
-                      ? HANDY_PARTY_AREA_TO_ADDRESS[area].gungu.join(', ')
-                      : HANDY_PARTY_AREA_TO_ADDRESS[area].dong &&
-                        `운행 가능 지역: ${HANDY_PARTY_AREA_TO_ADDRESS[area].dong?.join(', ')}`}
+                    {HANDY_PARTY_AREA_TO_ADDRESS[area].dong &&
+                      `운행 가능 지역: ${HANDY_PARTY_AREA_TO_ADDRESS[area].dong?.join(', ')}`}
                   </div>
                 </div>
               </button>

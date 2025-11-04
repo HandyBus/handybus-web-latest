@@ -287,6 +287,7 @@ const Content = ({
                     <StepComponent
                       stepName={stepName}
                       setHistoryAndStep={setHistoryAndStep}
+                      handleBack={handleBack}
                       closeBottomSheet={closeBottomSheet}
                       setDemandCompleteStatus={setDemandCompleteStatus}
                       updateUserDemands={updateUserDemands}

@@ -8,7 +8,7 @@ interface Props {
   title: ReactNode;
   description?: ReactNode;
   variant: 'address' | 'reservation-info';
-  onBack: () => void;
+  onBack?: () => void;
   closeModal: () => void;
 }
 

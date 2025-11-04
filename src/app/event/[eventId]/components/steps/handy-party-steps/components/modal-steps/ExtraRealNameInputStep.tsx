@@ -125,10 +125,18 @@ const ExtraRealNameInputStep = ({
         variant="reservation-info"
         onBack={onBack}
         closeModal={closeModal}
-        title="결제 전, 본인 이름을 확인해 주세요"
-        description="핸디버스는 2025.07.29부터 실명제로 운행돼요. 작성하신 이름은 프로필에도 적용해 드릴게요."
+        title="예약하기"
       />
-      <div className="flex w-full flex-col gap-16 px-16">
+      <div className="flex w-full flex-col gap-16 px-16 pt-[28px]">
+        <div className="flex flex-col gap-4">
+          <h2 className="text-18 font-600 leading-[140%]">
+            결제 전, 본인 이름을 확인해 주세요
+          </h2>
+          <p className="text-16 font-500 leading-[160%] text-basic-grey-600">
+            핸디버스는 2025.07.29부터 실명제로 운행돼요. 작성하신 이름은
+            프로필에도 적용해 드릴게요.
+          </p>
+        </div>
         <Controller
           control={control}
           name="userName"

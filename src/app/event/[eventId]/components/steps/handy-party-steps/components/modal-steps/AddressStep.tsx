@@ -107,18 +107,16 @@ const AddressStep = ({
 
   const displayedSelectedArea = selectedArea
     ? HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ')
-    : '서울특별시' === selectedArea
-      ? '서울특별시'
-      : '';
+    : '서울특별시';
+
+  const handleClose = () => {
+    if (selectedArea === null) onBack();
+    closeModal();
+  };
 
   return (
     <div className="flex h-full grow flex-col">
-      <Header
-        title={`주소 입력`}
-        variant="address"
-        onBack={onBack}
-        closeModal={closeModal}
-      />
+      <Header title={`주소 입력`} variant="address" closeModal={handleClose} />
       <div className={`px-16 pb-16 ${isApp ? 'pt-[28px]' : 'pt-16'}`}>
         <h2 className="text-16 font-600 leading-[160%]">
           {tripTypePrefix} 주소를 입력해주세요

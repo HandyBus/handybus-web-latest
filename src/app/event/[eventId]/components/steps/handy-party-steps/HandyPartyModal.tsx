@@ -30,7 +30,7 @@ export interface HandyPartyModalFormValues {
   sido: BigRegionsType;
   openSido: BigRegionsType;
   dailyEvent: DailyEventsInEventsViewEntity;
-  selectedArea: HandyPartyRouteArea;
+  selectedArea: HandyPartyRouteArea | null;
   userName: string;
   passengerCount: number;
 }
@@ -40,7 +40,8 @@ interface Props {
   closeBottomSheet: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
   possibleHandyPartyAreas: HandyPartyRouteArea[];
-  selectedArea: HandyPartyRouteArea;
+  selectedArea: HandyPartyRouteArea | null;
+  handleBack: () => void;
 }
 const HandyPartyModal = ({
   closeModal,
@@ -48,6 +49,7 @@ const HandyPartyModal = ({
   handyPartyRoutes,
   possibleHandyPartyAreas,
   selectedArea,
+  handleBack,
 }: Props) => {
   const { getValues: getEventFormValues } = useFormContext<EventFormValues>();
   const [dailyEvent, sido, openSido, tripType] = getEventFormValues([
@@ -79,7 +81,7 @@ const HandyPartyModal = ({
           <Funnel>
             <Step name="주소 입력">
               <AddressStep
-                onBack={handlePrevStep}
+                onBack={handleBack}
                 onNext={handleNextStep}
                 possibleHandyPartyAreas={possibleHandyPartyAreas}
                 closeModal={closeModal}
