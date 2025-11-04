@@ -54,6 +54,7 @@ const ReservationTransferSection = ({
       await putCancelReservationTransferRequest(reservationTransferRequestId);
       closeBottomSheet();
       toast.success('선물을 취소했어요.');
+      router.replace('/history?type=reservation');
     } catch (error) {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');

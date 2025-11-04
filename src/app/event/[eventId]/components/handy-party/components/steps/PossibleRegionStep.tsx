@@ -107,7 +107,10 @@ const PossibleRegionStep = ({
           <span className="text-16 font-600 leading-[160%] text-basic-grey-700">
             내 지역이 없어요
           </span>
-          <Tooltip content="현재 핸디팟은 수도권 일부 지역에서 시범 운행중이에요. 일부 지역에서는 이용이 어려운 점 알려드려요." />
+          <Tooltip
+            position="top"
+            content="현재 핸디팟은 수도권 일부 지역에서 시범 운행중이에요. 일부 지역에서는 이용이 어려운 점 알려드려요."
+          />
         </div>
         {isShuttleBusAvailable && (
           <button
