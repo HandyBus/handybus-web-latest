@@ -73,10 +73,18 @@ const PhoneNumberStep = () => {
 
   const [isAgreementChecked, setIsAgreementChecked] = useState(true);
 
+  const headerStyle = {
+    paddingTop: 'var(--safe-area-inset-top)',
+    height: 'calc(56px + var(--safe-area-inset-top))',
+  };
+
   return (
     <>
       <OnboardingFrame>
-        <div className="mx-16 my-12 flex items-center gap-8">
+        <div
+          className="mx-16 my-12 flex items-center gap-8"
+          style={headerStyle}
+        >
           <button type="button" onClick={() => router.replace('/login')}>
             <XIcon />
           </button>

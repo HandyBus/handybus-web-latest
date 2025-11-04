@@ -5,8 +5,6 @@ import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
 
-export const HANDY_PARTY_AREA_GUIDE_ID = 'handy-party-area-guide';
-
 interface Props {
   event: EventsViewEntity;
   isReservationClosingSoon: boolean;
@@ -24,10 +22,6 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
 
   return (
     <>
-      <div
-        id={HANDY_PARTY_AREA_GUIDE_ID}
-        className="hidden bg-basic-grey-50 p-16 px-16 py-8 text-12 font-500 leading-[160%] text-basic-grey-700"
-      />
       <section className="flex flex-col px-16 py-24">
         <h1 className="mb-4 text-20 font-700">{event.eventName}</h1>
         <h3 className="mb-[2px] text-16 font-500 text-basic-grey-700">
