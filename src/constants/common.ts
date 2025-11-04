@@ -14,4 +14,4 @@ export const MAX_PASSENGER_COUNT = 9; // 한번에 예약 가능한 최대 인�
 // 핸디팟 정류장 형식: 핸디팟_${권역명} ex) 핸디팟_중심권
 export const HANDY_PARTY_PREFIX = '핸디팟';
 
-export const KAKAO_CHANNEL_URL = 'http://pf.kakao.com/_AxncxhG';
+export const KAKAO_CHANNEL_URL = 'https://pf.kakao.com/_AxncxhG';
