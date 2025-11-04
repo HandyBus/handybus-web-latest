@@ -25,9 +25,15 @@ interface Props {
   onBack: () => void;
   onNext: () => void;
   possibleHandyPartyAreas: HandyPartyRouteArea[];
+  closeModal: () => void;
 }
 
-const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
+const AddressStep = ({
+  onBack,
+  onNext,
+  possibleHandyPartyAreas,
+  closeModal,
+}: Props) => {
   const { setValue, getValues } = useFormContext<HandyPartyModalFormValues>();
   const selectedArea = getValues('selectedArea');
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
@@ -92,19 +98,26 @@ const AddressStep = ({ onBack, onNext, possibleHandyPartyAreas }: Props) => {
     onNext();
   };
 
-  const tripType = getValues('tripType');
-  const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[tripType] + ']';
+  const handyPartyTripType = getValues('handyPartyTripType');
+  const tripTypePrefix = '[' + TRIP_STATUS_TO_STRING[handyPartyTripType] + ']';
 
   useEffect(() => {
     setReservationTrackingStep('[핸디팟] 주소 입력');
   }, [setReservationTrackingStep]);
 
   const displayedSelectedArea =
-    HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ');
+    selectedArea === '서울특별시'
+      ? '서울특별시'
+      : HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ');
+
+  const handleClose = () => {
+    if (selectedArea === '서울특별시') onBack();
+    closeModal();
+  };
 
   return (
     <div className="flex h-full grow flex-col">
-      <Header onBack={onBack} title={`주소 입력`} displayCloseButton={true} />
+      <Header title={`주소 입력`} variant="address" closeModal={handleClose} />
       <div className={`px-16 pb-16 ${isApp ? 'pt-[28px]' : 'pt-16'}`}>
         <h2 className="text-16 font-600 leading-[160%]">
           {tripTypePrefix} 주소를 입력해주세요

@@ -16,10 +16,13 @@ import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
 import ExtraSelectProductStep from './extra-steps/ExtraSelectProductStep';
 import ExtraRealNameInputStep from './extra-steps/ExtraRealNameInputStep';
+import HandyPartyTripTypeStep from './handy-party-steps/HandyPartyTripTypeStep';
+import HandyPartySiGunGuStep from './handy-party-steps/HandyPartySiGunGuStep';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
   setHistoryAndStep: (step: (typeof EVENT_STEPS)[number]) => void;
+  handleBack: () => void;
   closeBottomSheet: () => void;
   setDemandCompleteStatus: (status: DemandCompleteStatus) => void;
   updateUserDemands: () => void;
@@ -38,6 +41,7 @@ interface Props {
 const StepComponent = ({
   stepName,
   setHistoryAndStep,
+  handleBack,
   closeBottomSheet,
   setDemandCompleteStatus,
   updateUserDemands,
@@ -115,6 +119,20 @@ const StepComponent = ({
         toExtraRealNameInputStep={() => setHistoryAndStep('[기타] 이름 입력')}
       />
     ),
+    // 핸디팟
+    '[핸디팟] 방향 선택': (
+      <HandyPartyTripTypeStep
+        toHandyPartySiGunGuStep={() => {
+          setHistoryAndStep('[핸디팟] 시/군/구 선택');
+        }}
+      />
+    ),
+    '[핸디팟] 시/군/구 선택': (
+      <HandyPartySiGunGuStep
+        closeBottomSheet={closeBottomSheet}
+        handleBack={handleBack}
+      />
+    ),
     // 기타
     '[기타] 시/도 정보': (
       <ExtraSidoInfoStep
@@ -145,7 +163,7 @@ const StepComponent = ({
     '[기타] 상품 선택': (
       <ExtraSelectProductStep
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
-        closeBottomSheet={closeBottomSheet}
+        toHandyPartyTripTypeStep={() => setHistoryAndStep('[핸디팟] 방향 선택')}
       />
     ),
     '[기타] 이름 입력': (

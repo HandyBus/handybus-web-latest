@@ -36,9 +36,9 @@ const ExtraRealNameInputStep = ({
     getReservationStartTime,
   } = useReservationTrackingGlobal();
 
-  const { targetRoute, tripType, userAddress } = useMemo(() => {
-    const [tripType, addressSearchResult] = getValues([
-      'tripType',
+  const { targetRoute, handyPartyTripType, userAddress } = useMemo(() => {
+    const [handyPartyTripType, addressSearchResult] = getValues([
+      'handyPartyTripType',
       'addressSearchResult',
     ]);
 
@@ -50,20 +50,20 @@ const ExtraRealNameInputStep = ({
       const isSameArea = handyPartyAreaOfItem === handyPartyArea;
       const convertedTripTypeOfItem =
         tripTypeOfItem === '행사장행' ? 'TO_DESTINATION' : 'FROM_DESTINATION'; // 핸디팟은 노선 이름에 방향이 기재되어있어야한다.
-      const isSameTripType = convertedTripTypeOfItem === tripType;
+      const isSameTripType = convertedTripTypeOfItem === handyPartyTripType;
       return isSameArea && isSameTripType;
     });
 
     if (!targetRoute) {
       return {
         targetRoute: undefined,
-        tripType: undefined,
+        handyPartyTripType: undefined,
       };
     }
 
     return {
       targetRoute,
-      tripType,
+      handyPartyTripType,
       userAddress: addressSearchResult,
     };
   }, [handyPartyRoutes, getValues]);
@@ -86,13 +86,13 @@ const ExtraRealNameInputStep = ({
     }
 
     const toDestinationShuttleRouteHubId =
-      tripType === 'TO_DESTINATION'
+      handyPartyTripType === 'TO_DESTINATION'
         ? targetRoute.toDestinationShuttleRouteHubs?.find(
             (hub) => hub.role === 'HUB',
           )?.shuttleRouteHubId
         : undefined;
     const fromDestinationShuttleRouteHubId =
-      tripType === 'FROM_DESTINATION'
+      handyPartyTripType === 'FROM_DESTINATION'
         ? targetRoute.fromDestinationShuttleRouteHubs?.find(
             (hub) => hub.role === 'HUB',
           )?.shuttleRouteHubId
@@ -102,7 +102,7 @@ const ExtraRealNameInputStep = ({
       eventId: targetRoute.eventId,
       dailyEventId: targetRoute.dailyEventId,
       shuttleRouteId: targetRoute.shuttleRouteId,
-      tripType,
+      tripType: handyPartyTripType,
       toDestinationHubId: toDestinationShuttleRouteHubId,
       fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount: getValues('passengerCount'),
@@ -122,11 +122,21 @@ const ExtraRealNameInputStep = ({
   return (
     <div className="flex grow flex-col">
       <Header
+        variant="reservation-info"
         onBack={onBack}
-        title="결제 전, 본인 이름을 확인해 주세요"
-        description="핸디버스는 2025.07.29부터 실명제로 운행돼요. 작성하신 이름은 프로필에도 적용해 드릴게요."
+        closeModal={closeModal}
+        title="예약하기"
       />
-      <div className="flex w-full flex-col gap-16 px-16">
+      <div className="flex w-full flex-col gap-16 px-16 pt-[28px]">
+        <div className="flex flex-col gap-4">
+          <h2 className="text-18 font-600 leading-[140%]">
+            결제 전, 본인 이름을 확인해 주세요
+          </h2>
+          <p className="text-16 font-500 leading-[160%] text-basic-grey-600">
+            핸디버스는 2025.07.29부터 실명제로 운행돼요. 작성하신 이름은
+            프로필에도 적용해 드릴게요.
+          </p>
+        </div>
         <Controller
           control={control}
           name="userName"

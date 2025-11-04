@@ -9,7 +9,7 @@ import Button from '@/components/buttons/button/Button';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { getHandyPartyArea } from '../../../../../../../utils/handyParty.util';
+import { getHandyPartyArea } from '../../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
 import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { useRouter } from 'next/navigation';
@@ -51,15 +51,15 @@ const ReservationInfoStep = ({
 
   const {
     targetRoute,
-    tripType,
+    handyPartyTripType,
     userAddress,
     regularPrice,
     earlybirdPrice,
     discountRate,
     isEarlybird,
   } = useMemo(() => {
-    const [tripType, addressSearchResult] = getValues([
-      'tripType',
+    const [handyPartyTripType, addressSearchResult] = getValues([
+      'handyPartyTripType',
       'addressSearchResult',
     ]);
 
@@ -71,14 +71,14 @@ const ReservationInfoStep = ({
       const isSameArea = handyPartyAreaOfItem === handyPartyArea;
       const convertedTripTypeOfItem =
         tripTypeOfItem === '행사장행' ? 'TO_DESTINATION' : 'FROM_DESTINATION'; // 핸디팟은 노선 이름에 방향이 기재되어있어야한다.
-      const isSameTripType = convertedTripTypeOfItem === tripType;
+      const isSameTripType = convertedTripTypeOfItem === handyPartyTripType;
       return isSameArea && isSameTripType;
     });
 
     if (!targetRoute) {
       return {
         targetRoute: undefined,
-        tripType: undefined,
+        handyPartyTripType: undefined,
         regularPrice: 0,
         earlybirdPrice: 0,
         discountRate: 0,
@@ -92,12 +92,12 @@ const ReservationInfoStep = ({
       dayjs().isBefore(targetRoute.earlybirdDeadline);
 
     const regularPrice =
-      (tripType === 'TO_DESTINATION'
+      (handyPartyTripType === 'TO_DESTINATION'
         ? targetRoute.regularPriceToDestination
         : targetRoute.regularPriceFromDestination) ?? 0;
 
     const earlybirdPrice =
-      (isEarlybird && tripType === 'TO_DESTINATION'
+      (isEarlybird && handyPartyTripType === 'TO_DESTINATION'
         ? targetRoute.earlybirdPriceToDestination
         : targetRoute.earlybirdPriceFromDestination) ?? 0;
 
@@ -107,7 +107,7 @@ const ReservationInfoStep = ({
 
     return {
       targetRoute,
-      tripType,
+      handyPartyTripType,
       userAddress: addressSearchResult,
       regularPrice,
       earlybirdPrice,
@@ -127,13 +127,13 @@ const ReservationInfoStep = ({
     }
 
     const toDestinationShuttleRouteHubId =
-      tripType === 'TO_DESTINATION'
+      handyPartyTripType === 'TO_DESTINATION'
         ? targetRoute.toDestinationShuttleRouteHubs?.find(
             (hub) => hub.role === 'HUB',
           )?.shuttleRouteHubId
         : undefined;
     const fromDestinationShuttleRouteHubId =
-      tripType === 'FROM_DESTINATION'
+      handyPartyTripType === 'FROM_DESTINATION'
         ? targetRoute.fromDestinationShuttleRouteHubs?.find(
             (hub) => hub.role === 'HUB',
           )?.shuttleRouteHubId
@@ -143,7 +143,7 @@ const ReservationInfoStep = ({
       eventId: targetRoute.eventId,
       dailyEventId: targetRoute.dailyEventId,
       shuttleRouteId: targetRoute.shuttleRouteId,
-      tripType,
+      tripType: handyPartyTripType,
       toDestinationHubId: toDestinationShuttleRouteHubId,
       fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount,
@@ -161,7 +161,7 @@ const ReservationInfoStep = ({
   };
 
   const destinationHub =
-    tripType === 'TO_DESTINATION'
+    handyPartyTripType === 'TO_DESTINATION'
       ? targetRoute?.toDestinationShuttleRouteHubs?.find(
           (hub) => hub.role === 'DESTINATION',
         )
@@ -177,21 +177,26 @@ const ReservationInfoStep = ({
   if (isUserError) throw new Error('fetching user failed');
   return (
     <div className="flex grow flex-col">
-      <Header onBack={onBack} title="예약하기" />
+      <Header
+        title="예약하기"
+        variant="reservation-info"
+        onBack={onBack}
+        closeModal={closeModal}
+      />
       <section className="px-16 pb-16 pt-[28px]">
         <h2 className="text-18 font-600 leading-[140%]">
           이 셔틀로 예약을 진행할게요
         </h2>
       </section>
       <div className="flex w-full flex-col gap-16 px-16">
-        {destinationHub && tripType === 'TO_DESTINATION' && (
+        {destinationHub && handyPartyTripType === 'TO_DESTINATION' && (
           <SimpleRouteInfo
             tripType="TO_DESTINATION"
             destinationHub={destinationHub}
             userAddress={userAddress.address}
           />
         )}
-        {destinationHub && tripType === 'FROM_DESTINATION' && (
+        {destinationHub && handyPartyTripType === 'FROM_DESTINATION' && (
           <SimpleRouteInfo
             tripType="FROM_DESTINATION"
             destinationHub={destinationHub}
