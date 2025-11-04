@@ -44,9 +44,6 @@ const OAuth = ({ params, searchParams }: Props) => {
       if (searchParams.code) {
         deepLinkUrl += `&code=${encodeURIComponent(searchParams.code)}`;
       }
-      if (searchParams.code === 'naver' && searchParams.state) {
-        deepLinkUrl += `&state=${encodeURIComponent(searchParams.state)}`;
-      }
 
       const link = document.createElement('a');
       link.href = deepLinkUrl;
@@ -61,7 +58,6 @@ const OAuth = ({ params, searchParams }: Props) => {
     try {
       const tokens = await postLogin(params.oauth, {
         code: searchParams.code,
-        state: searchParams?.state,
       });
 
       setAccessToken(tokens.accessToken);
