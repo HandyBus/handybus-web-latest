@@ -78,7 +78,7 @@ const PaymentsCompletedPage = ({
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href={`/history/reservation/${reservationId}`}>
+          <Link href={`/history/reservation/${reservationId}`} replace={true}>
             <Button>완료</Button>
           </Link>
         </div>
@@ -96,7 +96,7 @@ const PaymentsCompletedPage = ({
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href={`/history/reservation/${reservationId}`}>
+          <Link href={`/history/reservation/${reservationId}`} replace={true}>
             <Button variant="secondary">완료</Button>
           </Link>
         </div>
