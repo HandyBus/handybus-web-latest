@@ -1,15 +1,17 @@
 'use client';
 
+import { handleClickAndStopPropagation } from '@/utils/common.util';
 import InfoIcon from 'public/icons/info.svg';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface Props {
   content: ReactNode;
+  position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-const Tooltip = ({ content }: Props) => {
+const Tooltip = ({ content, position: initialPosition = 'top' }: Props) => {
   const [position, setPosition] = useState<'top' | 'bottom' | 'left' | 'right'>(
-    'top',
+    initialPosition,
   );
   const tooltipRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -60,6 +62,7 @@ const Tooltip = ({ content }: Props) => {
 
   return (
     <div
+      onClick={handleClickAndStopPropagation(() => {})}
       className="group relative inline-flex cursor-pointer"
       ref={containerRef}
     >
