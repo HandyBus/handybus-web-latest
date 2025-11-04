@@ -40,13 +40,13 @@ const OAuth = ({ params, searchParams }: Props) => {
       searchParams?.state && searchParams.state.toLowerCase().includes('app');
 
     if (isAppFromState) {
-      const deepLinkParams = new URLSearchParams();
-      deepLinkParams.set('path', `/auth/login/${params.oauth}`);
-      deepLinkParams.set('code', encodeURIComponent(searchParams.code));
-      if (searchParams.state) {
-        deepLinkParams.set('state', encodeURIComponent(searchParams.state));
+      let deepLinkUrl = `handybus://?path=/auth/login/${params.oauth}`;
+      if (searchParams.code) {
+        deepLinkUrl += `&code=${encodeURIComponent(searchParams.code)}`;
       }
-      const deepLinkUrl = `handybus://?${deepLinkParams.toString()}`;
+      if (searchParams.state) {
+        deepLinkUrl += `&state=${encodeURIComponent(searchParams.state)}`;
+      }
 
       const link = document.createElement('a');
       link.href = deepLinkUrl;
