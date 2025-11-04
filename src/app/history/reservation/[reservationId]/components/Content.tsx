@@ -87,7 +87,6 @@ const Content = ({
         isReservationCanceled={isReservationCanceled}
         isTransferredReservation={isTransferredReservation}
       />
-
       <ReservationTransferSection
         isTransferredReservation={isTransferredReservation}
         reservation={reservation}
