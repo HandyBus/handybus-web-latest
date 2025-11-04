@@ -44,7 +44,7 @@ const OAuth = ({ params, searchParams }: Props) => {
       if (searchParams.code) {
         deepLinkUrl += `&code=${encodeURIComponent(searchParams.code)}`;
       }
-      if (searchParams.state) {
+      if (searchParams.code === 'naver' && searchParams.state) {
         deepLinkUrl += `&state=${encodeURIComponent(searchParams.state)}`;
       }
 
