@@ -109,7 +109,7 @@ const AddressStep = ({
     ? HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ')
     : '서울특별시' === selectedArea
       ? '서울특별시'
-      : '경기도';
+      : '';
 
   return (
     <div className="flex h-full grow flex-col">
