@@ -122,7 +122,7 @@ const StepComponent = ({
     // 핸디팟
     '[핸디팟] 방향 선택': (
       <HandyPartyTripTypeStep
-        toHandyPartySigunguStep={() => {
+        toHandyPartySiGunGuStep={() => {
           setHistoryAndStep('[핸디팟] 시/군/구 선택');
         }}
       />

@@ -105,12 +105,13 @@ const AddressStep = ({
     setReservationTrackingStep('[핸디팟] 주소 입력');
   }, [setReservationTrackingStep]);
 
-  const displayedSelectedArea = selectedArea
-    ? HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ')
-    : '서울특별시';
+  const displayedSelectedArea =
+    selectedArea === '서울특별시'
+      ? '서울특별시'
+      : HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ');
 
   const handleClose = () => {
-    if (selectedArea === null) onBack();
+    if (selectedArea === '서울특별시') onBack();
     closeModal();
   };
 

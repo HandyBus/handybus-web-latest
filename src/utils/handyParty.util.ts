@@ -20,15 +20,15 @@ const SEOUL_AREAS = [
 export const checkIsPossibleHandyPartyArea = (
   address: string,
   possibleHandyPartyAreas: HandyPartyRouteArea[],
-  selectedArea: HandyPartyRouteArea | null,
+  selectedArea: HandyPartyRouteArea | '서울특별시',
 ) => {
   const itemHandyPartyArea = getHandyPartyArea(address);
 
   // 선택한 권역에 해당하지는지 확인 (selectedArea가 null인 경우 서울 지역만 가능)
   if (
     !itemHandyPartyArea ||
-    (selectedArea !== null && selectedArea !== itemHandyPartyArea) ||
-    (selectedArea === null && !SEOUL_AREAS.includes(itemHandyPartyArea))
+    (selectedArea !== '서울특별시' && selectedArea !== itemHandyPartyArea) ||
+    (selectedArea === '서울특별시' && !SEOUL_AREAS.includes(itemHandyPartyArea))
   ) {
     return false;
   }

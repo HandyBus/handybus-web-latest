@@ -30,7 +30,7 @@ export interface HandyPartyModalFormValues {
   sido: BigRegionsType;
   openSido: BigRegionsType;
   dailyEvent: DailyEventsInEventsViewEntity;
-  selectedArea: HandyPartyRouteArea | null;
+  selectedArea: HandyPartyRouteArea | '서울특별시';
   userName: string;
   passengerCount: number;
 }
@@ -40,7 +40,7 @@ interface Props {
   closeBottomSheet: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
   possibleHandyPartyAreas: HandyPartyRouteArea[];
-  selectedArea: HandyPartyRouteArea | null;
+  selectedArea: HandyPartyRouteArea | '서울특별시';
   handleBack: () => void;
 }
 const HandyPartyModal = ({

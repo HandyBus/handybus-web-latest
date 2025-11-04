@@ -6,10 +6,10 @@ import { useFormContext } from 'react-hook-form';
 import { EventFormValues } from '../../../form.type';
 
 interface Props {
-  toHandyPartySigunguStep: () => void;
+  toHandyPartySiGunGuStep: () => void;
 }
 
-const HandyPartyTripTypeStep = ({ toHandyPartySigunguStep }: Props) => {
+const HandyPartyTripTypeStep = ({ toHandyPartySiGunGuStep }: Props) => {
   const { setValue } = useFormContext<EventFormValues>();
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
   const tripTypesWithoutRoundTrip = TripTypeEnum.options.slice(0, 2);
@@ -28,7 +28,7 @@ const HandyPartyTripTypeStep = ({ toHandyPartySigunguStep }: Props) => {
             className="flex w-full items-center py-12 text-16 font-600 text-basic-grey-700 first-line:text-left"
             onClick={() => {
               setValue('tripType', tripType);
-              toHandyPartySigunguStep();
+              toHandyPartySiGunGuStep();
             }}
           >
             {TRIP_STATUS_TO_STRING[tripType]}

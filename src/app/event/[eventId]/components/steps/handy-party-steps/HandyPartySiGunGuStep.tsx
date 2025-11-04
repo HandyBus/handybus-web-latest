@@ -84,13 +84,13 @@ const HandyPartySiGunGuStep = ({ closeBottomSheet, handleBack }: Props) => {
   const [isHandyPartyModalOpen, setIsHandyPartyModalOpen] = useState(
     prioritySido === '서울특별시' ? true : false,
   );
-  const [selectedArea, setSelectedArea] = useState<HandyPartyRouteArea | null>(
-    null,
-  );
+  const [selectedArea, setSelectedArea] = useState<
+    HandyPartyRouteArea | '서울특별시'
+  >('서울특별시');
 
   useEffect(() => {
     if (prioritySido === '서울특별시') {
-      setSelectedArea(null);
+      setSelectedArea('서울특별시');
     }
   }, [prioritySido]);
 
