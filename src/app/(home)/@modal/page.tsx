@@ -25,7 +25,6 @@ const Page = () => {
     process.env.NEXT_PUBLIC_ENABLE_EMERGENCY_MODAL === 'true';
 
   const { isApp } = useEnvironment();
-  const isLoggedIn = getIsLoggedIn();
 
   const showAppLaunchEventModal = !isApp;
 
@@ -42,6 +41,8 @@ const Page = () => {
   useEffect(() => {
     const isAppLaunchEventCouponDownloadModalSeen =
       getAppLaunchEventCouponDownloadModalSeen();
+    const isLoggedIn = getIsLoggedIn();
+
     const showAppLaunchEventCouponDownloadModal =
       isApp && isLoggedIn && !isAppLaunchEventCouponDownloadModalSeen;
     if (showAppLaunchEventCouponDownloadModal) {

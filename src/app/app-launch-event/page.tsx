@@ -28,7 +28,6 @@ const APP_LAUNCH_EVENT_COUPON_CODES = [
 
 const Page = () => {
   const { isApp } = useEnvironment();
-  const isLoggedIn = getIsLoggedIn();
   const router = useRouter();
 
   const [isCouponIssuedModalOpen, setIsCouponIssuedModalOpen] = useState(false);
@@ -53,6 +52,7 @@ const Page = () => {
     if (!isApp) {
       return;
     }
+    const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
       const redirectUrl = createLoginRedirectPath(`/app-launch-event`);
       router.replace(redirectUrl);
