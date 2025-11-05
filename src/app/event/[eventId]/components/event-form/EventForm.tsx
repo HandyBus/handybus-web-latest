@@ -35,15 +35,10 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 
 interface Props {
   event: EventsViewEntity;
-  isNoDemandRewardCouponEvent: boolean;
   shuttleRoutesOpen: ShuttleRoutesViewEntity[];
 }
 
-const EventForm = ({
-  event,
-  isNoDemandRewardCouponEvent,
-  shuttleRoutesOpen,
-}: Props) => {
+const EventForm = ({ event, shuttleRoutesOpen }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
 
@@ -71,7 +66,6 @@ const EventForm = ({
         shuttleRoutes={shuttleRoutesOpen}
         phase={phase}
         enabledStatus={enabledStatus}
-        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
       />
     </section>
   );
@@ -84,7 +78,6 @@ interface ContentProps {
   shuttleRoutes: ShuttleRoutesViewEntity[];
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
 const Content = ({
@@ -92,7 +85,6 @@ const Content = ({
   shuttleRoutes,
   phase,
   enabledStatus,
-  isNoDemandRewardCouponEvent,
 }: ContentProps) => {
   const { updateUserDemands, updateUserAlertRequests } = useEventInitialization(
     {
@@ -272,7 +264,6 @@ const Content = ({
                       phase={phase}
                       trackCompleteDemand={trackCompleteDemand}
                       setDemandCount={setDemandCount}
-                      isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
                     />
                   </Step>
                 ))}
@@ -287,7 +278,6 @@ const Content = ({
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
           eventName={event.eventName}
-          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
       )}
       {isAlertRequestFeedbackScreenOpen && (

@@ -35,7 +35,6 @@ interface Props {
     eventDate: string,
   ) => void;
   setDemandCount: (count: number) => void;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
 const StepComponent = ({
@@ -50,7 +49,6 @@ const StepComponent = ({
   phase,
   trackCompleteDemand,
   setDemandCount,
-  isNoDemandRewardCouponEvent,
 }: Props) => {
   const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
     // 공통
@@ -94,7 +92,6 @@ const StepComponent = ({
         setDemandCompleteStatus={setDemandCompleteStatus}
         updateUserDemands={updateUserDemands}
         trackCompleteDemand={trackCompleteDemand}
-        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
       />
     ),
     // 예약

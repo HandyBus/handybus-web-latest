@@ -9,10 +9,9 @@ import ShuttleScheduleView from './components/ShuttleScheduleView';
 
 interface Props {
   event: EventsViewEntity;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
-const EventContent = ({ event, isNoDemandRewardCouponEvent }: Props) => {
+const EventContent = ({ event }: Props) => {
   const { data: shuttleRoutesPages } = useGetShuttleRoutesOfEventWithPagination(
     {
       eventId: event.eventId,
@@ -30,11 +29,7 @@ const EventContent = ({ event, isNoDemandRewardCouponEvent }: Props) => {
 
   return (
     <JotaiProvider>
-      <EventForm
-        event={event}
-        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
-        shuttleRoutesOpen={shuttleRoutesOpen}
-      />
+      <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
       )}

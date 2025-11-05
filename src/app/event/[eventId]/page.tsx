@@ -9,8 +9,6 @@ import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { checkIsReservationClosingSoon } from '../utils/checkIsReservationClosingSoon.util';
 
-const NO_DEMAND_REWARD_COUPON_EVENT_IDS = ['612882322705879531'];
-
 interface Props {
   params: {
     eventId: string;
@@ -19,9 +17,6 @@ interface Props {
 
 const Page = async ({ params }: Props) => {
   const event = await getEvent(params.eventId);
-
-  const isNoDemandRewardCouponEvent =
-    NO_DEMAND_REWARD_COUPON_EVENT_IDS.includes(event.eventId);
 
   const isClosingSoon = checkIsReservationClosingSoon({ event });
 
@@ -34,15 +29,10 @@ const Page = async ({ params }: Props) => {
           eventName={event.eventName}
         />
         <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
-        <EventContent
-          event={event}
-          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
-        />
+        <EventContent event={event} />
         <EventOverview
           event={event}
-          eventId={params.eventId}
           eventDetailImageUrl={event.eventDetailImageUrl}
-          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
         <EventGuidelines />
         <EventModal eventId={params.eventId} />
