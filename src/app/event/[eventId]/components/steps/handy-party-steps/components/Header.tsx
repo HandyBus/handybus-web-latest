@@ -4,15 +4,26 @@ import { ReactNode } from 'react';
 import BackIcon from '../icons/arrow-left.svg';
 import CloseIcon from '../icons/close.svg';
 
-interface Props {
-  title: ReactNode;
-  description?: ReactNode;
-  variant: 'address' | 'reservation-info';
-  onBack?: () => void;
-  closeModal: () => void;
-}
+type HeaderProps =
+  | {
+      variant: 'address';
+      title: ReactNode;
+      description?: ReactNode;
+      closeModal: () => void;
+    }
+  | {
+      variant: 'reservation-info';
+      title: ReactNode;
+      description?: ReactNode;
+      closeModal: () => void;
+      onModalStepBack: () => void;
+    };
 
-const Header = ({ title, description, variant, onBack, closeModal }: Props) => {
+const Header = (props: HeaderProps) => {
+  const { title, description, variant, closeModal } = props;
+  const onModalStepBack =
+    variant === 'reservation-info' ? props.onModalStepBack : undefined;
+
   const headerStyle = {
     paddingTop: 'calc(16px + var(--safe-area-inset-top))',
     height: 'calc(52px + var(--safe-area-inset-top))',
@@ -27,7 +38,7 @@ const Header = ({ title, description, variant, onBack, closeModal }: Props) => {
           <button
             type="button"
             className="shrink-0"
-            onClick={variant === 'address' ? closeModal : onBack}
+            onClick={variant === 'address' ? closeModal : onModalStepBack}
           >
             {variant === 'address' ? <CloseIcon /> : <BackIcon />}
           </button>

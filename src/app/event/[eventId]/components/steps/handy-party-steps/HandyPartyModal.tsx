@@ -43,7 +43,7 @@ interface Props {
   handyPartyRoutes: ShuttleRoutesViewEntity[];
   possibleHandyPartyAreas: HandyPartyRouteArea[];
   selectedArea: HandyPartyRouteArea | '서울특별시';
-  handleBack: () => void;
+  handleStepBack: () => void;
 }
 const HandyPartyModal = ({
   closeModal,
@@ -51,7 +51,7 @@ const HandyPartyModal = ({
   handyPartyRoutes,
   possibleHandyPartyAreas,
   selectedArea,
-  handleBack,
+  handleStepBack,
 }: Props) => {
   const { getValues: getEventFormValues } = useFormContext<EventFormValues>();
   const [dailyEvent, sido, openSido, handyPartyTripType] = getEventFormValues([
@@ -83,7 +83,7 @@ const HandyPartyModal = ({
           <Funnel>
             <Step name="주소 입력">
               <AddressStep
-                onBack={handleBack}
+                onStepBack={handleStepBack}
                 onNext={handleNextStep}
                 possibleHandyPartyAreas={possibleHandyPartyAreas}
                 closeModal={closeModal}
@@ -91,7 +91,7 @@ const HandyPartyModal = ({
             </Step>
             <Step name="지도">
               <MapStep
-                onBack={handlePrevStep}
+                onStepBack={handleStepBack}
                 onNext={handleNextStep}
                 possibleHandyPartyAreas={possibleHandyPartyAreas}
                 closeModal={closeModal}
@@ -99,7 +99,8 @@ const HandyPartyModal = ({
             </Step>
             <Step name="예약 확인">
               <ReservationInfoStep
-                onBack={handlePrevStep}
+                onStepBack={handleStepBack}
+                onModalStepBack={handlePrevStep}
                 toExtraRealNameInputStep={handleNextStep}
                 handyPartyRoutes={handyPartyRoutes}
                 closeModal={closeModal}
@@ -108,7 +109,8 @@ const HandyPartyModal = ({
             </Step>
             <Step name="이름 입력">
               <ExtraRealNameInputStep
-                onBack={handlePrevStep}
+                onStepBack={handleStepBack}
+                onModalStepBack={handlePrevStep}
                 handyPartyRoutes={handyPartyRoutes}
                 closeBottomSheet={closeBottomSheet}
                 closeModal={closeModal}

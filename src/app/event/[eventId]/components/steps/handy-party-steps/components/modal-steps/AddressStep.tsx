@@ -22,14 +22,14 @@ interface SearchResult extends AddressSearchResult {
 }
 
 interface Props {
-  onBack: () => void;
+  onStepBack: () => void;
   onNext: () => void;
   possibleHandyPartyAreas: HandyPartyRouteArea[];
   closeModal: () => void;
 }
 
 const AddressStep = ({
-  onBack,
+  onStepBack,
   onNext,
   possibleHandyPartyAreas,
   closeModal,
@@ -111,8 +111,8 @@ const AddressStep = ({
       : HANDY_PARTY_AREA_TO_ADDRESS[selectedArea].gungu.join(', ');
 
   const handleClose = () => {
-    if (selectedArea === '서울특별시') onBack();
-    closeModal();
+    if (selectedArea === '서울특별시') onStepBack();
+    else closeModal();
   };
 
   return (

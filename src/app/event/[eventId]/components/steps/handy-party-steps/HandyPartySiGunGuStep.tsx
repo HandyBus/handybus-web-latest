@@ -103,7 +103,7 @@ const HandyPartySiGunGuStep = ({ closeBottomSheet, handleBack }: Props) => {
           selectedArea={selectedArea}
           handyPartyRoutes={handyPartyRoutes}
           possibleHandyPartyAreas={possibleHandyPartyAreas}
-          handleBack={handleBack}
+          handleStepBack={handleBack}
         />
       )}
       <section className="flex flex-col gap-12">

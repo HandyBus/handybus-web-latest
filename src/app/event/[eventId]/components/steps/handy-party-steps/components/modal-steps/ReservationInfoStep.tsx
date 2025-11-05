@@ -20,7 +20,8 @@ import Loading from '@/components/loading/Loading';
 const MAX_PASSENGER_COUNT = 5;
 
 interface Props {
-  onBack: () => void;
+  onStepBack: () => void;
+  onModalStepBack: () => void;
   toExtraRealNameInputStep: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
   closeBottomSheet: () => void;
@@ -28,7 +29,8 @@ interface Props {
 }
 
 const ReservationInfoStep = ({
-  onBack,
+  onStepBack,
+  onModalStepBack,
   toExtraRealNameInputStep,
   handyPartyRoutes,
   closeBottomSheet,
@@ -173,6 +175,13 @@ const ReservationInfoStep = ({
     setReservationTrackingStep('[핸디팟] 예약 확인');
   }, [setReservationTrackingStep]);
 
+  const selectedArea = getValues('selectedArea');
+
+  const handleClose = () => {
+    if (selectedArea === '서울특별시') onStepBack();
+    else closeModal();
+  };
+
   if (isUserLoading) return <Loading style="grow" />;
   if (isUserError) throw new Error('fetching user failed');
   return (
@@ -180,8 +189,8 @@ const ReservationInfoStep = ({
       <Header
         title="예약하기"
         variant="reservation-info"
-        onBack={onBack}
-        closeModal={closeModal}
+        onModalStepBack={onModalStepBack}
+        closeModal={handleClose}
       />
       <section className="px-16 pb-16 pt-[28px]">
         <h2 className="text-18 font-600 leading-[140%]">

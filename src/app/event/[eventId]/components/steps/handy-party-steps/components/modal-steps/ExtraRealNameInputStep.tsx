@@ -14,14 +14,16 @@ import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
 
 interface Props {
-  onBack: () => void;
+  onStepBack: () => void;
+  onModalStepBack: () => void;
   handyPartyRoutes: ShuttleRoutesViewEntity[];
   closeBottomSheet: () => void;
   closeModal: () => void;
 }
 
 const ExtraRealNameInputStep = ({
-  onBack,
+  onStepBack,
+  onModalStepBack,
   handyPartyRoutes,
   closeBottomSheet,
   closeModal,
@@ -119,12 +121,19 @@ const ExtraRealNameInputStep = ({
     closeModal();
   };
 
+  const selectedArea = getValues('selectedArea');
+
+  const handleClose = () => {
+    if (selectedArea === '서울특별시') onStepBack();
+    else closeModal();
+  };
+
   return (
     <div className="flex grow flex-col">
       <Header
         variant="reservation-info"
-        onBack={onBack}
-        closeModal={closeModal}
+        onModalStepBack={onModalStepBack}
+        closeModal={handleClose}
         title="예약하기"
       />
       <div className="flex w-full flex-col gap-16 px-16 pt-[28px]">

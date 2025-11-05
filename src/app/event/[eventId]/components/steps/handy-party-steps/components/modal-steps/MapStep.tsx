@@ -19,14 +19,14 @@ const DEFAULT_MAP_CENTER = {
 };
 
 interface Props {
-  onBack: () => void;
+  onStepBack: () => void;
   onNext: () => void;
   possibleHandyPartyAreas: HandyPartyRouteArea[];
   closeModal: () => void;
 }
 
 const MapStep = ({
-  onBack,
+  onStepBack,
   onNext,
   possibleHandyPartyAreas,
   closeModal,
@@ -175,14 +175,14 @@ const MapStep = ({
     setReservationTrackingStep('[핸디팟] 지도');
   }, [setReservationTrackingStep]);
 
+  const handleClose = () => {
+    if (selectedArea === '서울특별시') onStepBack();
+    else closeModal();
+  };
+
   return (
     <div className="flex grow flex-col">
-      <Header
-        onBack={onBack}
-        title="주소 입력"
-        variant="address"
-        closeModal={closeModal}
-      />
+      <Header title="주소 입력" variant="address" closeModal={handleClose} />
       <section className="px-16 pb-16 pt-12">
         <h2 className="text-18 font-600 leading-[140%]">
           정확한 위치를 설정해 주세요
