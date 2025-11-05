@@ -15,7 +15,6 @@ interface Props {
   eventName: string;
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
 const DemandCompleteScreen = ({
@@ -23,7 +22,6 @@ const DemandCompleteScreen = ({
   eventName,
   setDemandCompleteStatus,
   demandCount,
-  isNoDemandRewardCouponEvent,
 }: Props) => {
   switch (status) {
     case 'success':
@@ -32,7 +30,6 @@ const DemandCompleteScreen = ({
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
           eventName={eventName}
-          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
         />
       );
     case 'fail':
