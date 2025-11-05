@@ -10,9 +10,9 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import { useState } from 'react';
 import CheckedIcon from '../../icons/checked.svg';
 import UncheckedIcon from '../../icons/unchecked.svg';
+import CloseIcon from '../../icons/close.svg';
 import PrivacyPolicyBottomSheet from '../PrivacyPolicyBottomSheet';
 import ServicePolicyBottomSheet from '../ServicePolicyBottomSheet';
-import XIcon from 'public/icons/x.svg';
 import { useRouter } from 'next/navigation';
 
 const PhoneNumberStep = () => {
@@ -86,7 +86,7 @@ const PhoneNumberStep = () => {
           style={headerStyle}
         >
           <button type="button" onClick={() => router.replace('/login')}>
-            <XIcon />
+            <CloseIcon />
           </button>
           <h1 className="text-18 font-700 leading-[140%] text-basic-black">
             회원가입
