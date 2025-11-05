@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import CouponIssuedModal from './components/CouponIssuedModal';
 import { useState } from 'react';
 import MarketingConsentModal from './components/MarketingConsentModal';
+import useAppShare from '@/hooks/webview/useAppShare';
 
 const APP_LAUNCH_EVENT_COUPON_CODES = [
   'APP_LAUNCH_EVENT_1',
@@ -84,6 +85,20 @@ const Page = () => {
     setIsCouponIssuedModalOpen(true);
   };
 
+  // 공유하기
+  const share = useAppShare();
+  const handleShare = () => {
+    share({
+      title: `핸디버스 앱 출시 이벤트`,
+      message: `핸디버스 앱을 다운받고 쿠폰을 받아가세요!`,
+      url: window.location.href,
+    });
+  };
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success('링크가 복사되었어요.');
+  };
+
   return (
     <>
       <Header />
@@ -134,6 +149,7 @@ const Page = () => {
           <div className="flex items-center justify-center gap-56 px-16 py-12">
             <button
               type="button"
+              onClick={handleShare}
               className="flex flex-col items-center justify-center gap-8"
             >
               <ShareIcon />
@@ -143,6 +159,7 @@ const Page = () => {
             </button>
             <button
               type="button"
+              onClick={copyToClipboard}
               className="flex flex-col items-center justify-center gap-8"
             >
               <LinkIcon />
