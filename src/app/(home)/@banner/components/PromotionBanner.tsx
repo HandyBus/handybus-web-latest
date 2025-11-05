@@ -6,8 +6,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import Image from 'next/image';
-import Link from 'next/link';
 import { AdminHandleBannerRequestBanners } from '@/types/banner.type';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 interface Props {
   dynamicBannerImages: AdminHandleBannerRequestBanners[];
@@ -67,7 +67,11 @@ const bannerImages: AdminHandleBannerRequestBanners[] = [
 ];
 
 const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
-  <Link key={image.title} href={image.linkUrl}>
+  <button
+    key={image.title}
+    type="button"
+    onClick={() => handleExternalLink(image.linkUrl)}
+  >
     <div className="relative aspect-[375/161] w-[min(500px,100vw)]">
       <Image
         src={image.imageUrl}
@@ -78,5 +82,5 @@ const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
         priority
       />
     </div>
-  </Link>
+  </button>
 );

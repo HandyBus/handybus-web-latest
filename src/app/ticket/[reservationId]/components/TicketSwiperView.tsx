@@ -15,6 +15,7 @@ import InfoIcon from '/public/icons/info.svg';
 import PinIcon from '../icons/pin-primary.svg';
 import DotPrimaryIcon from '../icons/dot-primary.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -189,17 +190,16 @@ const TicketSwiperView = ({ reservation }: Props) => {
               </section>
 
               {/* 핸디버스 채널 문의하기 */}
-              <a
+              <button
                 className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
-                href={KAKAO_CHANNEL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                type="button"
+                onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
               >
                 <InfoIcon />
                 <h2 className="text-16 font-600 leading-[140%] text-basic-grey-600">
                   핸디버스 채널 문의하기
                 </h2>
-              </a>
+              </button>
             </div>
           </SwiperSlide>
         ))}

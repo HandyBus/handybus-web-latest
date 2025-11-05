@@ -248,17 +248,16 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                 </section>
 
                 {/* 핸디버스 채널 문의하기 */}
-                <a
+                <button
+                  type="button"
                   className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
-                  href={KAKAO_CHANNEL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
                 >
                   <InfoIcon />
                   <h2 className="text-16 font-600 leading-[140%] text-basic-grey-600">
                     핸디버스 채널 문의하기
                   </h2>
-                </a>
+                </button>
               </div>
             </div>
           )}
@@ -321,6 +320,7 @@ import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 const SimpleRouteLine = () => {
   return (
