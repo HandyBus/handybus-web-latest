@@ -222,7 +222,7 @@ const Hub = ({
         )}
       </button>
       {isToDestinationSoldOut && (
-        <div className="absolute right-16 top-16 flex items-center gap-8">
+        <div className="absolute right-16 top-20 flex items-center gap-8">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hubWithInfo}
@@ -230,7 +230,7 @@ const Hub = ({
         </div>
       )}
       {isFromDestinationSoldOut && (
-        <div className="absolute bottom-16 right-16 flex items-center gap-8">
+        <div className="absolute bottom-20 right-16 flex items-center gap-8">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hubWithInfo}

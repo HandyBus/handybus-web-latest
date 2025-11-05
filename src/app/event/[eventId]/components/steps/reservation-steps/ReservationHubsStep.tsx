@@ -222,12 +222,14 @@ const Hub = ({
   const isSoldOut = possibleHubs.every((hub) =>
     checkIsSoldOut(hub.remainingSeat),
   );
-  const isSoldOutForToDestination = possibleHubs
-    .filter((hub) => hub.type === 'TO_DESTINATION')
-    .every((hub) => checkIsSoldOut(hub.remainingSeat));
-  const isSoldOutForFromDestination = possibleHubs
-    .filter((hub) => hub.type === 'FROM_DESTINATION')
-    .every((hub) => checkIsSoldOut(hub.remainingSeat));
+  const isSoldOutForToDestination = possibleHubs.every(
+    (hub) => hub.remainingSeat.TO_DESTINATION === 0,
+  );
+  const isSoldOutForFromDestination = possibleHubs.every(
+    (hub) => hub.remainingSeat.FROM_DESTINATION === 0,
+  );
+
+  console.log(possibleHubs);
 
   const hub = possibleHubs[0];
   const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
@@ -269,22 +271,22 @@ const Hub = ({
         type="button"
         onClick={() => handleHubClick(possibleHubs)}
         disabled={isSoldOut}
-        className={`group flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left ${isSoldOut && 'pb-[49px]'}`}
+        className={`group flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left`}
       >
-        <div className="flex w-full items-center justify-between">
-          <div className="flex w-[calc(100%-50px)] items-center gap-[6px]">
-            <PinIcon className="shrink-0" />
-            <span className="overflow-x-auto whitespace-nowrap text-16 font-600 text-basic-grey-700 scrollbar-hidden group-disabled:text-basic-grey-300">
+        <div className="flex w-full justify-between gap-8">
+          <div className="flex w-[calc(100%-50px)] gap-[6px]">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center">
+              <PinIcon />
+            </div>
+            <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-400">
               {hub.name}
             </span>
           </div>
-          {!isDuplicate && isSoldOut ? (
-            <span className="whitespace-nowrap break-keep text-14 font-600 text-basic-grey-300">
-              매진
-            </span>
+          {isSoldOut ? (
+            <div className="h-[23px] w-56 shrink-0"></div>
           ) : (
             remainingSeatCount <= DANGER_SEAT_THRESHOLD && (
-              <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+              <span className="shrink-0 whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-red-400">
                 매진 임박
               </span>
             )
@@ -314,8 +316,8 @@ const Hub = ({
           )}
         </div>
       </button>
-      {!isDuplicate && isSoldOut && (
-        <div className="absolute bottom-[10px] left-1/2 -translate-x-1/2 transform">
+      {isSoldOut && (
+        <div className="absolute right-[12px] top-[10px]">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hub}
