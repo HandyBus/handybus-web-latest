@@ -27,7 +27,7 @@ const Coupon = ({ coupon }: Props) => {
   });
 
   const allowedEventIdText = !coupon.allowedEventId
-    ? '예약 당 인원 제한 없음'
+    ? '모든 행사에 사용 가능한 쿠폰'
     : allowedEvent
       ? `${allowedEvent.eventName} 쿠폰`
       : ' ';

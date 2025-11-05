@@ -7,14 +7,13 @@ import {
   setEventPromotionModalSeenDate,
 } from '@/utils/localStorage';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 
 interface Props {
   image: StaticImageData;
-  href: string;
+  handleClick: () => void;
 }
 
-const EventPromotionModal = ({ image, href }: Props) => {
+const EventPromotionModal = ({ image, handleClick }: Props) => {
   const [isEventPromotionModalOpen, setIsEventPromotionModalOpen] =
     useState(false);
   const closeModal = () => {
@@ -52,7 +51,7 @@ const EventPromotionModal = ({ image, href }: Props) => {
         onClick={(e) => e.stopPropagation()}
         className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col bg-transparent"
       >
-        <Link href={href} target="_blank" className="relative w-full">
+        <button type="button" onClick={handleClick} className="relative w-full">
           <Image
             src={image}
             alt="modal"
@@ -60,7 +59,7 @@ const EventPromotionModal = ({ image, href }: Props) => {
             height={300}
             className="rounded-t-4 object-contain"
           />
-        </Link>
+        </button>
         <div className="grid grid-cols-2">
           <button
             onClick={handleEventPromotionModalCloseForToday}
@@ -69,7 +68,7 @@ const EventPromotionModal = ({ image, href }: Props) => {
             하루동안 보지 않기
           </button>
           <button
-            onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
+            onClick={handleClick}
             className="rounded-br-4 bg-basic-white p-[10px] text-14 font-600"
           >
             이벤트 보기
