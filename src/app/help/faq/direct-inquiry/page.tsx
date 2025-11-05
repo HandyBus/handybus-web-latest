@@ -1,3 +1,5 @@
+'use client';
+
 import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
 import KakaoIcon from 'public/icons/kakao.svg';

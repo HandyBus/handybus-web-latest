@@ -1,3 +1,5 @@
+'use client';
+
 import LogoIcon from 'public/icons/logo.svg';
 import TwitterXIcon from 'public/icons/twitter-x.svg';
 import InstagramIcon from 'public/icons/instagram.svg';
