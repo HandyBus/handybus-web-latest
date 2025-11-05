@@ -10,10 +10,10 @@ import dayjs from 'dayjs';
 
 interface Props {
   image: StaticImageData;
-  href: string;
+  handleClick: () => void;
 }
 
-const OneDayModal = ({ image, href }: Props) => {
+const OneDayModal = ({ image, handleClick }: Props) => {
   const [isOneDayModalOpen, setIsOneDayModalOpen] = useState(false);
   const closeModal = () => {
     setIsOneDayModalOpen(false);
@@ -51,7 +51,8 @@ const OneDayModal = ({ image, href }: Props) => {
         className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 bg-transparent"
       >
         <button
-          onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
+          type="button"
+          onClick={handleClick}
           className="relative aspect-square w-full"
         >
           <Image src={image} alt="modal" fill className="object-contain" />
