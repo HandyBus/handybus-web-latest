@@ -24,7 +24,7 @@ const EventCard = ({ event }: Props) => {
     <div className="mb-24 flex h-[70px] shrink-0 gap-12 px-16">
       <button
         type="button"
-        className="relative h-full w-52 shrink-0 overflow-hidden rounded-4"
+        className="relative h-full w-52 shrink-0 overflow-hidden rounded-4 text-left"
         onClick={redirectToEventDetail}
       >
         <Image
@@ -35,7 +35,11 @@ const EventCard = ({ event }: Props) => {
         />
       </button>
       <div className="flex flex-col gap-4">
-        <button type="button" onClick={redirectToEventDetail}>
+        <button
+          type="button"
+          onClick={redirectToEventDetail}
+          className="text-left"
+        >
           <h2 className="line-clamp-2 text-16 font-600">{event.eventName}</h2>
         </button>
         <p className="text-grey-700 text-12 font-500">{formattedEventDate}</p>

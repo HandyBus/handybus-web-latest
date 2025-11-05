@@ -25,7 +25,7 @@ const EventCard = ({ event }: Props) => {
       <button
         type="button"
         onClick={redirectToEventDetail}
-        className="relative h-full w-52 shrink-0 overflow-hidden rounded-4"
+        className="relative h-full w-52 shrink-0 overflow-hidden rounded-4 text-left"
       >
         <Image
           src={event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}

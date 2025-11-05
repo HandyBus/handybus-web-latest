@@ -57,25 +57,25 @@ const ReservationTripTypeStep = ({
               type="button"
               disabled={isSoldOut}
               onClick={() => handleTripTypeClick(tripType)}
-              className="group flex w-full items-center justify-between gap-8 "
+              className="group flex w-full items-center justify-between gap-8"
             >
-              <div className="flex flex-col items-start gap-8 ">
-                <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+              <div className="flex flex-col items-start gap-[2px]">
+                <span className="text-16 font-600 leading-[160%] text-basic-grey-700 group-disabled:text-basic-grey-300">
                   {TRIP_STATUS_TO_STRING[tripType]}
                 </span>
                 {remainingSeatCount > DANGER_SEAT_THRESHOLD && (
-                  <span className="text-14 font-500 text-basic-grey-500">
+                  <span className="text-12 font-500 leading-[160%] text-basic-grey-500">
                     좌석 여유
                   </span>
                 )}
                 {remainingSeatCount <= DANGER_SEAT_THRESHOLD &&
                   remainingSeatCount > 0 && (
-                    <span className="text-14 font-500 text-basic-red-400">
+                    <span className="text-12 font-500 leading-[160%] text-basic-red-400">
                       {remainingSeatCount}석 남음
                     </span>
                   )}
                 {isSoldOut && (
-                  <span className="text-14 font-600 text-basic-grey-500">
+                  <span className="text-12 font-600 leading-[160%] text-basic-grey-500">
                     매진
                   </span>
                 )}

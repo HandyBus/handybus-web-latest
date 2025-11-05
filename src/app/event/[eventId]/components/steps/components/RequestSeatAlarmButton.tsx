@@ -100,14 +100,10 @@ const RequestSeatAlarmButton = ({ toStep, hubWithInfo, className }: Props) => {
       onClick={handleClick}
       variant="secondary"
       size="small"
-      className={customTwMerge(
-        'w-[90px]',
-        isUserAlertRequestAvailable && 'w-104',
-        className,
-      )}
+      className={customTwMerge('h-[23px] w-56 shrink-0', className)}
       disabled={isUserAlertRequestAvailable}
     >
-      {isUserAlertRequestAvailable ? '빈자리 알림 받는 중' : '빈자리 알림받기'}
+      {isUserAlertRequestAvailable ? '받는 중' : '알림 받기'}
     </Button>
   );
 };
