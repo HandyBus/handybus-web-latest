@@ -8,11 +8,17 @@ interface Props {
   title: ReactNode;
   description?: ReactNode;
   variant: 'address' | 'reservation-info';
-  onBack?: () => void;
+  onModalStepBack?: () => void;
   closeModal: () => void;
 }
 
-const Header = ({ title, description, variant, onBack, closeModal }: Props) => {
+const Header = ({
+  title,
+  description,
+  variant,
+  onModalStepBack,
+  closeModal,
+}: Props) => {
   const headerStyle = {
     paddingTop: 'calc(16px + var(--safe-area-inset-top))',
     height: 'calc(52px + var(--safe-area-inset-top))',
@@ -27,7 +33,7 @@ const Header = ({ title, description, variant, onBack, closeModal }: Props) => {
           <button
             type="button"
             className="shrink-0"
-            onClick={variant === 'address' ? closeModal : onBack}
+            onClick={variant === 'address' ? closeModal : onModalStepBack}
           >
             {variant === 'address' ? <CloseIcon /> : <BackIcon />}
           </button>
