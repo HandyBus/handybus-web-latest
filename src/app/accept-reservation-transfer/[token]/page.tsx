@@ -91,7 +91,7 @@ const Content = ({
       true,
     );
     router.replace(
-      `/accept-reservation-transfer/fail?receiverPhoneNumber=${formattedReceiverPhoneNumber}`,
+      `/accept-reservation-transfer/${token}/fail?receiverPhoneNumber=${formattedReceiverPhoneNumber}`,
     );
     return;
   }
