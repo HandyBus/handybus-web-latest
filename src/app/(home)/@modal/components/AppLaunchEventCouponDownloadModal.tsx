@@ -37,9 +37,6 @@ const AppLaunchEventCouponDownloadModal = ({ isOpen, closeModal }: Props) => {
       >
         받으러 가기
       </Button>
-      <Button type="button" variant="text" size="large" onClick={closeModal}>
-        닫기
-      </Button>
     </Modal>
   );
 };
