@@ -10,7 +10,6 @@ import {
   useGetUserReservations,
 } from '@/services/reservation.service';
 import Loading from '@/components/loading/Loading';
-import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
@@ -51,8 +50,7 @@ const PaymentsCompletedPage = ({
   eventId,
   reservationStartTime,
 }: PaymentsCompletedPageProps) => {
-  const isHandyParty =
-    reservation.shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
+  const isHandyParty = reservation.shuttleRoute.isHandyParty;
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
   const eventName = reservation.shuttleRoute.event.eventName;

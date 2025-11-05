@@ -1,4 +1,3 @@
-import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import {
   HANDY_PARTY_AREA_TO_ADDRESS,
   HandyPartyRouteArea,
@@ -71,5 +70,5 @@ export const checkIsHandyParty = (
     return false;
   }
 
-  return shuttleRoute.name.includes(HANDY_PARTY_PREFIX);
+  return shuttleRoute.isHandyParty;
 };
