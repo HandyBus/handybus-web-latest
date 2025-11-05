@@ -32,7 +32,14 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       return;
     }
 
-    if (phase !== 'demand') {
+    const isDemandOpen = dailyEvent.status === 'OPEN';
+    const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
+      dailyEvent.dailyEventId,
+    );
+    const onlyDemandPossibleDuringReservationPhase =
+      isDemandOpen && !isReservationOpen && phase === 'reservation';
+
+    if (phase === 'reservation' && !onlyDemandPossibleDuringReservationPhase) {
       setValue('dailyEvent', dailyEvent);
       toNextStep();
       return;
