@@ -43,6 +43,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
                 showWeekday: false,
               },
             );
+            const isImportant = idx < 4;
             return (
               <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
                 <div className="pr-[6px]">
@@ -56,6 +57,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
                     isSaleStarted={v.eventMinRoutePrice !== null}
                     order={idx + 1}
                     href={`/event/${v.eventId}`}
+                    priority={isImportant}
                   />
                 </div>
               </SwiperSlide>

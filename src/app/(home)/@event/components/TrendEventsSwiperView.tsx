@@ -91,6 +91,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
                     isSaleStarted={v.eventMinRoutePrice !== null}
                     order={(idx % cardCount) + 1}
                     href={`/event/${v.eventId}`}
+                    priority
                   />
                 </div>
               </SwiperSlide>
