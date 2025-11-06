@@ -103,7 +103,7 @@ const Page = () => {
                           isReservationClosingSoon={isClosingSoon}
                           href={`/event/${event.eventId}`}
                           priority={isImportant}
-                          fadeIn={true}
+                          fadeIn={!isImportant}
                         />
                       </div>
                     );
