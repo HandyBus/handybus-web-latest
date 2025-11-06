@@ -19,7 +19,9 @@ interface Props {
 const TrendEventsSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [activeImage, setActiveImage] = useState<string | null>(
+    events[0]?.eventImageUrl || null,
+  );
   const isApp = useIsApp();
 
   const statusBarPaddingClass = isApp ? 'top-[calc(-136px)]' : '';
@@ -63,6 +65,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
       <div className={'relative h-[309px] w-full'}>
         <div
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          // className={`${isLoaded ? 'block' : 'hidden'}`}
         >
           <Swiper
             ref={swiper}
