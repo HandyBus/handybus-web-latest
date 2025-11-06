@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Badge from '../badge/Badge';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 const DEMAND_ONGOING_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
@@ -18,6 +19,8 @@ interface Props {
   location?: string;
   price?: string;
   href?: string;
+  priority?: boolean;
+  fadeIn?: boolean;
 }
 
 const Card = ({
@@ -31,6 +34,8 @@ const Card = ({
   location,
   price,
   href,
+  priority,
+  fadeIn,
 }: Props) => {
   if (variant === 'GRID') {
     return (
@@ -44,6 +49,8 @@ const Card = ({
         price={price}
         location={location}
         href={href}
+        priority={priority}
+        fadeIn={fadeIn}
       />
     );
   }
@@ -57,6 +64,7 @@ const Card = ({
         title={title}
         price={price}
         href={href}
+        fadeIn={fadeIn}
       />
     );
   }
@@ -71,6 +79,7 @@ const Card = ({
         price={price}
         location={location}
         href={href}
+        fadeIn={fadeIn}
       />
     );
   }
@@ -84,6 +93,7 @@ const Card = ({
       location={location}
       price={price}
       href={href}
+      fadeIn={fadeIn}
     />
   );
 };
@@ -98,7 +108,29 @@ const GridCard = ({
   date,
   price,
   href,
+  priority,
+  fadeIn,
 }: Props) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (fadeIn) {
+      setIsImageLoaded(false);
+    }
+  }, [image, fadeIn]);
+
+  const handleImageLoad = () => {
+    if (fadeIn) {
+      setIsImageLoaded(true);
+    }
+  };
+
+  const imageClassName = fadeIn
+    ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
+        isImageLoaded ? 'opacity-100' : 'opacity-0'
+      }`
+    : 'rounded-[7px] object-cover';
+
   return (
     <Link href={href || ''} className="block w-full">
       <div
@@ -108,7 +140,9 @@ const GridCard = ({
           src={image || '/images/default-event.png'}
           alt={`${title} 행사 셔틀 보러가기`}
           fill
-          className={`rounded-[7px] object-cover`}
+          priority={priority}
+          className={imageClassName}
+          onLoad={fadeIn ? handleImageLoad : undefined}
         />
         {!isSaleStarted && (
           <Badge
@@ -151,7 +185,22 @@ const LargeCard = ({
   title,
   price,
   href,
+  fadeIn,
 }: Props) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (fadeIn) {
+      setIsImageLoaded(false);
+    }
+  }, [image, fadeIn]);
+
+  const handleImageLoad = () => {
+    if (fadeIn) {
+      setIsImageLoaded(true);
+    }
+  };
+
   const orderColorClass =
     order === 1
       ? 'ml-[-5px]'
@@ -160,6 +209,12 @@ const LargeCard = ({
         : order === 3
           ? 'ml-[-5px]'
           : '';
+
+  const imageClassName = fadeIn
+    ? `rounded-[13px] object-cover transition-opacity duration-300 ease-in-out ${
+        isImageLoaded ? 'opacity-100' : 'opacity-0'
+      }`
+    : 'rounded-[13px] object-cover';
 
   return (
     <Link
@@ -170,7 +225,8 @@ const LargeCard = ({
         src={image || '/images/default-event.png'}
         alt={`${title} 행사 셔틀 보러가기`}
         fill
-        className={`rounded-[13px] object-cover`}
+        className={imageClassName}
+        onLoad={fadeIn ? handleImageLoad : undefined}
       />
       {order && (
         <div
@@ -211,7 +267,28 @@ const MediumCard = ({
   date,
   price,
   href,
+  fadeIn,
 }: Props) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (fadeIn) {
+      setIsImageLoaded(false);
+    }
+  }, [image, fadeIn]);
+
+  const handleImageLoad = () => {
+    if (fadeIn) {
+      setIsImageLoaded(true);
+    }
+  };
+
+  const imageClassName = fadeIn
+    ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
+        isImageLoaded ? 'opacity-100' : 'opacity-0'
+      }`
+    : 'rounded-[7px] object-cover';
+
   return (
     <Link href={href || ''} className="block w-[145px]">
       <div
@@ -221,7 +298,8 @@ const MediumCard = ({
           src={image || '/images/default-event.png'}
           alt={`${title} 행사 셔틀 보러가기`}
           fill
-          className={`rounded-[7px] object-cover`}
+          className={imageClassName}
+          onLoad={fadeIn ? handleImageLoad : undefined}
         />
       </div>
       <div className="py-12 pl-4 pr-12">
@@ -262,7 +340,28 @@ const SmallCard = ({
   location,
   price,
   href,
+  fadeIn,
 }: Props) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (fadeIn) {
+      setIsImageLoaded(false);
+    }
+  }, [image, fadeIn]);
+
+  const handleImageLoad = () => {
+    if (fadeIn) {
+      setIsImageLoaded(true);
+    }
+  };
+
+  const imageClassName = fadeIn
+    ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
+        isImageLoaded ? 'opacity-100' : 'opacity-0'
+      }`
+    : 'rounded-[7px] object-cover';
+
   return (
     <Link href={href || ''} className="flex gap-12">
       <div
@@ -272,7 +371,8 @@ const SmallCard = ({
           src={image || '/images/default-event.png'}
           alt={`${title} 행사 셔틀 보러가기`}
           fill
-          className={`rounded-[7px] object-cover`}
+          className={imageClassName}
+          onLoad={fadeIn ? handleImageLoad : undefined}
         />
       </div>
       <div>

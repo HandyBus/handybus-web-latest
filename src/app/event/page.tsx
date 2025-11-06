@@ -73,7 +73,7 @@ const Page = () => {
             <div className="grid grid-cols-2 gap-8">
               {sortedEvents &&
                 sortedEvents.length > 0 &&
-                sortedEvents?.map((event) => {
+                sortedEvents?.map((event, index) => {
                   const formattedDate = dateString(
                     event.startDate === event.endDate
                       ? event.startDate
@@ -86,6 +86,8 @@ const Page = () => {
                   const isClosingSoon = checkIsReservationClosingSoon({
                     event,
                   });
+
+                  const isImportant = index < 4;
 
                   return (
                     <div className="w-full" key={event.eventId}>
@@ -100,6 +102,8 @@ const Page = () => {
                         isSaleStarted={event.eventMinRoutePrice !== null}
                         isReservationClosingSoon={isClosingSoon}
                         href={`/event/${event.eventId}`}
+                        priority={isImportant}
+                        fadeIn={!isImportant}
                       />
                     </div>
                   );
