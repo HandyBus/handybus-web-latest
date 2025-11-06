@@ -111,7 +111,7 @@ const GridCard = ({
   priority,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLDivElement>(null);
   const isInitialMount = useRef(true);
@@ -222,7 +222,7 @@ const LargeCard = ({
   href,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLAnchorElement>(null);
   const isInitialMount = useRef(true);
@@ -339,7 +339,7 @@ const MediumCard = ({
   href,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLDivElement>(null);
   const isInitialMount = useRef(true);
@@ -447,7 +447,7 @@ const SmallCard = ({
   href,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLDivElement>(null);
   const isInitialMount = useRef(true);
