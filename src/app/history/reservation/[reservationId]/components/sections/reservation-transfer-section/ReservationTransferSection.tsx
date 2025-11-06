@@ -104,6 +104,10 @@ const ReservationTransferSection = ({
                 <h5>진행 상황</h5>
                 <p>수락 전</p>
               </div>
+              <div className="pb-16 text-14 font-500 leading-[160%] text-basic-grey-500">
+                * 선물 수락 후, 예약 정보는 자동으로 수신자에게 전달돼요. 선물
+                전송이 완료되면 더 이상 예약 정보를 확인할 수 없어요.
+              </div>
               <Button
                 type="button"
                 variant="s-destructive"
