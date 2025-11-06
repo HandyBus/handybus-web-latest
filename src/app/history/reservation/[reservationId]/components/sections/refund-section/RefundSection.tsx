@@ -4,6 +4,7 @@ import CancelBottomSheet from './components/CancelBottomSheet';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 interface Props {
   isCanceled: boolean;
@@ -55,14 +56,13 @@ const RefundSection = ({
               <li>탑승 5일 전 취소 시, 수수료 100%가 발생합니다.</li>
               <li>
                 문의사항은{' '}
-                <a
-                  href={KAKAO_CHANNEL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
                   className="text-basic-grey-700 underline underline-offset-2"
                 >
                   카카오채널
-                </a>
+                </button>
                 로 문의해 주세요.
               </li>
             </>

@@ -15,7 +15,6 @@ import {
   HandyPartyRouteArea,
 } from '@/constants/handyPartyArea.const';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
-import { useIsApp } from '@/hooks/useEnvironment';
 
 interface SearchResult extends AddressSearchResult {
   placeName: string;
@@ -38,7 +37,6 @@ const AddressStep = ({
   const selectedArea = getValues('selectedArea');
   const { setReservationTrackingStep } = useReservationTrackingGlobal();
   const [searchValue, setSearchValue] = useState('');
-  const isApp = useIsApp();
 
   const kakaoPlace = useRef<kakao.maps.services.Places | null>(null);
   const [searchResult, setSearchResult] = useState<SearchResult[] | null>(null);
@@ -118,7 +116,7 @@ const AddressStep = ({
   return (
     <div className="flex h-full grow flex-col">
       <Header title={`주소 입력`} variant="address" closeModal={handleClose} />
-      <div className={`px-16 pb-16 ${isApp ? 'pt-[28px]' : 'pt-16'}`}>
+      <div className="px-16 pb-16 pt-16">
         <h2 className="text-16 font-600 leading-[160%]">
           {tripTypePrefix} 주소를 입력해주세요
         </h2>
