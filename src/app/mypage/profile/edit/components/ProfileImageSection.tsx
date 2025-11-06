@@ -8,6 +8,7 @@ import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroun
 import imageCompression from 'browser-image-compression';
 import { getImageUrl } from '@/services/core.service';
 import { putUser } from '@/services/user.service';
+import Loading from '@/components/loading/Loading';
 
 interface Props {
   initialName: string;
@@ -105,6 +106,11 @@ const ProfileImageSection = ({ initialName, initialImageSrc }: Props) => {
           />
         ) : (
           <p className="text-[36px] font-500 text-basic-white">{firstLetter}</p>
+        )}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-basic-black/[0.6]">
+            <Loading />
+          </div>
         )}
       </div>
       <div className="flex h-[34px]">

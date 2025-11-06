@@ -41,11 +41,11 @@ const ShuttleRouteInfoSection = ({ shuttleRoute }: Props) => {
           <InfoIcon />
           <span>요청하지 않은 다른 정류장이 보여진다면</span>
         </h6>
-        <div className="mb-8 rounded-8 bg-basic-grey-50 p-8 text-12 font-500 leading-[160%] text-basic-grey-700">
+        <div className="mb-8 rounded-8 bg-basic-grey-50 px-12 py-[10px] text-12 font-500 leading-[160%] text-basic-grey-700">
           보여지는 모든 정류장은 동일한 노선을 지나고 있어요.
         </div>
         <ul
-          className="space-y-2 list-outside pl-4 text-14 font-400 text-basic-grey-500"
+          className="space-y-2 list-outside pl-4 text-12 font-500 text-basic-grey-500"
           style={{ listStyleType: 'none' }}
         >
           <li className="relative pl-12 before:absolute before:left-0 before:content-['*']">

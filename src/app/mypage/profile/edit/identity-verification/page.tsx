@@ -26,7 +26,7 @@ const Page = ({ searchParams }: Props) => {
       await postIdentityVerification({
         identityVerificationId,
       });
-      toast.error('연락처가 변경되었어요.');
+      toast.success('연락처가 변경되었어요.');
     } catch (e) {
       Sentry.captureException(e, {
         tags: {
