@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Badge from '../badge/Badge';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const DEMAND_ONGOING_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
@@ -111,21 +111,55 @@ const GridCard = ({
   priority,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (fadeIn) {
+    // 이미지 src가 변경되면 fade-in 상태 리셋
+    if (!isInitialMount.current) {
       setIsImageLoaded(false);
+      setShouldFadeIn(true);
+      return;
     }
+
+    // 초기 마운트 시에만 이미지 로딩 상태 확인
+    isInitialMount.current = false;
+
+    const checkImageLoaded = () => {
+      if (imageRef.current) {
+        const imgElement = imageRef.current.querySelector('img');
+        if (imgElement) {
+          if (imgElement.complete) {
+            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
+            setIsImageLoaded(true);
+            setShouldFadeIn(false);
+          } else {
+            // 이미지가 아직 로드되지 않았으면 fade-in 적용
+            setIsImageLoaded(false);
+            setShouldFadeIn(true);
+          }
+        } else {
+          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
+          setIsImageLoaded(false);
+          setShouldFadeIn(true);
+        }
+      }
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(checkImageLoaded);
+    });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
-    if (fadeIn) {
+    if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
   };
 
-  const imageClassName = fadeIn
+  const imageClassName = shouldFadeIn
     ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
         isImageLoaded ? 'opacity-100' : 'opacity-0'
       }`
@@ -134,6 +168,7 @@ const GridCard = ({
   return (
     <Link href={href || ''} className="block w-full">
       <div
+        ref={imageRef}
         className={`relative aspect-[165/220] w-full shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]`}
       >
         <Image
@@ -142,7 +177,7 @@ const GridCard = ({
           fill
           priority={priority}
           className={imageClassName}
-          onLoad={fadeIn ? handleImageLoad : undefined}
+          onLoad={shouldFadeIn ? handleImageLoad : undefined}
         />
         {!isSaleStarted && (
           <Badge
@@ -187,16 +222,50 @@ const LargeCard = ({
   href,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
+  const imageRef = useRef<HTMLAnchorElement>(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (fadeIn) {
+    // 이미지 src가 변경되면 fade-in 상태 리셋
+    if (!isInitialMount.current) {
       setIsImageLoaded(false);
+      setShouldFadeIn(true);
+      return;
     }
+
+    // 초기 마운트 시에만 이미지 로딩 상태 확인
+    isInitialMount.current = false;
+
+    const checkImageLoaded = () => {
+      if (imageRef.current) {
+        const imgElement = imageRef.current.querySelector('img');
+        if (imgElement) {
+          if (imgElement.complete) {
+            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
+            setIsImageLoaded(true);
+            setShouldFadeIn(false);
+          } else {
+            // 이미지가 아직 로드되지 않았으면 fade-in 적용
+            setIsImageLoaded(false);
+            setShouldFadeIn(true);
+          }
+        } else {
+          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
+          setIsImageLoaded(false);
+          setShouldFadeIn(true);
+        }
+      }
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(checkImageLoaded);
+    });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
-    if (fadeIn) {
+    if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
   };
@@ -210,7 +279,7 @@ const LargeCard = ({
           ? 'ml-[-5px]'
           : '';
 
-  const imageClassName = fadeIn
+  const imageClassName = shouldFadeIn
     ? `rounded-[13px] object-cover transition-opacity duration-300 ease-in-out ${
         isImageLoaded ? 'opacity-100' : 'opacity-0'
       }`
@@ -218,6 +287,7 @@ const LargeCard = ({
 
   return (
     <Link
+      ref={imageRef}
       href={href || ''}
       className={`relative block h-[309px] w-[232px] shrink-0 rounded-[14px] border-[1px] border-[#181F29] border-opacity-[0.08]`}
     >
@@ -226,7 +296,7 @@ const LargeCard = ({
         alt={`${title} 행사 셔틀 보러가기`}
         fill
         className={imageClassName}
-        onLoad={fadeIn ? handleImageLoad : undefined}
+        onLoad={shouldFadeIn ? handleImageLoad : undefined}
       />
       {order && (
         <div
@@ -269,21 +339,55 @@ const MediumCard = ({
   href,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (fadeIn) {
+    // 이미지 src가 변경되면 fade-in 상태 리셋
+    if (!isInitialMount.current) {
       setIsImageLoaded(false);
+      setShouldFadeIn(true);
+      return;
     }
+
+    // 초기 마운트 시에만 이미지 로딩 상태 확인
+    isInitialMount.current = false;
+
+    const checkImageLoaded = () => {
+      if (imageRef.current) {
+        const imgElement = imageRef.current.querySelector('img');
+        if (imgElement) {
+          if (imgElement.complete) {
+            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
+            setIsImageLoaded(true);
+            setShouldFadeIn(false);
+          } else {
+            // 이미지가 아직 로드되지 않았으면 fade-in 적용
+            setIsImageLoaded(false);
+            setShouldFadeIn(true);
+          }
+        } else {
+          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
+          setIsImageLoaded(false);
+          setShouldFadeIn(true);
+        }
+      }
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(checkImageLoaded);
+    });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
-    if (fadeIn) {
+    if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
   };
 
-  const imageClassName = fadeIn
+  const imageClassName = shouldFadeIn
     ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
         isImageLoaded ? 'opacity-100' : 'opacity-0'
       }`
@@ -292,6 +396,7 @@ const MediumCard = ({
   return (
     <Link href={href || ''} className="block w-[145px]">
       <div
+        ref={imageRef}
         className={`relative h-[193px] w-[145px] shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]`}
       >
         <Image
@@ -299,7 +404,7 @@ const MediumCard = ({
           alt={`${title} 행사 셔틀 보러가기`}
           fill
           className={imageClassName}
-          onLoad={fadeIn ? handleImageLoad : undefined}
+          onLoad={shouldFadeIn ? handleImageLoad : undefined}
         />
       </div>
       <div className="py-12 pl-4 pr-12">
@@ -342,21 +447,55 @@ const SmallCard = ({
   href,
   fadeIn,
 }: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(!fadeIn);
+  const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (fadeIn) {
+    // 이미지 src가 변경되면 fade-in 상태 리셋
+    if (!isInitialMount.current) {
       setIsImageLoaded(false);
+      setShouldFadeIn(true);
+      return;
     }
+
+    // 초기 마운트 시에만 이미지 로딩 상태 확인
+    isInitialMount.current = false;
+
+    const checkImageLoaded = () => {
+      if (imageRef.current) {
+        const imgElement = imageRef.current.querySelector('img');
+        if (imgElement) {
+          if (imgElement.complete) {
+            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
+            setIsImageLoaded(true);
+            setShouldFadeIn(false);
+          } else {
+            // 이미지가 아직 로드되지 않았으면 fade-in 적용
+            setIsImageLoaded(false);
+            setShouldFadeIn(true);
+          }
+        } else {
+          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
+          setIsImageLoaded(false);
+          setShouldFadeIn(true);
+        }
+      }
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(checkImageLoaded);
+    });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
-    if (fadeIn) {
+    if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
   };
 
-  const imageClassName = fadeIn
+  const imageClassName = shouldFadeIn
     ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
         isImageLoaded ? 'opacity-100' : 'opacity-0'
       }`
@@ -365,6 +504,7 @@ const SmallCard = ({
   return (
     <Link href={href || ''} className="flex gap-12">
       <div
+        ref={imageRef}
         className={`relative h-[133px] w-[100px] shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]`}
       >
         <Image
@@ -372,7 +512,7 @@ const SmallCard = ({
           alt={`${title} 행사 셔틀 보러가기`}
           fill
           className={imageClassName}
-          onLoad={fadeIn ? handleImageLoad : undefined}
+          onLoad={shouldFadeIn ? handleImageLoad : undefined}
         />
       </div>
       <div>
