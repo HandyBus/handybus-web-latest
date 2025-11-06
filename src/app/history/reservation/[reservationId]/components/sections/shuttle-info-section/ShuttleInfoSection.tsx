@@ -20,6 +20,8 @@ interface Props {
     | undefined;
   shuttleRoute: ShuttleRoutesViewEntity;
   isHandyParty: boolean;
+  isShuttleRouteEnded: boolean;
+  isReservationCanceled: boolean;
 }
 
 const ShuttleInfoSection = ({
@@ -28,6 +30,8 @@ const ShuttleInfoSection = ({
   fromDestinationHub,
   shuttleRoute,
   isHandyParty,
+  isShuttleRouteEnded,
+  isReservationCanceled,
 }: Props) => {
   const tripType = reservation.type;
   const passengerCount = reservation.passengerCount;
@@ -88,7 +92,9 @@ const ShuttleInfoSection = ({
         </div>
       </section>
 
-      {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') &&
+      {!isShuttleRouteEnded &&
+        !isReservationCanceled &&
+        (tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') &&
         toDestinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
@@ -138,12 +144,12 @@ const ShuttleInfoSection = ({
                   roadviewPan={toDestinationHub.roadViewPan}
                   roadviewTilt={toDestinationHub.roadViewTilt}
                 />
-                <div className="pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
-                  이미지를 돌려가며 주변을 확인해보세요.
-                  <div className="text-12 font-500 leading-[160%] text-basic-grey-600">
+                <ul className="list-disc pl-16 pt-12 text-14 font-500 leading-[160%] text-basic-grey-600">
+                  <li>이미지를 돌려가며 주변을 확인해보세요.</li>
+                  <li>
                     카카오맵에서 제공되는 이미지로, 현재와 다를 수 있습니다.
-                  </div>
-                </div>
+                  </li>
+                </ul>
               </div>
               {toDestinationHub.regionHubId === '544768704622104610' && ( // 천안아산역의 경우에서만 부가 설명
                 <div className="h-full rounded-8 bg-basic-grey-100">
@@ -162,7 +168,9 @@ const ShuttleInfoSection = ({
             </section>
           </>
         )}
-      {(tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
+      {!isShuttleRouteEnded &&
+        !isReservationCanceled &&
+        (tripType === 'ROUND_TRIP' || tripType === 'FROM_DESTINATION') &&
         fromDestinationDestinationHub && (
           <>
             <div className="h-8 w-full bg-basic-grey-50" />
@@ -174,13 +182,13 @@ const ShuttleInfoSection = ({
                   latitude={fromDestinationDestinationHub?.latitude}
                   longitude={fromDestinationDestinationHub?.longitude}
                 />
-                <ul className="list-disc pl-20 pt-8 text-14 font-500 leading-[160%] text-basic-grey-600">
+                <ul className="list-disc pl-20 pt-12 text-14 font-500 leading-[160%] text-basic-grey-600">
                   <li>
                     정확한 탑승 위치는 당일 공연 종료 직후 문자로 안내됩니다.
                   </li>
                   <li>
-                    귀가행 탑승 시간은 공연 종료 시간에 따라 지연되며, 변경된
-                    탑승 시간은 당일에 문자로 안내됩니다.
+                    탑승 시각은 당일 공연 종료 시각이 반영되며, 변경 즉시 문자로
+                    안내됩니다.
                   </li>
                 </ul>
               </div>

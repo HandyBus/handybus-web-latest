@@ -91,7 +91,7 @@ const ReservationTab = () => {
               {reservations.length === 0 ? (
                 <EmptyView />
               ) : (
-                <ul className="flex flex-col gap-16 px-16 pb-16">
+                <ul className="flex flex-col gap-16 px-16 pb-48">
                   {reservations.map((reservation) => {
                     const event = reservation.shuttleRoute.event;
                     const dailyEvent = event.dailyEvents.find(

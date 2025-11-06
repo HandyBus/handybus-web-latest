@@ -10,7 +10,7 @@ const EmptyView = () => {
         참여한 수요조사가 없어요
       </p>
       <Link href="/event">
-        <Button variant="secondary" size="small">
+        <Button variant="primary" size="small">
           둘러보기
         </Button>
       </Link>

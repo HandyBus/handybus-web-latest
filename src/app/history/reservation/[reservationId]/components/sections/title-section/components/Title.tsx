@@ -20,7 +20,7 @@ const Title = ({ reservationStatus, shuttleRouteStatus }: Props) => {
     (shuttleRouteStatus === 'ENDED' || shuttleRouteStatus === 'INACTIVE')
   ) {
     return (
-      <h1 className="flex items-center gap-[6px] px-16 pb-24 pt-12 text-18 font-600">
+      <h1 className="flex items-center gap-[6px] px-16 pb-24 pt-12 text-18 font-600 text-basic-grey-500">
         <span>셔틀 종료</span>
       </h1>
     );

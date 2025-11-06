@@ -16,14 +16,17 @@ interface Props {
   isTransferredReservation: boolean;
   reservation: ReservationsViewEntity;
   reservationTransferRequests: ReservationTransferRequestsEntity[];
+  isReservationCanceled: boolean;
+  isShuttleRouteEnded: boolean;
 }
 
 const ReservationTransferSection = ({
   isTransferredReservation,
   reservation,
   reservationTransferRequests,
+  isReservationCanceled,
+  isShuttleRouteEnded,
 }: Props) => {
-  const isReservationCanceled = reservation.reservationStatus === 'CANCEL';
   const isReservationTransferablePeriod =
     checkIsReservationTransferablePeriod(reservation);
 
@@ -61,7 +64,11 @@ const ReservationTransferSection = ({
     }
   };
 
-  if (isReservationCanceled || isTransferredReservation) {
+  if (
+    isShuttleRouteEnded ||
+    isReservationCanceled ||
+    isTransferredReservation
+  ) {
     return null;
   }
 

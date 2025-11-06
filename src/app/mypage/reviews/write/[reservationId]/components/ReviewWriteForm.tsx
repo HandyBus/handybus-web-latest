@@ -187,7 +187,7 @@ const ReviewWriteForm = ({ reservation }: Props) => {
               return '최소 20자 이상 작성해 주세요.';
             }
             if (value.length > 300) {
-              return '입력 가능한 글자 수를 초과했어요.';
+              return '입력 가능한 글자 수를 초과했어요. (최대 300자)';
             }
             return true;
           },
