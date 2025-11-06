@@ -15,6 +15,7 @@ import { EventSortType } from '@/app/event/event.const';
 import { dateString } from '@/utils/dateString.util';
 import NavBar from '@/components/nav-bar/NavBar';
 import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosingSoon.util';
+import DeferredSuspense from '@/components/loading/DeferredSuspense';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -63,53 +64,53 @@ const Page = () => {
       <main className="flex flex-1 flex-col">
         <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
         <div className="w-full px-16">
-          {isLoading ? (
-            <Loading />
-          ) : error ? (
-            <Error />
-          ) : sortedEvents?.length === 0 ? (
-            <Empty />
-          ) : (
-            <div className="grid grid-cols-2 gap-8">
-              {sortedEvents &&
-                sortedEvents.length > 0 &&
-                sortedEvents?.map((event, index) => {
-                  const formattedDate = dateString(
-                    event.startDate === event.endDate
-                      ? event.startDate
-                      : [event.startDate, event.endDate],
-                    {
-                      showWeekday: false,
-                    },
-                  );
+          <DeferredSuspense isLoading={isLoading} fallback={<Loading />}>
+            {error ? (
+              <Error />
+            ) : sortedEvents && sortedEvents.length === 0 ? (
+              <Empty />
+            ) : (
+              <div className="grid grid-cols-2 gap-8">
+                {sortedEvents &&
+                  sortedEvents.length > 0 &&
+                  sortedEvents?.map((event, index) => {
+                    const formattedDate = dateString(
+                      event.startDate === event.endDate
+                        ? event.startDate
+                        : [event.startDate, event.endDate],
+                      {
+                        showWeekday: false,
+                      },
+                    );
 
-                  const isClosingSoon = checkIsReservationClosingSoon({
-                    event,
-                  });
+                    const isClosingSoon = checkIsReservationClosingSoon({
+                      event,
+                    });
 
-                  const isImportant = index < 4;
+                    const isImportant = index < 4;
 
-                  return (
-                    <div className="w-full" key={event.eventId}>
-                      <Card
-                        key={event.eventId}
-                        image={event.eventImageUrl}
-                        variant="GRID"
-                        title={event.eventName}
-                        date={formattedDate}
-                        location={event.eventLocationName}
-                        price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                        isSaleStarted={event.eventMinRoutePrice !== null}
-                        isReservationClosingSoon={isClosingSoon}
-                        href={`/event/${event.eventId}`}
-                        priority={isImportant}
-                        fadeIn={!isImportant}
-                      />
-                    </div>
-                  );
-                })}
-            </div>
-          )}
+                    return (
+                      <div className="w-full" key={event.eventId}>
+                        <Card
+                          key={event.eventId}
+                          image={event.eventImageUrl}
+                          variant="GRID"
+                          title={event.eventName}
+                          date={formattedDate}
+                          location={event.eventLocationName}
+                          price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
+                          isSaleStarted={event.eventMinRoutePrice !== null}
+                          isReservationClosingSoon={isClosingSoon}
+                          href={`/event/${event.eventId}`}
+                          priority={isImportant}
+                          fadeIn={!isImportant}
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+          </DeferredSuspense>
         </div>
         {!isLoading && (
           <>
