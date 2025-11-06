@@ -11,7 +11,11 @@ const AnnouncementPreview = async () => {
   });
 
   return (
-    <Article richTitle="공지사항" showMore="/announcements">
+    <Article
+      richTitle="공지사항"
+      showMore="/announcements"
+      className="px-16 pb-24 pt-32"
+    >
       <div className="flex flex-col">
         {announcementsSorted?.slice(0, 3).map((v) => (
           <Link

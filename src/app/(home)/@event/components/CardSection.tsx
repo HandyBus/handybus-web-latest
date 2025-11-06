@@ -10,7 +10,7 @@ interface Props extends HTMLProps<HTMLDivElement> {
 
 const CardSection = ({ children, richTitle, showMore, ...props }: Props) => {
   return (
-    <section className="px-16 pb-24 pt-32" {...props}>
+    <section className="px-16 py-32" {...props}>
       <Title title={richTitle} showMore={showMore} />
       {children}
     </section>

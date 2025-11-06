@@ -4,7 +4,7 @@ import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 
 const Help = () => {
   return (
-    <Article richTitle="도움말">
+    <Article richTitle="도움말" className="px-16 pb-0 pt-32">
       <div>
         {HELP_MENU_ITEMS.map((v) => (
           <Link
