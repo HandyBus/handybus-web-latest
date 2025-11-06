@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import useTicketData from './hooks/useTicketData';
-import Link from 'next/link';
 import TicketSkeleton from './components/TicketSkeleton';
 import TicketSwiperView from './components/TicketSwiperView';
 
@@ -122,14 +121,14 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
               <div className="rounded-[8px] bg-basic-white">
                 {/* 여정타입 */}
                 <section className="flex items-center justify-between rounded-t-[8px] bg-brand-primary-400 px-16 py-12 ">
-                  <h1 className="text-18 font-600 leading-[140%] text-basic-white">
+                  <h1 className="text-16 font-600 leading-[140%] text-basic-white">
                     {currentTripType}
                   </h1>
                 </section>
 
                 {/* 탑승지/하차지 */}
-                <section className="flex flex-col gap-8 px-16 py-24">
-                  <h2 className="text-16 font-600 leading-[140%]">
+                <section className="flex flex-col gap-8 px-16 py-16">
+                  <h2 className="text-14 font-600 leading-[140%] text-basic-grey-600">
                     {reservation.shuttleRoute.event.eventName}
                   </h2>
                   <div className="flex gap-8">
@@ -141,7 +140,7 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                         {/* 태그 */}
                         <Tag type="departure" />
                         {/* 탑승지 */}
-                        <p className="text-24 font-700 leading-[140%]">
+                        <p className="text-22 font-600 leading-[140%]">
                           {currentTripType === '행사장행'
                             ? selectedHubNameToDestination
                             : currentTripType === '귀가행'
@@ -154,7 +153,7 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                         {/* 태그 */}
                         <Tag type="arrival" />
                         {/* 하차지 */}
-                        <p className="text-24 font-700 leading-[140%]">
+                        <p className="text-22 font-600 leading-[140%]">
                           {currentTripType === '행사장행'
                             ? arrivalHubNameToDestination
                             : currentTripType === '귀가행'
@@ -169,12 +168,12 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                 <div className="border-t border-basic-grey-100" />
 
                 {/* 탑승일시 */}
-                <section className="flex flex-col gap-8 px-16 py-24">
+                <section className="flex flex-col gap-8 px-16 pb-24 pt-16">
                   <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
                     탑승일시
                   </h2>
                   {currentTripType === '행사장행' && (
-                    <p className="text-22 font-600 leading-[140%]">
+                    <p className="text-20 font-600 leading-[140%]">
                       {dayjs(boardingTimeToDestination)
                         .locale('ko')
                         .format('YYYY.MM.DD (ddd) HH:mm')}
@@ -187,7 +186,7 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                     </p>
                   )}
                   {currentTripType === '귀가행' && (
-                    <p className="text-22 font-600 leading-[140%]">
+                    <p className="text-20 font-600 leading-[140%]">
                       {dayjs(boardingTimeFromDestination)
                         .locale('ko')
                         .format('YYYY.MM.DD (ddd) HH:mm')}
@@ -209,23 +208,14 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                 </div>
 
                 {/* 탑승인원, 예상소요시간 및 좌석 */}
-                <section className="grid grid-cols-2 gap-16 px-16 py-24">
-                  <div className="flex flex-col gap-8">
+                <section className="grid grid-cols-3 gap-16 px-16 pb-16 pt-24">
+                  <div className="col-span-3 flex flex-col gap-8">
                     <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
                       탑승자 정보
                     </h2>
                     <div className="text-18 font-600 leading-[160%]">
-                      <span className="block">{userName}</span>
-                      <span className="block">({userPhoneNumber})</span>
+                      <span>{userName + ' (' + userPhoneNumber + ')'}</span>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-8">
-                    <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
-                      탑승인원
-                    </h2>
-                    <p className="text-18 font-600 leading-[160%]">
-                      {passengerCount}명
-                    </p>
                   </div>
                   <div className="flex flex-col gap-8">
                     <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
@@ -241,6 +231,14 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                   </div>
                   <div className="flex flex-col gap-8">
                     <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
+                      탑승인원
+                    </h2>
+                    <p className="text-18 font-600 leading-[160%]">
+                      {passengerCount}명
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-8">
+                    <h2 className="text-14 font-600 leading-[140%] text-basic-grey-400">
                       좌석
                     </h2>
                     <p className="text-18 font-600 leading-[160%]">자율석</p>
@@ -250,11 +248,11 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                 {/* 핸디버스 채널 문의하기 */}
                 <button
                   type="button"
-                  className="flex w-full items-center gap-[6px] rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
+                  className="flex w-full items-center gap-4 rounded-b-[8px] bg-basic-grey-50 px-16 py-12"
                   onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
                 >
                   <InfoIcon />
-                  <h2 className="text-16 font-600 leading-[140%] text-basic-grey-600">
+                  <h2 className="text-14 font-600 leading-[140%] text-basic-grey-600">
                     핸디버스 채널 문의하기
                   </h2>
                 </button>
@@ -270,15 +268,6 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                 카카오톡 및 문자로 안내가 이루어집니다.
               </p>
             </section>
-          </div>
-
-          <div className="px-[22px]">
-            <Link
-              href="/ticket"
-              className="flex items-center justify-center rounded-[8px] bg-basic-grey-50 px-16 py-12 text-14 font-600 leading-[160%] text-basic-grey-700 active:bg-basic-grey-200"
-            >
-              모든 탑승권 보기
-            </Link>
           </div>
         </div>
 
