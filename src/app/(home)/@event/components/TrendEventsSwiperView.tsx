@@ -50,6 +50,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
               fill
               className="object-cover blur-[100px]"
               priority
+              quality={5}
             />
             {/* 흰색 페이드 오버레이 */}
             <div
