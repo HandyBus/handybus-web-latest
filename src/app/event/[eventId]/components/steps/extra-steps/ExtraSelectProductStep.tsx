@@ -85,7 +85,7 @@ const ExtraSelectProductStep = ({
       <button
         onClick={toHandyPartyTripTypeStep}
         type="button"
-        className="flex flex-1 flex-col gap-20 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100 disabled:opacity-70"
+        className="flex flex-1 flex-col gap-8 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100 disabled:opacity-70"
         disabled={!isHandyPartyAvailable}
       >
         <div className="flex w-full items-center justify-between">
@@ -106,7 +106,7 @@ const ExtraSelectProductStep = ({
       <button
         onClick={toReservationHubsStep}
         type="button"
-        className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left enabled:active:bg-basic-grey-100"
+        className="group relative flex flex-1 flex-col gap-8 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left enabled:active:bg-basic-grey-100"
         disabled={!isShuttleBusAvailable}
       >
         <div className="flex w-full items-center justify-between">
