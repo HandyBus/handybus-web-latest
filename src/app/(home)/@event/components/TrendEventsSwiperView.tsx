@@ -8,7 +8,6 @@ import 'swiper/css';
 import Card from '@/components/card/Card';
 import { EventsViewEntity } from '@/types/event.type';
 import Image from 'next/image';
-import { useIsApp } from '@/hooks/useEnvironment';
 
 const MIN_CARD_COUNT = 5;
 
@@ -22,9 +21,6 @@ const TrendEventsSwiperView = ({ events }: Props) => {
   const [activeImage, setActiveImage] = useState<string | null>(
     events[0]?.eventImageUrl || null,
   );
-  const isApp = useIsApp();
-
-  const statusBarPaddingClass = isApp ? 'top-[calc(-136px)]' : '';
 
   const cardCount = events.length;
   const extendedEvents =
@@ -40,9 +36,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
   return (
     <div className="relative pt-24">
       {activeImage && (
-        <div
-          className={`absolute left-0 right-0 top-[calc(-100px)] h-[420px] ${statusBarPaddingClass}`}
-        >
+        <div className={`absolute left-0 right-0 top-0 h-[320px]`}>
           <div className="relative h-full w-full overflow-hidden">
             <Image
               src={activeImage}

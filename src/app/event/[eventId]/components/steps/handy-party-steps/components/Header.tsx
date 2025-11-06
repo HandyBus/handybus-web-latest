@@ -24,13 +24,8 @@ const Header = (props: HeaderProps) => {
   const onModalStepBack =
     variant === 'reservation-info' ? props.onModalStepBack : undefined;
 
-  const headerStyle = {
-    paddingTop: 'calc(16px + var(--safe-area-inset-top))',
-    height: 'calc(52px + var(--safe-area-inset-top))',
-  };
-
   return (
-    <header className="shrink-0 px-24" style={headerStyle}>
+    <header className="h-52 shrink-0 px-24 pt-16">
       <div className="flex items-center justify-between">
         <div
           className={`flex items-center ${variant === 'address' ? 'gap-[6px]' : 'gap-4'}`}

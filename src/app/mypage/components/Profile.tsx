@@ -32,7 +32,7 @@ const Profile = ({ user }: Props) => {
     <section className="mt-24 flex flex-col items-center gap-16 px-16">
       <div className="flex w-full items-center justify-between gap-[6px]">
         <h2 className="line-clamp-1 h-24 grow text-18 font-600 leading-[140%]">
-          <span className="text-brand-primary-400">{simplifiedName}</span>님,
+          <span className="text-brand-primary-500">{simplifiedName}</span>님,
           안녕하세요!
         </h2>
         <Link

@@ -199,7 +199,7 @@ const ReviewEditForm = ({ review }: Props) => {
           },
           maxLength: {
             value: 300,
-            message: '입력 가능한 글자 수를 초과했어요.',
+            message: '입력 가능한 글자 수를 초과했어요. (최대 300자)',
           },
         }}
         render={({ field }) => (

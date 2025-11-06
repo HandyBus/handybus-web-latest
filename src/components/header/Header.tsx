@@ -6,7 +6,6 @@ import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import { useEffect, useState } from 'react';
 import useEnvironment from '@/hooks/useEnvironment';
 
 interface HeaderProps {
@@ -19,7 +18,6 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
   const { isApp } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const isHideBackButton =
     PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname) && !showBackButton;
@@ -49,46 +47,11 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
   };
   const pageName = getPageName(pathname);
 
-  // 스크롤을 내리면 헤더의 색상이 투명에서 흰색으로 변경됩니다.
-  useEffect(() => {
-    if (!isHome) return;
-
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 10);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isHome]);
-
-  const headerBgClass = isHome
-    ? isScrolled
-      ? 'bg-basic-white'
-      : 'bg-transparent'
-    : 'bg-basic-white';
-
-  const iconColorClass = isHome && !isScrolled ? 'brightness-0 invert' : '';
-
-  const headerStyle = {
-    paddingTop: 'var(--safe-area-inset-top)',
-    height: 'calc(56px + var(--safe-area-inset-top))',
-  };
-
   return (
-    <header
-      className={`sticky top-0 z-50 flex h-56 w-full items-center justify-between px-16 transition-colors duration-300 ${headerBgClass}`}
-      style={headerStyle}
-    >
+    <header className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16">
       {isHome || !isApp ? (
         <Link href="/">
-          <LogoIcon
-            className={`duration-1100 transition-all ${iconColorClass}`}
-          />
+          <LogoIcon />
         </Link>
       ) : (
         <div className="flex items-center">
@@ -110,9 +73,7 @@ const Header = ({ showBackButton = false }: HeaderProps) => {
           </Link>
         )}
         <Link href="/announcements">
-          <AnnouncementsIcon
-            className={`transition-all duration-300 ${iconColorClass}`}
-          />
+          <AnnouncementsIcon />
         </Link>
       </div>
     </header>

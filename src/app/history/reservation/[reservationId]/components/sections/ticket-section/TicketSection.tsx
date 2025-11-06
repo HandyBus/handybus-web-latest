@@ -4,19 +4,22 @@ import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import WrapperWithDivider from '../../WrapperWithDivider';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
-  shuttleRoute: ShuttleRoutesViewEntity;
   isHandyParty: boolean;
+  isShuttleRouteEnded: boolean;
+  isReservationCanceled: boolean;
 }
 
-const TicketSection = ({ reservation, shuttleRoute, isHandyParty }: Props) => {
-  const isReservationCanceled = reservation.reservationStatus === 'CANCEL';
-
-  if (isReservationCanceled) {
+const TicketSection = ({
+  reservation,
+  isHandyParty,
+  isShuttleRouteEnded,
+  isReservationCanceled,
+}: Props) => {
+  if (isReservationCanceled || isShuttleRouteEnded) {
     return null;
   }
 
@@ -25,10 +28,7 @@ const TicketSection = ({ reservation, shuttleRoute, isHandyParty }: Props) => {
       {isHandyParty ? (
         <HandyPartyTicketSection />
       ) : (
-        <ShuttleBusTicketSection
-          reservation={reservation}
-          shuttleRoute={shuttleRoute}
-        />
+        <ShuttleBusTicketSection reservation={reservation} />
       )}
     </WrapperWithDivider>
   );
@@ -38,16 +38,11 @@ export default TicketSection;
 
 interface ShuttleBusTicketSectionProps {
   reservation: ReservationsViewEntity;
-  shuttleRoute: ShuttleRoutesViewEntity;
 }
 
 const ShuttleBusTicketSection = ({
   reservation,
-  shuttleRoute,
 }: ShuttleBusTicketSectionProps) => {
-  const isTicketExpired =
-    shuttleRoute.status === 'ENDED' || shuttleRoute.status === 'INACTIVE';
-
   const router = useRouter();
   const openTicketLink = handleClickAndStopPropagation(() => {
     router.push(`/ticket/${reservation.reservationId}`);
@@ -60,9 +55,8 @@ const ShuttleBusTicketSection = ({
         onClick={openTicketLink}
         size="large"
         variant="secondary"
-        disabled={isTicketExpired}
       >
-        {isTicketExpired ? '이용이 만료된 탑승권입니다' : '탑승권 확인하기'}
+        탑승권 확인하기
       </Button>
       <p className="text-14 font-500 leading-[160%]">
         현장에서 탑승권을 제시한 후 탑승해 주세요.{' '}

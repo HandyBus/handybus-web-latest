@@ -20,12 +20,36 @@ const SubmitSection = ({ value, reservationId }: Props) => {
     return numbers.length === 11;
   };
 
-  const isPhoneNumberComplete = checkIsPhoneNumberComplete(value);
+  const checkIsPhoneNumberStartsWith010 = (phoneNumber: string) => {
+    const numbers = phoneNumber.replace(/[^0-9]/g, '');
+    return numbers.startsWith('010');
+  };
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleOpenBottomSheet = () => {
+    const numbers = value.replace(/[^0-9]/g, '');
+
+    if (!value || numbers.length === 0) {
+      toast.error('받는 사람의 연락처를 입력하세요.');
+      return;
+    }
+
+    const isPhoneNumberComplete = checkIsPhoneNumberComplete(value);
+    const isPhoneNumberStartsWith010 = checkIsPhoneNumberStartsWith010(value);
+    if (!isPhoneNumberStartsWith010 || !isPhoneNumberComplete) {
+      toast.error('연락처를 올바르게 입력해주세요.');
+      return;
+    }
+
+    openBottomSheet();
+  };
+
   const handleSubmit = async () => {
-    if (!isPhoneNumberComplete) {
+    const isPhoneNumberComplete = checkIsPhoneNumberComplete(value);
+    const isPhoneNumberStartsWith010 = checkIsPhoneNumberStartsWith010(value);
+    if (!isPhoneNumberStartsWith010 || !isPhoneNumberComplete) {
       return;
     }
     setIsLoading(true);
@@ -51,8 +75,7 @@ const SubmitSection = ({ value, reservationId }: Props) => {
           type="button"
           variant="secondary"
           size="large"
-          onClick={openBottomSheet}
-          disabled={!isPhoneNumberComplete}
+          onClick={handleOpenBottomSheet}
         >
           선물하기
         </Button>
@@ -67,7 +90,7 @@ const SubmitSection = ({ value, reservationId }: Props) => {
             type="button"
             variant="primary"
             size="large"
-            disabled={!isPhoneNumberComplete || isLoading}
+            disabled={!isLoading}
             onClick={handleSubmit}
           >
             탑승권 보내기

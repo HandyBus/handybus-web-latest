@@ -66,8 +66,9 @@ const Content = ({
       />
       <TicketSection
         reservation={reservation}
-        shuttleRoute={shuttleRoute}
         isHandyParty={isHandyParty}
+        isShuttleRouteEnded={isShuttleRouteEnded}
+        isReservationCanceled={isReservationCanceled}
       />
       <ShuttleInfoSection
         reservation={reservation}
@@ -75,6 +76,8 @@ const Content = ({
         toDestinationHub={toDestinationHub}
         fromDestinationHub={fromDestinationHub}
         isHandyParty={isHandyParty}
+        isShuttleRouteEnded={isShuttleRouteEnded}
+        isReservationCanceled={isReservationCanceled}
       />
 
       <ReservationPersonInfoSection
@@ -91,6 +94,8 @@ const Content = ({
         isTransferredReservation={isTransferredReservation}
         reservation={reservation}
         reservationTransferRequests={reservationTransferRequests}
+        isReservationCanceled={isReservationCanceled}
+        isShuttleRouteEnded={isShuttleRouteEnded}
       />
       <GuidelineSection />
       <RefundSection
