@@ -246,7 +246,7 @@ const Content = ({
           onBack={handleBack}
         >
           <FormProvider {...methods}>
-            <div ref={contentRef} className="overflow-y-auto">
+            <div ref={contentRef} className="overflow-y-auto scrollbar-hidden">
               <Funnel>
                 {EVENT_STEPS.map((stepName) => (
                   <Step key={stepName} name={stepName}>

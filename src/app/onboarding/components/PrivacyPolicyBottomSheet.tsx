@@ -10,7 +10,7 @@ const PrivacyPolicyBottomSheet = ({
 }: BottomSheetRefs) => {
   return (
     <BottomSheet title="개인정보 수집 및 이용 동의" ref={bottomSheetRef}>
-      <div ref={contentRef} className="overflow-y-auto">
+      <div ref={contentRef} className="overflow-y-auto scrollbar-hidden">
         {policies['개인정보처리방침']}
       </div>
     </BottomSheet>
