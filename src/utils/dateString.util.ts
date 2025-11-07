@@ -23,6 +23,7 @@ interface DateStringOptions {
   showWeekday?: boolean;
   showDate?: boolean;
   showTime?: boolean;
+  showTimeWithoutAmPm?: boolean;
 }
 
 const singleDateString = (date: Dayjs | null, options?: DateStringOptions) => {
@@ -34,6 +35,7 @@ const singleDateString = (date: Dayjs | null, options?: DateStringOptions) => {
     showDate = true,
     showTime = false,
     showWeekday = true,
+    showTimeWithoutAmPm = false,
   } = options || {};
 
   const yearDateString =
@@ -47,7 +49,9 @@ const singleDateString = (date: Dayjs | null, options?: DateStringOptions) => {
   const weekdayString = showWeekday ? `(${WEEKDAYS[date.day()]})` : null;
   const timeString = showTime
     ? date.format('A hh:mm').replace('AM', '오전').replace('PM', '오후')
-    : null;
+    : showTimeWithoutAmPm
+      ? date.format('hh:mm')
+      : null;
 
   const resultString = [yearDateString, weekdayString, timeString]
     .filter((item) => item !== null)
