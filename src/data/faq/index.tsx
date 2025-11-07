@@ -6,10 +6,12 @@ import FAQReservation3 from './reservation-3.mdx';
 import FAQReservation4 from './reservation-4.mdx';
 import FAQReservation5 from './reservation-5.mdx';
 import FAQReservation6 from './reservation-6.mdx';
-import FAQReservation7 from './reservation-7.mdx';
 import FAQReservation8 from './reservation-8.mdx';
 import FAQReservation9 from './reservation-9.mdx';
+import FAQReservationWhenRefund from './reservation-when-refund.mdx';
 import FAQReservation10 from './reservation-10.mdx';
+import FAQReservationTicketTransfer from './reservation-ticket-transfer.mdx';
+import FAQReservationMyReservationDisapper from './reservation-my-reservation-disapper.mdx';
 import FAQReservation11 from './reservation-11.mdx';
 import FAQBoarding2 from './boarding-2.mdx';
 import FAQBoarding3 from './boarding-3.mdx';
@@ -17,6 +19,8 @@ import FAQBoarding4 from './boarding-4.mdx';
 import FAQBoarding5 from './boarding-5.mdx';
 import FAQBoarding6 from './boarding-6.mdx';
 import FAQBoarding7 from './boarding-7.mdx';
+import FAQReservationDeclineGiftedTicket from './reservation-decline-gifted-ticket.mdx';
+import FAQReservationCancleTransferTicket from './reservation-cancle-transfer-ticket.mdx';
 
 interface FAQ {
   title: string;
@@ -44,13 +48,29 @@ export const faqs: FAQ[] = (
       'reservation',
       '좌석이 매진되었어요. 추가 셔틀은 안 열리나요?',
     ],
-    [FAQReservation7, 'reservation', '예약 내역을 확인하고 싶어요.'],
     [FAQReservation8, 'reservation', '탑승지를 변경하고 싶어요.'],
     [FAQReservation9, 'reservation', '예약을 취소하고 싶어요.'],
+    [FAQReservationWhenRefund, 'reservation', '환불은 언제되나요?'],
     [
       FAQReservation10,
       'reservation',
       '탑승자와 신청자가 다른 경우 어떡하나요?',
+    ],
+    [FAQReservationTicketTransfer, 'reservation', '탑승권을 양도하고 싶어요'],
+    [
+      FAQReservationMyReservationDisapper,
+      'reservation',
+      '예약 정보가 사라졌어요',
+    ],
+    [
+      FAQReservationDeclineGiftedTicket,
+      'reservation',
+      '선물 받은 탑승권을 이용하지 않으려고요',
+    ],
+    [
+      FAQReservationCancleTransferTicket,
+      'reservation',
+      '선물하기를 취소하고 싶어요',
     ],
     [
       FAQReservation11,

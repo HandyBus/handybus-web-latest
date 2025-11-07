@@ -310,7 +310,7 @@ const LargeCard = ({
         style={{
           background:
             'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 9.23%, rgba(0, 0, 0, 0.60) 80.82%)',
-          backdropFilter: 'blur(2.5px)',
+          backdropFilter: 'blur(1px)',
         }}
       >
         <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
