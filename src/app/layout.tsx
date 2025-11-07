@@ -7,6 +7,7 @@ import Provider from '@/components/provider/Provider';
 import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
 import PortalContainer from '@/components/portal-container/PortalContainer';
+import { ScrollToTop } from '@/components/scroll-to-top/ScrollToTop';
 import { DESCRIPTION, KEYWORDS, OG_IMAGE_URL, URL } from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 import Script from 'next/script';
@@ -118,6 +119,7 @@ export default function RootLayout({
       </head>
       <body className="bg-basic-white">
         <Provider>
+          <ScrollToTop />
           {children}
           {/* NOTE: 서비스 점검 시 children 주석 처리 후 아래 주석 해제 */}
           {/* <ServiceMaintenanceScreen /> */}
