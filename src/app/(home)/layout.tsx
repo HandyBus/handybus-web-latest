@@ -33,8 +33,8 @@ const WithFooterLayout = ({
       <Header />
       <main className="w-full grow">
         {event}
-        {help}
         {banner}
+        {help}
         {announcement}
         {greeting}
         {modal}

@@ -15,7 +15,7 @@ const TrendEventCard = ({ events }: Props) => {
       : events.slice(0, MIN_EVENTS_COUNT);
 
   return (
-    <section className="h-[357px] pb-24">
+    <section className="h-[333px]">
       {slicedEvents ? (
         <TrendEventsSwiperView events={slicedEvents} />
       ) : (

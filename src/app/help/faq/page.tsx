@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/header/Header';
-import ChevronRightEm from 'public/icons/chevron-right-em.svg';
+import ArrowRightIcon from './icons/arrow-right.svg';
 import Footer from '@/components/footer/Footer';
 import Link from 'next/link';
 import TitledSection from './components/TitledSection';
@@ -64,7 +64,7 @@ const CustomerSupport = () => {
             onClick={() => setShowFeedbackScreen(true)}
           >
             <p className="text-16 font-600 leading-[160%]">의견 보내기</p>
-            <ChevronRightEm className="h-24 w-24 text-basic-grey-400" />
+            <ArrowRightIcon className="h-24 w-24 text-basic-grey-400" />
           </button>
         </TitledSection>
       </main>
@@ -98,7 +98,7 @@ const NavigationItem = ({ title, href, target, rel }: NavigationItemProps) => {
       className="flex w-full flex-row justify-between py-12"
     >
       <p className="text-16 font-600 leading-[160%]">{title}</p>
-      <ChevronRightEm className="h-24 w-24 text-basic-grey-400" />
+      <ArrowRightIcon className="h-24 w-24 text-basic-grey-400" />
     </Link>
   );
 };

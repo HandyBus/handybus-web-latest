@@ -48,6 +48,8 @@ const BottomBar = ({
     });
   };
 
+  const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
+
   return (
     <>
       <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
@@ -60,7 +62,7 @@ const BottomBar = ({
           공유하기
         </Button>
         <Button
-          variant="primary"
+          variant={isDemandDisabled ? 'tertiary' : 'primary'}
           size="large"
           type="button"
           onClick={handleClick}
