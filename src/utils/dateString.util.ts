@@ -50,7 +50,7 @@ const singleDateString = (date: Dayjs | null, options?: DateStringOptions) => {
   const timeString = showTime
     ? date.format('A hh:mm').replace('AM', '오전').replace('PM', '오후')
     : showTimeWithoutAmPm
-      ? date.format('hh:mm')
+      ? date.format('HH:mm')
       : null;
 
   const resultString = [yearDateString, weekdayString, timeString]
