@@ -1,6 +1,6 @@
 import Article from '@/components/article/Article';
 import Link from 'next/link';
-import ChevronRightEm from 'public/icons/chevron-right-em.svg';
+import ArrowRightIcon from 'public/icons/arrow-right.svg';
 
 const Help = () => {
   return (
@@ -20,7 +20,7 @@ const Help = () => {
             <p className="text-16 font-600 leading-[160%] text-basic-grey-700">
               {v.title}
             </p>
-            <ChevronRightEm className="ml-auto h-24 w-24 stroke-1 text-basic-grey-400" />
+            <ArrowRightIcon className="ml-auto" />
           </Link>
         ))}
       </div>

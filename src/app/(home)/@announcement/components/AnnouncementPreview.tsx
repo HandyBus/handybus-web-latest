@@ -2,7 +2,7 @@ import Article from '@/components/article/Article';
 import { getAnnouncements } from '@/services/core.service';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import ChevronRightEm from 'public/icons/chevron-right-em.svg';
+import ArrowRightIcon from 'public/icons/arrow-right.svg';
 
 const AnnouncementPreview = async () => {
   const announcements = await getAnnouncements();
@@ -31,7 +31,7 @@ const AnnouncementPreview = async () => {
                 {dayjs(v.createdAt).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}
               </p>
             </div>
-            <ChevronRightEm className="ml-auto h-24 w-24 stroke-[1] text-basic-grey-400" />
+            <ArrowRightIcon className="ml-auto" />
           </Link>
         ))}
       </div>

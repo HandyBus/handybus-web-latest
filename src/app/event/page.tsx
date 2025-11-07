@@ -7,7 +7,7 @@ import Empty from './components/Empty';
 import Loading from './components/Loading';
 import Error from './components/Error';
 import Card from '@/components/card/Card';
-import ChevronRightEm from 'public/icons/chevron-right-em.svg';
+import ArrowRightIcon from 'public/icons/arrow-right.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { EventType } from '@/types/event.type';
 import FilterBar from './components/FilterBar';
@@ -126,7 +126,7 @@ const Page = () => {
               className="flex w-full items-center justify-center gap-[10px] bg-basic-white px-[12px] py-[26px] text-16 font-600 leading-[160%] text-basic-grey-700"
             >
               원하는 행사가 없다면
-              <ChevronRightEm className="h-16 w-16 stroke-1 text-basic-grey-700" />
+              <ArrowRightIcon />
             </button>
           </>
         )}
