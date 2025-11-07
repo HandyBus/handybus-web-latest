@@ -13,6 +13,7 @@ const EventImage = ({ eventImageUrl, eventName }: Props) => {
           src={eventImageUrl ?? ''}
           alt={eventName}
           fill
+          priority
           quality={5}
           className="object-cover"
         />
