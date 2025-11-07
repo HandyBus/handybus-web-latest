@@ -251,7 +251,7 @@ const Hub = ({
           showYear: false,
           showDate: false,
           showWeekday: false,
-          showTime: true,
+          showTimeWithoutAmPm: true,
         },
       )
     : null;
@@ -261,7 +261,7 @@ const Hub = ({
         showYear: false,
         showDate: false,
         showWeekday: false,
-        showTime: true,
+        showTimeWithoutAmPm: true,
       })
     : null;
 
@@ -273,7 +273,7 @@ const Hub = ({
         disabled={isSoldOut}
         className={`group flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left`}
       >
-        <div className="flex w-full justify-between gap-8">
+        <div className="flex w-full justify-between gap-16">
           <div className="flex w-[calc(100%-50px)] gap-[6px]">
             <div className="flex h-24 w-24 shrink-0 items-center justify-center">
               <PinIcon />
@@ -283,7 +283,9 @@ const Hub = ({
             </span>
           </div>
           {isSoldOut ? (
-            <div className="h-[23px] w-56 shrink-0"></div>
+            <div className="flex h-[23px] w-[83px] shrink-0 items-center">
+              <span className="text-12 font-500 text-basic-grey-500">매진</span>
+            </div>
           ) : (
             remainingSeatCount <= DANGER_SEAT_THRESHOLD && (
               <span className="shrink-0 whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-red-400">
@@ -297,7 +299,7 @@ const Hub = ({
             <div
               className={`${isSoldOutForToDestination && 'text-basic-grey-300'}`}
             >
-              행사장행: {toDestinationArrivalTime} 도착 {isDuplicate && ' 외'}
+              행사장행 {toDestinationArrivalTime} 도착 {isDuplicate && ' 외'}
             </div>
           )}
           {toDestinationArrivalTime && fromDestinationDepartureTime && (
@@ -311,7 +313,7 @@ const Hub = ({
             <div
               className={`${isSoldOutForFromDestination && 'text-basic-grey-300'}`}
             >
-              귀가행: {fromDestinationDepartureTime} 출발 {isDuplicate && ' 외'}
+              귀가행 {fromDestinationDepartureTime} 출발 {isDuplicate && ' 외'}
             </div>
           )}
         </div>

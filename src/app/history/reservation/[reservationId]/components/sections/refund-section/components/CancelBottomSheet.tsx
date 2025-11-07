@@ -219,7 +219,10 @@ const CancelBottomSheet = ({
       showBackButton={isHistoryAvailable}
       onBack={handleBack}
     >
-      <div ref={contentRef} className="max-h-[55dvh] overflow-y-auto">
+      <div
+        ref={contentRef}
+        className="max-h-[55dvh] overflow-y-auto scrollbar-hidden"
+      >
         <Funnel>
           <Step name="취소하시겠어요?">
             {refundFee !== null && (

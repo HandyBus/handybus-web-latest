@@ -81,7 +81,7 @@ const SubmitSection = ({ value, reservationId }: Props) => {
         </Button>
       </section>
       <BottomSheet ref={bottomSheetRef} title="이 연락처로 탑승권을 보낼까요?">
-        <div ref={contentRef} className="flex flex-col gap-16">
+        <div ref={contentRef} className="flex flex-col gap-16 scrollbar-hidden">
           <div className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 p-16">
             <h5 className="text-18 font-600">받는 사람</h5>
             <h6 className="text-18 font-500">{value}</h6>

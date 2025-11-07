@@ -52,7 +52,7 @@ const CancelDemandBottomSheet = ({
 
   return (
     <BottomSheet ref={bottomSheetRef} title="수요조사를 취소하시겠어요?">
-      <div ref={contentRef}>
+      <div ref={contentRef} className="scrollbar-hidden">
         <div className="mb-16 flex h-[82px] flex-col items-center justify-center rounded-8 bg-basic-grey-50 px-16 py-12 text-18 font-600 leading-[160%] text-basic-grey-700">
           <span>[{tripTypeText}]</span>
           <span>{hubName}</span>

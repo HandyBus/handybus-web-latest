@@ -121,7 +121,10 @@ const ReservationTransferSection = ({
                 ref={bottomSheetRef}
                 title="선물한 탑승권을 취소할까요?"
               >
-                <div ref={contentRef} className="flex flex-col gap-16">
+                <div
+                  ref={contentRef}
+                  className="flex flex-col gap-16 scrollbar-hidden"
+                >
                   <div className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 p-16">
                     <h5 className="text-18 font-600">받는 사람</h5>
                     <p className="text-18 font-600">

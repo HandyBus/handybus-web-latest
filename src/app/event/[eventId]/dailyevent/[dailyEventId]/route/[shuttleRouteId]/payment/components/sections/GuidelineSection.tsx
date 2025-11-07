@@ -73,7 +73,7 @@ const GuidelineSection = ({
       >
         <div
           ref={contentRef}
-          className="flex h-full max-h-[calc(90dvh-100px)] flex-col"
+          className="flex h-full max-h-[calc(90dvh-100px)] flex-col scrollbar-hidden"
         >
           <div ref={scrollRef} className="flex-1 overflow-y-auto pb-16">
             {isHandyParty ? <HandyPartyGuideline /> : <ShuttleBusGuideline />}

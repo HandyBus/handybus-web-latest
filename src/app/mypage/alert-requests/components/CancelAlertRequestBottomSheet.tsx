@@ -56,7 +56,7 @@ const CancelAlertRequestBottomSheet = ({
 
   return (
     <BottomSheet ref={bottomSheetRef} title="빈자리 알림을 취소할까요?">
-      <div ref={contentRef}>
+      <div ref={contentRef} className="scrollbar-hidden">
         <Button
           type="button"
           variant="p-destructive"
