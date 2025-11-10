@@ -7,6 +7,8 @@ import { useState } from 'react';
 import FeedbackScreen from '../feedback/FeedbackScreen';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import AppLaunchImage from './images/app-launch.png';
 
 const DeadZonePopup = () => {
   const router = useRouter();
@@ -21,10 +23,14 @@ const DeadZonePopup = () => {
     }
   };
 
+  const handleAppLaunchEventOpen = () => {
+    router.push('/app-launch-event');
+  };
+
   return (
     <>
       <div className="fixed bottom-52 right-[calc(50%-500px)] z-[99] flex flex-col gap-16 max-[1000px]:hidden">
-        {/* <div className="flex h-252  w-[210px] flex-col items-center rounded-10 bg-basic-grey-50 px-16 py-20">
+        {/* <div className="flex h-252 w-[210px] flex-col items-center rounded-10 bg-basic-grey-50 px-16 py-20">
           <LargeLogo />
           <div className="mb-8 mt-12 text-20 font-700 tracking-[-0.5px]">
             집에서 콘서트장까지, <br />
@@ -40,6 +46,18 @@ const DeadZonePopup = () => {
             </Link>
           </div>
         </div> */}
+        <button
+          type="button"
+          onClick={handleAppLaunchEventOpen}
+          className="relative h-[277px] w-[209px] rounded-16 bg-basic-grey-50"
+        >
+          <Image
+            src={AppLaunchImage}
+            alt="앱 출시 안내"
+            fill
+            className="object-cover"
+          />
+        </button>
         <button
           onClick={handleFeedbackOpen}
           type="button"

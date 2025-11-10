@@ -1,9 +1,10 @@
-import { MAX_HANDY_DISCOUNT_AMOUNT } from '@/constants/common';
 import { CustomError } from '@/services/custom-error';
 import { IssuedCouponsViewEntity } from '@/types/coupon.type';
 import { EventsViewEntity } from '@/types/event.type';
 import { ShuttleRoutesViewEntity, TripType } from '@/types/shuttleRoute.type';
 import { compareToNow } from '@/utils/dateString.util';
+import { ReservationsViewEntity } from '@/types/reservation.type';
+import { checkIsHandyParty } from '@/utils/handyParty.util';
 
 export type EventPhase = 'demand' | 'reservation';
 export type EventEnabledStatus = 'enabled' | 'disabled';
@@ -230,19 +231,53 @@ export const calculateTotalPrice = ({
   };
 };
 
-export const calculateHandyDiscountAmount = (
-  priceOfTripType: PriceOfTripType,
-  tripType: TripType,
-) => {
-  const price = priceOfTripType[tripType];
-  if (!price.regularPrice) {
-    throw new CustomError(400, '가격이 존재하지 않는 상품입니다.');
+export const getHubText = (reservation: ReservationsViewEntity) => {
+  const toDestinationStartHub =
+    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+      (hub) =>
+        hub.shuttleRouteHubId === reservation.toDestinationShuttleRouteHubId,
+    );
+  const toDestinationEndHub =
+    reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+      (hub) => hub.role === 'DESTINATION',
+    );
+  const fromDestinationStartHub =
+    reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+      (hub) => hub.role === 'DESTINATION',
+    );
+  const fromDestinationEndHub =
+    reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+      (hub) =>
+        hub.shuttleRouteHubId === reservation.fromDestinationShuttleRouteHubId,
+    );
+
+  const isHandyParty = checkIsHandyParty(reservation.shuttleRoute);
+
+  let hubText = '';
+  if (isHandyParty) {
+    const desiredHubAddress =
+      reservation.metadata?.desiredHubAddress ?? '[집앞하차]';
+    if (reservation.type === 'TO_DESTINATION') {
+      hubText = `${desiredHubAddress} → ${toDestinationEndHub?.name}`;
+    } else if (reservation.type === 'FROM_DESTINATION') {
+      hubText = `${fromDestinationStartHub?.name} → ${desiredHubAddress}`;
+    }
+  } else {
+    if (reservation.type === 'TO_DESTINATION') {
+      hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name}`;
+    } else if (reservation.type === 'FROM_DESTINATION') {
+      hubText = `${fromDestinationStartHub?.name} → ${fromDestinationEndHub?.name}`;
+    } else {
+      if (
+        toDestinationStartHub?.regionHubId ===
+        fromDestinationEndHub?.regionHubId
+      ) {
+        hubText = `${toDestinationStartHub?.name} ↔ ${toDestinationEndHub?.name}`;
+      } else {
+        hubText = `${toDestinationStartHub?.name} → ${toDestinationEndHub?.name} → ${fromDestinationEndHub?.name}`;
+      }
+    }
   }
-  const priceWithEarlybirdDiscount = price.isEarlybird
-    ? (price.earlybirdPrice ?? 0)
-    : price.regularPrice;
-  return Math.min(
-    Math.ceil(priceWithEarlybirdDiscount * 0.5),
-    MAX_HANDY_DISCOUNT_AMOUNT,
-  );
+
+  return hubText;
 };

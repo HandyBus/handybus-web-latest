@@ -22,6 +22,7 @@ interface Props {
   eventName: string;
 }
 
+// @deprecated
 export const useShare = ({ eventId, eventName }: Props) => {
   const { trackShare } = useShareTracking({ eventId, eventName });
   const initializeKakao = () => {

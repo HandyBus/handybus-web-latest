@@ -1,7 +1,7 @@
 'use client';
 
 import { useGetHubsWithPagination } from '@/services/hub.service';
-import PinIcon from '../../../icons/pin-small.svg';
+import PinIcon from '../../../icons/pin-circle.svg';
 import { useMemo, useState } from 'react';
 import { groupHubsByRegion } from '../../../store/dailyEventIdsWithHubsAtom';
 import { ID_TO_REGION, REGION_TO_ID } from '@/constants/regions';
@@ -137,22 +137,28 @@ const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
   return (
     <section>
       {recentlyViewedHub && (
-        <button
-          key={recentlyViewedHub.regionHubId}
-          onClick={() =>
-            handleHubClick(recentlyViewedHub, recentlyViewedHub.demandCount)
-          }
-          disabled={isUserDemandAvailableForRecentlyViewedHub}
-          type="button"
-          className="group mb-16 flex h-[55px] w-full items-center gap-8 rounded-[12px] border border-basic-grey-100 px-16 py-12 text-left"
-        >
-          <div className="whitespace-nowrap rounded-[10px] bg-basic-grey-50 px-8 py-4 text-10 font-600 leading-[160%] text-basic-grey-700">
-            최근 기록
+        <>
+          <div className="flex flex-col gap-12">
+            <p className="text-14 font-600 text-basic-grey-700">
+              최근에 본 정류장
+            </p>
+            <button
+              key={recentlyViewedHub.regionHubId}
+              onClick={() =>
+                handleHubClick(recentlyViewedHub, recentlyViewedHub.demandCount)
+              }
+              disabled={isUserDemandAvailableForRecentlyViewedHub}
+              type="button"
+              className="group flex h-[55px] w-full items-center gap-[6px] rounded-[8px] border border-basic-grey-200 px-12 py-[14px] text-left"
+            >
+              <PinIcon />
+              <span className="block min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-16 font-600 text-basic-grey-700 scrollbar-hidden group-disabled:text-basic-grey-300">
+                {recentlyViewedHub.name}
+              </span>
+            </button>
           </div>
-          <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-            {recentlyViewedHub.name}
-          </span>
-        </button>
+          <div className="my-24 h-[1px] w-full border border-basic-grey-100" />
+        </>
       )}
       <div>
         {gungusWithHubs.map((gunguWithHubs, index) => {
@@ -171,8 +177,7 @@ const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
           return (
             <article key={gunguWithHubs.gungu}>
               <div className="mb-4 flex h-[26px] items-center gap-[2px]">
-                <PinIcon />
-                <h6 className="text-14 font-600 text-basic-grey-400">
+                <h6 className="text-14 font-600 leading-[160%] text-basic-grey-700">
                   {gunguWithHubs.gungu}
                 </h6>
                 <p className="ml-auto text-14 font-500">
@@ -193,7 +198,7 @@ const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
                   )}
                 </p>
               </div>
-              <ul className="flex flex-col gap-8 scrollbar-hidden">
+              <ul className="flex flex-col gap-12 scrollbar-hidden">
                 {gunguWithHubs.hubs.map((hub) => (
                   <button
                     key={hub.regionHubId}
@@ -202,17 +207,16 @@ const DemandHubsStep = ({ toNextStep, setDemandCount }: Props) => {
                     }
                     disabled={isUserDemandAvailable}
                     type="button"
-                    className="group flex h-[55px] w-full items-center justify-between gap-8 py-12 text-left"
+                    className="group flex h-[55px] w-full items-center gap-[6px] rounded-[8px] border border-basic-grey-200 px-12 py-[14px] text-left"
                   >
-                    <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
+                    <PinIcon />
+                    <span className="block min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-16 font-600 text-basic-grey-700 scrollbar-hidden group-disabled:text-basic-grey-300">
                       {hub.name}
                     </span>
                   </button>
                 ))}
               </ul>
-              {index !== gungusWithHubs.length - 1 && (
-                <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
-              )}
+              {index !== gungusWithHubs.length - 1 && <div className="h-24" />}
             </article>
           );
         })}

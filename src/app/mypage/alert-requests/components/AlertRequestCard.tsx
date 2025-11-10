@@ -3,71 +3,41 @@
 import { dateString } from '@/utils/dateString.util';
 import { ShuttleRouteAlertRequestsViewEntity } from '@/types/alertRequest.type';
 import ArrowRightIcon from '../icons/arrow-right.svg';
-import { useMemo } from 'react';
 import Button from '@/components/buttons/button/Button';
-import { useRouter } from 'next/navigation';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
-import { toast } from 'react-toastify';
-import { useDeleteAlertRequest } from '@/services/alertRequest.service';
-import * as Sentry from '@sentry/nextjs';
-import dayjs from 'dayjs';
+import Image from 'next/image';
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
+import useBottomSheet from '@/hooks/useBottomSheet';
+import CancelAlertRequestBottomSheet from './CancelAlertRequestBottomSheet';
+import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
 }
 
 const AlertRequestCard = ({ alertRequest }: Props) => {
-  const router = useRouter();
-  const { mutateAsync: deleteAlertRequest } = useDeleteAlertRequest();
-
-  const handleDeleteAlertRequest = async () => {
-    try {
-      await deleteAlertRequest({
-        eventId: alertRequest.shuttleRoute.event.eventId,
-        dailyEventId: alertRequest.shuttleRoute.dailyEventId,
-        shuttleRouteId: alertRequest.shuttleRoute.shuttleRouteId,
-        shuttleRouteAlertRequestId: alertRequest.shuttleRouteAlertRequestId,
-      });
-      toast.success('알림 요청을 취소했어요.');
-    } catch (error) {
-      Sentry.captureException(error, {
-        tags: {
-          component: 'AlertRequestCard',
-          page: 'mypage',
-          feature: 'alert-request',
-          action: 'delete-alert-request',
-          environment: process.env.NODE_ENV || 'development',
-        },
-        extra: {
-          eventId: alertRequest.shuttleRoute.event.eventId,
-          dailyEventId: alertRequest.shuttleRoute.dailyEventId,
-          shuttleRouteId: alertRequest.shuttleRoute.shuttleRouteId,
-          shuttleRouteAlertRequestId: alertRequest.shuttleRouteAlertRequestId,
-          timestamp: dayjs().toISOString(),
-        },
-      });
-      console.error(error);
-      toast.error('잠시 후 다시 시도해주세요.');
-    }
-  };
-
-  const handlePushAlertRequestDetail = (alertRequestId: string) => {
-    router.push(`/mypage/alert-requests/${alertRequestId}`);
-  };
-
   const event = alertRequest.shuttleRoute.event;
   const dailyEvent = event.dailyEvents.find(
     (dailyEvent) =>
       dailyEvent.dailyEventId === alertRequest.shuttleRoute.dailyEventId,
-  );
+  )!;
   const shuttleRoute = alertRequest.shuttleRoute;
-  const hub =
-    shuttleRoute.toDestinationShuttleRouteHubs?.find(
-      (hub) => hub.shuttleRouteHubId === alertRequest.shuttleRouteHubId,
-    ) ||
-    alertRequest.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
-      (hub) => hub.shuttleRouteHubId === alertRequest.shuttleRouteHubId,
-    );
+  const toDestinationHubs = shuttleRoute.toDestinationShuttleRouteHubs ?? [];
+  const fromDestinationHubs =
+    shuttleRoute.fromDestinationShuttleRouteHubs ?? [];
+  const destinationHubs = [...toDestinationHubs, ...fromDestinationHubs].reduce(
+    (acc, hub) => {
+      if (
+        hub.role === 'HUB' &&
+        !acc.some((h) => h.regionHubId === hub.regionHubId)
+      ) {
+        acc.push(hub);
+      }
+      return acc;
+    },
+    [] as ShuttleRouteHubsInShuttleRoutesViewEntity[],
+  );
 
   const formattedAlertRequestDate = dateString(alertRequest.createdAt, {
     showYear: true,
@@ -75,126 +45,121 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
     showTime: true,
     showWeekday: true,
   });
-  const eventName = event.eventName;
-  const eventLocationName = event.eventLocationName;
-  const formattedEventDate = dateString(dailyEvent?.date, {
+  const formattedEventDate = dateString(dailyEvent.date, {
     showYear: true,
     showDate: true,
     showTime: false,
     showWeekday: false,
   });
-  const hubText = hub ? `[${shuttleRoute.name} - ${hub.name}] 요청` : '';
+  const hubText = destinationHubs.map((hub) => hub.name).join(' - ');
 
   const hasEmptySeat =
-    alertRequest.notifiedAt !== null && shuttleRoute.remainingSeatCount > 0;
+    shuttleRoute.remainingSeatCount > 0 &&
+    shuttleRoute.remainingSeatType === 'ROUND_TRIP';
   const isReservationEnded = shuttleRoute.status !== 'OPEN';
 
-  const { status, description } = useMemo(() => {
-    if (isReservationEnded) {
-      return {
-        status: '마감',
-        description: '예약이 마감되었어요.',
-      };
-    }
-    if (hasEmptySeat) {
-      return {
-        status: '예약 가능',
-        description: '빈자리가 생겼어요. 지금 바로 예약하세요!',
-      };
-    }
-    return {
-      status: '알림 받는 중',
-      description: `${alertRequest.queueIndex}번째로 대기중`,
-    };
-  }, [hasEmptySeat, isReservationEnded, alertRequest.queueIndex]);
+  const router = useRouter();
+  const redirectToAlertRequestDetail = handleClickAndStopPropagation(() => {
+    router.push(
+      `/mypage/alert-requests/${alertRequest.shuttleRouteAlertRequestId}`,
+    );
+  });
+  const redirectToEventDetail = handleClickAndStopPropagation(() => {
+    router.push(`/event/${event.eventId}`);
+  });
+
+  const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
+    useBottomSheet();
 
   return (
-    <div>
-      <article className="flex flex-col gap-16 px-16 py-24">
-        <div>
-          <div className="flex h-32 items-center justify-between">
-            <div className="flex items-center gap-8 pb-[6px]">
-              <h5 className="text-18 font-600">빈자리 알림 요청</h5>
-              <p
-                className={`text-14 font-500 ${
-                  isReservationEnded
-                    ? 'text-basic-grey-700'
-                    : 'text-brand-primary-400'
-                }`}
-              >
-                {status}
+    <>
+      <div className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">
+        <button
+          type="button"
+          className="mb-16 w-full text-left"
+          onClick={redirectToAlertRequestDetail}
+        >
+          <div className="flex w-full">
+            <div className="flex grow flex-col">
+              <h4 className="flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-16 font-600 leading-[160%]">
+                빈자리 알림 요청
+                {!hasEmptySeat && !isReservationEnded && (
+                  <span className="text-14 font-500 text-brand-primary-400">
+                    {alertRequest.queueIndex}번째로 대기중
+                  </span>
+                )}
+              </h4>
+              <p className="h-[19px] whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-grey-400">
+                {formattedAlertRequestDate} 요청
               </p>
             </div>
-            <div>
-              {!isReservationEnded && !hasEmptySeat && (
-                <Button
-                  variant="s-destructive"
-                  size="small"
-                  onClick={handleClickAndStopPropagation(
-                    handleDeleteAlertRequest,
-                  )}
-                >
-                  취소하기
-                </Button>
-              )}
-              {!isReservationEnded && hasEmptySeat && (
-                <div className="flex items-center gap-8">
-                  <Button
-                    variant="tertiary"
-                    size="small"
-                    onClick={handleClickAndStopPropagation(
-                      handleDeleteAlertRequest,
-                    )}
-                  >
-                    알림 취소
-                  </Button>
-                  <Button
-                    variant="primary"
-                    size="small"
-                    onClick={handleClickAndStopPropagation(() => {
-                      router.push(`/event/${event.eventId}`);
-                    })}
-                  >
-                    예약하기
-                  </Button>
-                </div>
-              )}
-              {isReservationEnded && (
-                <Button variant="primary" size="small" disabled>
-                  예약하기
-                </Button>
+            {!isReservationEnded && (
+              <div className="w-24 shrink-0">
+                <ArrowRightIcon />
+              </div>
+            )}
+          </div>
+          <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+          <div className="flex">
+            <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
+              <Image
+                src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
+                alt={`${event.eventName} 행사 포스터`}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="flex grow flex-col pl-12 text-left">
+              <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
+                {event.eventName}
+              </h5>
+              <p className="flex h-[22px] items-center gap-[6px] whitespace-nowrap break-keep text-14 font-500 leading-[160%] text-basic-grey-700">
+                {formattedEventDate}
+              </p>
+              {hubText && (
+                <p className="flex h-24 items-center gap-[3px] text-14 font-500 leading-[160%] text-basic-grey-700">
+                  <span className="line-clamp-1 w-fit">{hubText}</span>
+                  <span className="shrink-0">요청</span>
+                </p>
               )}
             </div>
           </div>
-          <p className="text-14 font-500 text-basic-grey-700">{description}</p>
-          <p className="text-12 font-500 text-basic-grey-400">
-            {formattedAlertRequestDate} 빈자리 알림 신청
-          </p>
-        </div>
-        <div className="h-[1.5px] w-full bg-basic-grey-100" />
-        <button
-          onClick={handleClickAndStopPropagation(() =>
-            handlePushAlertRequestDetail(
-              alertRequest.shuttleRouteAlertRequestId,
-            ),
-          )}
-          className="text-left"
-        >
-          <div className="flex items-center">
-            <h6 className="line-clamp-1 grow text-16 font-600">{eventName}</h6>
-            <ArrowRightIcon className="shrink-0" />
-          </div>
-          <p className="text-12 font-500 text-basic-grey-700">
-            {eventLocationName}
-          </p>
-          <p className="text-12 font-500 text-basic-grey-700">
-            {formattedEventDate}
-          </p>
-          <p className="text-12 font-500 text-basic-grey-700">{hubText}</p>
         </button>
-      </article>
-      <div className="h-8 w-full bg-basic-grey-50" />
-    </div>
+        <div className="flex flex-col gap-12">
+          {hasEmptySeat && !isReservationEnded && (
+            <Button
+              type="button"
+              variant="primary"
+              size="large"
+              onClick={redirectToEventDetail}
+            >
+              예약하기
+            </Button>
+          )}
+          {!isReservationEnded && (
+            <Button
+              type="button"
+              variant="s-destructive"
+              size="large"
+              onClick={openBottomSheet}
+            >
+              취소하기
+            </Button>
+          )}
+          {isReservationEnded && (
+            <Button type="button" variant="primary" size="large" disabled>
+              예약 마감된 셔틀이에요
+            </Button>
+          )}
+        </div>
+      </div>
+      <CancelAlertRequestBottomSheet
+        bottomSheetRef={bottomSheetRef}
+        contentRef={contentRef}
+        alertRequest={alertRequest}
+        closeBottomSheet={closeBottomSheet}
+      />
+    </>
   );
 };
 

@@ -1,6 +1,5 @@
 'use client';
 
-import Badge from '@/components/badge/Badge';
 import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
 import { useFormContext } from 'react-hook-form';
 import { dateString } from '@/utils/dateString.util';
@@ -148,77 +147,94 @@ const Hub = ({
         type="button"
         onClick={onClick}
         disabled={isAllSoldOut}
-        className="flex w-full flex-col gap-12 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100"
+        className="flex w-full flex-col gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left active:bg-basic-grey-100"
       >
         {toDestinationExists && (
           <div
-            className={`flex h-[31px] w-full items-center gap-8 ${
+            className={`flex w-full items-center gap-8 ${
               isToDestinationSoldOut && 'pr-124'
             }`}
           >
-            <Badge className="bg-basic-white text-basic-grey-700">
-              행사장행
-            </Badge>
-            <div className="flex-1 text-14 font-500 text-basic-grey-700">
-              {toDestinationArrivalTime} 도착
-            </div>
-            {!isToDestinationSoldOut && (
-              <div className="shrink-0 text-14 font-500 text-basic-grey-500">
-                {hubWithInfo.remainingSeat.TO_DESTINATION >
-                DANGER_SEAT_THRESHOLD ? (
-                  <span className="text-basic-grey-500">여유</span>
-                ) : (
-                  <span className="text-basic-red-400">
-                    {hubWithInfo.remainingSeat.TO_DESTINATION}석 남음
+            <div className="flex flex-col items-start gap-[2px]">
+              <div className="flex items-center gap-8">
+                <span
+                  className={`text-14 font-600 leading-[160%]  ${isToDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+                >
+                  행사장행
+                </span>
+                {isToDestinationSoldOut && (
+                  <span className="text-12 font-500 leading-[160%] text-basic-grey-600">
+                    매진
                   </span>
                 )}
+                {!isToDestinationSoldOut &&
+                  hubWithInfo.remainingSeat.TO_DESTINATION <=
+                    DANGER_SEAT_THRESHOLD && (
+                    <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+                      매진 임박
+                    </span>
+                  )}
               </div>
-            )}
+              <div
+                className={`flex-1 text-12 font-500 leading-[160%] ${isToDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+              >
+                {toDestinationArrivalTime} 도착
+              </div>
+            </div>
           </div>
+        )}
+        {toDestinationExists && fromDestinationExists && (
+          <div className="h-1 w-full border border-basic-grey-100" />
         )}
         {fromDestinationExists && (
           <div
-            className={`flex h-[31px] w-full items-center gap-8 ${
+            className={`flex w-full items-center gap-8 ${
               isFromDestinationSoldOut && 'pr-124'
             }`}
           >
-            <Badge className="bg-basic-grey-200 text-basic-grey-700">
-              귀가행
-            </Badge>
-            <div className="flex-1 text-14 font-500 text-basic-grey-700">
-              {fromDestinationDepartureTime} 출발
-            </div>
-            {!isFromDestinationSoldOut && (
-              <div className="shrink-0 text-14 font-500 text-basic-grey-500">
-                {hubWithInfo.remainingSeat.FROM_DESTINATION >
-                DANGER_SEAT_THRESHOLD ? (
-                  <span className="text-basic-grey-500">여유</span>
-                ) : (
-                  <span className="text-basic-red-400">
-                    {hubWithInfo.remainingSeat.FROM_DESTINATION}석 남음
+            <div className="flex flex-col items-start gap-[2px]">
+              <div className="flex items-center gap-8">
+                <span
+                  className={`text-14 font-600 leading-[160%]  ${isFromDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+                >
+                  귀가행
+                </span>
+                {isFromDestinationSoldOut && (
+                  <span className="text-12 font-500 leading-[160%] text-basic-grey-600">
+                    매진
                   </span>
                 )}
+                {!isFromDestinationSoldOut &&
+                  hubWithInfo.remainingSeat.FROM_DESTINATION <=
+                    DANGER_SEAT_THRESHOLD && (
+                    <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+                      매진 임박
+                    </span>
+                  )}
               </div>
-            )}
+              <div
+                className={`flex-1 text-12 font-500 leading-[160%] ${isFromDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+              >
+                {fromDestinationDepartureTime} 출발
+              </div>
+            </div>
           </div>
         )}
       </button>
       {isToDestinationSoldOut && (
-        <div className="absolute right-16 top-16 flex items-center gap-8">
+        <div className="absolute right-16 top-20 flex items-center gap-8">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hubWithInfo}
           />
-          <span className="text-14 font-500 text-basic-grey-500">매진</span>
         </div>
       )}
       {isFromDestinationSoldOut && (
-        <div className="absolute bottom-16 right-16 flex items-center gap-8">
+        <div className="absolute bottom-20 right-16 flex items-center gap-8">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}
             hubWithInfo={hubWithInfo}
           />
-          <span className="text-14 font-500 text-basic-grey-500">매진</span>
         </div>
       )}
     </div>

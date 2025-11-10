@@ -41,7 +41,7 @@ const ReservationTripTypeStep = ({
   };
 
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-16">
       {TripTypeEnum.options.map((tripType) => {
         const remainingSeatCount = remainingSeat[tripType];
         const price = priceOfTripType?.[tripType];
@@ -57,11 +57,29 @@ const ReservationTripTypeStep = ({
               type="button"
               disabled={isSoldOut}
               onClick={() => handleTripTypeClick(tripType)}
-              className="group flex w-full items-center justify-between gap-8 py-12"
+              className="group flex w-full items-center justify-between gap-8"
             >
-              <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-                {TRIP_STATUS_TO_STRING[tripType]}
-              </span>
+              <div className="flex flex-col items-start gap-[2px]">
+                <span className="text-16 font-600 leading-[160%] text-basic-grey-700 group-disabled:text-basic-grey-300">
+                  {TRIP_STATUS_TO_STRING[tripType]}
+                </span>
+                {remainingSeatCount > DANGER_SEAT_THRESHOLD && (
+                  <span className="text-12 font-500 leading-[160%] text-basic-grey-500">
+                    좌석 여유
+                  </span>
+                )}
+                {remainingSeatCount <= DANGER_SEAT_THRESHOLD &&
+                  remainingSeatCount > 0 && (
+                    <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+                      {remainingSeatCount}석 남음
+                    </span>
+                  )}
+                {isSoldOut && (
+                  <span className="text-12 font-600 leading-[160%] text-basic-grey-500">
+                    매진
+                  </span>
+                )}
+              </div>
               {!isSoldOut && (
                 <SeatText
                   remainingSeatCount={remainingSeatCount}
@@ -77,9 +95,6 @@ const ReservationTripTypeStep = ({
                   toStep={toExtraSeatAlarmStep}
                   hubWithInfo={selectedHubWithInfo}
                 />
-                <span className="text-14 font-600 text-basic-grey-500">
-                  매진
-                </span>
               </div>
             )}
           </div>
@@ -108,30 +123,21 @@ const SeatText = ({
     return null;
   }
   return (
-    <div className="flex items-center gap-8">
-      {remainingSeatCount > DANGER_SEAT_THRESHOLD ? (
-        <span className="text-14 font-500 text-basic-grey-500">여유</span>
-      ) : (
-        <span className="text-14 font-500 text-basic-red-400">
-          {remainingSeatCount}석 남음
-        </span>
-      )}
-      <div className="flex items-center gap-4">
-        {isEarlybird ? (
-          <>
-            <span className="text-12 font-600 text-basic-grey-300 line-through">
-              {regularPrice.toLocaleString()}원
-            </span>
-            <span className="text-16 font-600 text-basic-grey-700">
-              {earlybirdPrice?.toLocaleString()}원
-            </span>
-          </>
-        ) : (
-          <span className="text-16 font-600 text-basic-grey-700">
+    <div className="flex items-center gap-4">
+      {isEarlybird ? (
+        <>
+          <span className="text-12 font-600 text-basic-grey-300 line-through">
             {regularPrice.toLocaleString()}원
           </span>
-        )}
-      </div>
+          <span className="text-16 font-600 text-basic-grey-700">
+            {earlybirdPrice?.toLocaleString()}원
+          </span>
+        </>
+      ) : (
+        <span className="text-16 font-600 text-basic-grey-700">
+          {regularPrice.toLocaleString()}원
+        </span>
+      )}
     </div>
   );
 };

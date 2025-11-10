@@ -23,6 +23,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { getIsAppFromUserAgent } from '@/utils/environment.util';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' | 'apple' };
@@ -36,6 +37,29 @@ const OAuth = ({ params, searchParams }: Props) => {
   usePreventScroll();
 
   const handleOAuth = async () => {
+    const isAppFromState =
+      searchParams?.state && searchParams.state.toLowerCase().includes('app');
+    const isAppFromEnvironment = getIsAppFromUserAgent();
+
+    if (isAppFromState && !isAppFromEnvironment) {
+      let deepLinkUrl = `handybus://?path=/auth/login/${params.oauth}`;
+      if (searchParams.code) {
+        deepLinkUrl += `&code=${encodeURIComponent(searchParams.code)}`;
+      }
+      if (searchParams?.state) {
+        deepLinkUrl += `&state=${encodeURIComponent(searchParams.state)}`;
+      }
+
+      const link = document.createElement('a');
+      link.href = deepLinkUrl;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      return;
+    }
+
     try {
       const tokens = await postLogin(params.oauth, {
         code: searchParams.code,

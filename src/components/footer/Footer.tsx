@@ -1,8 +1,11 @@
+'use client';
+
 import LogoIcon from 'public/icons/logo.svg';
 import TwitterXIcon from 'public/icons/twitter-x.svg';
 import InstagramIcon from 'public/icons/instagram.svg';
 import NaverBlogIcon from 'public/icons/naver-blog.svg';
 import Link from 'next/link';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 const Footer = () => {
   return (
@@ -10,27 +13,32 @@ const Footer = () => {
       <div className="flex justify-between">
         <LogoIcon fill="#808080" width="106" height="23" viewBox="0 0 83 18" />
         <div className="flex gap-16">
-          <a
-            href="https://www.instagram.com/handy.bus/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() =>
+              handleExternalLink('https://www.instagram.com/handy.bus/')
+            }
           >
             <InstagramIcon />
-          </a>
-          <a
-            href="https://x.com/Handy_Bus?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
-            target="_blank"
-            rel="noopener noreferrer"
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              handleExternalLink(
+                'https://x.com/Handy_Bus?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor',
+              )
+            }
           >
             <TwitterXIcon />
-          </a>
-          <a
-            href="https://blog.naver.com/handy_bus"
-            target="_blank"
-            rel="noopener noreferrer"
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              handleExternalLink('https://blog.naver.com/handy_bus')
+            }
           >
             <NaverBlogIcon />
-          </a>
+          </button>
         </div>
       </div>
       <div className="flex gap-8 text-12 font-600 text-basic-grey-600">
@@ -38,7 +46,7 @@ const Footer = () => {
         <span className="font-400"> | </span>
         <Link href="/help/faq/terms-of-service">이용약관</Link>
         <span className="font-400"> | </span>
-        <Link href="/help/faq/privacy-policy">개인정보 처리 방침</Link>
+        <Link href="/help/faq/privacy-policy">개인정보처리방침</Link>
         <span className="font-400"> | </span>
         <Link href="/help/faq/marketing-consent">마케팅 활용 동의</Link>
       </div>

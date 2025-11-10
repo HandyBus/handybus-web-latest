@@ -119,3 +119,18 @@ export const removeReservationDetailFirstVisitModalSeen = (
     `${RESERVATION_DETAIL_FIRST_VISIT_MODAL_SEEN}-${reservationId}`,
   );
 };
+
+// 앱 출시 기념 이벤트의 앱 진입 시 띄워지는 모달
+export const APP_LAUNCH_EVENT_COUPON_DOWNLOAD_MODAL_SEEN =
+  'app-launch-event-coupon-download-modal-seen';
+export const setAppLaunchEventCouponDownloadModalSeen = () => {
+  localStorage.setItem(APP_LAUNCH_EVENT_COUPON_DOWNLOAD_MODAL_SEEN, '1');
+};
+export const getAppLaunchEventCouponDownloadModalSeen = () => {
+  return Boolean(
+    localStorage.getItem(APP_LAUNCH_EVENT_COUPON_DOWNLOAD_MODAL_SEEN),
+  );
+};
+export const removeAppLaunchEventCouponDownloadModalSeen = () => {
+  localStorage.removeItem(APP_LAUNCH_EVENT_COUPON_DOWNLOAD_MODAL_SEEN);
+};

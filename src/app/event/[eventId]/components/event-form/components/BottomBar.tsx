@@ -8,21 +8,22 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
+import useAppShare from '@/hooks/webview/useAppShare';
 
 interface Props {
   eventId: string;
+  eventName: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
-  openShareBottomSheet: () => void;
 }
 
 const BottomBar = ({
   eventId,
+  eventName,
   phase,
   enabledStatus,
   onClick,
-  openShareBottomSheet,
 }: Props) => {
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
@@ -38,6 +39,17 @@ const BottomBar = ({
     onClick();
   };
 
+  const share = useAppShare();
+  const handleShare = () => {
+    share({
+      title: `${eventName} 셔틀`,
+      message: `${eventName}까지 편리하게 이동하기!`,
+      url: window.location.href,
+    });
+  };
+
+  const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
+
   return (
     <>
       <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
@@ -45,12 +57,12 @@ const BottomBar = ({
           variant="secondary"
           size="medium"
           type="button"
-          onClick={openShareBottomSheet}
+          onClick={handleShare}
         >
           공유하기
         </Button>
         <Button
-          variant="primary"
+          variant={isDemandDisabled ? 'tertiary' : 'primary'}
           size="large"
           type="button"
           onClick={handleClick}
@@ -82,6 +94,6 @@ const BUTTON_TEXT = {
   reservation: { enabled: '예약 가능한 셔틀 보기', disabled: '예약 마감' },
   demand: {
     enabled: '수요조사 참여하기',
-    disabled: '신청 인원이 부족한 행사에요',
+    disabled: '인원 부족으로 열리지 않았어요',
   },
 };

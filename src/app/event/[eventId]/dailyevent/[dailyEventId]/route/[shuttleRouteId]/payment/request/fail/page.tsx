@@ -40,7 +40,7 @@ const Page = ({ searchParams }: Props) => {
           <FailBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href="/">
+          <Link href="/" replace={true}>
             <Button>돌아가기</Button>
           </Link>
           <button
@@ -69,7 +69,7 @@ const Page = ({ searchParams }: Props) => {
         <FailBusIcon />
       </section>
       <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-        <Link href="/">
+        <Link href="/" replace={true}>
           <Button>돌아가기</Button>
         </Link>
         <Button

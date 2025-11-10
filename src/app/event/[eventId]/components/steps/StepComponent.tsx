@@ -10,17 +10,19 @@ import ExtraSidoInfoStep from './extra-steps/ExtraSidoInfoStep';
 import ExtraOpenSidoStep from './extra-steps/ExtraOpenSidoStep';
 import ExtraDuplicateHubStep from './extra-steps/ExtraDuplicateHubStep';
 import ExtraSeatAlarmStep from './extra-steps/ExtraSeatAlarmStep';
-import ExtraHubsInRouteStep from './extra-steps/ExtraHubsInRouteStep';
 import { EventPhase } from '@/utils/event.util';
 import { EVENT_STEPS } from '../../form.const';
 import { ReactNode } from 'react';
 import { DemandCompleteStatus } from '../demand-complete-screen/DemandCompleteScreen';
 import ExtraSelectProductStep from './extra-steps/ExtraSelectProductStep';
 import ExtraRealNameInputStep from './extra-steps/ExtraRealNameInputStep';
+import HandyPartyTripTypeStep from './handy-party-steps/HandyPartyTripTypeStep';
+import HandyPartySiGunGuStep from './handy-party-steps/HandyPartySiGunGuStep';
 
 interface Props {
   stepName: (typeof EVENT_STEPS)[number];
   setHistoryAndStep: (step: (typeof EVENT_STEPS)[number]) => void;
+  handleBack: () => void;
   closeBottomSheet: () => void;
   setDemandCompleteStatus: (status: DemandCompleteStatus) => void;
   updateUserDemands: () => void;
@@ -33,12 +35,12 @@ interface Props {
     eventDate: string,
   ) => void;
   setDemandCount: (count: number) => void;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
 const StepComponent = ({
   stepName,
   setHistoryAndStep,
+  handleBack,
   closeBottomSheet,
   setDemandCompleteStatus,
   updateUserDemands,
@@ -47,7 +49,6 @@ const StepComponent = ({
   phase,
   trackCompleteDemand,
   setDemandCount,
-  isNoDemandRewardCouponEvent,
 }: Props) => {
   const stepComponents: Record<(typeof EVENT_STEPS)[number], ReactNode> = {
     // 공통
@@ -91,7 +92,6 @@ const StepComponent = ({
         setDemandCompleteStatus={setDemandCompleteStatus}
         updateUserDemands={updateUserDemands}
         trackCompleteDemand={trackCompleteDemand}
-        isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
       />
     ),
     // 예약
@@ -116,6 +116,20 @@ const StepComponent = ({
         toExtraRealNameInputStep={() => setHistoryAndStep('[기타] 이름 입력')}
       />
     ),
+    // 핸디팟
+    '[핸디팟] 방향 선택': (
+      <HandyPartyTripTypeStep
+        toHandyPartySiGunGuStep={() => {
+          setHistoryAndStep('[핸디팟] 시/군/구 선택');
+        }}
+      />
+    ),
+    '[핸디팟] 시/군/구 선택': (
+      <HandyPartySiGunGuStep
+        closeBottomSheet={closeBottomSheet}
+        handleBack={handleBack}
+      />
+    ),
     // 기타
     '[기타] 시/도 정보': (
       <ExtraSidoInfoStep
@@ -138,19 +152,15 @@ const StepComponent = ({
     ),
     '[기타] 빈자리 알림': (
       <ExtraSeatAlarmStep
-        toExtraHubsInRouteStep={() =>
-          setHistoryAndStep('[기타] 노선 내 정류장')
-        }
         closeBottomSheet={closeBottomSheet}
         updateUserAlertRequests={updateUserAlertRequests}
         openAlertRequestFeedbackScreen={openAlertRequestFeedbackScreen}
       />
     ),
-    '[기타] 노선 내 정류장': <ExtraHubsInRouteStep />,
     '[기타] 상품 선택': (
       <ExtraSelectProductStep
         toReservationHubsStep={() => setHistoryAndStep('[예약] 정류장 선택')}
-        closeBottomSheet={closeBottomSheet}
+        toHandyPartyTripTypeStep={() => setHistoryAndStep('[핸디팟] 방향 선택')}
       />
     ),
     '[기타] 이름 입력': (

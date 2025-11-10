@@ -12,30 +12,24 @@ export type DemandCompleteStatus =
 
 interface Props {
   status: DemandCompleteStatus;
+  eventName: string;
   setDemandCompleteStatus: (status: DemandCompleteStatus | null) => void;
   demandCount?: number;
-  openShareBottomSheet?: () => void;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
 const DemandCompleteScreen = ({
   status,
+  eventName,
   setDemandCompleteStatus,
   demandCount,
-  openShareBottomSheet,
-  isNoDemandRewardCouponEvent,
 }: Props) => {
   switch (status) {
     case 'success':
-      if (!openShareBottomSheet) {
-        return null;
-      }
       return (
         <SuccessScreen
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
-          openShareBottomSheet={openShareBottomSheet}
-          isNoDemandRewardCouponEvent={isNoDemandRewardCouponEvent}
+          eventName={eventName}
         />
       );
     case 'fail':

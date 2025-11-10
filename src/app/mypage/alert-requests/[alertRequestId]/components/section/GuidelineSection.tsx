@@ -3,20 +3,18 @@ import Guideline from '@/components/guidelines/Guideline';
 
 const GuidelineSection = () => {
   return (
-    <Accordion title="꼭 알아두세요" containerClassName="bg-basic-grey-50">
-      <section className="py-16">
-        <h6 className="mb-8 text-18 font-600">수요조사</h6>
-        <Guideline type="수요조사" />
-      </section>
-      <section className="py-16">
-        <h6 className="mb-8 text-18 font-600">주요 참고사항</h6>
-        <Guideline type="주요 참고사항" />
-      </section>
-      <section className="py-16">
-        <h6 className="mb-8 text-18 font-600">상품별 유의사항</h6>
-        <Guideline type="상품별 유의사항" />
-      </section>
-    </Accordion>
+    <section>
+      <Accordion title="주요 참고사항" containerClassName="bg-basic-grey-50">
+        <div className="pb-16">
+          <Guideline type="주요 참고사항" />
+        </div>
+      </Accordion>
+      <Accordion title="상품별 유의사항" containerClassName="bg-basic-grey-50">
+        <div className="pb-16">
+          <Guideline type="상품별 유의사항" />
+        </div>
+      </Accordion>
+    </section>
   );
 };
 

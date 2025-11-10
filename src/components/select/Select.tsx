@@ -87,7 +87,7 @@ const Select = <T,>({
       >
         <div
           ref={contentRef}
-          className="relative h-full w-full overflow-y-auto overflow-x-hidden bg-basic-white"
+          className="relative h-full w-full overflow-y-auto overflow-x-hidden bg-basic-white scrollbar-hidden"
         >
           <section className="flex flex-col">
             {sortedOptions?.length === 0 ? (

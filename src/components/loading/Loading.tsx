@@ -1,4 +1,3 @@
-import { BeatLoader } from 'react-spinners';
 import { customTwMerge } from 'tailwind.config';
 
 interface Props {
@@ -6,7 +5,7 @@ interface Props {
   className?: string;
 }
 
-const Loading = ({ style = 'screen', className }: Props) => {
+const Loading = ({ style = 'grow', className }: Props) => {
   return (
     <div
       className={customTwMerge(
@@ -14,9 +13,18 @@ const Loading = ({ style = 'screen', className }: Props) => {
         className,
       )}
     >
-      <BeatLoader color="#9edbcc" />
+      <Spinner />
     </div>
   );
 };
 
 export default Loading;
+
+const Spinner = () => {
+  return (
+    <div className="relative h-48 w-48">
+      <div className="absolute inset-0 rounded-full border-[6px] border-basic-grey-100" />
+      <div className="absolute inset-0 animate-spin rounded-full border-[6px] border-transparent border-t-brand-primary-300" />
+    </div>
+  );
+};

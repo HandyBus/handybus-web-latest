@@ -8,22 +8,21 @@ import {
 } from '../../../store/dailyEventIdsWithHubsAtom';
 import { useAtomValue } from 'jotai';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import dayjs from 'dayjs';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import HandyPartyIcon from '../../../icons/handy-party.svg';
 import ShuttleBusIcon from '../../../icons/shuttle-bus.svg';
-import HandyPartyModal from '../../handy-party/HandyPartyModal';
 
 interface Props {
   toReservationHubsStep: () => void;
-  closeBottomSheet: () => void;
+  toHandyPartyTripTypeStep: () => void;
 }
 
 const ExtraSelectProductStep = ({
   toReservationHubsStep,
-  closeBottomSheet,
+  toHandyPartyTripTypeStep,
 }: Props) => {
   const { getValues } = useFormContext<EventFormValues>();
 
@@ -35,7 +34,6 @@ const ExtraSelectProductStep = ({
     isShuttleBusAvailable,
     handyPartyMinPrice,
     shuttleBusMinPrice,
-    handyPartyRoutes,
   } = useMemo(() => {
     if (!dailyEventIdsWithHubs) {
       return {
@@ -43,7 +41,6 @@ const ExtraSelectProductStep = ({
         isShuttleBusAvailable: false,
         handyPartyMinPrice: undefined,
         shuttleBusMinPrice: undefined,
-        handyPartyRoutes: [],
       };
     }
 
@@ -54,10 +51,6 @@ const ExtraSelectProductStep = ({
     ]);
 
     const routes = dailyEventIdsWithRoutes?.[dailyEvent.dailyEventId];
-
-    const handyPartyRoutes = routes.filter((route) =>
-      route.name.includes(HANDY_PARTY_PREFIX),
-    );
 
     const prioritySido = openSido ?? sido;
     const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
@@ -84,68 +77,62 @@ const ExtraSelectProductStep = ({
       isShuttleBusAvailable,
       handyPartyMinPrice,
       shuttleBusMinPrice,
-      handyPartyRoutes,
     };
   }, [getValues, dailyEventIdsWithHubs, dailyEventIdsWithRoutes]);
 
-  const [isHandyPartyModalOpen, setIsHandyPartyModalOpen] = useState(false);
-
   return (
-    <>
-      {isHandyPartyModalOpen && (
-        <HandyPartyModal
-          closeModal={() => setIsHandyPartyModalOpen(false)}
-          closeBottomSheet={closeBottomSheet}
-          handyPartyRoutes={handyPartyRoutes}
-        />
-      )}
-      <section className="flex gap-8">
-        <button
-          onClick={() => setIsHandyPartyModalOpen(true)}
-          type="button"
-          className="flex flex-1 flex-col gap-20 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100 disabled:opacity-70"
-          disabled={!isHandyPartyAvailable}
-        >
-          <HandyPartyIcon />
-          <div>
-            <h5 className="text-18 font-600 leading-[160%]">
-              핸디팟 (집앞하차)
-            </h5>
-            <h6 className="text-18 font-600 leading-[160%]">
-              {handyPartyMinPrice?.toLocaleString()}~
-            </h6>
-            <p className="text-14 font-500 text-basic-grey-700">
-              5인 전용 소규모 셔틀
-            </p>
+    <section className="flex flex-col gap-8">
+      <button
+        onClick={toHandyPartyTripTypeStep}
+        type="button"
+        className="flex flex-1 flex-col gap-8 rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100 disabled:opacity-70"
+        disabled={!isHandyPartyAvailable}
+      >
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center gap-8">
+            <div className="group-disabled:opacity-40">
+              <HandyPartyIcon />
+            </div>
+            <h5 className="text-18 font-600 leading-[160%]">핸디팟</h5>
           </div>
-        </button>
-        <button
-          onClick={toReservationHubsStep}
-          type="button"
-          className="group relative flex flex-1 flex-col gap-20 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left active:bg-basic-grey-100"
-          disabled={!isShuttleBusAvailable}
-        >
-          <div className="relative group-disabled:opacity-40">
-            <ShuttleBusIcon />
-          </div>
-          <div>
+          <h6 className="text-18 font-600 leading-[160%]">
+            {handyPartyMinPrice?.toLocaleString()}~
+          </h6>
+        </div>
+        <p className="text-14 font-500 text-basic-grey-700">
+          5인용 소규모셔틀로, 직접 입력한 목적지에서 이용해요.
+        </p>
+      </button>
+      <button
+        onClick={toReservationHubsStep}
+        type="button"
+        className="group relative flex flex-1 flex-col gap-8 overflow-hidden rounded-8 bg-basic-grey-50 p-16 text-left enabled:active:bg-basic-grey-100"
+        disabled={!isShuttleBusAvailable}
+      >
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center gap-8">
+            <div className="group-disabled:opacity-40">
+              <ShuttleBusIcon />
+            </div>
             <h5 className="text-18 font-600 leading-[160%] group-disabled:opacity-40">
               셔틀버스
             </h5>
-            {isShuttleBusAvailable && (
-              <h6 className="text-18 font-600 leading-[160%] group-disabled:opacity-40">
-                {shuttleBusMinPrice?.toLocaleString()}~
-              </h6>
-            )}
-            <p className="text-14 font-500 text-basic-grey-700 group-disabled:opacity-40">
-              {isShuttleBusAvailable
-                ? '수요 맞춤 대형버스'
-                : '수요조사 인원 미달로 개설되지 않았어요.'}
-            </p>
           </div>
-        </button>
-      </section>
-    </>
+          {isShuttleBusAvailable && (
+            <h6 className="text-18 font-600 leading-[160%] group-disabled:opacity-40">
+              {shuttleBusMinPrice?.toLocaleString()}~
+            </h6>
+          )}
+        </div>
+        <div>
+          <p className="text-14 font-500 text-basic-grey-700 group-disabled:opacity-40">
+            {isShuttleBusAvailable
+              ? '수요 맞춤 대형버스'
+              : '수요조사 인원 미달로 개설되지 않았어요.'}
+          </p>
+        </div>
+      </button>
+    </section>
   );
 };
 

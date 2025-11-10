@@ -4,21 +4,22 @@ import OnboardingFrame from '@/components/onboarding-contents/OnboardingFrame';
 import PhoneNumberContent from '@/components/onboarding-contents/PhoneNumberContent';
 import * as PortOne from '@portone/browser-sdk/v2';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
 import { useFormContext } from 'react-hook-form';
 import { OnboardingFormValues } from '@/components/onboarding-contents/onboarding.type';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { useState } from 'react';
 import CheckedIcon from '../../icons/checked.svg';
 import UncheckedIcon from '../../icons/unchecked.svg';
+import CloseIcon from '../../icons/close.svg';
 import PrivacyPolicyBottomSheet from '../PrivacyPolicyBottomSheet';
 import ServicePolicyBottomSheet from '../ServicePolicyBottomSheet';
+import { useRouter } from 'next/navigation';
 
 const PhoneNumberStep = () => {
   const router = useRouter();
   const { getValues } = useFormContext<OnboardingFormValues>();
 
-  const handlePhoneNumberValidation = async () => {
+  const handlePhoneNumberVerification = async () => {
     const redirectUrl =
       process.env.NEXT_PUBLIC_PORTONE_IDENTITY_VERIFICATION_REDIRECT_URI;
     const storeId = process.env.NEXT_PUBLIC_PORTONE_STORE_ID;
@@ -75,6 +76,14 @@ const PhoneNumberStep = () => {
   return (
     <>
       <OnboardingFrame>
+        <div className="mx-16 my-12 flex h-56 items-center gap-8">
+          <button type="button" onClick={() => router.replace('/login')}>
+            <CloseIcon />
+          </button>
+          <h1 className="text-18 font-700 leading-[140%] text-basic-black">
+            회원가입
+          </h1>
+        </div>
         <PhoneNumberContent
           title={
             <>
@@ -83,7 +92,7 @@ const PhoneNumberStep = () => {
               본인 인증을 진행할게요
             </>
           }
-          handleNextStep={handlePhoneNumberValidation}
+          handleNextStep={handlePhoneNumberVerification}
           disabled={!isAgreementChecked}
         />
         <div className="mt-auto flex items-center justify-center gap-4 pb-20">

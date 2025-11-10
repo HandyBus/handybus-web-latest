@@ -1,6 +1,5 @@
 'use client';
 
-import CardSection from './CardSection';
 import TrendEventsSwiperView from './TrendEventsSwiperView';
 import { EventsViewEntity } from '@/types/event.type';
 
@@ -16,14 +15,12 @@ const TrendEventCard = ({ events }: Props) => {
       : events.slice(0, MIN_EVENTS_COUNT);
 
   return (
-    <section>
-      <CardSection richTitle="실시간 인기 셔틀">
-        {slicedEvents ? (
-          <TrendEventsSwiperView events={slicedEvents} />
-        ) : (
-          <EmptyView />
-        )}
-      </CardSection>
+    <section className="h-[333px]">
+      {slicedEvents ? (
+        <TrendEventsSwiperView events={slicedEvents} />
+      ) : (
+        <EmptyView />
+      )}
     </section>
   );
 };

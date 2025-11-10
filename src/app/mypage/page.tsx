@@ -7,6 +7,7 @@ import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { useGetUser } from '@/services/user.service';
 import Header from '@/components/header/Header';
+import NavBar from '@/components/nav-bar/NavBar';
 
 const MyPage = () => {
   const { data: user, isLoading: isLoadingUser } = useGetUser();
@@ -17,16 +18,14 @@ const MyPage = () => {
       <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
-          <main>
-            <Profile
-              name={user.name || user.nickname || ''}
-              profileImage={user.profileImage || ''}
-            />
+          <main className="grow pb-48">
+            <Profile user={user} />
             <Activity />
             <Settings />
           </main>
         )}
       </DeferredSuspense>
+      <NavBar />
     </>
   );
 };

@@ -1,11 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Header from '@/components/header/Header';
 import { useGetUserAlertRequest } from '@/services/alertRequest.service';
 import Content from './components/Content';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -20,7 +20,7 @@ const Page = ({ params }: Props) => {
     data: alertRequest,
     isLoading,
     isSuccess,
-  } = useGetUserAlertRequest(alertRequestId); // shuttleRoute가 안온다!!!
+  } = useGetUserAlertRequest(alertRequestId);
 
   if (isSuccess && !alertRequest) {
     router.replace('/mypage/alert-requests');

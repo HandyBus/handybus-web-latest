@@ -1,35 +1,31 @@
 import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
+import OngoingDemandPeriodImage from './images/ongoing-demand-period.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
-import FestivalLifeImage from './images/festival-life.png';
-
-const FESTIVAL_LIFE_EVENT_ID = '599556266024506824';
-export const MUSE_EVENT_ID = '612882322705879531';
+import { getPhaseAndEnabledStatus } from '@/utils/event.util';
+import { EventsViewEntity } from '@/types/event.type';
 
 interface Props {
-  eventId: string;
+  event: EventsViewEntity;
   eventDetailImageUrl: string | null;
 }
 
-const EventOverview = ({ eventId, eventDetailImageUrl }: Props) => {
-  const showFestivalLife = eventId === FESTIVAL_LIFE_EVENT_ID;
-
+const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
+  const { phase } = getPhaseAndEnabledStatus(event);
   return (
     <section className="relative w-full">
-      {showFestivalLife && (
-        <div className="relative w-full">
+      <div className="relative w-full">
+        {phase === 'demand' && (
           <Image
-            src={FestivalLifeImage}
-            alt="행사 상세 이미지"
+            src={OngoingDemandPeriodImage}
+            alt="수요조사 기간 안내 이미지"
             width={0}
             height={0}
             sizes="100vw"
             className="h-auto w-full"
           />
-        </div>
-      )}
-      <div className="relative w-full">
+        )}
         <Image
           src={eventDetailImageUrl || OverviewImage}
           alt="행사 상세 이미지"

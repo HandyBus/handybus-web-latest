@@ -1,49 +1,79 @@
+'use client';
+
+import { useGetUserAlertRequestsWithPagination } from '@/services/alertRequest.service';
+import { useGetUserReservations } from '@/services/reservation.service';
+import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import Link from 'next/link';
-import { ReactNode } from 'react';
-import CalendarIcon from '../icons/calendar.svg';
-import ListIcon from '../icons/list.svg';
-import ReviewIcon from '../icons/review.svg';
+import { useMemo } from 'react';
+import { customTwMerge } from 'tailwind.config';
 
 const Activity = () => {
+  const reservations = useGetUserReservations({
+    reservationStatus: 'COMPLETE_PAYMENT',
+    monthsAgo: 3,
+  });
+  const seatAlarms = useGetUserAlertRequestsWithPagination();
+  const writableReviewCount = useMemo(() => {
+    if (!reservations.data) {
+      return null;
+    }
+
+    const count = reservations.data.filter((reservation) => {
+      const isReviewAvailable = !!reservation.reviewId;
+      if (isReviewAvailable) {
+        return false;
+      }
+      const { isReviewWritingPeriod } = checkIsReviewWritingPeriod(reservation);
+      if (!isReviewWritingPeriod) {
+        return false;
+      }
+      return true;
+    }).length;
+
+    return count;
+  }, [reservations.data]);
+
+  const writableSeatAlarmCount = useMemo(() => {
+    if (!seatAlarms.data) {
+      return null;
+    }
+    return seatAlarms.data.pages.flatMap(
+      (page) => page.shuttleRouteAlertRequests,
+    ).length;
+  }, [seatAlarms.data]);
+
   return (
-    <section className="mx-16 mb-32 flex h-96 items-center rounded-6 bg-basic-grey-50">
-      <BoxButton
-        title="수요조사 내역"
-        icon={<ListIcon />}
-        href="/mypage/shuttle?type=demand"
-      />
-      <Divider />
-      <BoxButton
-        title="예약 내역"
-        icon={<CalendarIcon />}
-        href="/mypage/shuttle?type=reservation"
-      />
-      <Divider />
-      <BoxButton title="후기" icon={<ReviewIcon />} href="/mypage/reviews" />
+    <section className="mx-16 mb-24 mt-12 flex gap-12">
+      <Link
+        href="/mypage/reviews"
+        className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 active:bg-basic-grey-50"
+      >
+        <h3 className="text-16 font-600">작성 가능 후기</h3>
+        <div
+          className={customTwMerge(
+            'absolute bottom-8 right-16 h-[30px] text-22 font-600',
+            writableReviewCount === 0 && 'text-basic-grey-400',
+          )}
+        >
+          {writableReviewCount}
+        </div>
+      </Link>
+      <Link
+        href="/mypage/alert-requests"
+        className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 active:bg-basic-grey-50"
+      >
+        <h3 className="text-16 font-600">빈자리 알림</h3>
+        <div
+          className={customTwMerge(
+            'absolute bottom-8 right-16 h-[30px] text-22 font-600',
+            writableSeatAlarmCount === 0 && 'text-basic-grey-400',
+          )}
+        >
+          {writableSeatAlarmCount}
+        </div>
+      </Link>
     </section>
   );
 };
 
 export default Activity;
-
-interface BoxButtonProps {
-  title: string;
-  icon: ReactNode;
-  href: string;
-}
-
-const BoxButton = ({ title, icon, href }: BoxButtonProps) => {
-  return (
-    <Link
-      href={href}
-      className="flex flex-1 flex-col items-center justify-center gap-[6px]"
-    >
-      {icon}
-      <span className="text-14 font-500">{title}</span>
-    </Link>
-  );
-};
-
-const Divider = () => {
-  return <div className="h-40 w-[1px] bg-basic-grey-200" />;
-};

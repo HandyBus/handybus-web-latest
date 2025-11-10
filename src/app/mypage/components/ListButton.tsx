@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import ArrowRightIcon from '../icons/arrow-right.svg';
+import ArrowRightIcon from 'public/icons/arrow-right.svg';
 import { ReactNode } from 'react';
 import { customTwMerge } from 'tailwind.config';
 

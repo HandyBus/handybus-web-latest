@@ -4,13 +4,7 @@ import { EventsViewEntitySchema } from './event.type';
 
 //  ----- ENUM -----
 
-export const ShuttleDemandStatusEnum = z.enum([
-  'OPEN', // 수요조사가 아직 모집 중인 상태
-  'CLOSED', // 수요조사 모집 종료
-  'FULFILLED', // 노선 예약 완료
-  'ENDED', // 행사가 끝나 셔틀 운행 종료
-  'INACTIVE', // 비활성 상태
-]);
+export const ShuttleDemandStatusEnum = z.enum(['SUBMITTED', 'CANCELLED']);
 export type ShuttleDemandStatus = z.infer<typeof ShuttleDemandStatusEnum>;
 
 //  ----- GET -----
@@ -20,6 +14,8 @@ export const ShuttleDemandsViewEntitySchema = z
     shuttleDemandId: z.string(),
     userId: z.string(),
     userNickname: z.string(),
+    userName: z.string(),
+    userPhoneNumber: z.string(),
     userProfileImage: z.string().nullable(),
     event: z.lazy(() => EventsViewEntitySchema),
     eventId: z.string(),
@@ -48,7 +44,9 @@ export const ShuttleDemandsViewEntitySchema = z
     type: TripTypeEnum,
     passengerCount: z.number(),
     status: ShuttleDemandStatusEnum,
-    hasShuttleRoute: z.boolean(),
+    hasShuttleRoute: z.boolean(), // 수요조사 한 정류장에 셔틀 노선이 있는지 여부
+    hasShuttleRouteInRelatedRegion: z.boolean(), // 수요조사 한 정류장을 포함하여 인접한 정류장에 셔틀 노선이 있는지 여부
+    isFulfilled: z.boolean(), //수요조사 한 행사 예약 여부
     demandCountOnRegion: z.number(),
     createdAt: z.string(),
     updatedAt: z.string(),

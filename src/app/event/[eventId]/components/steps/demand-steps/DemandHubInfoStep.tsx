@@ -8,12 +8,9 @@ import { usePostDemand } from '@/services/demand.service';
 import { eventAtom } from '../../../store/eventAtom';
 import { useAtomValue } from 'jotai';
 import { DemandCompleteStatus } from '../../demand-complete-screen/DemandCompleteScreen';
-import { usePostCoupon } from '@/services/coupon.service';
 import { useState } from 'react';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
-
-const SHUTTLE_DEMAND_COUPON_CODE_PREFIX = 'DEMAND';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -24,7 +21,6 @@ interface Props {
     tripType: string,
     eventDate: string,
   ) => void;
-  isNoDemandRewardCouponEvent: boolean;
 }
 
 const DemandHubInfoStep = ({
@@ -32,7 +28,6 @@ const DemandHubInfoStep = ({
   setDemandCompleteStatus,
   updateUserDemands,
   trackCompleteDemand,
-  isNoDemandRewardCouponEvent,
 }: Props) => {
   const event = useAtomValue(eventAtom);
   const { getValues } = useFormContext<EventFormValues>();
@@ -43,7 +38,6 @@ const DemandHubInfoStep = ({
   ]);
 
   const { mutateAsync: postDemand } = usePostDemand();
-  const { mutateAsync: postCoupon } = usePostCoupon();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -112,40 +106,9 @@ const DemandHubInfoStep = ({
     }
   };
 
-  const handleCoupon = async () => {
-    if (!event) {
-      return;
-    }
-
-    const code = `${SHUTTLE_DEMAND_COUPON_CODE_PREFIX}-${event.eventId}`;
-
-    try {
-      await postCoupon(code);
-    } catch (e) {
-      Sentry.captureException(e, {
-        tags: {
-          component: 'DemandHubInfoStep',
-          page: 'event-detail',
-          feature: 'coupon',
-          action: 'register-demand-coupon',
-          environment: process.env.NODE_ENV || 'development',
-        },
-        extra: {
-          eventId: event?.eventId,
-          couponCode: code,
-          timestamp: dayjs().toISOString(),
-        },
-      });
-      console.error(e);
-    }
-  };
-
   const handleClick = async () => {
     setIsLoading(true);
     await handleDemand();
-    if (!isNoDemandRewardCouponEvent) {
-      await handleCoupon();
-    }
     closeBottomSheet();
     setIsLoading(false);
   };

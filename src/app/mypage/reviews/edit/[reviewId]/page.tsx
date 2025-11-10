@@ -1,14 +1,17 @@
 'use client';
 
 import Header from '@/components/header/Header';
-import EventInfoCard from '../../components/review-form/components/EventInfoCard';
 import { useGetUserReservation } from '@/services/reservation.service';
 import { useGetReview } from '@/services/review.service';
 import ReviewEditForm from './components/ReviewEditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import { checkIsReviewWritingPeriod } from '@/utils/review.util';
+import { EventsViewEntity } from '@/types/event.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
+import { dateString } from '@/utils/dateString.util';
+import { getHubText } from '@/utils/event.util';
 
 interface Props {
   params: {
@@ -31,19 +34,18 @@ const EditReviewPage = ({ params }: Props) => {
   });
   const reservation = reservationData?.reservation;
 
-  const dailyEvent = reservation?.shuttleRoute.event.dailyEvents.find(
-    (dailyEvent) =>
-      dailyEvent.dailyEventId === reservation?.shuttleRoute.dailyEventId,
-  );
-  const isBefore7Days =
-    dailyEvent &&
-    dayjs()
-      .tz('Asia/Seoul')
-      .isBefore(dayjs(dailyEvent.date).tz('Asia/Seoul').add(7, 'day'));
+  const { isReviewWritingPeriod } = reservation
+    ? checkIsReviewWritingPeriod(reservation)
+    : { isReviewWritingPeriod: false };
 
-  if (reservation && !isBefore7Days) replace('/mypage/reviews');
-  if (isError || isReservationError)
+  if (reservation && !isReviewWritingPeriod) {
+    replace('/mypage/reviews');
+    return;
+  }
+  if (isError || isReservationError) {
     throw new Error('리뷰 데이터를 찾을 수 없습니다.');
+  }
+
   return (
     <main>
       <Header />
@@ -64,6 +66,38 @@ const EditReviewPage = ({ params }: Props) => {
 };
 
 export default EditReviewPage;
+
+interface EventInfoCardProps {
+  event: EventsViewEntity;
+  reservation: ReservationsViewEntity;
+}
+
+const EventInfoCard = ({ event, reservation }: EventInfoCardProps) => {
+  const dailyEvent = event.dailyEvents.find(
+    (dailyEvent) =>
+      dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
+  );
+  const formattedEventDate = dateString(dailyEvent?.date, {
+    showYear: true,
+    showDate: true,
+    showTime: false,
+    showWeekday: false,
+  });
+  const hubText = getHubText(reservation);
+
+  return (
+    <section className="px-16 pb-[26px] pt-16">
+      <h6 className="line-clamp-1 grow text-16 font-600">{event.eventName}</h6>
+      <p className="text-12 font-500 text-basic-grey-700">
+        {event.eventLocationName}
+      </p>
+      <p className="text-12 font-500 text-basic-grey-700">
+        {formattedEventDate}
+      </p>
+      <p className="text-14 font-500">{hubText}</p>
+    </section>
+  );
+};
 
 interface EventInfoCardForEditProps {
   reservationId: string;

@@ -18,6 +18,8 @@ interface Props {
   closeModal: () => void;
   title?: ReactNode;
   description?: ReactNode;
+  titleClassName?: string;
+  descriptionClassName?: string;
   primaryButton?: Button;
   secondaryButton?: Button;
 }
@@ -27,6 +29,8 @@ const Modal = ({
   isOpen,
   title,
   description,
+  titleClassName,
+  descriptionClassName,
   closeModal,
   primaryButton,
   secondaryButton,
@@ -44,9 +48,23 @@ const Modal = ({
           onClick={(e) => e.stopPropagation()}
           className="absolute left-1/2 top-1/2 w-[327px] -translate-x-1/2 -translate-y-1/2 rounded-16 bg-basic-white pb-16"
         >
-          {title && <h2 className="px-24 pt-24 text-16 font-600">{title}</h2>}
+          {title && (
+            <h2
+              className={customTwMerge(
+                'px-24 pt-24 text-16 font-600',
+                titleClassName,
+              )}
+            >
+              {title}
+            </h2>
+          )}
           {description && (
-            <p className="px-24 pt-4 text-16 font-500 text-basic-grey-600">
+            <p
+              className={customTwMerge(
+                'px-24 pt-4 text-16 font-500 text-basic-grey-600',
+                descriptionClassName,
+              )}
+            >
               {description}
             </p>
           )}

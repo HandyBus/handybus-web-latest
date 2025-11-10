@@ -1,15 +1,15 @@
+'use client';
+
 import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
 import KakaoIcon from 'public/icons/kakao.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 const Page = () => {
   return (
     <main className="h-full">
       <Header />
-      <h1 className="px-16 pt-32 text-20 font-700 leading-[140%]">
-        직접 문의하기
-      </h1>
       <TitledSection
         title={`문제가 생기셨나요?\n핸디버스 팀에게 직접 문의해 주세요.`}
       >
@@ -28,15 +28,14 @@ const Page = () => {
         </p>
       </TitledSection>
       <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto w-full max-w-500 bg-basic-white">
-        <a
-          href={KAKAO_CHANNEL_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
           className="mx-16 my-8 flex items-center justify-center gap-[10px] rounded-8 bg-[#FAE100] px-16 py-12 text-16 font-600 leading-[160%] text-basic-black"
         >
           <KakaoIcon />
           카카오톡으로 문의하기
-        </a>
+        </button>
       </div>
     </main>
   );
