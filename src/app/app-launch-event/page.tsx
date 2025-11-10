@@ -19,6 +19,7 @@ import CouponIssuedModal from './components/CouponIssuedModal';
 import { useState } from 'react';
 import MarketingConsentModal from './components/MarketingConsentModal';
 import useAppShare from '@/hooks/webview/useAppShare';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 const APP_LAUNCH_EVENT_COUPON_CODES = [
   'APP_LAUNCH_EVENT_1',
@@ -99,6 +100,18 @@ const Page = () => {
     toast.success('링크가 복사되었어요.');
   };
 
+  // 앱 다운로드
+  const handleIOSDownload = () => {
+    handleExternalLink(
+      'https://apps.apple.com/us/app/%ED%95%B8%EB%94%94%EB%B2%84%EC%8A%A4/id6751479950',
+    );
+  };
+  const handleAndroidDownload = () => {
+    handleExternalLink(
+      'https://play.google.com/store/apps/details?id=com.handybus.app',
+    );
+  };
+
   return (
     <>
       <Header />
@@ -170,8 +183,8 @@ const Page = () => {
           </div>
         </section>
         <section className="flex flex-col gap-8 p-32">
-          <Button>IOS 다운받기</Button>
-          <Button>안드로이드 다운받기</Button>
+          <Button onClick={handleIOSDownload}>IOS 다운받기</Button>
+          <Button onClick={handleAndroidDownload}>안드로이드 다운받기</Button>
         </section>
       </main>
       <CouponIssuedModal
