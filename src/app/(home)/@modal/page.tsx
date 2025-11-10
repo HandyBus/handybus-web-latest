@@ -51,11 +51,15 @@ const Page = () => {
     if (showAppLaunchEventCouponDownloadModal) {
       setIsAppLaunchEventCouponDownloadModalOpen(true);
     }
-  }, []);
+  }, [isApp]);
 
-  // NOTE: 과거 버전에 Custom User Agent를 추가하지 않아서 다른 방식으로 조건 처리
-  const showUpdateAppModal =
-    (platform === 'ios' || platform === 'android') && appVersion === null;
+  // NOTE: 과거 버전에 Custom User Agent를 추가하지 않아서 WebView 객체로 앱 환경 감지
+  // window.ReactNativeWebView: React Native WebView 객체 존재 여부 (User Agent와 무관)
+  // appVersion === null: Custom User Agent가 없는 과거 버전 앱
+  const isAppFromWebView =
+    typeof window !== 'undefined' &&
+    typeof window.ReactNativeWebView !== 'undefined';
+  const showUpdateAppModal = isAppFromWebView && appVersion === null;
   if (showUpdateAppModal) {
     const updateAppUrl =
       platform === 'ios'
