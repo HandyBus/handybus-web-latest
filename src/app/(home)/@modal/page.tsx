@@ -6,8 +6,8 @@ import ArgentModal from './components/ArgentModal';
 import AppLaunchEventImage from './images/app-launch-event.png';
 import { useRouter } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
-// import OneDayModal from './components/OneDayModal';
-import EventPromotionModal from './components/EventPromotionModal';
+import OneDayModal from './components/OneDayModal';
+// import EventPromotionModal from './components/EventPromotionModal';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import {
   getAppLaunchEventCouponDownloadModalSeen,
@@ -54,16 +54,18 @@ const Page = () => {
     <>
       <ModalPortal>
         {showEmergencyModal && <ArgentModal image={argentModalImage} />}
-        {/* <OneDayModal
-          image={AppLaunchEventImage}
-          handleClick={handleAppLaunchEventOpen}
-        /> */}
         {showAppLaunchEventModal && (
-          <EventPromotionModal
+          <OneDayModal
             image={AppLaunchEventImage}
             handleClick={handleAppLaunchEventOpen}
           />
         )}
+        {/* {showAppLaunchEventModal && (
+          <EventPromotionModal
+            image={AppLaunchEventImage}
+            handleClick={handleAppLaunchEventOpen}
+          />
+        )} */}
       </ModalPortal>
       <AppLaunchEventCouponDownloadModal
         isOpen={isAppLaunchEventCouponDownloadModalOpen}
