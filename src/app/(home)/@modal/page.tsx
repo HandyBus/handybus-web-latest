@@ -53,7 +53,7 @@ const Page = () => {
     }
   }, []);
 
-  const showUpdateAppModal = isApp && appVersion === '1.0.0';
+  const showUpdateAppModal = isApp && appVersion !== '1.0.3';
   if (showUpdateAppModal) {
     const updateAppUrl =
       platform === 'ios'
