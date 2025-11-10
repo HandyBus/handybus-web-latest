@@ -4,6 +4,9 @@ import { instance } from './config';
 import { Combinations, withPagination } from '@/types/common.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 
+const EXO_FANMEETING_EVENT_ID = '638259410820405180';
+const EXO_FANMEETING_DAILY_EVENT_ID = '638259410816210874';
+
 export const getEvents = async (params?: {
   status?: Combinations<EventStatus>;
   eventIsPinned?: boolean;
@@ -19,7 +22,22 @@ export const getEvents = async (params?: {
       }),
     },
   );
-  return res.events;
+
+  // 엑소 팬미팅 12.13일 비활성화 임시 코드
+  const filteredEvents = res.events.map((event) => {
+    if (event.eventId === EXO_FANMEETING_EVENT_ID) {
+      return {
+        ...event,
+        startDate: event.endDate,
+        dailyEvents: event.dailyEvents.filter(
+          (dailyEvent) =>
+            dailyEvent.dailyEventId !== EXO_FANMEETING_DAILY_EVENT_ID,
+        ),
+      };
+    }
+    return event;
+  });
+  return filteredEvents;
 };
 
 export const useGetEvents = (params?: {
@@ -39,6 +57,19 @@ export const getEvent = async (eventId: string) => {
       event: EventsViewEntitySchema,
     },
   });
+
+  // 엑소 팬미팅 12.13일 비활성화 임시 코드
+  if (eventId === EXO_FANMEETING_EVENT_ID) {
+    return {
+      ...res.event,
+      startDate: res.event.endDate,
+      dailyEvents: res.event.dailyEvents.filter(
+        (dailyEvent) =>
+          dailyEvent.dailyEventId !== EXO_FANMEETING_DAILY_EVENT_ID,
+      ),
+    };
+  }
+
   return res.event;
 };
 
@@ -63,7 +94,20 @@ export const getTopRecommendedEvents = async (limit?: number) => {
       },
     },
   );
-  return res.events;
+  const filteredEvents = res.events.map((event) => {
+    if (event.eventId === EXO_FANMEETING_EVENT_ID) {
+      return {
+        ...event,
+        startDate: event.endDate,
+        dailyEvents: event.dailyEvents.filter(
+          (dailyEvent) =>
+            dailyEvent.dailyEventId !== EXO_FANMEETING_DAILY_EVENT_ID,
+        ),
+      };
+    }
+    return event;
+  });
+  return filteredEvents;
 };
 
 export const useGetTopRecommendedEvents = (limit?: number) =>
