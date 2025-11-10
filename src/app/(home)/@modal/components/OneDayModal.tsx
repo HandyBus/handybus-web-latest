@@ -48,25 +48,27 @@ const OneDayModal = ({ image, handleClick }: Props) => {
     >
       <section
         onClick={(e) => e.stopPropagation()}
-        className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 bg-transparent"
+        className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col bg-transparent"
       >
-        <button
-          type="button"
-          onClick={handleClick}
-          className="relative aspect-square w-full"
-        >
-          <Image src={image} alt="modal" fill className="object-contain" />
+        <button type="button" onClick={handleClick} className="relative w-full">
+          <Image
+            src={image}
+            alt="modal"
+            width={400}
+            height={300}
+            className="rounded-t-4 object-contain"
+          />
         </button>
         <div className="grid grid-cols-2">
           <button
             onClick={handleOneDayModalCloseForToday}
-            className="border-r border-basic-white text-16 font-600 text-basic-white"
+            className="rounded-bl-4 border-r border-basic-grey-100 bg-basic-white p-[10px] text-14 font-600"
           >
-            하루 안 보기
+            하루동안 보지 않기
           </button>
           <button
-            onClick={closeModal}
-            className="text-16 font-600 text-basic-white"
+            onClick={handleClick}
+            className="rounded-br-4 bg-basic-white p-[10px] text-14 font-600"
           >
             닫기
           </button>

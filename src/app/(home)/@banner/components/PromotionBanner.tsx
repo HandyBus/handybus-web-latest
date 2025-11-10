@@ -72,7 +72,7 @@ const BannerItem = ({ image }: { image: AdminHandleBannerRequestBanners }) => (
     type="button"
     onClick={() => handleExternalLink(image.linkUrl)}
   >
-    <div className="relative aspect-[375/161] w-[min(500px,100vw)]">
+    <div className="relative aspect-[375/113] w-[min(500px,100vw)]">
       <Image
         src={image.imageUrl}
         alt={image.title}

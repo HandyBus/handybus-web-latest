@@ -167,14 +167,17 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
             </p>
             <p
               className={customTwMerge(
-                'line-clamp-1 flex h-24 items-center gap-4 text-14 font-500 leading-[160%] text-basic-grey-700',
+                'flex h-24 items-center gap-4 text-14 font-500 leading-[160%] text-basic-grey-700',
                 !ableToRedirectToDemandDetail && 'text-basic-grey-400',
               )}
             >
               <Badge className="border border-basic-grey-200 text-basic-grey-700">
                 {tripTypeText}
               </Badge>
-              {demandRegionHub?.name ?? desiredDemandRegionHub} 요청
+              <span className="line-clamp-1 w-fit">
+                {demandRegionHub?.name ?? desiredDemandRegionHub}
+              </span>
+              <span className="shrink-0">요청</span>
             </p>
           </div>
         </div>
