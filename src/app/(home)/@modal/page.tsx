@@ -53,7 +53,9 @@ const Page = () => {
     }
   }, []);
 
-  const showUpdateAppModal = isApp && appVersion !== '1.0.3';
+  // NOTE: 과거 버전에 Custom User Agent를 추가하지 않아서 다른 방식으로 조건 처리
+  const showUpdateAppModal =
+    (platform === 'ios' || platform === 'android') && appVersion === null;
   if (showUpdateAppModal) {
     const updateAppUrl =
       platform === 'ios'
