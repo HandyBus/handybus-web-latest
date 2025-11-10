@@ -67,7 +67,7 @@ const OneDayModal = ({ image, handleClick }: Props) => {
             하루동안 보지 않기
           </button>
           <button
-            onClick={handleClick}
+            onClick={closeModal}
             className="rounded-br-4 bg-basic-white p-[10px] text-14 font-600"
           >
             닫기

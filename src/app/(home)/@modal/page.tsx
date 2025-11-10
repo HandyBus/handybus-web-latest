@@ -15,6 +15,9 @@ import {
 } from '@/utils/localStorage';
 import AppLaunchEventCouponDownloadModal from './components/AppLaunchEventCouponDownloadModal';
 import { useEffect, useState } from 'react';
+import Modal from '@/components/modals/Modal';
+import Button from '@/components/buttons/button/Button';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 const Page = () => {
   const router = useRouter();
@@ -24,7 +27,7 @@ const Page = () => {
   const showEmergencyModal =
     process.env.NEXT_PUBLIC_ENABLE_EMERGENCY_MODAL === 'true';
 
-  const { isApp } = useEnvironment();
+  const { isApp, appVersion, platform } = useEnvironment();
 
   const showAppLaunchEventModal = !isApp;
 
@@ -49,6 +52,33 @@ const Page = () => {
       setIsAppLaunchEventCouponDownloadModalOpen(true);
     }
   }, []);
+
+  const showUpdateAppModal = isApp && appVersion === '1.0.0';
+  if (showUpdateAppModal) {
+    const updateAppUrl =
+      platform === 'ios'
+        ? 'https://apps.apple.com/us/app/%ED%95%B8%EB%94%94%EB%B2%84%EC%8A%A4/id6751479950'
+        : 'https://play.google.com/store/apps/details?id=com.handybus.app';
+    return (
+      <Modal
+        isOpen={true}
+        title="업데이트 필요"
+        description="원활한 이용을 위해 핸디버스 앱을 업데이트해주세요."
+        closeModal={() => {}}
+      >
+        <Button
+          type="button"
+          variant="primary"
+          size="large"
+          onClick={() => {
+            handleExternalLink(updateAppUrl);
+          }}
+        >
+          업데이트 하러 가기
+        </Button>
+      </Modal>
+    );
+  }
 
   return (
     <>
