@@ -16,10 +16,6 @@ import {
   HubWithInfo,
 } from '../../../store/dailyEventIdsWithHubsAtom';
 import {
-  getRecentlyViewedHubId,
-  setRecentlyViewedHubId,
-} from '@/utils/localStorage';
-import {
   isCheckRouteDetailViewFlowAtom,
   selectedHubWithInfoForDetailViewAtom,
 } from '../../../store/selectedHubWithInfoForDetailViewAtom';
@@ -27,6 +23,9 @@ import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
+import { userDemandsAtom } from '../../../store/userDemandsAtom';
+import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -87,7 +86,6 @@ const ReservationHubsStep = ({
   );
 
   const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
-    setRecentlyViewedHubId(hubsWithInfo[0].regionHubId);
     if (hubsWithInfo.length === 1) {
       setValue('selectedHubWithInfo', hubsWithInfo[0]);
       setValue('hubsWithInfoForDuplicates', undefined);
@@ -108,44 +106,22 @@ const ReservationHubsStep = ({
     }
   };
 
-  const recentlyViewedHubId = getRecentlyViewedHubId();
-  const recentlyViewedPossibleHubs = useMemo(() => {
-    return gungusWithHubs
-      .flatMap((gunguWithHubs) => gunguWithHubs.hubs)
-      .find((hubs) =>
-        hubs.some((hub) => hub.regionHubId === recentlyViewedHubId),
-      );
-  }, [gungusWithHubs, recentlyViewedHubId]);
-
   const isDemandPossible = dailyEvent.status === 'OPEN';
 
-  const recentlyViewedRoute = useMemo(() => {
-    if (!recentlyViewedPossibleHubs) return;
-    return getRouteOfHubWithInfo({
-      hubWithInfo: recentlyViewedPossibleHubs[0],
-      dailyEventIdsWithRoutes,
-      dailyEventId: dailyEvent.dailyEventId,
-    });
-  }, [recentlyViewedPossibleHubs, dailyEventIdsWithRoutes, dailyEvent]);
+  const userDemands = useAtomValue(userDemandsAtom);
+  const handleDemandClick = () => {
+    const isDemandSubmitted = userDemands?.some(
+      (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
+    );
+    if (isDemandSubmitted) {
+      toast.error('이미 참여한 일자예요.');
+      return;
+    }
+    toDemandHubsStep();
+  };
 
   return (
     <section>
-      {recentlyViewedPossibleHubs && recentlyViewedRoute && (
-        <>
-          <div className="flex flex-col gap-12 pt-4">
-            <p className="text-14 font-600 text-basic-grey-700">
-              최근에 본 정류장
-            </p>
-            <Hub
-              possibleHubs={recentlyViewedPossibleHubs}
-              handleHubClick={() => handleHubClick(recentlyViewedPossibleHubs)}
-              toExtraSeatAlarmStep={toExtraSeatAlarmStep}
-              route={recentlyViewedRoute}
-            />
-          </div>
-          <div className="my-24 h-[1px] w-full bg-basic-grey-100" />
-        </>
-      )}
       <div className="flex flex-col gap-24">
         {gungusWithHubs.map((gunguWithHubs) => (
           <article key={gunguWithHubs.gungu}>
@@ -156,16 +132,21 @@ const ReservationHubsStep = ({
             </div>
             <ul className="flex flex-col gap-12">
               {gunguWithHubs.hubs.map((possibleHubs) => {
+                const fastestArrivalTimeHub = possibleHubs.sort((a, b) =>
+                  dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime)),
+                )[0];
                 const route = getRouteOfHubWithInfo({
-                  hubWithInfo: possibleHubs[0],
+                  hubWithInfo: fastestArrivalTimeHub,
                   dailyEventIdsWithRoutes,
                   dailyEventId: dailyEvent.dailyEventId,
                 });
 
-                if (!route) return null;
+                if (!route) {
+                  return null;
+                }
                 return (
                   <Hub
-                    key={possibleHubs[0].regionHubId}
+                    key={fastestArrivalTimeHub.regionHubId}
                     possibleHubs={possibleHubs}
                     handleHubClick={() => handleHubClick(possibleHubs)}
                     toExtraSeatAlarmStep={toExtraSeatAlarmStep}
@@ -190,7 +171,7 @@ const ReservationHubsStep = ({
             />
           </div>
           <Button
-            onClick={toDemandHubsStep}
+            onClick={handleDemandClick}
             variant="tertiary"
             size="small"
             type="button"
@@ -228,8 +209,6 @@ const Hub = ({
   const isSoldOutForFromDestination = possibleHubs.every(
     (hub) => hub.remainingSeat.FROM_DESTINATION === 0,
   );
-
-  console.log(possibleHubs);
 
   const hub = possibleHubs[0];
   const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
@@ -274,7 +253,7 @@ const Hub = ({
         className={`group flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left`}
       >
         <div className="flex w-full justify-between gap-16">
-          <div className="flex w-[calc(100%-50px)] gap-[6px]">
+          <div className="flex w-full gap-[6px]">
             <div className="flex h-24 w-24 shrink-0 items-center justify-center">
               <PinIcon />
             </div>
