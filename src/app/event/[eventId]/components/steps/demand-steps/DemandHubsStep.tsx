@@ -144,7 +144,7 @@ export default DemandHubsStep;
 
 const EmptyView = () => {
   return (
-    <div className="w-fll flex flex-col items-center justify-center gap-8 py-16">
+    <div className="flex w-full flex-col items-center justify-center gap-8 py-16">
       <SadFaceIcon />
       <p className="text-14 font-600 text-basic-grey-500">
         아쉽게도 이 지역은 참여가 어려워요.

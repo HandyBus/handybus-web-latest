@@ -204,8 +204,6 @@ const Hub = ({
     (hub) => hub.remainingSeat.FROM_DESTINATION === 0,
   );
 
-  console.log(possibleHubs);
-
   const hub = possibleHubs[0];
   const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
   const remainingSeatCount = remainingSeat?.count ?? 0;
@@ -249,12 +247,13 @@ const Hub = ({
         className={`group flex w-full flex-col justify-between gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left`}
       >
         <div className="flex w-full justify-between gap-16">
-          <div className="flex w-[calc(100%-50px)] gap-[6px]">
+          <div className="flex w-full gap-[6px]">
             <div className="flex h-24 w-24 shrink-0 items-center justify-center">
               <PinIcon />
             </div>
             <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-400">
-              {hub.name}
+              {hub.name} 서면역 서면역 서면역 서면역 서면역 서면역 서면역 서면역
+              서면역 서면역 서면역 서면역 서면역
             </span>
           </div>
           {isSoldOut ? (
