@@ -16,10 +16,6 @@ import {
   HubWithInfo,
 } from '../../../store/dailyEventIdsWithHubsAtom';
 import {
-  getRecentlyViewedHubId,
-  setRecentlyViewedHubId,
-} from '@/utils/localStorage';
-import {
   isCheckRouteDetailViewFlowAtom,
   selectedHubWithInfoForDetailViewAtom,
 } from '../../../store/selectedHubWithInfoForDetailViewAtom';
@@ -27,6 +23,8 @@ import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
+import { userDemandsAtom } from '../../../store/userDemandsAtom';
+import { toast } from 'react-toastify';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -87,7 +85,6 @@ const ReservationHubsStep = ({
   );
 
   const handleHubClick = (hubsWithInfo: HubWithInfo[]) => {
-    setRecentlyViewedHubId(hubsWithInfo[0].regionHubId);
     if (hubsWithInfo.length === 1) {
       setValue('selectedHubWithInfo', hubsWithInfo[0]);
       setValue('hubsWithInfoForDuplicates', undefined);
@@ -108,44 +105,22 @@ const ReservationHubsStep = ({
     }
   };
 
-  const recentlyViewedHubId = getRecentlyViewedHubId();
-  const recentlyViewedPossibleHubs = useMemo(() => {
-    return gungusWithHubs
-      .flatMap((gunguWithHubs) => gunguWithHubs.hubs)
-      .find((hubs) =>
-        hubs.some((hub) => hub.regionHubId === recentlyViewedHubId),
-      );
-  }, [gungusWithHubs, recentlyViewedHubId]);
-
   const isDemandPossible = dailyEvent.status === 'OPEN';
 
-  const recentlyViewedRoute = useMemo(() => {
-    if (!recentlyViewedPossibleHubs) return;
-    return getRouteOfHubWithInfo({
-      hubWithInfo: recentlyViewedPossibleHubs[0],
-      dailyEventIdsWithRoutes,
-      dailyEventId: dailyEvent.dailyEventId,
-    });
-  }, [recentlyViewedPossibleHubs, dailyEventIdsWithRoutes, dailyEvent]);
+  const userDemands = useAtomValue(userDemandsAtom);
+  const handleDemandClick = () => {
+    const isDemandSubmitted = userDemands?.some(
+      (demand) => demand.dailyEventId === dailyEvent.dailyEventId,
+    );
+    if (isDemandSubmitted) {
+      toast.error('이미 참여한 일자예요.');
+      return;
+    }
+    toDemandHubsStep();
+  };
 
   return (
     <section>
-      {recentlyViewedPossibleHubs && recentlyViewedRoute && (
-        <>
-          <div className="flex flex-col gap-12 pt-4">
-            <p className="text-14 font-600 text-basic-grey-700">
-              최근에 본 정류장
-            </p>
-            <Hub
-              possibleHubs={recentlyViewedPossibleHubs}
-              handleHubClick={() => handleHubClick(recentlyViewedPossibleHubs)}
-              toExtraSeatAlarmStep={toExtraSeatAlarmStep}
-              route={recentlyViewedRoute}
-            />
-          </div>
-          <div className="my-24 h-[1px] w-full bg-basic-grey-100" />
-        </>
-      )}
       <div className="flex flex-col gap-24">
         {gungusWithHubs.map((gunguWithHubs) => (
           <article key={gunguWithHubs.gungu}>
@@ -190,7 +165,7 @@ const ReservationHubsStep = ({
             />
           </div>
           <Button
-            onClick={toDemandHubsStep}
+            onClick={handleDemandClick}
             variant="tertiary"
             size="small"
             type="button"
