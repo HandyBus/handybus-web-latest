@@ -59,6 +59,7 @@ export const removeRecentlyViewedBigRegion = () => {
 };
 
 // 최근에 본 정류장
+/* @deprecated */
 export const RECENTLY_VIEWED_HUB_ID = 'recently-viewed-hub-id';
 export const setRecentlyViewedHubId = (hubId: string) => {
   localStorage.setItem(RECENTLY_VIEWED_HUB_ID, hubId);
