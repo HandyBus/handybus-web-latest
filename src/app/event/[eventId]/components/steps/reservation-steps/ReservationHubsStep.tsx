@@ -25,6 +25,7 @@ import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 import { userDemandsAtom } from '../../../store/userDemandsAtom';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -131,16 +132,21 @@ const ReservationHubsStep = ({
             </div>
             <ul className="flex flex-col gap-12">
               {gunguWithHubs.hubs.map((possibleHubs) => {
+                const fastestArrivalTimeHub = possibleHubs.sort((a, b) =>
+                  dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime)),
+                )[0];
                 const route = getRouteOfHubWithInfo({
-                  hubWithInfo: possibleHubs[0],
+                  hubWithInfo: fastestArrivalTimeHub,
                   dailyEventIdsWithRoutes,
                   dailyEventId: dailyEvent.dailyEventId,
                 });
 
-                if (!route) return null;
+                if (!route) {
+                  return null;
+                }
                 return (
                   <Hub
-                    key={possibleHubs[0].regionHubId}
+                    key={fastestArrivalTimeHub.regionHubId}
                     possibleHubs={possibleHubs}
                     handleHubClick={() => handleHubClick(possibleHubs)}
                     toExtraSeatAlarmStep={toExtraSeatAlarmStep}
@@ -252,8 +258,7 @@ const Hub = ({
               <PinIcon />
             </div>
             <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-400">
-              {hub.name} 서면역 서면역 서면역 서면역 서면역 서면역 서면역 서면역
-              서면역 서면역 서면역 서면역 서면역
+              {hub.name}
             </span>
           </div>
           {isSoldOut ? (
