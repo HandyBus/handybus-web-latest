@@ -1,4 +1,3 @@
-import Header from '@/components/header/Header';
 import EventImage from './components/EventImage';
 import EventInfo from './components/EventInfo';
 import EventGuidelines from './components/EventGuidelines';
@@ -22,7 +21,6 @@ const Page = async ({ params }: Props) => {
 
   return (
     <>
-      <Header />
       <main>
         <EventImage
           eventImageUrl={event.eventImageUrl}

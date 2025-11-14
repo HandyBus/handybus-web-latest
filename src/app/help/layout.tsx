@@ -1,7 +1,15 @@
+import Header from '@/components/header/Header';
+import { ReactNode } from 'react';
+
 export default function WithFooterLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
-  return <div className="flex h-full flex-grow flex-col">{children}</div>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }

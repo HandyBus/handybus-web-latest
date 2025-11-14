@@ -2,7 +2,6 @@
 
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import Header from '@/components/header/Header';
 import { useGetUserDemand } from '@/services/demand.service';
 import Content from './components/Content';
 import { useRouter } from 'next/navigation';
@@ -39,15 +38,9 @@ const Page = ({ params }: Props) => {
   }
 
   return (
-    <>
-      <Header />
-      <DeferredSuspense
-        fallback={<Loading style="grow" />}
-        isLoading={isLoading}
-      >
-        {demand && <Content demand={demand} />}
-      </DeferredSuspense>
-    </>
+    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
+      {demand && <Content demand={demand} />}
+    </DeferredSuspense>
   );
 };
 

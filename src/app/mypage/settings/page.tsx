@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { putUser, useDeleteUser, useGetUser } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
@@ -76,77 +75,74 @@ const Page = () => {
   const isLeaveDisabled = isPending || isSuccess;
 
   return (
-    <>
-      <Header />
-      <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
-        {user && (
-          <>
-            <main className="flex flex-col gap-[18px] px-16 pt-24">
-              <section>
-                <h3 className="pb-8 text-14 font-600 text-basic-grey-500">
-                  알림
-                </h3>
-                <ListButton hideArrow>
-                  <div className="flex w-full items-center justify-between text-left">
-                    <span>마케팅 수신</span>
-                    <button
-                      onClick={handleSwitchClick}
-                      className={`relative flex h-[28px] w-48 overflow-hidden rounded-full transition-all duration-200 ${
+    <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
+      {user && (
+        <>
+          <main className="flex flex-col gap-[18px] px-16 pt-24">
+            <section>
+              <h3 className="pb-8 text-14 font-600 text-basic-grey-500">
+                알림
+              </h3>
+              <ListButton hideArrow>
+                <div className="flex w-full items-center justify-between text-left">
+                  <span>마케팅 수신</span>
+                  <button
+                    onClick={handleSwitchClick}
+                    className={`relative flex h-[28px] w-48 overflow-hidden rounded-full transition-all duration-200 ${
+                      isMarketingAgreed
+                        ? 'bg-brand-primary-400'
+                        : 'bg-basic-grey-100'
+                    }`}
+                  >
+                    <div
+                      className={`absolute left-[2px] top-[2px] h-24 w-24 rounded-full bg-basic-white shadow-[0_0_10px_0_rgba(0,0,0,0.13)] transition-transform duration-200 ${
                         isMarketingAgreed
-                          ? 'bg-brand-primary-400'
-                          : 'bg-basic-grey-100'
+                          ? 'translate-x-[20px]'
+                          : 'translate-x-0'
                       }`}
-                    >
-                      <div
-                        className={`absolute left-[2px] top-[2px] h-24 w-24 rounded-full bg-basic-white shadow-[0_0_10px_0_rgba(0,0,0,0.13)] transition-transform duration-200 ${
-                          isMarketingAgreed
-                            ? 'translate-x-[20px]'
-                            : 'translate-x-0'
-                        }`}
-                      />
-                    </button>
-                  </div>
-                </ListButton>
-              </section>
-              <div className="-mx-16 h-[8px] bg-basic-grey-50" />
-              <section>
-                <h3 className="pb-8 text-14 font-600 text-basic-grey-500">
-                  계정
-                </h3>
-                <ListButton hideArrow onClick={handleLogout}>
-                  로그아웃
-                </ListButton>
-                <ListButton hideArrow onClick={openLeaveBottomSheet}>
-                  탈퇴하기
-                </ListButton>
-              </section>
-            </main>
-            <BottomSheet
-              ref={leaveBottomSheetRef}
-              title="정말 탈퇴하시나요?"
-              description="탈퇴하기를 누르면 회원님의 모든 정보와 활동 기록이 삭제됩니다. 삭제된 정보는 복구할 수 없으니 신중하게 결정해 주세요."
-            >
-              <div className="flex flex-col gap-8">
-                <Button
-                  variant="p-destructive"
-                  onClick={() => deleteUser()}
-                  disabled={isLeaveDisabled}
-                >
-                  탈퇴하기
-                </Button>
-                <Button
-                  variant="text"
-                  onClick={closeLeaveBottomSheet}
-                  disabled={isLeaveDisabled}
-                >
-                  취소
-                </Button>
-              </div>
-            </BottomSheet>
-          </>
-        )}
-      </DeferredSuspense>
-    </>
+                    />
+                  </button>
+                </div>
+              </ListButton>
+            </section>
+            <div className="-mx-16 h-[8px] bg-basic-grey-50" />
+            <section>
+              <h3 className="pb-8 text-14 font-600 text-basic-grey-500">
+                계정
+              </h3>
+              <ListButton hideArrow onClick={handleLogout}>
+                로그아웃
+              </ListButton>
+              <ListButton hideArrow onClick={openLeaveBottomSheet}>
+                탈퇴하기
+              </ListButton>
+            </section>
+          </main>
+          <BottomSheet
+            ref={leaveBottomSheetRef}
+            title="정말 탈퇴하시나요?"
+            description="탈퇴하기를 누르면 회원님의 모든 정보와 활동 기록이 삭제됩니다. 삭제된 정보는 복구할 수 없으니 신중하게 결정해 주세요."
+          >
+            <div className="flex flex-col gap-8">
+              <Button
+                variant="p-destructive"
+                onClick={() => deleteUser()}
+                disabled={isLeaveDisabled}
+              >
+                탈퇴하기
+              </Button>
+              <Button
+                variant="text"
+                onClick={closeLeaveBottomSheet}
+                disabled={isLeaveDisabled}
+              >
+                취소
+              </Button>
+            </div>
+          </BottomSheet>
+        </>
+      )}
+    </DeferredSuspense>
   );
 };
 

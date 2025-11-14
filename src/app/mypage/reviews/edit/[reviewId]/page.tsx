@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import { useGetUserReservation } from '@/services/reservation.service';
 import { useGetReview } from '@/services/review.service';
 import ReviewEditForm from './components/ReviewEditForm';
@@ -48,7 +47,6 @@ const EditReviewPage = ({ params }: Props) => {
 
   return (
     <main>
-      <Header />
       <DeferredSuspense
         fallback={<Loading style="screen" />}
         isLoading={isLoading || isReservationLoading}

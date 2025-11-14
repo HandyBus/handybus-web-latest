@@ -8,19 +8,14 @@ import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
 import useEnvironment from '@/hooks/useEnvironment';
 
-interface HeaderProps {
-  showBackButton?: boolean; // 홈에서 모든 행사페이지로 이동한 경우를 판단합니다.
-}
-
-const Header = ({ showBackButton = false }: HeaderProps) => {
+const Header = () => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
   const { isApp } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
 
-  const isHideBackButton =
-    PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname) && !showBackButton;
+  const isHideBackButton = PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname);
 
   const normalizePath = (path: string) => {
     return path
@@ -87,6 +82,9 @@ const URL_TO_PAGE_NAME = {
   '/login': '로그인',
   '/event': '모든 행사',
   '/event/:id': '행사 정보',
+  '/event/:id/dailyevent/:id/route/:id/payment/request': '결제',
+  '/event/:id/dailyevent/:id/route/:id/payment/request/:id': '결제',
+  '/event/:id/dailyevent/:id/route/:id/payment/request/fail': '결제',
   '/ticket': '모든 탑승권',
   '/ticket/:id': '탑승권',
   '/history': '참여/예약 내역',

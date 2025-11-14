@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUser } from '@/services/user.service';
@@ -15,7 +14,6 @@ const Page = () => {
 
   return (
     <Suspense>
-      <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
           <main className="grow">

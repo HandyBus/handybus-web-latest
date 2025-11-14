@@ -39,12 +39,7 @@ const TicketPage = ({ params, searchParams }: Props) => {
   }, [isLoading, router, reservationId, reservation]);
 
   if (isLoading) {
-    return (
-      <>
-        <Header />
-        <TicketSkeleton />
-      </>
-    );
+    return <TicketSkeleton />;
   }
   if (isShuttleEnded || isCanceled) {
     router.replace('/history?type=reservation');
@@ -52,12 +47,7 @@ const TicketPage = ({ params, searchParams }: Props) => {
   if (!reservation) {
     return null;
   }
-  return (
-    <>
-      <Header />
-      <Ticket reservation={reservation} direction={direction} />
-    </>
-  );
+  return <Ticket reservation={reservation} direction={direction} />;
 };
 
 interface TicketProps {
@@ -308,7 +298,6 @@ import PinIcon from './icons/pin-primary.svg';
 import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/header/Header';
 import { handleExternalLink } from '@/utils/externalLink.util';
 
 const SimpleRouteLine = () => {

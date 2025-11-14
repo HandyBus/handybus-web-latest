@@ -3,7 +3,6 @@
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserReservation } from '@/services/reservation.service';
-import Header from '@/components/header/Header';
 import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { useState } from 'react';
@@ -49,7 +48,6 @@ const Page = ({ params }: Props) => {
 
   return (
     <>
-      <Header />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

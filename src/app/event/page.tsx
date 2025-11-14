@@ -2,13 +2,12 @@
 
 import { useGetEvents } from '@/services/event.service';
 import { toSorted } from './toSorted.util';
-import Header from '@/components/header/Header';
 import Empty from './components/Empty';
 import Loading from './components/Loading';
 import Error from './components/Error';
 import Card from '@/components/card/Card';
 import ArrowRightIcon from 'public/icons/arrow-right.svg';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { EventType } from '@/types/event.type';
 import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
@@ -28,7 +27,6 @@ const Page = () => {
     isLoading,
     error,
   } = useGetEvents({ status: 'OPEN,CLOSED' });
-  const [showBackButton, setShowBackButton] = useState(false);
 
   const filteredEventsByStatus = useMemo(
     () =>
@@ -55,13 +53,8 @@ const Page = () => {
     [filteredEventsByType, sort],
   );
 
-  useEffect(() => {
-    setShowBackButton(window.location.search.includes('from=home'));
-  }, []);
-
   return (
     <>
-      <Header showBackButton={showBackButton} />
       <main className="flex flex-1 flex-col">
         <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
         <div className="w-full px-16">
@@ -131,7 +124,7 @@ const Page = () => {
           </>
         )}
       </main>
-      {!showBackButton && <NavBar />}
+      <NavBar />
     </>
   );
 };

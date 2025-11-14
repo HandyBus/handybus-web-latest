@@ -1,3 +1,4 @@
+import Header from '@/components/header/Header';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
@@ -6,7 +7,12 @@ export const metadata: Metadata = {
 };
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default Layout;

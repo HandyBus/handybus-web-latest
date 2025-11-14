@@ -6,7 +6,6 @@ import Settings from './components/Settings';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { useGetUser } from '@/services/user.service';
-import Header from '@/components/header/Header';
 import NavBar from '@/components/nav-bar/NavBar';
 
 const MyPage = () => {
@@ -15,7 +14,6 @@ const MyPage = () => {
 
   return (
     <>
-      <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
           <main className="grow pb-48">

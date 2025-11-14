@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import guideImage from './images/handybus-guide.png';
-import Header from '@/components/header/Header';
 import Tabs from '@/components/tab/Tabs';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -29,18 +28,15 @@ const HandybusGuide = ({ searchParams }: Props) => {
 
   return (
     <main>
-      <Header />
       <figure>
         <Image src={guideImage} alt="핸디버스 가이드" quality={100} />
       </figure>
       <article className="mx-16 mb-16 flex flex-col">
         <Tabs
-          items={
-            [
-              { label: '셔틀버스', value: 'SHUTTLE_BUS' },
-              { label: '핸디팟', value: 'HANDY_PARTY' },
-            ] as const
-          }
+          items={[
+            { label: '셔틀버스', value: 'SHUTTLE_BUS' },
+            { label: '핸디팟', value: 'HANDY_PARTY' },
+          ]}
           selected={currentTab}
           onSelect={handleChangeTab}
           className="mt-16"
