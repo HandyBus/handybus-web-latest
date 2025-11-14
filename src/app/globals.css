@@ -62,7 +62,6 @@ html::-webkit-scrollbar {
 @layer base {
   body {
     @apply text-16 font-400 text-basic-black;
-    overscroll-behavior: none; /* Prevent bounce effect on mobile */
   }
 
   .list-disc li::marker {
