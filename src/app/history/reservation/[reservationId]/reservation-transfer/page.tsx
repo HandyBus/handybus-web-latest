@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import PhoneNumberSection from './components/PhoneNumberSection';
 import ShuttleInfoSection from './components/ShuttleInfoSection';
 import NoticeSection from './components/NoticeSection';
@@ -25,22 +24,16 @@ const Page = ({ params }: Props) => {
   const [value, setValue] = useState('');
 
   return (
-    <>
-      <Header />
-      <DeferredSuspense
-        fallback={<Loading style="grow" />}
-        isLoading={isLoading}
-      >
-        {reservation && (
-          <main className="flex grow flex-col">
-            <PhoneNumberSection value={value} setValue={setValue} />
-            <ShuttleInfoSection reservation={reservation} />
-            <NoticeSection />
-            <SubmitSection value={value} reservationId={reservationId} />
-          </main>
-        )}
-      </DeferredSuspense>
-    </>
+    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
+      {reservation && (
+        <main className="flex grow flex-col">
+          <PhoneNumberSection value={value} setValue={setValue} />
+          <ShuttleInfoSection reservation={reservation} />
+          <NoticeSection />
+          <SubmitSection value={value} reservationId={reservationId} />
+        </main>
+      )}
+    </DeferredSuspense>
   );
 };
 

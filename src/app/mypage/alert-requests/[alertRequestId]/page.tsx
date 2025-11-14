@@ -2,7 +2,6 @@
 
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import Header from '@/components/header/Header';
 import { useGetUserAlertRequest } from '@/services/alertRequest.service';
 import Content from './components/Content';
 import { useRouter } from 'next/navigation';
@@ -28,15 +27,9 @@ const Page = ({ params }: Props) => {
   }
 
   return (
-    <>
-      <Header />
-      <DeferredSuspense
-        fallback={<Loading style="grow" />}
-        isLoading={isLoading}
-      >
-        {alertRequest && <Content alertRequest={alertRequest} />}
-      </DeferredSuspense>
-    </>
+    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
+      {alertRequest && <Content alertRequest={alertRequest} />}
+    </DeferredSuspense>
   );
 };
 

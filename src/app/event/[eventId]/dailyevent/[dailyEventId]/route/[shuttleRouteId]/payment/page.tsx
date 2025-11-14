@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import { useSearchParams } from 'next/navigation';
 import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
@@ -81,7 +80,6 @@ const Page = ({ params }: Props) => {
 
   return (
     <>
-      <Header />
       <TossPaymentsScript onReady={() => setIsTossPaymentsScriptLoaded(true)} />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {event &&

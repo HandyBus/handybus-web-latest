@@ -12,7 +12,6 @@ import { EventType } from '@/types/event.type';
 import FilterBar from './components/FilterBar';
 import { EventSortType } from '@/app/event/event.const';
 import { dateString } from '@/utils/dateString.util';
-import NavBar from '@/components/nav-bar/NavBar';
 import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosingSoon.util';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { handleExternalLink } from '@/utils/externalLink.util';
@@ -124,7 +123,6 @@ const Page = () => {
           </>
         )}
       </main>
-      <NavBar />
     </>
   );
 };

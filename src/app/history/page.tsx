@@ -1,7 +1,6 @@
 'use client';
 
 import Tabs from '@/components/tab/Tabs';
-import Header from '@/components/header/Header';
 import NavBar from '@/components/nav-bar/NavBar';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -27,8 +26,7 @@ const Page = () => {
 
   return (
     <>
-      <Header />
-      <main className="flex grow flex-col bg-basic-grey-50">
+      <main className="relative flex grow flex-col bg-basic-grey-50">
         <Tabs
           items={[
             { label: '수요조사', value: 'demand' },
@@ -38,7 +36,7 @@ const Page = () => {
           onSelect={(value) => {
             router.replace(`/history?type=${value}`);
           }}
-          className="sticky top-56 z-10"
+          className="top-56"
         />
         {renderTab()}
       </main>

@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import { useGetUserReservations } from '@/services/reservation.service';
 import Loading from '@/components/loading/Loading';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
@@ -21,7 +20,6 @@ const TicketPage = () => {
   if (isError) throw new Error('Failed to fetch tickets');
   return (
     <>
-      <Header />
       <main className="flex flex-1 flex-col">
         <DeferredSuspense
           fallback={<Loading style="grow" />}

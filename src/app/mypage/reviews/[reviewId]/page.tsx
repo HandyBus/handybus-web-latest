@@ -1,4 +1,3 @@
-import Header from '@/components/header/Header';
 import ReviewListWithMyReview from './components/ReviewListWithMyReview';
 
 interface Props {
@@ -12,7 +11,6 @@ const ReviewPage = ({ params }: Props) => {
 
   return (
     <main>
-      <Header />
       <ReviewListWithMyReview reviewId={reviewId} />
     </main>
   );

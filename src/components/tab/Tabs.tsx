@@ -12,30 +12,33 @@ interface Props<T> {
 
 const Tabs = <T,>({ items, selected, onSelect, className }: Props<T>) => {
   return (
-    <div
-      className={customTwMerge(
-        'relative flex w-full flex-row overflow-x-scroll bg-basic-white scrollbar-hidden',
-        className,
-      )}
-    >
-      {items.flatMap((v) => (
-        <Tab
-          key={v.label}
-          label={v.label}
-          selected={v.value === selected}
-          onClick={() => onSelect?.(v.value)}
-          disabled={v.disabled}
-        />
-      ))}
-      <div className="absolute bottom-0 h-[1px] w-full bg-basic-grey-200" />
+    <>
       <div
-        className="absolute bottom-0 h-[2px] bg-basic-black transition-all duration-300 ease-in-out"
-        style={{
-          left: `${items.findIndex((item) => item.value === selected) * (100 / items.length)}%`,
-          width: `${100 / items.length}%`,
-        }}
-      />
-    </div>
+        className={customTwMerge(
+          'fixed z-10 flex h-40 w-full max-w-500 flex-row bg-basic-white scrollbar-hidden',
+          className,
+        )}
+      >
+        {items.flatMap((v) => (
+          <Tab
+            key={v.label}
+            label={v.label}
+            selected={v.value === selected}
+            onClick={() => onSelect?.(v.value)}
+            disabled={v.disabled}
+          />
+        ))}
+        <div className="absolute bottom-0 h-[1px] w-full bg-basic-grey-200" />
+        <div
+          className="absolute bottom-0 h-[2px] bg-basic-black transition-all duration-300 ease-in-out"
+          style={{
+            left: `${items.findIndex((item) => item.value === selected) * (100 / items.length)}%`,
+            width: `${100 / items.length}%`,
+          }}
+        />
+      </div>
+      <div className="h-40" aria-hidden="true" />
+    </>
   );
 };
 

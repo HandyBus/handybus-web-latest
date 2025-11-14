@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import Card from '@/components/card/Card';
 import { EventsViewEntity } from '@/types/event.type';
@@ -70,6 +71,11 @@ const TrendEventsSwiperView = ({ events }: Props) => {
             loop={true}
             centeredSlides={true}
             className="relative w-full"
+            autoplay={{
+              delay: 3000,
+              pauseOnMouseEnter: true,
+            }}
+            modules={[Autoplay]}
             onInit={(swiper) => {
               setIsLoaded(true);
               handleSlideChange(swiper);

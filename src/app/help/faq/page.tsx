@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import ArrowRightIcon from './icons/arrow-right.svg';
 import Footer from '@/components/footer/Footer';
 import Link from 'next/link';
@@ -27,7 +26,6 @@ const CustomerSupport = () => {
   return (
     <>
       <main>
-        <Header />
         <TitledSection title="자주 묻는 질문">
           <Tabs
             items={TAB_ITEMS}

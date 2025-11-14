@@ -99,7 +99,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
           <div className="flex grow flex-col">
             <h4
               className={customTwMerge(
-                'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-18 font-600 leading-[160%]',
+                'flex h-28 items-center gap-[6px] whitespace-nowrap break-keep text-16 font-600 leading-[160%]',
                 demand.status === 'SUBMITTED' &&
                   'OPEN' &&
                   'text-brand-primary-400',
