@@ -5,8 +5,6 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import NavBar from '@/components/nav-bar/NavBar';
-import { headers } from 'next/headers';
-import { getIsAppFromUserAgentServer } from '@/utils/environment.util';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -30,12 +28,9 @@ const WithFooterLayout = ({
   help,
   modal,
 }: Readonly<Props>) => {
-  const headersList = headers();
-  const userAgent = headersList.get('user-agent') || '';
-  const isApp = getIsAppFromUserAgentServer(userAgent);
   return (
     <>
-      {!isApp && <Header />}
+      <Header />
       <main className="w-full grow">
         {event}
         {banner}

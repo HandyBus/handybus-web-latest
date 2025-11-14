@@ -1,18 +1,12 @@
-import Header from '@/components/header/Header';
-import { ReactNode } from 'react';
-import { headers } from 'next/headers';
-import { getIsAppFromUserAgentServer } from '@/utils/environment.util';
+import { Metadata } from 'next';
 
-const Layout = ({ children }: { children: ReactNode }) => {
-  const headersList = headers();
-  const userAgent = headersList.get('user-agent') || '';
-  const isApp = getIsAppFromUserAgentServer(userAgent);
-  return (
-    <>
-      {!isApp && <Header />}
-      {children}
-    </>
-  );
+export const metadata: Metadata = {
+  title: '공지사항',
+  description: '핸디버스의 공지사항을 확인하세요!',
 };
 
-export default Layout;
+const AnnouncementLayout = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>;
+};
+
+export default AnnouncementLayout;
