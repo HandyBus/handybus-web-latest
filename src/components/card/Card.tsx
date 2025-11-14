@@ -8,6 +8,30 @@ const DEMAND_ONGOING_BADGE_CLASS_NAME =
 const BOOKING_CLOSING_SOON_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-red-100 leading-[160%] text-basic-red-400';
 
+// 전역 이미지 캐시: 이미 로드된 이미지 URL을 추적
+const loadedImageCache = new Set<string>();
+
+// 이미지가 브라우저 캐시에 있는지 확인하는 함수
+const checkImageCache = (imageUrl: string | null): Promise<boolean> => {
+  if (!imageUrl) return Promise.resolve(false);
+
+  // 이미 캐시에 있는 경우
+  if (loadedImageCache.has(imageUrl)) {
+    return Promise.resolve(true);
+  }
+
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.onload = () => {
+      loadedImageCache.add(imageUrl);
+      resolve(true);
+    };
+    img.onerror = () => resolve(false);
+    // 이미지가 캐시에 있으면 즉시 onload가 호출됨
+    img.src = imageUrl;
+  });
+};
+
 interface Props {
   variant: 'GRID' | 'LARGE' | 'MEDIUM' | 'SMALL';
   image: string | null;
@@ -114,46 +138,49 @@ const GridCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // 이미지 src가 변경되면 fade-in 상태 리셋
-    if (!isInitialMount.current) {
-      setIsImageLoaded(false);
-      setShouldFadeIn(true);
-      return;
-    }
+    // 이미지 URL이 변경되면 상태 리셋
+    setIsImageLoaded(false);
 
-    // 초기 마운트 시에만 이미지 로딩 상태 확인
-    isInitialMount.current = false;
+    // 이미지가 캐시에 있는지 확인
+    checkImageCache(image).then((isCached) => {
+      if (isCached) {
+        // 이미지가 캐시에 있으면 fade-in 건너뛰기
+        setIsImageLoaded(true);
+        setShouldFadeIn(false);
+      } else {
+        // 이미지가 캐시에 없으면 fade-in 적용
+        setShouldFadeIn(fadeIn ?? true);
+      }
+    });
 
-    const checkImageLoaded = () => {
+    // DOM의 img 요소도 확인 (Next.js Image가 렌더링된 후)
+    const checkDomImage = () => {
       if (imageRef.current) {
         const imgElement = imageRef.current.querySelector('img');
-        if (imgElement) {
-          if (imgElement.complete) {
-            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
-            setIsImageLoaded(true);
-            setShouldFadeIn(false);
-          } else {
-            // 이미지가 아직 로드되지 않았으면 fade-in 적용
-            setIsImageLoaded(false);
-            setShouldFadeIn(true);
+        if (imgElement?.complete) {
+          setIsImageLoaded(true);
+          setShouldFadeIn(false);
+          if (image) {
+            loadedImageCache.add(image);
           }
-        } else {
-          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
-          setIsImageLoaded(false);
-          setShouldFadeIn(true);
         }
       }
     };
 
+    // 여러 프레임에 걸쳐 확인하여 Next.js Image 렌더링 대기
     requestAnimationFrame(() => {
-      requestAnimationFrame(checkImageLoaded);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(checkDomImage);
+      });
     });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
+    if (image) {
+      loadedImageCache.add(image);
+    }
     if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
@@ -225,46 +252,49 @@ const LargeCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLAnchorElement>(null);
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // 이미지 src가 변경되면 fade-in 상태 리셋
-    if (!isInitialMount.current) {
-      setIsImageLoaded(false);
-      setShouldFadeIn(true);
-      return;
-    }
+    // 이미지 URL이 변경되면 상태 리셋
+    setIsImageLoaded(false);
 
-    // 초기 마운트 시에만 이미지 로딩 상태 확인
-    isInitialMount.current = false;
+    // 이미지가 캐시에 있는지 확인
+    checkImageCache(image).then((isCached) => {
+      if (isCached) {
+        // 이미지가 캐시에 있으면 fade-in 건너뛰기
+        setIsImageLoaded(true);
+        setShouldFadeIn(false);
+      } else {
+        // 이미지가 캐시에 없으면 fade-in 적용
+        setShouldFadeIn(fadeIn ?? true);
+      }
+    });
 
-    const checkImageLoaded = () => {
+    // DOM의 img 요소도 확인 (Next.js Image가 렌더링된 후)
+    const checkDomImage = () => {
       if (imageRef.current) {
         const imgElement = imageRef.current.querySelector('img');
-        if (imgElement) {
-          if (imgElement.complete) {
-            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
-            setIsImageLoaded(true);
-            setShouldFadeIn(false);
-          } else {
-            // 이미지가 아직 로드되지 않았으면 fade-in 적용
-            setIsImageLoaded(false);
-            setShouldFadeIn(true);
+        if (imgElement?.complete) {
+          setIsImageLoaded(true);
+          setShouldFadeIn(false);
+          if (image) {
+            loadedImageCache.add(image);
           }
-        } else {
-          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
-          setIsImageLoaded(false);
-          setShouldFadeIn(true);
         }
       }
     };
 
+    // 여러 프레임에 걸쳐 확인하여 Next.js Image 렌더링 대기
     requestAnimationFrame(() => {
-      requestAnimationFrame(checkImageLoaded);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(checkDomImage);
+      });
     });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
+    if (image) {
+      loadedImageCache.add(image);
+    }
     if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
@@ -342,46 +372,49 @@ const MediumCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // 이미지 src가 변경되면 fade-in 상태 리셋
-    if (!isInitialMount.current) {
-      setIsImageLoaded(false);
-      setShouldFadeIn(true);
-      return;
-    }
+    // 이미지 URL이 변경되면 상태 리셋
+    setIsImageLoaded(false);
 
-    // 초기 마운트 시에만 이미지 로딩 상태 확인
-    isInitialMount.current = false;
+    // 이미지가 캐시에 있는지 확인
+    checkImageCache(image).then((isCached) => {
+      if (isCached) {
+        // 이미지가 캐시에 있으면 fade-in 건너뛰기
+        setIsImageLoaded(true);
+        setShouldFadeIn(false);
+      } else {
+        // 이미지가 캐시에 없으면 fade-in 적용
+        setShouldFadeIn(fadeIn ?? true);
+      }
+    });
 
-    const checkImageLoaded = () => {
+    // DOM의 img 요소도 확인 (Next.js Image가 렌더링된 후)
+    const checkDomImage = () => {
       if (imageRef.current) {
         const imgElement = imageRef.current.querySelector('img');
-        if (imgElement) {
-          if (imgElement.complete) {
-            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
-            setIsImageLoaded(true);
-            setShouldFadeIn(false);
-          } else {
-            // 이미지가 아직 로드되지 않았으면 fade-in 적용
-            setIsImageLoaded(false);
-            setShouldFadeIn(true);
+        if (imgElement?.complete) {
+          setIsImageLoaded(true);
+          setShouldFadeIn(false);
+          if (image) {
+            loadedImageCache.add(image);
           }
-        } else {
-          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
-          setIsImageLoaded(false);
-          setShouldFadeIn(true);
         }
       }
     };
 
+    // 여러 프레임에 걸쳐 확인하여 Next.js Image 렌더링 대기
     requestAnimationFrame(() => {
-      requestAnimationFrame(checkImageLoaded);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(checkDomImage);
+      });
     });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
+    if (image) {
+      loadedImageCache.add(image);
+    }
     if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
@@ -450,46 +483,49 @@ const SmallCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
   const imageRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    // 이미지 src가 변경되면 fade-in 상태 리셋
-    if (!isInitialMount.current) {
-      setIsImageLoaded(false);
-      setShouldFadeIn(true);
-      return;
-    }
+    // 이미지 URL이 변경되면 상태 리셋
+    setIsImageLoaded(false);
 
-    // 초기 마운트 시에만 이미지 로딩 상태 확인
-    isInitialMount.current = false;
+    // 이미지가 캐시에 있는지 확인
+    checkImageCache(image).then((isCached) => {
+      if (isCached) {
+        // 이미지가 캐시에 있으면 fade-in 건너뛰기
+        setIsImageLoaded(true);
+        setShouldFadeIn(false);
+      } else {
+        // 이미지가 캐시에 없으면 fade-in 적용
+        setShouldFadeIn(fadeIn ?? true);
+      }
+    });
 
-    const checkImageLoaded = () => {
+    // DOM의 img 요소도 확인 (Next.js Image가 렌더링된 후)
+    const checkDomImage = () => {
       if (imageRef.current) {
         const imgElement = imageRef.current.querySelector('img');
-        if (imgElement) {
-          if (imgElement.complete) {
-            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
-            setIsImageLoaded(true);
-            setShouldFadeIn(false);
-          } else {
-            // 이미지가 아직 로드되지 않았으면 fade-in 적용
-            setIsImageLoaded(false);
-            setShouldFadeIn(true);
+        if (imgElement?.complete) {
+          setIsImageLoaded(true);
+          setShouldFadeIn(false);
+          if (image) {
+            loadedImageCache.add(image);
           }
-        } else {
-          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
-          setIsImageLoaded(false);
-          setShouldFadeIn(true);
         }
       }
     };
 
+    // 여러 프레임에 걸쳐 확인하여 Next.js Image 렌더링 대기
     requestAnimationFrame(() => {
-      requestAnimationFrame(checkImageLoaded);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(checkDomImage);
+      });
     });
   }, [image, fadeIn]);
 
   const handleImageLoad = () => {
+    if (image) {
+      loadedImageCache.add(image);
+    }
     if (shouldFadeIn) {
       setIsImageLoaded(true);
     }
