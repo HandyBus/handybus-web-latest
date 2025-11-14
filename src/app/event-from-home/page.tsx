@@ -54,7 +54,7 @@ const Page = () => {
 
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      <main className="relative flex flex-1 flex-col">
         <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
         <div className="w-full px-16">
           <DeferredSuspense isLoading={isLoading} fallback={<Loading />}>

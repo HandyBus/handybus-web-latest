@@ -26,44 +26,47 @@ const NavBar = () => {
     setIsLoggedIn(getIsLoggedIn());
   }, []);
   return (
-    <div className="sticky bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
-      <div className="flex w-full max-w-[400px] items-center justify-between">
-        <TicketNavButton
-          name="탑승권"
-          href={isLoggedIn ? '/ticket' : '/login'}
-          icon={<TicketIcon />}
-        />
-        <div className="h-[46px] w-[1px] bg-basic-grey-200" />
-        <NavButton
-          name="홈"
-          href="/"
-          icon={<HomeIcon />}
-          selectedIcon={<HomeSelectedIcon />}
-          clickedIcon={<HomeClickedIcon />}
-        />
-        <NavButton
-          name="탐색"
-          href="/event"
-          icon={<ExploreIcon />}
-          selectedIcon={<ExploreSelectedIcon />}
-          clickedIcon={<ExploreClickedIcon />}
-        />
-        <NavButton
-          name="참여/내역"
-          href={isLoggedIn ? '/history' : '/login'}
-          icon={<HistoryIcon />}
-          selectedIcon={<HistorySelectedIcon />}
-          clickedIcon={<HistoryClickedIcon />}
-        />
-        <NavButton
-          name="마이"
-          href={isLoggedIn ? '/mypage' : '/login'}
-          icon={<MyPageIcon />}
-          selectedIcon={<MyPageSelectedIcon />}
-          clickedIcon={<MyPageClickedIcon />}
-        />
+    <>
+      <div className="fixed bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
+        <div className="flex w-full max-w-[400px] items-center justify-between">
+          <TicketNavButton
+            name="탑승권"
+            href={isLoggedIn ? '/ticket' : '/login'}
+            icon={<TicketIcon />}
+          />
+          <div className="h-[46px] w-[1px] bg-basic-grey-200" />
+          <NavButton
+            name="홈"
+            href="/"
+            icon={<HomeIcon />}
+            selectedIcon={<HomeSelectedIcon />}
+            clickedIcon={<HomeClickedIcon />}
+          />
+          <NavButton
+            name="탐색"
+            href="/event"
+            icon={<ExploreIcon />}
+            selectedIcon={<ExploreSelectedIcon />}
+            clickedIcon={<ExploreClickedIcon />}
+          />
+          <NavButton
+            name="참여/내역"
+            href={isLoggedIn ? '/history' : '/login'}
+            icon={<HistoryIcon />}
+            selectedIcon={<HistorySelectedIcon />}
+            clickedIcon={<HistoryClickedIcon />}
+          />
+          <NavButton
+            name="마이"
+            href={isLoggedIn ? '/mypage' : '/login'}
+            icon={<MyPageIcon />}
+            selectedIcon={<MyPageSelectedIcon />}
+            clickedIcon={<MyPageClickedIcon />}
+          />
+        </div>
       </div>
-    </div>
+      <div className="h-58" aria-hidden="true" />
+    </>
   );
 };
 

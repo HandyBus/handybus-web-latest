@@ -22,7 +22,7 @@ const Reviews = () => {
     }
   };
   return (
-    <main className="grow bg-basic-grey-50">
+    <main className="relative grow bg-basic-grey-50">
       <Tabs
         items={[
           { label: '작성 가능한 후기', value: 'writable-reviews' },
@@ -32,7 +32,7 @@ const Reviews = () => {
         onSelect={(value) => {
           router.replace(`/mypage/reviews?type=${value}`);
         }}
-        className="sticky top-56 z-10 pt-8"
+        className="top-56"
       />
       {renderTab()}
     </main>

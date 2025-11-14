@@ -14,34 +14,37 @@ interface FilterBarProps {
 
 const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
   return (
-    <div className="sticky top-56 z-40 bg-basic-white">
-      <div className="flex w-full justify-between px-16 pb-16 pt-12">
-        <div className="flex gap-8">
-          <Chip onClick={() => setType('ALL')} isSelected={type === 'ALL'}>
-            전체
-          </Chip>
-          <Chip
-            onClick={() => setType('CONCERT')}
-            isSelected={type === 'CONCERT'}
-          >
-            콘서트
-          </Chip>
-          <Chip
-            onClick={() => setType('FESTIVAL')}
-            isSelected={type === 'FESTIVAL'}
-          >
-            페스티벌
-          </Chip>
-          <Chip
-            onClick={() => setType('SPORTS')}
-            isSelected={type === 'SPORTS'}
-          >
-            스포츠
-          </Chip>
+    <>
+      <div className="fixed top-56 z-40 h-60 max-w-500 bg-basic-white">
+        <div className="flex w-full justify-between px-16 pb-16 pt-12">
+          <div className="flex gap-8">
+            <Chip onClick={() => setType('ALL')} isSelected={type === 'ALL'}>
+              전체
+            </Chip>
+            <Chip
+              onClick={() => setType('CONCERT')}
+              isSelected={type === 'CONCERT'}
+            >
+              콘서트
+            </Chip>
+            <Chip
+              onClick={() => setType('FESTIVAL')}
+              isSelected={type === 'FESTIVAL'}
+            >
+              페스티벌
+            </Chip>
+            <Chip
+              onClick={() => setType('SPORTS')}
+              isSelected={type === 'SPORTS'}
+            >
+              스포츠
+            </Chip>
+          </div>
+          <FilterButton sort={sort} onSort={onSort} />
         </div>
-        <FilterButton sort={sort} onSort={onSort} />
       </div>
-    </div>
+      <div className="h-60" aria-hidden="true" />
+    </>
   );
 };
 
