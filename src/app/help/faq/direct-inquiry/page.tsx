@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
 import KakaoIcon from 'public/icons/kakao.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
@@ -9,7 +8,6 @@ import { handleExternalLink } from '@/utils/externalLink.util';
 const Page = () => {
   return (
     <main className="h-full">
-      <Header />
       <TitledSection
         title={`문제가 생기셨나요?\n핸디버스 팀에게 직접 문의해 주세요.`}
       >

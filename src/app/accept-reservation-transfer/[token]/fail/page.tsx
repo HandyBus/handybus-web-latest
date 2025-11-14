@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
 import { logoutWithLoginRedirect } from '@/utils/handleToken.util';
@@ -21,7 +20,6 @@ const Page = ({ params, searchParams }: Props) => {
   const redirectUrl = `/accept-reservation-transfer/${token}`;
   return (
     <>
-      <Header />
       <main className="flex grow flex-col">
         <section className="mt-96 flex flex-col items-center">
           <h1 className="pb-4 text-22 font-700 leading-[140%]">

@@ -1,12 +1,18 @@
-import { Metadata } from 'next';
+import Header from '@/components/header/Header';
 import { ReactNode, Suspense } from 'react';
-
-export const metadata: Metadata = {
-  title: '로그인',
-};
+import { headers } from 'next/headers';
+import { getIsAppFromUserAgentServer } from '@/utils/environment.util';
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  return <Suspense>{children}</Suspense>;
+  const headersList = headers();
+  const userAgent = headersList.get('user-agent') || '';
+  const isApp = getIsAppFromUserAgentServer(userAgent);
+  return (
+    <Suspense>
+      {!isApp && <Header />}
+      {children}
+    </Suspense>
+  );
 };
 
 export default Layout;

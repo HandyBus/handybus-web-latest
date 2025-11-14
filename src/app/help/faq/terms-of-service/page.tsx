@@ -1,5 +1,4 @@
 import Footer from '@/components/footer/Footer';
-import Header from '@/components/header/Header';
 import TitledSection from '../components/TitledSection';
 import PolicyViewer from '@/components/policy/PolicyViewer';
 import { Metadata } from 'next';
@@ -13,7 +12,6 @@ const Page = () => {
   return (
     <>
       <main>
-        <Header />
         <TitledSection>
           <PolicyViewer type="서비스이용약관" />
         </TitledSection>

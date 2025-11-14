@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import ShuttleInfoSection from './components/ShuttleInfoSection';
 import NoticeSection from './components/NoticeSection';
 import SubmitSection from './components/SubmitSection';
@@ -45,24 +44,18 @@ const Page = ({ params }: Props) => {
   const isLoading = isUserLoading || isReservationTransferRequestLoading;
 
   return (
-    <>
-      <Header />
-      <DeferredSuspense
-        fallback={<Loading style="grow" />}
-        isLoading={isLoading}
-      >
-        {user && reservationTransferRequestDetail && (
-          <Content
-            user={user}
-            reservation={reservationTransferRequestDetail.reservation}
-            reservationTransferRequest={
-              reservationTransferRequestDetail.reservationTransferRequest
-            }
-            token={token}
-          />
-        )}
-      </DeferredSuspense>
-    </>
+    <DeferredSuspense fallback={<Loading style="grow" />} isLoading={isLoading}>
+      {user && reservationTransferRequestDetail && (
+        <Content
+          user={user}
+          reservation={reservationTransferRequestDetail.reservation}
+          reservationTransferRequest={
+            reservationTransferRequestDetail.reservationTransferRequest
+          }
+          token={token}
+        />
+      )}
+    </DeferredSuspense>
   );
 };
 

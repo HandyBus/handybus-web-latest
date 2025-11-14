@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import Image from 'next/image';
 import FirstImage from './images/first.png';
 import SecondImage from './images/second.png';
@@ -114,7 +113,6 @@ const Page = () => {
 
   return (
     <>
-      <Header />
       <main className="grow">
         <Image src={FirstImage} alt="핸디버스 앱 출시 이벤트" />
         <Image src={SecondImage} alt="핸디버스 앱 출시 이벤트" />

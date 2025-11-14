@@ -1,6 +1,8 @@
 import Header from '@/components/header/Header';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
+import { headers } from 'next/headers';
+import { getIsAppFromUserAgentServer } from '@/utils/environment.util';
 
 export const metadata: Metadata = {
   title: '진행 중인 행사 전체보기',
@@ -8,9 +10,12 @@ export const metadata: Metadata = {
 };
 
 const EventLayout = ({ children }: { children: ReactNode }) => {
+  const headersList = headers();
+  const userAgent = headersList.get('user-agent') || '';
+  const isApp = getIsAppFromUserAgentServer(userAgent);
   return (
     <>
-      <Header />
+      {!isApp && <Header />}
       {children}
     </>
   );

@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/header/Header';
 import {
   getReadNoticeList,
   READ_NOTICE_LIST_KEY,
@@ -25,7 +24,6 @@ const Page = ({ params }: Props) => {
 
   return (
     <main>
-      <Header />
       <section className="px-16">
         <section className={`flex justify-between gap-[9px] py-12`}>
           <div className="flex flex-col">
