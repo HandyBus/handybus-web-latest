@@ -43,35 +43,38 @@ const Header = () => {
   const pageName = getPageName(pathname);
 
   return (
-    <header className="sticky top-0 z-50 flex h-56 w-full items-center justify-between bg-basic-white px-16">
-      {isHome || !isApp ? (
-        <Link href="/">
-          <LogoIcon />
-        </Link>
-      ) : (
-        <div className="flex items-center">
-          {isApp && !isHideBackButton && (
-            <button type="button" onClick={() => router.back()}>
-              <BackIcon />
-            </button>
-          )}
-          <h1 className="text-18 font-700 leading-[140%] text-basic-black">
-            {pageName}
-          </h1>
-        </div>
-      )}
-
-      <div className="flex items-center gap-8">
-        {!isHome && isApp && (
+    <>
+      <header className="fixed top-0 z-50 flex h-56 w-full max-w-500 items-center justify-between bg-basic-white px-16">
+        {isHome || !isApp ? (
           <Link href="/">
-            <HomeIcon />
+            <LogoIcon />
           </Link>
+        ) : (
+          <div className="flex items-center">
+            {isApp && !isHideBackButton && (
+              <button type="button" onClick={() => router.back()}>
+                <BackIcon />
+              </button>
+            )}
+            <h1 className="text-18 font-700 leading-[140%] text-basic-black">
+              {pageName}
+            </h1>
+          </div>
         )}
-        <Link href="/announcements">
-          <AnnouncementsIcon />
-        </Link>
-      </div>
-    </header>
+
+        <div className="flex items-center gap-8">
+          {!isHome && isApp && (
+            <Link href="/">
+              <HomeIcon />
+            </Link>
+          )}
+          <Link href="/announcements">
+            <AnnouncementsIcon />
+          </Link>
+        </div>
+      </header>
+      <div className="h-56" aria-hidden="true" />
+    </>
   );
 };
 
