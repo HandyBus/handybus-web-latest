@@ -52,7 +52,6 @@
 html {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  overscroll-behavior: none; /* Prevent bounce effect on mobile */
 }
 
 html::-webkit-scrollbar {
