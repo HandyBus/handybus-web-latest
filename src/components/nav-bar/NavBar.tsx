@@ -65,7 +65,7 @@ const NavBar = () => {
           />
         </div>
       </div>
-      <div className="h-58" aria-hidden="true" />
+      <div className="h-[58px]" aria-hidden="true" />
     </>
   );
 };
