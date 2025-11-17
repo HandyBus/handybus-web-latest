@@ -9,34 +9,16 @@ import BannerSection from './components/banner/BannerSection';
 import AnnouncementSection from './components/announcement/AnnouncementSection';
 import GreetingSection from './components/greeting/GreetingSection';
 import ModalSection from './components/modal/ModalSection';
-import { EventsViewEntity } from '@/types/event.type';
-import { AdminHandleBannerRequestBanners } from '@/types/banner.type';
-import { AnnouncementResponseModel } from '@/types/announcement.type';
 
-interface HomeContentProps {
-  recommendedEvents: EventsViewEntity[];
-  pinnedEvents: EventsViewEntity[];
-  bannerImages: AdminHandleBannerRequestBanners[];
-  announcements: AnnouncementResponseModel[];
-}
-
-const HomeContent = ({
-  recommendedEvents,
-  pinnedEvents,
-  bannerImages,
-  announcements,
-}: HomeContentProps) => {
+const HomeContent = () => {
   return (
     <>
       <Header />
       <main className="w-full grow">
-        <EventSection
-          recommendedEvents={recommendedEvents}
-          pinnedEvents={pinnedEvents}
-        />
-        <BannerSection bannerImages={bannerImages} />
+        <EventSection />
+        <BannerSection />
         <HelpSection />
-        <AnnouncementSection announcements={announcements} />
+        <AnnouncementSection />
         <GreetingSection />
         <ModalSection />
       </main>

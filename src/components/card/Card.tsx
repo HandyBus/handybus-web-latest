@@ -182,7 +182,7 @@ const LargeCard = ({
       />
       {order && (
         <div
-          className={`absolute left-0 right-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order ${orderColorClass}`}
+          className={`absolute left-0 right-0 top-0 flex items-center pl-[16px] pt-[5px] font-dmSans text-[40px] font-600 italic leading-[140%] text-basic-white text-shadow-order ${orderColorClass}`}
         >
           {order}
         </div>

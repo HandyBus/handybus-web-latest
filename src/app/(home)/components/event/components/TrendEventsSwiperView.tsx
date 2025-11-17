@@ -77,10 +77,10 @@ const TrendEventsSwiperView = ({ events }: Props) => {
             loop={true}
             centeredSlides={true}
             className="relative w-full"
-            autoplay={{
-              delay: 3000,
-              pauseOnMouseEnter: true,
-            }}
+            // autoplay={{
+            //   delay: 3000,
+            //   pauseOnMouseEnter: true,
+            // }}
             modules={[Autoplay]}
             onInit={(swiper) => {
               setIsLoaded(true);
