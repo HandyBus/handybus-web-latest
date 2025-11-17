@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import * as Sentry from '@sentry/nextjs';
 import './globals.css';
+import '@stackflow/plugin-basic-ui/index.css';
 import '@/app/fonts/pretendard/font.css';
 import '@/app/fonts/dm-sans/font.css';
 import Provider from '@/components/provider/Provider';
