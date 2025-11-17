@@ -15,7 +15,7 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import { eventAtom } from '../../../store/eventAtom';
 import { useGetUser } from '@/services/user.service';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
-import { useEventFlow } from '@/stacks/event-stack';
+import { useFlow } from '@/stacks';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -91,7 +91,7 @@ const ReservationInfoStep = ({
     setFromDestinationShuttleRouteHubId(fromDestinationHubId);
   }, [route, selectedHubWithInfo.regionHubId]);
 
-  const { push } = useEventFlow();
+  const { push } = useFlow();
   const handleReservationClick = () => {
     if (!event || !route) {
       return;

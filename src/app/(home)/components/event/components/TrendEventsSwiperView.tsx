@@ -9,6 +9,7 @@ import 'swiper/css';
 import Card from '@/components/card/Card';
 import { EventsViewEntity } from '@/types/event.type';
 import Image from 'next/image';
+import { useFlow } from '@/stacks';
 
 const MIN_CARD_COUNT = 5;
 
@@ -32,6 +33,11 @@ const TrendEventsSwiperView = ({ events }: Props) => {
     const realIndex = swiper.realIndex % events.length;
     const activeEvent = events[realIndex];
     setActiveImage(activeEvent?.eventImageUrl || null);
+  };
+
+  const flow = useFlow();
+  const handleEventClick = (eventId: string) => {
+    flow.push('EventDetail', { eventId });
   };
 
   return (
@@ -94,7 +100,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
                     price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
                     isSaleStarted={v.eventMinRoutePrice !== null}
                     order={(idx % cardCount) + 1}
-                    href={`/event/${v.eventId}`}
+                    onClick={() => handleEventClick(v.eventId)}
                     priority
                   />
                 </div>

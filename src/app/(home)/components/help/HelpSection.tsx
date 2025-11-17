@@ -1,7 +1,7 @@
 import Help from './components/Help';
 
-const Page = () => {
+const HelpSection = () => {
   return <Help />;
 };
 
-export default Page;
+export default HelpSection;

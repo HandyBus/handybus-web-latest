@@ -15,6 +15,7 @@ import { dateString } from '@/utils/dateString.util';
 import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosingSoon.util';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { useFlow } from '@/stacks';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -51,6 +52,11 @@ const Page = () => {
         : [],
     [filteredEventsByType, sort],
   );
+
+  const flow = useFlow();
+  const handleEventClick = (eventId: string) => {
+    flow.push('EventDetail', { eventId });
+  };
 
   return (
     <>
@@ -94,9 +100,8 @@ const Page = () => {
                           price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
                           isSaleStarted={event.eventMinRoutePrice !== null}
                           isReservationClosingSoon={isClosingSoon}
-                          href={`/event/${event.eventId}`}
+                          onClick={() => handleEventClick(event.eventId)}
                           priority={isImportant}
-                          fadeIn={!isImportant}
                         />
                       </div>
                     );

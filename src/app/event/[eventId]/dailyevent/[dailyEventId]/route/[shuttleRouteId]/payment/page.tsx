@@ -1,6 +1,6 @@
 'use client';
 
-import { EventStack } from '@/stacks/event-stack';
+import { Stack } from '@/stacks';
 
 interface Props {
   params: {
@@ -13,7 +13,7 @@ interface Props {
 const Page = ({ params }: Props) => {
   const { eventId, dailyEventId, shuttleRouteId } = params;
   return (
-    <EventStack
+    <Stack
       initialContext={{
         req: {
           path: `/event/${eventId}/dailyevent/${dailyEventId}/route/${shuttleRouteId}/payment`,

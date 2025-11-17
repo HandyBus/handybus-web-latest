@@ -5,10 +5,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import Card from '@/components/card/Card';
-import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
+import ViewAllButton from './ViewAllButton';
 import Link from 'next/link';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
+import { useFlow } from '@/stacks';
 
 interface Props {
   events: EventsViewEntity[];
@@ -17,6 +18,11 @@ interface Props {
 const RecommendedEventSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const flow = useFlow();
+  const handleEventClick = (eventId: string) => {
+    flow.push('EventDetail', { eventId });
+  };
 
   return (
     <div className={'relative -mx-16 h-304 w-[calc(100%+32px)]'}>
@@ -56,7 +62,7 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
                     price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
                     isSaleStarted={v.eventMinRoutePrice !== null}
                     order={idx + 1}
-                    href={`/event/${v.eventId}`}
+                    onClick={() => handleEventClick(v.eventId)}
                     priority={isImportant}
                   />
                 </div>

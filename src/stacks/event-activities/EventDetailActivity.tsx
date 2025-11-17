@@ -17,7 +17,7 @@ const EventDetailActivity: ActivityComponentType<Params> = ({
 
   return (
     <AppScreen>
-      <div className="flex h-full w-full flex-col">
+      <div className="relative flex h-full w-full flex-col">
         <EventDetailContent eventId={eventId} />
       </div>
     </AppScreen>

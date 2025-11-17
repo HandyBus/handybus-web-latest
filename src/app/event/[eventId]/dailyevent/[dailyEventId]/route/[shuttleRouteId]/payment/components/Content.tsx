@@ -24,7 +24,7 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import GuidelineSection from './sections/GuidelineSection';
-import { useEventFlow } from '@/stacks/event-stack';
+import { useFlow } from '@/stacks';
 
 interface ContentProps {
   tripType: TripType;
@@ -58,7 +58,7 @@ const Content = ({
   reservationStartTime,
 }: ContentProps) => {
   const pathname = usePathname();
-  const { pop } = useEventFlow();
+  const { pop } = useFlow();
 
   const [selectedCoupon, setSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);

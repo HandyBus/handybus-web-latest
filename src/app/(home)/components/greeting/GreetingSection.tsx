@@ -22,7 +22,7 @@ const BOTTOM_SHEET_TEXT_MARKETING_AGREEMENT = {
   description: '수신 동의는 마이페이지에서 언제든지 변경할 수 있어요.',
 };
 
-const Page = () => {
+const GreetingSection = () => {
   const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
     preventCloseOnDrag: true,
   });
@@ -120,7 +120,7 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default GreetingSection;
 
 const usePutMarketingAgreement = () => {
   return useMutation({

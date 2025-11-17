@@ -19,7 +19,7 @@ import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
 
-const Page = () => {
+const ModalSection = () => {
   const router = useRouter();
   const handleAppLaunchEventOpen = () => {
     router.push('/app-launch-event');
@@ -111,4 +111,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ModalSection;

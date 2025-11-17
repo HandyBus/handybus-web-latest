@@ -1,11 +1,16 @@
+'use client';
+
 import Article from '@/components/article/Article';
-import { getAnnouncements } from '@/services/core.service';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/arrow-right.svg';
+import { AnnouncementResponseModel } from '@/types/announcement.type';
 
-const AnnouncementPreview = async () => {
-  const announcements = await getAnnouncements();
+interface Props {
+  announcements: AnnouncementResponseModel[];
+}
+
+const AnnouncementPreview = ({ announcements }: Props) => {
   const announcementsSorted = announcements?.sort((a, b) => {
     return dayjs(b.createdAt).diff(dayjs(a.createdAt));
   });
@@ -14,7 +19,7 @@ const AnnouncementPreview = async () => {
     <Article
       richTitle="공지사항"
       showMore="/announcements"
-      className="px-16 pb-24 pt-32"
+      className="h-300 px-16 pb-24 pt-32"
     >
       <div className="flex flex-col">
         {announcementsSorted?.slice(0, 3).map((v) => (

@@ -7,7 +7,7 @@ import EventListContent from '@/app/event/EventListContent';
 const EventListActivity: ActivityComponentType = () => {
   return (
     <AppScreen>
-      <div className="flex h-full w-full flex-col">
+      <div className="relative flex h-full w-full flex-col">
         <EventListContent />
       </div>
     </AppScreen>

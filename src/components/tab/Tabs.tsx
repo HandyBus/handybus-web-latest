@@ -37,7 +37,7 @@ const Tabs = <T,>({ items, selected, onSelect, className }: Props<T>) => {
           }}
         />
       </div>
-      <div className="h-40" aria-hidden="true" />
+      <div className="h-40 shrink-0" aria-hidden="true" />
     </>
   );
 };

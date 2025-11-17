@@ -43,7 +43,7 @@ const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
           <FilterButton sort={sort} onSort={onSort} />
         </div>
       </div>
-      <div className="h-60" aria-hidden="true" />
+      <div className="h-60 shrink-0" aria-hidden="true" />
     </>
   );
 };

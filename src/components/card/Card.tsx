@@ -9,7 +9,7 @@ const BOOKING_CLOSING_SOON_BADGE_CLASS_NAME =
 interface Props {
   variant: 'GRID' | 'LARGE' | 'MEDIUM' | 'SMALL';
   image: string | null;
-  handleClick: () => void;
+  onClick: () => void;
   order?: number;
   isSaleStarted?: boolean;
   isReservationClosingSoon?: boolean;
@@ -23,7 +23,7 @@ interface Props {
 const Card = ({
   variant,
   image,
-  handleClick,
+  onClick,
   order,
   isSaleStarted = true,
   isReservationClosingSoon,
@@ -44,7 +44,7 @@ const Card = ({
         date={date}
         price={price}
         location={location}
-        handleClick={handleClick}
+        onClick={onClick}
         priority={priority}
       />
     );
@@ -58,7 +58,7 @@ const Card = ({
         isSaleStarted={isSaleStarted}
         title={title}
         price={price}
-        handleClick={handleClick}
+        onClick={onClick}
         priority={priority}
       />
     );
@@ -73,7 +73,7 @@ const Card = ({
         date={date}
         price={price}
         location={location}
-        handleClick={handleClick}
+        onClick={onClick}
         priority={priority}
       />
     );
@@ -87,7 +87,7 @@ const Card = ({
       date={date}
       location={location}
       price={price}
-      handleClick={handleClick}
+      onClick={onClick}
       priority={priority}
     />
   );
@@ -97,7 +97,7 @@ export default Card;
 
 const GridCard = ({
   image,
-  handleClick,
+  onClick,
   isSaleStarted,
   isReservationClosingSoon,
   title,
@@ -106,11 +106,7 @@ const GridCard = ({
   priority,
 }: Props) => {
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="block w-full text-left"
-    >
+    <button type="button" onClick={onClick} className="block w-full text-left">
       <div className="relative aspect-[165/220] w-full shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]">
         <Image
           src={image || '/images/default-event.png'}
@@ -159,7 +155,7 @@ const LargeCard = ({
   isSaleStarted,
   title,
   price,
-  handleClick,
+  onClick,
   priority,
 }: Props) => {
   const orderColorClass =
@@ -174,7 +170,7 @@ const LargeCard = ({
   return (
     <button
       type="button"
-      onClick={handleClick}
+      onClick={onClick}
       className="relative block h-[309px] w-[232px] shrink-0 rounded-[14px] border-[1px] border-[#181F29] border-opacity-[0.08] text-left"
     >
       <Image
@@ -222,13 +218,13 @@ const MediumCard = ({
   title,
   date,
   price,
-  handleClick,
+  onClick,
   priority,
 }: Props) => {
   return (
     <button
       type="button"
-      onClick={handleClick}
+      onClick={onClick}
       className="block w-[145px] text-left"
     >
       <div className="relative h-[193px] w-[145px] shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]">
@@ -277,15 +273,11 @@ const SmallCard = ({
   date,
   location,
   price,
-  handleClick,
+  onClick,
   priority,
 }: Props) => {
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="flex gap-12 text-left"
-    >
+    <button type="button" onClick={onClick} className="flex gap-12 text-left">
       <div className="relative h-[133px] w-[100px] shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]">
         <Image
           src={image || '/images/default-event.png'}

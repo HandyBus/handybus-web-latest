@@ -3,7 +3,13 @@
 import { Stack } from '@/stacks';
 
 const Page = () => {
-  return <Stack initialContext={{ req: { path: '/event' } }} />;
+  return (
+    <Stack
+      initialContext={{
+        req: { path: '/' },
+      }}
+    />
+  );
 };
 
 export default Page;

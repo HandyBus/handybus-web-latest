@@ -17,7 +17,7 @@ import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosing
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { handleExternalLink } from '@/utils/externalLink.util';
 import Header from '@/components/header/Header';
-import { useEventFlow } from '@/stacks/event-stack';
+import { useFlow } from '@/stacks';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -55,7 +55,7 @@ const EventListContent = () => {
     [filteredEventsByType, sort],
   );
 
-  const { push } = useEventFlow();
+  const { push } = useFlow();
   const handleEventClick = (eventId: string) => {
     console.log('eventId', eventId);
     push('EventDetail', { eventId });
@@ -97,7 +97,7 @@ const EventListContent = () => {
                         <Card
                           key={event.eventId}
                           image={event.eventImageUrl}
-                          handleClick={() => handleEventClick(event.eventId)}
+                          onClick={() => handleEventClick(event.eventId)}
                           variant="GRID"
                           title={event.eventName}
                           date={formattedDate}

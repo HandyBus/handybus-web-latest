@@ -73,7 +73,7 @@ const Header = () => {
           </Link>
         </div>
       </header>
-      <div className="h-56" aria-hidden="true" />
+      <div className="h-56 shrink-0" aria-hidden="true" />
     </>
   );
 };
