@@ -84,6 +84,7 @@ export default Header;
 const URL_TO_PAGE_NAME = {
   '/login': '로그인',
   '/event': '모든 행사',
+  '/event-from-home': '모든 행사',
   '/event/:id': '행사 정보',
   '/event/:id/dailyevent/:id/route/:id/payment/request': '결제',
   '/event/:id/dailyevent/:id/route/:id/payment/request/:id': '결제',

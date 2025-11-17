@@ -22,10 +22,22 @@ import ReservationTransferSuccessActivity from './history-activities/Reservation
 import ReservationTransferActivity from './history-activities/ReservationTransferActivity';
 import TicketListActivity from './ticket-activities/TicketListActivity';
 import TicketDetailActivity from './ticket-activities/TicketDetailActivity';
+import AnnouncementListActivity from './extra-activities/AnnouncementListActivity';
+import AnnouncementDetailActivity from './extra-activities/AnnouncementDetailActivity';
+import AboutActivity from './extra-activities/AboutActivity';
+import HandybusGuideActivity from './extra-activities/HandybusGuideActivity';
+import FaqActivity from './extra-activities/FaqActivity';
+import DirectInquiryActivity from './extra-activities/DirectInquiryActivity';
+import TermsOfServiceActivity from './extra-activities/TermsOfServiceActivity';
+import PrivacyPolicyActivity from './extra-activities/PrivacyPolicyActivity';
+import MarketingConsentActivity from './extra-activities/MarketingConsentActivity';
+import EventListFromHomeActivity from './home-activities/EventListFromHomeActivity';
+import AppLaunchEventActivity from './extra-activities/AppLaunchEventActivity';
 
 const activities = {
   // home activities
   Home: HomeActivity,
+  EventListFromHome: EventListFromHomeActivity,
   // event activities
   EventList: EventListActivity,
   EventDetail: EventDetailActivity,
@@ -53,11 +65,22 @@ const activities = {
   TicketDetail: TicketDetailActivity,
   // extra activities
   Login: LoginActivity,
+  AnnouncementList: AnnouncementListActivity,
+  AnnouncementDetail: AnnouncementDetailActivity,
+  About: AboutActivity,
+  HandybusGuide: HandybusGuideActivity,
+  Faq: FaqActivity,
+  DirectInquiry: DirectInquiryActivity,
+  TermsOfService: TermsOfServiceActivity,
+  PrivacyPolicy: PrivacyPolicyActivity,
+  MarketingConsent: MarketingConsentActivity,
+  AppLaunchEvent: AppLaunchEventActivity,
 };
 
 const routes = {
   // home activities
   Home: '/',
+  EventListFromHome: '/event-from-home',
   // event activities
   EventList: '/event',
   EventDetail: '/event/:eventId',
@@ -88,6 +111,16 @@ const routes = {
   TicketDetail: '/ticket/:reservationId',
   // extra activities
   Login: '/login',
+  AnnouncementList: '/announcements',
+  AnnouncementDetail: '/announcements/:id',
+  About: '/help/about',
+  HandybusGuide: '/help/handybus-guide',
+  Faq: '/help/faq',
+  DirectInquiry: '/help/faq/direct-inquiry',
+  TermsOfService: '/help/faq/terms-of-service',
+  PrivacyPolicy: '/help/faq/privacy-policy',
+  MarketingConsent: '/help/faq/marketing-consent',
+  AppLaunchEvent: '/app-launch-event',
 };
 
 export const { Stack, useFlow } = createStack(activities, routes, 'Home');
