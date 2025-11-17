@@ -25,7 +25,7 @@ const ROUTE_TO_ACTIVITY_MAP: Record<string, string> = {
   '/history': 'History',
   '/mypage': 'MyPage',
   '/ticket': 'Ticket',
-  '/login': 'Home',
+  '/login': 'Login',
 } as const;
 
 const DEFAULT_ACTIVITY = 'Home';
@@ -37,6 +37,8 @@ interface NavItemConfig {
   selectedIcon?: ReactNode;
   clickedIcon?: ReactNode;
   isTicketButton?: boolean;
+  animate?: boolean;
+  replace?: boolean;
 }
 
 const NavBar = () => {
@@ -53,6 +55,8 @@ const NavBar = () => {
         href: isLoggedIn ? '/ticket' : '/login',
         icon: <TicketIcon />,
         isTicketButton: true,
+        animate: !isLoggedIn,
+        replace: isLoggedIn,
       },
       {
         name: '홈',
@@ -60,6 +64,8 @@ const NavBar = () => {
         icon: <HomeIcon />,
         selectedIcon: <HomeSelectedIcon />,
         clickedIcon: <HomeClickedIcon />,
+        animate: false,
+        replace: true,
       },
       {
         name: '탐색',
@@ -67,6 +73,8 @@ const NavBar = () => {
         icon: <ExploreIcon />,
         selectedIcon: <ExploreSelectedIcon />,
         clickedIcon: <ExploreClickedIcon />,
+        animate: false,
+        replace: true,
       },
       {
         name: '참여/내역',
@@ -74,6 +82,8 @@ const NavBar = () => {
         icon: <HistoryIcon />,
         selectedIcon: <HistorySelectedIcon />,
         clickedIcon: <HistoryClickedIcon />,
+        animate: !isLoggedIn,
+        replace: isLoggedIn,
       },
       {
         name: '마이',
@@ -81,6 +91,8 @@ const NavBar = () => {
         icon: <MyPageIcon />,
         selectedIcon: <MyPageSelectedIcon />,
         clickedIcon: <MyPageClickedIcon />,
+        animate: !isLoggedIn,
+        replace: isLoggedIn,
       },
     ];
 
@@ -103,6 +115,7 @@ const NavBar = () => {
                   selectedIcon={item.selectedIcon}
                   clickedIcon={item.clickedIcon}
                   isTicketButton={item.isTicketButton}
+                  animate={item.animate}
                 />
               </div>
               {index === 0 && (
@@ -119,14 +132,26 @@ const NavBar = () => {
 
 export default NavBar;
 
-// Hooks
-const useNavigation = () => {
+interface useNavigationProps {
+  animate?: boolean;
+  replace?: boolean;
+}
+
+const useNavigation = ({
+  animate = false,
+  replace = true,
+}: useNavigationProps) => {
   const flow = useFlow();
 
   const navigateToActivity = (href: string) => {
     const activityName = ROUTE_TO_ACTIVITY_MAP[href] || DEFAULT_ACTIVITY;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    flow.replace(activityName as any, {}, { animate: false });
+    if (replace) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      flow.replace(activityName as any, {}, { animate });
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      flow.push(activityName as any, {}, { animate });
+    }
   };
 
   return { navigateToActivity };
@@ -139,6 +164,8 @@ interface NavButtonProps {
   selectedIcon?: ReactNode;
   clickedIcon?: ReactNode;
   isTicketButton?: boolean;
+  animate?: boolean;
+  replace?: boolean;
 }
 
 // Components
@@ -149,6 +176,8 @@ const NavButton = ({
   selectedIcon,
   clickedIcon,
   isTicketButton = false,
+  animate = false,
+  replace = false,
 }: NavButtonProps) => {
   const pathname = usePathname();
   const parsedPathname =
@@ -157,8 +186,8 @@ const NavButton = ({
       : pathname.endsWith('/')
         ? pathname.slice(0, -1)
         : pathname;
-  const isSelected = parsedPathname === href;
-  const { navigateToActivity } = useNavigation();
+  const isSelected = href === '/login' ? false : parsedPathname === href;
+  const { navigateToActivity } = useNavigation({ animate, replace });
 
   const handleClick = () => {
     navigateToActivity(href);

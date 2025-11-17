@@ -15,7 +15,6 @@ const Page = ({ params }: Props) => {
       initialContext={{
         req: {
           path: `/event/${eventId}`,
-          params: { eventId },
         },
       }}
     />
