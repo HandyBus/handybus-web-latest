@@ -15,7 +15,7 @@ export const createStackflowConfig = <T extends BaseActivities>(
   routes: Record<keyof T, string>,
   fallbackActivity: Extract<keyof T, string>,
 ) => ({
-  transitionDuration: 350,
+  transitionDuration: 270,
   plugins: [
     basicRendererPlugin(),
     basicUIPlugin({

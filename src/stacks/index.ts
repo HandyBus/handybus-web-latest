@@ -11,6 +11,12 @@ const activities = {
   EventList: EventListActivity,
   EventDetail: EventDetailActivity,
   Payment: PaymentActivity,
+  // history activities
+  History: HomeActivity,
+  // mypage activities
+  MyPage: HomeActivity,
+  // ticket activities
+  Ticket: HomeActivity,
 };
 
 const routes = {
@@ -21,6 +27,12 @@ const routes = {
   EventDetail: '/event/:eventId',
   Payment:
     '/event/:eventId/dailyevent/:dailyEventId/route/:shuttleRouteId/payment',
+  // history activities
+  History: '/history',
+  // mypage activities
+  MyPage: '/mypage',
+  // ticket activities
+  Ticket: '/ticket',
 };
 
 export const { Stack, useFlow } = createStack(activities, routes, 'Home');
