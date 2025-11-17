@@ -36,28 +36,20 @@ interface NavItemConfig {
   icon: ReactNode;
   selectedIcon?: ReactNode;
   clickedIcon?: ReactNode;
-  isTicketButton?: boolean;
   animate?: boolean;
   replace?: boolean;
 }
 
 const NavBar = () => {
+  const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(getIsLoggedIn());
-  }, []);
+  }, [pathname]);
 
   const getNavItems = (): NavItemConfig[] => {
     const baseItems: NavItemConfig[] = [
-      {
-        name: '탑승권',
-        href: isLoggedIn ? '/ticket' : '/login',
-        icon: <TicketIcon />,
-        isTicketButton: true,
-        animate: !isLoggedIn,
-        replace: isLoggedIn,
-      },
       {
         name: '홈',
         href: '/',
@@ -105,23 +97,22 @@ const NavBar = () => {
     <>
       <div className="fixed bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
         <div className="flex w-full max-w-[400px] items-center justify-between">
-          {navItems.map((item, index) => (
-            <>
-              <div key={item.name} className="flex items-center">
-                <NavButton
-                  name={item.name}
-                  href={item.href}
-                  icon={item.icon}
-                  selectedIcon={item.selectedIcon}
-                  clickedIcon={item.clickedIcon}
-                  isTicketButton={item.isTicketButton}
-                  animate={item.animate}
-                />
-              </div>
-              {index === 0 && (
-                <div className="h-[46px] w-[1px] bg-basic-grey-200" />
-              )}
-            </>
+          <div className="flex items-center">
+            <TicketNavButton isLoggedIn={isLoggedIn} />
+          </div>
+          <div className="h-[46px] w-[1px] bg-basic-grey-200" />
+          {navItems.map((item) => (
+            <div key={item.name} className="flex items-center">
+              <NavButton
+                name={item.name}
+                href={item.href}
+                icon={item.icon}
+                selectedIcon={item.selectedIcon}
+                clickedIcon={item.clickedIcon}
+                animate={item.animate}
+                replace={item.replace}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -157,25 +148,66 @@ const useNavigation = ({
   return { navigateToActivity };
 };
 
+interface TicketNavButtonProps {
+  isLoggedIn: boolean;
+}
+
+const TicketNavButton = ({ isLoggedIn }: TicketNavButtonProps) => {
+  const pathname = usePathname();
+  const href = isLoggedIn ? '/ticket' : '/login';
+  const parsedPathname =
+    pathname.length === 1
+      ? '/'
+      : pathname.endsWith('/')
+        ? pathname.slice(0, -1)
+        : pathname;
+  const isSelected = href === '/login' ? false : parsedPathname === href;
+  const { navigateToActivity } = useNavigation({
+    animate: !isLoggedIn,
+    replace: isLoggedIn,
+  });
+
+  const handleClick = () => {
+    navigateToActivity(href);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className="flex w-44 flex-col items-center justify-center rounded-4 px-8 text-left active:bg-basic-grey-100"
+    >
+      <div className="flex h-32 w-32 items-center justify-center">
+        <TicketIcon />
+      </div>
+      <div
+        className={customTwMerge(
+          'flex h-[19px] items-center justify-center whitespace-nowrap break-keep text-12 font-600 leading-[160%] text-basic-grey-600',
+          isSelected && 'font-700 text-basic-black',
+        )}
+      >
+        탑승권
+      </div>
+    </button>
+  );
+};
+
 interface NavButtonProps {
   name: string;
   href: string;
   icon: ReactNode;
   selectedIcon?: ReactNode;
   clickedIcon?: ReactNode;
-  isTicketButton?: boolean;
   animate?: boolean;
   replace?: boolean;
 }
 
-// Components
 const NavButton = ({
   name,
   href,
   icon,
   selectedIcon,
   clickedIcon,
-  isTicketButton = false,
   animate = false,
   replace = false,
 }: NavButtonProps) => {
@@ -194,26 +226,6 @@ const NavButton = ({
   };
 
   const hasMultipleIcons = selectedIcon && clickedIcon;
-
-  if (isTicketButton) {
-    return (
-      <button
-        type="button"
-        onClick={handleClick}
-        className="flex w-44 flex-col items-center justify-center rounded-4 px-8 text-left active:bg-basic-grey-100"
-      >
-        <div className="flex h-32 w-32 items-center justify-center">{icon}</div>
-        <div
-          className={customTwMerge(
-            'flex h-[19px] items-center justify-center whitespace-nowrap break-keep text-12 font-600 leading-[160%] text-basic-grey-600',
-            isSelected && 'font-700 text-basic-black',
-          )}
-        >
-          {name}
-        </div>
-      </button>
-    );
-  }
 
   return (
     <button
