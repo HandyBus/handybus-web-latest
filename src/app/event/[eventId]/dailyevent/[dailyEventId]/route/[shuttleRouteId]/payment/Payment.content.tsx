@@ -10,6 +10,7 @@ import { useGetUserCoupons } from '@/services/coupon.service';
 import Content from './components/Content';
 import { useState } from 'react';
 import TossPaymentsScript from '@/components/script/TossPaymentsScript';
+import Header from '@/components/header/Header';
 
 interface Props {
   eventId: string;
@@ -25,7 +26,7 @@ interface Props {
   reservationStartTime: string | null;
 }
 
-const PaymentContent = ({
+const Payment = ({
   eventId,
   dailyEventId,
   shuttleRouteId,
@@ -65,6 +66,7 @@ const PaymentContent = ({
 
   return (
     <>
+      <Header />
       <TossPaymentsScript onReady={() => setIsTossPaymentsScriptLoaded(true)} />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {event &&
@@ -93,4 +95,4 @@ const PaymentContent = ({
   );
 };
 
-export default PaymentContent;
+export default Payment;

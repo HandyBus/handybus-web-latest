@@ -10,7 +10,7 @@ import AnnouncementSection from './components/announcement/AnnouncementSection';
 import GreetingSection from './components/greeting/GreetingSection';
 import ModalSection from './components/modal/ModalSection';
 
-const HomeContent = () => {
+const Home = () => {
   return (
     <>
       <Header />
@@ -28,4 +28,4 @@ const HomeContent = () => {
   );
 };
 
-export default HomeContent;
+export default Home;

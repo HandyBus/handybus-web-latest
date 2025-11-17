@@ -17,7 +17,7 @@ interface Props {
   eventId: string;
 }
 
-const EventDetailContent = ({ eventId }: Props) => {
+const EventDetail = ({ eventId }: Props) => {
   const { data: event, isLoading } = useGetEvent(eventId);
 
   const isClosingSoon = event
@@ -56,4 +56,4 @@ const EventDetailContent = ({ eventId }: Props) => {
   );
 };
 
-export default EventDetailContent;
+export default EventDetail;

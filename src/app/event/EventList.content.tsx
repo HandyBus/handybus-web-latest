@@ -21,7 +21,7 @@ import { useFlow } from '@/stacks';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
-const EventListContent = () => {
+const EventList = () => {
   const [type, setType] = useState<EventTypeWithAll>('ALL');
   const [sort, setSort] = useState<EventSortType>('DATE_ASC');
   const {
@@ -137,4 +137,4 @@ const EventListContent = () => {
   );
 };
 
-export default EventListContent;
+export default EventList;

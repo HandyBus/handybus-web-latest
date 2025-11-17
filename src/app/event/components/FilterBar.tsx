@@ -3,7 +3,7 @@
 import Chip from '@/components/chips/Chip';
 import FilterButton from './FilterButton';
 import { EventSortType } from '@/app/event/event.const';
-import type { EventTypeWithAll } from '../EventListContent';
+import type { EventTypeWithAll } from '../EventList.content';
 
 interface FilterBarProps {
   type: EventTypeWithAll;
