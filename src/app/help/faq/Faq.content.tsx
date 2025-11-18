@@ -3,12 +3,12 @@
 import Header from '@/components/header/Header';
 import ArrowRightIcon from './icons/arrow-right.svg';
 import Footer from '@/components/footer/Footer';
-import Link from 'next/link';
 import TitledSection from './components/TitledSection';
 import Tabs from '@/components/tab/Tabs';
 import { useState } from 'react';
 import FAQList from './components/FAQList';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
+import { StackName, useFlow } from '@/stacks';
 
 const TAB_ITEMS = [
   { label: '예약하기', value: 'reservation' },
@@ -24,10 +24,15 @@ const Faq = () => {
 
   const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);
 
+  const flow = useFlow();
+  const handleClick = (stackName: StackName) => {
+    flow.push(stackName, {});
+  };
+
   return (
     <>
       <Header />
-      <main>
+      <main className="relative">
         <TitledSection title="자주 묻는 질문">
           <Tabs
             items={TAB_ITEMS}
@@ -35,6 +40,7 @@ const Faq = () => {
             onSelect={(value) => {
               setSelectedTab(value);
             }}
+            className="absolute w-[calc(100%-32px)]"
           />
           <FAQList selectedTab={selectedTab as 'reservation' | 'boarding'} />
         </TitledSection>
@@ -42,22 +48,22 @@ const Faq = () => {
         <TitledSection title="이용 약관">
           <NavigationItem
             title="서비스 이용 약관"
-            href="/help/faq/terms-of-service"
+            onClick={() => handleClick('TermsOfService')}
           />
           <NavigationItem
             title="개인정보 처리 방침"
-            href="/help/faq/privacy-policy"
+            onClick={() => handleClick('PrivacyPolicy')}
           />
           <NavigationItem
             title="마케팅 활용 동의"
-            href="/help/faq/marketing-consent"
+            onClick={() => handleClick('MarketingConsent')}
           />
         </TitledSection>
         <div className="h-8 w-full bg-basic-grey-50" />
         <TitledSection title="고객센터">
           <NavigationItem
             title="직접 문의하기"
-            href="/help/faq/direct-inquiry"
+            onClick={() => handleClick('DirectInquiry')}
           />
           <button
             className="flex w-full flex-row justify-between py-12"
@@ -84,21 +90,17 @@ export default Faq;
 
 interface NavigationItemProps {
   title: string;
-  href: string;
-  target?: string;
-  rel?: string;
+  onClick: () => void;
 }
 
-const NavigationItem = ({ title, href, target, rel }: NavigationItemProps) => {
+const NavigationItem = ({ title, onClick }: NavigationItemProps) => {
   return (
-    <Link
-      href={href}
-      target={target}
-      rel={rel}
-      className="flex w-full flex-row justify-between py-12"
+    <button
+      onClick={onClick}
+      className="flex w-full flex-row justify-between py-12 text-left"
     >
       <p className="text-16 font-600 leading-[160%]">{title}</p>
       <ArrowRightIcon className="h-24 w-24 text-basic-grey-400" />
-    </Link>
+    </button>
   );
 };

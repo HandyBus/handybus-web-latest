@@ -10,7 +10,7 @@ import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import CancelAlertRequestBottomSheet from './CancelAlertRequestBottomSheet';
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 
 interface Props {
   alertRequest: ShuttleRouteAlertRequestsViewEntity;
@@ -58,14 +58,14 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
     shuttleRoute.remainingSeatType === 'ROUND_TRIP';
   const isReservationEnded = shuttleRoute.status !== 'OPEN';
 
-  const router = useRouter();
+  const flow = useFlow();
   const redirectToAlertRequestDetail = handleClickAndStopPropagation(() => {
-    router.push(
-      `/mypage/alert-requests/${alertRequest.shuttleRouteAlertRequestId}`,
-    );
+    flow.push('AlertRequestDetail', {
+      alertRequestId: alertRequest.shuttleRouteAlertRequestId,
+    });
   });
   const redirectToEventDetail = handleClickAndStopPropagation(() => {
-    router.push(`/event/${event.eventId}`);
+    flow.push('EventDetail', { eventId: event.eventId });
   });
 
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =

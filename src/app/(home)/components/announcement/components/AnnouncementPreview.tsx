@@ -18,7 +18,7 @@ const AnnouncementPreview = ({ announcements }: Props) => {
   return (
     <Article
       richTitle="공지사항"
-      showMore="/announcements"
+      showMore="AnnouncementList"
       className="h-300 px-16 pb-24 pt-32"
     >
       <div className="flex flex-col">

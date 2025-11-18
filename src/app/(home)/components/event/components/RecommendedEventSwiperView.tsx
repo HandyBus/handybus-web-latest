@@ -6,7 +6,6 @@ import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import Card from '@/components/card/Card';
 import ViewAllButton from './ViewAllButton';
-import Link from 'next/link';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { useFlow } from '@/stacks';
@@ -22,6 +21,9 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
   const flow = useFlow();
   const handleEventClick = (eventId: string) => {
     flow.push('EventDetail', { eventId });
+  };
+  const handleShowMore = () => {
+    flow.push('EventListFromHome', {});
   };
 
   return (
@@ -71,17 +73,16 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
           })}
           {
             <SwiperSlide style={{ width: 'auto' }}>
-              <Link
-                href="/event?from=home"
-                className="group flex h-[300px] w-92 cursor-pointer flex-col items-center gap-[8px] pr-[6px]
-    pt-72
-    transition-colors"
+              <button
+                type="button"
+                onClick={handleShowMore}
+                className="group flex h-[300px] w-92 cursor-pointer flex-col items-center gap-[8px] pr-[6px] pt-72 text-left transition-colors"
               >
                 <ViewAllButton />
                 <p className="text-14 font-600 leading-[160%] text-basic-grey-600">
                   전체보기
                 </p>
-              </Link>
+              </button>
             </SwiperSlide>
           }
         </Swiper>

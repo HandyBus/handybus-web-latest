@@ -2,36 +2,38 @@
 
 import KakaoIcon from 'public/icons/kakao.svg';
 import NaverIcon from 'public/icons/naver.svg';
-import Link from 'next/link';
 import { OAUTH } from '@/constants/oauth';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import {
   getLastLogin,
   removeRedirectUrl,
   setLastLogin,
   setRedirectUrl,
 } from '@/utils/localStorage';
-import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
 import AppleLogin from 'react-apple-login';
 import AppleIcon from './icons/apple.svg';
 import Header from '@/components/header/Header';
 import { handleExternalLink } from '@/utils/externalLink.util';
 import { getIsAppFromUserAgent } from '@/utils/environment.util';
+import { useFlow } from '@/stacks';
 
-const Login = () => {
+interface Props {
+  redirectUrl?: string;
+}
+
+const Login = ({ redirectUrl }: Props) => {
   usePreventScroll();
 
-  const searchParams = useSearchParams();
-  const handleRedirectUrl = () => {
-    const redirectUrl = searchParams.get(LOGIN_REDIRECT_URL_KEY);
+  useEffect(() => {
     if (redirectUrl) {
       setRedirectUrl(redirectUrl);
     } else {
       removeRedirectUrl();
     }
-  };
+  }, [redirectUrl]);
+
+  const flow = useFlow();
 
   const isApp = getIsAppFromUserAgent();
   const handleKakaoLogin = () => {
@@ -42,10 +44,6 @@ const Login = () => {
     setLastLogin('naver');
     handleExternalLink(OAUTH.naver(isApp));
   };
-
-  useEffect(() => {
-    handleRedirectUrl();
-  }, [searchParams]);
 
   const [lastLoginState, setLastLoginState] = useState<
     'kakao' | 'naver' | 'apple' | null
@@ -125,13 +123,21 @@ const Login = () => {
       <section className="flex flex-1 grow flex-col">
         <p className="mx-16 mt-40 border-t border-[#F3F3F3] pt-16 text-center text-12 font-500 text-basic-grey-400">
           로그인은{' '}
-          <Link href="/help/faq/privacy-policy" className="underline">
+          <button
+            type="button"
+            onClick={() => flow.push('PrivacyPolicy', {})}
+            className="text-left underline"
+          >
             개인정보처리방침
-          </Link>{' '}
+          </button>{' '}
           및{' '}
-          <Link href="/help/faq/terms-of-service" className="underline">
+          <button
+            type="button"
+            onClick={() => flow.push('TermsOfService', {})}
+            className="text-left underline"
+          >
             서비스 이용 약관
-          </Link>{' '}
+          </button>{' '}
           에 동의하는 것을
           <br />
           의미하며, 서비스 이용을 위해 실명, 전화번호, 성별, 연령대를

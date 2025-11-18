@@ -4,7 +4,6 @@ import ModalPortal from '@/components/modals/ModalPortal';
 import argentModalImage from './images/argent-modal.png';
 import ArgentModal from './components/ArgentModal';
 import AppLaunchEventImage from './images/app-launch-event.png';
-import { useRouter } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
 import OneDayModal from './components/OneDayModal';
 // import EventPromotionModal from './components/EventPromotionModal';
@@ -18,11 +17,12 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { useFlow } from '@/stacks';
 
 const ModalSection = () => {
-  const router = useRouter();
+  const flow = useFlow();
   const handleAppLaunchEventOpen = () => {
-    router.push('/app-launch-event');
+    flow.push('AppLaunchEvent', {});
   };
   const showEmergencyModal =
     process.env.NEXT_PUBLIC_ENABLE_EMERGENCY_MODAL === 'true';

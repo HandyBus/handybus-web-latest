@@ -4,11 +4,20 @@ import type { ActivityComponentType } from '@stackflow/react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import Login from '@/app/login/Login.content';
 
-const LoginActivity: ActivityComponentType = () => {
+interface Params {
+  redirectUrl?: string;
+}
+
+const LoginActivity: ActivityComponentType<Params> = ({
+  params,
+}: {
+  params: Params;
+}) => {
+  const { redirectUrl } = params;
   return (
     <AppScreen>
       <div className="relative flex h-full w-full flex-col">
-        <Login />
+        <Login redirectUrl={redirectUrl} />
       </div>
     </AppScreen>
   );

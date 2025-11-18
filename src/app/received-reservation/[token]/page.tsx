@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@/components/buttons/button/Button';
-import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import {
   getReservationTransferRequestWithToken,
   usePostAcceptReservationTransferRequest,
@@ -10,9 +9,9 @@ import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useCallback, useEffect, useState } from 'react';
+import { useFlow } from '@/stacks';
 
 interface Props {
   params: {
@@ -30,21 +29,22 @@ const Page = ({ params }: Props) => {
   const { mutateAsync: postAcceptReservationTransferRequest } =
     usePostAcceptReservationTransferRequest();
 
-  const router = useRouter();
+  const flow = useFlow();
 
   const loadReservationTransferRequest = useCallback(async () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
-      const redirectUrl = createLoginRedirectPath(
-        `/received-reservation/${token}`,
+      flow.push(
+        'Login',
+        { redirectUrl: `/received-reservation/${token}` },
+        { animate: false },
       );
-      router.replace(redirectUrl);
       return;
     }
     const res = await getReservationTransferRequestWithToken(token);
     setReservation(res.reservation);
     setReservationTransferRequest(res.reservationTransferRequest);
-  }, [token, router]);
+  }, [token, flow]);
 
   useEffect(() => {
     loadReservationTransferRequest();
@@ -54,7 +54,7 @@ const Page = ({ params }: Props) => {
     try {
       await postAcceptReservationTransferRequest(token);
       toast.success('예약을 수락했어요.');
-      router.replace('/history?type=reservation');
+      flow.replace('History', { type: 'reservation' }, { animate: false });
     } catch (error) {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');

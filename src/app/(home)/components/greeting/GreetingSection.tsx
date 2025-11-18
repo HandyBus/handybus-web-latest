@@ -10,12 +10,13 @@ import {
   getEntryGreetingIncomplete,
   removeEntryGreetingIncomplete,
 } from '@/utils/localStorage';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import CheckIcon from './icons/check.svg';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { handleClickAndStopPropagation } from '@/utils/common.util';
+import { useFlow } from '@/stacks';
 
 const BOTTOM_SHEET_TEXT_MARKETING_AGREEMENT = {
   title: '정말 중요한 내용만 알려드릴게요',
@@ -23,6 +24,7 @@ const BOTTOM_SHEET_TEXT_MARKETING_AGREEMENT = {
 };
 
 const GreetingSection = () => {
+  const flow = useFlow();
   const { bottomSheetRef, openBottomSheet, closeBottomSheet } = useBottomSheet({
     preventCloseOnDrag: true,
   });
@@ -100,14 +102,15 @@ const GreetingSection = () => {
           onClick={handleMarketingAgreementClick}
           className="flex w-full items-center justify-between rounded-6 bg-basic-grey-50 px-16 py-12"
         >
-          <Link
-            onClick={(e) => e.stopPropagation()}
-            href="/help/faq/marketing-consent"
-            target="_blank"
-            className="line-clamp-1 text-14 font-600 underline underline-offset-2"
+          <button
+            type="button"
+            onClick={handleClickAndStopPropagation(() =>
+              flow.push('MarketingConsent', {}),
+            )}
+            className="line-clamp-1 text-left text-14 font-600 underline underline-offset-2"
           >
             마케팅 활용/광고성 정보 수신 동의
-          </Link>
+          </button>
           <CheckIcon
             className={`${isMarketingAgreed ? 'text-brand-primary-400' : 'text-[#CCCCCC]'}`}
           />

@@ -10,8 +10,6 @@ import ShareIcon from './icons/share.svg';
 import LinkIcon from './icons/link.svg';
 import useEnvironment from '@/hooks/useEnvironment';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
-import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
-import { useRouter } from 'next/navigation';
 import { getUser, putUser } from '@/services/user.service';
 import { getUserCoupons, postCoupon } from '@/services/coupon.service';
 import { toast } from 'react-toastify';
@@ -20,6 +18,7 @@ import { useState } from 'react';
 import MarketingConsentModal from './components/MarketingConsentModal';
 import useAppShare from '@/hooks/webview/useAppShare';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { useFlow } from '@/stacks';
 
 const APP_LAUNCH_EVENT_COUPON_CODES = [
   'APP_LAUNCH_EVENT_1',
@@ -29,7 +28,7 @@ const APP_LAUNCH_EVENT_COUPON_CODES = [
 
 const AppLaunchEvent = () => {
   const { isApp } = useEnvironment();
-  const router = useRouter();
+  const flow = useFlow();
 
   const [isCouponIssuedModalOpen, setIsCouponIssuedModalOpen] = useState(false);
   const [isMarketingConsentModalOpen, setIsMarketingConsentModalOpen] =
@@ -55,8 +54,7 @@ const AppLaunchEvent = () => {
     }
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
-      const redirectUrl = createLoginRedirectPath(`/app-launch-event`);
-      router.replace(redirectUrl);
+      flow.push('Login', { redirectUrl: '/app-launch-event' });
       return;
     }
 

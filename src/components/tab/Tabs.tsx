@@ -4,7 +4,7 @@ import type { MouseEventHandler } from 'react';
 import { customTwMerge } from 'tailwind.config';
 
 interface Props<T> {
-  items: TabItem<T>[];
+  items: readonly TabItem<T>[];
   selected: T;
   onSelect?: (value: T) => void;
   className?: string;

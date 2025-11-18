@@ -18,7 +18,7 @@ const PromotionReview = async () => {
     .slice(0, 3);
 
   return (
-    <Article richTitle="솔직한 이용 후기" showMore="/reviews">
+    <Article richTitle="솔직한 이용 후기" showMore="Reviews">
       {top3.map((review: ReviewsViewEntity) => {
         const blurredName = review.userName?.slice(0, 1) + '**';
 

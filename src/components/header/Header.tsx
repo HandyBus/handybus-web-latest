@@ -1,16 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
 import useEnvironment from '@/hooks/useEnvironment';
+import { useFlow } from '@/stacks';
 
 const Header = () => {
   // 경로에 따른 페이지명 표시
-  const router = useRouter();
+  const flow = useFlow();
   const { isApp } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
@@ -52,7 +53,7 @@ const Header = () => {
         ) : (
           <div className="flex items-center">
             {isApp && !isHideBackButton && (
-              <button type="button" onClick={() => router.back()}>
+              <button type="button" onClick={() => flow.pop()}>
                 <BackIcon />
               </button>
             )}

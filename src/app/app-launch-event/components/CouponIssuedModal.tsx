@@ -1,7 +1,7 @@
 import Modal from '@/components/modals/Modal';
 import CheckCircleIcon from '../icons/check-circle.svg';
 import Button from '@/components/buttons/button/Button';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 
 interface Props {
   isOpen: boolean;
@@ -9,9 +9,9 @@ interface Props {
 }
 
 const CouponIssuedModal = ({ isOpen, closeModal }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
   const navigateToCouponList = () => {
-    router.push('/mypage/coupons');
+    flow.push('Coupons', {});
     closeModal();
   };
 

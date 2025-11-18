@@ -123,4 +123,6 @@ const routes = {
   AppLaunchEvent: '/app-launch-event',
 };
 
+export type StackName = keyof typeof activities;
+
 export const { Stack, useFlow } = createStack(activities, routes, 'Home');

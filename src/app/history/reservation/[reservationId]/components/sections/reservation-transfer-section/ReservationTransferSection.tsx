@@ -3,7 +3,6 @@ import WrapperWithDivider from '../../WrapperWithDivider';
 import NewIcon from './icons/new.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { checkIsReservationTransferablePeriod } from '@/utils/reservationTransfer.util';
-import { useRouter } from 'next/navigation';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 import { formatPhoneNumber } from '@/utils/common.util';
 import { dateString } from '@/utils/dateString.util';
@@ -11,6 +10,8 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { toast } from 'react-toastify';
 import { putCancelReservationTransferRequest } from '@/services/reservationTransferRequest.service';
+import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   isTransferredReservation: boolean;
@@ -42,10 +43,11 @@ const ReservationTransferSection = ({
       : null;
 
   const router = useRouter();
+  const flow = useFlow();
   const redirectToReservationTransfer = () => {
-    router.push(
-      `/history/reservation/${reservation.reservationId}/reservation-transfer`,
-    );
+    flow.push('ReservationTransfer', {
+      reservationId: reservation.reservationId,
+    });
   };
 
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =

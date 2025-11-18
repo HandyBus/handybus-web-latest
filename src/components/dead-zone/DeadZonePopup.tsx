@@ -6,12 +6,12 @@ import ChatSolidIcon from 'public/icons/chat-solid.svg';
 import { useState } from 'react';
 import FeedbackScreen from '../feedback/FeedbackScreen';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import AppLaunchImage from './images/app-launch.png';
+import { useFlow } from '@/stacks';
 
 const DeadZonePopup = () => {
-  const router = useRouter();
+  const flow = useFlow();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   const handleFeedbackOpen = () => {
@@ -19,12 +19,12 @@ const DeadZonePopup = () => {
     if (isLoggedIn) {
       setIsFeedbackOpen(true);
     } else {
-      router.push('/login');
+      flow.push('Login', {});
     }
   };
 
   const handleAppLaunchEventOpen = () => {
-    router.push('/app-launch-event');
+    flow.push('AppLaunchEvent', {});
   };
 
   return (
