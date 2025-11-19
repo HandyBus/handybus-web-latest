@@ -34,7 +34,6 @@ const AnnouncementList = () => {
             title={announcement.title}
             date={announcement.createdAt}
             read={getReadNoticeList().includes(String(announcement.id))}
-            href={`/announcements/${announcement.id}`}
           />
         ))
       )}

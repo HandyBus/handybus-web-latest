@@ -7,20 +7,20 @@ import { useAtomValue } from 'jotai';
 import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
-import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { eventAtom } from '../../../store/eventAtom';
-import { useRouter } from 'next/navigation';
 import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { useFlow } from '@/stacks';
+
 interface Props {
   closeBottomSheet: () => void;
 }
 
 const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
   const { markAsIntentionalNavigation, getReservationStartTime } =
     useReservationTrackingGlobal();
   const event = useAtomValue(eventAtom);
@@ -71,19 +71,21 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
     try {
       await putUser({ name });
       markAsIntentionalNavigation();
-      const url = createPaymentPageUrl({
+
+      closeBottomSheet();
+      flow.push('Payment', {
         eventId: event.eventId,
         dailyEventId: dailyEvent.dailyEventId,
         shuttleRouteId: route.shuttleRouteId,
         tripType,
-        toDestinationHubId: toDestinationShuttleRouteHubId,
-        fromDestinationHubId: fromDestinationShuttleRouteHubId,
+        toDestinationHubId: toDestinationShuttleRouteHubId ?? null,
+        fromDestinationHubId: fromDestinationShuttleRouteHubId ?? null,
         passengerCount,
-        reservationStartTime: getReservationStartTime() ?? undefined, // 예약 시작 시간 전달
+        desiredHubAddress: null,
+        desiredHubLatitude: null,
+        desiredHubLongitude: null,
+        reservationStartTime: getReservationStartTime() ?? null, // 예약 시작 시간 전달
       });
-
-      closeBottomSheet();
-      router.push(url);
     } catch (error) {
       Sentry.captureException(error, {
         tags: {

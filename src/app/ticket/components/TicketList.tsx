@@ -1,9 +1,9 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import RightArrowIcon from '../icons/arrow-right.svg';
 import { Fragment } from 'react';
+import { useFlow } from '@/stacks';
 
 interface Props {
   reservations: ReservationsViewEntity[];
@@ -27,14 +27,14 @@ interface TicketItemProps {
 }
 
 const TicketItem = ({ reservation }: TicketItemProps) => {
-  const { push } = useRouter();
+  const flow = useFlow();
   const { type, shuttleRoute, passengerCount } = reservation;
   const eventName = shuttleRoute.event.eventName;
   const { departureTime, departureLocation } =
     getBoardingInformation(reservation);
 
   const redirectToTicketDetail = () => {
-    push(`/ticket/${reservation.reservationId}`);
+    flow.push('TicketDetail', { reservationId: reservation.reservationId });
   };
 
   return (

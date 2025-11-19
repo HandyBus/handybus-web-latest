@@ -1,16 +1,17 @@
+import { useFlow } from '@/stacks';
 import { UsersViewEntity } from '@/types/user.type';
 import { formatPhoneNumber } from '@/utils/common.util';
 import { generateProfileBackgroundColor } from '@/utils/generateProfileBackgroundColor';
 import Image from 'next/image';
-import Link from 'next/link';
 
 interface Props {
   user: UsersViewEntity;
 }
 
 const Profile = ({ user }: Props) => {
-  const name = user.name || user.nickname || '';
+  const flow = useFlow();
 
+  const name = user.name || user.nickname || '';
   const getSimplifiedName = (name: string) => {
     const isKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(name);
     if (isKorean) {
@@ -35,12 +36,13 @@ const Profile = ({ user }: Props) => {
           <span className="text-brand-primary-500">{simplifiedName}</span>님,
           안녕하세요!
         </h2>
-        <Link
-          href="/mypage/profile/edit"
-          className="shrink-0 text-14 font-600 text-basic-grey-500"
+        <button
+          type="button"
+          onClick={() => flow.push('ProfileEdit', {})}
+          className="shrink-0 text-left text-14 font-600 text-basic-grey-500"
         >
           프로필 수정
-        </Link>
+        </button>
       </div>
       <div className="flex h-80 w-full items-center justify-between rounded-8 bg-basic-grey-50 px-16">
         <div className="flex items-center gap-8">

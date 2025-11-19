@@ -5,10 +5,9 @@ import NotificationIcon from '../../../icons/notification.svg';
 import TriangleIcon from '../../../icons/triangle.svg';
 import { EventEnabledStatus, EventPhase } from '@/utils/event.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
-import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
-import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
+import { useFlow } from '@/stacks';
 
 interface Props {
   eventId: string;
@@ -25,15 +24,14 @@ const BottomBar = ({
   enabledStatus,
   onClick,
 }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
   const handleClick = () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
-      const redirectUrl = createLoginRedirectPath(`/event/${eventId}`);
       markAsIntentionalNavigation();
-      router.push(redirectUrl);
+      flow.push('Login', { redirectUrl: `/event/${eventId}` });
       return;
     }
     onClick();

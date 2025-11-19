@@ -11,9 +11,8 @@ import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ShuttleDemandsViewEntity } from '@/types/demand.type';
 import Button from '@/components/buttons/button/Button';
-import { handleClickAndStopPropagation } from '@/utils/common.util';
 import Tooltip from '@/components/tooltip/Tooltip';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 
 interface Props {
   demand: ShuttleDemandsViewEntity;
@@ -79,13 +78,13 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
     !isDemandCancelled;
 
-  const router = useRouter();
-  const redirectToDemandDetail = handleClickAndStopPropagation(() => {
-    router.push(`/history/demand/${demand.shuttleDemandId}`);
-  });
-  const redirectToEventDetail = handleClickAndStopPropagation(() => {
-    router.push(`/event/${event.eventId}`);
-  });
+  const flow = useFlow();
+  const redirectToDemandDetail = () => {
+    flow.push('DemandDetail', { demandId: demand.shuttleDemandId });
+  };
+  const redirectToEventDetail = () => {
+    flow.push('EventDetail', { eventId: event.eventId });
+  };
 
   return (
     <div className="flex w-full flex-col rounded-12 border border-basic-grey-200 bg-basic-white p-16 text-left">

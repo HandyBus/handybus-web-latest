@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
+import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: '공지사항',
   description: '핸디버스의 공지사항을 확인하세요!',
 };
 
-const AnnouncementLayout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
 };
 
-export default AnnouncementLayout;
+export default Layout;
