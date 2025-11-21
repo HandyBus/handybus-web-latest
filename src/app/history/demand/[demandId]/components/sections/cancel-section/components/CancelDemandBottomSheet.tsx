@@ -8,7 +8,8 @@ import { ShuttleDemandsViewEntity } from '@/types/demand.type';
 import { usePutCancelDemand } from '@/services/demand.service';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
+import usePopAll from '@/hooks/usePopAll';
 
 interface Props extends BottomSheetRefs {
   closeBottomSheet: () => void;
@@ -28,7 +29,8 @@ const CancelDemandBottomSheet = ({
     demand.desiredFromDestinationRegionHub;
   const tripTypeText = TRIP_STATUS_TO_STRING[demand.type];
 
-  const router = useRouter();
+  const flow = useFlow();
+  const popAll = usePopAll();
   const { mutateAsync: putCancelDemand } = usePutCancelDemand();
   const [isLoading, setIsLoading] = useState(false);
   const handleCancelDemand = async () => {
@@ -41,7 +43,8 @@ const CancelDemandBottomSheet = ({
       });
       toast.success('수요조사를 취소했어요.');
       closeBottomSheet();
-      router.replace('/history?type=demand');
+      popAll({ animate: false });
+      flow.replace('History', { type: 'demand' }, { animate: false });
     } catch (error) {
       console.error(error);
       toast.error('잠시 후 다시 시도해 주세요.');

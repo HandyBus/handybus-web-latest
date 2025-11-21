@@ -5,7 +5,7 @@ import { useGetReview } from '@/services/review.service';
 import ReviewEditForm from './components/ReviewEditForm';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import { EventsViewEntity } from '@/types/event.type';
 import { ReservationsViewEntity } from '@/types/reservation.type';
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const EditReview = ({ reviewId }: Props) => {
-  const { replace } = useRouter();
+  const flow = useFlow();
   const { data, isLoading, isError } = useGetReview(reviewId);
   const reservationId = data?.reservationId;
 
@@ -36,7 +36,7 @@ const EditReview = ({ reviewId }: Props) => {
     : { isReviewWritingPeriod: false };
 
   if (reservation && !isReviewWritingPeriod) {
-    replace('/mypage/reviews');
+    flow.replace('Reviews', {}, { animate: false });
     return;
   }
   if (isError || isReservationError) {

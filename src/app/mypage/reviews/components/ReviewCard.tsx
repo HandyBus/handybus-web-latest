@@ -11,7 +11,7 @@ import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import Button from '@/components/buttons/button/Button';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -30,12 +30,12 @@ const ReviewCard = ({ review, reservation }: Props) => {
   });
   const { isReviewWritingPeriod } = checkIsReviewWritingPeriod(reservation);
 
-  const router = useRouter();
+  const flow = useFlow();
   const redirectToEditReview = handleClickAndStopPropagation(() => {
     if (!isReviewWritingPeriod) {
       return;
     }
-    router.push(`/mypage/reviews/edit/${review.reviewId}`);
+    flow.push('EditReview', { reviewId: review.reviewId });
   });
 
   return (

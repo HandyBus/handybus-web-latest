@@ -7,7 +7,6 @@ import { useMemo } from 'react';
 import { usePostRefund } from '@/services/payment.service';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { calculateRefundFee, getIsRefundable } from '@/utils/reservation.util';
-import { useRouter } from 'next/navigation';
 import { usePutCancelReservation } from '@/services/reservation.service';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -26,6 +25,8 @@ import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import { createFeedbackContent } from '../utils/createFeedbackContent.util';
 import RadioInputGroup from './RadioInputGroup';
+import { useFlow } from '@/stacks';
+import usePopAll from '@/hooks/usePopAll';
 
 const USER_CANCELLATION_FEE_REASON = '자동 승인 환불 요청';
 
@@ -49,7 +50,8 @@ const CancelBottomSheet = ({
   closeBottomSheet,
   isTransferredReservation,
 }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
+  const popAll = usePopAll();
   const queryClient = useQueryClient();
   const {
     register,
@@ -149,7 +151,8 @@ const CancelBottomSheet = ({
 
       toast.success('예약을 취소했어요.');
       closeBottomSheet();
-      router.push('/history?type=reservation');
+      popAll({ animate: false });
+      flow.replace('History', { type: 'reservation' }, { animate: false });
     } catch (e) {
       const error = e as CustomError;
       Sentry.captureException(error, {
