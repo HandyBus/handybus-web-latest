@@ -19,6 +19,8 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import Header from '@/components/header/Header';
 import useEnvironment from '@/hooks/useEnvironment';
+import dayjs from 'dayjs';
+import * as Sentry from '@sentry/nextjs';
 
 const Settings = () => {
   const { data: user, isLoading: isLoadingUser } = useGetUser();
@@ -66,6 +68,18 @@ const Settings = () => {
     } catch (error) {
       console.error(error);
       toast.error('로그아웃에 실패했어요. 잠시 후 다시 시도해 주세요.');
+      Sentry.captureException(error, {
+        tags: {
+          component: 'Settings',
+          page: 'mypage',
+          feature: 'logout',
+          action: 'logout',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          timestamp: dayjs().toISOString(),
+        },
+      });
     }
   };
 
