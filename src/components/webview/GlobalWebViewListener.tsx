@@ -9,11 +9,12 @@ import * as Sentry from '@sentry/nextjs';
 
 const GlobalWebViewListener = () => {
   const { mutateAsync: updateUser } = usePutUser();
-  const isLoggedIn = getIsLoggedIn();
 
   useAppMessageListener(
     'PUSH_TOKEN',
     async (payload) => {
+      const isLoggedIn = getIsLoggedIn();
+
       if (payload.token) {
         setPushToken(payload.token);
       } else removePushToken();
