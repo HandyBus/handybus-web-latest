@@ -1,18 +1,17 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import useEnvironment from '@/hooks/useEnvironment';
 import { useFlow } from '@/stacks';
+import { useActivity } from '@stackflow/react';
+import usePopAll from '@/hooks/usePopAll';
 
 const Header = () => {
   // 경로에 따른 페이지명 표시
   const flow = useFlow();
-  const { isApp } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
 
@@ -43,17 +42,34 @@ const Header = () => {
   };
   const pageName = getPageName(pathname);
 
+  const activity = useActivity();
+  const popAll = usePopAll();
+  const handleBackClick = () => {
+    const isRoot = activity.isRoot;
+    if (!isRoot) {
+      flow.pop();
+    } else {
+      popAll({ animate: false });
+      flow.replace('Home', {}, { animate: false });
+    }
+  };
+  const handleHomeClick = () => {
+    popAll({ animate: false });
+    flow.replace('Home', {}, { animate: false });
+  };
+  const handleAnnouncementsClick = () => {
+    flow.push('AnnouncementList', {});
+  };
+
   return (
     <>
       <header className="fixed top-0 z-50 flex h-56 w-full max-w-500 items-center justify-between bg-basic-white px-16">
-        {isHome || !isApp ? (
-          <Link href="/">
-            <LogoIcon />
-          </Link>
+        {isHome ? (
+          <LogoIcon />
         ) : (
           <div className="flex items-center">
-            {isApp && !isHideBackButton && (
-              <button type="button" onClick={() => flow.pop()}>
+            {!isHideBackButton && (
+              <button type="button" onClick={handleBackClick}>
                 <BackIcon />
               </button>
             )}
@@ -64,14 +80,14 @@ const Header = () => {
         )}
 
         <div className="flex items-center gap-8">
-          {!isHome && isApp && (
-            <Link href="/">
+          {!isHome && (
+            <button type="button" onClick={handleHomeClick}>
               <HomeIcon />
-            </Link>
+            </button>
           )}
-          <Link href="/announcements">
+          <button type="button" onClick={handleAnnouncementsClick}>
             <AnnouncementsIcon />
-          </Link>
+          </button>
         </div>
       </header>
       <div className="h-56 shrink-0" aria-hidden="true" />
