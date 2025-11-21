@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
 import { Provider as JotaiProvider } from 'jotai';
 import DeadZone from '../dead-zone/DeadZone';
+import GlobalWebViewListener from '../webview/GlobalWebViewListener';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -24,6 +25,7 @@ const Provider = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>
       <JotaiProvider>
+        <GlobalWebViewListener />
         <DeadZone>{children}</DeadZone>
         <ReactQueryDevtools initialIsOpen={false} />
       </JotaiProvider>

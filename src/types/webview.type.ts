@@ -70,6 +70,10 @@ export interface AppToWebMessages {
   APP_STATE: {
     isActive: boolean;
   };
+  /** 앱에서 웹으로 푸시 토큰 전달 */
+  PUSH_TOKEN: {
+    token: string | null;
+  };
 }
 
 /**
