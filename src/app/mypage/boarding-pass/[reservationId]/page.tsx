@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -12,12 +11,10 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const router = useRouter();
   useEffect(() => {
-    popAll({ animate: false });
-    flow.replace('Ticket', { reservationId }, { animate: false });
-  }, [popAll, flow, reservationId]);
+    router.replace(`/ticket?reservationId=${reservationId}`);
+  }, [router, reservationId]);
   return null;
 };
 

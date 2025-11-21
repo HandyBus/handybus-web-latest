@@ -1,7 +1,6 @@
 'use client';
 
-import usePopAll from '@/hooks/usePopAll';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 interface Props {
@@ -12,12 +11,10 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { demandId } = params;
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const router = useRouter();
   useEffect(() => {
-    popAll({ animate: false });
-    flow.replace('History', { type: 'demand' }, { animate: false });
-  }, [popAll, flow, demandId]);
+    router.replace('/history?type=demand');
+  }, [router, demandId]);
   return null;
 };
 

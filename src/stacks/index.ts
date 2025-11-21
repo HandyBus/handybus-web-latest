@@ -36,6 +36,7 @@ import AppLaunchEventActivity from './extra-activities/AppLaunchEventActivity';
 import AcceptReservationTransferActivity from './extra-activities/AcceptReservationTransferActivity';
 import AcceptReservationTransferSuccessActivity from './extra-activities/AcceptReservationTransferSuccessActivity';
 import AcceptReservationTransferFailActivity from './extra-activities/AcceptReservationTransferFailActivity';
+import OnboardingActivity from './extra-activities/OnboardingActivity';
 
 const activities = {
   // home activities
@@ -68,6 +69,7 @@ const activities = {
   TicketDetail: TicketDetailActivity,
   // extra activities
   Login: LoginActivity,
+  Onboarding: OnboardingActivity,
   AnnouncementList: AnnouncementListActivity,
   AnnouncementDetail: AnnouncementDetailActivity,
   About: AboutActivity,
@@ -117,6 +119,7 @@ const routes = {
   TicketDetail: '/ticket/:reservationId',
   // extra activities
   Login: '/login',
+  Onboarding: '/onboarding',
   AnnouncementList: '/announcements',
   AnnouncementDetail: '/announcements/:id',
   About: '/help/about',
@@ -164,6 +167,7 @@ export const STACK_NAME_TO_PAGE_NAME: Record<StackName, string> = {
   TicketDetail: '탑승권',
   // extra activities
   Login: '로그인',
+  Onboarding: '온보딩',
   AnnouncementList: '공지사항',
   AnnouncementDetail: '공지글',
   About: '서비스 소개',

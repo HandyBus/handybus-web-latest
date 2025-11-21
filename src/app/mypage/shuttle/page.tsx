@@ -1,16 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const router = useRouter();
   useEffect(() => {
-    popAll({ animate: false });
-    flow.replace('History', { type: 'demand' }, { animate: false });
-  }, [popAll, flow]);
+    router.replace('/history?type=demand');
+  }, [router]);
   return null;
 };
 

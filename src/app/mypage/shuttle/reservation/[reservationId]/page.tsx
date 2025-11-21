@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import usePopAll from '@/hooks/usePopAll';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -12,12 +11,11 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { reservationId } = params;
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const router = useRouter();
+
   useEffect(() => {
-    popAll({ animate: false });
-    flow.replace('History', { type: 'reservation' }, { animate: false });
-  }, [popAll, flow, reservationId]);
+    router.replace('/history?type=reservation');
+  }, [router, reservationId]);
   return null;
 };
 
