@@ -1,18 +1,24 @@
 'use client';
 
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import { putUser, useDeleteUser, useGetUser } from '@/services/user.service';
+import {
+  putUser,
+  useDeleteUser,
+  useGetUser,
+  usePutUser,
+} from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
 import ListButton from '../components/ListButton';
 import { logout } from '@/utils/handleToken.util';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { removeLastLogin } from '@/utils/localStorage';
+import { removeLastLogin, removePushToken } from '@/utils/localStorage';
 import { toast } from 'react-toastify';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import Header from '@/components/header/Header';
+import useEnvironment from '@/hooks/useEnvironment';
 
 const Settings = () => {
   const { data: user, isLoading: isLoadingUser } = useGetUser();
@@ -30,6 +36,9 @@ const Settings = () => {
 
   const { mutate: putMarketingAgreement } = usePutMarketingAgreement();
 
+  const { isApp } = useEnvironment();
+  const { mutateAsync: updateUser } = usePutUser();
+
   const handleSwitchClick = (e: SyntheticEvent) => {
     e.stopPropagation();
     putMarketingAgreement(!isMarketingAgreed, {
@@ -46,9 +55,18 @@ const Settings = () => {
   };
 
   // 로그아웃
-  const handleLogout = () => {
-    logout();
-    toast.success('로그아웃이 완료되었어요');
+  const handleLogout = async () => {
+    try {
+      if (isApp) {
+        await updateUser({ pushToken: null });
+        removePushToken();
+      }
+      await logout();
+      toast.success('로그아웃이 완료되었어요');
+    } catch (error) {
+      console.error(error);
+      toast.error('로그아웃에 실패했어요. 잠시 후 다시 시도해 주세요.');
+    }
   };
 
   // 탈퇴하기

@@ -135,3 +135,15 @@ export const getAppLaunchEventCouponDownloadModalSeen = () => {
 export const removeAppLaunchEventCouponDownloadModalSeen = () => {
   localStorage.removeItem(APP_LAUNCH_EVENT_COUPON_DOWNLOAD_MODAL_SEEN);
 };
+
+// 푸시 토큰
+export const PUSH_TOKEN = 'push-token';
+export const setPushToken = (token: string) => {
+  localStorage.setItem(PUSH_TOKEN, token);
+};
+export const getPushToken = () => {
+  return localStorage.getItem(PUSH_TOKEN);
+};
+export const removePushToken = () => {
+  localStorage.removeItem(PUSH_TOKEN);
+};
