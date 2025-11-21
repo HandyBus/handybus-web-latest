@@ -33,6 +33,9 @@ import PrivacyPolicyActivity from './extra-activities/PrivacyPolicyActivity';
 import MarketingConsentActivity from './extra-activities/MarketingConsentActivity';
 import EventListFromHomeActivity from './home-activities/EventListFromHomeActivity';
 import AppLaunchEventActivity from './extra-activities/AppLaunchEventActivity';
+import AcceptReservationTransferActivity from './extra-activities/AcceptReservationTransferActivity';
+import AcceptReservationTransferSuccessActivity from './extra-activities/AcceptReservationTransferSuccessActivity';
+import AcceptReservationTransferFailActivity from './extra-activities/AcceptReservationTransferFailActivity';
 
 const activities = {
   // home activities
@@ -75,6 +78,9 @@ const activities = {
   PrivacyPolicy: PrivacyPolicyActivity,
   MarketingConsent: MarketingConsentActivity,
   AppLaunchEvent: AppLaunchEventActivity,
+  AcceptReservationTransfer: AcceptReservationTransferActivity,
+  AcceptReservationTransferSuccess: AcceptReservationTransferSuccessActivity,
+  AcceptReservationTransferFail: AcceptReservationTransferFailActivity,
 };
 
 const routes = {
@@ -121,6 +127,10 @@ const routes = {
   PrivacyPolicy: '/help/faq/privacy-policy',
   MarketingConsent: '/help/faq/marketing-consent',
   AppLaunchEvent: '/app-launch-event',
+  AcceptReservationTransfer: '/accept-reservation-transfer/:token',
+  AcceptReservationTransferSuccess:
+    '/accept-reservation-transfer/:token/success',
+  AcceptReservationTransferFail: '/accept-reservation-transfer/:token/fail',
 };
 
 export type StackName = keyof typeof activities;
