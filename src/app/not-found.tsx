@@ -1,11 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useNotFoundTracking } from '@/hooks/useNotFoundTracking';
+import { useFlow } from '@/stacks';
+import usePopAll from '@/hooks/usePopAll';
 
-export const NotFound = () => {
+const NotFound = () => {
   useNotFoundTracking();
+
+  const flow = useFlow();
+  const popAll = usePopAll();
+  const handleHomeClick = () => {
+    popAll({ animate: false });
+    flow.replace('Home', {}, { animate: false });
+  };
 
   return (
     <div className="flex grow flex-col justify-between px-20 py-28">
@@ -27,12 +35,13 @@ export const NotFound = () => {
           />
         </div>
       </div>
-      <Link
-        href="/"
+      <button
+        type="button"
+        onClick={handleHomeClick}
         className="flex h-44 w-full items-center justify-center rounded-full bg-basic-grey-50 text-16 font-400 text-basic-grey-700"
       >
         홈으로 돌아가기
-      </Link>
+      </button>
     </div>
   );
 };
