@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import TicketDetail from '@/app/ticket/[reservationId]/TicketDetail.content';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   reservationId: string;
@@ -16,11 +16,11 @@ const TicketDetailActivity: ActivityComponentType<Params> = ({
   const { reservationId } = params;
 
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <TicketDetail reservationId={reservationId} />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 

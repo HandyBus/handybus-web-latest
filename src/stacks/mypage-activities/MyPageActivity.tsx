@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import MyPage from '@/app/mypage/MyPage.content';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 const MyPageActivity: ActivityComponentType = () => {
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <MyPage />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 

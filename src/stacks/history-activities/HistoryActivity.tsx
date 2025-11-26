@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import History, { HistoryTabType } from '@/app/history/History.content';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   type: HistoryTabType;
@@ -10,11 +10,11 @@ interface Params {
 
 const HistoryActivity: ActivityComponentType<Params> = () => {
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <History />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 
