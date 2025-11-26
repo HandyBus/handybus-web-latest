@@ -5,12 +5,13 @@ import NavBar from '@/components/nav-bar/NavBar';
 import DemandTab from './components/demands/DemandTab';
 import ReservationTab from './components/reservations/ReservationTab';
 import Header from '@/components/header/Header';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useFlow } from '@/stacks';
+import { useSearchParams } from 'next/navigation';
 
 export type HistoryTabType = 'demand' | 'reservation';
 
 const History = () => {
-  const router = useRouter();
+  const flow = useFlow();
   const searchParams = useSearchParams();
   const currentTab: HistoryTabType =
     (searchParams.get('type') as HistoryTabType) || 'demand';
@@ -25,7 +26,7 @@ const History = () => {
   };
 
   const handleSelectTab = (nextTab: HistoryTabType) => {
-    router.replace(`/history?type=${nextTab}`);
+    flow.replace('History', { type: nextTab }, { animate: false });
   };
 
   return (

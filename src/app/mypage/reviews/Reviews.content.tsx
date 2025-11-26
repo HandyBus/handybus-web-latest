@@ -1,15 +1,16 @@
 'use client';
 
 import Tabs from '@/components/tab/Tabs';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import WritableReviews from './components/WritableReviews';
 import WrittenReviews from './components/WrittenReviews';
 import Header from '@/components/header/Header';
+import { useFlow } from '@/stacks';
 
 export type ReviewTabType = 'writable-reviews' | 'written-reviews';
 
 const Reviews = () => {
-  const router = useRouter();
+  const flow = useFlow();
   const searchParams = useSearchParams();
   const currentTab: ReviewTabType =
     (searchParams.get('type') as ReviewTabType) || 'writable-reviews';
@@ -24,7 +25,7 @@ const Reviews = () => {
   };
 
   const handleSelectTab = (nextTab: ReviewTabType) => {
-    router.replace(`/mypage/reviews?type=${nextTab}`);
+    flow.replace('Reviews', { type: nextTab }, { animate: false });
   };
 
   return (
