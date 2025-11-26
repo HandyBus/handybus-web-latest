@@ -6,7 +6,7 @@ import WritableReviews from './components/WritableReviews';
 import WrittenReviews from './components/WrittenReviews';
 import Header from '@/components/header/Header';
 
-type ReviewTabType = 'writable-reviews' | 'written-reviews';
+export type ReviewTabType = 'writable-reviews' | 'written-reviews';
 
 const Reviews = () => {
   const router = useRouter();
@@ -22,6 +22,11 @@ const Reviews = () => {
         return <WrittenReviews />;
     }
   };
+
+  const handleSelectTab = (nextTab: ReviewTabType) => {
+    router.replace(`/mypage/reviews?type=${nextTab}`);
+  };
+
   return (
     <>
       <Header />
@@ -32,9 +37,7 @@ const Reviews = () => {
             { label: '작성한 후기', value: 'written-reviews' },
           ]}
           selected={currentTab}
-          onSelect={(value) => {
-            router.replace(`/mypage/reviews?type=${value}`);
-          }}
+          onSelect={handleSelectTab}
           className="top-56"
         />
         {renderTab()}

@@ -34,6 +34,7 @@ const NavBar = () => {
         name: '홈',
         href: '/',
         activityName: 'Home',
+        params: undefined,
         isSelected: activity.name === 'Home',
         icon: <HomeIcon />,
         selectedIcon: <HomeSelectedIcon />,
@@ -44,6 +45,7 @@ const NavBar = () => {
         name: '탐색',
         href: '/event/',
         activityName: 'EventList',
+        params: undefined,
         isSelected: activity.name === 'EventList',
         icon: <ExploreIcon />,
         selectedIcon: <ExploreSelectedIcon />,
@@ -52,8 +54,11 @@ const NavBar = () => {
       },
       {
         name: '참여/내역',
-        href: '/history/',
+        href: '/history',
         activityName: 'History',
+        params: {
+          type: 'demand',
+        },
         isSelected: activity.name === 'History',
         icon: <HistoryIcon />,
         selectedIcon: <HistorySelectedIcon />,
@@ -64,6 +69,7 @@ const NavBar = () => {
         name: '마이',
         href: '/mypage/',
         activityName: 'MyPage',
+        params: undefined,
         icon: <MyPageIcon />,
         isSelected: activity.name === 'MyPage',
         selectedIcon: <MyPageSelectedIcon />,
@@ -94,6 +100,7 @@ const NavBar = () => {
                 name={item.name}
                 href={item.href}
                 activityName={item.activityName}
+                params={item?.params}
                 isSelected={item.isSelected}
                 icon={item.icon}
                 selectedIcon={item.selectedIcon}
@@ -114,6 +121,7 @@ export default NavBar;
 
 interface useNavNavigationProps {
   activityName: ActivityName;
+  params?: Record<string, string>;
   href: string;
   requiresLogin: boolean;
   isLoggedIn: boolean;
@@ -121,6 +129,7 @@ interface useNavNavigationProps {
 
 const useNavNavigation = ({
   activityName,
+  params,
   href,
   requiresLogin,
   isLoggedIn,
@@ -133,7 +142,7 @@ const useNavNavigation = ({
       return;
     }
 
-    flow.replace(activityName, {}, { animate: false });
+    flow.replace(activityName, params || {}, { animate: false });
   };
 
   return { navigateToNavActivity };
@@ -144,6 +153,7 @@ interface NavButtonProps {
   href: string;
   icon: ReactNode;
   activityName: ActivityName;
+  params?: Record<string, string>;
   isSelected: boolean;
   selectedIcon: ReactNode;
   clickedIcon: ReactNode;
@@ -156,6 +166,7 @@ const NavButton = ({
   href,
   icon,
   activityName,
+  params,
   isSelected,
   selectedIcon,
   clickedIcon,
@@ -164,6 +175,7 @@ const NavButton = ({
 }: NavButtonProps) => {
   const { navigateToNavActivity } = useNavNavigation({
     activityName,
+    params,
     href,
     requiresLogin,
     isLoggedIn,

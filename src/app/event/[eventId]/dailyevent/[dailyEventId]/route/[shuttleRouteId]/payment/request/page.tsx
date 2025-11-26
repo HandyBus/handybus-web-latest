@@ -14,7 +14,7 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 
-interface PageProps {
+interface Props {
   params: {
     eventId: string;
     dailyEventId: string;
@@ -22,7 +22,7 @@ interface PageProps {
   };
 }
 
-const Page = ({ params }: PageProps) => {
+const Page = ({ params }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
