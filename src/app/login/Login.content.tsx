@@ -35,11 +35,11 @@ const Login = ({ redirectUrl }: Props) => {
 
   const handleKakaoLogin = () => {
     setLastLogin('kakao');
-    OAUTH.kakao();
+    window.location.href = OAUTH.kakao();
   };
   const handleNaverLogin = () => {
     setLastLogin('naver');
-    OAUTH.naver();
+    window.location.href = OAUTH.naver();
   };
 
   const [lastLoginState, setLastLoginState] = useState<
