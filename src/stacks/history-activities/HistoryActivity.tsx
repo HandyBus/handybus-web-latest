@@ -5,7 +5,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import History from '@/app/history/History.content';
 
 interface Params {
-  type: 'reservation' | 'demand';
+  type?: 'reservation' | 'demand';
 }
 
 const HistoryActivity: ActivityComponentType<Params> = ({
@@ -17,7 +17,7 @@ const HistoryActivity: ActivityComponentType<Params> = ({
   return (
     <AppScreen>
       <div className="relative flex h-full w-full flex-col">
-        <History type={type} />
+        <History type={type || 'demand'} />
       </div>
     </AppScreen>
   );

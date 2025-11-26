@@ -2,17 +2,12 @@
 
 import Image from 'next/image';
 import { useNotFoundTracking } from '@/hooks/useNotFoundTracking';
-import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
 
 const NotFound = () => {
   useNotFoundTracking();
 
-  const flow = useFlow();
-  const popAll = usePopAll();
   const handleHomeClick = () => {
-    popAll({ animate: false });
-    flow.replace('Home', {}, { animate: false });
+    window.location.href = '/';
   };
 
   return (
