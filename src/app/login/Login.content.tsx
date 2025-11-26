@@ -14,8 +14,6 @@ import {
 import AppleLogin from 'react-apple-login';
 import AppleIcon from './icons/apple.svg';
 import Header from '@/components/header/Header';
-import { handleExternalLink } from '@/utils/externalLink.util';
-import { getIsAppFromUserAgent } from '@/utils/environment.util';
 import { useFlow } from '@/stacks';
 
 interface Props {
@@ -35,14 +33,13 @@ const Login = ({ redirectUrl }: Props) => {
 
   const flow = useFlow();
 
-  const isApp = getIsAppFromUserAgent();
   const handleKakaoLogin = () => {
     setLastLogin('kakao');
-    handleExternalLink(OAUTH.kakao(isApp));
+    OAUTH.kakao();
   };
   const handleNaverLogin = () => {
     setLastLogin('naver');
-    handleExternalLink(OAUTH.naver(isApp));
+    OAUTH.naver();
   };
 
   const [lastLoginState, setLastLoginState] = useState<

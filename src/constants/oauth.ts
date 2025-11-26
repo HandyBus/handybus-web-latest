@@ -5,19 +5,13 @@ class OAuth {
   #NAVER_REST_API = process.env.NEXT_PUBLIC_NAVER_REST_API;
   #NAVER_REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;
 
-  kakao(isApp: boolean) {
-    let baseUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${this.#KAKAO_REST_API}&redirect_uri=${this.#KAKAO_REDIRECT_URI}&response_type=code`;
-    if (isApp) {
-      baseUrl += `&state=app`;
-    }
+  kakao() {
+    const baseUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${this.#KAKAO_REST_API}&redirect_uri=${this.#KAKAO_REDIRECT_URI}&response_type=code`;
     return baseUrl;
   }
 
-  naver(isApp: boolean) {
-    let baseUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${this.#NAVER_REST_API}&redirect_uri=${this.#NAVER_REDIRECT_URI}`;
-    if (isApp) {
-      baseUrl += `&state=app`;
-    }
+  naver() {
+    const baseUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${this.#NAVER_REST_API}&redirect_uri=${this.#NAVER_REDIRECT_URI}`;
     return baseUrl;
   }
 }
