@@ -17,8 +17,6 @@ import { LOGIN_REDIRECT_URL_KEY } from '@/hooks/useAuthRouter';
 import AppleLogin from 'react-apple-login';
 import AppleIcon from './icons/apple.svg';
 import Header from '@/components/header/Header';
-import { handleExternalLink } from '@/utils/externalLink.util';
-import { getIsAppFromUserAgent } from '@/utils/environment.util';
 
 const Login = () => {
   usePreventScroll();
@@ -33,14 +31,13 @@ const Login = () => {
     }
   };
 
-  const isApp = getIsAppFromUserAgent();
   const handleKakaoLogin = () => {
     setLastLogin('kakao');
-    handleExternalLink(OAUTH.kakao(isApp));
+    window.location.href = OAUTH.kakao();
   };
   const handleNaverLogin = () => {
     setLastLogin('naver');
-    handleExternalLink(OAUTH.naver(isApp));
+    window.location.href = OAUTH.naver();
   };
 
   useEffect(() => {
