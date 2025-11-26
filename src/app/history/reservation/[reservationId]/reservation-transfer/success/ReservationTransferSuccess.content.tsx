@@ -3,10 +3,16 @@
 import PresentIcon from './icons/present.svg';
 import Button from '@/components/buttons/button/Button';
 import Header from '@/components/header/Header';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
+import usePopAll from '@/hooks/usePopAll';
 
 const ReservationTransferSuccess = () => {
-  const router = useRouter();
+  const flow = useFlow();
+  const popAll = usePopAll();
+  const handleNavigateToHistory = () => {
+    popAll({ animate: false });
+    flow.replace('History', { type: 'reservation' }, { animate: false });
+  };
   return (
     <>
       <Header />
@@ -26,7 +32,7 @@ const ReservationTransferSuccess = () => {
             type="button"
             variant="primary"
             size="large"
-            onClick={() => router.push('/history?type=reservation')}
+            onClick={handleNavigateToHistory}
           >
             완료
           </Button>

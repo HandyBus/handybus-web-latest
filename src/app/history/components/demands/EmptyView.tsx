@@ -1,19 +1,26 @@
+'use client';
+
 import Button from '@/components/buttons/button/Button';
 import GreyCalendarIcon from '../../icons/calendar-grey.svg';
-import Link from 'next/link';
+import usePopAll from '@/hooks/usePopAll';
+import { useFlow } from '@/stacks';
 
 const EmptyView = () => {
+  const flow = useFlow();
+  const popAll = usePopAll();
+  const handleEventListClick = () => {
+    popAll({ animate: false });
+    flow.replace('EventList', {}, { animate: false });
+  };
   return (
     <div className="flex flex-col items-center justify-center gap-8 pt-40">
       <GreyCalendarIcon />
       <p className="pb-16 text-14 font-600 text-basic-grey-500">
         참여한 수요조사가 없어요
       </p>
-      <Link href="/event">
-        <Button variant="primary" size="small">
-          둘러보기
-        </Button>
-      </Link>
+      <Button variant="primary" size="small" onClick={handleEventListClick}>
+        둘러보기
+      </Button>
     </div>
   );
 };

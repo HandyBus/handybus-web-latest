@@ -2,9 +2,9 @@
 
 import Article from '@/components/article/Article';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/arrow-right.svg';
 import { AnnouncementResponseModel } from '@/types/announcement.type';
+import { useFlow } from '@/stacks';
 
 interface Props {
   announcements: AnnouncementResponseModel[];
@@ -14,7 +14,10 @@ const AnnouncementPreview = ({ announcements }: Props) => {
   const announcementsSorted = announcements?.sort((a, b) => {
     return dayjs(b.createdAt).diff(dayjs(a.createdAt));
   });
-
+  const flow = useFlow();
+  const handleAnnouncementClick = (id: string) => {
+    flow.push('AnnouncementDetail', { id });
+  };
   return (
     <Article
       richTitle="공지사항"
@@ -23,10 +26,11 @@ const AnnouncementPreview = ({ announcements }: Props) => {
     >
       <div className="flex flex-col">
         {announcementsSorted?.slice(0, 3).map((v) => (
-          <Link
+          <button
             key={v.id}
-            href={`/announcements/${v.id}`}
-            className="flex w-auto items-center py-12"
+            type="button"
+            onClick={() => handleAnnouncementClick(v.id)}
+            className="flex w-auto items-center py-12 text-left"
           >
             <div className="w-dvw flex-1 overflow-hidden">
               <p className="truncate text-14 font-600 leading-[160%] text-basic-black">
@@ -37,7 +41,7 @@ const AnnouncementPreview = ({ announcements }: Props) => {
               </p>
             </div>
             <ArrowRightIcon className="ml-auto" />
-          </Link>
+          </button>
         ))}
       </div>
     </Article>

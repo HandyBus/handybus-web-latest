@@ -12,10 +12,10 @@ import Button from '@/components/buttons/button/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateReviewRequest, ReviewsViewEntity } from '@/types/review.type';
 import { usePutReview } from '@/services/review.service';
-import { useRouter } from 'next/navigation';
 import { getImageUrl } from '@/services/core.service';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { useFlow } from '@/stacks';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -43,7 +43,7 @@ const ReviewEditForm = ({ review }: Props) => {
     },
   });
 
-  const router = useRouter();
+  const flow = useFlow();
   const [displayImages, setDisplayImages] = useState<DisplayImage[]>(
     review.reviewImages?.map((image) => ({
       previewUrl: image.imageUrl,
@@ -52,7 +52,7 @@ const ReviewEditForm = ({ review }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: putReview } = usePutReview({
     onSuccess: () => {
-      router.push(`/mypage/reviews/${review.reviewId}`);
+      flow.replace('Reviews', {});
     },
   });
 

@@ -1,21 +1,22 @@
-import AcceptedScreen from './components/AcceptedScreen';
-import AlreadyAcceptedScreen from './components/AlreadyAcceptedScreen';
+'use client';
+
+import { Stack } from '@/stacks';
 
 interface Props {
-  searchParams: {
-    status: 'accepted' | 'already-accepted';
+  params: {
+    token: string;
   };
 }
 
-const Page = ({ searchParams }: Props) => {
-  const { status } = searchParams;
-  if (status === 'accepted') {
-    return <AcceptedScreen />;
-  }
-  if (status === 'already-accepted') {
-    return <AlreadyAcceptedScreen />;
-  }
-  return null;
+const Page = ({ params }: Props) => {
+  const { token } = params;
+  return (
+    <Stack
+      initialContext={{
+        req: { path: `/accept-reservation-transfer/${token}/success` },
+      }}
+    />
+  );
 };
 
 export default Page;

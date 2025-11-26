@@ -2,7 +2,7 @@
 
 import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SuccessBusIcon from '../icons/bus-success.svg';
 import {
   useGetUserReservation,
@@ -12,7 +12,6 @@ import Loading from '@/components/loading/Loading';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
-import { useFlow } from '@/stacks';
 
 interface Props {
   params: {
@@ -64,9 +63,9 @@ const PaymentsCompletedPage = ({
     paymentId: reservation.paymentId ?? undefined,
   });
 
-  const flow = useFlow();
+  const router = useRouter();
   const handleRedirectToHistory = () => {
-    flow.replace('History', { type: 'reservation' }, { animate: false });
+    router.replace('/history?type=reservation');
   };
 
   if (isHandyParty) {

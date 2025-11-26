@@ -1,6 +1,6 @@
 import Button from '@/components/buttons/button/Button';
 import { postAcceptReservationTransferRequest } from '@/services/reservationTransferRequest.service';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -9,14 +9,16 @@ interface Props {
 }
 
 const SubmitSection = ({ token }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
   const [isLoading, setIsLoading] = useState(false);
   const handleAcceptReservationTransferRequest = async () => {
     setIsLoading(true);
     try {
       await postAcceptReservationTransferRequest(token);
-      router.replace(
-        `/accept-reservation-transfer/${token}/success?status=accepted`,
+      flow.replace(
+        'AcceptReservationTransferSuccess',
+        { status: 'accepted' },
+        { animate: false },
       );
     } catch (error) {
       console.error(error);

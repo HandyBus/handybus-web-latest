@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -13,7 +13,7 @@ const Page = ({ params }: Props) => {
   const { reservationId } = params;
   const router = useRouter();
   useEffect(() => {
-    router.replace(`/ticket/${reservationId}`);
+    router.replace(`/ticket?reservationId=${reservationId}`);
   }, [router, reservationId]);
   return null;
 };

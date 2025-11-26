@@ -13,7 +13,7 @@ const Page = ({ params }: Props) => {
   const { demandId } = params;
   const router = useRouter();
   useEffect(() => {
-    router.replace(`/history/demand/${demandId}`);
+    router.replace('/history?type=demand');
   }, [router, demandId]);
   return null;
 };

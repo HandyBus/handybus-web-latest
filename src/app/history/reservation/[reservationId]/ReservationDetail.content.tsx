@@ -7,16 +7,18 @@ import Content from './components/Content';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { useState } from 'react';
 import FirstVisitModal from './components/FirstVisitModal';
-import { useRouter } from 'next/navigation';
 import { useGetReservationTransferRequestWithReservationId } from '@/services/reservationTransferRequest.service';
 import Header from '@/components/header/Header';
+import { useFlow } from '@/stacks';
+import usePopAll from '@/hooks/usePopAll';
 
 interface Props {
   reservationId: string;
 }
 
 const ReservationDetail = ({ reservationId }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
+  const popAll = usePopAll();
 
   const [isKakaoScriptLoaded, setIsKakaoScriptLoaded] = useState(false);
 
@@ -33,7 +35,8 @@ const ReservationDetail = ({ reservationId }: Props) => {
     isReservationDetailLoading || isReservationTransferRequestLoading;
 
   if (!isLoading && !reservation && !payment && !reservationTransferRequests) {
-    router.replace('/history?type=reservation');
+    popAll({ animate: false });
+    flow.replace('History', { type: 'reservation' }, { animate: false });
     return;
   }
 

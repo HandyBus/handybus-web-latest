@@ -4,12 +4,16 @@ import Button from '@/components/buttons/button/Button';
 import ReviewCompleteIcon from './icons/review-complete.svg';
 import Header from '@/components/header/Header';
 import { handleExternalLink } from '@/utils/externalLink.util';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 
 const SURVEY_URL = process.env.NEXT_PUBLIC_SURVEY_URL;
 
 const ReviewComplete = () => {
-  const router = useRouter();
+  const flow = useFlow();
+  const handleNavigateToReviews = () => {
+    flow.pop(1, { animate: false });
+    flow.replace('Reviews', {}, { animate: false });
+  };
 
   return (
     <>
@@ -30,7 +34,7 @@ const ReviewComplete = () => {
           <Button
             variant="primary"
             size="large"
-            onClick={() => router.push(`/mypage/reviews`)}
+            onClick={handleNavigateToReviews}
           >
             완료
           </Button>

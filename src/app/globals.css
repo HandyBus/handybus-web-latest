@@ -52,6 +52,8 @@
 html {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  /* 브라우저 내장 스와이프 제스처 비활성화 */
+  overscroll-behavior-x: none;
 }
 
 html::-webkit-scrollbar {
@@ -61,6 +63,8 @@ html::-webkit-scrollbar {
 @layer base {
   body {
     @apply text-16 font-400 text-basic-black;
+    /* 브라우저 내장 스와이프 제스처 비활성화 */
+    overscroll-behavior-x: none;
   }
 
   .list-disc li::marker {

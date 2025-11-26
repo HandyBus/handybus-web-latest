@@ -2,20 +2,16 @@
 
 import type { ActivityComponentType } from '@stackflow/react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import History, { HistoryTabType } from '@/app/history/History.content';
+import Onboarding from '@/app/onboarding/Onboarding.content';
 
-interface Params {
-  type: HistoryTabType;
-}
-
-const HistoryActivity: ActivityComponentType<Params> = () => {
+const OnboardingActivity: ActivityComponentType = () => {
   return (
     <AppScreen>
       <div className="relative flex h-full w-full flex-col">
-        <History />
+        <Onboarding />
       </div>
     </AppScreen>
   );
 };
 
-export default HistoryActivity;
+export default OnboardingActivity;

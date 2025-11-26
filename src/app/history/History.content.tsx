@@ -6,16 +6,16 @@ import DemandTab from './components/demands/DemandTab';
 import ReservationTab from './components/reservations/ReservationTab';
 import Header from '@/components/header/Header';
 import { useFlow } from '@/stacks';
+import { useSearchParams } from 'next/navigation';
 
-type HistoryTabType = 'demand' | 'reservation';
+export type HistoryTabType = 'demand' | 'reservation';
 
-interface Props {
-  type: HistoryTabType;
-}
-
-const History = ({ type }: Props) => {
-  const currentTab: HistoryTabType = type || 'demand';
+const History = () => {
   const flow = useFlow();
+  const searchParams = useSearchParams();
+  const currentTab: HistoryTabType =
+    (searchParams.get('type') as HistoryTabType) || 'demand';
+
   const renderTab = () => {
     switch (currentTab) {
       case 'demand':
@@ -23,6 +23,10 @@ const History = ({ type }: Props) => {
       case 'reservation':
         return <ReservationTab />;
     }
+  };
+
+  const handleSelectTab = (nextTab: HistoryTabType) => {
+    flow.replace('History', { type: nextTab }, { animate: false });
   };
 
   return (
@@ -37,9 +41,7 @@ const History = ({ type }: Props) => {
             ] as const
           }
           selected={currentTab}
-          onSelect={(value) => {
-            flow.replace('History', { type: value }, { animate: false });
-          }}
+          onSelect={handleSelectTab}
           className="top-56"
         />
         {renderTab()}

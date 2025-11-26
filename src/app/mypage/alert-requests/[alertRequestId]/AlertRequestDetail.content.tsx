@@ -4,15 +4,17 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserAlertRequest } from '@/services/alertRequest.service';
 import Content from './components/Content';
-import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
+import { useFlow } from '@/stacks';
+import usePopAll from '@/hooks/usePopAll';
 
 interface Props {
   alertRequestId: string;
 }
 
 const AlertRequestDetail = ({ alertRequestId }: Props) => {
-  const router = useRouter();
+  const flow = useFlow();
+  const popAll = usePopAll();
   const {
     data: alertRequest,
     isLoading,
@@ -20,7 +22,8 @@ const AlertRequestDetail = ({ alertRequestId }: Props) => {
   } = useGetUserAlertRequest(alertRequestId);
 
   if (isSuccess && !alertRequest) {
-    router.replace('/mypage/alert-requests');
+    popAll({ animate: false });
+    flow.replace('AlertRequests', {}, { animate: false });
     return <div className="h-[100dvh]" />;
   }
 

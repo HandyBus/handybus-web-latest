@@ -3,11 +3,11 @@
 import type { HTMLProps, ReactNode } from 'react';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 import { customTwMerge } from 'tailwind.config';
-import { StackName, useFlow } from '@/stacks';
+import { ActivityName, useFlow } from '@/stacks';
 
 interface Props extends HTMLProps<HTMLDivElement> {
   richTitle: ReactNode;
-  showMore?: StackName;
+  showMore?: ActivityName;
   titleClassName?: string;
 }
 
@@ -38,7 +38,7 @@ export default Article;
 interface TitleProps {
   title: ReactNode;
   titleClassName: string;
-  showMore?: StackName;
+  showMore?: ActivityName;
 }
 
 const Title = ({ title, titleClassName, showMore }: TitleProps) => {
