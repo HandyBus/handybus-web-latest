@@ -18,7 +18,7 @@ import MyPageSelectedIcon from './icons/mypage-selected.svg';
 import MyPageClickedIcon from './icons/mypage-clicked.svg';
 import TicketIcon from './icons/ticket.svg';
 import { useActivity } from '@stackflow/react';
-import { StackName } from '@/stacks';
+import { ActivityName } from '@/stacks';
 
 const NavBar = () => {
   const activity = useActivity();
@@ -113,7 +113,7 @@ const NavBar = () => {
 export default NavBar;
 
 interface useNavNavigationProps {
-  activityName: StackName;
+  activityName: ActivityName;
   href: string;
   requiresLogin: boolean;
   isLoggedIn: boolean;
@@ -143,7 +143,7 @@ interface NavButtonProps {
   name: string;
   href: string;
   icon: ReactNode;
-  activityName: StackName;
+  activityName: ActivityName;
   isSelected: boolean;
   selectedIcon: ReactNode;
   clickedIcon: ReactNode;

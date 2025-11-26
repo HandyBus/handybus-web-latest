@@ -136,7 +136,7 @@ const routes = {
   AcceptReservationTransferFail: '/accept-reservation-transfer/:token/fail',
 };
 
-export const STACK_NAME_TO_PAGE_NAME: Record<StackName, string> = {
+export const ACTIVITY_NAME_TO_PAGE_NAME: Record<ActivityName, string> = {
   // home activities
   Home: '홈',
   EventListFromHome: '모든 행사',
@@ -183,6 +183,6 @@ export const STACK_NAME_TO_PAGE_NAME: Record<StackName, string> = {
   AcceptReservationTransferFail: '탑승권 선물',
 };
 
-export type StackName = keyof typeof activities;
+export type ActivityName = keyof typeof activities;
 
 export const { Stack, useFlow } = createStack(activities, routes, 'Home');

@@ -4,7 +4,7 @@ import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import { STACK_NAME_TO_PAGE_NAME, StackName, useFlow } from '@/stacks';
+import { ACTIVITY_NAME_TO_PAGE_NAME, ActivityName, useFlow } from '@/stacks';
 import { useActivity } from '@stackflow/react';
 import usePopAll from '@/hooks/usePopAll';
 import { useState, useEffect } from 'react';
@@ -16,7 +16,9 @@ const Header = () => {
   const [pageName, setPageName] = useState('');
 
   useEffect(() => {
-    setPageName(STACK_NAME_TO_PAGE_NAME[activity.name as StackName] || '');
+    setPageName(
+      ACTIVITY_NAME_TO_PAGE_NAME[activity.name as ActivityName] || '',
+    );
   }, [activity.name]);
 
   const isHome = activity.name === 'Home';

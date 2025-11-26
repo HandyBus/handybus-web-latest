@@ -8,7 +8,7 @@ import Tabs from '@/components/tab/Tabs';
 import { useState } from 'react';
 import FAQList from './components/FAQList';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
-import { StackName, useFlow } from '@/stacks';
+import { ActivityName, useFlow } from '@/stacks';
 
 const TAB_ITEMS = [
   { label: '예약하기', value: 'reservation' },
@@ -25,7 +25,7 @@ const Faq = () => {
   const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);
 
   const flow = useFlow();
-  const handleClick = (stackName: StackName) => {
+  const handleClick = (stackName: ActivityName) => {
     flow.push(stackName, {});
   };
 
