@@ -17,7 +17,7 @@ const ReviewComplete = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="후기 작성 완료" />
       <main className="relative grow">
         <section className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
           <h1 className="pb-4 text-22 font-700 leading-[140%]">

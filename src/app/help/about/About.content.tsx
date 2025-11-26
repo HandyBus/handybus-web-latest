@@ -17,7 +17,7 @@ const About = () => {
   };
   return (
     <>
-      <Header />
+      <Header pageName="서비스 소개" />
       <main>
         <Image src={OverviewImage1} alt="overview" />
         <div className="flex flex-col items-center gap-8 pb-32">

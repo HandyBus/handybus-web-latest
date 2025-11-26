@@ -22,7 +22,7 @@ const HandybusGuide = ({ tab }: Params) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="이용 방법" />
       <main>
         <figure>
           <Image src={guideImage} alt="핸디버스 가이드" quality={100} />

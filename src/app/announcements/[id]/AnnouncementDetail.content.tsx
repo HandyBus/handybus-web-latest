@@ -23,7 +23,7 @@ const AnnouncementDetailContent = ({ id }: Props) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="공지글" />
       <main>
         <section className="px-16">
           <section className={`flex justify-between gap-[9px] py-12`}>

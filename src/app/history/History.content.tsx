@@ -31,7 +31,7 @@ const History = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="참여/예약 내역" />
       <main className="relative flex grow flex-col bg-basic-grey-50">
         <Tabs
           items={

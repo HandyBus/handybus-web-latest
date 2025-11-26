@@ -15,7 +15,7 @@ const ProfileEdit = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="프로필 수정" />
       <Suspense>
         <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
           {user && (

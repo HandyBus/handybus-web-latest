@@ -94,7 +94,7 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="탑승권" />
       {/* 피시와 모바일 환경 모두에서 화면 높이를 설정 */}
       <main className="min-h-[100dvh] bg-basic-black">
         <aside className="bg-basic-red-100 px-16 py-8 text-center text-14 font-600 leading-[160%] text-basic-red-400">

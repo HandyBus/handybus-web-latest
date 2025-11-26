@@ -61,7 +61,7 @@ const EventListFromHome = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="모든 행사" />
       <main className="relative flex flex-1 flex-col">
         <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
         <div className="w-full px-16">
