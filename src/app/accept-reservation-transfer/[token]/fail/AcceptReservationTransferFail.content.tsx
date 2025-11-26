@@ -2,8 +2,9 @@
 
 import Header from '@/components/header/Header';
 import Button from '@/components/buttons/button/Button';
-import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 import { logoutWithLoginRedirect } from '@/utils/handleToken.util';
+import usePopAll from '@/hooks/usePopAll';
 
 interface Props {
   token: string;
@@ -14,8 +15,14 @@ const AcceptReservationTransferFail = ({
   token,
   receiverPhoneNumber,
 }: Props) => {
-  const router = useRouter();
   const redirectUrl = `/accept-reservation-transfer/${token}`;
+
+  const flow = useFlow();
+  const popAll = usePopAll();
+  const handleNavigateToHome = () => {
+    popAll({ animate: false });
+    flow.replace('Home', {}, { animate: false });
+  };
   return (
     <>
       <Header />
@@ -45,7 +52,7 @@ const AcceptReservationTransferFail = ({
             type="button"
             variant="text"
             size="large"
-            onClick={() => router.push('/')}
+            onClick={handleNavigateToHome}
           >
             닫기
           </Button>

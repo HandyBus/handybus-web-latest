@@ -12,7 +12,7 @@ import TicketSwiperView from './components/TicketSwiperView';
 import PinIcon from './icons/pin-primary.svg';
 import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { handleExternalLink } from '@/utils/externalLink.util';
 import Header from '@/components/header/Header';
 
@@ -23,7 +23,6 @@ interface Props {
 const TicketDetail = ({ reservationId }: Props) => {
   const searchParams = useSearchParams();
   const direction = searchParams.get('direction') || undefined;
-  const router = useRouter();
   const { data, isLoading: isReservationLoading } =
     useGetUserReservation(reservationId);
   const reservation = data?.reservation;
@@ -34,16 +33,16 @@ const TicketDetail = ({ reservationId }: Props) => {
 
   useEffect(() => {
     if (!isLoading && !reservation) {
-      router.replace('/history?type=reservation');
+      window.location.href = '/history?type=reservation';
       return;
     }
-  }, [isLoading, router, reservationId, reservation]);
+  }, [isLoading, reservationId, reservation]);
 
   if (isLoading) {
     return <TicketSkeleton />;
   }
   if (isShuttleEnded || isCanceled) {
-    router.replace('/history?type=reservation');
+    window.location.href = '/history?type=reservation';
   }
   if (!reservation) {
     return null;

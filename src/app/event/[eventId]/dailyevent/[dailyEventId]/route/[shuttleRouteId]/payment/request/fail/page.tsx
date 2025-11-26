@@ -5,7 +5,6 @@ import FailBusIcon from '../icons/bus-fail.svg';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   searchParams: {
@@ -19,9 +18,8 @@ const Page = ({ searchParams }: Props) => {
     setCode(searchParams.code);
   }, [searchParams.code]);
 
-  const router = useRouter();
   const handleRedirectToHome = () => {
-    router.replace('/');
+    window.location.href = '/';
   };
 
   const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);

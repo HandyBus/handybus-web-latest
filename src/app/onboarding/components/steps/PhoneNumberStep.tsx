@@ -14,6 +14,7 @@ import CloseIcon from '../../icons/close.svg';
 import PrivacyPolicyBottomSheet from '../PrivacyPolicyBottomSheet';
 import ServicePolicyBottomSheet from '../ServicePolicyBottomSheet';
 import { useRouter } from 'next/navigation';
+import { useFlow } from '@/stacks';
 
 const PhoneNumberStep = () => {
   const router = useRouter();
@@ -73,11 +74,16 @@ const PhoneNumberStep = () => {
 
   const [isAgreementChecked, setIsAgreementChecked] = useState(true);
 
+  const flow = useFlow();
+
   return (
     <>
       <OnboardingFrame>
         <div className="mx-16 my-12 flex h-56 items-center gap-8">
-          <button type="button" onClick={() => router.replace('/login')}>
+          <button
+            type="button"
+            onClick={() => flow.replace('Home', {}, { animate: false })}
+          >
             <CloseIcon />
           </button>
           <h1 className="text-18 font-700 leading-[140%] text-basic-black">

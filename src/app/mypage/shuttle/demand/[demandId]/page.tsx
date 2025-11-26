@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 interface Props {
@@ -11,10 +10,9 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const { demandId } = params;
-  const router = useRouter();
   useEffect(() => {
-    router.replace('/history?type=demand');
-  }, [router, demandId]);
+    window.location.href = `/history/demand/${demandId}`;
+  }, [demandId]);
   return null;
 };
 

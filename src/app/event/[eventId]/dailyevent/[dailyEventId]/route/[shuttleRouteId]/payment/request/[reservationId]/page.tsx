@@ -2,7 +2,7 @@
 
 import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import SuccessBusIcon from '../icons/bus-success.svg';
 import {
   useGetUserReservation,
@@ -63,9 +63,8 @@ const PaymentsCompletedPage = ({
     paymentId: reservation.paymentId ?? undefined,
   });
 
-  const router = useRouter();
   const handleRedirectToHistory = () => {
-    router.replace('/history?type=reservation');
+    window.location.href = '/history?type=reservation';
   };
 
   if (isHandyParty) {
