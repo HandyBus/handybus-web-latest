@@ -37,6 +37,8 @@ const OAuth = ({ params, searchParams }: Props) => {
       searchParams?.state && searchParams.state.toLowerCase().includes('app');
     const isAppFromEnvironment = getIsAppFromUserAgent();
 
+    // deprecated: 앱 환경에서 외부 브라우저로 연결되어 로그인 했을 시 사용되는 로직
+    // 현재는 IOS 앱 정책으로 이용하지 않음.
     if (isAppFromState && !isAppFromEnvironment) {
       let deepLinkUrl = `handybus://?path=/auth/login/${params.oauth}`;
       if (searchParams.code) {
