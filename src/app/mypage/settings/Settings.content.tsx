@@ -3,22 +3,21 @@
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import {
   putUser,
+  putUserPushToken,
   useDeleteUser,
   useGetUser,
-  usePutUser,
 } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
 import ListButton from '../components/ListButton';
 import { logout } from '@/utils/handleToken.util';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { removeLastLogin, removePushToken } from '@/utils/localStorage';
+import { removeLastLogin } from '@/utils/localStorage';
 import { toast } from 'react-toastify';
 import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import Header from '@/components/header/Header';
-import useEnvironment from '@/hooks/useEnvironment';
 import dayjs from 'dayjs';
 import * as Sentry from '@sentry/nextjs';
 
@@ -38,9 +37,6 @@ const Settings = () => {
 
   const { mutate: putMarketingAgreement } = usePutMarketingAgreement();
 
-  const { isApp } = useEnvironment();
-  const { mutateAsync: updateUser } = usePutUser();
-
   const handleSwitchClick = (e: SyntheticEvent) => {
     e.stopPropagation();
     putMarketingAgreement(!isMarketingAgreed, {
@@ -59,10 +55,7 @@ const Settings = () => {
   // 로그아웃
   const handleLogout = async () => {
     try {
-      if (isApp) {
-        await updateUser({ pushToken: null });
-        removePushToken();
-      }
+      await putUserPushToken(null);
       await logout();
       toast.success('로그아웃이 완료되었어요');
     } catch (error) {
@@ -96,6 +89,7 @@ const Settings = () => {
   } = useDeleteUser({
     onSuccess: async () => {
       removeLastLogin();
+      await putUserPushToken(null);
       await logout();
       toast.success('핸디버스를 이용해 주셔서 감사합니다.');
     },

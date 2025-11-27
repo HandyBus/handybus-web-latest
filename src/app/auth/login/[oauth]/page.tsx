@@ -5,7 +5,7 @@ import usePreventRefresh from '@/hooks/usePreventRefresh';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { postLogin } from '@/services/auth.service';
 import { CustomError } from '@/services/custom-error';
-import { getUser, usePutUser } from '@/services/user.service';
+import { getUser } from '@/services/user.service';
 import {
   setAccessToken,
   setOnboardingStatusComplete,
@@ -13,7 +13,6 @@ import {
   setRefreshToken,
 } from '@/utils/handleToken.util';
 import {
-  getPushToken,
   removeEntryGreetingIncomplete,
   removeRedirectUrl,
   setEntryGreetingIncomplete,
@@ -25,7 +24,7 @@ import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import { getIsAppFromUserAgent } from '@/utils/environment.util';
-import useEnvironment from '@/hooks/useEnvironment';
+import { requestMessageToAppForPushToken } from '@/utils/webview.util';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' | 'apple' };
@@ -37,9 +36,6 @@ const OAuth = ({ params, searchParams }: Props) => {
   const isInitiated = useRef(false);
   usePreventRefresh();
   usePreventScroll();
-
-  const { isApp } = useEnvironment();
-  const { mutateAsync: updateUser } = usePutUser();
 
   const handleOAuth = async () => {
     const isAppFromState =
@@ -73,12 +69,9 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
+      requestMessageToAppForPushToken();
 
       const user = await getUser({ skipCheckOnboarding: true });
-      if (isApp) {
-        const pushToken = getPushToken();
-        await updateUser({ pushToken });
-      }
       const isOnboardingComplete = user?.onboardingComplete || false;
       const isEntryGreetingChecked = user?.entryGreetingChecked || false;
 

@@ -253,3 +253,13 @@ export const sendMessageAndWaitForResponse = <
     }
   });
 };
+
+export const requestMessageToAppForPushToken = () => {
+  const isApp = getIsAppFromUserAgent();
+  if (!isApp) return;
+
+  const result = sendMessageToApp('REQUEST_PUSH_TOKEN', undefined);
+  if (!result) throw new Error('Failed to request push token');
+
+  return;
+};

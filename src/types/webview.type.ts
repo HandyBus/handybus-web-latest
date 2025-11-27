@@ -46,6 +46,8 @@ export interface WebToAppMessages {
   REQUEST_PERMISSION: {
     permission: 'camera' | 'location' | 'notification';
   };
+  /** 앱에서 푸시 토큰 요청 */
+  REQUEST_PUSH_TOKEN: undefined;
 }
 
 /**
