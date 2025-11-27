@@ -1,9 +1,9 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import Payment from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/Payment.content';
 import { TripType } from '@/types/shuttleRoute.type';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   eventId: string;
@@ -25,7 +25,7 @@ const PaymentActivity: ActivityComponentType<Params> = ({
   params: Params;
 }) => {
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <Payment
           eventId={params.eventId}
@@ -41,7 +41,7 @@ const PaymentActivity: ActivityComponentType<Params> = ({
           reservationStartTime={params.reservationStartTime}
         />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 

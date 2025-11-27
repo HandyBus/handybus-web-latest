@@ -9,7 +9,7 @@ import { handleExternalLink } from '@/utils/externalLink.util';
 const DirectInquiry = () => {
   return (
     <>
-      <Header />
+      <Header pageName="직접 문의하기" />
       <main className="h-full">
         <TitledSection
           title={`문제가 생기셨나요?\n핸디버스 팀에게 직접 문의해 주세요.`}

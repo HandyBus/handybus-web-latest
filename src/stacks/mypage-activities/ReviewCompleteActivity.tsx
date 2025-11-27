@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import ReviewComplete from '@/app/mypage/reviews/write/[reservationId]/complete/ReviewComplete.content';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 const ReviewCompleteActivity: ActivityComponentType = () => {
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <ReviewComplete />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 

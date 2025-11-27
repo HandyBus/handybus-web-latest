@@ -29,7 +29,7 @@ const AlertRequestDetail = ({ alertRequestId }: Props) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="빈자리 알림 정보" />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

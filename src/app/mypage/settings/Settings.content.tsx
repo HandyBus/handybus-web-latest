@@ -77,7 +77,7 @@ const Settings = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="환경설정" />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
           <>

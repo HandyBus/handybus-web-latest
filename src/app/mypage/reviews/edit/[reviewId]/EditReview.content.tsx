@@ -45,7 +45,7 @@ const EditReview = ({ reviewId }: Props) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="후기 수정" />
       <main>
         <DeferredSuspense
           fallback={<Loading style="screen" />}

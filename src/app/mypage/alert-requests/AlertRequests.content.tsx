@@ -16,7 +16,7 @@ const AlertRequests = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="빈자리 알림" />
       <main className="flex grow flex-col bg-basic-grey-50">
         <DeferredSuspense
           fallback={<Loading style="grow" />}

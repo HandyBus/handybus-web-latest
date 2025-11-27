@@ -5,7 +5,7 @@ import AnnouncementList from './components/AnnouncementList';
 
 const AnnouncementListContent = () => (
   <>
-    <Header />
+    <Header pageName="공지사항" />
     <main className="grow-0">
       <AnnouncementList />
     </main>

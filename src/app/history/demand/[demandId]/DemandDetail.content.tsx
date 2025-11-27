@@ -40,7 +40,7 @@ const DemandDetail = ({ demandId }: Props) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="수요조사 정보" />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

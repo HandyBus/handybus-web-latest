@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import MarketingConsent from '@/app/help/faq/marketing-consent/MarketingConsent.content';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 const MarketingConsentActivity: ActivityComponentType = () => {
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <MarketingConsent />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 

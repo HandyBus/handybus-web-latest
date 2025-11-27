@@ -112,7 +112,7 @@ const AppLaunchEvent = () => {
 
   return (
     <>
-      <Header />
+      <Header pageName="이벤트" />
       <main className="grow">
         <Image src={FirstImage} alt="핸디버스 앱 출시 이벤트" />
         <Image src={SecondImage} alt="핸디버스 앱 출시 이벤트" />

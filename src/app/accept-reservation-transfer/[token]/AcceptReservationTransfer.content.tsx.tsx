@@ -42,7 +42,7 @@ const AcceptReservationTransfer = ({ token }: Props) => {
 
   return (
     <>
-      <Header />
+      <Header pageName="탑승권 선물" />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

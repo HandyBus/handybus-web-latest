@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import AcceptReservationTransferFail from '@/app/accept-reservation-transfer/[token]/fail/AcceptReservationTransferFail.content';
+import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   token: string;
@@ -16,14 +16,14 @@ const AcceptReservationTransferFailActivity: ActivityComponentType<Params> = ({
 }) => {
   const { token, receiverPhoneNumber } = params;
   return (
-    <AppScreen>
+    <StackAppScreen>
       <div className="relative flex h-full w-full flex-col">
         <AcceptReservationTransferFail
           token={token}
           receiverPhoneNumber={receiverPhoneNumber}
         />
       </div>
-    </AppScreen>
+    </StackAppScreen>
   );
 };
 
