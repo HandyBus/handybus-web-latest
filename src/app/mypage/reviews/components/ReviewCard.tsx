@@ -49,7 +49,7 @@ const ReviewCard = ({ review, reservation }: Props) => {
             {formattedReviewWrittenDate} 작성
           </h3>
         </div>
-        <div className="h-[1px] w-full bg-basic-grey-100 py-12" />
+        <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
         <div className="flex w-full items-center gap-[6px]">
           <Rating size="medium" value={review.rating} />
           <div className="h-[10px] w-[1px] bg-basic-grey-100" />
