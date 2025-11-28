@@ -9,6 +9,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { putUserPushToken } from '@/services/user.service';
 
 interface Props {
   searchParams: { identityVerificationId: string };
@@ -42,7 +43,8 @@ const Page = ({ searchParams }: Props) => {
       });
       console.error(e);
       toast.error('회원가입에 실패했어요.');
-      logout();
+      await putUserPushToken(null);
+      await logout();
     }
   };
 

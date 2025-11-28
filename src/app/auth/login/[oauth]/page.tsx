@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import { getIsAppFromUserAgent } from '@/utils/environment.util';
+import { requestMessageToAppForPushToken } from '@/utils/webview.util';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' | 'apple' };
@@ -66,6 +67,7 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
+      requestMessageToAppForPushToken();
 
       const user = await getUser({ skipCheckOnboarding: true });
       const isOnboardingComplete = user?.onboardingComplete || false;

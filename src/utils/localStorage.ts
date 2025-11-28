@@ -135,3 +135,29 @@ export const getAppLaunchEventCouponDownloadModalSeen = () => {
 export const removeAppLaunchEventCouponDownloadModalSeen = () => {
   localStorage.removeItem(APP_LAUNCH_EVENT_COUPON_DOWNLOAD_MODAL_SEEN);
 };
+
+// 백엔드 서버와 푸시토큰 동기화 실패 시 재시도를 위한 대기 토큰
+export const PENDING_PUSH_TOKEN = 'pending-push-token';
+
+interface PendingPushToken {
+  token: string | null;
+}
+
+export const setPendingPushToken = (token: string | null) => {
+  const data: PendingPushToken = { token };
+  localStorage.setItem(PENDING_PUSH_TOKEN, JSON.stringify(data));
+};
+
+export const getPendingPushToken = (): PendingPushToken | null => {
+  const data = localStorage.getItem(PENDING_PUSH_TOKEN);
+  if (!data) return null;
+  try {
+    return JSON.parse(data) as PendingPushToken;
+  } catch {
+    return null;
+  }
+};
+
+export const removePendingPushToken = () => {
+  localStorage.removeItem(PENDING_PUSH_TOKEN);
+};

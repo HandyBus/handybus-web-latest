@@ -74,6 +74,7 @@ export const UpdateMeRequestSchema = z
     favoriteArtistsIds: z.string().array(),
     isAgreedMarketing: z.boolean(),
     entryGreetingChecked: z.boolean(),
+    pushToken: z.string().nullable(),
   })
   .partial();
 export type UpdateMeRequest = z.infer<typeof UpdateMeRequestSchema>;

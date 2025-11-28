@@ -1,7 +1,12 @@
 'use client';
 
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import { putUser, useDeleteUser, useGetUser } from '@/services/user.service';
+import {
+  putUser,
+  putUserPushToken,
+  useDeleteUser,
+  useGetUser,
+} from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
 import ListButton from '../components/ListButton';
 import { logout } from '@/utils/handleToken.util';
@@ -13,6 +18,8 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import Button from '@/components/buttons/button/Button';
 import Header from '@/components/header/Header';
+import dayjs from 'dayjs';
+import * as Sentry from '@sentry/nextjs';
 
 const Settings = () => {
   const { data: user, isLoading: isLoadingUser } = useGetUser();
@@ -46,9 +53,27 @@ const Settings = () => {
   };
 
   // 로그아웃
-  const handleLogout = () => {
-    logout();
-    toast.success('로그아웃이 완료되었어요');
+  const handleLogout = async () => {
+    try {
+      await putUserPushToken(null);
+      await logout();
+      toast.success('로그아웃이 완료되었어요');
+    } catch (error) {
+      console.error(error);
+      toast.error('로그아웃에 실패했어요. 잠시 후 다시 시도해 주세요.');
+      Sentry.captureException(error, {
+        tags: {
+          component: 'Settings',
+          page: 'mypage',
+          feature: 'logout',
+          action: 'logout',
+          environment: process.env.NODE_ENV || 'development',
+        },
+        extra: {
+          timestamp: dayjs().toISOString(),
+        },
+      });
+    }
   };
 
   // 탈퇴하기
@@ -64,6 +89,7 @@ const Settings = () => {
   } = useDeleteUser({
     onSuccess: async () => {
       removeLastLogin();
+      await putUserPushToken(null);
       await logout();
       toast.success('핸디버스를 이용해 주셔서 감사합니다.');
     },
