@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import DemandDetail from '@/app/history/demand/[demandId]/DemandDetail.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   demandId: string;
@@ -16,11 +16,11 @@ const DemandDetailActivity: ActivityComponentType<Params> = ({
   const { demandId } = params;
 
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <DemandDetail demandId={demandId} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

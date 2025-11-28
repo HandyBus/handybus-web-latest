@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import Coupons from '@/app/mypage/coupons/Coupons.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 const CouponsActivity: ActivityComponentType = () => {
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <Coupons />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

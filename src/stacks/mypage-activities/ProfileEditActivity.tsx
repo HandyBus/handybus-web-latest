@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import ProfileEdit from '@/app/mypage/profile/edit/ProfileEdit.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 const ProfileEditActivity: ActivityComponentType = () => {
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <ProfileEdit />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

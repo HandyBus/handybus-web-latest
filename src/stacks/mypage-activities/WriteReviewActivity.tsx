@@ -1,7 +1,7 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
-import StackAppScreen from '@/stacks/StackAppScreen';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import WriteReview from '@/app/mypage/reviews/write/[reservationId]/WriteReview.content';
 
 interface Params {
@@ -16,11 +16,11 @@ const WriteReviewActivity: ActivityComponentType<Params> = ({
   const { reservationId } = params;
 
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <WriteReview reservationId={reservationId} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

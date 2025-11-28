@@ -8,7 +8,7 @@ import PolicyViewer from '@/components/policy/PolicyViewer';
 const MarketingConsent = () => {
   return (
     <>
-      <Header pageName="마케팅 활용 동의" />
+      <Header />
       <main>
         <TitledSection>
           <PolicyViewer type="마케팅활용동의" />

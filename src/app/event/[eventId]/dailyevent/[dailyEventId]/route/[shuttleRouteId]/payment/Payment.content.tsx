@@ -66,7 +66,7 @@ const Payment = ({
 
   return (
     <>
-      <Header pageName="결제" />
+      <Header />
       <TossPaymentsScript onReady={() => setIsTossPaymentsScriptLoaded(true)} />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {event &&

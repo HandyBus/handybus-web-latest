@@ -30,7 +30,7 @@ const Reviews = () => {
 
   return (
     <>
-      <Header pageName="내 후기" />
+      <Header />
       <main className="relative grow bg-basic-grey-50">
         <Tabs
           items={[

@@ -62,7 +62,7 @@ const EventList = () => {
 
   return (
     <>
-      <Header pageName="모든 행사" />
+      <Header />
       <main className="relative flex flex-1 flex-col">
         <FilterBar type={type} sort={sort} setType={setType} onSort={setSort} />
         <div className="w-full px-16">

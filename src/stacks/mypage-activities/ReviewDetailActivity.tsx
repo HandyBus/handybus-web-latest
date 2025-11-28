@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import ReviewDetail from '@/app/mypage/reviews/[reviewId]/ReviewDetail.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   reviewId: string;
@@ -16,11 +16,11 @@ const ReviewDetailActivity: ActivityComponentType<Params> = ({
   const { reviewId } = params;
 
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <ReviewDetail reviewId={reviewId} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

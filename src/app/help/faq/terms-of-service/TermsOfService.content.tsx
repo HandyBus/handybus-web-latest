@@ -8,7 +8,7 @@ import PolicyViewer from '@/components/policy/PolicyViewer';
 const TermsOfService = () => {
   return (
     <>
-      <Header pageName="서비스 이용 약관" />
+      <Header />
       <main>
         <TitledSection>
           <PolicyViewer type="서비스이용약관" />

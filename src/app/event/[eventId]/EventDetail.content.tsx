@@ -26,7 +26,7 @@ const EventDetail = ({ eventId }: Props) => {
 
   return (
     <>
-      <Header pageName="행사 정보" />
+      <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {event && (
           <>

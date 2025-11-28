@@ -23,7 +23,7 @@ const ReservationTransfer = ({ reservationId }: Props) => {
 
   return (
     <>
-      <Header pageName="선물하기" />
+      <Header />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

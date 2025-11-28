@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import EditReview from '@/app/mypage/reviews/edit/[reviewId]/EditReview.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   reviewId: string;
@@ -16,11 +16,11 @@ const EditReviewActivity: ActivityComponentType<Params> = ({
   const { reviewId } = params;
 
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <EditReview reviewId={reviewId} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

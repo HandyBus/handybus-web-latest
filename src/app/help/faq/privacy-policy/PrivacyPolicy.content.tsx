@@ -8,7 +8,7 @@ import PolicyViewer from '@/components/policy/PolicyViewer';
 const PrivacyPolicy = () => {
   return (
     <>
-      <Header pageName="개인정보 처리 방침" />
+      <Header />
       <main>
         <TitledSection>
           <PolicyViewer type="개인정보처리방침" />

@@ -41,7 +41,7 @@ const WriteReview = ({ reservationId }: Props) => {
 
   return (
     <>
-      <Header pageName="후기 작성" />
+      <Header />
       <main>
         <DeferredSuspense
           fallback={<Loading style="screen" />}

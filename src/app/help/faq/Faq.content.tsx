@@ -31,7 +31,7 @@ const Faq = () => {
 
   return (
     <>
-      <Header pageName="도움말" />
+      <Header />
       <main className="relative">
         <TitledSection title="자주 묻는 질문">
           <Tabs

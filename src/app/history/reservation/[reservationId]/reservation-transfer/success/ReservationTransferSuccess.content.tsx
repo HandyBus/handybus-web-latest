@@ -15,7 +15,7 @@ const ReservationTransferSuccess = () => {
   };
   return (
     <>
-      <Header pageName="선물 완료" />
+      <Header />
       <main className="flex grow flex-col">
         <section className="mt-96 flex flex-col items-center">
           <h1 className="pb-4 text-22 font-700 leading-[140%]">

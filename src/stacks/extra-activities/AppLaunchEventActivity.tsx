@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import AppLaunchEvent from '@/app/app-launch-event/AppLaunchEvent.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 const AppLaunchEventActivity: ActivityComponentType = () => {
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <AppLaunchEvent />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

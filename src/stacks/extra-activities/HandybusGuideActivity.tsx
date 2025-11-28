@@ -1,10 +1,10 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import HandybusGuide, {
   TabValue,
 } from '@/app/help/handybus-guide/HandybusGuide.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   tab: TabValue;
@@ -17,11 +17,11 @@ const HandybusGuideActivity: ActivityComponentType<Params> = ({
 }) => {
   const { tab } = params;
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <HandybusGuide tab={tab} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

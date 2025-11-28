@@ -15,7 +15,7 @@ const MyPage = () => {
 
   return (
     <>
-      <Header pageName="마이페이지" />
+      <Header />
       <DeferredSuspense fallback={<Loading />} isLoading={isLoading}>
         {user && (
           <main className="grow pb-48">

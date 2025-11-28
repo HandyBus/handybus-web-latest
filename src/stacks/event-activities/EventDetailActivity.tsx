@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import EventDetail from '@/app/event/[eventId]/EventDetail.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   eventId: string;
@@ -16,11 +16,11 @@ const EventDetailActivity: ActivityComponentType<Params> = ({
   const { eventId } = params;
 
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <EventDetail eventId={eventId} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

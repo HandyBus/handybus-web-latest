@@ -47,7 +47,7 @@ const ReservationDetail = ({ reservationId }: Props) => {
 
   return (
     <>
-      <Header pageName="예약 정보" />
+      <Header />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}

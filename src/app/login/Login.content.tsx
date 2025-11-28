@@ -62,7 +62,7 @@ const Login = ({ redirectUrl }: Props) => {
 
   return (
     <main className="flex grow flex-col">
-      <Header pageName="로그인" />
+      <Header />
       <section className="-my-8 flex flex-1 grow flex-col items-center justify-center gap-16">
         <div className="min-h-64" />
         <p className="text-center text-20 font-600 text-[#181F29]">

@@ -21,7 +21,7 @@ const TicketListPage = () => {
   if (isError) throw new Error('Failed to fetch tickets');
   return (
     <>
-      <Header pageName="모든 탑승권" />
+      <Header />
       <main className="flex flex-1 flex-col">
         <DeferredSuspense
           fallback={<Loading style="grow" />}

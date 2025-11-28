@@ -4,21 +4,26 @@ import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
-import { useFlow } from '@/stacks';
+import { ACTIVITY_NAME_TO_PAGE_NAME, ActivityName, useFlow } from '@/stacks';
 import { useActivity } from '@stackflow/react';
 import usePopAll from '@/hooks/usePopAll';
+import { useState, useEffect } from 'react';
 
-interface HeaderProps {
-  pageName?: string;
-}
-
-const Header = ({ pageName = '' }: HeaderProps) => {
+const Header = () => {
+  // 경로에 따른 페이지명 표시
   const flow = useFlow();
   const activity = useActivity();
+  const [pageName, setPageName] = useState('');
+
+  useEffect(() => {
+    setPageName(
+      ACTIVITY_NAME_TO_PAGE_NAME[activity.name as ActivityName] || '',
+    );
+  }, [activity.name]);
 
   const isHome = activity.name === 'Home';
 
-  const isHideBackButton = ACTIVITY_NAME_TO_HIDE_BACK_BUTTON.includes(
+  const isHideBackButton = STACK_NAME_TO_HIDE_BACK_BUTTON.includes(
     activity.name,
   );
 
@@ -76,7 +81,7 @@ const Header = ({ pageName = '' }: HeaderProps) => {
 
 export default Header;
 
-const ACTIVITY_NAME_TO_HIDE_BACK_BUTTON = [
+const STACK_NAME_TO_HIDE_BACK_BUTTON = [
   'Home',
   'EventList',
   'History',

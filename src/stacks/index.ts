@@ -136,6 +136,53 @@ const routes = {
   AcceptReservationTransferFail: '/accept-reservation-transfer/:token/fail',
 };
 
+export const ACTIVITY_NAME_TO_PAGE_NAME: Record<ActivityName, string> = {
+  // home activities
+  Home: '홈',
+  EventListFromHome: '모든 행사',
+  // event activities
+  EventList: '모든 행사',
+  EventDetail: '행사 정보',
+  Payment: '결제',
+  // history activities
+  History: '참여/예약 내역',
+  DemandDetail: '수요조사 정보',
+  ReservationDetail: '예약 정보',
+  ReservationTransfer: '선물하기',
+  ReservationTransferSuccess: '선물 완료',
+  // mypage activities
+  MyPage: '마이페이지',
+  Reviews: '내 후기',
+  ReviewDetail: '후기 정보',
+  EditReview: '후기 수정',
+  WriteReview: '후기 작성',
+  ReviewComplete: '후기 작성 완료',
+  Settings: '환경설정',
+  ProfileEdit: '프로필 수정',
+  Coupons: '쿠폰',
+  AlertRequests: '빈자리 알림',
+  AlertRequestDetail: '빈자리 알림 정보',
+  // ticket activities
+  Ticket: '모든 탑승권',
+  TicketDetail: '탑승권',
+  // extra activities
+  Login: '로그인',
+  Onboarding: '온보딩',
+  AnnouncementList: '공지사항',
+  AnnouncementDetail: '공지글',
+  About: '서비스 소개',
+  HandybusGuide: '이용 방법',
+  Faq: '도움말',
+  DirectInquiry: '직접 문의하기',
+  TermsOfService: '서비스 이용 약관',
+  PrivacyPolicy: '개인정보 처리 방침',
+  MarketingConsent: '마케팅 활용 동의',
+  AppLaunchEvent: '이벤트',
+  AcceptReservationTransfer: '탑승권 선물',
+  AcceptReservationTransferSuccess: '선물 완료',
+  AcceptReservationTransferFail: '탑승권 선물',
+};
+
 export type ActivityName = keyof typeof activities;
 
 export const { Stack, useFlow } = createStack(activities, routes, 'Home');

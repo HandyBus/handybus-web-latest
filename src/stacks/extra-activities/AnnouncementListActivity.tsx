@@ -1,16 +1,16 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import AnnouncementList from '@/app/announcements/AnnouncementList.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 const AnnouncementListActivity: ActivityComponentType = () => {
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <AnnouncementList />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 

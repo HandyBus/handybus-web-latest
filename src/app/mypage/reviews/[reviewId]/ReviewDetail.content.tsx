@@ -10,7 +10,7 @@ interface Props {
 const ReviewDetail = ({ reviewId }: Props) => {
   return (
     <>
-      <Header pageName="후기 정보" />
+      <Header />
       <main>
         <ReviewListWithMyReview reviewId={reviewId} />
       </main>

@@ -1,8 +1,8 @@
 'use client';
 
 import type { ActivityComponentType } from '@stackflow/react';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import Login from '@/app/login/Login.content';
-import StackAppScreen from '@/stacks/StackAppScreen';
 
 interface Params {
   redirectUrl?: string;
@@ -15,11 +15,11 @@ const LoginActivity: ActivityComponentType<Params> = ({
 }) => {
   const { redirectUrl } = params;
   return (
-    <StackAppScreen>
+    <AppScreen>
       <div className="relative flex h-full w-full flex-col">
         <Login redirectUrl={redirectUrl} />
       </div>
-    </StackAppScreen>
+    </AppScreen>
   );
 };
 
