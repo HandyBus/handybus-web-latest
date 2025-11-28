@@ -13,11 +13,11 @@ import { ReservationsViewEntity } from '@/types/reservation.type';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateReviewRequest } from '@/types/review.type';
 import { usePostReview } from '@/services/review.service';
+import { useRouter } from 'next/navigation';
 import { getImageUrl } from '@/services/core.service';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import imageCompression from 'browser-image-compression';
-import { useFlow } from '@/stacks';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -37,14 +37,14 @@ const ReviewWriteForm = ({ reservation }: Props) => {
     },
   });
 
-  const flow = useFlow();
+  const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: postCreateReview } = usePostReview({
     onSuccess: (res) => {
-      flow.push('ReviewComplete', {
-        reservationId: res.reservationId,
-      });
+      router.push(
+        `/mypage/reviews/write/${res.reservationId}/complete?review-id=${res.id}`,
+      );
     },
   });
 

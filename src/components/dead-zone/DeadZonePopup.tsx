@@ -1,16 +1,17 @@
 'use client';
 
+// import Link from 'next/link';
 // import LargeLogo from 'public/icons/logo-large.svg';
 import ChatSolidIcon from 'public/icons/chat-solid.svg';
 import { useState } from 'react';
 import FeedbackScreen from '../feedback/FeedbackScreen';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import AppLaunchImage from './images/app-launch.png';
-import { useFlow } from '@/stacks';
 
 const DeadZonePopup = () => {
-  const flow = useFlow();
+  const router = useRouter();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   const handleFeedbackOpen = () => {
@@ -18,12 +19,12 @@ const DeadZonePopup = () => {
     if (isLoggedIn) {
       setIsFeedbackOpen(true);
     } else {
-      flow.push('Login', {});
+      router.push('/login');
     }
   };
 
   const handleAppLaunchEventOpen = () => {
-    flow.push('AppLaunchEvent', {});
+    router.push('/app-launch-event');
   };
 
   return (

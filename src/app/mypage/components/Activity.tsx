@@ -2,15 +2,15 @@
 
 import { useGetUserAlertRequestsWithPagination } from '@/services/alertRequest.service';
 import { useGetUserReservations } from '@/services/reservation.service';
-import { useFlow } from '@/stacks';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
+import Link from 'next/link';
 import { useMemo } from 'react';
 import { customTwMerge } from 'tailwind.config';
 
 const Activity = () => {
   const reservations = useGetUserReservations({
     reservationStatus: 'COMPLETE_PAYMENT',
-    monthsAgo: 6,
+    monthsAgo: 3,
   });
   const seatAlarms = useGetUserAlertRequestsWithPagination();
   const writableReviewCount = useMemo(() => {
@@ -42,20 +42,11 @@ const Activity = () => {
     ).length;
   }, [seatAlarms.data]);
 
-  const flow = useFlow();
-  const handleRedirectToReviews = () => {
-    flow.push('Reviews', {});
-  };
-  const handleRedirectToAlertRequests = () => {
-    flow.push('AlertRequests', {});
-  };
-
   return (
     <section className="mx-16 mb-24 mt-12 flex gap-12">
-      <button
-        type="button"
-        onClick={handleRedirectToReviews}
-        className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 text-left active:bg-basic-grey-50"
+      <Link
+        href="/mypage/reviews"
+        className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 active:bg-basic-grey-50"
       >
         <h3 className="text-16 font-600">작성 가능 후기</h3>
         <div
@@ -66,11 +57,10 @@ const Activity = () => {
         >
           {writableReviewCount}
         </div>
-      </button>
-      <button
-        type="button"
-        onClick={handleRedirectToAlertRequests}
-        className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 text-left active:bg-basic-grey-50"
+      </Link>
+      <Link
+        href="/mypage/alert-requests"
+        className="relative flex h-[74px] flex-1 rounded-8 border border-basic-grey-200 px-16 py-12 active:bg-basic-grey-50"
       >
         <h3 className="text-16 font-600">빈자리 알림</h3>
         <div
@@ -81,7 +71,7 @@ const Activity = () => {
         >
           {writableSeatAlarmCount}
         </div>
-      </button>
+      </Link>
     </section>
   );
 };

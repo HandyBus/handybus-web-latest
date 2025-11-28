@@ -4,7 +4,7 @@ import type { MouseEventHandler } from 'react';
 import { customTwMerge } from 'tailwind.config';
 
 interface Props<T> {
-  items: readonly TabItem<T>[];
+  items: TabItem<T>[];
   selected: T;
   onSelect?: (value: T) => void;
   className?: string;
@@ -37,7 +37,7 @@ const Tabs = <T,>({ items, selected, onSelect, className }: Props<T>) => {
           }}
         />
       </div>
-      <div className="h-40 shrink-0" aria-hidden="true" />
+      <div className="h-40" aria-hidden="true" />
     </>
   );
 };

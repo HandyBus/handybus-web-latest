@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
 import OngoingDemandPeriodImage from './images/ongoing-demand-period.png';
+import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
 import { EventsViewEntity } from '@/types/event.type';
-import { useFlow } from '@/stacks';
 
 interface Props {
   event: EventsViewEntity;
@@ -13,7 +13,6 @@ interface Props {
 
 const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
   const { phase } = getPhaseAndEnabledStatus(event);
-  const flow = useFlow();
   return (
     <section className="relative w-full">
       <div className="relative w-full">
@@ -37,20 +36,18 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
         />
       </div>
       <div className="flex flex-col justify-center bg-basic-grey-50 px-32 pb-44">
-        <button
-          type="button"
-          onClick={() => flow.push('HandybusGuide', { tab: 'SHUTTLE_BUS' })}
-          className="flex h-[46px] items-center justify-center gap-[10px] rounded-[8px] text-left text-16 font-600 leading-[160%] text-basic-grey-700"
+        <Link
+          href="/help/handybus-guide"
+          className="flex h-[46px] items-center justify-center gap-[10px] rounded-[8px] text-16 font-600 leading-[160%] text-basic-grey-700"
         >
           이용방법 알아보기 <ArrowForwardIcon />
-        </button>
-        <button
-          type="button"
-          onClick={() => flow.push('Faq', {})}
-          className="flex h-[46px] items-center justify-center gap-[10px] rounded-[8px] text-left text-16 font-600 leading-[160%] text-basic-grey-700"
+        </Link>
+        <Link
+          href="/help/faq"
+          className="flex h-[46px] items-center justify-center gap-[10px] rounded-[8px] text-16 font-600 leading-[160%] text-basic-grey-700"
         >
           자주 묻는 질문 <ArrowForwardIcon />
-        </button>
+        </Link>
       </div>
     </section>
   );

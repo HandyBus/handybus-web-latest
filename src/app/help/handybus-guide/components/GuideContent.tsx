@@ -1,4 +1,4 @@
-import type { TabValue } from '../HandybusGuide.content';
+import { TabValue } from '../page';
 
 interface Props {
   currentTab: TabValue;

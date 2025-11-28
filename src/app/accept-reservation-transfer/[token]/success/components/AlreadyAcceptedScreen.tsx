@@ -3,23 +3,13 @@
 import Header from '@/components/header/Header';
 import OpenedGiftIcon from '../icons/gift-opened.svg';
 import Button from '@/components/buttons/button/Button';
-import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
+import { useRouter } from 'next/navigation';
 
 const AlreadyAcceptedScreen = () => {
-  const flow = useFlow();
-  const popAll = usePopAll();
-  const handleNavigateToReservationInfo = () => {
-    popAll({ animate: false });
-    flow.replace('History', { type: 'reservation' }, { animate: false });
-  };
-  const handleNavigateToHome = () => {
-    popAll({ animate: false });
-    flow.replace('Home', {}, { animate: false });
-  };
+  const router = useRouter();
   return (
     <>
-      <Header pageName="선물 완료" />
+      <Header />
       <main className="flex grow flex-col">
         <section className="mt-96 flex flex-col items-center">
           <h1 className="pb-4 text-22 font-700 leading-[140%]">
@@ -36,7 +26,7 @@ const AlreadyAcceptedScreen = () => {
             type="button"
             variant="primary"
             size="large"
-            onClick={handleNavigateToReservationInfo}
+            onClick={() => router.push('/history?type=reservation')}
           >
             예약 정보 확인하기
           </Button>
@@ -44,7 +34,7 @@ const AlreadyAcceptedScreen = () => {
             type="button"
             variant="text"
             size="large"
-            onClick={handleNavigateToHome}
+            onClick={() => router.push('/')}
           >
             나중에 할게요
           </Button>

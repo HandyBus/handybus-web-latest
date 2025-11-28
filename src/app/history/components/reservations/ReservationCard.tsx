@@ -13,7 +13,7 @@ import { customTwMerge } from 'tailwind.config';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -59,11 +59,9 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
   const isTransferredReservation =
     reservation.originalUserId !== reservation.userId;
 
-  const flow = useFlow();
+  const router = useRouter();
   const redirectToReservationDetail = handleClickAndStopPropagation(() => {
-    flow.push('ReservationDetail', {
-      reservationId: reservation.reservationId,
-    });
+    router.push(`/history/reservation/${reservation.reservationId}`);
   });
 
   return (

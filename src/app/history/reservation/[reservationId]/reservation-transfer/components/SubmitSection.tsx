@@ -2,9 +2,9 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import Button from '@/components/buttons/button/Button';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { postCreateReservationTransferRequest } from '@/services/reservationTransferRequest.service';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useFlow } from '@/stacks';
 
 interface Props {
   value: string;
@@ -25,7 +25,7 @@ const SubmitSection = ({ value, reservationId }: Props) => {
     return numbers.startsWith('010');
   };
 
-  const flow = useFlow();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOpenBottomSheet = () => {
@@ -56,12 +56,8 @@ const SubmitSection = ({ value, reservationId }: Props) => {
     try {
       await postCreateReservationTransferRequest(reservationId, value);
       closeBottomSheet();
-      flow.push(
-        'ReservationTransferSuccess',
-        {
-          reservationId,
-        },
-        { animate: false },
+      router.replace(
+        `/history/reservation/${reservationId}/reservation-transfer/success`,
       );
     } catch (error) {
       console.error(error);

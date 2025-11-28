@@ -12,10 +12,11 @@ import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { MAX_PASSENGER_COUNT } from '@/constants/common';
+import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { eventAtom } from '../../../store/eventAtom';
+import { useRouter } from 'next/navigation';
 import { useGetUser } from '@/services/user.service';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
-import { useFlow } from '@/stacks';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -26,6 +27,7 @@ const ReservationInfoStep = ({
   closeBottomSheet,
   toExtraRealNameInputStep,
 }: Props) => {
+  const router = useRouter();
   const { markAsIntentionalNavigation, getReservationStartTime } =
     useReservationTrackingGlobal();
   const {
@@ -91,7 +93,6 @@ const ReservationInfoStep = ({
     setFromDestinationShuttleRouteHubId(fromDestinationHubId);
   }, [route, selectedHubWithInfo.regionHubId]);
 
-  const { push } = useFlow();
   const handleReservationClick = () => {
     if (!event || !route) {
       return;
@@ -104,20 +105,19 @@ const ReservationInfoStep = ({
     }
 
     markAsIntentionalNavigation();
-    closeBottomSheet();
-    push('Payment', {
+    const url = createPaymentPageUrl({
       eventId: event.eventId,
       dailyEventId: dailyEvent.dailyEventId,
       shuttleRouteId: route.shuttleRouteId,
       tripType,
-      toDestinationHubId: toDestinationShuttleRouteHubId ?? null,
-      fromDestinationHubId: fromDestinationShuttleRouteHubId ?? null,
+      toDestinationHubId: toDestinationShuttleRouteHubId,
+      fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount,
-      desiredHubAddress: null,
-      desiredHubLatitude: null,
-      desiredHubLongitude: null,
-      reservationStartTime: getReservationStartTime() ?? null, // 예약 시작 시간 전달
+      reservationStartTime: getReservationStartTime() ?? undefined, // 예약 시작 시간 전달
     });
+
+    closeBottomSheet();
+    router.push(url);
   };
 
   return (

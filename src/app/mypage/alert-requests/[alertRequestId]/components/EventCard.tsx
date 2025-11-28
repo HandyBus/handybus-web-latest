@@ -1,10 +1,8 @@
-'use client';
-
 import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
-import { useFlow } from '@/stacks';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Props {
   event: EventsViewEntity;
@@ -16,16 +14,11 @@ const EventCard = ({ event }: Props) => {
     showWeekday: false,
   });
 
-  const flow = useFlow();
-  const handleRedirectToEventDetail = () => {
-    flow.push('EventDetail', { eventId: event.eventId });
-  };
-
   return (
-    <button
-      type="button"
-      onClick={handleRedirectToEventDetail}
-      className="mb-24 mt-16 flex h-[70px] shrink-0 gap-12 px-16 text-left"
+    <Link
+      href={`/event/${event.eventId}`}
+      target="_blank"
+      className="mb-24 mt-16 flex h-[70px] shrink-0 gap-12 px-16"
     >
       <div className="relative h-full w-52 shrink-0 overflow-hidden rounded-4">
         <Image
@@ -41,7 +34,7 @@ const EventCard = ({ event }: Props) => {
           {formattedEventDate}
         </p>
       </div>
-    </button>
+    </Link>
   );
 };
 

@@ -3,6 +3,7 @@ import WrapperWithDivider from '../../WrapperWithDivider';
 import NewIcon from './icons/new.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { checkIsReservationTransferablePeriod } from '@/utils/reservationTransfer.util';
+import { useRouter } from 'next/navigation';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 import { formatPhoneNumber } from '@/utils/common.util';
 import { dateString } from '@/utils/dateString.util';
@@ -10,8 +11,6 @@ import BottomSheet from '@/components/bottom-sheet/BottomSheet';
 import useBottomSheet from '@/hooks/useBottomSheet';
 import { toast } from 'react-toastify';
 import { putCancelReservationTransferRequest } from '@/services/reservationTransferRequest.service';
-import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
 
 interface Props {
   isTransferredReservation: boolean;
@@ -42,12 +41,11 @@ const ReservationTransferSection = ({
       ? pendingReservationTransferRequests[0]
       : null;
 
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const router = useRouter();
   const redirectToReservationTransfer = () => {
-    flow.push('ReservationTransfer', {
-      reservationId: reservation.reservationId,
-    });
+    router.push(
+      `/history/reservation/${reservation.reservationId}/reservation-transfer`,
+    );
   };
 
   const { bottomSheetRef, contentRef, openBottomSheet, closeBottomSheet } =
@@ -59,8 +57,7 @@ const ReservationTransferSection = ({
       await putCancelReservationTransferRequest(reservationTransferRequestId);
       closeBottomSheet();
       toast.success('선물을 취소했어요.');
-      popAll({ animate: false });
-      flow.replace('History', { type: 'reservation' }, { animate: false });
+      router.replace('/history?type=reservation');
     } catch (error) {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');

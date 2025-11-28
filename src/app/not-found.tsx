@@ -1,14 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useNotFoundTracking } from '@/hooks/useNotFoundTracking';
 
-const NotFound = () => {
+export const NotFound = () => {
   useNotFoundTracking();
-
-  const handleHomeClick = () => {
-    window.location.href = '/';
-  };
 
   return (
     <div className="flex grow flex-col justify-between px-20 py-28">
@@ -30,13 +27,12 @@ const NotFound = () => {
           />
         </div>
       </div>
-      <button
-        type="button"
-        onClick={handleHomeClick}
+      <Link
+        href="/"
         className="flex h-44 w-full items-center justify-center rounded-full bg-basic-grey-50 text-16 font-400 text-basic-grey-700"
       >
         홈으로 돌아가기
-      </button>
+      </Link>
     </div>
   );
 };

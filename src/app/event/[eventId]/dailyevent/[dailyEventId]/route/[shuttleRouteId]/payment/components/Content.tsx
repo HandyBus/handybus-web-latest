@@ -18,13 +18,12 @@ import BottomBar from './BottomBar';
 import useTossPayments from '@/hooks/useTossPayments';
 import { postPreparePayment } from '@/services/payment.service';
 import { postReserveReservation } from '@/services/payment.service';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import GuidelineSection from './sections/GuidelineSection';
-import { useFlow } from '@/stacks';
 
 interface ContentProps {
   tripType: TripType;
@@ -58,7 +57,7 @@ const Content = ({
   reservationStartTime,
 }: ContentProps) => {
   const pathname = usePathname();
-  const { pop } = useFlow();
+  const { replace } = useRouter();
 
   const [selectedCoupon, setSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);
@@ -198,7 +197,7 @@ const Content = ({
   // 에러 처리
   if (remainingSeat[tripType] < passengerCount) {
     toast.error('남은 좌석이 없습니다.');
-    pop();
+    replace(`/event/${event.eventId}`);
     return;
   } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');

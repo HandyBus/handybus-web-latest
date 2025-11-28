@@ -1,13 +1,12 @@
-'use client';
-
+import type { UrlObject } from 'url';
 import type { HTMLProps, ReactNode } from 'react';
+import Link from 'next/link';
 import ChevronRightEm from 'public/icons/chevron-right-em.svg';
 import { customTwMerge } from 'tailwind.config';
-import { ActivityName, useFlow } from '@/stacks';
 
 interface Props extends HTMLProps<HTMLDivElement> {
   richTitle: ReactNode;
-  showMore?: ActivityName;
+  showMore?: string | UrlObject;
   titleClassName?: string;
 }
 
@@ -38,11 +37,10 @@ export default Article;
 interface TitleProps {
   title: ReactNode;
   titleClassName: string;
-  showMore?: ActivityName;
+  showMore?: string | UrlObject;
 }
 
 const Title = ({ title, titleClassName, showMore }: TitleProps) => {
-  const flow = useFlow();
   return (
     <header className="flex w-full flex-row justify-between pb-16">
       <h2
@@ -54,14 +52,14 @@ const Title = ({ title, titleClassName, showMore }: TitleProps) => {
         {title}
       </h2>
       {showMore && (
-        <button type="button" onClick={() => flow.push(showMore, {})}>
+        <Link href={showMore}>
           <span className="inline-flex cursor-pointer items-center gap-[2px] break-keep text-14 font-600 leading-[160%] text-basic-grey-600">
             전체보기
             <span className="inline-block stroke-1">
               <ChevronRightEm className="h-16 w-16 stroke-[2px]" />
             </span>
           </span>
-        </button>
+        </Link>
       )}
     </header>
   );

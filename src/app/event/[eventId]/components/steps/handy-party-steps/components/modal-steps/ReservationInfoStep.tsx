@@ -11,10 +11,11 @@ import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { getHandyPartyArea } from '../../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
+import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import { useGetUser } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
-import { useFlow } from '@/stacks';
 
 const MAX_PASSENGER_COUNT = 5;
 
@@ -35,7 +36,7 @@ const ReservationInfoStep = ({
   closeBottomSheet,
   closeModal,
 }: Props) => {
-  const flow = useFlow();
+  const router = useRouter();
   const { getValues, setValue, control } =
     useFormContext<HandyPartyModalFormValues>();
   const {
@@ -140,21 +141,23 @@ const ReservationInfoStep = ({
           )?.shuttleRouteHubId
         : undefined;
 
-    // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹
-    markAsIntentionalNavigation();
-    flow.push('Payment', {
+    const url = createPaymentPageUrl({
       eventId: targetRoute.eventId,
       dailyEventId: targetRoute.dailyEventId,
       shuttleRouteId: targetRoute.shuttleRouteId,
       tripType: handyPartyTripType,
-      toDestinationHubId: toDestinationShuttleRouteHubId ?? null,
-      fromDestinationHubId: fromDestinationShuttleRouteHubId ?? null,
+      toDestinationHubId: toDestinationShuttleRouteHubId,
+      fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount,
       desiredHubAddress: userAddress.address,
       desiredHubLatitude: userAddress.y,
       desiredHubLongitude: userAddress.x,
-      reservationStartTime: getReservationStartTime() ?? null,
+      reservationStartTime: getReservationStartTime() ?? undefined,
     });
+
+    // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹
+    markAsIntentionalNavigation();
+    router.push(url);
     closeBottomSheet();
     closeModal();
   };

@@ -1,16 +1,13 @@
-'use client';
-
-import { Stack } from '@/stacks';
+import CouponList from './components/CouponList';
+import RegisterCoupon from './components/RegisterCoupon';
 
 const Page = () => {
   return (
-    <Stack
-      initialContext={{
-        req: {
-          path: '/mypage/coupons',
-        },
-      }}
-    />
+    <main className="flex grow flex-col">
+      <RegisterCoupon />
+      <div className="h-8 bg-basic-grey-50" />
+      <CouponList />
+    </main>
   );
 };
 
