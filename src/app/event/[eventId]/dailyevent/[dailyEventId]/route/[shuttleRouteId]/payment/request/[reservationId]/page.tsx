@@ -2,6 +2,7 @@
 
 import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import SuccessBusIcon from '../icons/bus-success.svg';
 import {
@@ -12,7 +13,6 @@ import Loading from '@/components/loading/Loading';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
-import { useFlow } from '@/stacks';
 
 interface Props {
   params: {
@@ -54,6 +54,7 @@ const PaymentsCompletedPage = ({
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
   const eventName = reservation.shuttleRoute.event.eventName;
+  const reservationId = reservation.reservationId;
 
   useCompleteReservationTracking({
     eventId,
@@ -64,26 +65,20 @@ const PaymentsCompletedPage = ({
     paymentId: reservation.paymentId ?? undefined,
   });
 
-  const flow = useFlow();
-  const handleRedirectToHistory = () => {
-    flow.replace('History', { type: 'reservation' }, { animate: false });
-  };
-
   if (isHandyParty) {
     return (
       <main className="relative grow">
         <section className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
           <h1 className="pb-4 text-22 font-700">셔틀 예약이 완료되었어요</h1>
+          <p className="pb-24 text-16 font-500 text-basic-grey-600">
+            마이페이지에서 예약을 확인할 수 있어요.
+          </p>
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Button
-            variant="primary"
-            size="large"
-            onClick={handleRedirectToHistory}
-          >
-            완료
-          </Button>
+          <Link href={`/history/reservation/${reservationId}`} replace={true}>
+            <Button>완료</Button>
+          </Link>
         </div>
       </main>
     );
@@ -93,16 +88,15 @@ const PaymentsCompletedPage = ({
       <main className="relative grow">
         <section className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
           <h1 className="pb-4 text-22 font-700">셔틀 예약이 완료되었어요</h1>
+          <p className="pb-24 text-center text-16 font-500 text-basic-grey-600">
+            탑승권은 마이페이지에서 확인할 수 있습니다.
+          </p>
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Button
-            variant="primary"
-            size="large"
-            onClick={handleRedirectToHistory}
-          >
-            완료
-          </Button>
+          <Link href={`/history/reservation/${reservationId}`} replace={true}>
+            <Button variant="secondary">완료</Button>
+          </Link>
         </div>
       </main>
     </>

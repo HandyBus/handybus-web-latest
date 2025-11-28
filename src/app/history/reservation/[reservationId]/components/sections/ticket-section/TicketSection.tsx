@@ -4,7 +4,7 @@ import Button from '@/components/buttons/button/Button';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import WrapperWithDivider from '../../WrapperWithDivider';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -43,9 +43,9 @@ interface ShuttleBusTicketSectionProps {
 const ShuttleBusTicketSection = ({
   reservation,
 }: ShuttleBusTicketSectionProps) => {
-  const flow = useFlow();
+  const router = useRouter();
   const openTicketLink = handleClickAndStopPropagation(() => {
-    flow.push('TicketDetail', { reservationId: reservation.reservationId });
+    router.push(`/ticket/${reservation.reservationId}`);
   });
 
   return (

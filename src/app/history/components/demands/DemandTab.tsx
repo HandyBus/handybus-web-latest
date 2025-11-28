@@ -10,8 +10,8 @@ import usePeriodFilter from '../period-filter-bar/hooks/usePeriodFilter';
 import PeriodFilterBar from '../period-filter-bar/PeriodFilterBar';
 import { useGetUserAlertRequestsWithPagination } from '@/services/alertRequest.service';
 import { customTwMerge } from 'tailwind.config';
+import Link from 'next/link';
 import ArrowRightIcon from '../../icons/arrow-right-grey.svg';
-import { useFlow } from '@/stacks';
 const EmptyView = dynamic(() => import('./EmptyView'));
 
 const DemandTab = () => {
@@ -37,11 +37,6 @@ const DemandTab = () => {
       : false;
   }, [alertRequests]);
 
-  const flow = useFlow();
-  const handleRedirectToAlertRequests = () => {
-    flow.push('AlertRequests', {});
-  };
-
   return (
     <>
       <PeriodFilterBar
@@ -61,16 +56,15 @@ const DemandTab = () => {
               )}
             >
               {isAlertRequestAvailable && (
-                <button
-                  type="button"
-                  onClick={handleRedirectToAlertRequests}
-                  className="flex h-48 w-full items-center justify-between rounded-8 border border-basic-blue-200 bg-basic-blue-100 px-16 py-12 text-left"
+                <Link
+                  href="/mypage/alert-requests"
+                  className="flex h-48 w-full items-center justify-between rounded-8 border border-basic-blue-200 bg-basic-blue-100 px-16 py-12"
                 >
                   <span className="text-14 font-600 text-basic-blue-400">
                     빈자리 알림을 신청한 행사가 있어요.
                   </span>
                   <ArrowRightIcon />
-                </button>
+                </Link>
               )}
             </section>
             {demands.length === 0 ? (

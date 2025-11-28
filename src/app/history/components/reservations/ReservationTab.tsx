@@ -11,8 +11,8 @@ import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import { useMemo } from 'react';
 import ArrowRightIcon from '../../icons/arrow-right-grey.svg';
 import { useGetUserAlertRequestsWithPagination } from '@/services/alertRequest.service';
+import Link from 'next/link';
 import { customTwMerge } from 'tailwind.config';
-import { useFlow } from '@/stacks';
 const EmptyView = dynamic(() => import('./EmptyView'));
 
 const ReservationTab = () => {
@@ -43,14 +43,6 @@ const ReservationTab = () => {
       : false;
   }, [alertRequests]);
 
-  const flow = useFlow();
-  const handleRedirectToAlertRequests = () => {
-    flow.push('AlertRequests', {});
-  };
-  const handleRedirectToReviews = () => {
-    flow.push('Reviews', {});
-  };
-
   return (
     <>
       <PeriodFilterBar
@@ -73,28 +65,26 @@ const ReservationTab = () => {
               )}
             >
               {isAlertRequestAvailable && (
-                <button
-                  type="button"
-                  onClick={handleRedirectToAlertRequests}
-                  className="flex h-48 w-full items-center justify-between rounded-8 border border-basic-blue-200 bg-basic-blue-100 px-16 py-12 text-left"
+                <Link
+                  href="/mypage/alert-requests"
+                  className="flex h-48 w-full items-center justify-between rounded-8 border border-basic-blue-200 bg-basic-blue-100 px-16 py-12"
                 >
                   <span className="text-14 font-600 text-basic-blue-400">
                     빈자리 알림을 신청한 행사가 있어요.
                   </span>
                   <ArrowRightIcon />
-                </button>
+                </Link>
               )}
               {isReviewWritableReservationsAvailable && (
-                <button
-                  type="button"
-                  onClick={handleRedirectToReviews}
-                  className="flex h-48 w-full items-center justify-between rounded-8 border border-basic-blue-200 bg-basic-blue-100 px-16 py-12 text-left"
+                <Link
+                  href="/mypage/reviews"
+                  className="flex h-48 w-full items-center justify-between rounded-8 border border-basic-blue-200 bg-basic-blue-100 px-16 py-12"
                 >
                   <span className="text-14 font-600 text-basic-blue-400">
                     작성할 수 있는 후기가 있어요.
                   </span>
                   <ArrowRightIcon />
-                </button>
+                </Link>
               )}
             </section>
             <>

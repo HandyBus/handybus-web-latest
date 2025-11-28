@@ -13,7 +13,7 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import Button from '@/components/buttons/button/Button';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -42,9 +42,9 @@ const ReservationCardForReview = ({
   const hubText = getHubText(reservation);
   const tripTypeText = TRIP_STATUS_TO_STRING[reservation.type];
 
-  const flow = useFlow();
+  const router = useRouter();
   const redirectToWriteReview = handleClickAndStopPropagation(() => {
-    flow.push('WriteReview', { reservationId: reservation.reservationId });
+    router.push(`/mypage/reviews/write/${reservation.reservationId}`);
   });
 
   return (

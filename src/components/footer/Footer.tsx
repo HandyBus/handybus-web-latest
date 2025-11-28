@@ -4,11 +4,10 @@ import LogoIcon from 'public/icons/logo.svg';
 import TwitterXIcon from 'public/icons/twitter-x.svg';
 import InstagramIcon from 'public/icons/instagram.svg';
 import NaverBlogIcon from 'public/icons/naver-blog.svg';
+import Link from 'next/link';
 import { handleExternalLink } from '@/utils/externalLink.util';
-import { useFlow } from '@/stacks';
 
 const Footer = () => {
-  const flow = useFlow();
   return (
     <footer className="flex w-full flex-col gap-8 px-16 py-[28px]">
       <div className="flex justify-between">
@@ -43,21 +42,13 @@ const Footer = () => {
         </div>
       </div>
       <div className="flex gap-8 text-12 font-600 text-basic-grey-600">
-        <button type="button" onClick={() => flow.push('Faq', {})}>
-          고객센터
-        </button>
+        <Link href="/help/faq">고객센터</Link>
         <span className="font-400"> | </span>
-        <button type="button" onClick={() => flow.push('TermsOfService', {})}>
-          이용약관
-        </button>
+        <Link href="/help/faq/terms-of-service">이용약관</Link>
         <span className="font-400"> | </span>
-        <button type="button" onClick={() => flow.push('PrivacyPolicy', {})}>
-          개인정보처리방침
-        </button>
+        <Link href="/help/faq/privacy-policy">개인정보처리방침</Link>
         <span className="font-400"> | </span>
-        <button type="button" onClick={() => flow.push('MarketingConsent', {})}>
-          마케팅 활용 동의
-        </button>
+        <Link href="/help/faq/marketing-consent">마케팅 활용 동의</Link>
       </div>
       <div className="text-12 font-400 leading-[1.6] text-basic-grey-400">
         상호명: 핸디버스 | 대표자: 정지용 | 전화번호: 0507-1372-6141 | 이메일:

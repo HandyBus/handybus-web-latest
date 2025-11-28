@@ -1,6 +1,4 @@
-'use client';
-
-import { Stack } from '@/stacks';
+import ReviewListWithMyReview from './components/ReviewListWithMyReview';
 
 interface Props {
   params: {
@@ -8,17 +6,14 @@ interface Props {
   };
 }
 
-const Page = ({ params }: Props) => {
+const ReviewPage = ({ params }: Props) => {
   const { reviewId } = params;
+
   return (
-    <Stack
-      initialContext={{
-        req: {
-          path: `/mypage/reviews/${reviewId}`,
-        },
-      }}
-    />
+    <main>
+      <ReviewListWithMyReview reviewId={reviewId} />
+    </main>
   );
 };
 
-export default Page;
+export default ReviewPage;

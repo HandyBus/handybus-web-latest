@@ -3,7 +3,7 @@ import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import Image from 'next/image';
 import { handleClickAndStopPropagation } from '@/utils/common.util';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   event: EventsViewEntity;
@@ -15,9 +15,9 @@ const EventCard = ({ event }: Props) => {
     showWeekday: false,
   });
 
-  const flow = useFlow();
+  const router = useRouter();
   const redirectToEventDetail = handleClickAndStopPropagation(() => {
-    flow.push('EventDetail', { eventId: event.eventId });
+    router.push(`/event/${event.eventId}`);
   });
 
   return (

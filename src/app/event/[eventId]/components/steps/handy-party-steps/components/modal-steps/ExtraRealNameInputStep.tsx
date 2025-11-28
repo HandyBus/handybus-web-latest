@@ -4,13 +4,14 @@ import Button from '@/components/buttons/button/Button';
 import Header from '../Header';
 import { Controller, useFormContext } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
+import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import { useEffect, useMemo } from 'react';
 import { getHandyPartyArea } from '@/utils/handyParty.util';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
-import { useFlow } from '@/stacks';
 
 interface Props {
   onStepBack: () => void;
@@ -30,7 +31,7 @@ const ExtraRealNameInputStep = ({
   const { mutateAsync: putUser, isPending: isLoading } = usePutUser();
   const { getValues, control, handleSubmit } =
     useFormContext<HandyPartyModalFormValues>();
-  const flow = useFlow();
+  const router = useRouter();
   const {
     markAsIntentionalNavigation,
     setReservationTrackingStep,
@@ -99,21 +100,23 @@ const ExtraRealNameInputStep = ({
           )?.shuttleRouteHubId
         : undefined;
 
-    // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹
-    markAsIntentionalNavigation();
-    flow.push('Payment', {
+    const url = createPaymentPageUrl({
       eventId: targetRoute.eventId,
       dailyEventId: targetRoute.dailyEventId,
       shuttleRouteId: targetRoute.shuttleRouteId,
       tripType: handyPartyTripType,
-      toDestinationHubId: toDestinationShuttleRouteHubId ?? null,
-      fromDestinationHubId: fromDestinationShuttleRouteHubId ?? null,
+      toDestinationHubId: toDestinationShuttleRouteHubId,
+      fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount: getValues('passengerCount'),
       desiredHubAddress: userAddress.address,
       desiredHubLatitude: userAddress.y,
       desiredHubLongitude: userAddress.x,
-      reservationStartTime: getReservationStartTime() ?? null,
+      reservationStartTime: getReservationStartTime() ?? undefined,
     });
+
+    // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹
+    markAsIntentionalNavigation();
+    router.push(url);
     closeBottomSheet();
     closeModal();
   };

@@ -1,17 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import LogoIcon from 'public/icons/logo-v3.svg';
 import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
 import useEnvironment from '@/hooks/useEnvironment';
-import { useFlow } from '@/stacks';
 
 const Header = () => {
   // 경로에 따른 페이지명 표시
-  const flow = useFlow();
+  const router = useRouter();
   const { isApp } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
@@ -53,7 +52,7 @@ const Header = () => {
         ) : (
           <div className="flex items-center">
             {isApp && !isHideBackButton && (
-              <button type="button" onClick={() => flow.pop()}>
+              <button type="button" onClick={() => router.back()}>
                 <BackIcon />
               </button>
             )}
@@ -74,7 +73,7 @@ const Header = () => {
           </Link>
         </div>
       </header>
-      <div className="h-56 shrink-0" aria-hidden="true" />
+      <div className="h-56" aria-hidden="true" />
     </>
   );
 };
@@ -85,7 +84,6 @@ export default Header;
 const URL_TO_PAGE_NAME = {
   '/login': '로그인',
   '/event': '모든 행사',
-  '/event-from-home': '모든 행사',
   '/event/:id': '행사 정보',
   '/event/:id/dailyevent/:id/route/:id/payment/request': '결제',
   '/event/:id/dailyevent/:id/route/:id/payment/request/:id': '결제',
