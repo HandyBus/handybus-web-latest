@@ -14,6 +14,7 @@ import {
 } from '@/utils/localStorage';
 import { getIsAppFromUserAgent } from '@/utils/environment.util';
 import * as Sentry from '@sentry/nextjs';
+import { sendMessageToApp } from '@/utils/webview.util';
 
 // ----- GET -----
 
@@ -101,11 +102,21 @@ export const putUserPushToken = async (pushToken: string | null) => {
   if (!isApp) return;
 
   try {
-    await putUser({ pushToken });
+    const result = await putUser({ pushToken });
+    sendMessageToApp('CONSOLE_LOG', {
+      level: 'log',
+      message: '푸시토큰 백엔드 동기화 성공',
+      args: [result],
+    });
     removePendingPushToken();
   } catch (error) {
     console.error(error);
     setPendingPushToken(pushToken);
+    sendMessageToApp('CONSOLE_LOG', {
+      level: 'log',
+      message: '푸시토큰 백엔드 동기화 실패',
+      args: [error],
+    });
     Sentry.captureException(error, {
       tags: {
         function: 'putUserPushToken',
