@@ -48,6 +48,12 @@ export interface WebToAppMessages {
   };
   /** 앱에서 푸시 토큰 요청 */
   REQUEST_PUSH_TOKEN: undefined;
+  /** 웹뷰 콘솔 로그 전송 */
+  CONSOLE_LOG: {
+    level: 'log' | 'error' | 'warn' | 'info' | 'debug';
+    message: string;
+    args?: unknown[];
+  };
 }
 
 /**
