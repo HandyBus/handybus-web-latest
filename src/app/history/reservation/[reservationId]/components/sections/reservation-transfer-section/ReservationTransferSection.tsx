@@ -11,7 +11,7 @@ import useBottomSheet from '@/hooks/useBottomSheet';
 import { toast } from 'react-toastify';
 import { putCancelReservationTransferRequest } from '@/services/reservationTransferRequest.service';
 import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   isTransferredReservation: boolean;
@@ -42,8 +42,8 @@ const ReservationTransferSection = ({
       ? pendingReservationTransferRequests[0]
       : null;
 
+  const router = useRouter();
   const flow = useFlow();
-  const popAll = usePopAll();
   const redirectToReservationTransfer = () => {
     flow.push('ReservationTransfer', {
       reservationId: reservation.reservationId,
@@ -59,8 +59,7 @@ const ReservationTransferSection = ({
       await putCancelReservationTransferRequest(reservationTransferRequestId);
       closeBottomSheet();
       toast.success('선물을 취소했어요.');
-      popAll({ animate: false });
-      flow.replace('History', { type: 'reservation' }, { animate: false });
+      router.replace('/history?type=reservation');
     } catch (error) {
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');

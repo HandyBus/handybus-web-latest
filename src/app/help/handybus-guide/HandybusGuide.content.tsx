@@ -6,6 +6,7 @@ import guideImage from './images/handybus-guide.png';
 import Tabs from '@/components/tab/Tabs';
 import { useState } from 'react';
 import GuideContent from './components/GuideContent';
+import { useFlow } from '@/stacks';
 
 export type TabValue = 'SHUTTLE_BUS' | 'HANDY_PARTY';
 
@@ -14,10 +15,12 @@ interface Params {
 }
 
 const HandybusGuide = ({ tab }: Params) => {
+  const flow = useFlow();
   const [currentTab, setCurrentTab] = useState<TabValue>(tab || 'SHUTTLE_BUS');
 
   const handleChangeTab = (value: TabValue) => {
     setCurrentTab(value);
+    flow.replace('HandybusGuide', { tab: value }, { animate: false });
   };
 
   return (

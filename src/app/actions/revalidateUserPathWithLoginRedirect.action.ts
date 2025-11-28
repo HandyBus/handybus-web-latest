@@ -10,7 +10,7 @@ const revalidateUserPath = async (currentPath: string) => {
     revalidatePath('/mypage', 'layout'),
     revalidatePath('/onboarding', 'layout'),
   ]);
-  redirect(`/login/?${LOGIN_REDIRECT_URL_KEY}=${currentPath}`);
+  redirect(`/login?${LOGIN_REDIRECT_URL_KEY}=${currentPath}`);
 };
 
 export default revalidateUserPath;

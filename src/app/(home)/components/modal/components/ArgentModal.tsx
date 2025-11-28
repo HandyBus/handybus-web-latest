@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
 
 interface Props {
   image: StaticImageData;
@@ -33,13 +34,13 @@ const ArgentModal = ({ image, href }: Props) => {
         onClick={(e) => e.stopPropagation()}
         className="absolute left-1/2 top-1/2 flex w-[80dvw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 bg-transparent"
       >
-        <a
+        <Link
           href={href || ''}
           target="_blank"
           className={`relative aspect-square w-full ${href ? '' : 'pointer-events-none'}`}
         >
           <Image src={image} alt="modal" fill className="object-contain" />
-        </a>
+        </Link>
         <div className="grid grid-cols-1">
           <button
             onClick={closeModal}

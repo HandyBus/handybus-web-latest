@@ -4,22 +4,19 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetUserDemand } from '@/services/demand.service';
 import Content from './components/Content';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/header/Header';
-import { useFlow } from '@/stacks';
-import usePopAll from '@/hooks/usePopAll';
 
 interface Props {
   demandId: string;
 }
 
 const DemandDetail = ({ demandId }: Props) => {
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const router = useRouter();
   const { data: demand, isLoading, isSuccess } = useGetUserDemand(demandId);
 
   const redirectToDemandList = () => {
-    popAll({ animate: false });
-    flow.replace('History', { type: 'demand' }, { animate: false });
+    router.replace('/history?type=demand');
     return <div className="h-[100dvh]" />;
   };
 

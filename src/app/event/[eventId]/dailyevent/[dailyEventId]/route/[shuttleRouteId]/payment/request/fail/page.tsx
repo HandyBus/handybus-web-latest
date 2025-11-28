@@ -5,6 +5,7 @@ import FailBusIcon from '../icons/bus-fail.svg';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import FeedbackScreen from '@/components/feedback/FeedbackScreen';
+import { useFlow } from '@/stacks';
 
 interface Props {
   searchParams: {
@@ -18,8 +19,9 @@ const Page = ({ searchParams }: Props) => {
     setCode(searchParams.code);
   }, [searchParams.code]);
 
+  const flow = useFlow();
   const handleRedirectToHome = () => {
-    window.location.href = '/';
+    flow.replace('Home', {}, { animate: false });
   };
 
   const [showFeedbackScreen, setShowFeedbackScreen] = useState(false);

@@ -2,17 +2,22 @@
 
 import type { ActivityComponentType } from '@stackflow/react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import History, { HistoryTabType } from '@/app/history/History.content';
+import History from '@/app/history/History.content';
 
 interface Params {
-  type: HistoryTabType;
+  type: 'reservation' | 'demand';
 }
 
-const HistoryActivity: ActivityComponentType<Params> = () => {
+const HistoryActivity: ActivityComponentType<Params> = ({
+  params,
+}: {
+  params: Params;
+}) => {
+  const { type } = params;
   return (
     <AppScreen>
       <div className="relative flex h-full w-full flex-col">
-        <History />
+        <History type={type} />
       </div>
     </AppScreen>
   );

@@ -11,7 +11,7 @@ import { handleClickAndStopPropagation } from '@/utils/common.util';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import Button from '@/components/buttons/button/Button';
-import { useFlow } from '@/stacks';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   review: ReviewsViewEntity;
@@ -30,12 +30,12 @@ const ReviewCard = ({ review, reservation }: Props) => {
   });
   const { isReviewWritingPeriod } = checkIsReviewWritingPeriod(reservation);
 
-  const flow = useFlow();
+  const router = useRouter();
   const redirectToEditReview = handleClickAndStopPropagation(() => {
     if (!isReviewWritingPeriod) {
       return;
     }
-    flow.push('EditReview', { reviewId: review.reviewId });
+    router.push(`/mypage/reviews/edit/${review.reviewId}`);
   });
 
   return (
@@ -49,7 +49,7 @@ const ReviewCard = ({ review, reservation }: Props) => {
             {formattedReviewWrittenDate} 작성
           </h3>
         </div>
-        <div className="my-12 h-[1px] w-full bg-basic-grey-100" />
+        <div className="h-[1px] w-full bg-basic-grey-100 py-12" />
         <div className="flex w-full items-center gap-[6px]">
           <Rating size="medium" value={review.rating} />
           <div className="h-[10px] w-[1px] bg-basic-grey-100" />

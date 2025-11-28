@@ -57,6 +57,7 @@ const EventList = () => {
 
   const { push } = useFlow();
   const handleEventClick = (eventId: string) => {
+    console.log('eventId', eventId);
     push('EventDetail', { eventId });
   };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import Loading from '@/components/loading/Loading';
+import usePreventRefresh from '@/hooks/usePreventRefresh';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { postLogin } from '@/services/auth.service';
 import { CustomError } from '@/services/custom-error';
@@ -17,7 +18,8 @@ import {
   setEntryGreetingIncomplete,
 } from '@/utils/localStorage';
 import { getRedirectUrl } from '@/utils/localStorage';
-import { useCallback, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
@@ -30,10 +32,12 @@ interface Props {
 }
 
 const OAuth = ({ params, searchParams }: Props) => {
+  const router = useRouter();
   const isInitiated = useRef(false);
+  usePreventRefresh();
   usePreventScroll();
 
-  const handleOAuth = useCallback(async () => {
+  const handleOAuth = async () => {
     const isAppFromState =
       searchParams?.state && searchParams.state.toLowerCase().includes('app');
     const isAppFromEnvironment = getIsAppFromUserAgent();
@@ -86,12 +90,10 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       if (!isOnboardingComplete) {
         setOnboardingStatusIncomplete();
-        // Stackflow 라우트로 이동할 때는 전체 페이지 리로드 필요
-        window.location.href = '/onboarding';
+        router.replace('/onboarding');
       } else {
         setOnboardingStatusComplete();
-        // Stackflow 라우트로 이동할 때는 전체 페이지 리로드 필요
-        window.location.href = redirectUrl;
+        router.replace(redirectUrl);
       }
     } catch (e) {
       const error = e as CustomError;
@@ -114,10 +116,9 @@ const OAuth = ({ params, searchParams }: Props) => {
       });
       console.error(error);
       toast.error('잠시 후 다시 시도해주세요.');
-      // Stackflow 라우트로 이동할 때는 전체 페이지 리로드 필요
-      window.location.href = '/login';
+      router.replace('/login');
     }
-  }, [params.oauth, searchParams]);
+  };
 
   useEffect(() => {
     if (isInitiated.current) {
@@ -125,7 +126,7 @@ const OAuth = ({ params, searchParams }: Props) => {
     }
     isInitiated.current = true;
     handleOAuth();
-  }, [handleOAuth]);
+  }, []);
 
   return <Loading />;
 };

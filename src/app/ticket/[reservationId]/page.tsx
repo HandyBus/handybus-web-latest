@@ -6,19 +6,15 @@ interface Props {
   params: {
     reservationId: string;
   };
-  searchParams: {
-    direction?: string;
-  };
 }
 
-const Page = ({ params, searchParams }: Props) => {
+const Page = ({ params }: Props) => {
   const { reservationId } = params;
-  const { direction } = searchParams;
   return (
     <Stack
       initialContext={{
         req: {
-          path: `/ticket/${reservationId}?direction=${direction}`,
+          path: `/ticket/${reservationId}`,
         },
       }}
     />

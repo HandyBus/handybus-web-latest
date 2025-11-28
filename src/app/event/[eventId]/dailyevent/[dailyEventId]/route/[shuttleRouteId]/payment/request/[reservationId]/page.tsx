@@ -12,6 +12,7 @@ import Loading from '@/components/loading/Loading';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
+import { useFlow } from '@/stacks';
 
 interface Props {
   params: {
@@ -63,8 +64,9 @@ const PaymentsCompletedPage = ({
     paymentId: reservation.paymentId ?? undefined,
   });
 
+  const flow = useFlow();
   const handleRedirectToHistory = () => {
-    window.location.href = '/history?type=reservation';
+    flow.replace('History', { type: 'reservation' }, { animate: false });
   };
 
   if (isHandyParty) {

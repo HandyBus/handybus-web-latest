@@ -1,16 +1,15 @@
 'use client';
 
 import Tabs from '@/components/tab/Tabs';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import WritableReviews from './components/WritableReviews';
 import WrittenReviews from './components/WrittenReviews';
 import Header from '@/components/header/Header';
-import { useFlow } from '@/stacks';
 
-export type ReviewTabType = 'writable-reviews' | 'written-reviews';
+type ReviewTabType = 'writable-reviews' | 'written-reviews';
 
 const Reviews = () => {
-  const flow = useFlow();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const currentTab: ReviewTabType =
     (searchParams.get('type') as ReviewTabType) || 'writable-reviews';
@@ -23,11 +22,6 @@ const Reviews = () => {
         return <WrittenReviews />;
     }
   };
-
-  const handleSelectTab = (nextTab: ReviewTabType) => {
-    flow.replace('Reviews', { type: nextTab }, { animate: false });
-  };
-
   return (
     <>
       <Header />
@@ -38,7 +32,9 @@ const Reviews = () => {
             { label: '작성한 후기', value: 'written-reviews' },
           ]}
           selected={currentTab}
-          onSelect={handleSelectTab}
+          onSelect={(value) => {
+            router.replace(`/mypage/reviews?type=${value}`);
+          }}
           className="top-56"
         />
         {renderTab()}

@@ -1,18 +1,16 @@
 'use client';
 
 import { Stack } from '@/stacks';
-import { ReviewTabType } from './Reviews.content';
 
-interface Props {
-  searchParams: {
-    type: ReviewTabType;
-  };
-}
-
-const Page = ({ searchParams }: Props) => {
-  const { type } = searchParams;
+const Page = () => {
   return (
-    <Stack initialContext={{ req: { path: `/mypage/reviews?type=${type}` } }} />
+    <Stack
+      initialContext={{
+        req: {
+          path: '/mypage/reviews',
+        },
+      }}
+    />
   );
 };
 

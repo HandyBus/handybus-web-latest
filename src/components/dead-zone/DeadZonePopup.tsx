@@ -1,5 +1,6 @@
 'use client';
 
+// import Link from 'next/link';
 // import LargeLogo from 'public/icons/logo-large.svg';
 import ChatSolidIcon from 'public/icons/chat-solid.svg';
 import { useState } from 'react';

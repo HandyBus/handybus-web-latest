@@ -4,14 +4,13 @@ import ReviewWriteForm from './components/ReviewWriteForm';
 import { useGetUserReservation } from '@/services/reservation.service';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
+import { useRouter } from 'next/navigation';
 import { EventsViewEntity } from '@/types/event.type';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { dateString } from '@/utils/dateString.util';
 import { getHubText } from '@/utils/event.util';
 import { checkIsReviewWritingPeriod } from '@/utils/review.util';
 import Header from '@/components/header/Header';
-import usePopAll from '@/hooks/usePopAll';
-import { useFlow } from '@/stacks';
 
 interface Props {
   reservationId: string;
@@ -21,21 +20,18 @@ const WriteReview = ({ reservationId }: Props) => {
   const { data, isLoading } = useGetUserReservation(reservationId);
   const event = data?.reservation.shuttleRoute.event;
   const reservation = data?.reservation;
-  const flow = useFlow();
-  const popAll = usePopAll();
+  const { replace } = useRouter();
 
   const { isReviewWritingPeriod } = reservation
     ? checkIsReviewWritingPeriod(reservation)
     : { isReviewWritingPeriod: false };
 
   if (data?.reservation.reviewId) {
-    popAll({ animate: false });
-    flow.replace('Reviews', {}, { animate: false });
+    replace('/mypage/reviews');
     return;
   }
   if (reservation && !isReviewWritingPeriod) {
-    popAll({ animate: false });
-    flow.replace('Reviews', {}, { animate: false });
+    replace('/mypage/reviews');
     return;
   }
 
