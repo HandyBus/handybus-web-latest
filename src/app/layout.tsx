@@ -7,7 +7,13 @@ import Provider from '@/components/provider/Provider';
 import { ReactNode } from 'react';
 import ToastContainer from '@/components/toast-container/ToastContainer';
 import PortalContainer from '@/components/portal-container/PortalContainer';
-import { DESCRIPTION, KEYWORDS, OG_IMAGE_URL, URL } from '@/constants/metadata';
+import {
+  DEFAULT_TITLE,
+  DESCRIPTION,
+  KEYWORDS,
+  OG_IMAGE_URL,
+  URL,
+} from '@/constants/metadata';
 import { TITLE } from '@/constants/metadata';
 import Script from 'next/script';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -26,7 +32,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: {
     template: `%s | ${TITLE}`,
-    default: TITLE,
+    default: DEFAULT_TITLE,
   },
   description: DESCRIPTION,
   keywords: KEYWORDS,
@@ -36,7 +42,10 @@ export const metadata: Metadata = {
       : [{ url: FAVICON_DEV, type: 'image/x-icon' }],
   },
   openGraph: {
-    title: TITLE,
+    title: {
+      template: `%s | ${TITLE}`,
+      default: DEFAULT_TITLE,
+    },
     description: DESCRIPTION,
     type: 'website',
     locale: 'ko_KR',
