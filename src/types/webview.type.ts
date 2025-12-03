@@ -46,6 +46,14 @@ export interface WebToAppMessages {
   REQUEST_PERMISSION: {
     permission: 'camera' | 'location' | 'notification';
   };
+  /** 앱에서 푸시 토큰 요청 */
+  REQUEST_PUSH_TOKEN: undefined;
+  /** 웹뷰 콘솔 로그 전송 */
+  CONSOLE_LOG: {
+    level: 'log' | 'error' | 'warn' | 'info' | 'debug';
+    message: string;
+    args?: unknown[];
+  };
 }
 
 /**
@@ -69,6 +77,10 @@ export interface AppToWebMessages {
   /** 앱에서 웹으로 앱 상태 전달 */
   APP_STATE: {
     isActive: boolean;
+  };
+  /** 앱에서 웹으로 푸시 토큰 전달 */
+  PUSH_TOKEN: {
+    token: string | null;
   };
 }
 

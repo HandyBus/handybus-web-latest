@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { usePathname } from 'next/navigation';
 import dayjs from 'dayjs';
+import { putUserPushToken } from '@/services/user.service';
 
 export const Error = ({
   error,
@@ -66,7 +67,10 @@ export const Error = ({
         </button>
         <button
           className="h-44 w-full rounded-full bg-basic-grey-50 text-16 font-400 text-basic-grey-700"
-          onClick={() => logout()}
+          onClick={async () => {
+            await putUserPushToken(null);
+            await logout();
+          }}
         >
           홈으로 돌아가기
         </button>

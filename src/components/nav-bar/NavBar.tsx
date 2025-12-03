@@ -18,6 +18,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { customTwMerge } from 'tailwind.config';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 
 const NavBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,14 +52,14 @@ const NavBar = () => {
           />
           <NavButton
             name="참여/내역"
-            href={isLoggedIn ? '/history' : '/login'}
+            href={isLoggedIn ? '/history' : createLoginRedirectPath('/history')}
             icon={<HistoryIcon />}
             selectedIcon={<HistorySelectedIcon />}
             clickedIcon={<HistoryClickedIcon />}
           />
           <NavButton
             name="마이"
-            href={isLoggedIn ? '/mypage' : '/login'}
+            href={isLoggedIn ? '/mypage' : createLoginRedirectPath('/mypage')}
             icon={<MyPageIcon />}
             selectedIcon={<MyPageSelectedIcon />}
             clickedIcon={<MyPageClickedIcon />}

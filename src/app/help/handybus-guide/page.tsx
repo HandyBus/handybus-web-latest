@@ -39,7 +39,7 @@ const HandybusGuide = ({ searchParams }: Props) => {
           ]}
           selected={currentTab}
           onSelect={handleChangeTab}
-          className="mt-16"
+          className="absolute -left-16 mt-16 w-[calc(100%+32px)]"
         />
         <GuideContent currentTab={currentTab} />
       </article>

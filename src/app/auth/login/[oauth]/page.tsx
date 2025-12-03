@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import { getIsAppFromUserAgent } from '@/utils/environment.util';
+import { requestMessageToAppForPushToken } from '@/utils/webview.util';
 
 interface Props {
   params: { oauth: 'kakao' | 'naver' | 'apple' };
@@ -41,6 +42,8 @@ const OAuth = ({ params, searchParams }: Props) => {
       searchParams?.state && searchParams.state.toLowerCase().includes('app');
     const isAppFromEnvironment = getIsAppFromUserAgent();
 
+    // deprecated: 앱 환경에서 외부 브라우저로 연결되어 로그인 했을 시 사용되는 로직
+    // 현재는 IOS 앱 정책으로 이용하지 않음.
     if (isAppFromState && !isAppFromEnvironment) {
       let deepLinkUrl = `handybus://?path=/auth/login/${params.oauth}`;
       if (searchParams.code) {
@@ -68,6 +71,7 @@ const OAuth = ({ params, searchParams }: Props) => {
 
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
+      requestMessageToAppForPushToken();
 
       const user = await getUser({ skipCheckOnboarding: true });
       const isOnboardingComplete = user?.onboardingComplete || false;

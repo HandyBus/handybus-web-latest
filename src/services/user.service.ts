@@ -8,6 +8,13 @@ import { authInstance } from './config';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { silentParse } from '@/utils/config.util';
 import { CustomError } from './custom-error';
+import {
+  removePendingPushToken,
+  setPendingPushToken,
+} from '@/utils/localStorage';
+import { getIsAppFromUserAgent } from '@/utils/environment.util';
+import * as Sentry from '@sentry/nextjs';
+import { sendMessageToApp } from '@/utils/webview.util';
 
 // ----- GET -----
 
@@ -87,6 +94,37 @@ export const usePutUser = ({
     onError,
     onSettled,
   });
+};
+
+// 백엔드 서버에 푸시토큰 업데이트를 위한 함수
+export const putUserPushToken = async (pushToken: string | null) => {
+  const isApp = getIsAppFromUserAgent();
+  if (!isApp) return;
+
+  try {
+    const result = await putUser({ pushToken });
+    sendMessageToApp('CONSOLE_LOG', {
+      level: 'log',
+      message: '푸시토큰 백엔드 동기화 성공',
+      args: [result],
+    });
+    removePendingPushToken();
+  } catch (error) {
+    console.error(error);
+    setPendingPushToken(pushToken);
+    sendMessageToApp('CONSOLE_LOG', {
+      level: 'log',
+      message: '푸시토큰 백엔드 동기화 실패',
+      args: [error],
+    });
+    Sentry.captureException(error, {
+      tags: {
+        function: 'putUserPushToken',
+        action: 'failed-to-update-push-token',
+        environment: process.env.NODE_ENV || 'development',
+      },
+    });
+  }
 };
 
 export const deleteUser = async () => {

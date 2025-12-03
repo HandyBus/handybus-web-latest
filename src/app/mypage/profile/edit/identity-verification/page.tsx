@@ -8,7 +8,6 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   searchParams: { identityVerificationId: string };
@@ -16,7 +15,6 @@ interface Props {
 
 const Page = ({ searchParams }: Props) => {
   const { identityVerificationId } = searchParams;
-  const router = useRouter();
   const isInitiated = useRef(false);
   usePreventRefresh();
   usePreventScroll();
@@ -43,7 +41,7 @@ const Page = ({ searchParams }: Props) => {
       console.error(e);
       toast.error('잠시 후 다시 시도해주세요.');
     } finally {
-      router.replace('/mypage');
+      window.location.href = '/mypage';
     }
   };
 

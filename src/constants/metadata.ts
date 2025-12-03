@@ -1,6 +1,7 @@
 export const TITLE = '핸디버스';
+export const DEFAULT_TITLE = '핸디버스 - 팬덤 이동의 시작과 끝';
 export const DESCRIPTION =
-  '집 앞에서 콘서트장까지, 번거로운 환승 없이 원하는 노선에서 핸디버스 타고 공연 보러 가요.';
+  '콘서트부터 페스티벌까지, 다양한 행사 전용 셔틀 서비스. 수요에 따라 버스, 택시팟을 예약해보세요.';
 export const KEYWORDS =
   '핸디버스, 수요응답형 모빌리티, 콘서트 셔틀, 공연 셔틀, 행사 셔틀, 맞춤형 셔틀, 콘서트 이동, 공연 이동, 행사 이동, 셔틀, 버스, 택시, 택시팟, 핸디팟, 차대절, 버스 대절';
 export const URL = 'https://www.handybus.co.kr';

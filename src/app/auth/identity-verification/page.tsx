@@ -5,11 +5,11 @@ import usePreventRefresh from '@/hooks/usePreventRefresh';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { postIdentityVerification } from '@/services/auth.service';
 import { logout, setOnboardingStatusComplete } from '@/utils/handleToken.util';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { putUserPushToken } from '@/services/user.service';
 
 interface Props {
   searchParams: { identityVerificationId: string };
@@ -17,7 +17,6 @@ interface Props {
 
 const Page = ({ searchParams }: Props) => {
   const { identityVerificationId } = searchParams;
-  const router = useRouter();
   const isInitiated = useRef(false);
   usePreventRefresh();
   usePreventScroll();
@@ -28,7 +27,7 @@ const Page = ({ searchParams }: Props) => {
         identityVerificationId,
       });
       setOnboardingStatusComplete();
-      router.replace('/');
+      window.location.href = '/';
     } catch (e) {
       Sentry.captureException(e, {
         tags: {
@@ -44,7 +43,8 @@ const Page = ({ searchParams }: Props) => {
       });
       console.error(e);
       toast.error('회원가입에 실패했어요.');
-      logout();
+      await putUserPushToken(null);
+      await logout();
     }
   };
 

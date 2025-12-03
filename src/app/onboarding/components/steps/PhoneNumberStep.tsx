@@ -77,7 +77,7 @@ const PhoneNumberStep = () => {
     <>
       <OnboardingFrame>
         <div className="mx-16 my-12 flex h-56 items-center gap-8">
-          <button type="button" onClick={() => router.replace('/login')}>
+          <button type="button" onClick={() => router.replace('/')}>
             <CloseIcon />
           </button>
           <h1 className="text-18 font-700 leading-[140%] text-basic-black">

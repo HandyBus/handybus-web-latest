@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useRef } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Button from '@/components/buttons/button/Button';
 import OpenAppIcon from './icons/open-app.svg';
 
@@ -9,7 +9,6 @@ const DEEP_LINK_TIMEOUT = 300;
 
 const Page = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const deepLinkTimeout = useRef<NodeJS.Timeout | null>(null);
   const visibilityChangeHandler = useRef<(() => void) | null>(null);
   const blurHandler = useRef<(() => void) | null>(null);
@@ -49,7 +48,7 @@ const Page = () => {
 
   // path가 없으면 루트 페이지로 이동
   if (!isValid) {
-    router.replace('/');
+    window.location.href = '/';
     return null;
   }
 

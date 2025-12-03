@@ -1,13 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const Page = () => {
-  const router = useRouter();
   useEffect(() => {
-    router.replace('/history?type=demand');
-  }, [router]);
+    window.location.href = '/history?type=demand';
+  }, []);
   return null;
 };
 
