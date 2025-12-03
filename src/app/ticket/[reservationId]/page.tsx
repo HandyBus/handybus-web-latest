@@ -4,8 +4,6 @@ import { useGetUserReservation } from '@/services/reservation.service';
 import InfoIcon from '/public/icons/info.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 import useTicketData from './hooks/useTicketData';
 import TicketSkeleton from './components/TicketSkeleton';
 import TicketSwiperView from './components/TicketSwiperView';
@@ -164,27 +162,39 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
                   </h2>
                   {currentTripType === '행사장행' && (
                     <p className="text-20 font-600 leading-[140%]">
-                      {dayjs(boardingTimeToDestination)
-                        .locale('ko')
-                        .format('YYYY.MM.DD (ddd) HH:mm')}
+                      {dateString(boardingTimeToDestination, {
+                        showShortYear: true,
+                        showDate: true,
+                        showTime: true,
+                        showWeekday: true,
+                      })}
                       <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
                         ~
-                        {dayjs(arrivalTimeToDestination)
-                          .locale('ko')
-                          .format('HH:mm')}
+                        {dateString(arrivalTimeToDestination, {
+                          showYear: false,
+                          showDate: false,
+                          showWeekday: false,
+                          showTime: true,
+                        })}
                       </span>
                     </p>
                   )}
                   {currentTripType === '귀가행' && (
                     <p className="text-20 font-600 leading-[140%]">
-                      {dayjs(boardingTimeFromDestination)
-                        .locale('ko')
-                        .format('YYYY.MM.DD (ddd) HH:mm')}
+                      {dateString(boardingTimeFromDestination, {
+                        showShortYear: true,
+                        showDate: true,
+                        showTime: true,
+                        showWeekday: true,
+                      })}
                       <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
                         ~
-                        {dayjs(arrivalTimeFromDestination)
-                          .locale('ko')
-                          .format('HH:mm')}
+                        {dateString(arrivalTimeFromDestination, {
+                          showYear: false,
+                          showDate: false,
+                          showWeekday: false,
+                          showTime: true,
+                        })}
                       </span>
                     </p>
                   )}
@@ -299,6 +309,7 @@ import DotPrimaryIcon from './icons/dot-primary.svg';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useRouter } from 'next/navigation';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { dateString } from '@/utils/dateString.util';
 
 const SimpleRouteLine = () => {
   return (
