@@ -279,15 +279,18 @@ const Ticket = ({ reservation, direction }: TicketProps) => {
 
 export default TicketPage;
 
+const MARQUEE_TEXT =
+  '핸디버스 탑승권 핸디버스 탑승권 핸디버스 탑승권 핸디버스 탑승권 ';
+
 const AntiCapture = () => {
   return (
     <section className="py-8">
-      <div className="relative h-[34px] overflow-hidden">
-        <div className="absolute animate-scroll-right whitespace-nowrap">
-          <span className="text-24 font-700 leading-[140%] text-brand-primary-600">
-            핸디버스 탑승권 핸디버스 탑승권 핸디버스 탑승권 핸디버스 탑승권
-            핸디버스 탑승권 핸디버스 탑승권 핸디버스 탑승권 핸디버스 탑승권
-          </span>
+      <div className="relative isolate h-[34px] overflow-hidden">
+        <div className="absolute animate-marquee whitespace-pre text-24 font-700 leading-[140%] text-brand-primary-600">
+          {MARQUEE_TEXT}
+        </div>
+        <div className="absolute animate-marquee2 whitespace-pre text-24 font-700 leading-[140%] text-brand-primary-600">
+          {MARQUEE_TEXT}
         </div>
       </div>
     </section>

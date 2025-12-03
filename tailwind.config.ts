@@ -138,16 +138,21 @@ const config: Config = {
       },
       animation: {
         moveRoad: 'moveRoad 1.25s linear infinite',
-        'scroll-right': 'scrollRight 5s linear infinite',
+        marquee: 'marquee 4s linear infinite',
+        marquee2: 'marquee2 4s linear infinite',
       },
       keyframes: {
         moveRoad: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
-        scrollRight: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' },
+        marquee: {
+          '0%': { transform: 'translate3d(0, 0, 0)' },
+          '100%': { transform: 'translate3d(-100%, 0, 0)' },
+        },
+        marquee2: {
+          '0%': { transform: 'translate3d(100%, 0, 0)' },
+          '100%': { transform: 'translate3d(0, 0, 0)' },
         },
       },
     },
