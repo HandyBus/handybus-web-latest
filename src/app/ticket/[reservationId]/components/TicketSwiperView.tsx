@@ -7,8 +7,6 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 import useTicketData from '../hooks/useTicketData';
 import ArrowIcon from '../icons/white-arrow-right.svg';
 import InfoIcon from '/public/icons/info.svg';
@@ -16,6 +14,7 @@ import PinIcon from '../icons/pin-primary.svg';
 import DotPrimaryIcon from '../icons/dot-primary.svg';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -138,11 +137,20 @@ const TicketSwiperView = ({ reservation }: Props) => {
                   탑승일시
                 </h2>
                 <p className="text-20 font-600 leading-[140%]">
-                  {dayjs(ticket.boardingTime)
-                    .locale('ko')
-                    .format('YYYY.MM.DD (ddd) HH:mm')}
+                  {dateString(ticket.boardingTime, {
+                    showShortYear: true,
+                    showDate: true,
+                    showTime: true,
+                    showWeekday: true,
+                  })}
                   <span className="text-14 font-500 leading-[160%] text-basic-grey-400">
-                    ~{dayjs(ticket.arrivalTime).locale('ko').format('HH:mm')}
+                    ~
+                    {dateString(ticket.arrivalTime, {
+                      showYear: false,
+                      showDate: false,
+                      showWeekday: false,
+                      showTime: true,
+                    })}
                   </span>
                 </p>
               </section>

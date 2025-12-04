@@ -1,9 +1,9 @@
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import RightArrowIcon from '../icons/arrow-right.svg';
 import { Fragment } from 'react';
+import { dateString } from '@/utils/dateString.util';
 
 interface Props {
   reservations: ReservationsViewEntity[];
@@ -48,7 +48,12 @@ const TicketItem = ({ reservation }: TicketItemProps) => {
           {TRIP_STATUS_TO_STRING[type]}
         </h2>
         <p className="line-clamp-1 text-22 font-700 leading-[140%]">
-          {formatDepartureTime(departureTime)}
+          {dateString(departureTime, {
+            showShortYear: true,
+            showDate: true,
+            showTime: true,
+            showWeekday: true,
+          })}
         </p>
         <p className="line-clamp-1 text-14 font-600 leading-[140%] text-basic-grey-700">
           {eventName}
@@ -68,15 +73,6 @@ export default TicketList;
 
 const Divider = () => {
   return <div className="mx-16 my-8 h-[1.5px] bg-basic-grey-100" />;
-};
-
-const formatDepartureTime = (timeString: string | undefined) => {
-  if (!timeString) return '';
-  const date = dayjs(timeString);
-  const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-  const weekday = weekdays[date.day()];
-
-  return `${date.format('YY.MM.DD')} (${weekday}) ${date.format('HH:mm')}`;
 };
 
 const getBoardingInformation = (reservation: ReservationsViewEntity) => {
