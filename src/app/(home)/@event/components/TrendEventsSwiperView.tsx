@@ -19,45 +19,53 @@ interface Props {
 const TrendEventsSwiperView = ({ events }: Props) => {
   const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeImage, setActiveImage] = useState<string | null>(
-    events[0]?.eventImageUrl || null,
-  );
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const cardCount = events.length;
   const extendedEvents =
     cardCount < MIN_CARD_COUNT ? extendArray(events) : events;
 
   const handleSlideChange = (swiper: SwiperType) => {
-    // loop를 사용하고있어서 인덱스가 무한히 늘어납니다 그래서 원본 데이터의 인덱스를 판별합니다.
     const realIndex = swiper.realIndex % events.length;
-    const activeEvent = events[realIndex];
-    setActiveImage(activeEvent?.eventImageUrl || null);
+    setActiveIndex(realIndex);
   };
 
   return (
     <div className="relative pt-24">
-      {activeImage && (
-        <div className={`absolute left-0 right-0 top-0 h-[320px]`}>
-          <div className="relative h-full w-full overflow-hidden">
-            <Image
-              src={activeImage}
-              alt="background"
-              fill
-              className="object-cover blur-[100px]"
-              priority
-              quality={5}
-            />
-            {/* 흰색 페이드 오버레이 */}
+      <div className="absolute inset-x-0 top-0 h-[320px] select-none">
+        <div className="relative h-[320px] w-full overflow-hidden">
+          {/* 모든 배경 이미지를 미리 렌더링 (blur 없이) */}
+          {events.map((event, idx) => (
             <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0.2) 85%, rgba(255,255,255,0.3) 90%, rgba(255,255,255,0.5) 95%, #ffffff 100%)',
-              }}
-            />
-          </div>
+              key={`bg-${event.eventId}-${idx}`}
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                idx === activeIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <Image
+                src={event.eventImageUrl}
+                alt="background Image"
+                fill
+                className="object-cover"
+                priority={idx === 0}
+                quality={10}
+              />
+            </div>
+          ))}
+
+          {/* Blur 오버레이 */}
+          <div className="absolute inset-0 backdrop-blur-[100px]" />
+
+          {/* 흰색 페이드 오버레이 */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0.2) 85%, rgba(255,255,255,0.3) 90%, rgba(255,255,255,0.5) 95%, #ffffff 100%)',
+            }}
+          />
         </div>
-      )}
+      </div>
       <div className={'relative h-[309px] w-full'}>
         <div
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
