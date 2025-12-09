@@ -31,7 +31,7 @@ const HandybusGuide = ({ searchParams }: Props) => {
       <figure>
         <Image src={guideImage} alt="핸디버스 가이드" quality={100} />
       </figure>
-      <article className="mx-16 mb-16 flex flex-col">
+      <article className="relative mx-16 mb-16 flex flex-col">
         <Tabs
           items={[
             { label: '셔틀버스', value: 'SHUTTLE_BUS' },
