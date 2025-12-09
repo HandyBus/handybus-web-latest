@@ -20,6 +20,7 @@ const findMinMaxDate = (dates: Dayjs[]) => {
 
 interface DateStringOptions {
   showYear?: boolean;
+  showShortYear?: boolean;
   showWeekday?: boolean;
   showDate?: boolean;
   showTime?: boolean;
@@ -32,17 +33,20 @@ const singleDateString = (date: Dayjs | null, options?: DateStringOptions) => {
   }
   const {
     showYear = true,
+    showShortYear = false,
     showDate = true,
     showTime = false,
     showWeekday = true,
     showTimeWithoutAmPm = false,
   } = options || {};
 
+  const yearFormat = showShortYear ? 'YY' : 'YYYY';
+
   const yearDateString =
     showYear && showDate
-      ? date.format('YYYY.MM.DD')
+      ? date.format(`${yearFormat}.MM.DD`)
       : showYear
-        ? date.format('YYYY')
+        ? date.format(yearFormat)
         : showDate
           ? date.format('MM.DD')
           : null;
