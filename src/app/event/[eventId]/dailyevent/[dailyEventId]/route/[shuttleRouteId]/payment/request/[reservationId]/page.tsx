@@ -50,7 +50,6 @@ const PaymentsCompletedPage = ({
   eventId,
   reservationStartTime,
 }: PaymentsCompletedPageProps) => {
-  const isHandyParty = reservation.shuttleRoute.isHandyParty;
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
   const eventName = reservation.shuttleRoute.event.eventName;
@@ -65,24 +64,6 @@ const PaymentsCompletedPage = ({
     paymentId: reservation.paymentId ?? undefined,
   });
 
-  if (isHandyParty) {
-    return (
-      <main className="relative grow">
-        <section className="absolute left-1/2 top-180 flex -translate-x-1/2 flex-col items-center whitespace-nowrap break-keep">
-          <h1 className="pb-4 text-22 font-700">셔틀 예약이 완료되었어요</h1>
-          <p className="pb-24 text-16 font-500 text-basic-grey-600">
-            마이페이지에서 예약을 확인할 수 있어요.
-          </p>
-          <SuccessBusIcon />
-        </section>
-        <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <Link href={`/history/reservation/${reservationId}`} replace={true}>
-            <Button>완료</Button>
-          </Link>
-        </div>
-      </main>
-    );
-  }
   return (
     <>
       <main className="relative grow">
@@ -94,6 +75,16 @@ const PaymentsCompletedPage = ({
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
+          <section className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 py-16 pl-[50px] pr-[49px] ">
+            <h2 className="text-14 font-600 leading-[140%]">
+              💵 페이백 이벤트 진행 중 💵
+            </h2>
+            <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+              지금 바로 링크를 공유하고, 결제 금액을 돌려받으세요! <br />더 많은
+              친구에게 공유할 수록 할인 금액이 커져요.
+            </p>
+          </section>
+          <Button>초대코드 공유하기</Button>
           <Link href={`/history/reservation/${reservationId}`} replace={true}>
             <Button variant="secondary">완료</Button>
           </Link>
