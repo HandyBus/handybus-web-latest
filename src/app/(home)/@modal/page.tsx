@@ -20,6 +20,8 @@ import { handleExternalLink } from '@/utils/externalLink.util';
 // import AppLaunchEventImage from './images/app-launch-event.png';
 import InvitePaybackEventImage from './images/invite-payback-event.png';
 
+const INVITE_PAYBACK_EVENT_URL = 'https://www.handybus.co.kr/announcements';
+
 const Page = () => {
   const router = useRouter();
   const showEmergencyModal =
@@ -33,7 +35,7 @@ const Page = () => {
   // const showAppLaunchEventModal = !isApp;
 
   const handleInvitePaybackEventOpen = () => {
-    router.push('/announcements');
+    router.push(INVITE_PAYBACK_EVENT_URL);
   };
 
   const [
