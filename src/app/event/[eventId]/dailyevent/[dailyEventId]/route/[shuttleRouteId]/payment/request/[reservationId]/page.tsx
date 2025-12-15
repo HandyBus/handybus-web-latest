@@ -4,6 +4,7 @@ import Button from '@/components/buttons/button/Button';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { PAYMENT_PARAMS_KEYS } from '../../payment.const';
 import SuccessBusIcon from '../icons/bus-success.svg';
 import {
   useGetUserReservation,
@@ -13,11 +14,15 @@ import Loading from '@/components/loading/Loading';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   params: {
     eventId: string;
     reservationId: string;
+  };
+  searchParams: {
+    [PAYMENT_PARAMS_KEYS.referralCode]?: string;
   };
 }
 
@@ -26,7 +31,10 @@ const PaymentsCompleted = ({ params }: Props) => {
   const { reservationId } = params;
   const { data, isLoading, isError } = useGetUserReservation(reservationId);
   const searchParams = useSearchParams();
-  const reservationStartTime = searchParams.get('reservationStartTime');
+  const reservationStartTime = searchParams.get(
+    PAYMENT_PARAMS_KEYS.reservationStartTime,
+  );
+  const referralCode = searchParams.get(PAYMENT_PARAMS_KEYS.referralCode);
 
   if (isLoading) return <Loading />;
   if (isError || !data) throw new Error('예약 정보를 불러오는데 실패했습니다.');
@@ -35,6 +43,7 @@ const PaymentsCompleted = ({ params }: Props) => {
       reservation={data.reservation}
       eventId={params.eventId}
       reservationStartTime={reservationStartTime ?? undefined}
+      referralCode={referralCode ?? undefined}
     />
   );
 };
@@ -43,12 +52,14 @@ interface PaymentsCompletedPageProps {
   reservation: ReservationsViewEntity;
   eventId: string;
   reservationStartTime?: string;
+  referralCode?: string;
 }
 
 const PaymentsCompletedPage = ({
   reservation,
   eventId,
   reservationStartTime,
+  referralCode,
 }: PaymentsCompletedPageProps) => {
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
@@ -64,6 +75,12 @@ const PaymentsCompletedPage = ({
     paymentId: reservation.paymentId ?? undefined,
   });
 
+  const handleShareReferralCode = () => {
+    const referralCodeUrl = `${window.location.origin}/event/${eventId}?${PAYMENT_PARAMS_KEYS.referralCode}=${referralCode}`;
+    navigator.clipboard.writeText(referralCodeUrl);
+    toast.success('초대코드가 복사되었습니다.');
+  };
+
   return (
     <>
       <main className="relative grow">
@@ -75,16 +92,22 @@ const PaymentsCompletedPage = ({
           <SuccessBusIcon />
         </section>
         <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
-          <section className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 py-16 pl-[50px] pr-[49px] ">
-            <h2 className="text-14 font-600 leading-[140%]">
-              💵 페이백 이벤트 진행 중 💵
-            </h2>
-            <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
-              지금 바로 링크를 공유하고, 결제 금액을 돌려받으세요! <br />더 많은
-              친구에게 공유할 수록 할인 금액이 커져요.
-            </p>
-          </section>
-          <Button>초대코드 공유하기</Button>
+          {referralCode && (
+            <>
+              <section className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 py-16 pl-[50px] pr-[49px] ">
+                <h2 className="text-14 font-600 leading-[140%]">
+                  💵 페이백 이벤트 진행 중 💵
+                </h2>
+                <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+                  지금 바로 링크를 공유하고, 결제 금액을 돌려받으세요! <br />더
+                  많은 친구에게 공유할 수록 할인 금액이 커져요.
+                </p>
+              </section>
+              <Button onClick={handleShareReferralCode}>
+                초대코드 공유하기
+              </Button>
+            </>
+          )}
           <Link href={`/history/reservation/${reservationId}`} replace={true}>
             <Button variant="secondary">완료</Button>
           </Link>

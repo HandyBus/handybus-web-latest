@@ -4,8 +4,11 @@ import Button from '@/components/buttons/button/Button';
 import Header from '../Header';
 import { Controller, useFormContext } from 'react-hook-form';
 import { HandyPartyModalFormValues } from '../../HandyPartyModal';
-import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
-import { useRouter } from 'next/navigation';
+import {
+  createPaymentPageUrl,
+  PAYMENT_PARAMS_KEYS,
+} from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import { useEffect, useMemo } from 'react';
 import { getHandyPartyArea } from '@/utils/handyParty.util';
@@ -32,6 +35,7 @@ const ExtraRealNameInputStep = ({
   const { getValues, control, handleSubmit } =
     useFormContext<HandyPartyModalFormValues>();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     markAsIntentionalNavigation,
     setReservationTrackingStep,
@@ -112,6 +116,8 @@ const ExtraRealNameInputStep = ({
       desiredHubLatitude: userAddress.y,
       desiredHubLongitude: userAddress.x,
       reservationStartTime: getReservationStartTime() ?? undefined,
+      referralCode:
+        searchParams.get(PAYMENT_PARAMS_KEYS.referralCode) ?? undefined,
     });
 
     // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹

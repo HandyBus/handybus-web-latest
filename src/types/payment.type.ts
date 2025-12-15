@@ -67,6 +67,7 @@ export type ReserveRequest = z.infer<typeof ReserveRequestSchema>;
 export const PreparePaymentsRequestSchema = z.object({
   reservationId: z.string(),
   issuedCouponId: z.string().nullable(),
+  referralCode: z.string().nullable(),
 });
 export type PreparePaymentsRequest = z.infer<
   typeof PreparePaymentsRequestSchema

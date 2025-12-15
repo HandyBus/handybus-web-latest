@@ -7,9 +7,12 @@ import { useAtomValue } from 'jotai';
 import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
-import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import {
+  createPaymentPageUrl,
+  PAYMENT_PARAMS_KEYS,
+} from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { eventAtom } from '../../../store/eventAtom';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { usePutUser } from '@/services/user.service';
 import { toast } from 'react-toastify';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
@@ -21,6 +24,7 @@ interface Props {
 
 const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { markAsIntentionalNavigation, getReservationStartTime } =
     useReservationTrackingGlobal();
   const event = useAtomValue(eventAtom);
@@ -80,6 +84,8 @@ const ExtraRealNameInputStep = ({ closeBottomSheet }: Props) => {
         fromDestinationHubId: fromDestinationShuttleRouteHubId,
         passengerCount,
         reservationStartTime: getReservationStartTime() ?? undefined, // 예약 시작 시간 전달
+        referralCode:
+          searchParams.get(PAYMENT_PARAMS_KEYS.referralCode) ?? undefined,
       });
 
       closeBottomSheet();

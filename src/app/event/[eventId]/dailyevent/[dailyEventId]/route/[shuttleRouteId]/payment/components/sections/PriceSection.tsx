@@ -8,6 +8,7 @@ interface Props {
   finalPrice: number;
   totalCouponDiscountAmount: number;
   totalEarlybirdDiscountAmount: number;
+  referralDiscountAmount: number;
   passengerCount: number;
 }
 
@@ -23,6 +24,7 @@ const PriceSection = ({
   finalPrice,
   totalCouponDiscountAmount,
   totalEarlybirdDiscountAmount,
+  referralDiscountAmount,
   passengerCount,
 }: Props) => {
   return (
@@ -56,6 +58,14 @@ const PriceSection = ({
             <span className="text-14 font-600">쿠폰 할인</span>
             <span className="text-14 font-600">
               -{totalCouponDiscountAmount.toLocaleString()}원
+            </span>
+          </li>
+        )}
+        {referralDiscountAmount > 0 && (
+          <li className="flex h-[22px] w-full items-center justify-between">
+            <span className="text-14 font-600">초대코드 할인</span>
+            <span className="text-14 font-600">
+              -{referralDiscountAmount.toLocaleString()}원
             </span>
           </li>
         )}

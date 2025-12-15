@@ -13,6 +13,10 @@ import { customTwMerge } from 'tailwind.config';
 import Link from 'next/link';
 import ArrowRightIcon from '../../icons/arrow-right-grey.svg';
 const EmptyView = dynamic(() => import('./EmptyView'));
+import Image, { StaticImageData } from 'next/image';
+import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
+
+// NOTE: 테스트 기간 이후에도 지속적으로 사용하게 되면 env 혹은 어드민에서 지정할 수 있도록 확장 하면 좋을 것 같다.
 
 const DemandTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
@@ -42,6 +46,10 @@ const DemandTab = () => {
       <PeriodFilterBar
         periodFilter={periodFilter}
         setPeriodFilter={setPeriodFilter}
+      />
+      <PromotionBanner
+        image="/images/invite-payback-banner.png"
+        href={getInvitePaybackEventUrl()}
       />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
@@ -99,3 +107,25 @@ const DemandTab = () => {
 };
 
 export default DemandTab;
+
+interface PromotionBannerProps {
+  image: string | StaticImageData;
+  href: string;
+}
+const PromotionBanner = ({ image, href }: PromotionBannerProps) => {
+  return (
+    <section className="px-16 pb-16">
+      <Link
+        href={href}
+        className="relative block aspect-[344/100] w-full overflow-hidden rounded-8"
+      >
+        <Image
+          src={image}
+          alt="promotion banner"
+          fill
+          className="object-cover"
+        />
+      </Link>
+    </section>
+  );
+};

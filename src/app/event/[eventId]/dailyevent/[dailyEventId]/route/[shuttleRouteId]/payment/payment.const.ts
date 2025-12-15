@@ -2,14 +2,15 @@ import { TripType } from '@/types/shuttleRoute.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 
 export const PAYMENT_PARAMS_KEYS = {
-  tripType: 'tripType',
-  toDestinationHubId: 'toDestinationHubId',
-  fromDestinationHubId: 'fromDestinationHubId',
-  passengerCount: 'passengerCount',
-  desiredHubAddress: 'desiredHubAddress',
-  desiredHubLatitude: 'desiredHubLatitude',
-  desiredHubLongitude: 'desiredHubLongitude',
-  reservationStartTime: 'reservationStartTime',
+  tripType: 'trip-type',
+  toDestinationHubId: 'to-destination-hub-id',
+  fromDestinationHubId: 'from-destination-hub-id',
+  passengerCount: 'passenger-count',
+  desiredHubAddress: 'desired-hub-address',
+  desiredHubLatitude: 'desired-hub-latitude',
+  desiredHubLongitude: 'desired-hub-longitude',
+  reservationStartTime: 'reservation-start-time',
+  referralCode: 'referral-code',
 };
 
 export const createPaymentPageUrl = ({
@@ -24,6 +25,7 @@ export const createPaymentPageUrl = ({
   desiredHubLatitude,
   desiredHubLongitude,
   reservationStartTime,
+  referralCode,
 }: {
   eventId: string;
   dailyEventId: string;
@@ -36,6 +38,7 @@ export const createPaymentPageUrl = ({
   desiredHubLatitude?: number;
   desiredHubLongitude?: number;
   reservationStartTime?: string;
+  referralCode?: string;
 }) => {
   const params = {
     [PAYMENT_PARAMS_KEYS.tripType]: tripType,
@@ -46,6 +49,7 @@ export const createPaymentPageUrl = ({
     [PAYMENT_PARAMS_KEYS.desiredHubLatitude]: desiredHubLatitude,
     [PAYMENT_PARAMS_KEYS.desiredHubLongitude]: desiredHubLongitude,
     [PAYMENT_PARAMS_KEYS.reservationStartTime]: reservationStartTime,
+    [PAYMENT_PARAMS_KEYS.referralCode]: referralCode,
   };
   return `/event/${eventId}/dailyevent/${dailyEventId}/route/${shuttleRouteId}/payment?${toSearchParams(params)}`;
 };

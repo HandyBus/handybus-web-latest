@@ -52,6 +52,8 @@ const Page = ({ params }: Props) => {
   const reservationStartTime = searchParams.get(
     PAYMENT_PARAMS_KEYS.reservationStartTime,
   );
+  const referralCode =
+    searchParams.get(PAYMENT_PARAMS_KEYS.referralCode) ?? undefined;
 
   const isHandyParty = Boolean(
     desiredHubAddress && desiredHubLatitude && desiredHubLongitude,
@@ -101,6 +103,7 @@ const Page = ({ params }: Props) => {
               desiredHubLatitude={desiredHubLatitude ?? undefined}
               desiredHubLongitude={desiredHubLongitude ?? undefined}
               reservationStartTime={reservationStartTime ?? undefined}
+              referralCode={referralCode}
             />
           )}
       </DeferredSuspense>

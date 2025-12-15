@@ -11,6 +11,7 @@ import {
 } from '@/types/payment.type';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { silentParse } from '@/utils/config.util';
+import { z } from 'zod';
 
 // ----- GET -----
 
@@ -94,4 +95,18 @@ export const postApprovePayment = async (
     },
   );
   return res.payments;
+};
+
+export const postCreateReferral = async (reservationId: string) => {
+  const res = await authInstance.post(
+    '/v1/billing/referrals',
+    { reservationId },
+    {
+      shape: {
+        referralId: z.string(),
+        referralCode: z.string(),
+      },
+    },
+  );
+  return res;
 };

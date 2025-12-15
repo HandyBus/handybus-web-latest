@@ -14,10 +14,10 @@ import { useGetUserAlertRequestsWithPagination } from '@/services/alertRequest.s
 import Link from 'next/link';
 import { customTwMerge } from 'tailwind.config';
 const EmptyView = dynamic(() => import('./EmptyView'));
-import InvitePaybackEventImage from './images/invite-payback-banner.png';
 import Image, { StaticImageData } from 'next/image';
+import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
 
-const INVITE_PAYBACK_EVENT_URL = 'https://www.handybus.co.kr/announcements';
+// NOTE: 테스트 기간 이후에도 지속적으로 사용하게 되면 env 혹은 어드민에서 지정할 수 있도록 확장 하면 좋을 것 같다.
 
 const ReservationTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
@@ -54,8 +54,8 @@ const ReservationTab = () => {
         setPeriodFilter={setPeriodFilter}
       />
       <PromotionBanner
-        image={InvitePaybackEventImage}
-        href={INVITE_PAYBACK_EVENT_URL}
+        image="/images/invite-payback-banner.png"
+        href={getInvitePaybackEventUrl()}
       />
       <DeferredSuspense
         fallback={<Loading style="grow" />}
@@ -131,7 +131,7 @@ const ReservationTab = () => {
 export default ReservationTab;
 
 interface PromotionBannerProps {
-  image: StaticImageData;
+  image: string | StaticImageData;
   href: string;
 }
 const PromotionBanner = ({ image, href }: PromotionBannerProps) => {

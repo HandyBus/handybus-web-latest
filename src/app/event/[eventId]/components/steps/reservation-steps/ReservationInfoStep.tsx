@@ -12,9 +12,12 @@ import { EventFormValues } from '../../../form.type';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { MAX_PASSENGER_COUNT } from '@/constants/common';
-import { createPaymentPageUrl } from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import {
+  createPaymentPageUrl,
+  PAYMENT_PARAMS_KEYS,
+} from '../../../dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
 import { eventAtom } from '../../../store/eventAtom';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useGetUser } from '@/services/user.service';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 
@@ -28,6 +31,7 @@ const ReservationInfoStep = ({
   toExtraRealNameInputStep,
 }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { markAsIntentionalNavigation, getReservationStartTime } =
     useReservationTrackingGlobal();
   const {
@@ -114,6 +118,8 @@ const ReservationInfoStep = ({
       fromDestinationHubId: fromDestinationShuttleRouteHubId,
       passengerCount,
       reservationStartTime: getReservationStartTime() ?? undefined, // 예약 시작 시간 전달
+      referralCode:
+        searchParams.get(PAYMENT_PARAMS_KEYS.referralCode) ?? undefined,
     });
 
     closeBottomSheet();

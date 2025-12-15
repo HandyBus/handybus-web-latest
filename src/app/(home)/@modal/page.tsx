@@ -16,11 +16,10 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
 
 // import AppLaunchEventImage from './images/app-launch-event.png';
 import InvitePaybackEventImage from './images/invite-payback-event.png';
-
-const INVITE_PAYBACK_EVENT_URL = 'https://www.handybus.co.kr/announcements';
 
 const Page = () => {
   const router = useRouter();
@@ -35,7 +34,7 @@ const Page = () => {
   // const showAppLaunchEventModal = !isApp;
 
   const handleInvitePaybackEventOpen = () => {
-    router.push(INVITE_PAYBACK_EVENT_URL);
+    router.push(getInvitePaybackEventUrl());
   };
 
   const [

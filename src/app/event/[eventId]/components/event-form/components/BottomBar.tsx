@@ -11,27 +11,21 @@ import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTr
 import useAppShare from '@/hooks/webview/useAppShare';
 
 interface Props {
-  eventId: string;
   eventName: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
 }
 
-const BottomBar = ({
-  eventId,
-  eventName,
-  phase,
-  enabledStatus,
-  onClick,
-}: Props) => {
+const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
   const handleClick = () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
-      const redirectUrl = createLoginRedirectPath(`/event/${eventId}`);
+      const currentUrl = window.location.pathname + window.location.search;
+      const redirectUrl = createLoginRedirectPath(currentUrl);
       markAsIntentionalNavigation();
       router.push(redirectUrl);
       return;
