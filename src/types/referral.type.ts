@@ -4,9 +4,9 @@ export const ReferralConditionsInReferralsViewEntitySchema = z.object({
   referralConditionId: z.string(),
   referralId: z.string(),
   conditionType: z.enum(['EVENT', 'SHUTTLE_ROUTE', 'RESERVATION']),
-  eventId: z.string(),
-  shuttleRouteId: z.string(),
-  reservationId: z.string(),
+  eventId: z.string().nullable(),
+  shuttleRouteId: z.string().nullable(),
+  reservationId: z.string().nullable(),
 });
 
 export const ReferralsViewEntitySchema = z.object({
@@ -19,8 +19,8 @@ export const ReferralsViewEntitySchema = z.object({
   validTo: z.string(),
   isActive: z.boolean(),
   creatorType: z.enum(['ADMIN', 'USER']),
-  creatorUserId: z.string(),
-  creatorAdminId: z.string(),
+  creatorUserId: z.string().nullable(),
+  creatorAdminId: z.string().nullable(),
   usageCount: z.number(),
   conditions: ReferralConditionsInReferralsViewEntitySchema.array(),
   createdAt: z.string(),
