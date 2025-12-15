@@ -1,5 +1,6 @@
 import { sendMessageToApp } from './webview.util';
 import { getIsAppFromUserAgent } from './environment.util';
+import type { MouseEvent } from 'react';
 
 const INTERNAL_DOMAINS = [
   /^https?:\/\/handybus\.co\.kr/,
@@ -60,7 +61,7 @@ export const handleExternalLink = (url: string): boolean => {
  * 외부 링크 클릭 이벤트 핸들러를 생성합니다.
  */
 export const createExternalLinkHandler = (url: string) => {
-  return (event: React.MouseEvent<HTMLAnchorElement>) => {
+  return (event: MouseEvent<HTMLAnchorElement>) => {
     // 기본 동작 방지 (Next.js Link의 기본 네비게이션 방지)
     event.preventDefault();
     event.stopPropagation();
