@@ -11,7 +11,7 @@ export const PAYMENT_PARAMS_KEYS = {
   desiredHubLongitude: 'desired-hub-longitude',
   reservationStartTime: 'reservation-start-time',
   referralCode: 'referral-code',
-};
+} as const;
 
 export const createPaymentPageUrl = ({
   eventId,
