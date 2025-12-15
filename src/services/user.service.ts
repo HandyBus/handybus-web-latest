@@ -15,6 +15,7 @@ import {
 import { getIsAppFromUserAgent } from '@/utils/environment.util';
 import * as Sentry from '@sentry/nextjs';
 import { sendMessageToApp } from '@/utils/webview.util';
+import { ReferralsViewEntitySchema } from '@/types/referral.type';
 
 // ----- GET -----
 
@@ -57,6 +58,22 @@ export const useGetUserStats = () => {
   return useQuery({
     queryKey: ['user', 'stats'],
     queryFn: getUserStats,
+  });
+};
+
+export const getUserReferrals = async () => {
+  const res = await authInstance.get(`/v1/user-management/users/me/referrals`, {
+    shape: {
+      referrals: ReferralsViewEntitySchema.array(),
+    },
+  });
+  return res.referrals;
+};
+
+export const useGetUserReferrals = () => {
+  return useQuery({
+    queryKey: ['user', 'referrals'],
+    queryFn: getUserReferrals,
   });
 };
 

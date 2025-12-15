@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
 import OngoingDemandPeriodImage from './images/ongoing-demand-period.png';
+import InvitePaybackEventImage from './images/invite-payback-event-overview.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
@@ -26,6 +27,14 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
             className="h-auto w-full"
           />
         )}
+        <Image
+          src={InvitePaybackEventImage}
+          alt="행사 상세 이미지"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="h-auto w-full"
+        />
         <Image
           src={eventDetailImageUrl || OverviewImage}
           alt="행사 상세 이미지"

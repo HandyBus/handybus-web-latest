@@ -2,12 +2,14 @@ import { PaymentsViewEntity } from '@/types/payment.type';
 import RegularPriceContent from './components/RegularPriceContent';
 import RefundPriceContent from './components/RefundPriceContent';
 import WrapperWithDivider from '../../WrapperWithDivider';
+import { ReferralsViewEntity } from '@/types/referral.type';
 
 interface Props {
   payment: PaymentsViewEntity;
   passengerCount: number;
   isReservationCanceled: boolean;
   isTransferredReservation: boolean;
+  targetReferral: ReferralsViewEntity | null;
 }
 
 const PriceSection = ({
@@ -15,6 +17,7 @@ const PriceSection = ({
   passengerCount,
   isReservationCanceled,
   isTransferredReservation,
+  targetReferral,
 }: Props) => {
   if (isTransferredReservation && !isReservationCanceled) {
     return null;
@@ -32,6 +35,7 @@ const PriceSection = ({
           <RegularPriceContent
             payment={payment}
             passengerCount={passengerCount}
+            targetReferral={targetReferral}
           />
         )}
       </section>
