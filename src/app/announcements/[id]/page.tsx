@@ -5,10 +5,11 @@ import {
   getReadNoticeList,
   READ_NOTICE_LIST_KEY,
 } from '../components/AnnouncementList';
-import { useEffect } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useGetAnnouncement } from '@/services/core.service';
 import ReactMarkdown from 'react-markdown';
 import dayjs from 'dayjs';
+import { handleExternalLink } from '@/utils/externalLink.util';
 
 interface Props {
   params: {
@@ -21,7 +22,7 @@ const Page = ({ params }: Props) => {
 
   useEffect(() => {
     addReadNotice(params.id);
-  }, []);
+  }, [params.id]);
 
   return (
     <main>
@@ -41,7 +42,23 @@ const Page = ({ params }: Props) => {
         </section>
         <div className="mx-[-16px] h-[1px] bg-basic-grey-100" />
         <div className="prose py-16 text-16 font-500 leading-[160%] text-basic-black">
-          <ReactMarkdown>{announcement?.content}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              a: ({ href, ...props }) => {
+                const url = href ?? '';
+                const onClick = (event: MouseEvent<HTMLAnchorElement>) => {
+                  if (!url) return;
+                  event.preventDefault();
+                  event.stopPropagation();
+                  handleExternalLink(url);
+                };
+
+                return <a href={url} onClick={onClick} {...props} />;
+              },
+            }}
+          >
+            {announcement?.content}
+          </ReactMarkdown>
         </div>
       </section>
     </main>
