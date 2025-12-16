@@ -17,6 +17,7 @@ export interface ReservationTrackingMethods {
     tripType: string,
     hasOtherEventReservation: boolean | undefined,
     paymentId: string | undefined,
+    referralCode: string | undefined,
   ) => void;
   /** 의도적 네비게이션 마킹 (이탈 추적 방지용) */
   markAsIntentionalNavigation: (hasNoTimeout?: boolean) => void;

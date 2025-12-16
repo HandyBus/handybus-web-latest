@@ -20,6 +20,7 @@ import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
 
 // import AppLaunchEventImage from './images/app-launch-event.png';
 import InvitePaybackEventImage from './images/invite-payback-event.png';
+import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
 
 const Page = () => {
   const router = useRouter();
@@ -33,8 +34,14 @@ const Page = () => {
   // };
   // const showAppLaunchEventModal = !isApp;
 
+  const { trackIgnoreInvitePaybackEvent } = useReferralTracking({});
+
   const handleInvitePaybackEventOpen = () => {
     router.push(getInvitePaybackEventUrl());
+  };
+
+  const handleModalClose = () => {
+    trackIgnoreInvitePaybackEvent('modal');
   };
 
   const [
@@ -107,6 +114,7 @@ const Page = () => {
           handleClick={handleInvitePaybackEventOpen}
           variant="transparent"
           closeForTodayText="오늘은 그만 보기"
+          onClose={handleModalClose}
         />
       </ModalPortal>
       <AppLaunchEventCouponDownloadModal

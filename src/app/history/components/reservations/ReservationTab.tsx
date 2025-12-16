@@ -16,6 +16,8 @@ import { customTwMerge } from 'tailwind.config';
 const EmptyView = dynamic(() => import('./EmptyView'));
 import Image, { StaticImageData } from 'next/image';
 import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
+import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
+import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
 
 // NOTE: 테스트 기간 이후에도 지속적으로 사용하게 되면 env 혹은 어드민에서 지정할 수 있도록 확장 하면 좋을 것 같다.
 
@@ -135,11 +137,18 @@ interface PromotionBannerProps {
   href: string;
 }
 const PromotionBanner = ({ image, href }: PromotionBannerProps) => {
+  const { trackIgnoreInvitePaybackEvent } = useReferralTracking({});
+  const { ref, handleClick } = useIgnoreTracking({
+    onIgnore: () => trackIgnoreInvitePaybackEvent('banner'),
+    onClick: () => {},
+  });
+
   return (
-    <section className="px-16 pb-16">
+    <section className="px-16 pb-16" ref={ref}>
       <Link
         href={href}
         className="relative block aspect-[344/100] w-full overflow-hidden rounded-8"
+        onClick={handleClick}
       >
         <Image
           src={image}

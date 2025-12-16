@@ -34,6 +34,7 @@ export const useReservationTrackingGlobal = () => {
       tripType: string,
       hasOtherEventReservation: boolean | undefined,
       paymentId: string | undefined,
+      referralCode: string | undefined,
     ) => {
       reservationTrackingMethods?.trackCompleteReservation?.(
         eventDate,
@@ -42,6 +43,7 @@ export const useReservationTrackingGlobal = () => {
         tripType,
         hasOtherEventReservation,
         paymentId,
+        referralCode,
       );
     },
     markAsIntentionalNavigation: (hasNoTimeout?: boolean) => {

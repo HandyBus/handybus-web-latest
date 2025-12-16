@@ -1,11 +1,31 @@
 import { useState } from 'react';
 import ChevronThinUpIcon from './icons/icon-chevron-thin-up.svg';
+import { EventsViewEntity } from '@/types/event.type';
+import { ReservationsViewEntity } from '@/types/reservation.type';
+import { useInvitePaybackAnalytics } from './hooks/useInvitePaybackAnalytics';
 
-const PaybackTable = () => {
+interface Props {
+  event: EventsViewEntity;
+  reservation: ReservationsViewEntity;
+}
+
+const PaybackTable = ({ event, reservation }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
+  const { trackClickShowMorePaybackTable } = useInvitePaybackAnalytics({
+    event,
+    reservation,
+  });
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    trackClickShowMorePaybackTable('open');
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    trackClickShowMorePaybackTable('close');
+  };
 
   if (isOpen) {
     return (

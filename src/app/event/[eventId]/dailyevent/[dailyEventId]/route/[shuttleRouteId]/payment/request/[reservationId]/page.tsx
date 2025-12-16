@@ -15,6 +15,8 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
+import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
 
 interface Props {
   params: {
@@ -64,7 +66,23 @@ const PaymentsCompletedPage = ({
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
   const eventName = reservation.shuttleRoute.event.eventName;
+  const eventDate =
+    reservation.shuttleRoute.event.dailyEvents.find(
+      (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
+    )?.date ?? '';
   const reservationId = reservation.reservationId;
+
+  const { trackShareReferralCode, trackIgnoreInvitePaybackEvent } =
+    useReferralTracking({
+      eventId,
+      eventName,
+      eventDate,
+    });
+
+  const { ref, handleClick } = useIgnoreTracking({
+    onIgnore: () => trackIgnoreInvitePaybackEvent('success_page'),
+    onClick: () => handleShareReferralCode(),
+  });
 
   useCompleteReservationTracking({
     eventId,
@@ -73,12 +91,14 @@ const PaymentsCompletedPage = ({
     dailyEventId,
     reservationStartTime,
     paymentId: reservation.paymentId ?? undefined,
+    referralCode: referralCode ?? undefined,
   });
 
   const handleShareReferralCode = () => {
     const referralCodeUrl = `${window.location.origin}/open?path=/event/${eventId}?${PAYMENT_PARAMS_KEYS.referralCode}=${referralCode}`;
     navigator.clipboard.writeText(referralCodeUrl);
     toast.success('초대링크가 복사되었습니다.');
+    trackShareReferralCode(referralCode);
   };
 
   return (
@@ -102,9 +122,9 @@ const PaymentsCompletedPage = ({
                   지금 바로 링크를 공유하고, 결제 금액을 돌려받으세요!
                 </p>
               </section>
-              <Button onClick={handleShareReferralCode}>
-                초대 링크 공유하기
-              </Button>
+              <div ref={ref}>
+                <Button onClick={handleClick}>초대 링크 공유하기</Button>
+              </div>
             </>
           )}
           <Link href={`/history/reservation/${reservationId}`} replace={true}>
@@ -126,6 +146,7 @@ interface UseCompleteReservationTrackingProps {
   dailyEventId: string;
   reservationStartTime?: string;
   paymentId: string | undefined;
+  referralCode: string | undefined;
 }
 
 const useCompleteReservationTracking = ({
@@ -135,6 +156,7 @@ const useCompleteReservationTracking = ({
   dailyEventId,
   reservationStartTime,
   paymentId,
+  referralCode,
 }: UseCompleteReservationTrackingProps) => {
   const eventDate = reservation.shuttleRoute.event.dailyEvents.find(
     (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
@@ -182,6 +204,7 @@ const useCompleteReservationTracking = ({
         tripType,
         hasOtherEventReservation,
         paymentId,
+        referralCode,
       );
     }
   }, [

@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
  * @param handleClick 모달 이미지 클릭 시 이벤트
  * @param variant 모달 종류 (white: 흰색 버튼, transparent: 투명색 버튼)
  * @param closeForTodayText 하루동안 보지 않기 텍스트
+ * @param onClose 모달 닫힐 때 이벤트 (배경 클릭, 닫기 버튼, 하루 안 보기 등 모든 닫기 동작)
  */
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
   handleClick: () => void;
   variant?: 'white' | 'transparent';
   closeForTodayText?: string;
+  onClose?: () => void;
 }
 
 const OneDayModal = ({
@@ -31,10 +33,12 @@ const OneDayModal = ({
   handleClick,
   variant = 'white',
   closeForTodayText = '하루동안 보지 않기',
+  onClose,
 }: Props) => {
   const [isOneDayModalOpen, setIsOneDayModalOpen] = useState(false);
   const closeModal = () => {
     setIsOneDayModalOpen(false);
+    onClose?.();
   };
 
   const handleOneDayModalOpen = () => {
@@ -52,6 +56,7 @@ const OneDayModal = ({
   const handleOneDayModalCloseForToday = () => {
     setIsOneDayModalOpen(false);
     setOneDayModalSeenDate(dayjs().toISOString());
+    onClose?.();
   };
   useEffect(() => {
     handleOneDayModalOpen();
