@@ -112,7 +112,6 @@ const Content = ({
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
         isTransferredReservation={isTransferredReservation}
-        targetReferral={targetReferral}
       />
       <ReservationTransferSection
         isTransferredReservation={isTransferredReservation}

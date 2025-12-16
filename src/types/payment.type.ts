@@ -36,8 +36,10 @@ export const PaymentsViewEntitySchema = z
     discountAmount: z.number(), // 총 할인 금액
     couponDiscountAmount: z.number(), // 쿠폰 할인 금액
     earlybirdDiscountAmount: z.number(), // 얼리버드 할인 금액
+    referralDiscountAmount: z.number(), // 레퍼럴 할인 금액
     refundableAmount: z.number(), // 환불 가능 금액
     issuedCouponId: z.string().nullable(), // 발행된 쿠폰 ID
+    referralId: z.string().nullable(), // 레퍼럴 ID
     reservationId: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),

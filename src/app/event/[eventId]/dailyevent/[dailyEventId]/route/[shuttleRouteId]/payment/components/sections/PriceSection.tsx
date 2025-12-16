@@ -63,7 +63,7 @@ const PriceSection = ({
         )}
         {referralDiscountAmount > 0 && (
           <li className="flex h-[22px] w-full items-center justify-between">
-            <span className="text-14 font-600">초대코드 할인</span>
+            <span className="text-14 font-600">초대 링크 할인</span>
             <span className="text-14 font-600">
               -{referralDiscountAmount.toLocaleString()}원
             </span>

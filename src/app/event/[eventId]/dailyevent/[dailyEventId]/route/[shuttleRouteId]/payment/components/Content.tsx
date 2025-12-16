@@ -197,6 +197,14 @@ const Content = ({
         toast.error('예약이 마감되었어요.');
         return;
       }
+      // ReferralCode 중복사용 케이스 대응
+      if (
+        error.statusCode === 400 &&
+        error.message.includes('이미 사용한 리퍼럴입니다.')
+      ) {
+        toast.error('이미 할인 받은 초대 링크입니다.');
+        return;
+      }
       toast.error('결제에 실패했어요. 잠시 후 다시 시도해주세요.');
     }
   };

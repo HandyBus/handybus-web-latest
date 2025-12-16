@@ -76,9 +76,9 @@ const PaymentsCompletedPage = ({
   });
 
   const handleShareReferralCode = () => {
-    const referralCodeUrl = `${window.location.origin}/event/${eventId}?${PAYMENT_PARAMS_KEYS.referralCode}=${referralCode}`;
+    const referralCodeUrl = `${window.location.origin}/open?path=/event/${eventId}?${PAYMENT_PARAMS_KEYS.referralCode}=${referralCode}`;
     navigator.clipboard.writeText(referralCodeUrl);
-    toast.success('초대코드가 복사되었습니다.');
+    toast.success('초대링크가 복사되었습니다.');
   };
 
   return (
@@ -99,12 +99,11 @@ const PaymentsCompletedPage = ({
                   💵 페이백 이벤트 진행 중 💵
                 </h2>
                 <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
-                  지금 바로 링크를 공유하고, 결제 금액을 돌려받으세요! <br />더
-                  많은 친구에게 공유할 수록 할인 금액이 커져요.
+                  지금 바로 링크를 공유하고, 결제 금액을 돌려받으세요!
                 </p>
               </section>
               <Button onClick={handleShareReferralCode}>
-                초대코드 공유하기
+                초대 링크 공유하기
               </Button>
             </>
           )}
