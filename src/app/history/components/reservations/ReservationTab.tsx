@@ -19,8 +19,6 @@ import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
 import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
 import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
 
-// NOTE: 테스트 기간 이후에도 지속적으로 사용하게 되면 env 혹은 어드민에서 지정할 수 있도록 확장 하면 좋을 것 같다.
-
 const ReservationTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
   const { data: reservations, isLoading: isReservationsLoading } =
