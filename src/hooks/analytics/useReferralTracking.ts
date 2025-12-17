@@ -1,4 +1,5 @@
 import {
+  gtagClickInvitePaybackEvent,
   gtagClickShowMorePaybackTable,
   gtagIgnoreInvitePaybackEvent,
   gtagShareReferralCode,
@@ -39,8 +40,15 @@ export const useReferralTracking = ({
   }, [eventName, eventId]);
 
   const trackIgnoreInvitePaybackEvent = useCallback(
-    (source: 'banner' | 'modal' | 'success_page') => {
-      gtagIgnoreInvitePaybackEvent(source);
+    (source: 'banner' | 'modal' | 'success_page', totalTimeMs?: number) => {
+      gtagIgnoreInvitePaybackEvent(source, totalTimeMs);
+    },
+    [],
+  );
+
+  const trackClickInvitePaybackEvent = useCallback(
+    (source: 'banner' | 'modal') => {
+      gtagClickInvitePaybackEvent(source);
     },
     [],
   );
@@ -50,5 +58,6 @@ export const useReferralTracking = ({
     trackClickShowMorePaybackTable,
     trackViewInvitePaybackEventBanner,
     trackIgnoreInvitePaybackEvent,
+    trackClickInvitePaybackEvent,
   };
 };

@@ -34,10 +34,12 @@ const Page = () => {
   // };
   // const showAppLaunchEventModal = !isApp;
 
-  const { trackIgnoreInvitePaybackEvent } = useReferralTracking({});
+  const { trackIgnoreInvitePaybackEvent, trackClickInvitePaybackEvent } =
+    useReferralTracking({});
 
   const handleInvitePaybackEventOpen = () => {
     router.push(getInvitePaybackEventUrl());
+    trackClickInvitePaybackEvent('modal');
   };
 
   const handleModalClose = () => {

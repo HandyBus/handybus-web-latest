@@ -135,10 +135,11 @@ interface PromotionBannerProps {
   href: string;
 }
 const PromotionBanner = ({ image, href }: PromotionBannerProps) => {
-  const { trackIgnoreInvitePaybackEvent } = useReferralTracking({});
+  const { trackIgnoreInvitePaybackEvent, trackClickInvitePaybackEvent } =
+    useReferralTracking({});
   const { ref, handleClick } = useIgnoreTracking({
     onIgnore: () => trackIgnoreInvitePaybackEvent('banner'),
-    onClick: () => {},
+    onClick: () => trackClickInvitePaybackEvent('banner'),
   });
 
   return (

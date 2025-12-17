@@ -52,9 +52,21 @@ export const gtagViewInvitePaybackEventOverviewImage = (
 
 export const gtagIgnoreInvitePaybackEvent = (
   source: 'banner' | 'modal' | 'success_page',
+  totalTimeMs?: number,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'ignore_invite_payback_event', {
+      event_category: 'referral',
+      source,
+      total_time_ms: totalTimeMs ?? undefined,
+      timestamp: dayjs().toISOString(),
+    });
+  }
+};
+
+export const gtagClickInvitePaybackEvent = (source: 'banner' | 'modal') => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'click_invite_payback_event', {
       event_category: 'referral',
       source,
       timestamp: dayjs().toISOString(),
