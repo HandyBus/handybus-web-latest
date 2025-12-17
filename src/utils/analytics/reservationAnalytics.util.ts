@@ -68,6 +68,7 @@ export const gtagCompleteReservation = (
   totalTimeMs: number,
   hasOtherEventReservation: boolean | undefined,
   paymentId: string | undefined,
+  referralCode: string | undefined,
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'complete_reservation', {
@@ -80,6 +81,7 @@ export const gtagCompleteReservation = (
       trip_type: tripType,
       has_other_event_reservation: hasOtherEventReservation,
       payment_id: paymentId,
+      referral_code: referralCode,
       total_time_ms: totalTimeMs,
       timestamp: dayjs().toISOString(),
     });

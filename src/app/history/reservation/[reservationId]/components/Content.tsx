@@ -82,7 +82,8 @@ const Content = ({
       {!isReservationCanceled && (
         <InvitePaybackEventSection
           referral={targetReferral}
-          eventId={event.eventId}
+          event={event}
+          reservation={reservation}
           payment={payment}
           passengerCount={reservation.passengerCount}
         />
@@ -112,7 +113,6 @@ const Content = ({
         passengerCount={reservation.passengerCount}
         isReservationCanceled={isReservationCanceled}
         isTransferredReservation={isTransferredReservation}
-        targetReferral={targetReferral}
       />
       <ReservationTransferSection
         isTransferredReservation={isTransferredReservation}

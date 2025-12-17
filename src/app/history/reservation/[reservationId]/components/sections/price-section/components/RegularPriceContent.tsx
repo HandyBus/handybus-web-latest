@@ -2,19 +2,13 @@ import { PaymentsViewEntity } from '@/types/payment.type';
 import ArrowDownwardTipRightIcon from '../icons/arrow-downward-tip-right.svg';
 import { dateString } from '@/utils/dateString.util';
 import RefundRequestList from './RefundRequestList';
-import { ReferralsViewEntity } from '@/types/referral.type';
 
 interface Props {
   payment: PaymentsViewEntity;
   passengerCount: number;
-  targetReferral: ReferralsViewEntity | null;
 }
 
-const RegularPriceContent = ({
-  payment,
-  passengerCount,
-  targetReferral,
-}: Props) => {
+const RegularPriceContent = ({ payment, passengerCount }: Props) => {
   const paymentAmount = payment.paymentAmount;
   const regularPrice = payment.principalAmount / passengerCount;
   const totalEarlybirdDiscountAmount = payment.earlybirdDiscountAmount;
@@ -28,6 +22,9 @@ const RegularPriceContent = ({
     showWeekday: false,
     showTime: true,
   });
+
+  const hasReferralDiscount = !!payment.referralId;
+  const referralDiscountAmount = payment.referralDiscountAmount;
 
   return (
     <div className="flex flex-col gap-8">
@@ -74,14 +71,14 @@ const RegularPriceContent = ({
           </span>
         </li>
       )}
-      {targetReferral && (
+      {hasReferralDiscount && (
         <li className="flex h-[22px] w-full items-center justify-between">
           <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
             <ArrowDownwardTipRightIcon />
             초대 코드 할인
           </span>
           <span className="text-14 font-400 text-basic-grey-500">
-            -{targetReferral.discountAmount.toLocaleString()}원
+            -{referralDiscountAmount.toLocaleString()}원
           </span>
         </li>
       )}

@@ -135,6 +135,7 @@ export const useReservationTracking = ({
       tripType: string,
       hasOtherEventReservation: boolean | undefined,
       paymentId: string | undefined,
+      referralCode: string | undefined,
     ) => {
       if (!isActive) return;
       const reservationStartTime = reservationStartTimeRef.current;
@@ -154,6 +155,7 @@ export const useReservationTracking = ({
         totalTimeMs,
         hasOtherEventReservation,
         paymentId,
+        referralCode,
       );
     },
     [isActive, eventId, eventName],
