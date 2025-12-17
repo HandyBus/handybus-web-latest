@@ -12,6 +12,7 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { silentParse } from '@/utils/config.util';
 import { z } from 'zod';
+import { ReferralsViewEntitySchema } from '@/types/referral.type';
 
 // ----- GET -----
 
@@ -32,6 +33,23 @@ export const useGetUserPayment = (paymentId: string) =>
     queryKey: ['user', 'payment', paymentId],
     queryFn: () => getUserPayment(paymentId),
   });
+
+export const getReferral = async (referralCode: string) => {
+  const res = await authInstance.get(`/v1/billing/referrals/${referralCode}`, {
+    shape: {
+      referral: ReferralsViewEntitySchema,
+    },
+  });
+  return res.referral;
+};
+
+export const useGetReferral = (referralCode?: string) => {
+  return useQuery({
+    queryKey: ['referral', referralCode],
+    queryFn: () => getReferral(referralCode!),
+    enabled: !!referralCode,
+  });
+};
 
 // ----- POST -----
 export const postRefund = async (paymentId: string, refundReason: string) => {
