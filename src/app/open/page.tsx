@@ -1,13 +1,16 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Button from '@/components/buttons/button/Button';
 import OpenAppIcon from './icons/open-app.svg';
+import useEnvironment from '@/hooks/useEnvironment';
+import Loading from '@/components/loading/Loading';
 
 const DEEP_LINK_TIMEOUT = 300;
 
 const Page = () => {
+  const { isDesktopWeb, isLoading } = useEnvironment();
   const searchParams = useSearchParams();
   const deepLinkTimeout = useRef<NodeJS.Timeout | null>(null);
   const visibilityChangeHandler = useRef<(() => void) | null>(null);
@@ -45,12 +48,6 @@ const Page = () => {
 
     return { deepLinkUrl: deepLink, webUrl: web, isValid: true };
   }, [searchParams]);
-
-  // path가 없으면 루트 페이지로 이동
-  if (!isValid) {
-    window.location.href = '/';
-    return null;
-  }
 
   const attemptDeepLink = () => {
     const handleAppOpened = () => {
@@ -137,31 +134,48 @@ const Page = () => {
     window.location.href = webUrl;
   };
 
-  return (
-    <main className="flex grow flex-col items-center justify-center">
-      <div className="p-16">
-        <h1 className="pb-4 text-center text-22 font-700 text-basic-black">
-          페이지를 이동해 주세요
-        </h1>
-        <p className="pb-24 text-center text-16 font-500 text-basic-grey-600">
-          지금 핸디버스 앱을 다운받고
-          <br />
-          더욱 편리하게 이용해보세요.
-        </p>
-        <div>
-          <OpenAppIcon />
+  useEffect(() => {
+    if (!isLoading && isDesktopWeb) {
+      handleWebRedirect();
+    }
+  }, [isLoading, isDesktopWeb, handleWebRedirect]);
+
+  // path가 없으면 루트 페이지로 이동
+  if (!isValid) {
+    window.location.href = '/';
+    return null;
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!isDesktopWeb)
+    return (
+      <main className="flex grow flex-col items-center justify-center">
+        <div className="p-16">
+          <h1 className="pb-4 text-center text-22 font-700 text-basic-black">
+            페이지를 이동해 주세요
+          </h1>
+          <p className="pb-24 text-center text-16 font-500 text-basic-grey-600">
+            지금 핸디버스 앱을 다운받고
+            <br />
+            더욱 편리하게 이용해보세요.
+          </p>
+          <div>
+            <OpenAppIcon />
+          </div>
         </div>
-      </div>
-      <div className="flex w-full flex-col gap-4 p-16">
-        <Button onClick={attemptDeepLink} variant="primary">
-          앱에서 열기
-        </Button>
-        <Button onClick={handleWebRedirect} variant="secondary">
-          웹으로 볼게요
-        </Button>
-      </div>
-    </main>
-  );
+        <div className="flex w-full flex-col gap-4 p-16">
+          <Button onClick={attemptDeepLink} variant="primary">
+            앱에서 열기
+          </Button>
+          <Button onClick={handleWebRedirect} variant="secondary">
+            웹으로 볼게요
+          </Button>
+        </div>
+      </main>
+    );
 };
 
 export default Page;
