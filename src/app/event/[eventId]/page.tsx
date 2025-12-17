@@ -7,21 +7,34 @@ import EventOverview from './components/EventOverview';
 import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { checkIsReservationClosingSoon } from '../utils/checkIsReservationClosingSoon.util';
+import ReferralDiscountNotice from './components/ReferralDiscountNotice';
+
+const SEARCH_PARAMS_KEYS = {
+  referralCode: 'referral-code',
+} as const;
 
 interface Props {
   params: {
     eventId: string;
   };
+  searchParams: {
+    [SEARCH_PARAMS_KEYS.referralCode]?: string;
+  };
 }
 
-const Page = async ({ params }: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
   const event = await getEvent(params.eventId);
 
   const isClosingSoon = checkIsReservationClosingSoon({ event });
 
+  const hasReferralCode = Boolean(
+    searchParams[SEARCH_PARAMS_KEYS.referralCode],
+  );
+
   return (
     <>
       <main>
+        {hasReferralCode && <ReferralDiscountNotice />}
         <EventImage
           eventImageUrl={event.eventImageUrl}
           eventName={event.eventName}

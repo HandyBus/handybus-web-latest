@@ -8,15 +8,37 @@ import {
 } from '@/utils/localStorage';
 import dayjs from 'dayjs';
 
+/**
+ * OneDayModal
+ * variant로 두가지 버전의 모달 디자인을 사용할 수 있습니다.
+ * white: 흰색 버튼 radius-t 4px, transparent: 투명색 버튼, radius 16px
+ *
+ * @param image 모달 이미지
+ * @param handleClick 모달 이미지 클릭 시 이벤트
+ * @param variant 모달 종류 (white: 흰색 버튼, transparent: 투명색 버튼)
+ * @param closeForTodayText 하루동안 보지 않기 텍스트
+ * @param onClose 모달 닫힐 때 이벤트 (배경 클릭, 닫기 버튼, 하루 안 보기 등 모든 닫기 동작)
+ */
+
 interface Props {
   image: StaticImageData;
   handleClick: () => void;
+  variant?: 'white' | 'transparent';
+  closeForTodayText?: string;
+  onClose?: () => void;
 }
 
-const OneDayModal = ({ image, handleClick }: Props) => {
+const OneDayModal = ({
+  image,
+  handleClick,
+  variant = 'white',
+  closeForTodayText = '하루동안 보지 않기',
+  onClose,
+}: Props) => {
   const [isOneDayModalOpen, setIsOneDayModalOpen] = useState(false);
   const closeModal = () => {
     setIsOneDayModalOpen(false);
+    onClose?.();
   };
 
   const handleOneDayModalOpen = () => {
@@ -34,6 +56,7 @@ const OneDayModal = ({ image, handleClick }: Props) => {
   const handleOneDayModalCloseForToday = () => {
     setIsOneDayModalOpen(false);
     setOneDayModalSeenDate(dayjs().toISOString());
+    onClose?.();
   };
   useEffect(() => {
     handleOneDayModalOpen();
@@ -56,19 +79,23 @@ const OneDayModal = ({ image, handleClick }: Props) => {
             alt="modal"
             width={400}
             height={300}
-            className="rounded-t-4 object-contain"
+            className={`${variant === 'white' ? 'rounded-t-4' : 'rounded-16'} object-contain`}
           />
         </button>
         <div className="grid grid-cols-2">
           <button
             onClick={handleOneDayModalCloseForToday}
-            className="rounded-bl-4 border-r border-basic-grey-100 bg-basic-white p-[10px] text-14 font-600"
+            className={`${
+              variant === 'white'
+                ? 'rounded-bl-4 border-r border-basic-grey-100 bg-basic-white text-14 font-600'
+                : 'relative bg-transparent text-16 font-500 text-basic-white after:absolute after:right-0 after:top-1/2 after:h-[12px] after:w-[1px] after:-translate-y-1/2 after:bg-basic-white/50 after:content-[""]'
+            } p-[10px]`}
           >
-            하루동안 보지 않기
+            {closeForTodayText}
           </button>
           <button
             onClick={closeModal}
-            className="rounded-br-4 bg-basic-white p-[10px] text-14 font-600"
+            className={`${variant === 'white' ? 'rounded-br-4 bg-basic-white text-14 font-600' : 'bg-transparent text-16 font-500 text-basic-white'} p-[10px] `}
           >
             닫기
           </button>

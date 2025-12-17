@@ -1,7 +1,10 @@
 'use client';
 
 import { CustomError } from '@/services/custom-error';
-import { postApprovePayment } from '@/services/payment.service';
+import {
+  postApprovePayment,
+  postCreateReferral,
+} from '@/services/payment.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import usePreventScroll from '@/hooks/usePreventScroll';
@@ -13,6 +16,7 @@ import BusIcon from './icons/bus.svg';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
+import { PAYMENT_PARAMS_KEYS } from '../payment.const';
 
 interface PageProps {
   params: {
@@ -27,7 +31,9 @@ const Page = ({ params }: PageProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const reservationId = searchParams.get('reservationId');
-  const reservationStartTime = searchParams.get('reservationStartTime');
+  const reservationStartTime = searchParams.get(
+    PAYMENT_PARAMS_KEYS.reservationStartTime,
+  );
   const isInitiated = useRef(false);
 
   const { markAsIntentionalNavigation } = useReservationTracking({
@@ -68,10 +74,28 @@ const Page = ({ params }: PageProps) => {
       }
 
       const res = await postApprovePayment(orderId, paymentKey);
+      const reservationId = res.reservationId;
+
+      // 레퍼럴 코드 생성
+      const createReferralResponse = await postCreateReferral(reservationId);
+      const myReferralCode = createReferralResponse.referralCode;
       markAsIntentionalNavigation();
+
+      // URLSearchParams를 사용하여 가독성 개선
+      const nextParams = new URLSearchParams();
+      if (reservationStartTime) {
+        nextParams.set(
+          PAYMENT_PARAMS_KEYS.reservationStartTime,
+          reservationStartTime,
+        );
+      }
+      if (myReferralCode) {
+        nextParams.set(PAYMENT_PARAMS_KEYS.referralCode, myReferralCode);
+      }
+
+      const queryString = nextParams.toString();
       router.replace(
-        pathname +
-          `/${res.reservationId}${reservationStartTime ? `?reservationStartTime=${reservationStartTime}` : ''}`,
+        `${pathname}/${res.reservationId}${queryString ? `?${queryString}` : ''}`,
       );
     } catch (e) {
       const error = e as CustomError;

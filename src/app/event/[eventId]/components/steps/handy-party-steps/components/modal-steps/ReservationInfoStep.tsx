@@ -11,8 +11,11 @@ import { HandyPartyModalFormValues } from '../../HandyPartyModal';
 import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { getHandyPartyArea } from '../../../../../../../../utils/handyParty.util';
 import dayjs from 'dayjs';
-import { createPaymentPageUrl } from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
-import { useRouter } from 'next/navigation';
+import {
+  createPaymentPageUrl,
+  PAYMENT_PARAMS_KEYS,
+} from '@/app/event/[eventId]/dailyevent/[dailyEventId]/route/[shuttleRouteId]/payment/payment.const';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import { useGetUser } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
@@ -37,6 +40,7 @@ const ReservationInfoStep = ({
   closeModal,
 }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { getValues, setValue, control } =
     useFormContext<HandyPartyModalFormValues>();
   const {
@@ -153,6 +157,8 @@ const ReservationInfoStep = ({
       desiredHubLatitude: userAddress.y,
       desiredHubLongitude: userAddress.x,
       reservationStartTime: getReservationStartTime() ?? undefined,
+      referralCode:
+        searchParams.get(PAYMENT_PARAMS_KEYS.referralCode) ?? undefined,
     });
 
     // 결제 페이지로 이동하는 것은 의도적 이동이므로 ga4 예약중 이탈 집계방지를 위해 마킹

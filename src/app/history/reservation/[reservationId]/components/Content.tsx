@@ -13,6 +13,10 @@ import TitleSection from './sections/title-section/TitleSection';
 import TicketSection from './sections/ticket-section/TicketSection';
 import ReservationTransferSection from './sections/reservation-transfer-section/ReservationTransferSection';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
+import InvitePaybackEventSection from './sections/invite-payback-event-section/InvitePaybackEventSection';
+import { useGetUserReferrals } from '@/services/user.service';
+import { useMemo } from 'react';
+import { ReferralsViewEntity } from '@/types/referral.type';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -52,6 +56,17 @@ const Content = ({
   const isTransferredReservation =
     reservation.originalUserId !== reservation.userId;
 
+  const { data: referrals } = useGetUserReferrals();
+  const targetReferral = useMemo(
+    () =>
+      referrals?.find((referral: ReferralsViewEntity) =>
+        referral.conditions.some(
+          (condition) => condition.reservationId === reservation.reservationId,
+        ),
+      ) ?? null,
+    [referrals, reservation.reservationId],
+  );
+
   return (
     <main className="grow pb-16">
       {isTransferredReservation && (
@@ -64,6 +79,15 @@ const Content = ({
         reservation={reservation}
         shuttleRoute={shuttleRoute}
       />
+      {!isReservationCanceled && (
+        <InvitePaybackEventSection
+          referral={targetReferral}
+          event={event}
+          reservation={reservation}
+          payment={payment}
+          passengerCount={reservation.passengerCount}
+        />
+      )}
       <TicketSection
         reservation={reservation}
         isHandyParty={isHandyParty}

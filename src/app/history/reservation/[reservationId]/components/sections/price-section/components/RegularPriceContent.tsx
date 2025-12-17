@@ -23,6 +23,9 @@ const RegularPriceContent = ({ payment, passengerCount }: Props) => {
     showTime: true,
   });
 
+  const hasReferralDiscount = !!payment.referralId;
+  const referralDiscountAmount = payment.referralDiscountAmount;
+
   return (
     <div className="flex flex-col gap-8">
       <li className="flex h-[22px] w-full items-center justify-between">
@@ -65,6 +68,17 @@ const RegularPriceContent = ({ payment, passengerCount }: Props) => {
           </span>
           <span className="text-14 font-400 text-basic-grey-500">
             -{totalCouponDiscountAmount.toLocaleString()}원
+          </span>
+        </li>
+      )}
+      {hasReferralDiscount && (
+        <li className="flex h-[22px] w-full items-center justify-between">
+          <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
+            <ArrowDownwardTipRightIcon />
+            초대 코드 할인
+          </span>
+          <span className="text-14 font-400 text-basic-grey-500">
+            -{referralDiscountAmount.toLocaleString()}원
           </span>
         </li>
       )}

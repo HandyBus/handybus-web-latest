@@ -3,11 +3,9 @@
 import ModalPortal from '@/components/modals/ModalPortal';
 import argentModalImage from './images/argent-modal.png';
 import ArgentModal from './components/ArgentModal';
-import AppLaunchEventImage from './images/app-launch-event.png';
 import { useRouter } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
 import OneDayModal from './components/OneDayModal';
-// import EventPromotionModal from './components/EventPromotionModal';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import {
   getAppLaunchEventCouponDownloadModalSeen,
@@ -18,18 +16,35 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
+
+// import AppLaunchEventImage from './images/app-launch-event.png';
+import InvitePaybackEventImage from './images/invite-payback-event.png';
+import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
 
 const Page = () => {
   const router = useRouter();
-  const handleAppLaunchEventOpen = () => {
-    router.push('/app-launch-event');
-  };
   const showEmergencyModal =
     process.env.NEXT_PUBLIC_ENABLE_EMERGENCY_MODAL === 'true';
 
   const { isApp, appVersion, platform } = useEnvironment();
 
-  const showAppLaunchEventModal = !isApp;
+  // const handleAppLaunchEventOpen = () => {
+  //   router.push('/app-launch-event');
+  // };
+  // const showAppLaunchEventModal = !isApp;
+
+  const { trackIgnoreInvitePaybackEvent, trackClickInvitePaybackEvent } =
+    useReferralTracking({});
+
+  const handleInvitePaybackEventOpen = () => {
+    router.push(getInvitePaybackEventUrl());
+    trackClickInvitePaybackEvent('modal');
+  };
+
+  const handleModalClose = () => {
+    trackIgnoreInvitePaybackEvent('modal');
+  };
 
   const [
     isAppLaunchEventCouponDownloadModalOpen,
@@ -90,18 +105,19 @@ const Page = () => {
     <>
       <ModalPortal>
         {showEmergencyModal && <ArgentModal image={argentModalImage} />}
-        {showAppLaunchEventModal && (
+        {/* {showAppLaunchEventModal && (
           <OneDayModal
             image={AppLaunchEventImage}
             handleClick={handleAppLaunchEventOpen}
           />
-        )}
-        {/* {showAppLaunchEventModal && (
-          <EventPromotionModal
-            image={AppLaunchEventImage}
-            handleClick={handleAppLaunchEventOpen}
-          />
         )} */}
+        <OneDayModal
+          image={InvitePaybackEventImage}
+          handleClick={handleInvitePaybackEventOpen}
+          variant="transparent"
+          closeForTodayText="오늘은 그만 보기"
+          onClose={handleModalClose}
+        />
       </ModalPortal>
       <AppLaunchEventCouponDownloadModal
         isOpen={isAppLaunchEventCouponDownloadModalOpen}

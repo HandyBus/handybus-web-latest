@@ -24,6 +24,8 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import GuidelineSection from './sections/GuidelineSection';
+import { PAYMENT_PARAMS_KEYS } from '../payment.const';
+import ReferralDiscountNotice from './ReferralDiscountNotice';
 
 interface ContentProps {
   tripType: TripType;
@@ -39,6 +41,7 @@ interface ContentProps {
   desiredHubLatitude?: number;
   desiredHubLongitude?: number;
   reservationStartTime?: string;
+  referralCode?: string;
 }
 
 const Content = ({
@@ -55,6 +58,7 @@ const Content = ({
   desiredHubLatitude,
   desiredHubLongitude,
   reservationStartTime,
+  referralCode,
 }: ContentProps) => {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -69,11 +73,13 @@ const Content = ({
     finalPrice,
     totalEarlybirdDiscountAmount,
     totalCouponDiscountAmount,
+    referralDiscountAmount,
   } = calculateTotalPrice({
     priceOfTripType,
     tripType,
     passengerCount,
     coupon: selectedCoupon,
+    hasReferralCode: !!referralCode,
   });
 
   const {
@@ -138,13 +144,14 @@ const Content = ({
       const readyPaymentFormValues = {
         reservationId: postReservationResponse.reservationId,
         issuedCouponId: selectedCoupon?.issuedCouponId ?? null,
+        referralCode: referralCode ?? null,
       };
       const readyPaymentResponse = await postPreparePayment(
         readyPaymentFormValues,
       );
 
       const baseUrl = window.location.origin + pathname;
-      const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}${reservationStartTime ? `&reservationStartTime=${reservationStartTime}` : ''}`;
+      const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}${reservationStartTime ? `&${PAYMENT_PARAMS_KEYS.reservationStartTime}=${reservationStartTime}` : ''}`;
       const failUrl = `${baseUrl}/request/fail`;
       const orderName =
         `[${shuttleRoute.name}] ${shuttleRoute.event.eventName}`.slice(0, 99);
@@ -190,6 +197,22 @@ const Content = ({
         toast.error('예약이 마감되었어요.');
         return;
       }
+      // ReferralCode 중복사용 케이스 대응
+      if (
+        error.statusCode === 400 &&
+        error.message.includes('이미 사용한 리퍼럴입니다.')
+      ) {
+        toast.error('이미 할인 받은 초대 링크입니다.');
+        return;
+      }
+      // ReferralCode 자신의 초대 링크 사용 케이스 대응
+      if (
+        error.statusCode === 400 &&
+        error.message.includes('You cannot use your own referral')
+      ) {
+        toast.error('자신의 초대 링크는 사용할 수 없습니다.');
+        return;
+      }
       toast.error('결제에 실패했어요. 잠시 후 다시 시도해주세요.');
     }
   };
@@ -207,6 +230,7 @@ const Content = ({
 
   return (
     <main className="pb-100">
+      {referralCode && <ReferralDiscountNotice />}
       {isHandyParty && (
         <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
           예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
@@ -236,6 +260,7 @@ const Content = ({
         finalPrice={finalPrice}
         totalCouponDiscountAmount={totalCouponDiscountAmount}
         totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
+        referralDiscountAmount={referralDiscountAmount}
         passengerCount={passengerCount}
       />
       <PaymentSection />
