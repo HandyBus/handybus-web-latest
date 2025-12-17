@@ -13,10 +13,11 @@ import {
 import Loading from '@/components/loading/Loading';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
 import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
+import dayjs from 'dayjs';
 
 interface Props {
   params: {
@@ -79,8 +80,13 @@ const PaymentsCompletedPage = ({
       eventDate,
     });
 
+  const startTime = useRef(dayjs());
+
   const { ref, handleClick } = useIgnoreTracking({
-    onIgnore: () => trackIgnoreInvitePaybackEvent('success_page'),
+    onIgnore: () => {
+      const totalMs = dayjs().diff(startTime.current);
+      trackIgnoreInvitePaybackEvent('success_page', totalMs);
+    },
     onClick: () => handleShareReferralCode(),
   });
 

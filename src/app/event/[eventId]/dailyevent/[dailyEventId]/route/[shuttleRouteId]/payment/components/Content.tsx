@@ -205,6 +205,14 @@ const Content = ({
         toast.error('이미 할인 받은 초대 링크입니다.');
         return;
       }
+      // ReferralCode 자신의 초대 링크 사용 케이스 대응
+      if (
+        error.statusCode === 400 &&
+        error.message.includes('You cannot use your own referral')
+      ) {
+        toast.error('자신의 초대 링크는 사용할 수 없습니다.');
+        return;
+      }
       toast.error('결제에 실패했어요. 잠시 후 다시 시도해주세요.');
     }
   };

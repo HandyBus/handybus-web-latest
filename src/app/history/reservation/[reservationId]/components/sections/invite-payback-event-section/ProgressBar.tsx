@@ -18,8 +18,16 @@ const ProgressBar = ({
       <div className="flex items-center justify-between pb-4">
         <div className="flex items-center gap-8">
           <span className="text-16 font-600 leading-[160%]">{percentage}%</span>
-          <span className="text-12 font-500 leading-[160%] text-brand-primary-400">
-            다음 초대 시 +{nextInviteScalingDiscount.toLocaleString()}원
+          <span
+            className={`text-12 font-500 leading-[160%] ${
+              percentage !== 100
+                ? 'text-brand-primary-400'
+                : 'text-basic-grey-600'
+            }`}
+          >
+            {percentage !== 100
+              ? `다음 초대 시 +${nextInviteScalingDiscount.toLocaleString()}원`
+              : '목표를 달성했어요!'}
           </span>
         </div>
         <span className="text-12 font-500 leading-[160%] text-basic-grey-400">
