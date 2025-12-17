@@ -73,6 +73,7 @@ const Page = ({ params }: Props) => {
 
   useCheckReferral({
     eventId,
+    shuttleRouteId,
     referralCode,
   });
 

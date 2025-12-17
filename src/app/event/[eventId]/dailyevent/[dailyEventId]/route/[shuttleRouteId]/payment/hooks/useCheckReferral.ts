@@ -5,10 +5,15 @@ import { toast } from 'react-toastify';
 
 interface UseCheckReferralProps {
   eventId: string;
+  shuttleRouteId: string;
   referralCode?: string;
 }
 
-const useCheckReferral = ({ eventId, referralCode }: UseCheckReferralProps) => {
+const useCheckReferral = ({
+  eventId,
+  shuttleRouteId,
+  referralCode,
+}: UseCheckReferralProps) => {
   const router = useRouter();
 
   const { data: referral, isLoading } = useGetReferral(referralCode);
@@ -16,14 +21,18 @@ const useCheckReferral = ({ eventId, referralCode }: UseCheckReferralProps) => {
   const isReferralValid = useMemo(() => {
     // referralCode가 없으면 검증 대상이 아니므로 null 반환
     if (!referralCode) return null;
-
-    return (
-      referral?.conditions.some(
-        (condition) =>
-          condition.conditionType === 'EVENT' && condition.eventId === eventId,
-      ) ?? false
-    );
-  }, [referral, eventId, referralCode]);
+    if (!referral?.isActive) return false;
+    return referral?.conditions.every((condition) => {
+      if (condition.conditionType === 'EVENT' && condition.eventId !== eventId)
+        return false;
+      if (
+        condition.conditionType === 'SHUTTLE_ROUTE' &&
+        condition.shuttleRouteId !== shuttleRouteId
+      )
+        return false;
+      return true;
+    });
+  }, [referral, eventId, shuttleRouteId, referralCode]);
 
   useEffect(() => {
     // isReferralValid가 명시적으로 false일 때만 에러 처리
