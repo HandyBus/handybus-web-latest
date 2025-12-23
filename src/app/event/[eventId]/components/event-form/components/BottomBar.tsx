@@ -46,7 +46,7 @@ const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
 
   return (
     <>
-      <div className="fixed bottom-0 right-0 z-50 flex w-full max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
+      <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] z-50 flex w-full max-w-500 gap-8 bg-basic-white px-16 pb-24 pt-8">
         <Button
           variant="secondary"
           size="medium"

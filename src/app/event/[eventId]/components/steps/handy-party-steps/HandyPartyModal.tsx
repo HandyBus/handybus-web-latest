@@ -79,7 +79,7 @@ const HandyPartyModal = ({
   return (
     <ModalPortal>
       <FormProvider {...methods}>
-        <div className="fixed bottom-0 right-0 top-0 z-[9999] flex h-[100dvh] w-full max-w-500 flex-col bg-basic-white">
+        <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] top-0 z-[9999] flex h-[100dvh] w-full max-w-500 flex-col bg-basic-white">
           <Funnel>
             <Step name="주소 입력">
               <AddressStep

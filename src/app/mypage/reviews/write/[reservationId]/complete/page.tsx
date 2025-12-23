@@ -23,7 +23,7 @@ const CompletePage = () => {
         </p>
         <ReviewCompleteIcon />
       </section>
-      <div className="fixed bottom-0 right-0 flex w-full max-w-500 flex-col gap-8 p-16">
+      <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] flex w-full max-w-500 flex-col gap-8 p-16">
         <Link href={`/mypage/reviews/${reviewId}`}>
           <Button variant="primary">완료</Button>
         </Link>

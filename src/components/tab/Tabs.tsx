@@ -15,7 +15,7 @@ const Tabs = <T,>({ items, selected, onSelect, className }: Props<T>) => {
     <>
       <div
         className={customTwMerge(
-          'fixed right-0 z-10 flex h-40 w-full max-w-500 flex-row bg-basic-white scrollbar-hidden',
+          'fixed right-[calc(max(0px,calc(100dvw-1280px)/2))] z-10 flex h-40 w-full max-w-500 flex-row bg-basic-white scrollbar-hidden',
           className,
         )}
       >
