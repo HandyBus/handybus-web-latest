@@ -117,7 +117,7 @@ const PaymentsCompletedPage = ({
           </p>
           <SuccessBusIcon />
         </section>
-        <div className="fixed bottom-0 left-0 right-0 mx-auto flex max-w-500 flex-col gap-8 p-16">
+        <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] flex w-full max-w-500 flex-col gap-8 p-16">
           {referralCode && (
             <>
               <section className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 py-16 pl-[50px] pr-[49px] ">

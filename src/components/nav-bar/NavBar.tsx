@@ -28,7 +28,7 @@ const NavBar = () => {
   }, []);
   return (
     <>
-      <div className="fixed bottom-0 z-50 mx-auto flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
+      <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] z-50 flex h-[58px] w-full max-w-500 items-center justify-center border-t border-basic-grey-200 bg-basic-white px-16">
         <div className="flex w-full max-w-[400px] items-center justify-between">
           <TicketNavButton
             name="탑승권"

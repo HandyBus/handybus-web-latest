@@ -44,7 +44,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 z-50 flex h-56 w-full max-w-500 items-center justify-between bg-basic-white px-16">
+      <header className="fixed right-[calc(max(0px,calc(100dvw-1280px)/2))] top-0 z-50 flex h-56 w-full max-w-500 items-center justify-between bg-basic-white px-16">
         {isHome || !isApp ? (
           <Link href="/">
             <LogoIcon />
