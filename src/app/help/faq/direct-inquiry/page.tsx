@@ -27,7 +27,7 @@ const Page = () => {
           [월-금]오전 9:00 ~ 오후 7:00
         </p>
       </TitledSection>
-      <div className="fixed bottom-0 left-0 right-0 z-10 mx-auto w-full max-w-500 bg-basic-white">
+      <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] z-10 w-full max-w-500 bg-basic-white">
         <button
           type="button"
           onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
