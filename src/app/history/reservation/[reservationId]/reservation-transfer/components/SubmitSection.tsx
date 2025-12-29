@@ -90,7 +90,7 @@ const SubmitSection = ({ value, reservationId }: Props) => {
             type="button"
             variant="primary"
             size="large"
-            disabled={!isLoading}
+            disabled={isLoading}
             onClick={handleSubmit}
           >
             탑승권 보내기
