@@ -33,10 +33,14 @@ const ReservationTab = () => {
   const isReviewWritableReservationsAvailable = useMemo(() => {
     return reservations
       ? reservations.some((reservation) => {
+          const isCompletedPayment =
+            reservation.reservationStatus === 'COMPLETE_PAYMENT';
           const { isReviewWritingPeriod } =
             checkIsReviewWritingPeriod(reservation);
           const isReviewNotWritten = reservation.reviewId === null;
-          return isReviewWritingPeriod && isReviewNotWritten;
+          return (
+            isReviewWritingPeriod && isReviewNotWritten && isCompletedPayment
+          );
         })
       : false;
   }, [reservations]);
