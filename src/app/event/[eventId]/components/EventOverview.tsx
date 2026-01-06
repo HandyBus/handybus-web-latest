@@ -18,7 +18,7 @@ interface Props {
 }
 
 const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
-  const { phase } = getPhaseAndEnabledStatus(event);
+  const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const { ref: imageRef, isInView } = useIntersectionObserver({
     threshold: 0.5,
   });
@@ -52,7 +52,7 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
   return (
     <section className="relative w-full">
       <div className="relative w-full">
-        {phase === 'demand' && (
+        {phase === 'demand' && enabledStatus === 'enabled' && (
           <Image
             src={OngoingDemandPeriodImage}
             alt="수요조사 기간 안내 이미지"

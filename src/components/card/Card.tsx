@@ -9,11 +9,12 @@ const BOOKING_CLOSING_SOON_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-red-100 leading-[160%] text-basic-red-400';
 
 interface Props {
-  variant: 'GRID' | 'LARGE' | 'MEDIUM' | 'SMALL';
+  variant: 'GRID' | 'LARGE' | 'MEDIUM';
   image: string | null;
   order?: number;
   isSaleStarted?: boolean;
   isReservationClosingSoon?: boolean;
+  isDemandOngoing?: boolean;
   title?: string;
   date?: string;
   location?: string;
@@ -29,6 +30,7 @@ const Card = ({
   order,
   isSaleStarted = true,
   isReservationClosingSoon,
+  isDemandOngoing,
   title,
   date,
   location,
@@ -44,6 +46,7 @@ const Card = ({
         image={image}
         isSaleStarted={isSaleStarted}
         isReservationClosingSoon={isReservationClosingSoon}
+        isDemandOngoing={isDemandOngoing}
         title={title}
         date={date}
         price={price}
@@ -61,6 +64,8 @@ const Card = ({
         image={image}
         order={order}
         isSaleStarted={isSaleStarted}
+        isDemandOngoing={isDemandOngoing}
+        isReservationClosingSoon={isReservationClosingSoon}
         title={title}
         price={price}
         href={href}
@@ -74,6 +79,8 @@ const Card = ({
         variant={variant}
         image={image}
         isSaleStarted={isSaleStarted}
+        isDemandOngoing={isDemandOngoing}
+        isReservationClosingSoon={isReservationClosingSoon}
         title={title}
         date={date}
         price={price}
@@ -83,19 +90,6 @@ const Card = ({
       />
     );
   }
-  return (
-    <SmallCard
-      variant={variant}
-      image={image}
-      isSaleStarted={isSaleStarted}
-      title={title}
-      date={date}
-      location={location}
-      price={price}
-      href={href}
-      fadeIn={fadeIn}
-    />
-  );
 };
 
 export default Card;
@@ -104,6 +98,7 @@ const GridCard = ({
   image,
   isSaleStarted,
   isReservationClosingSoon,
+  isDemandOngoing,
   title,
   date,
   price,
@@ -179,7 +174,7 @@ const GridCard = ({
           className={imageClassName}
           onLoad={shouldFadeIn ? handleImageLoad : undefined}
         />
-        {!isSaleStarted && (
+        {isDemandOngoing && (
           <Badge
             className={`absolute right-12 top-12 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}
           >
@@ -333,6 +328,7 @@ const MediumCard = ({
   image,
   isSaleStarted,
   isReservationClosingSoon,
+  isDemandOngoing,
   title,
   date,
   price,
@@ -421,7 +417,7 @@ const MediumCard = ({
         >
           {isSaleStarted ? price : '판매대기'}
         </p>
-        {!isSaleStarted && (
+        {isDemandOngoing && (
           <Badge className={`mt-4 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
             수요조사 진행 중
           </Badge>
@@ -431,112 +427,6 @@ const MediumCard = ({
             마감임박
           </Badge>
         )}
-      </div>
-    </Link>
-  );
-};
-
-// deprecated: 모든 행사페이지에서 GridCard로 대체됨
-const SmallCard = ({
-  image,
-  isSaleStarted,
-  title,
-  date,
-  location,
-  price,
-  href,
-  fadeIn,
-}: Props) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [shouldFadeIn, setShouldFadeIn] = useState(fadeIn);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const isInitialMount = useRef(true);
-
-  useEffect(() => {
-    // 이미지 src가 변경되면 fade-in 상태 리셋
-    if (!isInitialMount.current) {
-      setIsImageLoaded(false);
-      setShouldFadeIn(true);
-      return;
-    }
-
-    // 초기 마운트 시에만 이미지 로딩 상태 확인
-    isInitialMount.current = false;
-
-    const checkImageLoaded = () => {
-      if (imageRef.current) {
-        const imgElement = imageRef.current.querySelector('img');
-        if (imgElement) {
-          if (imgElement.complete) {
-            // 이미지가 이미 로드되어 있으면 fade-in 건너뛰기
-            setIsImageLoaded(true);
-            setShouldFadeIn(false);
-          } else {
-            // 이미지가 아직 로드되지 않았으면 fade-in 적용
-            setIsImageLoaded(false);
-            setShouldFadeIn(true);
-          }
-        } else {
-          // 이미지 요소가 아직 DOM에 없으면 기본적으로 fade-in 적용
-          setIsImageLoaded(false);
-          setShouldFadeIn(true);
-        }
-      }
-    };
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(checkImageLoaded);
-    });
-  }, [image, fadeIn]);
-
-  const handleImageLoad = () => {
-    if (shouldFadeIn) {
-      setIsImageLoaded(true);
-    }
-  };
-
-  const imageClassName = shouldFadeIn
-    ? `rounded-[7px] object-cover transition-opacity duration-300 ease-in-out ${
-        isImageLoaded ? 'opacity-100' : 'opacity-0'
-      }`
-    : 'rounded-[7px] object-cover';
-
-  return (
-    <Link href={href || ''} className="flex gap-12">
-      <div
-        ref={imageRef}
-        className={`relative h-[133px] w-[100px] shrink-0 rounded-8 border-[1px] border-[#181F29] border-opacity-[0.08]`}
-      >
-        <Image
-          src={image || '/images/default-event.png'}
-          alt={`${title} 행사 셔틀 보러가기`}
-          fill
-          className={imageClassName}
-          onLoad={shouldFadeIn ? handleImageLoad : undefined}
-        />
-      </div>
-      <div>
-        {!isSaleStarted && (
-          <Badge className={`mb-4 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
-            수요조사 진행 중
-          </Badge>
-        )}
-        <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black ">
-          {title}
-        </p>
-        <p className="text-12 font-500 leading-[160%] text-basic-black">
-          {date}
-        </p>
-        <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-          {location}
-        </p>
-        <p
-          className={`text-14 font-600 leading-[140%] ${
-            isSaleStarted ? 'text-basic-black' : 'text-basic-grey-500'
-          }`}
-        >
-          {isSaleStarted ? price : '판매대기'}
-        </p>
       </div>
     </Link>
   );
