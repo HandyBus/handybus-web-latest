@@ -17,6 +17,8 @@ import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosing
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { handleExternalLink } from '@/utils/externalLink.util';
 
+const THE_AIR_HOUSE_EVENT_ID = '656356208046772323';
+
 export type EventTypeWithAll = EventType | 'ALL';
 
 const Page = () => {
@@ -31,9 +33,11 @@ const Page = () => {
   const filteredEventsByStatus = useMemo(
     () =>
       events?.filter((event) =>
-        event.eventStatus === 'CLOSED' && event.eventMinRoutePrice === null
-          ? false
-          : true,
+        event.eventId === THE_AIR_HOUSE_EVENT_ID
+          ? true
+          : event.eventStatus === 'CLOSED' && event.eventMinRoutePrice === null
+            ? false
+            : true,
       ),
     [events],
   );
@@ -95,6 +99,10 @@ const Page = () => {
                           price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
                           isSaleStarted={event.eventMinRoutePrice !== null}
                           isReservationClosingSoon={isClosingSoon}
+                          isDemandOngoing={
+                            event.eventStatus === 'OPEN' &&
+                            event.eventMinRoutePrice === null
+                          }
                           href={`/event/${event.eventId}`}
                           priority={isImportant}
                           fadeIn={!isImportant}
