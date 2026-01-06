@@ -35,27 +35,48 @@ export const getPhaseAndEnabledStatus = (
   }
 };
 
+// NOTE: 편도 노선 여부를 확인하는 함수.
+// 현재는 방향별 정류장 존재 여부를 바탕으로 확인하지만, 과거 데이터 지원을 위해 가격을 바탕으로 확인하는 것 또한 유지.
+export const checkExistingTripType = (route: ShuttleRoutesViewEntity) => {
+  const toDestinationExists =
+    route.toDestinationShuttleRouteHubs &&
+    route.toDestinationShuttleRouteHubs.length > 0 &&
+    route.regularPriceToDestination !== null &&
+    route.regularPriceToDestination > 0;
+  const fromDestinationExists =
+    route.fromDestinationShuttleRouteHubs &&
+    route.fromDestinationShuttleRouteHubs.length > 0 &&
+    route.regularPriceFromDestination !== null &&
+    route.regularPriceFromDestination > 0;
+  const roundTripExists =
+    route.regularPriceRoundTrip !== null && route.regularPriceRoundTrip > 0;
+  return { toDestinationExists, fromDestinationExists, roundTripExists };
+};
+
 export interface RemainingSeat {
-  ROUND_TRIP: number;
-  TO_DESTINATION: number;
-  FROM_DESTINATION: number;
+  ROUND_TRIP: number | null;
+  TO_DESTINATION: number | null;
+  FROM_DESTINATION: number | null;
 }
 
 export const getRemainingSeat = (
   route: ShuttleRoutesViewEntity,
 ): RemainingSeat => {
+  const { toDestinationExists, fromDestinationExists, roundTripExists } =
+    checkExistingTripType(route);
   const maxSeatCount = route.maxPassengerCount ?? 0;
-  const toDestinationCount =
-    route.regularPriceToDestination !== null &&
-    route.regularPriceToDestination > 0
-      ? maxSeatCount - (route?.toDestinationCount ?? 0)
-      : 0;
-  const fromDestinationCount =
-    route.regularPriceFromDestination !== null &&
-    route.regularPriceFromDestination > 0
-      ? maxSeatCount - (route?.fromDestinationCount ?? 0)
-      : 0;
-  const roundTripCount = Math.min(toDestinationCount, fromDestinationCount);
+  const toDestinationCount = toDestinationExists
+    ? maxSeatCount - (route.toDestinationCount ?? 0)
+    : null;
+  const fromDestinationCount = fromDestinationExists
+    ? maxSeatCount - (route.fromDestinationCount ?? 0)
+    : null;
+  const roundTripCount = roundTripExists
+    ? Math.min(
+        maxSeatCount - (route.toDestinationCount ?? 0),
+        maxSeatCount - (route.fromDestinationCount ?? 0),
+      )
+    : null;
 
   return {
     ROUND_TRIP: roundTripCount,
@@ -68,14 +89,17 @@ export const getPriorityRemainingSeat = (
   remainingSeat: RemainingSeat,
 ): { type: TripType; count: number } | null => {
   switch (true) {
-    case remainingSeat.ROUND_TRIP > 0:
-      return { type: 'ROUND_TRIP', count: remainingSeat.ROUND_TRIP };
-    case remainingSeat.TO_DESTINATION > 0:
-      return { type: 'TO_DESTINATION', count: remainingSeat.TO_DESTINATION };
-    case remainingSeat.FROM_DESTINATION > 0:
+    case remainingSeat.ROUND_TRIP !== null && remainingSeat.ROUND_TRIP > 0:
+      return { type: 'ROUND_TRIP', count: remainingSeat.ROUND_TRIP ?? 0 };
+    case remainingSeat.TO_DESTINATION && remainingSeat.TO_DESTINATION > 0:
+      return {
+        type: 'TO_DESTINATION',
+        count: remainingSeat.TO_DESTINATION ?? 0,
+      };
+    case remainingSeat.FROM_DESTINATION && remainingSeat.FROM_DESTINATION > 0:
       return {
         type: 'FROM_DESTINATION',
-        count: remainingSeat.FROM_DESTINATION,
+        count: remainingSeat.FROM_DESTINATION ?? 0,
       };
     default:
       return null;
@@ -84,9 +108,12 @@ export const getPriorityRemainingSeat = (
 
 export const checkIsSoldOut = (remainingSeat: RemainingSeat) => {
   return (
+    remainingSeat.ROUND_TRIP !== null &&
     remainingSeat.ROUND_TRIP === 0 &&
-    remainingSeat.TO_DESTINATION === 0 &&
-    remainingSeat.FROM_DESTINATION === 0
+    (remainingSeat.TO_DESTINATION === null ||
+      remainingSeat.TO_DESTINATION === 0) &&
+    (remainingSeat.FROM_DESTINATION === null ||
+      remainingSeat.FROM_DESTINATION === 0)
   );
 };
 

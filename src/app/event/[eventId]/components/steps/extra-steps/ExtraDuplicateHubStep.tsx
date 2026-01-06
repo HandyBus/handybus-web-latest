@@ -16,6 +16,7 @@ import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHub
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
+import { checkExistingTripType } from '@/utils/event.util';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -66,6 +67,8 @@ const ExtraDuplicateHubStep = ({
     closeBottomSheet();
   };
 
+  console.log(sortedHubsWithInfoForDuplicates);
+
   return (
     <section className="flex w-full flex-col gap-8">
       {sortedHubsWithInfoForDuplicates.map((hubWithInfo) => {
@@ -77,6 +80,23 @@ const ExtraDuplicateHubStep = ({
         if (!route) {
           return null;
         }
+
+        const { toDestinationExists, fromDestinationExists, roundTripExists } =
+          checkExistingTripType(route);
+
+        // 왕복만 존재하는 노선인 경우 별도로 처리
+        if (roundTripExists && !toDestinationExists && !fromDestinationExists) {
+          return (
+            <RoundTripOnlyHub
+              key={hubWithInfo.shuttleRouteId}
+              onClick={() => handleHubClick(hubWithInfo)}
+              toExtraSeatAlarmStep={toExtraSeatAlarmStep}
+              route={route}
+              hubWithInfo={hubWithInfo}
+            />
+          );
+        }
+
         return (
           <Hub
             key={hubWithInfo.shuttleRouteId}
@@ -106,26 +126,19 @@ const Hub = ({
   hubWithInfo,
   route,
 }: HubProps) => {
-  const isToDestinationSoldOut =
-    hubWithInfo.remainingSeat.TO_DESTINATION === 0 &&
-    route.regularPriceToDestination !== null &&
-    route.regularPriceToDestination > 0;
-  const isFromDestinationSoldOut =
-    hubWithInfo.remainingSeat.FROM_DESTINATION === 0 &&
-    route.regularPriceFromDestination !== null &&
-    route.regularPriceFromDestination > 0;
+  const { toDestinationExists, fromDestinationExists } =
+    checkExistingTripType(route);
+  const isToDestinationSoldOut = !!(
+    toDestinationExists &&
+    hubWithInfo.remainingSeat.TO_DESTINATION !== null &&
+    hubWithInfo.remainingSeat.TO_DESTINATION === 0
+  );
+  const isFromDestinationSoldOut = !!(
+    fromDestinationExists &&
+    hubWithInfo.remainingSeat.FROM_DESTINATION !== null &&
+    hubWithInfo.remainingSeat.FROM_DESTINATION === 0
+  );
   const isAllSoldOut = isToDestinationSoldOut && isFromDestinationSoldOut;
-
-  const toDestinationExists =
-    !!route.toDestinationShuttleRouteHubs &&
-    route.toDestinationShuttleRouteHubs.length > 0 &&
-    route.regularPriceToDestination !== null &&
-    route.regularPriceToDestination > 0;
-  const fromDestinationExists =
-    !!route.fromDestinationShuttleRouteHubs &&
-    route.fromDestinationShuttleRouteHubs.length > 0 &&
-    route.regularPriceFromDestination !== null &&
-    route.regularPriceFromDestination > 0;
 
   const toDestinationArrivalTime = toDestinationExists
     ? dateString(
@@ -177,6 +190,7 @@ const Hub = ({
                   </span>
                 )}
                 {!isToDestinationSoldOut &&
+                  hubWithInfo.remainingSeat.TO_DESTINATION !== null &&
                   hubWithInfo.remainingSeat.TO_DESTINATION <=
                     DANGER_SEAT_THRESHOLD && (
                     <span className="text-12 font-500 leading-[160%] text-basic-red-400">
@@ -192,7 +206,7 @@ const Hub = ({
             </div>
           </div>
         )}
-        {toDestinationExists && fromDestinationExists && (
+        {fromDestinationExists && (
           <div className="h-1 w-full border border-basic-grey-100" />
         )}
         {fromDestinationExists && (
@@ -214,6 +228,7 @@ const Hub = ({
                   </span>
                 )}
                 {!isFromDestinationSoldOut &&
+                  hubWithInfo.remainingSeat.FROM_DESTINATION !== null &&
                   hubWithInfo.remainingSeat.FROM_DESTINATION <=
                     DANGER_SEAT_THRESHOLD && (
                     <span className="text-12 font-500 leading-[160%] text-basic-red-400">
@@ -239,6 +254,146 @@ const Hub = ({
         </div>
       )}
       {isFromDestinationSoldOut && (
+        <div className="absolute bottom-20 right-16 flex items-center gap-8">
+          <RequestSeatAlarmButton
+            toStep={toExtraSeatAlarmStep}
+            hubWithInfo={hubWithInfo}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+interface RoundTripOnlyHubProps {
+  onClick: () => void;
+  toExtraSeatAlarmStep: () => void;
+  hubWithInfo: HubWithInfo;
+  route: ShuttleRoutesViewEntity;
+}
+
+const RoundTripOnlyHub = ({
+  onClick,
+  toExtraSeatAlarmStep,
+  hubWithInfo,
+  route,
+}: RoundTripOnlyHubProps) => {
+  const { roundTripExists } = checkExistingTripType(route);
+  const isRoundTripSoldOut = !!(
+    roundTripExists &&
+    hubWithInfo.remainingSeat.ROUND_TRIP !== null &&
+    hubWithInfo.remainingSeat.ROUND_TRIP === 0
+  );
+
+  const toDestinationArrivalTime = dateString(
+    route.toDestinationShuttleRouteHubs
+      ?.sort((a, b) => a.sequence - b.sequence)
+      .find((hub) => hub.role === 'DESTINATION')?.arrivalTime,
+    {
+      showYear: false,
+      showDate: false,
+      showWeekday: false,
+      showTime: true,
+    },
+  );
+
+  const fromDestinationDepartureTime = dateString(
+    route.fromDestinationShuttleRouteHubs
+      ?.sort((a, b) => a.sequence - b.sequence)
+      .find((hub) => hub.role === 'DESTINATION')?.arrivalTime,
+    {
+      showYear: false,
+      showDate: false,
+      showWeekday: false,
+      showTime: true,
+    },
+  );
+
+  return (
+    <div className="relative w-full">
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={isRoundTripSoldOut}
+        className="flex w-full flex-col gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left active:bg-basic-grey-100"
+      >
+        <div
+          className={`flex w-full items-center gap-8 ${
+            isRoundTripSoldOut && 'pr-124'
+          }`}
+        >
+          <div className="flex flex-col items-start gap-[2px]">
+            <div className="flex items-center gap-8">
+              <span
+                className={`text-14 font-600 leading-[160%]  ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+              >
+                행사장행
+              </span>
+              {isRoundTripSoldOut && (
+                <span className="text-12 font-500 leading-[160%] text-basic-grey-600">
+                  매진
+                </span>
+              )}
+              {!isRoundTripSoldOut &&
+                hubWithInfo.remainingSeat.ROUND_TRIP !== null &&
+                hubWithInfo.remainingSeat.ROUND_TRIP <=
+                  DANGER_SEAT_THRESHOLD && (
+                  <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+                    매진 임박
+                  </span>
+                )}
+            </div>
+            <div
+              className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+            >
+              {toDestinationArrivalTime} 도착
+            </div>
+          </div>
+        </div>
+        <div className="h-1 w-full border border-basic-grey-100" />
+        <div
+          className={`flex w-full items-center gap-8 ${
+            isRoundTripSoldOut && 'pr-124'
+          }`}
+        >
+          <div className="flex flex-col items-start gap-[2px]">
+            <div className="flex items-center gap-8">
+              <span
+                className={`text-14 font-600 leading-[160%]  ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+              >
+                귀가행
+              </span>
+              {isRoundTripSoldOut && (
+                <span className="text-12 font-500 leading-[160%] text-basic-grey-600">
+                  매진
+                </span>
+              )}
+              {!isRoundTripSoldOut &&
+                hubWithInfo.remainingSeat.ROUND_TRIP !== null &&
+                hubWithInfo.remainingSeat.ROUND_TRIP <=
+                  DANGER_SEAT_THRESHOLD && (
+                  <span className="text-12 font-500 leading-[160%] text-basic-red-400">
+                    매진 임박
+                  </span>
+                )}
+            </div>
+            <div
+              className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+            >
+              {fromDestinationDepartureTime} 출발
+            </div>
+          </div>
+        </div>
+      </button>
+      {isRoundTripSoldOut && (
+        <div className="absolute right-16 top-20 flex items-center gap-8">
+          <RequestSeatAlarmButton
+            toStep={toExtraSeatAlarmStep}
+            hubWithInfo={hubWithInfo}
+          />
+        </div>
+      )}
+      {isRoundTripSoldOut && (
         <div className="absolute bottom-20 right-16 flex items-center gap-8">
           <RequestSeatAlarmButton
             toStep={toExtraSeatAlarmStep}

@@ -8,7 +8,11 @@ import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';
-import { checkIsSoldOut, getPriorityRemainingSeat } from '@/utils/event.util';
+import {
+  checkExistingTripType,
+  checkIsSoldOut,
+  getPriorityRemainingSeat,
+} from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import {
   dailyEventIdsWithHubsAtom,
@@ -199,27 +203,35 @@ const Hub = ({
   toExtraSeatAlarmStep,
   route,
 }: HubProps) => {
-  const isDuplicate = possibleHubs.length > 1;
+  const { toDestinationExists, fromDestinationExists } =
+    checkExistingTripType(route);
+
+  const isToDestinationDuplicate =
+    possibleHubs.filter((hub) => hub.remainingSeat.TO_DESTINATION !== null)
+      .length > 1;
+  const isFromDestinationDuplicate =
+    possibleHubs.filter((hub) => hub.remainingSeat.FROM_DESTINATION !== null)
+      .length > 1;
+
   const isSoldOut = possibleHubs.every((hub) =>
     checkIsSoldOut(hub.remainingSeat),
   );
-  const isSoldOutForToDestination = possibleHubs.every(
-    (hub) => hub.remainingSeat.TO_DESTINATION === 0,
-  );
-  const isSoldOutForFromDestination = possibleHubs.every(
-    (hub) => hub.remainingSeat.FROM_DESTINATION === 0,
-  );
+  const isSoldOutForToDestination =
+    possibleHubs.filter((hub) => hub.remainingSeat.TO_DESTINATION !== null)
+      .length > 0 &&
+    possibleHubs
+      .filter((hub) => hub.remainingSeat.TO_DESTINATION !== null)
+      .every((hub) => hub.remainingSeat.TO_DESTINATION === 0);
+  const isSoldOutForFromDestination =
+    possibleHubs.filter((hub) => hub.remainingSeat.FROM_DESTINATION !== null)
+      .length > 0 &&
+    possibleHubs
+      .filter((hub) => hub.remainingSeat.FROM_DESTINATION !== null)
+      .every((hub) => hub.remainingSeat.FROM_DESTINATION === 0);
 
   const hub = possibleHubs[0];
   const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
   const remainingSeatCount = remainingSeat?.count ?? 0;
-
-  const toDestinationExists =
-    !!route.toDestinationShuttleRouteHubs &&
-    route.toDestinationShuttleRouteHubs.length > 0;
-  const fromDestinationExists =
-    !!route.fromDestinationShuttleRouteHubs &&
-    route.fromDestinationShuttleRouteHubs.length > 0;
 
   const toDestinationArrivalTime = toDestinationExists
     ? dateString(
@@ -274,26 +286,26 @@ const Hub = ({
           )}
         </div>
         <div className="flex pl-[29px] text-12 font-500 leading-[160%] text-basic-grey-600">
-          {toDestinationArrivalTime && (
+          {toDestinationExists ? (
             <div
               className={`${isSoldOutForToDestination && 'text-basic-grey-300'}`}
             >
-              행사장행 {toDestinationArrivalTime} 도착 {isDuplicate && ' 외'}
+              행사장행 {toDestinationArrivalTime} 도착{' '}
+              {isToDestinationDuplicate && ' 외'}
             </div>
+          ) : (
+            <div className="text-basic-grey-300">행사장행 미운행</div>
           )}
-          {toDestinationArrivalTime && fromDestinationDepartureTime && (
-            <div
-              className={`${(isSoldOutForToDestination || isSoldOutForFromDestination) && 'text-basic-grey-300'}`}
-            >
-              &nbsp;|&nbsp;
-            </div>
-          )}
-          {fromDestinationDepartureTime && (
+          <div className="text-basic-grey-200">&nbsp;|&nbsp;</div>
+          {fromDestinationExists ? (
             <div
               className={`${isSoldOutForFromDestination && 'text-basic-grey-300'}`}
             >
-              귀가행 {fromDestinationDepartureTime} 출발 {isDuplicate && ' 외'}
+              귀가행 {fromDestinationDepartureTime} 출발{' '}
+              {isFromDestinationDuplicate && ' 외'}
             </div>
+          ) : (
+            <div className="text-basic-grey-300">귀가행 미운행</div>
           )}
         </div>
       </button>
