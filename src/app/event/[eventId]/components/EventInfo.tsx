@@ -10,8 +10,6 @@ interface Props {
   isReservationClosingSoon: boolean;
 }
 
-const THE_AIR_HOUSE_EVENT_ID = '656356208046772323';
-
 const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
   const parsedDateString = dateString(
     event.dailyEvents.map((v) => v.date),
@@ -32,13 +30,7 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
         <h4 className="mb-4 text-16 font-500 text-basic-grey-500">
           {event.eventLocationName}
         </h4>
-        {event.eventId === THE_AIR_HOUSE_EVENT_ID && (
-          <span className="text-20 font-600 text-basic-grey-500">
-            판매 대기
-          </span>
-        )}
         {enabledStatus === 'enabled' &&
-          event.eventId !== THE_AIR_HOUSE_EVENT_ID &&
           (phase === 'reservation' ? (
             <div className="flex items-center gap-4">
               <h5 className="text-20 font-600">
@@ -61,7 +53,6 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
             </div>
           ))}
         {enabledStatus === 'disabled' &&
-          event.eventId !== THE_AIR_HOUSE_EVENT_ID &&
           (phase === 'reservation' ? (
             <span className="text-20 font-600 text-basic-grey-500">
               예약 마감
