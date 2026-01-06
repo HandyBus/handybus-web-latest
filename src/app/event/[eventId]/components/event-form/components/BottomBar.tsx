@@ -10,14 +10,23 @@ import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
 
+const THE_AIR_HOUSE_EVENT_ID = '656356208046772323';
+
 interface Props {
   eventName: string;
+  eventId: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
 }
 
-const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
+const BottomBar = ({
+  eventName,
+  eventId,
+  phase,
+  enabledStatus,
+  onClick,
+}: Props) => {
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
@@ -62,7 +71,9 @@ const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
           onClick={handleClick}
           disabled={enabledStatus === 'disabled'}
         >
-          {BUTTON_TEXT[phase][enabledStatus]}
+          {eventId === THE_AIR_HOUSE_EVENT_ID
+            ? '판매 대기'
+            : BUTTON_TEXT[phase][enabledStatus]}
         </Button>
         {phase === 'demand' && enabledStatus === 'enabled' && (
           <NotificationBubble />
