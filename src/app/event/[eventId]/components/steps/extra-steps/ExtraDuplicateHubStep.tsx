@@ -40,9 +40,33 @@ const ExtraDuplicateHubStep = ({
     if (!hubsWithInfoForDuplicates) {
       return [];
     }
-    return hubsWithInfoForDuplicates.sort((a, b) => {
-      return dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime));
-    });
+    const toDestinationOnlyHubs = hubsWithInfoForDuplicates
+      .filter(
+        (hub) =>
+          hub.remainingSeat.TO_DESTINATION !== null &&
+          hub.remainingSeat.FROM_DESTINATION === null &&
+          hub.remainingSeat.ROUND_TRIP === null,
+      )
+      .sort((a, b) => {
+        return dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime));
+      });
+    const fromDestinationOnlyHubs = hubsWithInfoForDuplicates
+      .filter(
+        (hub) =>
+          hub.remainingSeat.FROM_DESTINATION !== null &&
+          hub.remainingSeat.TO_DESTINATION === null &&
+          hub.remainingSeat.ROUND_TRIP === null,
+      )
+      .sort((a, b) => {
+        return dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime));
+      });
+    const otherHubs = hubsWithInfoForDuplicates.filter(
+      (hub) =>
+        !toDestinationOnlyHubs.includes(hub) &&
+        !fromDestinationOnlyHubs.includes(hub),
+    );
+
+    return [...toDestinationOnlyHubs, ...fromDestinationOnlyHubs, ...otherHubs];
   }, [hubsWithInfoForDuplicates]);
 
   const setSelectedHubWithInfoForDetailViewAtom = useSetAtom(
@@ -66,8 +90,6 @@ const ExtraDuplicateHubStep = ({
 
     closeBottomSheet();
   };
-
-  console.log(sortedHubsWithInfoForDuplicates);
 
   return (
     <section className="flex w-full flex-col gap-8">
