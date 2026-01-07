@@ -13,10 +13,10 @@ import { customTwMerge } from 'tailwind.config';
 import Link from 'next/link';
 import ArrowRightIcon from '../../icons/arrow-right-grey.svg';
 const EmptyView = dynamic(() => import('./EmptyView'));
-import Image, { StaticImageData } from 'next/image';
-import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
-import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
-import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
+// import Image, { StaticImageData } from 'next/image';
+// import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
+// import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
+// import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
 
 const DemandTab = () => {
   const { periodFilter, setPeriodFilter } = usePeriodFilter();
@@ -47,10 +47,10 @@ const DemandTab = () => {
         periodFilter={periodFilter}
         setPeriodFilter={setPeriodFilter}
       />
-      <PromotionBanner
+      {/* <PromotionBanner
         image="/images/invite-payback-banner.png"
         href={getInvitePaybackEventUrl()}
-      />
+      /> */}
       <DeferredSuspense
         fallback={<Loading style="grow" />}
         isLoading={isLoading}
@@ -108,32 +108,32 @@ const DemandTab = () => {
 
 export default DemandTab;
 
-interface PromotionBannerProps {
-  image: string | StaticImageData;
-  href: string;
-}
-const PromotionBanner = ({ image, href }: PromotionBannerProps) => {
-  const { trackIgnoreInvitePaybackEvent, trackClickInvitePaybackEvent } =
-    useReferralTracking({});
-  const { ref, handleClick } = useIgnoreTracking({
-    onIgnore: () => trackIgnoreInvitePaybackEvent('banner'),
-    onClick: () => trackClickInvitePaybackEvent('banner'),
-  });
+// interface PromotionBannerProps {
+//   image: string | StaticImageData;
+//   href: string;
+// }
+// const PromotionBanner = ({ image, href }: PromotionBannerProps) => {
+//   const { trackIgnoreInvitePaybackEvent, trackClickInvitePaybackEvent } =
+//     useReferralTracking({});
+//   const { ref, handleClick } = useIgnoreTracking({
+//     onIgnore: () => trackIgnoreInvitePaybackEvent('banner'),
+//     onClick: () => trackClickInvitePaybackEvent('banner'),
+//   });
 
-  return (
-    <section className="px-16 pb-16" ref={ref}>
-      <Link
-        href={href}
-        className="relative block aspect-[344/100] w-full overflow-hidden rounded-8"
-        onClick={handleClick}
-      >
-        <Image
-          src={image}
-          alt="promotion banner"
-          fill
-          className="object-cover"
-        />
-      </Link>
-    </section>
-  );
-};
+//   return (
+//     <section className="px-16 pb-16" ref={ref}>
+//       <Link
+//         href={href}
+//         className="relative block aspect-[344/100] w-full overflow-hidden rounded-8"
+//         onClick={handleClick}
+//       >
+//         <Image
+//           src={image}
+//           alt="promotion banner"
+//           fill
+//           className="object-cover"
+//         />
+//       </Link>
+//     </section>
+//   );
+// };
