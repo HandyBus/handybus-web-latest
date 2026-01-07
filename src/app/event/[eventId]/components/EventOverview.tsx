@@ -11,6 +11,9 @@ import { getPhaseAndEnabledStatus } from '@/utils/event.util';
 import { EventsViewEntity } from '@/types/event.type';
 // import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 // import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
+import LincOpenChatImage from './images/linc-open-chat.png';
+
+const CxM_EVENT_ID = '653100251283986798';
 
 interface Props {
   event: EventsViewEntity;
@@ -72,6 +75,22 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
             className="h-auto w-full"
           />
         </div> */}
+        {event.eventId === CxM_EVENT_ID && (
+          <a
+            href="https://app.linc.fan/31TL/handybus_cxm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={LincOpenChatImage}
+              alt="Linc 오픈채팅 참여하기 이미지"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto w-full"
+            />
+          </a>
+        )}
         <Image
           src={eventDetailImageUrl || OverviewImage}
           alt="행사 상세 이미지"

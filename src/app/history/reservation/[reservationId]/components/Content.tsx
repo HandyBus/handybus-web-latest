@@ -18,6 +18,9 @@ import InvitePaybackEventSectionClosed from './sections/invite-payback-event-sec
 import { useGetUserReferrals } from '@/services/user.service';
 import { useMemo } from 'react';
 import { ReferralsViewEntity } from '@/types/referral.type';
+import LincOpenChatSection from './sections/linc-open-chat-section/LincOpenChatSection';
+
+const CxM_EVENT_ID = '653100251283986798';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -100,6 +103,7 @@ const Content = ({
             passengerCount={reservation.passengerCount}
           />
         )}
+      {event.eventId === CxM_EVENT_ID && <LincOpenChatSection />}
       <TicketSection
         reservation={reservation}
         isHandyParty={isHandyParty}
