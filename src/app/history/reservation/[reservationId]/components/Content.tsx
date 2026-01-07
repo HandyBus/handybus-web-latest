@@ -13,7 +13,8 @@ import TitleSection from './sections/title-section/TitleSection';
 import TicketSection from './sections/ticket-section/TicketSection';
 import ReservationTransferSection from './sections/reservation-transfer-section/ReservationTransferSection';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
-import InvitePaybackEventSection from './sections/invite-payback-event-section/InvitePaybackEventSection';
+import InvitePaybackEventSectionClosed from './sections/invite-payback-event-section/InvitePaybackEventSectionClosed';
+// import InvitePaybackEventSection from './sections/invite-payback-event-section/InvitePaybackEventSection';
 import { useGetUserReferrals } from '@/services/user.service';
 import { useMemo } from 'react';
 import { ReferralsViewEntity } from '@/types/referral.type';
@@ -79,15 +80,26 @@ const Content = ({
         reservation={reservation}
         shuttleRoute={shuttleRoute}
       />
-      {!isReservationCanceled && (
-        <InvitePaybackEventSection
-          referral={targetReferral}
-          event={event}
-          reservation={reservation}
-          payment={payment}
-          passengerCount={reservation.passengerCount}
-        />
-      )}
+      {/* {!isReservationCanceled && (
+        // <InvitePaybackEventSection
+        //   referral={targetReferral}
+        //   event={event}
+        //   reservation={reservation}
+        //   payment={payment}
+        //   passengerCount={reservation.passengerCount}
+        // />
+      )} */}
+      {!isReservationCanceled &&
+        targetReferral &&
+        targetReferral.usageCount > 0 && (
+          <InvitePaybackEventSectionClosed
+            referral={targetReferral}
+            event={event}
+            reservation={reservation}
+            payment={payment}
+            passengerCount={reservation.passengerCount}
+          />
+        )}
       <TicketSection
         reservation={reservation}
         isHandyParty={isHandyParty}
@@ -103,7 +115,6 @@ const Content = ({
         isShuttleRouteEnded={isShuttleRouteEnded}
         isReservationCanceled={isReservationCanceled}
       />
-
       <ReservationPersonInfoSection
         name={reservation.userName || reservation.userNickname}
         phoneNumber={reservation.userPhoneNumber}

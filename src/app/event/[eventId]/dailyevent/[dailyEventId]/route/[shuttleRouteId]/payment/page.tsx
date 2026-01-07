@@ -12,7 +12,7 @@ import Content from './components/Content';
 import { PAYMENT_PARAMS_KEYS } from './payment.const';
 import { useState } from 'react';
 import TossPaymentsScript from '@/components/script/TossPaymentsScript';
-import useCheckReferral from './hooks/useCheckReferral';
+// import useCheckReferral from './hooks/useCheckReferral';
 
 interface Props {
   params: {
@@ -71,11 +71,11 @@ const Page = ({ params }: Props) => {
   const [isTossPaymentsScriptLoaded, setIsTossPaymentsScriptLoaded] =
     useState(false);
 
-  useCheckReferral({
-    eventId,
-    shuttleRouteId,
-    referralCode,
-  });
+  // useCheckReferral({
+  //   eventId,
+  //   shuttleRouteId,
+  //   referralCode,
+  // });
 
   const isLoading =
     !tripType ||
