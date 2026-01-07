@@ -103,7 +103,9 @@ const Content = ({
             passengerCount={reservation.passengerCount}
           />
         )}
-      {event.eventId === CxM_EVENT_ID && <LincOpenChatSection />}
+      {!isReservationCanceled &&
+        !isShuttleRouteEnded &&
+        event.eventId === CxM_EVENT_ID && <LincOpenChatSection />}
       <TicketSection
         reservation={reservation}
         isHandyParty={isHandyParty}
