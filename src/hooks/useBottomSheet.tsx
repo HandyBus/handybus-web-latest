@@ -14,6 +14,20 @@ const LONG_BOTTOM_SHEET_HEIGHT = 500;
 const BOTTOM_SHEET_BOTTOM_PADDING_OFFSET = 800;
 const BOTTOM_SHEET_BOTTOM_PADDING_OFFSET_FOR_ANIMATION = 650;
 
+// 화면 크기에 따라 translateX 값을 반환하는 함수
+const getTranslateX = () => {
+  if (window.innerWidth >= 1280) {
+    return 'translateX(0)';
+  }
+  return 'translateX(-50%)';
+};
+
+// transform 문자열에서 translateY 값을 추출하는 함수
+const getTranslateYValue = (transformString: string): number => {
+  const match = transformString.match(/translateY\((-?\d+(?:\.\d+)?)px\)/);
+  return match ? Number(match[1]) : 0;
+};
+
 interface Metrics {
   transformDuration: string;
   initTouchPosition: number | null;
@@ -131,7 +145,7 @@ const useBottomSheet = ({
       metrics.current.transformDuration = TRANSFORM_DURATION.short;
     }
 
-    bottomSheetElement.style.transform = `translateY(${bottomSheetHeight}px)`;
+    bottomSheetElement.style.transform = `${getTranslateX()} translateY(${bottomSheetHeight}px)`;
     metrics.current.closingY =
       (bottomSheetHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET) / 2;
     metrics.current.currHeight = bottomSheetHeight;
@@ -139,7 +153,7 @@ const useBottomSheet = ({
     requestAnimationFrame(() => {
       bottomSheetElement.style.transitionDuration =
         metrics.current.transformDuration;
-      bottomSheetElement.style.transform = `translateY(0px)`;
+      bottomSheetElement.style.transform = `${getTranslateX()} translateY(0px)`;
       setIsOpen(true);
       onOpen?.();
     });
@@ -159,7 +173,7 @@ const useBottomSheet = ({
     requestAnimationFrame(() => {
       bottomSheetElement.style.transitionDuration =
         metrics.current.transformDuration;
-      bottomSheetElement.style.transform = `translateY(${bottomSheetHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET_FOR_ANIMATION}px)`;
+      bottomSheetElement.style.transform = `${getTranslateX()} translateY(${bottomSheetHeight - BOTTOM_SHEET_BOTTOM_PADDING_OFFSET_FOR_ANIMATION}px)`;
     });
 
     setTimeout(() => {
@@ -169,6 +183,28 @@ const useBottomSheet = ({
       onClose?.();
     }, 150);
   };
+
+  // 창 크기 변경 감지 (반응형 대응)
+  useEffect(() => {
+    const bottomSheetElement = bottomSheet.current;
+    if (!bottomSheetElement || !isOpen) {
+      return;
+    }
+
+    const handleResize = () => {
+      const currentTranslateY = getTranslateYValue(
+        bottomSheetElement.style.transform,
+      );
+      // 좌우 이동 시에만 transition 비활성화, 바텀시트가 열리는 애니메이션엔 영향을 주지 않음.
+      bottomSheetElement.style.transitionDuration = '0ms';
+      bottomSheetElement.style.transform = `${getTranslateX()} translateY(${currentTranslateY}px)`;
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isOpen]);
 
   // 바텀시트 크기 변경 감지
   useEffect(() => {
@@ -192,12 +228,12 @@ const useBottomSheet = ({
       }
 
       bottomSheetElement.style.transitionDuration = '0ms';
-      bottomSheetElement.style.transform = `translateY(${newHeight - currHeight}px)`;
+      bottomSheetElement.style.transform = `${getTranslateX()} translateY(${newHeight - currHeight}px)`;
 
       requestAnimationFrame(() => {
         bottomSheetElement.style.transitionDuration =
           metrics.current.transformDuration;
-        bottomSheetElement.style.transform = `translateY(0px)`;
+        bottomSheetElement.style.transform = `${getTranslateX()} translateY(0px)`;
       });
     });
 
@@ -216,10 +252,8 @@ const useBottomSheet = ({
     }
     bottomSheetElement.style.transitionDuration = '0ms';
 
-    const initTransformValue = Number(
-      bottomSheetElement.style.transform
-        .replace('translateY(', '')
-        .replace('px)', '') || 0,
+    const initTransformValue = getTranslateYValue(
+      bottomSheetElement.style.transform,
     );
     metrics.current.initTransformValue = initTransformValue;
     metrics.current.initTouchPosition = clientY;
@@ -240,7 +274,7 @@ const useBottomSheet = ({
     if (diff < 0) {
       diff = Math.floor(diff / 10);
     }
-    bottomSheetElement.style.transform = `translateY(${diff}px)`;
+    bottomSheetElement.style.transform = `${getTranslateX()} translateY(${diff}px)`;
   };
 
   const handleEnd = () => {
@@ -250,16 +284,14 @@ const useBottomSheet = ({
       return;
     }
 
-    const finalTransformValue = Number(
-      bottomSheetElement.style.transform
-        .replace('translateY(', '')
-        .replace('px)', '') || 0,
+    const finalTransformValue = getTranslateYValue(
+      bottomSheetElement.style.transform,
     );
     bottomSheetElement.style.transitionDuration =
       metrics.current.transformDuration;
 
     if (finalTransformValue < closingY || preventCloseOnDrag) {
-      bottomSheetElement.style.transform = `translateY(0px)`;
+      bottomSheetElement.style.transform = `${getTranslateX()} translateY(0px)`;
     } else {
       closeBottomSheet();
     }

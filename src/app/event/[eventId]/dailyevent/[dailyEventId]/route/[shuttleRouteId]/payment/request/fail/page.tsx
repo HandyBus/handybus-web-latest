@@ -39,7 +39,7 @@ const Page = ({ searchParams }: Props) => {
           </p>
           <FailBusIcon />
         </section>
-        <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] flex w-full max-w-500 flex-col gap-8 p-16">
+        <div className="fixed-centered-layout bottom-0 flex flex-col gap-8 p-16">
           <Link href="/" replace={true}>
             <Button>돌아가기</Button>
           </Link>
@@ -68,7 +68,7 @@ const Page = ({ searchParams }: Props) => {
         </p>
         <FailBusIcon />
       </section>
-      <div className="fixed bottom-0 right-[calc(max(0px,calc(100dvw-1280px)/2))] flex w-full max-w-500 flex-col gap-8 p-16">
+      <div className="fixed-centered-layout bottom-0 flex flex-col gap-8 p-16">
         <Link href="/" replace={true}>
           <Button>돌아가기</Button>
         </Link>

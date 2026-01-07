@@ -67,3 +67,10 @@ html::-webkit-scrollbar {
     font-size: 0.7em;
   }
 }
+
+@layer utilities {
+  .fixed-centered-layout {
+    @apply fixed left-1/2 -translate-x-1/2 w-full max-w-500;
+    @apply xl:left-auto xl:right-[calc(max(0px,calc(100dvw-1280px)/2))] xl:translate-x-0;
+  }
+}
