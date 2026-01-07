@@ -189,13 +189,13 @@ export const calculateTotalPrice = ({
   tripType,
   passengerCount,
   coupon,
-  hasReferralCode,
+  // hasReferralCode,
 }: {
   priceOfTripType: PriceOfTripType;
   tripType: TripType;
   passengerCount: number;
   coupon: IssuedCouponsViewEntity | null;
-  hasReferralCode: boolean;
+  // hasReferralCode: boolean;
 }) => {
   const price = priceOfTripType[tripType];
 
@@ -218,15 +218,13 @@ export const calculateTotalPrice = ({
         coupon,
       })
     : 0;
-  const REFERRAL_DISCOUNT_AMOUNT = 1000;
-  const referralDiscountAmount = hasReferralCode ? REFERRAL_DISCOUNT_AMOUNT : 0;
+  // const REFERRAL_DISCOUNT_AMOUNT = 1000;
+  // const referralDiscountAmount = hasReferralCode ? REFERRAL_DISCOUNT_AMOUNT : 0;
 
   const finalPrice = Math.max(
     Math.floor(
-      totalPrice -
-        totalEarlybirdDiscountAmount -
-        totalCouponDiscountAmount -
-        referralDiscountAmount,
+      totalPrice - totalEarlybirdDiscountAmount - totalCouponDiscountAmount,
+      // referralDiscountAmount,
     ),
     0,
   );
@@ -235,7 +233,7 @@ export const calculateTotalPrice = ({
     finalPrice,
     totalCouponDiscountAmount,
     totalEarlybirdDiscountAmount,
-    referralDiscountAmount,
+    // referralDiscountAmount,
   };
 };
 

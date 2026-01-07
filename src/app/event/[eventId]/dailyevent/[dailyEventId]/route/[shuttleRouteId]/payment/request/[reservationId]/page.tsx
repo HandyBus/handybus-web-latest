@@ -13,11 +13,11 @@ import {
 import Loading from '@/components/loading/Loading';
 import { useReservationTracking } from '@/hooks/analytics/useReservationTracking';
 import { ReservationsViewEntity } from '@/types/reservation.type';
-import { useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
-import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
-import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
-import dayjs from 'dayjs';
+import { useEffect } from 'react';
+// import { toast } from 'react-toastify';
+// import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
+// import { useIgnoreTracking } from '@/hooks/analytics/useIgnoreTracking';
+// import dayjs from 'dayjs';
 
 interface Props {
   params: {
@@ -67,28 +67,28 @@ const PaymentsCompletedPage = ({
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
   const eventName = reservation.shuttleRoute.event.eventName;
-  const eventDate =
-    reservation.shuttleRoute.event.dailyEvents.find(
-      (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
-    )?.date ?? '';
+  // const eventDate =
+  //   reservation.shuttleRoute.event.dailyEvents.find(
+  //     (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
+  //   )?.date ?? '';
   const reservationId = reservation.reservationId;
 
-  const { trackShareReferralCode, trackIgnoreInvitePaybackEvent } =
-    useReferralTracking({
-      eventId,
-      eventName,
-      eventDate,
-    });
+  // const { trackShareReferralCode, trackIgnoreInvitePaybackEvent } =
+  //   useReferralTracking({
+  //     eventId,
+  //     eventName,
+  //     eventDate,
+  //   });
 
-  const startTime = useRef(dayjs());
+  // const startTime = useRef(dayjs());
 
-  const { ref, handleClick } = useIgnoreTracking({
-    onIgnore: () => {
-      const totalMs = dayjs().diff(startTime.current);
-      trackIgnoreInvitePaybackEvent('success_page', totalMs);
-    },
-    onClick: () => handleShareReferralCode(),
-  });
+  // const { ref, handleClick } = useIgnoreTracking({
+  //   onIgnore: () => {
+  //     const totalMs = dayjs().diff(startTime.current);
+  //     trackIgnoreInvitePaybackEvent('success_page', totalMs);
+  //   },
+  //   onClick: () => handleShareReferralCode(),
+  // });
 
   useCompleteReservationTracking({
     eventId,
@@ -100,12 +100,12 @@ const PaymentsCompletedPage = ({
     referralCode: referralCode ?? undefined,
   });
 
-  const handleShareReferralCode = () => {
-    const referralCodeUrl = `${window.location.origin}/open?path=/event/${eventId}?${PAYMENT_PARAMS_KEYS.referralCode}=${referralCode}`;
-    navigator.clipboard.writeText(referralCodeUrl);
-    toast.success('초대링크가 복사되었습니다.');
-    trackShareReferralCode(referralCode);
-  };
+  // const handleShareReferralCode = () => {
+  //   const referralCodeUrl = `${window.location.origin}/open?path=/event/${eventId}?${PAYMENT_PARAMS_KEYS.referralCode}=${referralCode}`;
+  //   navigator.clipboard.writeText(referralCodeUrl);
+  //   toast.success('초대링크가 복사되었습니다.');
+  //   trackShareReferralCode(referralCode);
+  // };
 
   return (
     <>
@@ -118,7 +118,7 @@ const PaymentsCompletedPage = ({
           <SuccessBusIcon />
         </section>
         <div className="fixed-centered-layout bottom-0 flex flex-col gap-8 p-16">
-          {referralCode && (
+          {/* referralCode && (
             <>
               <section className="flex flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 py-16 pl-[50px] pr-[49px] ">
                 <h2 className="text-14 font-600 leading-[140%]">
@@ -132,7 +132,7 @@ const PaymentsCompletedPage = ({
                 <Button onClick={handleClick}>초대 링크 공유하기</Button>
               </div>
             </>
-          )}
+          )} */}
           <Link href={`/history/reservation/${reservationId}`} replace={true}>
             <Button variant="secondary">완료</Button>
           </Link>

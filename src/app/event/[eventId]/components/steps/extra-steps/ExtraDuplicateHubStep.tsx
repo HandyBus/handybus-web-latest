@@ -106,17 +106,26 @@ const Hub = ({
   hubWithInfo,
   route,
 }: HubProps) => {
-  const isToDestinationSoldOut = hubWithInfo.remainingSeat.TO_DESTINATION === 0;
+  const isToDestinationSoldOut =
+    hubWithInfo.remainingSeat.TO_DESTINATION === 0 &&
+    route.regularPriceToDestination !== null &&
+    route.regularPriceToDestination > 0;
   const isFromDestinationSoldOut =
-    hubWithInfo.remainingSeat.FROM_DESTINATION === 0;
+    hubWithInfo.remainingSeat.FROM_DESTINATION === 0 &&
+    route.regularPriceFromDestination !== null &&
+    route.regularPriceFromDestination > 0;
   const isAllSoldOut = isToDestinationSoldOut && isFromDestinationSoldOut;
 
   const toDestinationExists =
     !!route.toDestinationShuttleRouteHubs &&
-    route.toDestinationShuttleRouteHubs.length > 0;
+    route.toDestinationShuttleRouteHubs.length > 0 &&
+    route.regularPriceToDestination !== null &&
+    route.regularPriceToDestination > 0;
   const fromDestinationExists =
     !!route.fromDestinationShuttleRouteHubs &&
-    route.fromDestinationShuttleRouteHubs.length > 0;
+    route.fromDestinationShuttleRouteHubs.length > 0 &&
+    route.regularPriceFromDestination !== null &&
+    route.regularPriceFromDestination > 0;
 
   const toDestinationArrivalTime = toDestinationExists
     ? dateString(

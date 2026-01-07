@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+// import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import OverviewImage from './images/event-overview.png';
 import OngoingDemandPeriodImage from './images/ongoing-demand-period.png';
-import InvitePaybackEventImage from './images/invite-payback-event-overview.png';
+// import InvitePaybackEventImage from './images/invite-payback-event-overview.png';
 import Link from 'next/link';
 import ArrowForwardIcon from '../icons/arrow-forward.svg';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
 import { EventsViewEntity } from '@/types/event.type';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
+// import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+// import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
 
 interface Props {
   event: EventsViewEntity;
@@ -18,41 +18,41 @@ interface Props {
 }
 
 const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
-  const { phase } = getPhaseAndEnabledStatus(event);
-  const { ref: imageRef, isInView } = useIntersectionObserver({
-    threshold: 0.5,
-  });
-  const { trackViewInvitePaybackEventBanner } = useReferralTracking({
-    eventId: event.eventId,
-    eventName: event.eventName,
-  });
+  const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
+  // const { ref: imageRef, isInView } = useIntersectionObserver({
+  //   threshold: 0.5,
+  // });
+  // const { trackViewInvitePaybackEventBanner } = useReferralTracking({
+  //   eventId: event.eventId,
+  //   eventName: event.eventName,
+  // });
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  // const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    if (isInView) {
-      // 1초 이상 머물렀을 때만 집계 (스크롤로 빠르게 지나가는 것 제외)
-      timerRef.current = setTimeout(() => {
-        trackViewInvitePaybackEventBanner();
-      }, 1000);
-    } else {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-    }
+  // useEffect(() => {
+  //   if (isInView) {
+  //     // 1초 이상 머물렀을 때만 집계 (스크롤로 빠르게 지나가는 것 제외)
+  //     timerRef.current = setTimeout(() => {
+  //       trackViewInvitePaybackEventBanner();
+  //     }, 1000);
+  //   } else {
+  //     if (timerRef.current) {
+  //       clearTimeout(timerRef.current);
+  //       timerRef.current = null;
+  //     }
+  //   }
 
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [isInView, trackViewInvitePaybackEventBanner]);
+  //   return () => {
+  //     if (timerRef.current) {
+  //       clearTimeout(timerRef.current);
+  //     }
+  //   };
+  // }, [isInView, trackViewInvitePaybackEventBanner]);
 
   return (
     <section className="relative w-full">
       <div className="relative w-full">
-        {phase === 'demand' && (
+        {phase === 'demand' && enabledStatus === 'enabled' && (
           <Image
             src={OngoingDemandPeriodImage}
             alt="수요조사 기간 안내 이미지"
@@ -62,7 +62,7 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
             className="h-auto w-full"
           />
         )}
-        <div ref={imageRef}>
+        {/* <div ref={imageRef}>
           <Image
             src={InvitePaybackEventImage}
             alt="친구 초대 페이백 이벤트 상세 이미지"
@@ -71,7 +71,7 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
             sizes="100vw"
             className="h-auto w-full"
           />
-        </div>
+        </div> */}
         <Image
           src={eventDetailImageUrl || OverviewImage}
           alt="행사 상세 이미지"

@@ -95,6 +95,10 @@ const Page = () => {
                           price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
                           isSaleStarted={event.eventMinRoutePrice !== null}
                           isReservationClosingSoon={isClosingSoon}
+                          isDemandOngoing={
+                            event.eventStatus === 'OPEN' &&
+                            event.eventMinRoutePrice === null
+                          }
                           href={`/event/${event.eventId}`}
                           priority={isImportant}
                           fadeIn={!isImportant}

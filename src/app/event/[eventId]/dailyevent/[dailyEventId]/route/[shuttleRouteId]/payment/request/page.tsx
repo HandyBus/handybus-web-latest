@@ -3,7 +3,7 @@
 import { CustomError } from '@/services/custom-error';
 import {
   postApprovePayment,
-  postCreateReferral,
+  // postCreateReferral,
 } from '@/services/payment.service';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -74,11 +74,11 @@ const Page = ({ params }: PageProps) => {
       }
 
       const res = await postApprovePayment(orderId, paymentKey);
-      const reservationId = res.reservationId;
+      // const reservationId = res.reservationId;
 
       // 레퍼럴 코드 생성
-      const createReferralResponse = await postCreateReferral(reservationId);
-      const myReferralCode = createReferralResponse.referralCode;
+      // const createReferralResponse = await postCreateReferral(reservationId);
+      // const myReferralCode = createReferralResponse.referralCode;
       markAsIntentionalNavigation();
 
       // URLSearchParams를 사용하여 가독성 개선
@@ -89,9 +89,9 @@ const Page = ({ params }: PageProps) => {
           reservationStartTime,
         );
       }
-      if (myReferralCode) {
-        nextParams.set(PAYMENT_PARAMS_KEYS.referralCode, myReferralCode);
-      }
+      // if (myReferralCode) {
+      //   nextParams.set(PAYMENT_PARAMS_KEYS.referralCode, myReferralCode);
+      // }
 
       const queryString = nextParams.toString();
       router.replace(

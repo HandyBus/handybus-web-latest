@@ -25,7 +25,7 @@ import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import GuidelineSection from './sections/GuidelineSection';
 import { PAYMENT_PARAMS_KEYS } from '../payment.const';
-import ReferralDiscountNotice from './ReferralDiscountNotice';
+// import ReferralDiscountNotice from './ReferralDiscountNotice';
 
 interface ContentProps {
   tripType: TripType;
@@ -73,13 +73,13 @@ const Content = ({
     finalPrice,
     totalEarlybirdDiscountAmount,
     totalCouponDiscountAmount,
-    referralDiscountAmount,
+    // referralDiscountAmount,
   } = calculateTotalPrice({
     priceOfTripType,
     tripType,
     passengerCount,
     coupon: selectedCoupon,
-    hasReferralCode: !!referralCode,
+    // hasReferralCode: !!referralCode,
   });
 
   const {
@@ -230,7 +230,7 @@ const Content = ({
 
   return (
     <main className="pb-100">
-      {referralCode && <ReferralDiscountNotice />}
+      {/* {referralCode && <ReferralDiscountNotice />} */}
       {isHandyParty && (
         <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
           예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
@@ -260,7 +260,7 @@ const Content = ({
         finalPrice={finalPrice}
         totalCouponDiscountAmount={totalCouponDiscountAmount}
         totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
-        referralDiscountAmount={referralDiscountAmount}
+        // referralDiscountAmount={referralDiscountAmount}
         passengerCount={passengerCount}
       />
       <PaymentSection />
