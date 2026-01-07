@@ -8,11 +8,7 @@ import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useFormContext } from 'react-hook-form';
 import { useMemo } from 'react';
-import {
-  checkExistingTripType,
-  checkIsSoldOut,
-  getPriorityRemainingSeat,
-} from '@/utils/event.util';
+import { checkIsSoldOut, getPriorityRemainingSeat } from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import {
   dailyEventIdsWithHubsAtom,
@@ -25,7 +21,7 @@ import {
 } from '../../../store/selectedHubWithInfoForDetailViewAtom';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
-import { ShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
+import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
 import { dateString } from '@/utils/dateString.util';
 import { userDemandsAtom } from '../../../store/userDemandsAtom';
 import { toast } from 'react-toastify';
@@ -136,25 +132,103 @@ const ReservationHubsStep = ({
             </div>
             <ul className="flex flex-col gap-12">
               {gunguWithHubs.hubs.map((possibleHubs) => {
-                const fastestArrivalTimeHub = possibleHubs.sort((a, b) =>
-                  dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime)),
-                )[0];
-                const route = getRouteOfHubWithInfo({
-                  hubWithInfo: fastestArrivalTimeHub,
-                  dailyEventIdsWithRoutes,
-                  dailyEventId: dailyEvent.dailyEventId,
-                });
+                const routes = possibleHubs.map((hub) =>
+                  getRouteOfHubWithInfo({
+                    hubWithInfo: hub,
+                    dailyEventIdsWithRoutes,
+                    dailyEventId: dailyEvent.dailyEventId,
+                  }),
+                );
 
-                if (!route) {
+                if (
+                  !routes.every(
+                    (route) => route !== null && route !== undefined,
+                  )
+                ) {
                   return null;
                 }
+
+                const fastestArrivalTimeToDestinationHub =
+                  routes
+                    .filter(
+                      (route) =>
+                        route &&
+                        route.toDestinationShuttleRouteHubs &&
+                        route.toDestinationShuttleRouteHubs.length > 0 &&
+                        ((route.regularPriceToDestination !== null &&
+                          route.regularPriceToDestination > 0) ||
+                          (route.regularPriceRoundTrip !== null &&
+                            route.regularPriceRoundTrip > 0)),
+                    )
+                    .sort((a, b) => {
+                      if (!a || !b) {
+                        return 0;
+                      }
+                      return dayjs(
+                        a.toDestinationShuttleRouteHubs?.find(
+                          (hub) => hub.role === 'DESTINATION',
+                        )?.arrivalTime,
+                      ).diff(
+                        dayjs(
+                          b.toDestinationShuttleRouteHubs?.find(
+                            (hub) => hub.role === 'DESTINATION',
+                          )?.arrivalTime,
+                        ),
+                      );
+                    })?.[0]
+                    ?.toDestinationShuttleRouteHubs?.find(
+                      (hub) => hub.role === 'DESTINATION',
+                    ) ?? null;
+
+                const fastestArrivalTimeFromDestinationHub =
+                  routes
+                    .filter(
+                      (route) =>
+                        route &&
+                        route.fromDestinationShuttleRouteHubs &&
+                        route.fromDestinationShuttleRouteHubs.length > 0 &&
+                        ((route.regularPriceFromDestination !== null &&
+                          route.regularPriceFromDestination > 0) ||
+                          (route.regularPriceRoundTrip !== null &&
+                            route.regularPriceRoundTrip > 0)),
+                    )
+                    .sort((a, b) => {
+                      if (!a || !b) {
+                        return 0;
+                      }
+                      return dayjs(
+                        a.fromDestinationShuttleRouteHubs?.find(
+                          (hub) => hub.role === 'DESTINATION',
+                        )?.arrivalTime,
+                      ).diff(
+                        dayjs(
+                          b.fromDestinationShuttleRouteHubs?.find(
+                            (hub) => hub.role === 'DESTINATION',
+                          )?.arrivalTime,
+                        ),
+                      );
+                    })?.[0]
+                    ?.fromDestinationShuttleRouteHubs?.find(
+                      (hub) => hub.role === 'DESTINATION',
+                    ) ?? null;
+
+                const hub = possibleHubs[0];
+                if (!hub) {
+                  return null;
+                }
+
                 return (
                   <Hub
-                    key={fastestArrivalTimeHub.regionHubId}
+                    key={hub.regionHubId}
                     possibleHubs={possibleHubs}
                     handleHubClick={() => handleHubClick(possibleHubs)}
                     toExtraSeatAlarmStep={toExtraSeatAlarmStep}
-                    route={route}
+                    fastestArrivalTimeToDestinationHub={
+                      fastestArrivalTimeToDestinationHub
+                    }
+                    fastestArrivalTimeFromDestinationHub={
+                      fastestArrivalTimeFromDestinationHub
+                    }
                   />
                 );
               })}
@@ -194,18 +268,17 @@ interface HubProps {
   possibleHubs: HubWithInfo[];
   handleHubClick: (hubsWithInfo: HubWithInfo[]) => void;
   toExtraSeatAlarmStep: () => void;
-  route: ShuttleRoutesViewEntity;
+  fastestArrivalTimeToDestinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity | null;
+  fastestArrivalTimeFromDestinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity | null;
 }
 
 const Hub = ({
   possibleHubs,
   handleHubClick,
   toExtraSeatAlarmStep,
-  route,
+  fastestArrivalTimeToDestinationHub,
+  fastestArrivalTimeFromDestinationHub,
 }: HubProps) => {
-  const { toDestinationExists, fromDestinationExists } =
-    checkExistingTripType(route);
-
   const isToDestinationDuplicate =
     possibleHubs.filter((hub) => hub.remainingSeat.TO_DESTINATION !== null)
       .length > 1;
@@ -233,22 +306,17 @@ const Hub = ({
   const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
   const remainingSeatCount = remainingSeat?.count ?? 0;
 
-  const toDestinationArrivalTime = toDestinationExists
-    ? dateString(
-        route.toDestinationShuttleRouteHubs?.find(
-          (hub) => hub.role === 'DESTINATION',
-        )?.arrivalTime,
-        {
-          showYear: false,
-          showDate: false,
-          showWeekday: false,
-          showTimeWithoutAmPm: true,
-        },
-      )
+  const toDestinationArrivalTime = fastestArrivalTimeToDestinationHub
+    ? dateString(fastestArrivalTimeToDestinationHub.arrivalTime, {
+        showYear: false,
+        showDate: false,
+        showWeekday: false,
+        showTimeWithoutAmPm: true,
+      })
     : null;
 
-  const fromDestinationDepartureTime = fromDestinationExists
-    ? dateString(route.fromDestinationShuttleRouteHubs?.[0]?.arrivalTime, {
+  const fromDestinationDepartureTime = fastestArrivalTimeFromDestinationHub
+    ? dateString(fastestArrivalTimeFromDestinationHub.arrivalTime, {
         showYear: false,
         showDate: false,
         showWeekday: false,
@@ -286,7 +354,7 @@ const Hub = ({
           )}
         </div>
         <div className="flex pl-[29px] text-12 font-500 leading-[160%] text-basic-grey-600">
-          {toDestinationExists ? (
+          {fastestArrivalTimeToDestinationHub ? (
             <div
               className={`${isSoldOutForToDestination && 'text-basic-grey-300'}`}
             >
@@ -297,7 +365,7 @@ const Hub = ({
             <div className="text-basic-grey-300">행사장행 미운행</div>
           )}
           <div className="text-basic-grey-200">&nbsp;|&nbsp;</div>
-          {fromDestinationExists ? (
+          {fastestArrivalTimeFromDestinationHub ? (
             <div
               className={`${isSoldOutForFromDestination && 'text-basic-grey-300'}`}
             >

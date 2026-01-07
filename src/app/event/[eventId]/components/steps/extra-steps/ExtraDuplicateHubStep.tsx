@@ -228,7 +228,7 @@ const Hub = ({
             </div>
           </div>
         )}
-        {fromDestinationExists && (
+        {toDestinationExists && fromDestinationExists && (
           <div className="h-1 w-full border border-basic-grey-100" />
         )}
         {fromDestinationExists && (
