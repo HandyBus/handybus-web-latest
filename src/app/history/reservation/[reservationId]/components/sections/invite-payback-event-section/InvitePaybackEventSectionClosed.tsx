@@ -17,12 +17,6 @@ interface Props {
 
 /**
  * 친구초대 페이백 이벤트 참여자만 보여주는 이벤트 종료 및 환급금액 안내 컴포넌트
- *
- * - referral: 친구초대 페이백 이벤트 참여자
- * - event: 이벤트
- * - reservation: 예약
- * - payment: 결제
- * - passengerCount: 예약 인원
  */
 const InvitePaybackEventSectionClosed = ({
   referral,
