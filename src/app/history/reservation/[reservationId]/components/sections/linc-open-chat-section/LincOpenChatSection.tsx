@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import WrapperWithDivider from '../../WrapperWithDivider';
-import NewIcon from './icons/n.svg';
+import NewIcon from './icons/new.svg';
 
 const LincOpenChatSection = () => {
   return (
