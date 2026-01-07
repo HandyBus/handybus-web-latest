@@ -60,11 +60,15 @@ const ExtraDuplicateHubStep = ({
       .sort((a, b) => {
         return dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime));
       });
-    const otherHubs = hubsWithInfoForDuplicates.filter(
-      (hub) =>
-        !toDestinationOnlyHubs.includes(hub) &&
-        !fromDestinationOnlyHubs.includes(hub),
-    );
+    const otherHubs = hubsWithInfoForDuplicates
+      .filter(
+        (hub) =>
+          !toDestinationOnlyHubs.includes(hub) &&
+          !fromDestinationOnlyHubs.includes(hub),
+      )
+      .sort((a, b) => {
+        return dayjs(a.arrivalTime).diff(dayjs(b.arrivalTime));
+      });
 
     return [...toDestinationOnlyHubs, ...fromDestinationOnlyHubs, ...otherHubs];
   }, [hubsWithInfoForDuplicates]);
