@@ -76,31 +76,30 @@ const EventOverview = ({ event, eventDetailImageUrl }: Props) => {
             className="h-auto w-full"
           />
         </div> */}
-        {event.eventId === CxM_EVENT_ID ||
-          (true && (
-            <a
-              href="https://app.linc.fan/31TL/handybus_cxm"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={LincOpenChatImage}
-                alt="Linc 오픈채팅 참여하기 이미지"
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="h-auto w-full"
-              />
-              <Image
-                src={CxMPriceInfoImage}
-                alt="CxM 가격 정보 이미지"
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="h-auto w-full"
-              />
-            </a>
-          ))}
+        {event.eventId === CxM_EVENT_ID && (
+          <a
+            href="https://app.linc.fan/31TL/handybus_cxm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={LincOpenChatImage}
+              alt="Linc 오픈채팅 참여하기 이미지"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto w-full"
+            />
+            <Image
+              src={CxMPriceInfoImage}
+              alt="CxM 가격 정보 이미지"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto w-full"
+            />
+          </a>
+        )}
         <Image
           src={eventDetailImageUrl || OverviewImage}
           alt="행사 상세 이미지"
