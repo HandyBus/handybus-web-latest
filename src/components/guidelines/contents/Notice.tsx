@@ -1,6 +1,7 @@
 const TITLE_STYLE = 'text-16 font-600 text-basic-black mb-8';
 const SUB_TITLE_STYLE = 'text-14 font-600 text-basic-grey-700';
-const TEXT_STYLE = 'text-14 font-400 text-basic-grey-600 list-disc pl-16';
+const LI_TEXT_STYLE = 'text-14 font-400 text-basic-grey-600 list-disc pl-16';
+const TEXT_STYLE = 'text-14 font-400 text-basic-grey-600';
 
 const Notice = () => {
   return (
@@ -10,7 +11,7 @@ const Notice = () => {
         <div className="space-y-12">
           <article>
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>셔틀버스 운행 여부는 탑승 11일 전까지 확정됩니다.</li>
               <li>
                 인원 미달로 예약이 취소되는 경우, 탑승 11일 전 개별 안내드리며
@@ -31,7 +32,7 @@ const Notice = () => {
           </article>
           <article>
             <h6 className={SUB_TITLE_STYLE}>탑승</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>
                 탑승 전, 마이페이지의 예약내역에서 출발/목적지 탑승 장소 위치를
                 반드시 확인하시고 시간 내에 탑승해주세요.
@@ -56,7 +57,7 @@ const Notice = () => {
           </article>
           <article>
             <h6 className={SUB_TITLE_STYLE}>운행</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>
                 셔틀 탑승 현장과 차량 내부에서 기사님과 핸디버스 담당자의 안내를
                 잘 따라주시기 바랍니다.
@@ -95,7 +96,7 @@ const Notice = () => {
           </article>
           <article>
             <h6 className={SUB_TITLE_STYLE}>취소 및 환불 안내</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>
                 예약한 셔틀의 탑승 일자를 기준으로 환불 신청 시점에 따라
                 수수료가 발생합니다. 정확한 탑승일은 예약 상세에서 확인할 수
@@ -122,7 +123,7 @@ const Notice = () => {
         <div className="space-y-12">
           <article>
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>핸디팟 예약은 탑승 5일 전까지 가능합니다.</li>
               <li>
                 최소 인원 미달로 인해 예약이 취소되거나, 다른 지역을 경유하는
@@ -137,7 +138,7 @@ const Notice = () => {
           </article>
           <article>
             <h6 className={SUB_TITLE_STYLE}>탑승</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>
                 핸디팟 상품은 선택한 장소에서 탑승/하차가 가능합니다. (단,
                 회차가 어려운 이면도로, 주차장, 경로 우회가 큰 지역 등 운행이
@@ -162,7 +163,7 @@ const Notice = () => {
           </article>
           <article>
             <h6 className={SUB_TITLE_STYLE}>운행</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>
                 출발지/도착지는 당일 교통 상황 또는 현장 상황에 따라 변경될 수
                 있습니다.
@@ -188,7 +189,7 @@ const Notice = () => {
           </article>
           <article>
             <h6 className={SUB_TITLE_STYLE}>취소 및 환불 안내</h6>
-            <ul className={TEXT_STYLE}>
+            <ul className={LI_TEXT_STYLE}>
               <li>
                 탑승 일자를 기준으로 환불 신청 시점에 따라 수수료가 발생합니다.
                 정확한 탑승일은 예약 상세에서 확인할 수 있습니다.
@@ -205,6 +206,90 @@ const Notice = () => {
                 <HandyPartyRefundTable />
               </div>
             </ul>
+          </article>
+        </div>
+      </section>
+      <section>
+        <h5 className={TITLE_STYLE}>핸디버스 케어</h5>
+        <div className="space-y-12">
+          <article>
+            <h6 className={SUB_TITLE_STYLE}>보상 기준 안내</h6>
+            <p className={TEXT_STYLE}>운행불가</p>
+            <ul className={LI_TEXT_STYLE}>
+              <li>
+                발생 상황: 탑승 거부 / 미탑승(명단 누락, 오버부킹 등 회사
+                귀책으로 못 탄 경우)
+              </li>
+              <li>
+                보상 기준: 대체 차량 미배차로 인해 이동 자체가 불가능해진 경우
+              </li>
+              <li>
+                보상내용: ① 티켓 전액 환불② 대체 교통비(택시, 버스) 실비 전액
+                지급
+              </li>
+            </ul>{' '}
+            <p className={TEXT_STYLE}>현장 지연</p>
+            <ul className={LI_TEXT_STYLE}>
+              <li>발생 상황: 탑승 대기 지연</li>
+              <li>
+                보상 기준: 회사 귀책으로 공연 종료 후 탑승 장소에서 1시간 이상
+                추가 대기가 발생 시 (기본 대기시간 1시간 외){' '}
+              </li>
+              <li>보상내용: ① 티켓 50% 환불② 50% 쿠폰 발급</li>
+            </ul>
+            <p className={TEXT_STYLE}>
+              *차량 고장에 대한 부분은 운송업체의 귀책으로, 해당 업체 운수
+              조항에 따라 보상됨.
+            </p>
+          </article>
+          <article>
+            <h6 className={SUB_TITLE_STYLE}>면책 조항</h6>
+            <p className={TEXT_STYLE}>제 1조 [이용자의 귀책 사유]</p>
+            <ul className={LI_TEXT_STYLE}>
+              <li>
+                이용자가 탑승 시각(출발 시각)에 늦어 차량을 놓친 경우 (단
+                1분이라도, 출발 시각 후에는 보상 불가)
+              </li>
+              <li>
+                이용자가 안내된 탑승 장소를 찾지 못해 탑승하지 못한 경우
+                (앱/문자로 정확한 위치를 고지했다는 전제 하에)
+              </li>
+              <li>만취, 소란 행위 등으로 기사에 의해 탑승이 거부된 경우</li>
+            </ul>
+            <p className={TEXT_STYLE}>제 2조 [불가항력]</p>
+            <ul className={LI_TEXT_STYLE}>
+              <li>
+                교통 체증: 도로 상황으로 인한 도착 지연은 보상 대상이 아닙니다.
+              </li>
+              <li>
+                공연 시간 지연: 아티스트 앵콜이나 주최 측 사정으로 공연이 늦게
+                끝나, 귀가 셔틀 출발이 늦어진 경우 사유
+              </li>
+              <li>
+                천재지변: 폭설, 태풍 등으로 운행이 불가능하여 사전 취소된 경우
+              </li>
+            </ul>
+            <p className={TEXT_STYLE}>제 3조 [주관적 불만족]</p>
+            <ul className={LI_TEXT_STYLE}>
+              <li>
+                기사의 돌발 행동 및 태도, 차량의 연식, 옆자리 승객의 매너 등
+                주관적인 불편 사항은 환불 사유가 되지 않습니다.
+              </li>
+            </ul>
+          </article>
+          <article>
+            <h6 className={SUB_TITLE_STYLE}>입증 및 신청 절차</h6>
+            <p className={TEXT_STYLE}>
+              1. 현장 확인 필수: 문제 발생 시, 반드시 현장 스태프나 카카오톡
+              채널을 통해 당시 상황을 기록해야 합니다
+            </p>
+            <p className={TEXT_STYLE}>
+              2. 증빙 제출: 대체 교통비(택시/KTX) 청구 시, 날짜와 시간이 찍힌
+              영수증 제출 필수
+            </p>
+            <p className={TEXT_STYLE}>
+              3. 처리 기한: 행사 종료일로부터 7일 이내 접수 건에 한함
+            </p>
           </article>
         </div>
       </section>
