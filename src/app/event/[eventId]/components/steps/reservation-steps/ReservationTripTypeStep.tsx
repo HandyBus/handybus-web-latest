@@ -6,7 +6,10 @@ import RequestSeatAlarmButton from '../components/RequestSeatAlarmButton';
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useFormContext } from 'react-hook-form';
 import { useAtomValue } from 'jotai';
-import { calculatePriceOfTripType } from '@/utils/event.util';
+import {
+  calculatePriceOfTripType,
+  checkExistingTripType,
+} from '@/utils/event.util';
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
@@ -32,6 +35,12 @@ const ReservationTripTypeStep = ({
     dailyEventIdsWithRoutes,
     dailyEventId: dailyEvent.dailyEventId,
   });
+  if (!route) {
+    return null;
+  }
+
+  const { toDestinationExists, fromDestinationExists, roundTripExists } =
+    checkExistingTripType(route);
   const { remainingSeat } = selectedHubWithInfo;
   const priceOfTripType = route ? calculatePriceOfTripType(route) : null;
 
@@ -47,7 +56,17 @@ const ReservationTripTypeStep = ({
         const price = priceOfTripType?.[tripType];
         const isSoldOut = remainingSeatCount === 0;
 
-        if (!price || !price.regularPrice) {
+        if (!price || !price.regularPrice || remainingSeatCount === null) {
+          return null;
+        }
+
+        if (tripType === 'ROUND_TRIP' && !roundTripExists) {
+          return null;
+        }
+        if (tripType === 'TO_DESTINATION' && !toDestinationExists) {
+          return null;
+        }
+        if (tripType === 'FROM_DESTINATION' && !fromDestinationExists) {
           return null;
         }
 
@@ -68,8 +87,9 @@ const ReservationTripTypeStep = ({
                     좌석 여유
                   </span>
                 )}
-                {remainingSeatCount <= DANGER_SEAT_THRESHOLD &&
-                  remainingSeatCount > 0 && (
+                {remainingSeatCount !== null &&
+                  remainingSeatCount > 0 &&
+                  remainingSeatCount <= DANGER_SEAT_THRESHOLD && (
                     <span className="text-12 font-500 leading-[160%] text-basic-red-400">
                       {remainingSeatCount}석 남음
                     </span>
