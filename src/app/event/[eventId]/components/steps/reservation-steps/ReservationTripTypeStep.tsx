@@ -87,8 +87,9 @@ const ReservationTripTypeStep = ({
                     좌석 여유
                   </span>
                 )}
-                {remainingSeatCount <= DANGER_SEAT_THRESHOLD &&
-                  remainingSeatCount > 0 && (
+                {remainingSeatCount !== null &&
+                  remainingSeatCount > 0 &&
+                  remainingSeatCount <= DANGER_SEAT_THRESHOLD && (
                     <span className="text-12 font-500 leading-[160%] text-basic-red-400">
                       {remainingSeatCount}석 남음
                     </span>

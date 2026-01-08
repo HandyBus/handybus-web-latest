@@ -108,8 +108,7 @@ export const getPriorityRemainingSeat = (
 
 export const checkIsSoldOut = (remainingSeat: RemainingSeat) => {
   return (
-    remainingSeat.ROUND_TRIP !== null &&
-    remainingSeat.ROUND_TRIP === 0 &&
+    (remainingSeat.ROUND_TRIP === null || remainingSeat.ROUND_TRIP === 0) &&
     (remainingSeat.TO_DESTINATION === null ||
       remainingSeat.TO_DESTINATION === 0) &&
     (remainingSeat.FROM_DESTINATION === null ||

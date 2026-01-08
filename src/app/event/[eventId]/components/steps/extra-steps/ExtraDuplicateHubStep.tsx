@@ -16,7 +16,7 @@ import { selectedHubWithInfoForDetailViewAtom } from '../../../store/selectedHub
 import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { checkExistingTripType } from '@/utils/event.util';
+import { checkExistingTripType, checkIsSoldOut } from '@/utils/event.util';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -164,7 +164,7 @@ const Hub = ({
     hubWithInfo.remainingSeat.FROM_DESTINATION !== null &&
     hubWithInfo.remainingSeat.FROM_DESTINATION === 0
   );
-  const isAllSoldOut = isToDestinationSoldOut && isFromDestinationSoldOut;
+  const isAllSoldOut = checkIsSoldOut(hubWithInfo.remainingSeat);
 
   const toDestinationArrivalTime = toDestinationExists
     ? dateString(
@@ -195,7 +195,7 @@ const Hub = ({
         type="button"
         onClick={onClick}
         disabled={isAllSoldOut}
-        className="flex w-full flex-col gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left active:bg-basic-grey-100"
+        className="flex w-full flex-col gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left active:[&:not(:disabled)]:bg-basic-grey-100"
       >
         {toDestinationExists && (
           <div
@@ -217,6 +217,7 @@ const Hub = ({
                 )}
                 {!isToDestinationSoldOut &&
                   hubWithInfo.remainingSeat.TO_DESTINATION !== null &&
+                  hubWithInfo.remainingSeat.TO_DESTINATION > 0 &&
                   hubWithInfo.remainingSeat.TO_DESTINATION <=
                     DANGER_SEAT_THRESHOLD && (
                     <span className="text-12 font-500 leading-[160%] text-basic-red-400">
@@ -255,6 +256,7 @@ const Hub = ({
                 )}
                 {!isFromDestinationSoldOut &&
                   hubWithInfo.remainingSeat.FROM_DESTINATION !== null &&
+                  hubWithInfo.remainingSeat.FROM_DESTINATION > 0 &&
                   hubWithInfo.remainingSeat.FROM_DESTINATION <=
                     DANGER_SEAT_THRESHOLD && (
                     <span className="text-12 font-500 leading-[160%] text-basic-red-400">
@@ -341,7 +343,7 @@ const RoundTripOnlyHub = ({
         type="button"
         onClick={onClick}
         disabled={isRoundTripSoldOut}
-        className="flex w-full flex-col gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left active:bg-basic-grey-100"
+        className="flex w-full flex-col gap-8 rounded-8 border border-basic-grey-200 px-12 py-[10px] text-left active:[&:not(:disabled)]:bg-basic-grey-100"
       >
         <div
           className={`flex w-full items-center gap-8 ${
@@ -362,6 +364,7 @@ const RoundTripOnlyHub = ({
               )}
               {!isRoundTripSoldOut &&
                 hubWithInfo.remainingSeat.ROUND_TRIP !== null &&
+                hubWithInfo.remainingSeat.ROUND_TRIP > 0 &&
                 hubWithInfo.remainingSeat.ROUND_TRIP <=
                   DANGER_SEAT_THRESHOLD && (
                   <span className="text-12 font-500 leading-[160%] text-basic-red-400">
@@ -396,6 +399,7 @@ const RoundTripOnlyHub = ({
               )}
               {!isRoundTripSoldOut &&
                 hubWithInfo.remainingSeat.ROUND_TRIP !== null &&
+                hubWithInfo.remainingSeat.ROUND_TRIP > 0 &&
                 hubWithInfo.remainingSeat.ROUND_TRIP <=
                   DANGER_SEAT_THRESHOLD && (
                   <span className="text-12 font-500 leading-[160%] text-basic-red-400">

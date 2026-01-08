@@ -212,14 +212,9 @@ const ReservationHubsStep = ({
                       (hub) => hub.role === 'DESTINATION',
                     ) ?? null;
 
-                const hub = possibleHubs[0];
-                if (!hub) {
-                  return null;
-                }
-
                 return (
                   <Hub
-                    key={hub.regionHubId}
+                    key={possibleHubs[0].regionHubId}
                     possibleHubs={possibleHubs}
                     handleHubClick={() => handleHubClick(possibleHubs)}
                     toExtraSeatAlarmStep={toExtraSeatAlarmStep}
@@ -279,6 +274,8 @@ const Hub = ({
   fastestArrivalTimeToDestinationHub,
   fastestArrivalTimeFromDestinationHub,
 }: HubProps) => {
+  const hub = possibleHubs[0];
+
   const isToDestinationDuplicate =
     possibleHubs.filter((hub) => hub.remainingSeat.TO_DESTINATION !== null)
       .length > 1;
@@ -302,9 +299,15 @@ const Hub = ({
       .filter((hub) => hub.remainingSeat.FROM_DESTINATION !== null)
       .every((hub) => hub.remainingSeat.FROM_DESTINATION === 0);
 
-  const hub = possibleHubs[0];
-  const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
-  const remainingSeatCount = remainingSeat?.count ?? 0;
+  const isUnderDangerSeatThreshold = possibleHubs.every((hub) => {
+    const remainingSeat = getPriorityRemainingSeat(hub.remainingSeat);
+    return (
+      remainingSeat &&
+      remainingSeat.count !== null &&
+      remainingSeat.count > 0 &&
+      remainingSeat.count <= DANGER_SEAT_THRESHOLD
+    );
+  });
 
   const toDestinationArrivalTime = fastestArrivalTimeToDestinationHub
     ? dateString(fastestArrivalTimeToDestinationHub.arrivalTime, {
@@ -346,7 +349,7 @@ const Hub = ({
               <span className="text-12 font-500 text-basic-grey-500">매진</span>
             </div>
           ) : (
-            remainingSeatCount <= DANGER_SEAT_THRESHOLD && (
+            isUnderDangerSeatThreshold && (
               <span className="shrink-0 whitespace-nowrap break-keep text-12 font-500 leading-[160%] text-basic-red-400">
                 매진 임박
               </span>
