@@ -5,7 +5,7 @@ import argentModalImage from './images/argent-modal.png';
 import ArgentModal from './components/ArgentModal';
 // import { useRouter } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
-// import OneDayModal from './components/OneDayModal';
+import OneDayModal from './components/OneDayModal';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import {
   getAppLaunchEventCouponDownloadModalSeen,
@@ -16,9 +16,11 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
-// import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
+import HandybusCareInfoImage from './images/handybus-care-info.png';
 
 // import AppLaunchEventImage from './images/app-launch-event.png';
+
+// import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
 // import InvitePaybackEventImage from './images/invite-payback-event.png';
 // import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
 
@@ -101,6 +103,10 @@ const Page = () => {
     );
   }
 
+  const handleHandybusCareInfoOpen = () => {
+    handleExternalLink('https://handybus.notion.site/2026handybuscare');
+  };
+
   return (
     <>
       <ModalPortal>
@@ -118,6 +124,12 @@ const Page = () => {
           closeForTodayText="오늘은 그만 보기"
           onClose={handleModalClose}
         /> */}
+        <OneDayModal
+          image={HandybusCareInfoImage}
+          handleClick={handleHandybusCareInfoOpen}
+          variant="transparent"
+          closeForTodayText="오늘은 그만 보기"
+        />
       </ModalPortal>
       <AppLaunchEventCouponDownloadModal
         isOpen={isAppLaunchEventCouponDownloadModalOpen}
