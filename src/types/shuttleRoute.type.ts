@@ -62,6 +62,9 @@ export const ShuttleRoutesViewEntitySchema = z
     regularPriceToDestination: z.number().nullable(),
     regularPriceFromDestination: z.number().nullable(),
     regularPriceRoundTrip: z.number().nullable(),
+    isReservationDisabledToDestination: z.boolean(),
+    isReservationDisabledFromDestination: z.boolean(),
+    isReservationDisabledRoundTrip: z.boolean(),
     maxPassengerCount: z.number(),
     toDestinationCount: z.number().nullable(), // 행사장행 예약 탑승객 수
     fromDestinationCount: z.number().nullable(), // 귀가행 예약 탑승객 수

@@ -11,6 +11,7 @@ import { dateString } from '@/utils/dateString.util';
 import { customTwMerge } from 'tailwind.config';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
+import { GD_FANMEETING_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
 
 const ROUND_TRIP_TEXT = '[왕복] ';
 
@@ -21,6 +22,7 @@ const ROUND_TRIP_TEXT = '[왕복] ';
 type HubType = 'destination' | 'primary' | 'secondary' | 'tertiary';
 
 interface Props {
+  eventId: string;
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   isRoundTrip: boolean;
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
@@ -29,6 +31,7 @@ interface Props {
 }
 
 const SimpleRouteInfo = ({
+  eventId,
   tripType,
   isRoundTrip,
   hubs,
@@ -136,6 +139,7 @@ const SimpleRouteInfo = ({
         </div>
         <div className="flex flex-1 flex-col gap-12">
           <Hubs
+            eventId={eventId}
             hubs={sortedHubs}
             selectedHubIndex={selectedHubIndex}
             tripType={tripType}
@@ -166,6 +170,7 @@ const SimpleRouteInfo = ({
 export default SimpleRouteInfo;
 
 interface HubsProps {
+  eventId: string;
   hubs: ShuttleRouteHubsInShuttleRoutesViewEntity[];
   selectedHubIndex: number;
   tripType: TripType;
@@ -176,6 +181,7 @@ interface HubsProps {
 }
 
 const Hubs = ({
+  eventId,
   hubs,
   selectedHubIndex,
   tripType,
@@ -196,6 +202,7 @@ const Hubs = ({
         return (
           <Hub
             key={hub.shuttleRouteHubId}
+            eventId={eventId}
             tripType={tripType}
             index={index}
             length={hubs.length}
@@ -216,6 +223,7 @@ const Hubs = ({
 };
 
 interface HubProps {
+  eventId: string;
   tripType: TripType;
   index: number;
   length: number;
@@ -229,6 +237,7 @@ interface HubProps {
 }
 
 const Hub = ({
+  eventId,
   tripType,
   index,
   length,
@@ -278,7 +287,7 @@ const Hub = ({
               : 'text-basic-grey-500'
         }`}
       >
-        {formattedTime}
+        {eventId !== GD_FANMEETING_EVENT_ID ? formattedTime : '미정'}
       </span>
       <span
         className={`line-clamp-1 text-16 ${

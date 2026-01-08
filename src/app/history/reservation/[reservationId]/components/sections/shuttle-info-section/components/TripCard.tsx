@@ -8,6 +8,7 @@ import PinIcon from '../icons/pin-primary.svg';
 import HubItem from './HubItem';
 
 interface Props {
+  eventId: string;
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
   destinationHub: ShuttleRouteHubsInShuttleRoutesViewEntity | undefined;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const TripCard = ({
+  eventId,
   tripType,
   hub,
   destinationHub,
@@ -70,6 +72,7 @@ const TripCard = ({
           {tripType === 'TO_DESTINATION' && (
             <>
               <HubItem
+                eventId={eventId}
                 date={formattedDate}
                 time={formattedTime}
                 hub={hub}
@@ -80,6 +83,7 @@ const TripCard = ({
                 desiredHubLongitude={desiredHubLongitude}
               />
               <HubItem
+                eventId={eventId}
                 date={formattedDestinationDate}
                 time={formattedDestinationTime}
                 hub={destinationHub}
@@ -89,11 +93,13 @@ const TripCard = ({
           {tripType === 'FROM_DESTINATION' && (
             <>
               <HubItem
+                eventId={eventId}
                 date={formattedDestinationDate}
                 time={formattedDestinationTime}
                 hub={destinationHub}
               />
               <HubItem
+                eventId={eventId}
                 date={formattedDate}
                 time={formattedTime}
                 hub={hub}

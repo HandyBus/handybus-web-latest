@@ -7,6 +7,8 @@ import InfoIcon from 'public/icons/info.svg';
 import DotIcon from '../../../icons/dot-primary.svg';
 import PinIcon from '../../../icons/pin-primary.svg';
 
+export const GD_FANMEETING_EVENT_ID = '664379065943202277';
+
 interface ShuttleScheduleViewProps {
   event: EventsViewEntity;
   shuttleRoutes: ShuttleRoutesViewEntity[];
@@ -66,15 +68,22 @@ const ShuttleScheduleView = ({
           <div className="h-[1px] border border-basic-grey-100" />
           <ShuttleHubItem
             boardingTime={
-              dateString(earliestDestinationArrival, DATE_STRING_OPTIONS) + '~'
+              event.eventId !== GD_FANMEETING_EVENT_ID
+                ? dateString(earliestDestinationArrival, DATE_STRING_OPTIONS) +
+                  '~'
+                : '미정'
             }
             description={eventLocationName}
           />
           <div className="h-[1px] border border-basic-grey-100" />
           <ShuttleHubItem
             boardingTime={
-              dateString(earliestDestinationDeparture, DATE_STRING_OPTIONS) +
-              '~'
+              event.eventId !== GD_FANMEETING_EVENT_ID
+                ? dateString(
+                    earliestDestinationDeparture,
+                    DATE_STRING_OPTIONS,
+                  ) + '~'
+                : '미정'
             }
             description="행사 종료 후 탑승"
           />
@@ -100,7 +109,7 @@ const ShuttleHubItem = ({
 }) => {
   return (
     <span className="flex items-center gap-[9px] px-8 py-16">
-      <p className="text-12 font-500 leading-[160%] text-basic-grey-700">
+      <p className="w-[66px] text-12 font-500 leading-[160%] text-basic-grey-700">
         {boardingTime}
       </p>
       <p className="text-14 font-600 leading-[160%]">{description}</p>

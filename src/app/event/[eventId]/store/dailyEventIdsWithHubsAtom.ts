@@ -8,7 +8,11 @@ import {
   DailyEventIdsWithRoutes,
   dailyEventIdsWithRoutesAtom,
 } from './dailyEventIdsWithRoutesAtom';
-import { getRemainingSeat, RemainingSeat } from '@/utils/event.util';
+import {
+  checkExistingTripType,
+  getRemainingSeat,
+  RemainingSeat,
+} from '@/utils/event.util';
 
 export interface HubWithInfo extends ShuttleRouteHubsInShuttleRoutesViewEntity {
   shuttleRouteId: string;
@@ -78,21 +82,17 @@ export const getHubsWithInfoInRoute = (
   route: ShuttleRoutesViewEntity,
 ): HubWithInfo[] => {
   const shuttleRouteId = route.shuttleRouteId;
+  const { toDestinationExists, fromDestinationExists, roundTripExists } =
+    checkExistingTripType(route);
   const remainingSeat = getRemainingSeat(route);
 
   const toDestinationHubs =
-    route.toDestinationShuttleRouteHubs &&
-    route.toDestinationShuttleRouteHubs.length > 0 &&
-    route.regularPriceToDestination !== null &&
-    route.regularPriceToDestination > 0
-      ? route.toDestinationShuttleRouteHubs.filter((hub) => hub.role === 'HUB')
+    toDestinationExists || roundTripExists
+      ? route.toDestinationShuttleRouteHubs?.filter((hub) => hub.role === 'HUB')
       : null;
   const fromDestinationHubs =
-    route.fromDestinationShuttleRouteHubs &&
-    route.fromDestinationShuttleRouteHubs.length > 0 &&
-    route.regularPriceFromDestination !== null &&
-    route.regularPriceFromDestination > 0
-      ? route.fromDestinationShuttleRouteHubs.filter(
+    fromDestinationExists || roundTripExists
+      ? route.fromDestinationShuttleRouteHubs?.filter(
           (hub) => hub.role === 'HUB',
         )
       : null;

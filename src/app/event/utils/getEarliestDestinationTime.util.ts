@@ -13,7 +13,11 @@ export const getEarliestDestinationTime = (
   let earliestDestinationDeparture = '';
 
   routes.forEach((route) => {
-    if (route.toDestinationShuttleRouteHubs) {
+    if (
+      route.toDestinationShuttleRouteHubs &&
+      route.regularPriceToDestination !== null &&
+      route.regularPriceToDestination > 0
+    ) {
       const destinationHub = route.toDestinationShuttleRouteHubs.find(
         (hub) => hub.role === 'DESTINATION',
       );
@@ -28,7 +32,11 @@ export const getEarliestDestinationTime = (
       }
     }
 
-    if (route.fromDestinationShuttleRouteHubs) {
+    if (
+      route.fromDestinationShuttleRouteHubs &&
+      route.regularPriceFromDestination !== null &&
+      route.regularPriceFromDestination > 0
+    ) {
       const destinationHub = route.fromDestinationShuttleRouteHubs.find(
         (hub) => hub.role === 'DESTINATION',
       );

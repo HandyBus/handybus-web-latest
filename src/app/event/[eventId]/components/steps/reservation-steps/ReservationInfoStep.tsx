@@ -131,6 +131,7 @@ const ReservationInfoStep = ({
       {(isRoundTrip || tripType === 'TO_DESTINATION') &&
         toDestinationShuttleRouteHubId && (
           <SimpleRouteInfo
+            eventId={event?.eventId ?? ''}
             tripType="TO_DESTINATION"
             isRoundTrip={isRoundTrip}
             hubs={toDestinationHubs}
@@ -141,6 +142,7 @@ const ReservationInfoStep = ({
       {(isRoundTrip || tripType === 'FROM_DESTINATION') &&
         fromDestinationShuttleRouteHubId && (
           <SimpleRouteInfo
+            eventId={event?.eventId ?? ''}
             tripType="FROM_DESTINATION"
             isRoundTrip={isRoundTrip}
             hubs={fromDestinationHubs}

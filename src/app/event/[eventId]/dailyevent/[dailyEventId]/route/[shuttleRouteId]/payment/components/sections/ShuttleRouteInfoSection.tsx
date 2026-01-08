@@ -11,8 +11,10 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { dateString } from '@/utils/dateString.util';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import InfoIcon from '../../icons/info.svg';
+import { GD_FANMEETING_EVENT_ID } from '@/app/event/[eventId]/components/event-content/components/ShuttleScheduleView';
 
 interface Props {
+  eventId: string;
   tripType: TripType;
   shuttleRoute: ShuttleRoutesViewEntity;
   toDestinationHubId: string | null;
@@ -23,6 +25,7 @@ interface Props {
 }
 
 const ShuttleRouteInfoSection = ({
+  eventId,
   tripType,
   shuttleRoute,
   toDestinationHubId,
@@ -51,6 +54,7 @@ const ShuttleRouteInfoSection = ({
       {(tripType === 'ROUND_TRIP' || tripType === 'TO_DESTINATION') &&
         toDestinationHub && (
           <TripCard
+            eventId={eventId}
             tripType="TO_DESTINATION"
             hub={toDestinationHub}
             shuttleRoute={shuttleRoute}
@@ -64,6 +68,7 @@ const ShuttleRouteInfoSection = ({
         fromDestinationHub && (
           <>
             <TripCard
+              eventId={eventId}
               tripType="FROM_DESTINATION"
               hub={fromDestinationHub}
               shuttleRoute={shuttleRoute}
@@ -88,6 +93,7 @@ const ShuttleRouteInfoSection = ({
 export default ShuttleRouteInfoSection;
 
 interface TripCardProps {
+  eventId: string;
   tripType: Exclude<TripType, 'ROUND_TRIP'>;
   hub: ShuttleRouteHubsInShuttleRoutesViewEntity;
   shuttleRoute: ShuttleRoutesViewEntity;
@@ -98,6 +104,7 @@ interface TripCardProps {
 }
 
 const TripCard = ({
+  eventId,
   tripType,
   hub,
   shuttleRoute,
@@ -112,12 +119,15 @@ const TripCard = ({
       ? '[왕복] ' + TRIP_STATUS_TO_STRING[tripType]
       : TRIP_STATUS_TO_STRING[tripType];
   const formattedDate = dateString(hub.arrivalTime);
-  const formattedTime = dateString(hub.arrivalTime, {
-    showYear: false,
-    showDate: false,
-    showTime: true,
-    showWeekday: false,
-  });
+  const formattedTime =
+    eventId !== GD_FANMEETING_EVENT_ID
+      ? dateString(hub.arrivalTime, {
+          showYear: false,
+          showDate: false,
+          showTime: true,
+          showWeekday: false,
+        })
+      : '미정';
   const destinationHub =
     tripType === 'TO_DESTINATION'
       ? shuttleRoute.toDestinationShuttleRouteHubs
@@ -132,12 +142,15 @@ const TripCard = ({
   }
 
   const formattedDestinationDate = dateString(destinationHub.arrivalTime);
-  const formattedDestinationTime = dateString(destinationHub.arrivalTime, {
-    showYear: false,
-    showDate: false,
-    showTime: true,
-    showWeekday: false,
-  });
+  const formattedDestinationTime =
+    eventId !== GD_FANMEETING_EVENT_ID
+      ? dateString(destinationHub.arrivalTime, {
+          showYear: false,
+          showDate: false,
+          showTime: true,
+          showWeekday: false,
+        })
+      : '미정';
 
   return (
     <article className="w-full overflow-hidden rounded-16 border-[1.5px] border-basic-grey-100">

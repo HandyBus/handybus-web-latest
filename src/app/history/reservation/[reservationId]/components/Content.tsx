@@ -113,6 +113,7 @@ const Content = ({
         isReservationCanceled={isReservationCanceled}
       />
       <ShuttleInfoSection
+        eventId={event.eventId}
         reservation={reservation}
         shuttleRoute={shuttleRoute}
         toDestinationHub={toDestinationHub}

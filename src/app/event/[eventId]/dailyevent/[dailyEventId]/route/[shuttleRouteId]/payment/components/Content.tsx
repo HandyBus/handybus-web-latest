@@ -218,7 +218,10 @@ const Content = ({
   };
 
   // 에러 처리
-  if (remainingSeat[tripType] < passengerCount) {
+  if (
+    remainingSeat[tripType] === null ||
+    (remainingSeat[tripType] ?? 0) < passengerCount
+  ) {
     toast.error('남은 좌석이 없습니다.');
     replace(`/event/${event.eventId}`);
     return;
@@ -239,6 +242,7 @@ const Content = ({
       )}
       <EventInfoSection event={event} />
       <ShuttleRouteInfoSection
+        eventId={event.eventId}
         tripType={tripType}
         shuttleRoute={shuttleRoute}
         toDestinationHubId={toDestinationHubId}
