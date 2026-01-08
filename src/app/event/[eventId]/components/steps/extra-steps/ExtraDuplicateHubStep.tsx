@@ -115,8 +115,13 @@ const ExtraDuplicateHubStep = ({
         const { toDestinationExists, fromDestinationExists, roundTripExists } =
           checkExistingTripType(route);
 
-        // 왕복만 존재하는 노선인 경우 별도로 처리
-        if (roundTripExists && !toDestinationExists && !fromDestinationExists) {
+        // 왕복만 결제 가능한 노선인 경우 별도로 처리
+        if (
+          roundTripExists &&
+          ((!toDestinationExists && !fromDestinationExists) ||
+            (route.isReservationDisabledToDestination &&
+              route.isReservationDisabledFromDestination))
+        ) {
           return (
             <RoundTripOnlyHub
               key={hubWithInfo.shuttleRouteId}

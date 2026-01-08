@@ -64,18 +64,29 @@ export const getRemainingSeat = (
 ): RemainingSeat => {
   const { toDestinationExists, fromDestinationExists, roundTripExists } =
     checkExistingTripType(route);
+  const {
+    isReservationDisabledToDestination,
+    isReservationDisabledFromDestination,
+    isReservationDisabledRoundTrip,
+  } = route;
   const maxSeatCount = route.maxPassengerCount ?? 0;
   const toDestinationCount = toDestinationExists
-    ? maxSeatCount - (route.toDestinationCount ?? 0)
+    ? isReservationDisabledToDestination
+      ? 0
+      : maxSeatCount - (route.toDestinationCount ?? 0)
     : null;
   const fromDestinationCount = fromDestinationExists
-    ? maxSeatCount - (route.fromDestinationCount ?? 0)
+    ? isReservationDisabledFromDestination
+      ? 0
+      : maxSeatCount - (route.fromDestinationCount ?? 0)
     : null;
   const roundTripCount = roundTripExists
-    ? Math.min(
-        maxSeatCount - (route.toDestinationCount ?? 0),
-        maxSeatCount - (route.fromDestinationCount ?? 0),
-      )
+    ? isReservationDisabledRoundTrip
+      ? 0
+      : Math.min(
+          maxSeatCount - (route.toDestinationCount ?? 0),
+          maxSeatCount - (route.fromDestinationCount ?? 0),
+        )
     : null;
 
   return {
