@@ -26,6 +26,8 @@ import { dateString } from '@/utils/dateString.util';
 import { userDemandsAtom } from '../../../store/userDemandsAtom';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import { GD_FANMEETING_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
+import { eventAtom } from '../../../store/eventAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -44,6 +46,7 @@ const ReservationHubsStep = ({
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
+  const event = useAtomValue(eventAtom);
   const [dailyEvent, sido, openSido] = getValues([
     'dailyEvent',
     'sido',
@@ -215,6 +218,7 @@ const ReservationHubsStep = ({
                 return (
                   <Hub
                     key={possibleHubs[0].regionHubId}
+                    eventId={event?.eventId ?? ''}
                     possibleHubs={possibleHubs}
                     handleHubClick={() => handleHubClick(possibleHubs)}
                     toExtraSeatAlarmStep={toExtraSeatAlarmStep}
@@ -260,6 +264,7 @@ const ReservationHubsStep = ({
 export default ReservationHubsStep;
 
 interface HubProps {
+  eventId: string;
   possibleHubs: HubWithInfo[];
   handleHubClick: (hubsWithInfo: HubWithInfo[]) => void;
   toExtraSeatAlarmStep: () => void;
@@ -268,6 +273,7 @@ interface HubProps {
 }
 
 const Hub = ({
+  eventId,
   possibleHubs,
   handleHubClick,
   toExtraSeatAlarmStep,
@@ -356,29 +362,31 @@ const Hub = ({
             )
           )}
         </div>
-        <div className="flex pl-[29px] text-12 font-500 leading-[160%] text-basic-grey-600">
-          {fastestArrivalTimeToDestinationHub ? (
-            <div
-              className={`${isSoldOutForToDestination && 'text-basic-grey-300'}`}
-            >
-              행사장행 {toDestinationArrivalTime} 도착{' '}
-              {isToDestinationDuplicate && ' 외'}
-            </div>
-          ) : (
-            <div className="text-basic-grey-300">행사장행 미운행</div>
-          )}
-          <div className="text-basic-grey-200">&nbsp;|&nbsp;</div>
-          {fastestArrivalTimeFromDestinationHub ? (
-            <div
-              className={`${isSoldOutForFromDestination && 'text-basic-grey-300'}`}
-            >
-              귀가행 {fromDestinationDepartureTime} 출발{' '}
-              {isFromDestinationDuplicate && ' 외'}
-            </div>
-          ) : (
-            <div className="text-basic-grey-300">귀가행 미운행</div>
-          )}
-        </div>
+        {eventId !== GD_FANMEETING_EVENT_ID && (
+          <div className="flex pl-[29px] text-12 font-500 leading-[160%] text-basic-grey-600">
+            {fastestArrivalTimeToDestinationHub ? (
+              <div
+                className={`${isSoldOutForToDestination && 'text-basic-grey-300'}`}
+              >
+                행사장행 {toDestinationArrivalTime} 도착{' '}
+                {isToDestinationDuplicate && ' 외'}
+              </div>
+            ) : (
+              <div className="text-basic-grey-300">행사장행 미운행</div>
+            )}
+            <div className="text-basic-grey-200">&nbsp;|&nbsp;</div>
+            {fastestArrivalTimeFromDestinationHub ? (
+              <div
+                className={`${isSoldOutForFromDestination && 'text-basic-grey-300'}`}
+              >
+                귀가행 {fromDestinationDepartureTime} 출발{' '}
+                {isFromDestinationDuplicate && ' 외'}
+              </div>
+            ) : (
+              <div className="text-basic-grey-300">귀가행 미운행</div>
+            )}
+          </div>
+        )}
       </button>
       {isSoldOut && (
         <div className="absolute right-[12px] top-[10px]">

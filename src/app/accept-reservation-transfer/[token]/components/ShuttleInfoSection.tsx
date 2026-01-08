@@ -3,6 +3,7 @@ import { getBoardingTime } from '@/utils/reservation.util';
 import { dateString } from '@/utils/dateString.util';
 import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { getHubText } from '@/utils/event.util';
+import { GD_FANMEETING_EVENT_ID } from '@/app/event/[eventId]/components/event-content/components/ShuttleScheduleView';
 
 interface Props {
   reservation: ReservationsViewEntity;
@@ -34,7 +35,11 @@ const ShuttleInfoSection = ({ reservation }: Props) => {
         <h5>행사명</h5>
         <p>{eventName}</p>
         <h5>탑승 일시</h5>
-        <p>{formattedBoardingTime}</p>
+        <p>
+          {event.eventId !== GD_FANMEETING_EVENT_ID
+            ? formattedBoardingTime
+            : '미정'}
+        </p>
         <h5>탑승 유형</h5>
         <p>
           {isTransferredReservation && '[핸디팟] '}

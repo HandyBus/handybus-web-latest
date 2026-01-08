@@ -9,6 +9,7 @@ import Image from 'next/image';
 import WrapperWithDivider from '../../WrapperWithDivider';
 
 interface Props {
+  eventId: string;
   reservation: ReservationsViewEntity;
   toDestinationHub:
     | ShuttleRouteHubsInShuttleRoutesViewEntity
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const ShuttleInfoSection = ({
+  eventId,
   reservation,
   toDestinationHub,
   fromDestinationHub,
@@ -63,6 +65,7 @@ const ShuttleInfoSection = ({
             toDestinationHub &&
             toDestinationDestinationHub && (
               <TripCard
+                eventId={eventId}
                 tripType="TO_DESTINATION"
                 hub={toDestinationHub}
                 destinationHub={toDestinationDestinationHub}
@@ -78,6 +81,7 @@ const ShuttleInfoSection = ({
             fromDestinationHub &&
             fromDestinationDestinationHub && (
               <TripCard
+                eventId={eventId}
                 tripType="FROM_DESTINATION"
                 hub={fromDestinationHub}
                 destinationHub={fromDestinationDestinationHub}

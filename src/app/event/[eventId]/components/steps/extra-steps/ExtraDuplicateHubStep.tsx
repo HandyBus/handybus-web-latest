@@ -17,6 +17,8 @@ import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { checkExistingTripType, checkIsSoldOut } from '@/utils/event.util';
+import { GD_FANMEETING_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
+import { eventAtom } from '../../../store/eventAtom';
 
 interface Props {
   toReservationTripTypeStep: () => void;
@@ -95,6 +97,9 @@ const ExtraDuplicateHubStep = ({
     closeBottomSheet();
   };
 
+  const event = useAtomValue(eventAtom);
+  const eventId = event?.eventId ?? '';
+
   return (
     <section className="flex w-full flex-col gap-8">
       {sortedHubsWithInfoForDuplicates.map((hubWithInfo) => {
@@ -115,6 +120,7 @@ const ExtraDuplicateHubStep = ({
           return (
             <RoundTripOnlyHub
               key={hubWithInfo.shuttleRouteId}
+              eventId={eventId}
               onClick={() => handleHubClick(hubWithInfo)}
               toExtraSeatAlarmStep={toExtraSeatAlarmStep}
               route={route}
@@ -126,6 +132,7 @@ const ExtraDuplicateHubStep = ({
         return (
           <Hub
             key={hubWithInfo.shuttleRouteId}
+            eventId={eventId}
             onClick={() => handleHubClick(hubWithInfo)}
             toExtraSeatAlarmStep={toExtraSeatAlarmStep}
             route={route}
@@ -140,6 +147,7 @@ const ExtraDuplicateHubStep = ({
 export default ExtraDuplicateHubStep;
 
 interface HubProps {
+  eventId: string;
   onClick: () => void;
   toExtraSeatAlarmStep: () => void;
   hubWithInfo: HubWithInfo;
@@ -147,6 +155,7 @@ interface HubProps {
 }
 
 const Hub = ({
+  eventId,
   onClick,
   toExtraSeatAlarmStep,
   hubWithInfo,
@@ -225,11 +234,13 @@ const Hub = ({
                     </span>
                   )}
               </div>
-              <div
-                className={`flex-1 text-12 font-500 leading-[160%] ${isToDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
-              >
-                {toDestinationArrivalTime} 도착
-              </div>
+              {eventId !== GD_FANMEETING_EVENT_ID && (
+                <div
+                  className={`flex-1 text-12 font-500 leading-[160%] ${isToDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+                >
+                  {toDestinationArrivalTime} 도착
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -264,11 +275,13 @@ const Hub = ({
                     </span>
                   )}
               </div>
-              <div
-                className={`flex-1 text-12 font-500 leading-[160%] ${isFromDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
-              >
-                {fromDestinationDepartureTime} 출발
-              </div>
+              {eventId !== GD_FANMEETING_EVENT_ID && (
+                <div
+                  className={`flex-1 text-12 font-500 leading-[160%] ${isFromDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+                >
+                  {fromDestinationDepartureTime} 출발
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -294,6 +307,7 @@ const Hub = ({
 };
 
 interface RoundTripOnlyHubProps {
+  eventId: string;
   onClick: () => void;
   toExtraSeatAlarmStep: () => void;
   hubWithInfo: HubWithInfo;
@@ -301,6 +315,7 @@ interface RoundTripOnlyHubProps {
 }
 
 const RoundTripOnlyHub = ({
+  eventId,
   onClick,
   toExtraSeatAlarmStep,
   hubWithInfo,
@@ -372,11 +387,13 @@ const RoundTripOnlyHub = ({
                   </span>
                 )}
             </div>
-            <div
-              className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
-            >
-              {toDestinationArrivalTime} 도착
-            </div>
+            {eventId !== GD_FANMEETING_EVENT_ID && (
+              <div
+                className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+              >
+                {toDestinationArrivalTime} 도착
+              </div>
+            )}
           </div>
         </div>
         <div className="h-1 w-full border border-basic-grey-100" />
@@ -407,11 +424,13 @@ const RoundTripOnlyHub = ({
                   </span>
                 )}
             </div>
-            <div
-              className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
-            >
-              {fromDestinationDepartureTime} 출발
-            </div>
+            {eventId !== GD_FANMEETING_EVENT_ID && (
+              <div
+                className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
+              >
+                {fromDestinationDepartureTime} 출발
+              </div>
+            )}
           </div>
         </div>
       </button>

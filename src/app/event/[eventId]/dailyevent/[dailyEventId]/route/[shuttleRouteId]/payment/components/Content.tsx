@@ -242,6 +242,7 @@ const Content = ({
       )}
       <EventInfoSection event={event} />
       <ShuttleRouteInfoSection
+        eventId={event.eventId}
         tripType={tripType}
         shuttleRoute={shuttleRoute}
         toDestinationHubId={toDestinationHubId}
