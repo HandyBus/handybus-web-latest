@@ -96,7 +96,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   return (
     <div className="relative flex h-full w-full flex-1 flex-col overflow-hidden bg-basic-grey-50">
       {/* Header - Increased top padding for safe area */}
-      <div className="mb-[42px] flex flex-col justify-between pt-[24px]">
+      <div className="mb-[42px] flex flex-col justify-between pt-[24px] [@media(max-height:750px)]:mb-8">
         {/* Stage Counter */}
         <div className="mb-44 flex items-center justify-end gap-8 px-[32px]">
           {/* Purple circle indicator */}
@@ -113,7 +113,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
       </div>
 
       {/* Grid Area */}
-      <div className="pt-2 mb-24 flex flex-1 items-start justify-center overflow-y-auto px-4">
+      <div className="pt-2 flex flex-1 items-start justify-center overflow-y-auto px-4">
         <div
           className="grid content-start justify-items-center"
           style={{
