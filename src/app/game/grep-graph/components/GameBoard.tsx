@@ -1,0 +1,190 @@
+'use client';
+
+import { useState, useEffect, useRef, memo, useCallback } from 'react';
+import CheckIcon from './icons/check.svg';
+import { twMerge } from 'tailwind-merge';
+import { useCreateGameRecord } from '@/services/game.service';
+import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
+import { formatTime } from '../utils/game.util';
+
+interface GameBoardProps {
+  nickname: string;
+  onFinish: (
+    score: string,
+    allScores: string[],
+    record: CatchGrapeGameRecordReadModel | null,
+  ) => void;
+}
+
+const TOTAL_STAGES = 5;
+
+// Grid: 14 columns × 20 rows = 280 nodes (matches Figma layout)
+const GRID_COLS = 14;
+const GRID_ROWS = 20;
+const GRID_SIZE = GRID_COLS * GRID_ROWS;
+
+const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
+  const [stage, setStage] = useState(0);
+  const [time, setTime] = useState(0);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [targetIndex, setTargetIndex] = useState(0);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [attemptTimes, setAttemptTimes] = useState<number[]>([]);
+
+  const { mutateAsync: createRecord, isPending: isSubmitting } =
+    useCreateGameRecord();
+
+  useEffect(() => {
+    setIsGameStarted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isGameStarted) {
+      timerRef.current = setInterval(() => {
+        setTime((prev) => prev + 10);
+      }, 10);
+    }
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isGameStarted]);
+
+  useEffect(() => {
+    if (stage < TOTAL_STAGES) {
+      setTargetIndex(Math.floor(Math.random() * GRID_SIZE));
+      setIsSelected(false);
+    }
+  }, [stage]);
+
+  const handleNodeClick = useCallback(
+    (index: number) => {
+      if (index === targetIndex) {
+        setIsSelected(true);
+      }
+    },
+    [targetIndex],
+  );
+
+  const handleNextStage = async () => {
+    const updatedAttemptTimes = [...attemptTimes, time];
+    setAttemptTimes(updatedAttemptTimes);
+
+    if (stage === TOTAL_STAGES - 1) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      const allScores = updatedAttemptTimes.map(formatTime);
+      const bestTime = Math.min(...updatedAttemptTimes);
+
+      try {
+        const record = await createRecord({
+          nickname,
+          time: bestTime,
+        });
+        onFinish(formatTime(bestTime), allScores, record);
+      } catch (error) {
+        console.error('Failed to create game record:', error);
+        onFinish(formatTime(bestTime), allScores, null);
+      }
+    } else {
+      setStage((prev) => prev + 1);
+      setTime(0);
+    }
+  };
+
+  return (
+    <div className="relative flex h-full w-full flex-1 flex-col overflow-hidden bg-basic-grey-50">
+      {/* Header - Increased top padding for safe area */}
+      <div className="mb-[42px] flex flex-col justify-between pt-[24px]">
+        {/* Stage Counter */}
+        <div className="mb-44 flex items-center justify-end gap-8 px-[32px]">
+          {/* Purple circle indicator */}
+          <div className="h-16 w-16 rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]"></div>
+          <span className="text-[20px] font-600 leading-[160%]">
+            {stage}/{TOTAL_STAGES}
+          </span>
+        </div>
+
+        {/* Timer */}
+        <div className="text-center text-[24px] font-500 leading-[160%] text-basic-black">
+          {formatTime(time)}
+        </div>
+      </div>
+
+      {/* Grid Area */}
+      <div className="pt-2 mb-24 flex flex-1 items-start justify-center overflow-y-auto px-4">
+        <div
+          className="grid content-start justify-items-center"
+          style={{
+            gridTemplateColumns: `repeat(${GRID_COLS}, 16px)`,
+            gap: '6px',
+          }}
+        >
+          {Array.from({ length: GRID_SIZE }).map((_, idx) => {
+            const isTarget = idx === targetIndex;
+            const isSelectedNode = isTarget && isSelected;
+
+            return (
+              <GridNode
+                key={idx}
+                index={idx}
+                isTarget={isTarget}
+                isSelectedNode={isSelectedNode}
+                onClick={handleNodeClick}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="bg-white border-t border-basic-grey-100 p-16">
+        <button
+          onClick={handleNextStage}
+          disabled={!isSelected || isSubmitting}
+          className={`flex h-[52px] w-full items-center justify-center rounded-8 text-[16px] font-600 leading-[160%] text-basic-white transition-all 
+              ${isSelected && !isSubmitting ? 'bg-brand-primary-400 active:bg-brand-primary-500' : 'bg-basic-grey-200'}`}
+        >
+          {isSubmitting ? '저장 중...' : '선택 완료'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default GameBoard;
+
+interface GridNodeProps {
+  index: number;
+  isTarget: boolean;
+  isSelectedNode: boolean;
+  onClick: (index: number) => void;
+}
+
+const GridNode = memo(
+  ({ index, isTarget, isSelectedNode, onClick }: GridNodeProps) => {
+    let nodeClasses = 'w-16 h-16 transition-all duration-100 ease-in-out';
+    if (isSelectedNode) {
+      nodeClasses += ' bg-[#7C68ED] border-2 border-[#D2C9FA]';
+    } else if (isTarget) {
+      nodeClasses += ' bg-[#D2C9FA] border-2 border-[#7C68ED]';
+    } else {
+      nodeClasses += ' bg-[#EEEFF3] hover:bg-[#E5E5E5]';
+    }
+
+    return (
+      <button
+        onClick={() => onClick(index)}
+        className={twMerge(
+          nodeClasses,
+          'flex items-center justify-center rounded-8',
+        )}
+      >
+        {isSelectedNode && <CheckIcon className="h-[11px] w-[11px]" />}
+      </button>
+    );
+  },
+);
+
+GridNode.displayName = 'GridNode';
