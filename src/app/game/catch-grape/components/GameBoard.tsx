@@ -5,6 +5,7 @@ import CheckIcon from './icons/check.svg';
 import { twMerge } from 'tailwind-merge';
 import { useCreateGameRecord } from '@/services/game.service';
 import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
+import dayjs from 'dayjs';
 
 interface GameBoardProps {
   nickname: string;
@@ -30,6 +31,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number>(0);
   const [attemptTimes, setAttemptTimes] = useState<number[]>([]);
 
   const { mutateAsync: createRecord, isPending: isSubmitting } =
@@ -41,9 +43,10 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
 
   useEffect(() => {
     if (isGameStarted) {
+      startTimeRef.current = dayjs().valueOf();
       timerRef.current = setInterval(() => {
-        setTime((prev) => prev + 1);
-      }, 1);
+        setTime(dayjs().valueOf() - startTimeRef.current);
+      }, 10);
     }
 
     return () => {
@@ -68,7 +71,8 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   );
 
   const handleNextStage = async () => {
-    const updatedAttemptTimes = [...attemptTimes, time];
+    const currentTime = dayjs().valueOf() - startTimeRef.current;
+    const updatedAttemptTimes = [...attemptTimes, currentTime];
     setAttemptTimes(updatedAttemptTimes);
 
     if (stage === TOTAL_STAGES - 1) {
@@ -93,6 +97,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
     } else {
       setStage((prev) => prev + 1);
       setTime(0);
+      startTimeRef.current = dayjs().valueOf();
     }
   };
 
