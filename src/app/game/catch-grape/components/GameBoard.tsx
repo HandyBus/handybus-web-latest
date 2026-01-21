@@ -5,13 +5,12 @@ import CheckIcon from './icons/check.svg';
 import { twMerge } from 'tailwind-merge';
 import { useCreateGameRecord } from '@/services/game.service';
 import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
-import { formatTime } from '../utils/game.util';
 
 interface GameBoardProps {
   nickname: string;
   onFinish: (
-    score: string,
-    allScores: string[],
+    averageScore: number,
+    allScores: number[],
     record: CatchGrapeGameRecordReadModel | null,
   ) => void;
 }
@@ -27,7 +26,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   const [stage, setStage] = useState(0);
   const [time, setTime] = useState(0);
   const [isSelected, setIsSelected] = useState<boolean>(false);
-  const [targetIndex, setTargetIndex] = useState(0);
+  const [targetIndex, setTargetIndex] = useState(1000); // set large initial value to hide target at first render
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -43,8 +42,8 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   useEffect(() => {
     if (isGameStarted) {
       timerRef.current = setInterval(() => {
-        setTime((prev) => prev + 10);
-      }, 10);
+        setTime((prev) => prev + 1);
+      }, 1);
     }
 
     return () => {
@@ -74,18 +73,22 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
 
     if (stage === TOTAL_STAGES - 1) {
       if (timerRef.current) clearInterval(timerRef.current);
-      const allScores = updatedAttemptTimes.map(formatTime);
-      const bestTime = Math.min(...updatedAttemptTimes);
+      const allScores = updatedAttemptTimes.map((score) => score);
+      const averageTime = Math.round(
+        updatedAttemptTimes.reduce((a, b) => a + b, 0) /
+          updatedAttemptTimes.length,
+      );
+      console.log('averageTime', averageTime);
 
       try {
         const record = await createRecord({
           nickname,
-          time: bestTime,
+          time: averageTime,
         });
-        onFinish(formatTime(bestTime), allScores, record);
+        onFinish(averageTime, allScores, record);
       } catch (error) {
         console.error('Failed to create game record:', error);
-        onFinish(formatTime(bestTime), allScores, null);
+        onFinish(averageTime, allScores, null);
       }
     } else {
       setStage((prev) => prev + 1);
@@ -108,7 +111,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
 
         {/* Timer */}
         <div className="text-center text-[24px] font-500 leading-[160%] text-basic-black">
-          {formatTime(time)}
+          {time}ms
         </div>
       </div>
 

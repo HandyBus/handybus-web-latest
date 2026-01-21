@@ -18,6 +18,6 @@ export type CatchGrapeGameRecordReadModel = z.infer<
 export interface RankingEntry {
   id: string;
   nickname: string;
-  score: string;
+  score: number;
   time: number;
 }

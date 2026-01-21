@@ -1,27 +1,5 @@
 import { RankingEntry } from '@/types/game.type';
 
-/**
- * Format time in milliseconds to MM:SS:CC format
- */
-export const formatTime = (ms: number): string => {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = Math.floor((ms % 60000) / 1000);
-  const centiseconds = Math.floor((ms % 1000) / 10);
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${centiseconds.toString().padStart(2, '0')}`;
-};
-
-/**
- * Parse time string MM:SS:CC to milliseconds
- */
-export const parseTimeToMs = (timeStr: string): number => {
-  const parts = timeStr.split(':');
-  if (parts.length !== 3) return 0;
-  const minutes = parseInt(parts[0], 10);
-  const seconds = parseInt(parts[1], 10);
-  const centiseconds = parseInt(parts[2], 10);
-  return minutes * 60000 + seconds * 1000 + centiseconds * 10;
-};
-
 const NICKNAME_PREFIXES = [
   '빠른',
   '용감한',

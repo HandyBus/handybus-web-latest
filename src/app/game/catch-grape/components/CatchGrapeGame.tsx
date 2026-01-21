@@ -8,15 +8,15 @@ import CountdownScreen from './CountdownScreen';
 import PrizeScreen from './PrizeScreen';
 import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
 import { useGetRankings } from '@/services/game.service';
-import { findRankPositionByTime, parseTimeToMs } from '../utils/game.util';
+import { findRankPositionByTime } from '../utils/game.util';
 
 export type GameStep = 'intro' | 'countdown' | 'playing' | 'prize' | 'finished';
 
-const GrepGraphGame = () => {
+const CatchGrapeGame = () => {
   const [step, setStep] = useState<GameStep>('intro');
   const [nickname, setNickname] = useState('');
-  const [finalScore, setFinalScore] = useState<string>('00:00:00');
-  const [scores, setScores] = useState<string[]>([]);
+  const [finalScore, setFinalScore] = useState<number>(0);
+  const [scores, setScores] = useState<number[]>([]);
 
   const { data: rankings = [] } = useGetRankings();
 
@@ -35,19 +35,18 @@ const GrepGraphGame = () => {
 
   const handleGameFinish = useCallback(
     async (
-      score: string,
-      allScores: string[],
+      averageScore: number,
+      allScores: number[],
       record: CatchGrapeGameRecordReadModel | null,
     ) => {
-      setFinalScore(score);
+      setFinalScore(averageScore);
       setScores(allScores);
 
       if (record) {
         setGameRecordId(record.id);
       }
 
-      const bestTimeMs = parseTimeToMs(score);
-      const rank = findRankPositionByTime(bestTimeMs, rankings);
+      const rank = findRankPositionByTime(averageScore, rankings);
       setUserRank(rank);
 
       if (rank >= 1 && rank <= 5) {
@@ -67,7 +66,7 @@ const GrepGraphGame = () => {
   const handleRestart = () => {
     // Keep nickname for next game, only reset game state
     setStep('intro');
-    setFinalScore('00:00:00');
+    setFinalScore(0);
     setScores([]);
     setPrizeRank(0);
     setUserRank(0);
@@ -88,7 +87,7 @@ const GrepGraphGame = () => {
       {step === 'prize' && (
         <PrizeScreen
           nickname={nickname}
-          score={finalScore}
+          averageScore={finalScore}
           scores={scores}
           rank={prizeRank}
           rankings={rankings}
@@ -100,7 +99,7 @@ const GrepGraphGame = () => {
       {step === 'finished' && (
         <GameOverScreen
           nickname={nickname}
-          score={finalScore}
+          averageScore={finalScore}
           scores={scores}
           rankings={rankings}
           gameRecordId={gameRecordId}
@@ -112,4 +111,4 @@ const GrepGraphGame = () => {
   );
 };
 
-export default GrepGraphGame;
+export default CatchGrapeGame;
