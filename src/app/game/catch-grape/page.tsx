@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { URL } from '@/constants/metadata';
 import CatchGrapeGame from './components/CatchGrapeGame';
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
     description: '이번 티켓팅, 포도알 트레이닝으로 맹연습해서 같이 성공할까요?',
     images: [
       {
-        url: '/src/app/game/catch-grape/images/thumbnail.png',
+        url: `${URL}/images/catch-grape-thumbnail.png`,
         width: 1200,
         height: 630,
         alt: '포도알 트레이닝',
