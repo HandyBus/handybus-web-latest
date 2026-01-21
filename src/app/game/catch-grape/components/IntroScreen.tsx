@@ -40,8 +40,8 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
     if (isLoading) {
       return {
         id: `${i}`,
-        nickname: '--',
-        score: '00:00:00',
+        nickname: '--------',
+        score: 0,
         time: 0,
       };
     }
@@ -49,7 +49,7 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
       rankings[i] || {
         id: `empty-${i}`,
         nickname: '기록 없음',
-        score: '--:--:--',
+        score: 0,
         time: 0,
       }
     );
@@ -107,9 +107,13 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
                   {rank}
                 </div>
                 <span
-                  className={`text-12 font-600 ${isLoading || isEmpty ? 'text-basic-grey-400' : ''}`}
+                  className={`min-w-52 text-12 font-600 ${isLoading || isEmpty ? 'text-basic-grey-400' : ''}`}
                 >
-                  {entry.score}
+                  {entry.score === 0
+                    ? '-----'
+                    : entry.score >= 100000
+                      ? '99999ms'
+                      : `${entry.score}ms`}
                 </span>
                 <span
                   className={`truncate text-12 font-600 ${isLoading || isEmpty ? 'text-basic-grey-400' : ''}`}

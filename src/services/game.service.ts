@@ -5,7 +5,12 @@ import {
   RankingEntry,
 } from '@/types/game.type';
 import { instance } from './config';
-import { formatTime } from '@/app/game/grep-graph/utils/game.util';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 /**
  * Get all game records
@@ -19,7 +24,12 @@ export const getGameRecords = async (): Promise<
       catchGrapeGameRecords: CatchGrapeGameRecordReadModelSchema.array(),
     },
   });
-  return res.catchGrapeGameRecords;
+
+  return res.catchGrapeGameRecords.filter(
+    (record) =>
+      dayjs(record.createdAt).tz('Asia/Seoul').day() ===
+      dayjs().tz('Asia/Seoul').day(),
+  );
 };
 
 export const useGetGameRecords = () =>
@@ -109,7 +119,7 @@ export const getRankings = async (): Promise<RankingEntry[]> => {
   return sortedRecords.map((record) => ({
     id: record.id,
     nickname: record.nickname,
-    score: formatTime(record.time),
+    score: record.time,
     time: record.time,
   }));
 };

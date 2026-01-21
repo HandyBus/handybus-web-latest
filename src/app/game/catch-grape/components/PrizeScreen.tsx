@@ -7,12 +7,10 @@ import { useUpdateGameRecord } from '@/services/game.service';
 import { RankingEntry } from '@/types/game.type';
 import Link from 'next/link';
 
-const GAME_URL = 'https://www.handybus.co.kr/game/grep-graph';
-
 interface PrizeScreenProps {
   nickname: string;
-  score: string;
-  scores: string[];
+  averageScore: number;
+  scores: number[];
   rank: number;
   rankings: RankingEntry[];
   gameRecordId: string | null;
@@ -22,7 +20,7 @@ interface PrizeScreenProps {
 
 const PrizeScreen = ({
   nickname,
-  score,
+  averageScore,
   scores,
   rank,
   rankings,
@@ -56,11 +54,11 @@ const PrizeScreen = ({
     }
   };
 
-  const handleShare = async (score: string) => {
+  const handleShare = async () => {
     try {
+      const shareUrl = `${window.location.origin}/game/catch-grape`;
       navigator.share({
-        text: `이번 티케팅, 맹연습해서 같이 성공할까요? 친구의 포도알 잡기 실력은 ${score}초 예요.`,
-        url: GAME_URL,
+        text: `이번 티켓팅, 맹연습해서 같이 성공할까요? 친구의 포도알 잡기 실력은 평균 ${averageScore}ms 예요. ${shareUrl}`,
       });
 
       if (gameRecordId) {
@@ -108,7 +106,7 @@ const PrizeScreen = ({
       </div>
 
       {/* Rankings Card */}
-      <div className="w-[208px] overflow-y-auto rounded-16 bg-basic-white p-16">
+      <div className="w-[210px] overflow-y-auto rounded-16 bg-basic-white p-16">
         {!isMyRecord ? (
           <HallOfFame
             rankings={rankings}
@@ -117,7 +115,11 @@ const PrizeScreen = ({
             setIsMyRecord={setIsMyRecord}
           />
         ) : (
-          <MyRecords scores={scores} setIsMyRecord={setIsMyRecord} />
+          <MyRecords
+            averageScore={averageScore}
+            scores={scores}
+            setIsMyRecord={setIsMyRecord}
+          />
         )}
       </div>
 
@@ -126,7 +128,7 @@ const PrizeScreen = ({
         {/* Share Button */}
         <button
           className="mb-3 flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
-          onClick={() => handleShare(score)}
+          onClick={() => handleShare()}
         >
           친구도 알려주기
         </button>
@@ -193,9 +195,11 @@ const HallOfFame = ({
                 {rank}
               </div>
               <span
-                className={`text-12 font-600 ${isEmpty ? 'text-basic-grey-400' : ''}`}
+                className={`min-w-52 text-12 font-600 ${isEmpty ? 'text-basic-grey-400' : ''}`}
               >
-                {rankEntry?.score || '--:--:--'}
+                {rankEntry?.score >= 100000
+                  ? '99999ms'
+                  : `${rankEntry?.score}ms`}
               </span>
               <span
                 className={`truncate text-12 font-600 ${
@@ -225,17 +229,23 @@ const HallOfFame = ({
 };
 
 interface MyRecordsProps {
-  scores: string[];
+  averageScore: number;
+  scores: number[];
   setIsMyRecord: Dispatch<SetStateAction<boolean>>;
 }
 
-const MyRecords = ({ scores, setIsMyRecord }: MyRecordsProps) => {
+const MyRecords = ({ averageScore, scores, setIsMyRecord }: MyRecordsProps) => {
   const validScores = scores;
   const bestScore = validScores.length > 0 ? [...validScores].sort()[0] : null;
 
   return (
     <div className="flex flex-col">
-      <div className="mb-[32px] flex flex-col justify-between gap-[12px]">
+      <div className="mb-[10px] flex flex-col justify-between gap-[12px]">
+        <div className="flex h-[19px] items-center gap-[10px] text-[13px] font-600 leading-[100%]">
+          <span className="text-[#7C68ED]">내 평균</span>
+          <span>{averageScore}ms</span>
+        </div>
+        <div className="h-[1px] w-full bg-basic-grey-200" />
         {[...Array(5)].map((_, index) => {
           const rank = index + 1;
           const score = scores[index];
@@ -246,23 +256,23 @@ const MyRecords = ({ scores, setIsMyRecord }: MyRecordsProps) => {
             <div key={rank} className="flex items-center gap-[10px]">
               {/* Rank Circle */}
               <div
-                className={`flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#EDEEF3] text-[9.5px] font-700 leading-[100%]`}
+                className={`flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#EDEEF3] text-[9.5px] font-700 leading-[100%]`}
               >
                 {rank}
               </div>
 
               {/* Score */}
               <span
-                className={`text-[13px] font-600 leading-[100%] ${
+                className={`text-[12px] font-500 leading-[100%] ${
                   !isBest && 'text-basic-grey-400'
                 }`}
               >
-                {score || '00:00:00'}
+                {score >= 100000 ? '99999ms' : `${score}ms`}
               </span>
 
               {/* Best Badge */}
               {isBest && (
-                <span className="text-[13px] font-600 leading-[100%] text-[#7C68ED]">
+                <span className="text-[12px] font-500 leading-[100%] text-[#7C68ED]">
                   최고 점수
                 </span>
               )}
@@ -301,7 +311,7 @@ const NicknameModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-basic-black/60"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-basic-black/60"
       onClick={onClose}
     >
       <div
