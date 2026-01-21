@@ -112,9 +112,7 @@ export const getRankings = async (): Promise<RankingEntry[]> => {
 
   // Sort by time (ascending - lower is better) and take top 5
   // Removed isShared filter to show all records as requested
-  const sortedRecords = [...records]
-    .sort((a, b) => a.time - b.time)
-    .slice(0, 5);
+  const sortedRecords = [...records].sort((a, b) => a.time - b.time);
 
   return sortedRecords.map((record) => ({
     id: record.id,
