@@ -74,7 +74,7 @@ const CatchGrapeGame = () => {
   };
 
   return (
-    <main className="relative flex h-screen w-full flex-col items-center overflow-hidden bg-basic-grey-50">
+    <main className="relative flex w-full grow flex-col items-center overflow-hidden bg-basic-grey-50">
       {step === 'intro' && (
         <IntroScreen initialNickname={nickname} onStart={handleStart} />
       )}
