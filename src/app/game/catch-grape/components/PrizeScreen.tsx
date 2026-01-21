@@ -197,9 +197,11 @@ const HallOfFame = ({
               <span
                 className={`min-w-52 text-12 font-600 ${isEmpty ? 'text-basic-grey-400' : ''}`}
               >
-                {rankEntry?.score >= 100000
-                  ? '99999ms'
-                  : `${rankEntry?.score}ms`}
+                {!rankEntry?.score
+                  ? '-----'
+                  : rankEntry?.score >= 100000
+                    ? '99999ms'
+                    : `${rankEntry?.score}ms`}
               </span>
               <span
                 className={`truncate text-12 font-600 ${
