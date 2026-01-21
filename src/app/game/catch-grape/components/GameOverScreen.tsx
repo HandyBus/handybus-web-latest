@@ -52,44 +52,47 @@ const GameOverScreen = ({
   const formattedRank = userRank.toLocaleString();
 
   return (
-    <div className="px-5 relative flex h-full w-full flex-col items-center pb-0 pt-[24px]">
+    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between pb-0 pt-[24px]">
       {/* HandyBus Logo */}
       <Link
         href="/"
-        className="mb-[84px] flex h-[56px] w-[56px] items-center justify-center"
+        className="flex h-[56px] w-[56px] items-center justify-center"
       >
         <LogoIcon />
       </Link>
 
-      {/* Title */}
-      <h1 className="mb-24 text-[32px] font-600 leading-[130%] text-[#7C68ED]">
-        {formattedRank}위
-      </h1>
+      {/* Center Content Section */}
+      <div className="flex w-full flex-col items-center">
+        {/* Title */}
+        <h1 className="mb-24 text-[32px] font-600 leading-[130%] text-[#7C68ED]">
+          {formattedRank}위
+        </h1>
 
-      {/* Ranking Message */}
-      <div className="mb-[24px] text-center text-16 font-700 leading-[100%]">
-        <span>
-          {nickname}님
-          <br />
-          이선좌가 두렵지 않으세요..?
-        </span>
-      </div>
+        {/* Ranking Message */}
+        <div className="mb-[24px] text-center text-16 font-700 leading-[100%]">
+          <span>
+            {nickname}님
+            <br />
+            이선좌가 두렵지 않으세요..?
+          </span>
+        </div>
 
-      {/* Rankings Card */}
-      <div className="w-[210px] overflow-y-auto rounded-16 bg-basic-white p-16">
-        {!isHallOfFame ? (
-          <MyRecords
-            averageScore={averageScore}
-            scores={scores}
-            setIsHallOfFame={setIsHallOfFame}
-          />
-        ) : (
-          <HallOfFame rankings={rankings} setIsHallOfFame={setIsHallOfFame} />
-        )}
+        {/* Rankings Card */}
+        <div className="w-[210px] overflow-y-auto rounded-16 bg-basic-white p-16">
+          {!isHallOfFame ? (
+            <MyRecords
+              averageScore={averageScore}
+              scores={scores}
+              setIsHallOfFame={setIsHallOfFame}
+            />
+          ) : (
+            <HallOfFame rankings={rankings} setIsHallOfFame={setIsHallOfFame} />
+          )}
+        </div>
       </div>
 
       {/* Bottom Button Section - Figma: 2 buttons */}
-      <div className="mb-10 mt-auto flex w-full gap-8 p-16">
+      <div className="mb-10 flex w-full gap-8 p-16">
         {/* Share Button (Outlined style) */}
         <button
           className="mb-3 flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
@@ -124,7 +127,8 @@ const MyRecords = ({
   setIsHallOfFame,
 }: MyRecordsProps) => {
   const validScores = scores;
-  const bestScore = validScores.length > 0 ? [...validScores].sort()[0] : null;
+  const bestScore =
+    validScores.length > 0 ? [...validScores].sort((a, b) => a - b)[0] : null;
 
   return (
     <div className="flex flex-col">
@@ -132,7 +136,7 @@ const MyRecords = ({
       <div className="mb-[10px] flex flex-col justify-between gap-[12px]">
         <div className="flex h-[16px] items-center gap-[10px] text-[13px] font-600 leading-[100%]">
           <span className="text-[#7C68ED]">내 평균</span>
-          <span>{averageScore}ms</span>
+          <span>{!averageScore ? '-----' : `${averageScore}ms`}</span>
         </div>
         <div className="h-[1px] w-full bg-basic-grey-200" />
         {[...Array(5)].map((_, index) => {
@@ -156,7 +160,7 @@ const MyRecords = ({
                   !isBest && 'text-basic-grey-400'
                 }`}
               >
-                {score >= 100000 ? '99999ms' : `${score}ms`}
+                {!score ? '-----' : score >= 100000 ? '99999ms' : `${score}ms`}
               </span>
 
               {/* Best Badge */}

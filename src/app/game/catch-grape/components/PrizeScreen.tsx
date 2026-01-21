@@ -73,58 +73,61 @@ const PrizeScreen = ({
   };
 
   return (
-    <div className="px-5 relative flex h-full w-full flex-col items-center pb-0 pt-[24px]">
+    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between pb-0 pt-[24px]">
       {/* HandyBus Logo */}
       <Link
         href="/"
-        className="mb-[84px] flex h-[56px] w-[56px] items-center justify-center"
+        className="flex h-[56px] w-[56px] items-center justify-center"
       >
         <LogoIcon />
       </Link>
 
-      {/* Title - Dynamic rank */}
-      <h1 className="mb-24 text-[32px] font-600 leading-[130%] text-[#7C68ED]">
-        오예! {rank}위 등극!
-      </h1>
+      {/* Center Content Section */}
+      <div className="flex w-full flex-col items-center">
+        {/* Title - Dynamic rank */}
+        <h1 className="mb-24 text-[32px] font-600 leading-[130%] text-[#7C68ED]">
+          오예! {rank}위 등극!
+        </h1>
 
-      <div className="mb-24 flex items-center justify-between gap-12">
-        {/* Ranking Message */}
-        <div className="text-16 font-700 leading-[130%]">
-          <span className="font-400">{nickname || '익명의 선수'}</span>
-          <span>님!</span>
-          <br />
-          <span>전당에 오르셨어요.</span>
+        <div className="mb-24 flex items-center justify-between gap-12">
+          {/* Ranking Message */}
+          <div className="text-16 font-700 leading-[130%]">
+            <span className="font-400">{nickname || '익명의 선수'}</span>
+            <span>님!</span>
+            <br />
+            <span>전당에 오르셨어요.</span>
+          </div>
+          {/* Nickname Change Button */}
+          <button
+            onClick={() => setIsNicknameModalOpen(true)}
+            disabled={isUpdating}
+            className="rounded-6 bg-basic-grey-200 px-8 py-[6px] text-12 font-600 leading-[160%] text-basic-grey-700 active:bg-basic-grey-300 disabled:opacity-50"
+          >
+            닉네임 변경
+          </button>
         </div>
-        {/* Nickname Change Button */}
-        <button
-          onClick={() => setIsNicknameModalOpen(true)}
-          disabled={isUpdating}
-          className="rounded-6 bg-basic-grey-200 px-8 py-[6px] text-12 font-600 leading-[160%] text-basic-grey-700 active:bg-basic-grey-300 disabled:opacity-50"
-        >
-          닉네임 변경
-        </button>
-      </div>
 
-      {/* Rankings Card */}
-      <div className="w-[210px] overflow-y-auto rounded-16 bg-basic-white p-16">
-        {!isMyRecord ? (
-          <HallOfFame
-            rankings={rankings}
-            myRank={rank}
-            myNickname={nickname}
-            setIsMyRecord={setIsMyRecord}
-          />
-        ) : (
-          <MyRecords
-            averageScore={averageScore}
-            scores={scores}
-            setIsMyRecord={setIsMyRecord}
-          />
-        )}
+        {/* Rankings Card */}
+        <div className="w-[210px] overflow-y-auto rounded-16 bg-basic-white p-16">
+          {!isMyRecord ? (
+            <HallOfFame
+              rankings={rankings}
+              myRank={rank}
+              myNickname={nickname}
+              setIsMyRecord={setIsMyRecord}
+            />
+          ) : (
+            <MyRecords
+              averageScore={averageScore}
+              scores={scores}
+              setIsMyRecord={setIsMyRecord}
+            />
+          )}
+        </div>
       </div>
 
       {/* Bottom Button Section */}
-      <div className="mb-10 mt-auto flex w-full gap-8 p-16">
+      <div className="mb-10 flex w-full gap-8 p-16">
         {/* Share Button */}
         <button
           className="mb-3 flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
@@ -238,14 +241,15 @@ interface MyRecordsProps {
 
 const MyRecords = ({ averageScore, scores, setIsMyRecord }: MyRecordsProps) => {
   const validScores = scores;
-  const bestScore = validScores.length > 0 ? [...validScores].sort()[0] : null;
+  const bestScore =
+    validScores.length > 0 ? [...validScores].sort((a, b) => a - b)[0] : null;
 
   return (
     <div className="flex flex-col">
       <div className="mb-[10px] flex flex-col justify-between gap-[12px]">
         <div className="flex h-[19px] items-center gap-[10px] text-[13px] font-600 leading-[100%]">
           <span className="text-[#7C68ED]">내 평균</span>
-          <span>{averageScore}ms</span>
+          <span>{!averageScore ? '-----' : `${averageScore}ms`}</span>
         </div>
         <div className="h-[1px] w-full bg-basic-grey-200" />
         {[...Array(5)].map((_, index) => {
@@ -269,7 +273,7 @@ const MyRecords = ({ averageScore, scores, setIsMyRecord }: MyRecordsProps) => {
                   !isBest && 'text-basic-grey-400'
                 }`}
               >
-                {score >= 100000 ? '99999ms' : `${score}ms`}
+                {!score ? '-----' : score >= 100000 ? '99999ms' : `${score}ms`}
               </span>
 
               {/* Best Badge */}
