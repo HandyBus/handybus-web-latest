@@ -84,6 +84,9 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
           <h1 className="text-[32px] font-600 leading-[130%] tracking-[-0.02em] text-[#7C68ED]">
             포도알 트레이닝
           </h1>
+          <h3 className="text-16 font-500 leading-[160%] text-basic-black">
+            콘서트 좌석 선택 연습용 게임
+          </h3>
         </div>
 
         {/* Rankings Card */}
@@ -132,6 +135,9 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
             매일 00:00에 초기화됩니다.
           </p>
         </div>
+        <p className="text-center text-10 text-basic-grey-500">
+          * 실제 예매 및 티켓 구매와는 무관한 연습용 화면입니다.
+        </p>
       </div>
 
       {/* Bottom Section (Input + Button) */}
