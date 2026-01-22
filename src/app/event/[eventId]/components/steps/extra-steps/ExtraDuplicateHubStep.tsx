@@ -17,7 +17,7 @@ import { DANGER_SEAT_THRESHOLD } from '../../../form.const';
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { checkExistingTripType, checkIsSoldOut } from '@/utils/event.util';
-import { GD_FANMEETING_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
+import { TIME_NOT_DETERMINED_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
 import { eventAtom } from '../../../store/eventAtom';
 
 interface Props {
@@ -239,7 +239,7 @@ const Hub = ({
                     </span>
                   )}
               </div>
-              {eventId !== GD_FANMEETING_EVENT_ID && (
+              {eventId !== TIME_NOT_DETERMINED_EVENT_ID && (
                 <div
                   className={`flex-1 text-12 font-500 leading-[160%] ${isToDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
                 >
@@ -280,7 +280,7 @@ const Hub = ({
                     </span>
                   )}
               </div>
-              {eventId !== GD_FANMEETING_EVENT_ID && (
+              {eventId !== TIME_NOT_DETERMINED_EVENT_ID && (
                 <div
                   className={`flex-1 text-12 font-500 leading-[160%] ${isFromDestinationSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
                 >
@@ -392,7 +392,7 @@ const RoundTripOnlyHub = ({
                   </span>
                 )}
             </div>
-            {eventId !== GD_FANMEETING_EVENT_ID && (
+            {eventId !== TIME_NOT_DETERMINED_EVENT_ID && (
               <div
                 className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
               >
@@ -429,7 +429,7 @@ const RoundTripOnlyHub = ({
                   </span>
                 )}
             </div>
-            {eventId !== GD_FANMEETING_EVENT_ID && (
+            {eventId !== TIME_NOT_DETERMINED_EVENT_ID && (
               <div
                 className={`flex-1 text-12 font-500 leading-[160%] ${isRoundTripSoldOut ? 'text-basic-grey-300' : 'text-basic-grey-700'}`}
               >
