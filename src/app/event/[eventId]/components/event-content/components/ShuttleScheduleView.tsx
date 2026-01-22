@@ -7,7 +7,7 @@ import InfoIcon from 'public/icons/info.svg';
 import DotIcon from '../../../icons/dot-primary.svg';
 import PinIcon from '../../../icons/pin-primary.svg';
 
-export const GD_FANMEETING_EVENT_ID = '664379065943202277';
+export const TIME_NOT_DETERMINED_EVENT_ID = '';
 
 interface ShuttleScheduleViewProps {
   event: EventsViewEntity;
@@ -68,7 +68,7 @@ const ShuttleScheduleView = ({
           <div className="h-[1px] border border-basic-grey-100" />
           <ShuttleHubItem
             boardingTime={
-              event.eventId !== GD_FANMEETING_EVENT_ID
+              event.eventId !== TIME_NOT_DETERMINED_EVENT_ID
                 ? dateString(earliestDestinationArrival, DATE_STRING_OPTIONS) +
                   '~'
                 : '미정'
@@ -78,7 +78,7 @@ const ShuttleScheduleView = ({
           <div className="h-[1px] border border-basic-grey-100" />
           <ShuttleHubItem
             boardingTime={
-              event.eventId !== GD_FANMEETING_EVENT_ID
+              event.eventId !== TIME_NOT_DETERMINED_EVENT_ID
                 ? dateString(
                     earliestDestinationDeparture,
                     DATE_STRING_OPTIONS,

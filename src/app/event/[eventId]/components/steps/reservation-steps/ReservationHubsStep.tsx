@@ -26,7 +26,7 @@ import { dateString } from '@/utils/dateString.util';
 import { userDemandsAtom } from '../../../store/userDemandsAtom';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
-import { GD_FANMEETING_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
+import { TIME_NOT_DETERMINED_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
 import { eventAtom } from '../../../store/eventAtom';
 
 interface Props {
@@ -362,7 +362,7 @@ const Hub = ({
             )
           )}
         </div>
-        {eventId !== GD_FANMEETING_EVENT_ID && (
+        {eventId !== TIME_NOT_DETERMINED_EVENT_ID && (
           <div className="flex pl-[29px] text-12 font-500 leading-[160%] text-basic-grey-600">
             {fastestArrivalTimeToDestinationHub ? (
               <div

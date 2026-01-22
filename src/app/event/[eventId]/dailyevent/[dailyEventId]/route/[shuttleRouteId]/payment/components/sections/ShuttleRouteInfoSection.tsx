@@ -11,7 +11,7 @@ import { TRIP_STATUS_TO_STRING } from '@/constants/status';
 import { dateString } from '@/utils/dateString.util';
 import { HANDY_PARTY_PREFIX } from '@/constants/common';
 import InfoIcon from '../../icons/info.svg';
-import { GD_FANMEETING_EVENT_ID } from '@/app/event/[eventId]/components/event-content/components/ShuttleScheduleView';
+import { TIME_NOT_DETERMINED_EVENT_ID } from '@/app/event/[eventId]/components/event-content/components/ShuttleScheduleView';
 
 interface Props {
   eventId: string;
@@ -120,7 +120,7 @@ const TripCard = ({
       : TRIP_STATUS_TO_STRING[tripType];
   const formattedDate = dateString(hub.arrivalTime);
   const formattedTime =
-    eventId !== GD_FANMEETING_EVENT_ID
+    eventId !== TIME_NOT_DETERMINED_EVENT_ID
       ? dateString(hub.arrivalTime, {
           showYear: false,
           showDate: false,
@@ -143,7 +143,7 @@ const TripCard = ({
 
   const formattedDestinationDate = dateString(destinationHub.arrivalTime);
   const formattedDestinationTime =
-    eventId !== GD_FANMEETING_EVENT_ID
+    eventId !== TIME_NOT_DETERMINED_EVENT_ID
       ? dateString(destinationHub.arrivalTime, {
           showYear: false,
           showDate: false,

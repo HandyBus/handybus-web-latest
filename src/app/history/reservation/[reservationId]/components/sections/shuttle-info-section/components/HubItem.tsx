@@ -1,5 +1,5 @@
 import { ShuttleRouteHubsInShuttleRoutesViewEntity } from '@/types/shuttleRoute.type';
-import { GD_FANMEETING_EVENT_ID } from '@/app/event/[eventId]/components/event-content/components/ShuttleScheduleView';
+import { TIME_NOT_DETERMINED_EVENT_ID } from '@/app/event/[eventId]/components/event-content/components/ShuttleScheduleView';
 
 interface Props {
   eventId: string;
@@ -31,7 +31,7 @@ const HubItem = ({
         <p className="whitespace-nowrap break-keep text-12 font-600">
           {hideTime
             ? '운행시간 상이'
-            : eventId !== GD_FANMEETING_EVENT_ID
+            : eventId !== TIME_NOT_DETERMINED_EVENT_ID
               ? time
               : '미정'}
         </p>

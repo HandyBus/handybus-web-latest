@@ -11,7 +11,7 @@ import { dateString } from '@/utils/dateString.util';
 import { customTwMerge } from 'tailwind.config';
 import Button from '@/components/buttons/button/Button';
 import { toast } from 'react-toastify';
-import { GD_FANMEETING_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
+import { TIME_NOT_DETERMINED_EVENT_ID } from '../../event-content/components/ShuttleScheduleView';
 
 const ROUND_TRIP_TEXT = '[왕복] ';
 
@@ -287,7 +287,7 @@ const Hub = ({
               : 'text-basic-grey-500'
         }`}
       >
-        {eventId !== GD_FANMEETING_EVENT_ID ? formattedTime : '미정'}
+        {eventId !== TIME_NOT_DETERMINED_EVENT_ID ? formattedTime : '미정'}
       </span>
       <span
         className={`line-clamp-1 text-16 ${
