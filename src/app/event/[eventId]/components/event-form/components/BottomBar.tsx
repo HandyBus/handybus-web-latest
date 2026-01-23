@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import confetti from 'canvas-confetti';
 import Button from '@/components/buttons/button/Button';
 import NotificationIcon from '../../../icons/notification.svg';
 import TriangleIcon from '../../../icons/triangle.svg';
@@ -57,6 +58,12 @@ const BottomBar = ({
 
   const handleCheerUpClick = () => {
     setIsCheeredUp(true);
+
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.9 },
+    });
   };
 
   if (isCheerUpEvent) {
