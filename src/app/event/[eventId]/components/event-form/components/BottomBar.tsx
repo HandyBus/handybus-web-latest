@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import confetti from 'canvas-confetti';
 import Button from '@/components/buttons/button/Button';
 import NotificationIcon from '../../../icons/notification.svg';
 import TriangleIcon from '../../../icons/triangle.svg';
@@ -12,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
 import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../../../event-cheer-up.const';
+import CheerUpBottomBar from '../../cheer-up/CheerUpBottomBar';
 
 interface Props {
   eventId: string;
@@ -28,7 +27,6 @@ const BottomBar = ({
   enabledStatus,
   onClick,
 }: Props) => {
-  const [isCheeredUp, setIsCheeredUp] = useState(false);
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
@@ -56,40 +54,8 @@ const BottomBar = ({
   const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
   const isCheerUpEvent = eventId === EVENT_CHEER_UP_TEST_EVENT_ID;
 
-  const handleCheerUpClick = () => {
-    setIsCheeredUp(true);
-
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.9 },
-    });
-  };
-
   if (isCheerUpEvent) {
-    return (
-      <>
-        <div className="fixed-centered-layout bottom-0 z-50 flex gap-8 bg-basic-white px-16 pb-24 pt-8">
-          <Button
-            variant="secondary"
-            size="medium"
-            type="button"
-            onClick={handleShare}
-          >
-            공유하기
-          </Button>
-          <Button
-            variant={isCheeredUp ? 'secondary' : 'primary'}
-            size="large"
-            type="button"
-            onClick={handleCheerUpClick}
-            disabled={isCheeredUp}
-          >
-            {isCheeredUp ? '오늘의 응원 완료!' : '응원하기'}
-          </Button>
-        </div>
-      </>
-    );
+    return <CheerUpBottomBar eventName={eventName} />;
   }
 
   return (

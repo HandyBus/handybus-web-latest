@@ -1,11 +1,13 @@
 'use client';
 
+import { useMemo } from 'react';
 import { EventsViewEntity } from '@/types/event.type';
 import EventForm from '../event-form/EventForm';
 import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
-import { useMemo } from 'react';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
+import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../../event-cheer-up.const';
+import CheerUpDiscountInfo from '../cheer-up/CheerUpDiscountInfo';
 
 interface Props {
   event: EventsViewEntity;
@@ -27,8 +29,11 @@ const EventContent = ({ event }: Props) => {
     [shuttleRoutes],
   );
 
+  const isCheerUpEvent = event.eventId === EVENT_CHEER_UP_TEST_EVENT_ID;
+
   return (
     <JotaiProvider>
+      {isCheerUpEvent && <CheerUpDiscountInfo />}
       <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
