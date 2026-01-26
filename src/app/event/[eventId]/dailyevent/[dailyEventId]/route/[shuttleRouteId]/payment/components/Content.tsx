@@ -234,6 +234,9 @@ const Content = ({
   return (
     <main className="pb-100">
       {/* {referralCode && <ReferralDiscountNotice />} */}
+      <div className="flex h-[38px] w-full items-center justify-center bg-basic-red-100 text-14 font-600 text-basic-red-400">
+        현재 일시적인 오류로 결제가 불가합니다.
+      </div>
       {isHandyParty && (
         <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
           예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.

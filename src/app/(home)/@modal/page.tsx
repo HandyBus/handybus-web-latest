@@ -16,7 +16,8 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
-import HandybusCareInfoImage from './images/handybus-care-info.png';
+// import HandybusCareInfoImage from './images/handybus-care-info.png';
+import PaymentErrorImage from './images/payment-error.png';
 
 // import AppLaunchEventImage from './images/app-launch-event.png';
 
@@ -103,9 +104,9 @@ const Page = () => {
     );
   }
 
-  const handleHandybusCareInfoOpen = () => {
-    handleExternalLink('https://handybus.notion.site/2026handybuscare');
-  };
+  // const handleHandybusCareInfoOpen = () => {
+  //   handleExternalLink('https://handybus.notion.site/2026handybuscare');
+  // };
 
   return (
     <>
@@ -125,8 +126,8 @@ const Page = () => {
           onClose={handleModalClose}
         /> */}
         <OneDayModal
-          image={HandybusCareInfoImage}
-          handleClick={handleHandybusCareInfoOpen}
+          image={PaymentErrorImage}
+          handleClick={() => {}}
           variant="transparent"
           closeForTodayText="오늘은 그만 보기"
         />
