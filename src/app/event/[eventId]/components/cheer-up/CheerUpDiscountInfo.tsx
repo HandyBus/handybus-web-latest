@@ -139,7 +139,7 @@ const CheerUpDiscountInfo = () => {
           명이 응원 중이에요
           {/* +1 응원 적립 메시지 */}
           {showCheerUpMessage && (
-            <div className="py-6 absolute left-1/2 top-[-50px] -translate-x-1/2 animate-bounce rounded-full bg-brand-primary-400 px-16 text-14 font-700 text-basic-white shadow-lg">
+            <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 animate-bounce rounded-full bg-brand-primary-400 px-12 text-14 font-700 text-basic-white shadow-lg">
               <span className="inline-block animate-pulse">✨</span>{' '}
               <span>+1 응원 적립!</span>{' '}
               <span className="inline-block animate-pulse">✨</span>
