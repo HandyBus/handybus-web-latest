@@ -28,13 +28,13 @@ const Card = ({
   variant,
   image,
   order,
-  isSaleStarted = true,
+  // isSaleStarted = true,
   isReservationClosingSoon,
   isDemandOngoing,
   title,
   date,
   location,
-  price,
+  // price,
   href,
   priority,
   fadeIn,
@@ -44,12 +44,12 @@ const Card = ({
       <GridCard
         variant={variant}
         image={image}
-        isSaleStarted={isSaleStarted}
+        // isSaleStarted={isSaleStarted}
         isReservationClosingSoon={isReservationClosingSoon}
         isDemandOngoing={isDemandOngoing}
         title={title}
         date={date}
-        price={price}
+        // price={price}
         location={location}
         href={href}
         priority={priority}
@@ -63,11 +63,11 @@ const Card = ({
         variant={variant}
         image={image}
         order={order}
-        isSaleStarted={isSaleStarted}
+        // isSaleStarted={isSaleStarted}
         isDemandOngoing={isDemandOngoing}
         isReservationClosingSoon={isReservationClosingSoon}
         title={title}
-        price={price}
+        // price={price}
         href={href}
         fadeIn={fadeIn}
       />
@@ -78,12 +78,12 @@ const Card = ({
       <MediumCard
         variant={variant}
         image={image}
-        isSaleStarted={isSaleStarted}
+        // isSaleStarted={isSaleStarted}
         isDemandOngoing={isDemandOngoing}
         isReservationClosingSoon={isReservationClosingSoon}
         title={title}
         date={date}
-        price={price}
+        // price={price}
         location={location}
         href={href}
         fadeIn={fadeIn}
@@ -96,12 +96,12 @@ export default Card;
 
 const GridCard = ({
   image,
-  isSaleStarted,
+  // isSaleStarted,
   isReservationClosingSoon,
   isDemandOngoing,
   title,
   date,
-  price,
+  // price,
   href,
   priority,
   fadeIn,
@@ -196,13 +196,13 @@ const GridCard = ({
         <p className="text-12 font-500 leading-[160%] text-basic-grey-500 ">
           {date}
         </p>
-        <p
+        {/* <p
           className={`text-14 font-600 leading-[140%] ${
             isSaleStarted ? 'text-basic-black' : 'text-basic-grey-500'
           }`}
         >
           {isSaleStarted ? price : '판매대기'}
-        </p>
+        </p> */}
       </div>
     </Link>
   );
@@ -211,9 +211,9 @@ const GridCard = ({
 const LargeCard = ({
   image,
   order,
-  isSaleStarted,
+  // isSaleStarted,
   title,
-  price,
+  // price,
   href,
   fadeIn,
 }: Props) => {
@@ -311,14 +311,14 @@ const LargeCard = ({
         <p className="line-clamp-2 break-all text-18 font-600 leading-[140%] text-basic-white">
           {title}
         </p>
-        <div className="mt-[2px] flex items-center gap-4">
+        {/* <div className="mt-[2px] flex items-center gap-4">
           <p
             className={`text-16 font-600 leading-[140%] 
             text-basic-white`}
           >
             {isSaleStarted ? price : '판매대기'}
           </p>
-        </div>
+        </div> */}
       </div>
     </Link>
   );
@@ -326,12 +326,12 @@ const LargeCard = ({
 
 const MediumCard = ({
   image,
-  isSaleStarted,
+  // isSaleStarted,
   isReservationClosingSoon,
   isDemandOngoing,
   title,
   date,
-  price,
+  // price,
   href,
   fadeIn,
 }: Props) => {
@@ -410,13 +410,13 @@ const MediumCard = ({
         <p className="text-12 font-500 leading-[160%] text-basic-grey-500 ">
           {date}
         </p>
-        <p
+        {/* <p
           className={`text-14 font-600 leading-[140%] ${
             isSaleStarted ? 'text-basic-black' : 'text-basic-grey-500'
           }`}
         >
           {isSaleStarted ? price : '판매대기'}
-        </p>
+        </p> */}
         {isDemandOngoing && (
           <Badge className={`mt-4 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
             수요조사 진행 중

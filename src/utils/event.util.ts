@@ -236,7 +236,7 @@ export const calculateTotalPrice = ({
 }) => {
   const price = priceOfTripType[tripType];
 
-  if (!price.regularPrice) {
+  if (price.regularPrice === null || price.regularPrice === undefined) {
     throw new CustomError(400, '가격이 존재하지 않는 상품입니다.');
   }
 

@@ -6,6 +6,7 @@ import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import { useMemo } from 'react';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
+import { MOCK_SHUTTLE_ROUTES } from './mock-shuttle-routes.const';
 
 interface Props {
   event: EventsViewEntity;
@@ -17,10 +18,35 @@ const EventContent = ({ event }: Props) => {
       eventId: event.eventId,
     },
   );
-  const shuttleRoutes = useMemo(
-    () => shuttleRoutesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [],
-    [shuttleRoutesPages],
-  );
+  const shuttleRoutes = useMemo(() => {
+    const mockShuttleRoutes = MOCK_SHUTTLE_ROUTES[event.eventId];
+    if (!mockShuttleRoutes) {
+      return [];
+    }
+    const apiShuttleRoutes =
+      shuttleRoutesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [];
+
+    const mergedShuttleRoutes = apiShuttleRoutes.map((route) => {
+      const mockRoute = mockShuttleRoutes.find(
+        (mockRoute) => mockRoute.shuttleRouteId === route.shuttleRouteId,
+      );
+      return {
+        ...route,
+        regularPriceToDestination: mockRoute?.regularPriceToDestination ?? null,
+        regularPriceFromDestination:
+          mockRoute?.regularPriceFromDestination ?? null,
+        regularPriceRoundTrip: mockRoute?.regularPriceRoundTrip ?? null,
+        earlybirdPriceToDestination:
+          mockRoute?.earlybirdPriceToDestination ?? null,
+        earlybirdPriceFromDestination:
+          mockRoute?.earlybirdPriceFromDestination ?? null,
+        earlybirdPriceRoundTrip: mockRoute?.earlybirdPriceRoundTrip ?? null,
+      };
+    });
+    return mergedShuttleRoutes ?? [];
+  }, [event.eventId, shuttleRoutesPages]);
+
+  console.log(shuttleRoutes);
 
   const shuttleRoutesOpen = useMemo(
     () => shuttleRoutes.filter((route) => route.status === 'OPEN'),

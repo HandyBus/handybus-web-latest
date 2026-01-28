@@ -38,9 +38,6 @@ const Page = async ({
     <>
       <main>
         {/* {hasReferralCode && <ReferralDiscountNotice />} */}
-        <div className="flex h-[38px] w-full items-center justify-center bg-basic-red-100 text-14 font-600 text-basic-red-400">
-          현재 일시적인 오류로 결제가 불가합니다.
-        </div>
         <EventImage
           eventImageUrl={event.eventImageUrl}
           eventName={event.eventName}
