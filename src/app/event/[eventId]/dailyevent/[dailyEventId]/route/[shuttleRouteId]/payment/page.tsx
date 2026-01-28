@@ -109,6 +109,12 @@ const Page = ({ params }: Props) => {
         shuttleRouteFromMock?.regularPriceFromDestination ?? null,
       regularPriceRoundTrip:
         shuttleRouteFromMock?.regularPriceRoundTrip ?? null,
+      earlybirdPriceToDestination:
+        shuttleRouteFromMock?.earlybirdPriceToDestination ?? null,
+      earlybirdPriceFromDestination:
+        shuttleRouteFromMock?.earlybirdPriceFromDestination ?? null,
+      earlybirdPriceRoundTrip:
+        shuttleRouteFromMock?.earlybirdPriceRoundTrip ?? null,
     };
   }, [shuttleRouteFromApi, shuttleRouteFromMock]);
 

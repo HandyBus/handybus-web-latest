@@ -36,6 +36,11 @@ const EventContent = ({ event }: Props) => {
         regularPriceFromDestination:
           mockRoute?.regularPriceFromDestination ?? null,
         regularPriceRoundTrip: mockRoute?.regularPriceRoundTrip ?? null,
+        earlybirdPriceToDestination:
+          mockRoute?.earlybirdPriceToDestination ?? null,
+        earlybirdPriceFromDestination:
+          mockRoute?.earlybirdPriceFromDestination ?? null,
+        earlybirdPriceRoundTrip: mockRoute?.earlybirdPriceRoundTrip ?? null,
       };
     });
     return mergedShuttleRoutes ?? [];
