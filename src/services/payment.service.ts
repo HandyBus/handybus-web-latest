@@ -98,14 +98,16 @@ export const postPreparePayment = async (body: PreparePaymentsRequest) => {
 
 export const postApprovePayment = async (
   paymentId: string,
-  paymentKey: string,
+  paymentKey: string | null | undefined,
 ) => {
   const res = await authInstance.post(
     `/v1/billing/payments/${paymentId}`,
-    {
-      paymentKey,
-      pgType: 'TOSS',
-    },
+    paymentKey
+      ? {
+          paymentKey,
+          pgType: 'TOSS',
+        }
+      : undefined,
     {
       shape: {
         payments: ApprovePaymentsResponseSchema,

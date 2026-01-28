@@ -11,9 +11,9 @@ import { MAX_PASSENGER_COUNT } from '@/constants/common';
 import EventInfoSection from './sections/EventInfoSection';
 import ShuttleRouteInfoSection from './sections/ShuttleRouteInfoSection';
 import ClientInfoSection from './sections/ClientInfoSection';
-import CouponSection from './sections/CouponSection';
+// import CouponSection from './sections/CouponSection';
 import PriceSection from './sections/PriceSection';
-import PaymentSection from './sections/PaymentSection';
+// import PaymentSection from './sections/PaymentSection';
 import BottomBar from './BottomBar';
 import useTossPayments from '@/hooks/useTossPayments';
 import { postPreparePayment } from '@/services/payment.service';
@@ -52,7 +52,7 @@ const Content = ({
   event,
   shuttleRoute,
   user,
-  coupons,
+  // coupons,
   isHandyParty,
   desiredHubAddress,
   desiredHubLatitude,
@@ -61,10 +61,9 @@ const Content = ({
   referralCode,
 }: ContentProps) => {
   const pathname = usePathname();
-  const { replace } = useRouter();
+  const router = useRouter();
 
-  const [selectedCoupon, setSelectedCoupon] =
-    useState<IssuedCouponsViewEntity | null>(null);
+  const [selectedCoupon] = useState<IssuedCouponsViewEntity | null>(null);
 
   const remainingSeat = getRemainingSeat(shuttleRoute);
   const priceOfTripType = calculatePriceOfTripType(shuttleRoute);
@@ -83,7 +82,7 @@ const Content = ({
   });
 
   const {
-    isDisabled: isTossPaymentsDisabled,
+    // isDisabled: isTossPaymentsDisabled,
     requestPayment,
     changePrice,
   } = useTossPayments({
@@ -164,6 +163,13 @@ const Content = ({
         toast.error('잠시 후 다시 시도해 주세요.');
       };
 
+      // if (finalPrice === 0) {
+      // NOTE: 토스페이먼츠 오류로 인해 0원 결제로 진행하는 코드. 추후 삭제 요망.
+      if (true) {
+        router.push(successUrl + '&orderId=' + readyPaymentResponse.paymentId);
+        return;
+      }
+
       await requestPayment({
         orderId: readyPaymentResponse.paymentId,
         orderName,
@@ -223,17 +229,20 @@ const Content = ({
     (remainingSeat[tripType] ?? 0) < passengerCount
   ) {
     toast.error('남은 좌석이 없습니다.');
-    replace(`/event/${event.eventId}`);
+    router.replace(`/event/${event.eventId}`);
     return;
   } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');
-  } else if (!regularPrice) {
+  } else if (regularPrice === null || regularPrice === undefined) {
     throw new CustomError(404, '가격이 존재하지 않는 상품입니다.');
   }
 
   return (
     <main className="pb-100">
       {/* {referralCode && <ReferralDiscountNotice />} */}
+      <div className="flex h-[38px] w-full items-center justify-center bg-basic-red-100 text-14 font-600 text-basic-red-400">
+        현재 결제시스템 에러로 예약은 계좌이체로만 가능합니다.
+      </div>
       {isHandyParty && (
         <div className="bg-basic-blue-100 py-8 text-center text-12 font-500 leading-[160%] text-basic-blue-400">
           예약 중인 셔틀은 <span className="font-700">핸디팟</span>입니다.
@@ -252,12 +261,12 @@ const Content = ({
         desiredHubAddress={desiredHubAddress}
       />
       <ClientInfoSection user={user} />
-      <CouponSection
+      {/* <CouponSection
         eventId={event.eventId}
         coupons={coupons}
         selectedCoupon={selectedCoupon}
         setSelectedCoupon={setSelectedCoupon}
-      />
+      /> */}
       <PriceSection
         tripType={tripType}
         regularPrice={regularPrice}
@@ -267,14 +276,25 @@ const Content = ({
         // referralDiscountAmount={referralDiscountAmount}
         passengerCount={passengerCount}
       />
-      <PaymentSection />
+      {/* <PaymentSection /> */}
+      <div className="m-16 rounded-6 bg-basic-grey-50 py-12 text-center text-20 font-600">
+        <span className="text-14 text-basic-black">
+          아래 계좌로 입금해주세요.
+        </span>{' '}
+        <br />
+        <span className="text-16 text-basic-black underline underline-offset-2">
+          3333345010668 카카오뱅크
+        </span>
+      </div>
       <GuidelineSection
         isHandyParty={isHandyParty}
         guidelineSeen={isGuidelineSeen}
         setGuidelineSeen={setIsGuidelineSeen}
       />
+
       <BottomBar
-        isDisabled={isTossPaymentsDisabled}
+        // isDisabled={isTossPaymentsDisabled}
+        isDisabled={false}
         finalPrice={finalPrice}
         onSubmit={submitPayment}
       />
