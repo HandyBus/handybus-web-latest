@@ -1,6 +1,6 @@
 'use client';
 
-import Badge from '@/components/badge/Badge';
+// import Badge from '@/components/badge/Badge';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
@@ -10,7 +10,7 @@ interface Props {
   isReservationClosingSoon: boolean;
 }
 
-const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
+const EventInfo = ({ event }: Props) => {
   const parsedDateString = dateString(
     event.dailyEvents.map((v) => v.date),
     {
@@ -30,7 +30,7 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
         <h4 className="mb-4 text-16 font-500 text-basic-grey-500">
           {event.eventLocationName}
         </h4>
-        {enabledStatus === 'enabled' &&
+        {/* {enabledStatus === 'enabled' &&
           (phase === 'reservation' ? (
             <div className="flex items-center gap-4">
               <h5 className="text-20 font-600">
@@ -51,7 +51,7 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
                 수요조사 진행 중
               </Badge>
             </div>
-          ))}
+          ))} */}
         {enabledStatus === 'disabled' &&
           (phase === 'reservation' ? (
             <span className="text-20 font-600 text-basic-grey-500">

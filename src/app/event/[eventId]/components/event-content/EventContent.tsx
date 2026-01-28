@@ -46,6 +46,8 @@ const EventContent = ({ event }: Props) => {
     return mergedShuttleRoutes ?? [];
   }, [event.eventId, shuttleRoutesPages]);
 
+  console.log(shuttleRoutes);
+
   const shuttleRoutesOpen = useMemo(
     () => shuttleRoutes.filter((route) => route.status === 'OPEN'),
     [shuttleRoutes],
