@@ -61,7 +61,7 @@ const Content = ({
   referralCode,
 }: ContentProps) => {
   const pathname = usePathname();
-  const { replace } = useRouter();
+  const router = useRouter();
 
   const [selectedCoupon, setSelectedCoupon] =
     useState<IssuedCouponsViewEntity | null>(null);
@@ -164,6 +164,13 @@ const Content = ({
         toast.error('잠시 후 다시 시도해 주세요.');
       };
 
+      // if (finalPrice === 0) {
+      // NOTE: 토스페이먼츠 오류로 인해 0원 결제로 진행하는 코드. 추후 삭제 요망.
+      if (true) {
+        router.push(successUrl + '&orderId=' + readyPaymentResponse.paymentId);
+        return;
+      }
+
       await requestPayment({
         orderId: readyPaymentResponse.paymentId,
         orderName,
@@ -223,11 +230,11 @@ const Content = ({
     (remainingSeat[tripType] ?? 0) < passengerCount
   ) {
     toast.error('남은 좌석이 없습니다.');
-    replace(`/event/${event.eventId}`);
+    router.replace(`/event/${event.eventId}`);
     return;
   } else if (passengerCount <= 0 || passengerCount > MAX_PASSENGER_COUNT) {
     throw new CustomError(404, '인원 수가 올바르지 않습니다.');
-  } else if (!regularPrice) {
+  } else if (regularPrice === null || regularPrice === undefined) {
     throw new CustomError(404, '가격이 존재하지 않는 상품입니다.');
   }
 
