@@ -1,8 +1,10 @@
 import { z } from 'zod';
 import { authInstance, instance } from './config';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { AdminHandleBannerRequestBannersSchema } from '@/types/banner.type';
 import { AnnouncementResponseModelSchema } from '@/types/announcement.type';
+import { PaginationParams, withPagination } from '@/types/common.type';
+import { toSearchParams } from '@/utils/searchParams.util';
 
 type KeyType = 'concerts' | 'users/profiles' | 'reviews';
 type ExtensionType = 'jpg' | 'jpeg' | 'png' | 'webp' | 'svg' | 'gif';
@@ -75,19 +77,30 @@ export const useGetBanners = (options?: { revalidate?: number }) =>
 
 // ----- Announcement -----
 
-export const getAnnouncements = async () => {
-  const res = await instance.get('/v1/core/announcements', {
-    shape: {
-      announcements: AnnouncementResponseModelSchema.array(),
+export const getAnnouncements = async (params?: PaginationParams<unknown>) => {
+  const searchParams = toSearchParams(params);
+  const res = await instance.get(
+    `/v1/core/announcements?${searchParams.toString()}`,
+    {
+      shape: withPagination({
+        announcements: AnnouncementResponseModelSchema.array(),
+      }),
     },
-  });
-  return res.announcements;
+  );
+  return res;
 };
 
-export const useGetAnnouncements = () =>
-  useQuery({
-    queryKey: ['announcements'],
-    queryFn: () => getAnnouncements(),
+export const useGetAnnouncementsWithPagination = (
+  params?: PaginationParams<unknown>,
+) =>
+  useInfiniteQuery({
+    queryKey: ['announcements', params],
+    queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
+      getAnnouncements({ ...params, page: pageParam }),
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextPage;
+    },
   });
 
 export const getAnnouncement = async (announcementId: string) => {
