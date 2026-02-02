@@ -69,7 +69,7 @@ const Page = ({ params }: PageProps) => {
       const orderId = searchParams.get('orderId');
       const paymentKey = searchParams.get('paymentKey');
 
-      if (!orderId || !paymentKey) {
+      if (!orderId) {
         throw new CustomError(400, '구매키가 존재하지 않습니다.');
       }
 
