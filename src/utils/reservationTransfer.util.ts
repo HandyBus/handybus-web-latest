@@ -16,7 +16,9 @@ export const checkIsReservationTransferablePeriod = (
   }
 
   const today = dayjs().tz('Asia/Seoul').startOf('day');
-  const boardingDay = dayjs(dailyEvent.date).tz('Asia/Seoul').startOf('day');
+  const boardingDay = dayjs(dailyEvent.dailyEventDate)
+    .tz('Asia/Seoul')
+    .startOf('day');
 
   const isTransferable =
     boardingDay.diff(today, 'day') >= RESERVATION_TRANSFERABLE_PERIOD_DAYS &&

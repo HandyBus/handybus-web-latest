@@ -45,7 +45,7 @@ const AlertRequestCard = ({ alertRequest }: Props) => {
     showTime: true,
     showWeekday: true,
   });
-  const formattedEventDate = dateString(dailyEvent.date, {
+  const formattedEventDate = dateString(dailyEvent.dailyEventDate, {
     showYear: true,
     showDate: true,
     showTime: false,

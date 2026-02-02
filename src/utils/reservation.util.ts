@@ -20,7 +20,7 @@ export const getBoardingTime = (
       reservation.type === 'TO_DESTINATION' ||
       reservation.type === 'ROUND_TRIP'
     ) {
-      return dayjs(dailyEvent.date).tz('Asia/Seoul').startOf('day');
+      return dayjs(dailyEvent.dailyEventDate).tz('Asia/Seoul').startOf('day');
     } else {
       const fromDestinationDestinationHub =
         shuttleRoute.fromDestinationShuttleRouteHubs?.find(

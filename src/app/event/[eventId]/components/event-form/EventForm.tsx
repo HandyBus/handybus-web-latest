@@ -232,6 +232,7 @@ const Content = ({
     <>
       <form className="flex flex-col gap-8">
         <BottomBar
+          eventId={event.eventId}
           eventName={event.eventName}
           phase={phase}
           enabledStatus={enabledStatus}

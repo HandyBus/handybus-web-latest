@@ -56,7 +56,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const events = await getEvents({ status: 'OPEN,CLOSED' });
+  // TODO: @jujeon - 임시로 OPEN,CLOSED -> STAND_BY,OPEN 로 변경 - 추후 자세한 검토 필요
+  const events = await getEvents({ status: 'STAND_BY,OPEN' });
   const eventsArray = events.map((event) => ({
     url: `${baseUrl}/event/${event.eventId}`,
     lastModified: new Date(event.updatedAt),

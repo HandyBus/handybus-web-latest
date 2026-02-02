@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "node_modules/next/dist/bin/next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "type-check": "tsc --noEmit"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -28,8 +29,10 @@
     "@tanstack/react-query": "^5.59.0",
     "@tanstack/react-query-devtools": "^5.59.0",
     "@tosspayments/tosspayments-sdk": "^2.3.4",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/mdx": "^2.0.13",
     "browser-image-compression": "^2.0.2",
+    "canvas-confetti": "^1.9.4",
     "dayjs": "^1.11.13",
     "jotai": "^2.12.2",
     "jotai-cache": "^0.5.0",

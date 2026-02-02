@@ -12,7 +12,7 @@ interface Props {
 
 const EventInfo = ({ event }: Props) => {
   const parsedDateString = dateString(
-    event.dailyEvents.map((v) => v.date),
+    event.dailyEvents.map((v) => v.dailyEventDate),
     {
       showWeekday: false,
     },

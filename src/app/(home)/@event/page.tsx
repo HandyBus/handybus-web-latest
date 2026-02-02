@@ -6,8 +6,9 @@ import { EventsViewEntity } from '@/types/event.type';
 const Page = async () => {
   const recommendedEvents = await getTopRecommendedEvents(10);
 
+  // TODO: @jujeon - 임시로 OPEN,CLOSED -> STAND_BY,OPEN 로 변경 - 추후 자세한 검토 필요
   const pinnedEvents = await getEvents({
-    status: 'OPEN,CLOSED',
+    status: 'STAND_BY,OPEN',
     eventIsPinned: true,
   });
 

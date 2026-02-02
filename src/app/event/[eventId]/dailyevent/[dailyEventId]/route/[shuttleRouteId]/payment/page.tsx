@@ -1,11 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import {
-  ShuttleRoutesViewEntity,
-  TripType,
-  TripTypeEnum,
-} from '@/types/shuttleRoute.type';
+import { TripType, TripTypeEnum } from '@/types/shuttleRoute.type';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import { useGetShuttleRoute } from '@/services/shuttleRoute.service';
@@ -14,9 +10,8 @@ import { useGetUser } from '@/services/user.service';
 import { useGetUserCoupons } from '@/services/coupon.service';
 import Content from './components/Content';
 import { PAYMENT_PARAMS_KEYS } from './payment.const';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import TossPaymentsScript from '@/components/script/TossPaymentsScript';
-import { MOCK_SHUTTLE_ROUTES } from '@/app/event/[eventId]/components/event-content/mock-shuttle-routes.const';
 // import useCheckReferral from './hooks/useCheckReferral';
 
 interface Props {
@@ -66,16 +61,12 @@ const Page = ({ params }: Props) => {
   );
 
   const { data: event, isLoading: isEventLoading } = useGetEvent(eventId);
-  const { data: shuttleRouteFromApi, isLoading: isShuttleRouteLoading } =
+  const { data: shuttleRoute, isLoading: isShuttleRouteLoading } =
     useGetShuttleRoute(eventId, dailyEventId, shuttleRouteId);
   const { data: user, isLoading: isUserLoading } = useGetUser();
   const { data: coupons, isLoading: isCouponsLoading } = useGetUserCoupons({
     issuedCouponStatus: 'BEFORE_USE',
   });
-
-  const shuttleRouteFromMock = MOCK_SHUTTLE_ROUTES[eventId].find(
-    (route) => route.shuttleRouteId === shuttleRouteId,
-  );
 
   const [isTossPaymentsScriptLoaded, setIsTossPaymentsScriptLoaded] =
     useState(false);
@@ -95,28 +86,6 @@ const Page = ({ params }: Props) => {
     isUserLoading ||
     isCouponsLoading ||
     !isTossPaymentsScriptLoaded;
-
-  const shuttleRoute: ShuttleRoutesViewEntity | null = useMemo(() => {
-    if (!shuttleRouteFromApi || !shuttleRouteFromMock) {
-      return null;
-    }
-
-    return {
-      ...shuttleRouteFromApi,
-      regularPriceToDestination:
-        shuttleRouteFromMock?.regularPriceToDestination ?? null,
-      regularPriceFromDestination:
-        shuttleRouteFromMock?.regularPriceFromDestination ?? null,
-      regularPriceRoundTrip:
-        shuttleRouteFromMock?.regularPriceRoundTrip ?? null,
-      earlybirdPriceToDestination:
-        shuttleRouteFromMock?.earlybirdPriceToDestination ?? null,
-      earlybirdPriceFromDestination:
-        shuttleRouteFromMock?.earlybirdPriceFromDestination ?? null,
-      earlybirdPriceRoundTrip:
-        shuttleRouteFromMock?.earlybirdPriceRoundTrip ?? null,
-    };
-  }, [shuttleRouteFromApi, shuttleRouteFromMock]);
 
   return (
     <>

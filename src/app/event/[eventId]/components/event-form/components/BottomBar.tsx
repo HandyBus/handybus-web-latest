@@ -9,15 +9,24 @@ import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
+import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../../cheer-up/cheer-up.const';
+import CheerUpBottomBar from '../../cheer-up/CheerUpBottomBar';
 
 interface Props {
+  eventId: string;
   eventName: string;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
 }
 
-const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
+const BottomBar = ({
+  eventId,
+  eventName,
+  phase,
+  enabledStatus,
+  onClick,
+}: Props) => {
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
@@ -43,6 +52,11 @@ const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
   };
 
   const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
+  const isCheerUpEvent = eventId === EVENT_CHEER_UP_TEST_EVENT_ID;
+
+  if (isCheerUpEvent) {
+    return <CheerUpBottomBar eventName={eventName} />;
+  }
 
   return (
     <>
