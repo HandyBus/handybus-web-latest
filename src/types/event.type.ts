@@ -33,7 +33,7 @@ export const DailyEventsInEventsViewEntitySchema = z
     dailyEventId: z.string(),
     dailyEventDate: z.string(),
     dailyEventStatus: DailyEventStatusEnum,
-    dailyEventIsDemandClosed: z.boolean(),
+    dailyEventIsDemandOpen: z.boolean(),
     dailyEventMetadata: z.record(z.string(), z.any()).nullable(),
   })
   .strict();
