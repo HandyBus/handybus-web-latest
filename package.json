@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "test": "vitest run",
+    "test:related": "vitest run --changed",
     "test:watch": "vitest",
     "build": "next build",
     "start": "node_modules/next/dist/bin/next start",
