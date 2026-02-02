@@ -27,7 +27,7 @@ const createMockReservation = (
         dailyEvents: [
           {
             dailyEventId: 'daily-event-1',
-            date: boardingDate, // used for HandyParty boarding time calculation
+            dailyEventDate: boardingDate, // used for HandyParty boarding time calculation
           },
         ],
       },
