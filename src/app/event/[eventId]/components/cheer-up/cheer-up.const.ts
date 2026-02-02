@@ -1,3 +1,5 @@
+export const EVENT_CHEER_UP_TEST_EVENT_ID = '663643622951883037';
+
 // 할인 목표 설정
 export const DISCOUNT_GOALS = [
   { participants: 3000, discountRate: 3 },

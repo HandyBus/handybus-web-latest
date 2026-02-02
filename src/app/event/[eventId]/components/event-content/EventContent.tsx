@@ -6,8 +6,8 @@ import EventForm from '../event-form/EventForm';
 import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
-import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../../event-cheer-up.const';
 import CheerUpDiscountInfo from '../cheer-up/CheerUpDiscountInfo';
+import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../cheer-up/cheer-up.const';
 
 interface Props {
   event: EventsViewEntity;

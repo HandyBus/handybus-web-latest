@@ -166,7 +166,7 @@ const useCompleteReservationTracking = ({
 }: UseCompleteReservationTrackingProps) => {
   const eventDate = reservation.shuttleRoute.event.dailyEvents.find(
     (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
-  )?.date;
+  )?.dailyEventDate;
 
   const tripType = reservation.type;
 

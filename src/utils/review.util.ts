@@ -37,7 +37,7 @@ export const checkIsReviewWritingPeriod = (
   const reviewOpenTime = dayjs(arrivalTime)
     .tz('Asia/Seoul')
     .subtract(1, 'hour');
-  const reviewClosingTime = dayjs(dailyEvent.date)
+  const reviewClosingTime = dayjs(dailyEvent.dailyEventDate)
     .tz('Asia/Seoul')
     .add(7, 'day');
   const now = dayjs().tz('Asia/Seoul');

@@ -109,7 +109,7 @@ const ReservationHubsStep = ({
     }
   };
 
-  const isDemandPossible = dailyEvent.status === 'OPEN';
+  const isDemandPossible = dailyEvent.dailyEventStatus === 'OPEN';
 
   const userDemands = useAtomValue(userDemandsAtom);
   const handleDemandClick = () => {
