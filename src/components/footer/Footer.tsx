@@ -51,8 +51,8 @@ const Footer = () => {
         <Link href="/help/faq/marketing-consent">마케팅 활용 동의</Link>
       </div>
       <div className="text-12 font-400 leading-[1.6] text-basic-grey-400">
-        상호명: 스테이브 | 대표자: 정지용 | 전화번호: 0507-1372-6141 | 이메일:
-        handybus@handybus.co.kr | 사업자등록번호: 834-87-03565 |
+        상호명: (주) 스테이브 | 대표자: 정지용 | 전화번호: 0507-1372-6141 |
+        이메일: handybus@handybus.co.kr | 사업자등록번호: 834-87-03565 |
         통신판매업신고번호: 2024-서울강북-0849 | 주소: 서울특별시 성북구
         안암로145, 경영본관 219호
       </div>
