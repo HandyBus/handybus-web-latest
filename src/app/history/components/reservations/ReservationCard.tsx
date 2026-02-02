@@ -39,7 +39,7 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
       showWeekday: true,
     },
   );
-  const formattedEventDate = dateString(dailyEvent.date, {
+  const formattedEventDate = dateString(dailyEvent.dailyEventDate, {
     showYear: true,
     showDate: true,
     showTime: false,

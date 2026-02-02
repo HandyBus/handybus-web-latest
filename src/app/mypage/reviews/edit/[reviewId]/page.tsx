@@ -75,7 +75,7 @@ const EventInfoCard = ({ event, reservation }: EventInfoCardProps) => {
     (dailyEvent) =>
       dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
   );
-  const formattedEventDate = dateString(dailyEvent?.date, {
+  const formattedEventDate = dateString(dailyEvent?.dailyEventDate, {
     showYear: true,
     showDate: true,
     showTime: false,

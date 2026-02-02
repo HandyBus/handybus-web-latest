@@ -6,7 +6,7 @@ import ShuttleInfoSection from './sections/shuttle-info-section/ShuttleInfoSecti
 import ReservationPersonInfoSection from './sections/ReservationPersonInfoSection';
 import PriceSection from './sections/price-section/PriceSection';
 import GuidelineSection from './sections/GuidelineSection';
-// import RefundSection from './sections/refund-section/RefundSection';
+import RefundSection from './sections/refund-section/RefundSection';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
 import { EventsViewEntity } from '@/types/event.type';
 import TitleSection from './sections/title-section/TitleSection';
@@ -140,18 +140,13 @@ const Content = ({
         isShuttleRouteEnded={isShuttleRouteEnded}
       />
       <GuidelineSection />
-      <div className="m-16 text-center text-14 font-600 text-basic-grey-500">
-        현재 토스페이먼츠 오류로 인해 자동 환불이 불가능합니다.
-        <br />
-        CS 채널을 통해 문의 주시면 감사하겠습니다.
-      </div>
-      {/* <RefundSection
+      <RefundSection
         isTransferredReservation={isTransferredReservation}
         isCanceled={isReservationCanceled}
         isEnded={isShuttleRouteEnded}
         reservation={reservation}
         reservationTransferRequests={reservationTransferRequests}
-      /> */}
+      />
     </main>
   );
 };

@@ -16,7 +16,7 @@ export const useInvitePaybackAnalytics = ({ event, reservation }: Props) => {
       event.dailyEvents.find(
         (dailyEvent) =>
           dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
-      )?.date ?? '',
+      )?.dailyEventDate ?? '',
     [event.dailyEvents, reservation.shuttleRoute.dailyEventId],
   );
 

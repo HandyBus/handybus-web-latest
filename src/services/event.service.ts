@@ -4,9 +4,6 @@ import { instance } from './config';
 import { Combinations, withPagination } from '@/types/common.type';
 import { toSearchParams } from '@/utils/searchParams.util';
 
-const EXO_FANMEETING_EVENT_ID = '638259410820405180';
-const EXO_FANMEETING_DAILY_EVENT_ID = '638259410816210874';
-
 export const getEvents = async (params?: {
   status?: Combinations<EventStatus>;
   eventIsPinned?: boolean;
@@ -23,21 +20,7 @@ export const getEvents = async (params?: {
     },
   );
 
-  // 엑소 팬미팅 12.13일 비활성화 임시 코드
-  const filteredEvents = res.events.map((event) => {
-    if (event.eventId === EXO_FANMEETING_EVENT_ID) {
-      return {
-        ...event,
-        startDate: event.endDate,
-        dailyEvents: event.dailyEvents.filter(
-          (dailyEvent) =>
-            dailyEvent.dailyEventId !== EXO_FANMEETING_DAILY_EVENT_ID,
-        ),
-      };
-    }
-    return event;
-  });
-  return filteredEvents;
+  return res.events;
 };
 
 export const useGetEvents = (params?: {
@@ -58,18 +41,6 @@ export const getEvent = async (eventId: string) => {
     },
   });
 
-  // 엑소 팬미팅 12.13일 비활성화 임시 코드
-  if (eventId === EXO_FANMEETING_EVENT_ID) {
-    return {
-      ...res.event,
-      startDate: res.event.endDate,
-      dailyEvents: res.event.dailyEvents.filter(
-        (dailyEvent) =>
-          dailyEvent.dailyEventId !== EXO_FANMEETING_DAILY_EVENT_ID,
-      ),
-    };
-  }
-
   return res.event;
 };
 
@@ -83,7 +54,7 @@ export const useGetEvent = (
     enabled,
   });
 
-// OPEN,CLOSED 인 행사 중 추천 점수가 높은 순으로 행사 조회
+// OPEN 인 행사 중 추천 점수가 높은 순으로 행사 조회
 export const getTopRecommendedEvents = async (limit?: number) => {
   const searchParams = toSearchParams({ limit });
   const res = await instance.get(
@@ -94,20 +65,7 @@ export const getTopRecommendedEvents = async (limit?: number) => {
       },
     },
   );
-  const filteredEvents = res.events.map((event) => {
-    if (event.eventId === EXO_FANMEETING_EVENT_ID) {
-      return {
-        ...event,
-        startDate: event.endDate,
-        dailyEvents: event.dailyEvents.filter(
-          (dailyEvent) =>
-            dailyEvent.dailyEventId !== EXO_FANMEETING_DAILY_EVENT_ID,
-        ),
-      };
-    }
-    return event;
-  });
-  return filteredEvents;
+  return res.events;
 };
 
 export const useGetTopRecommendedEvents = (limit?: number) =>

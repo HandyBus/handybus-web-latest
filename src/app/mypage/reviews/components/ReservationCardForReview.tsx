@@ -33,7 +33,7 @@ const ReservationCardForReview = ({
     showTime: false,
     showWeekday: false,
   });
-  const formattedEventDate = dateString(dailyEvent.date, {
+  const formattedEventDate = dateString(dailyEvent.dailyEventDate, {
     showYear: true,
     showDate: true,
     showTime: false,

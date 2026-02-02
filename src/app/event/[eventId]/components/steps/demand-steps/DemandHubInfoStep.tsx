@@ -77,7 +77,7 @@ const DemandHubInfoStep = ({
       trackCompleteDemand?.(
         selectedHubForDemand.name,
         tripType,
-        dailyEvent.date,
+        dailyEvent.dailyEventDate,
       );
       setDemandCompleteStatus('success');
       updateUserDemands();
@@ -98,7 +98,7 @@ const DemandHubInfoStep = ({
             name: selectedHubForDemand.name,
           },
           tripType,
-          demandDate: dailyEvent.date,
+          demandDate: dailyEvent.dailyEventDate,
           timestamp: dayjs().toISOString(),
         },
       });

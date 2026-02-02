@@ -10,7 +10,9 @@ interface Props {
 }
 
 const EventCard = ({ event }: Props) => {
-  const dates = event.dailyEvents.map((dailyEvent) => dailyEvent.date);
+  const dates = event.dailyEvents.map(
+    (dailyEvent) => dailyEvent.dailyEventDate,
+  );
   const formattedEventDate = dateString(dates, {
     showWeekday: false,
   });
