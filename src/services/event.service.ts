@@ -54,7 +54,7 @@ export const useGetEvent = (
     enabled,
   });
 
-// OPEN,CLOSED 인 행사 중 추천 점수가 높은 순으로 행사 조회
+// OPEN 인 행사 중 추천 점수가 높은 순으로 행사 조회
 export const getTopRecommendedEvents = async (limit?: number) => {
   const searchParams = toSearchParams({ limit });
   const res = await instance.get(

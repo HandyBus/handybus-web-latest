@@ -26,7 +26,8 @@ const Page = () => {
     data: events,
     isLoading,
     error,
-  } = useGetEvents({ status: 'OPEN,CLOSED' });
+    // TODO: @jujeon - 임시로 OPEN,CLOSED -> STAND_BY,OPEN 로 변경 - 추후 자세한 검토 필요
+  } = useGetEvents({ status: 'STAND_BY,OPEN' });
 
   const filteredEventsByStatus = useMemo(
     () =>
