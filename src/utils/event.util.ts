@@ -6,7 +6,7 @@ import { compareToNow } from '@/utils/dateString.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
 
-export type EventPhase = 'demand' | 'reservation';
+export type EventPhase = 'standBy' | 'demand' | 'reservation';
 export type EventEnabledStatus = 'enabled' | 'disabled';
 
 export const getPhaseAndEnabledStatus = (
@@ -16,13 +16,15 @@ export const getPhaseAndEnabledStatus = (
   enabledStatus: EventEnabledStatus;
 } => {
   if (!event) {
-    return { phase: 'demand', enabledStatus: 'disabled' };
+    return { phase: 'standBy', enabledStatus: 'disabled' };
   }
   const isDemandOngoing = event.eventStatus === 'OPEN';
   const isReservationOpen = event.eventMinRoutePrice !== null;
   const isReservationOngoing = event.eventHasOpenRoute;
 
   switch (true) {
+    case event.eventStatus === 'STAND_BY':
+      return { phase: 'standBy', enabledStatus: 'disabled' };
     case isDemandOngoing && !isReservationOpen:
       return { phase: 'demand', enabledStatus: 'enabled' };
     case !isDemandOngoing && !isReservationOpen:
@@ -30,8 +32,9 @@ export const getPhaseAndEnabledStatus = (
     case isReservationOpen && isReservationOngoing:
       return { phase: 'reservation', enabledStatus: 'enabled' };
     case isReservationOpen && !isReservationOngoing:
-    default:
       return { phase: 'reservation', enabledStatus: 'disabled' };
+    default:
+      return { phase: 'standBy', enabledStatus: 'disabled' };
   }
 };
 

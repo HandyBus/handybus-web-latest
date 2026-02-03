@@ -3,11 +3,11 @@
 import { useMemo } from 'react';
 import { EventsViewEntity } from '@/types/event.type';
 import EventForm from '../event-form/EventForm';
-import { Provider as JotaiProvider } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
 import CheerDiscountInfo from '../cheer/CheerDiscountInfo';
-import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
+import { isCheerCampaignRunningAtom } from '../../store/cheerAtom';
 
 interface Props {
   event: EventsViewEntity;
@@ -24,27 +24,21 @@ const EventContent = ({ event }: Props) => {
     [shuttleRoutesPages],
   );
 
-  const shuttleRoutesOpen = useMemo(
+  const openShuttleRoutes = useMemo(
     () => shuttleRoutes.filter((route) => route.status === 'OPEN'),
     [shuttleRoutes],
   );
 
-  const { data: cheerCampaign } = useGetEventCheerCampaignByEventId(
-    event.eventId,
-  );
-
-  // STAND_BY 상태이고 캠페인이 있을 때만 응원 UI 표시
-  const shouldShowCheerCampaign =
-    event.eventStatus === 'STAND_BY' && !!cheerCampaign;
+  const isCheerCampaignRunning = useAtomValue(isCheerCampaignRunningAtom);
 
   return (
-    <JotaiProvider>
-      {shouldShowCheerCampaign && <CheerDiscountInfo eventId={event.eventId} />}
-      <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
+    <>
+      {isCheerCampaignRunning && <CheerDiscountInfo />}
+      <EventForm event={event} openShuttleRoutes={openShuttleRoutes} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
       )}
-    </JotaiProvider>
+    </>
   );
 };
 

@@ -1,36 +1,19 @@
 'use client';
 
-import { useAtom } from 'jotai';
-import { cheerParticipationAtom } from '../../store/cheerParticipationAtom';
+import { useAtomValue } from 'jotai';
 import { useCheerDiscount } from './hooks/useCheerDiscount';
 import {
   useCheerParticipationAnimation,
   useCheerProgressAnimation,
 } from './hooks/useCheerAnimation';
-import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
-import { useEffect } from 'react';
+import {
+  cheerCampaignAtom,
+  cheerParticipationAtom,
+} from '../../store/cheerAtom';
 
-interface Props {
-  eventId: string;
-}
-
-const CheerDiscountInfo = ({ eventId }: Props) => {
-  const { data: cheerCampaign, isLoading } =
-    useGetEventCheerCampaignByEventId(eventId);
-  const [currentParticipations, setCurrentParticipations] = useAtom(
-    cheerParticipationAtom,
-  );
-
-  useEffect(() => {
-    if (cheerCampaign?.cheerChampaignParticipationTotalCount !== undefined) {
-      setCurrentParticipations(
-        cheerCampaign.cheerChampaignParticipationTotalCount,
-      );
-    }
-  }, [
-    cheerCampaign?.cheerChampaignParticipationTotalCount,
-    setCurrentParticipations,
-  ]);
+const CheerDiscountInfo = () => {
+  const cheerCampaign = useAtomValue(cheerCampaignAtom);
+  const currentParticipations = useAtomValue(cheerParticipationAtom);
 
   // 먼저 애니메이션으로 표시되는 참여 수를 가져옴
   const { displayParticipations, showCheerMessage, isAnimating } =
@@ -39,7 +22,7 @@ const CheerDiscountInfo = ({ eventId }: Props) => {
   // displayParticipants를 기준으로 할인율과 진행률 계산
   const { currentDiscountRate, nextGoal, currentProgress } = useCheerDiscount(
     displayParticipations,
-    cheerCampaign,
+    cheerCampaign ?? undefined,
   );
 
   // 진행률 애니메이션
@@ -48,7 +31,7 @@ const CheerDiscountInfo = ({ eventId }: Props) => {
     isAnimating,
   });
 
-  if (isLoading || !cheerCampaign) {
+  if (!cheerCampaign) {
     return null;
   }
 

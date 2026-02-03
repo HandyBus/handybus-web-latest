@@ -7,6 +7,7 @@ import EventOverview from './components/EventOverview';
 import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { checkIsReservationClosingSoon } from '../utils/checkIsReservationClosingSoon.util';
+import EventProvider from './components/EventProvider';
 // import ReferralDiscountNotice from './components/ReferralDiscountNotice';
 
 // const SEARCH_PARAMS_KEYS = {
@@ -36,22 +37,24 @@ const Page = async ({
 
   return (
     <>
-      <main>
-        {/* {hasReferralCode && <ReferralDiscountNotice />} */}
-        <EventImage
-          eventImageUrl={event.eventImageUrl}
-          eventName={event.eventName}
-        />
-        <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
-        <EventContent event={event} />
-        <EventOverview
-          event={event}
-          eventDetailImageUrl={event.eventDetailImageUrl}
-        />
-        <EventGuidelines />
-        <EventModal eventId={params.eventId} />
-        <div className="h-100 bg-basic-grey-50" />
-      </main>
+      <EventProvider event={event}>
+        <main>
+          {/* {hasReferralCode && <ReferralDiscountNotice />} */}
+          <EventImage
+            eventImageUrl={event.eventImageUrl}
+            eventName={event.eventName}
+          />
+          <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
+          <EventContent event={event} />
+          <EventOverview
+            event={event}
+            eventDetailImageUrl={event.eventDetailImageUrl}
+          />
+          <EventGuidelines />
+          <EventModal eventId={params.eventId} />
+          <div className="h-100 bg-basic-grey-50" />
+        </main>
+      </EventProvider>
       <KakaoMapScript libraries={['services']} />
     </>
   );

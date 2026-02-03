@@ -2,7 +2,7 @@ import {
   EventCheerCampaignsViewEntitySchema,
   ParticipationType,
 } from '@/types/cheer.type';
-import { instance } from './config';
+import { authInstance, instance } from './config';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // ----- GET -----
@@ -28,7 +28,7 @@ export const useGetEventCheerCampaign = (eventCheerCampaignId: string) => {
 
 export const getEventCheerCampaignByEventId = async (eventId: string) => {
   const res = await instance.get(
-    `/v2/shuttle-operation/events/${eventId}/cheer/campaigns`,
+    `/v1/shuttle-operation/events/${eventId}/cheer/campaigns`,
     {
       shape: {
         eventCheerCampaign: EventCheerCampaignsViewEntitySchema,
@@ -53,8 +53,8 @@ export const postEventCheerCampaignParticipation = async (
     participationType: ParticipationType;
   },
 ) => {
-  await instance.post(
-    `/v2/shuttle-operation/cheer/campaigns/${eventCheerCampaignId}/participants`,
+  await authInstance.post(
+    `/v1/shuttle-operation/cheer/campaigns/${eventCheerCampaignId}/participants`,
     body,
   );
 };
@@ -69,7 +69,7 @@ export const usePostEventCheerCampaignParticipation = (
       postEventCheerCampaignParticipation(eventCheerCampaignId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['cheer', 'campaign', eventCheerCampaignId],
+        queryKey: ['cheer', 'campaign'],
       });
     },
   });

@@ -31,7 +31,7 @@ const EventCheerCampaignResultInEventCheerCampaignsViewEntitySchema = z.object({
 });
 
 export const EventCheerCampaignsViewEntitySchema = z.object({
-  eventCheerUpCampaignId: z.string(),
+  eventCheerCampaignId: z.string(),
   eventId: z.string(),
   status: EventCheerCampaignStatusEnum,
   imageUrl: z.string().nullable(),

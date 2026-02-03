@@ -10,26 +10,17 @@ import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
 import CheerBottomBar from '../../cheer/CheerBottomBar';
-import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
-import { EventStatus } from '@/types/event.type';
+import { useAtomValue } from 'jotai';
+import { isCheerCampaignRunningAtom } from '../../../store/cheerAtom';
 
 interface Props {
-  eventId: string;
   eventName: string;
-  eventStatus: EventStatus;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
 }
 
-const BottomBar = ({
-  eventId,
-  eventName,
-  eventStatus,
-  phase,
-  enabledStatus,
-  onClick,
-}: Props) => {
+const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
   const router = useRouter();
   const { markAsIntentionalNavigation } = useReservationTrackingGlobal();
 
@@ -53,16 +44,11 @@ const BottomBar = ({
       url: window.location.href,
     });
   };
-
-  const { data: cheerCampaign } = useGetEventCheerCampaignByEventId(eventId);
-
-  // STAND_BY 상태이고 캠페인이 있을 때만 응원 UI 표시
-  const shouldShowCheerCampaign = eventStatus === 'STAND_BY' && !!cheerCampaign;
-
   const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
 
-  if (shouldShowCheerCampaign) {
-    return <CheerBottomBar eventId={eventId} eventName={eventName} />;
+  const isCheerCampaignRunning = useAtomValue(isCheerCampaignRunningAtom);
+  if (isCheerCampaignRunning) {
+    return <CheerBottomBar eventName={eventName} />;
   }
 
   return (
@@ -110,5 +96,9 @@ const BUTTON_TEXT = {
   demand: {
     enabled: '수요조사 참여하기',
     disabled: '인원 부족으로 열리지 않았어요',
+  },
+  standBy: {
+    enabled: '판매 대기 중',
+    disabled: '판매 대기 중',
   },
 };

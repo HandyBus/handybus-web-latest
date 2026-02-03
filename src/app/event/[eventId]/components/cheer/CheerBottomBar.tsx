@@ -5,11 +5,10 @@ import useAppShare from '@/hooks/webview/useAppShare';
 import { useCheerButton } from './hooks/useCheerButton';
 
 interface Props {
-  eventId: string;
   eventName: string;
 }
 
-const CheerBottomBar = ({ eventId, eventName }: Props) => {
+const CheerBottomBar = ({ eventName }: Props) => {
   const {
     hasBaseParticipation,
     isAllCompleted,
@@ -19,7 +18,7 @@ const CheerBottomBar = ({ eventId, eventName }: Props) => {
     handleCheerClick,
     handleShare: onShareComplete,
     isLoading,
-  } = useCheerButton(eventId);
+  } = useCheerButton();
 
   const share = useAppShare();
 
