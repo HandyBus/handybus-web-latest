@@ -7,7 +7,7 @@ import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
 import CheerUpDiscountInfo from '../cheer-up/CheerUpDiscountInfo';
-import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../cheer-up/cheer-up.const';
+import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 
 interface Props {
   event: EventsViewEntity;
@@ -29,11 +29,19 @@ const EventContent = ({ event }: Props) => {
     [shuttleRoutes],
   );
 
-  const isCheerUpEvent = event.eventId === EVENT_CHEER_UP_TEST_EVENT_ID;
+  const { data: cheerCampaign } = useGetEventCheerCampaignByEventId(
+    event.eventId,
+  );
+
+  // STAND_BY 상태이고 캠페인이 있을 때만 응원 UI 표시
+  const shouldShowCheerCampaign =
+    event.eventStatus === 'STAND_BY' && !!cheerCampaign;
 
   return (
     <JotaiProvider>
-      {isCheerUpEvent && <CheerUpDiscountInfo />}
+      {shouldShowCheerCampaign && (
+        <CheerUpDiscountInfo eventId={event.eventId} />
+      )}
       <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />

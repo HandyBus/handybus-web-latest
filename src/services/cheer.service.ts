@@ -1,12 +1,15 @@
-import { EventCheerCampaignsViewEntitySchema } from '@/types/cheer.type';
+import {
+  EventCheerCampaignsViewEntitySchema,
+  ParticipationType,
+} from '@/types/cheer.type';
 import { instance } from './config';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // ----- GET -----
 
 export const getEventCheerCampaign = async (eventCheerCampaignId: string) => {
   const res = await instance.get(
-    `/v2/shuttle-operation/event-cheer-campaigns/${eventCheerCampaignId}`,
+    `/v1/shuttle-operation/cheeer/campaigns/${eventCheerCampaignId}`,
     {
       shape: {
         eventCheerCampaign: EventCheerCampaignsViewEntitySchema,
@@ -18,14 +21,14 @@ export const getEventCheerCampaign = async (eventCheerCampaignId: string) => {
 
 export const useGetEventCheerCampaign = (eventCheerCampaignId: string) => {
   return useQuery({
-    queryKey: ['eventCheerCampaign', eventCheerCampaignId],
+    queryKey: ['cheer', 'campaign', eventCheerCampaignId],
     queryFn: () => getEventCheerCampaign(eventCheerCampaignId),
   });
 };
 
 export const getEventCheerCampaignByEventId = async (eventId: string) => {
   const res = await instance.get(
-    `/v2/shuttle-operation/events/${eventId}/event-cheer-campaigns`,
+    `/v2/shuttle-operation/events/${eventId}/cheer/campaigns`,
     {
       shape: {
         eventCheerCampaign: EventCheerCampaignsViewEntitySchema,
@@ -37,7 +40,37 @@ export const getEventCheerCampaignByEventId = async (eventId: string) => {
 
 export const useGetEventCheerCampaignByEventId = (eventId: string) => {
   return useQuery({
-    queryKey: ['eventCheerCampaignByEventId', eventId],
+    queryKey: ['cheer', 'campaign', 'by-event', eventId],
     queryFn: () => getEventCheerCampaignByEventId(eventId),
+  });
+};
+
+// ----- POST -----
+
+export const postEventCheerCampaignParticipant = async (
+  eventCheerCampaignId: string,
+  body: {
+    participationType: ParticipationType;
+  },
+) => {
+  await instance.post(
+    `/v2/shuttle-operation/cheer/campaigns/${eventCheerCampaignId}/participants`,
+    body,
+  );
+};
+
+export const usePostEventCheerCampaignParticipant = (
+  eventCheerCampaignId: string,
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (body: { participationType: ParticipationType }) =>
+      postEventCheerCampaignParticipant(eventCheerCampaignId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['cheer', 'campaign', eventCheerCampaignId],
+      });
+    },
   });
 };

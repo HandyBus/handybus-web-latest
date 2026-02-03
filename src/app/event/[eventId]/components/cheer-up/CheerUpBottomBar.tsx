@@ -5,20 +5,49 @@ import useAppShare from '@/hooks/webview/useAppShare';
 import { useCheerUpButton } from './hooks/useCheerUpButton';
 
 interface Props {
+  eventId: string;
   eventName: string;
 }
 
-const CheerUpBottomBar = ({ eventName }: Props) => {
-  const { isCheeredUp, handleCheerUpClick } = useCheerUpButton();
+const CheerUpBottomBar = ({ eventId, eventName }: Props) => {
+  const {
+    hasBaseParticipation,
+    isAllCompleted,
+    canCheerBase,
+    canCheerShare,
+    hasShared,
+    handleCheerUpClick,
+    handleShare: onShareComplete,
+    isLoading,
+  } = useCheerUpButton(eventId);
+
   const share = useAppShare();
 
-  const handleShare = () => {
+  const handleShareClick = () => {
     share({
       title: `${eventName} 셔틀`,
       message: `${eventName}까지 편리하게 이동하기!`,
       url: window.location.href,
     });
+    // 공유 완료 상태 업데이트
+    onShareComplete();
   };
+
+  // 버튼 텍스트 결정
+  const getCheerButtonText = () => {
+    if (isLoading) return '응원 중...';
+    if (isAllCompleted) return '오늘의 응원 완료!';
+    if (hasBaseParticipation && !hasShared) return '공유 후 재응원 가능';
+    if (canCheerShare) return '또 응원하기!';
+    return '응원하기';
+  };
+
+  // 버튼 비활성화 조건
+  const isCheerDisabled =
+    isLoading ||
+    isAllCompleted ||
+    (!canCheerBase && !canCheerShare) ||
+    (hasBaseParticipation && !hasShared);
 
   return (
     <div className="fixed-centered-layout bottom-0 z-50 flex gap-8 bg-basic-white px-16 pb-24 pt-8">
@@ -26,18 +55,18 @@ const CheerUpBottomBar = ({ eventName }: Props) => {
         variant="secondary"
         size="medium"
         type="button"
-        onClick={handleShare}
+        onClick={handleShareClick}
       >
         공유하기
       </Button>
       <Button
-        variant={isCheeredUp ? 'secondary' : 'primary'}
+        variant={isAllCompleted ? 'secondary' : 'primary'}
         size="large"
         type="button"
         onClick={handleCheerUpClick}
-        disabled={isCheeredUp}
+        disabled={isCheerDisabled}
       >
-        {isCheeredUp ? '오늘의 응원 완료!' : '응원하기'}
+        {getCheerButtonText()}
       </Button>
     </div>
   );

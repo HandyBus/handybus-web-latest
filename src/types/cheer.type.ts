@@ -1,5 +1,18 @@
 import { z } from 'zod';
 
+export const EventCheerCampaignStatusEnum = z.enum([
+  'READY',
+  'RUNNING',
+  'ENDED',
+  'INACTIVE',
+]);
+export type EventCheerCampaignStatus = z.infer<
+  typeof EventCheerCampaignStatusEnum
+>;
+
+export const ParticipationTypeEnum = z.enum(['BASE', 'SHARE']);
+export type ParticipationType = z.infer<typeof ParticipationTypeEnum>;
+
 // ----- GET -----
 
 const EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema =
@@ -10,27 +23,42 @@ const EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema =
     isActive: z.boolean(),
   });
 
+const EventCheerCampaignResultInEventCheerCampaignsViewEntitySchema = z.object({
+  eventCheerCampaignResultId: z.string(),
+  totalParticipationCount: z.number(),
+  finalDiscountRate: z.number(),
+  decidedAt: z.string(),
+});
+
 export const EventCheerCampaignsViewEntitySchema = z.object({
   eventCheerUpCampaignId: z.string(),
   eventId: z.string(),
+  status: EventCheerCampaignStatusEnum,
   imageUrl: z.string().nullable(),
   buttonImageUrl: z.string().nullable(),
   buttonText: z.string().nullable(),
+  endDate: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
   cheerChampaignUserTotalCount: z.number(),
   discountPolicies:
     EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema.array(),
-  result: z
-    .object({
-      eventCheerCampaignResultId: z.string(),
-      totalParticiationCount: z.number(),
-      finalDiscountRate: z.number(),
-      decidedAt: z.string(),
-    })
-    .nullable(),
+  result:
+    EventCheerCampaignResultInEventCheerCampaignsViewEntitySchema.nullable(),
 });
-
 export type EventCheerCampaignsViewEntity = z.infer<
   typeof EventCheerCampaignsViewEntitySchema
+>;
+
+export const EventCheerCampaignUserEntitySchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  cheerCampaignId: z.string(),
+  participationType: ParticipationTypeEnum,
+  participatedDate: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export type EventCheerCampaignUserEntity = z.infer<
+  typeof EventCheerCampaignUserEntitySchema
 >;

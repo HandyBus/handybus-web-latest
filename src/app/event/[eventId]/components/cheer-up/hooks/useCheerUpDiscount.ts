@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { DISCOUNT_GOALS } from '../cheer-up.const';
+import { EventCheerCampaignsViewEntity } from '@/types/cheer.type';
 
 interface NextGoal {
   participants: number;
@@ -10,20 +10,42 @@ interface NextGoal {
   progressEnd: number;
 }
 
-export const useCheerUpDiscount = (displayParticipants: number) => {
+export const useCheerUpDiscount = (
+  displayParticipants: number,
+  cheerCampaign?: EventCheerCampaignsViewEntity,
+) => {
+  // API의 discountPolicies를 정렬하여 사용
+  const discountGoals = useMemo(() => {
+    if (!cheerCampaign?.discountPolicies) return [];
+    return [...cheerCampaign.discountPolicies]
+      .filter((policy) => policy.isActive)
+      .sort((a, b) => a.minParticipationCount - b.minParticipationCount)
+      .map((policy) => ({
+        participants: policy.minParticipationCount,
+        discountRate: policy.discountRate,
+      }));
+  }, [cheerCampaign?.discountPolicies]);
+
   // 현재 달성된 할인율 계산
   const currentDiscountRate = useMemo(() => {
-    for (let i = DISCOUNT_GOALS.length - 1; i >= 0; i--) {
-      if (displayParticipants >= DISCOUNT_GOALS[i].participants) {
-        return DISCOUNT_GOALS[i].discountRate;
+    // result가 있으면 최종 할인율 사용
+    if (cheerCampaign?.result) {
+      return cheerCampaign.result.finalDiscountRate;
+    }
+
+    for (let i = discountGoals.length - 1; i >= 0; i--) {
+      if (displayParticipants >= discountGoals[i].participants) {
+        return discountGoals[i].discountRate;
       }
     }
     return 0;
-  }, [displayParticipants]);
+  }, [displayParticipants, discountGoals, cheerCampaign?.result]);
 
   // 다음 목표 정보 계산
   const nextGoal = useMemo<NextGoal | null>(() => {
-    const nextGoalItem = DISCOUNT_GOALS.find(
+    if (discountGoals.length === 0) return null;
+
+    const nextGoalItem = discountGoals.find(
       (goal) => goal.discountRate > currentDiscountRate,
     );
 
@@ -33,14 +55,14 @@ export const useCheerUpDiscount = (displayParticipants: number) => {
 
     const remainingParticipants =
       nextGoalItem.participants - displayParticipants;
-    const currentGoalIndex = DISCOUNT_GOALS.findIndex(
+    const currentGoalIndex = discountGoals.findIndex(
       (goal) => goal.discountRate === currentDiscountRate,
     );
 
     // 현재 목표 대비 진행률 계산
     const progressStart =
       currentGoalIndex > 0
-        ? DISCOUNT_GOALS[currentGoalIndex - 1].participants
+        ? discountGoals[currentGoalIndex - 1].participants
         : 0;
     const progressEnd = nextGoalItem.participants;
     const progressRange = progressEnd - progressStart;
@@ -57,25 +79,25 @@ export const useCheerUpDiscount = (displayParticipants: number) => {
       progressStart,
       progressEnd,
     };
-  }, [displayParticipants, currentDiscountRate]);
+  }, [displayParticipants, currentDiscountRate, discountGoals]);
 
   // 현재 진행률 계산
   const currentProgress = useMemo(() => {
-    if (!nextGoal) {
+    if (!nextGoal || discountGoals.length === 0) {
       return 100;
     }
-    const currentGoalIndex = DISCOUNT_GOALS.findIndex(
+    const currentGoalIndex = discountGoals.findIndex(
       (goal) => goal.discountRate === currentDiscountRate,
     );
     const progressStart =
       currentGoalIndex > 0
-        ? DISCOUNT_GOALS[currentGoalIndex - 1].participants
+        ? discountGoals[currentGoalIndex - 1].participants
         : 0;
     const progressEnd = nextGoal.participants;
     const progressRange = progressEnd - progressStart;
     const progress = displayParticipants - progressStart;
     return Math.min(Math.max((progress / progressRange) * 100, 0), 100);
-  }, [displayParticipants, nextGoal, currentDiscountRate]);
+  }, [displayParticipants, nextGoal, currentDiscountRate, discountGoals]);
 
   return {
     currentDiscountRate,

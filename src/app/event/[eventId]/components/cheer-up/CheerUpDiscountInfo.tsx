@@ -7,23 +7,45 @@ import {
   useCheerUpParticipantsAnimation,
   useCheerUpProgressAnimation,
 } from './hooks/useCheerUpAnimation';
+import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
+import { useEffect } from 'react';
 
-const CheerUpDiscountInfo = () => {
-  const [currentParticipants] = useAtom(cheerUpParticipantsAtom);
+interface Props {
+  eventId: string;
+}
+
+const CheerUpDiscountInfo = ({ eventId }: Props) => {
+  const { data: cheerCampaign, isLoading } =
+    useGetEventCheerCampaignByEventId(eventId);
+  const [currentParticipants, setCurrentParticipants] = useAtom(
+    cheerUpParticipantsAtom,
+  );
+
+  useEffect(() => {
+    if (cheerCampaign?.cheerChampaignUserTotalCount !== undefined) {
+      setCurrentParticipants(cheerCampaign.cheerChampaignUserTotalCount);
+    }
+  }, [cheerCampaign?.cheerChampaignUserTotalCount, setCurrentParticipants]);
 
   // 먼저 애니메이션으로 표시되는 참여 수를 가져옴
   const { displayParticipants, showCheerUpMessage, isAnimating } =
     useCheerUpParticipantsAnimation(currentParticipants);
 
   // displayParticipants를 기준으로 할인율과 진행률 계산
-  const { currentDiscountRate, nextGoal, currentProgress } =
-    useCheerUpDiscount(displayParticipants);
+  const { currentDiscountRate, nextGoal, currentProgress } = useCheerUpDiscount(
+    displayParticipants,
+    cheerCampaign,
+  );
 
   // 진행률 애니메이션
   const { animatedProgress } = useCheerUpProgressAnimation({
     currentProgress,
     isAnimating,
   });
+
+  if (isLoading || !cheerCampaign) {
+    return null;
+  }
 
   return (
     <section className="flex flex-col gap-16 px-16 pb-24">

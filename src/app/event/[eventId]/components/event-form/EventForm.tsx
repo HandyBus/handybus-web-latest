@@ -234,6 +234,7 @@ const Content = ({
         <BottomBar
           eventId={event.eventId}
           eventName={event.eventName}
+          eventStatus={event.eventStatus}
           phase={phase}
           enabledStatus={enabledStatus}
           onClick={handleOpenBottomSheet}

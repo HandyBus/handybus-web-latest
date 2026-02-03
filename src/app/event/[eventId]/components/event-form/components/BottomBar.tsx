@@ -9,12 +9,14 @@ import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
-import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../../cheer-up/cheer-up.const';
 import CheerUpBottomBar from '../../cheer-up/CheerUpBottomBar';
+import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
+import { EventStatus } from '@/types/event.type';
 
 interface Props {
   eventId: string;
   eventName: string;
+  eventStatus: EventStatus;
   phase: EventPhase;
   enabledStatus: EventEnabledStatus;
   onClick: () => void;
@@ -23,6 +25,7 @@ interface Props {
 const BottomBar = ({
   eventId,
   eventName,
+  eventStatus,
   phase,
   enabledStatus,
   onClick,
@@ -51,11 +54,15 @@ const BottomBar = ({
     });
   };
 
-  const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
-  const isCheerUpEvent = eventId === EVENT_CHEER_UP_TEST_EVENT_ID;
+  const { data: cheerCampaign } = useGetEventCheerCampaignByEventId(eventId);
 
-  if (isCheerUpEvent) {
-    return <CheerUpBottomBar eventName={eventName} />;
+  // STAND_BY 상태이고 캠페인이 있을 때만 응원 UI 표시
+  const shouldShowCheerCampaign = eventStatus === 'STAND_BY' && !!cheerCampaign;
+
+  const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
+
+  if (shouldShowCheerCampaign) {
+    return <CheerUpBottomBar eventId={eventId} eventName={eventName} />;
   }
 
   return (
