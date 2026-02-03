@@ -10,7 +10,7 @@ interface NextGoal {
   progressEnd: number;
 }
 
-export const useCheerUpDiscount = (
+export const useCheerDiscount = (
   displayParticipants: number,
   cheerCampaign?: EventCheerCampaignsViewEntity,
 ) => {

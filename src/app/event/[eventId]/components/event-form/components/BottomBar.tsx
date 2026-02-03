@@ -9,7 +9,7 @@ import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
-import CheerUpBottomBar from '../../cheer-up/CheerUpBottomBar';
+import CheerBottomBar from '../../cheer/CheerBottomBar';
 import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 import { EventStatus } from '@/types/event.type';
 
@@ -62,7 +62,7 @@ const BottomBar = ({
   const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
 
   if (shouldShowCheerCampaign) {
-    return <CheerUpBottomBar eventId={eventId} eventName={eventName} />;
+    return <CheerBottomBar eventId={eventId} eventName={eventName} />;
   }
 
   return (

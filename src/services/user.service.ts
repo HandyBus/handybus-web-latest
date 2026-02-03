@@ -17,7 +17,7 @@ import * as Sentry from '@sentry/nextjs';
 import { sendMessageToApp } from '@/utils/webview.util';
 import { ReferralsViewEntitySchema } from '@/types/referral.type';
 import { toSearchParams } from '@/utils/searchParams.util';
-import { EventCheerCampaignUserEntitySchema } from '@/types/cheer.type';
+import { EventCheerCampaignParticipationResponseSchema } from '@/types/cheer.type';
 
 // ----- GET -----
 
@@ -79,7 +79,7 @@ export const useGetUserReferrals = () => {
   });
 };
 
-export const getUserCheerCampaignUsers = async (
+export const getUserCheerCampaignParticipations = async (
   cheerCampaignId: string,
   params: { participatedDate?: string },
 ) => {
@@ -88,20 +88,28 @@ export const getUserCheerCampaignUsers = async (
     `/v1/user-management/users/me/cheer/campaigns/${cheerCampaignId}?${searchParams.toString()}`,
     {
       shape: {
-        eventCheerCampaignUsers: EventCheerCampaignUserEntitySchema.array(),
+        eventCheerCampaignParticipations:
+          EventCheerCampaignParticipationResponseSchema.array(),
       },
     },
   );
-  return res.eventCheerCampaignUsers;
+  return res.eventCheerCampaignParticipations;
 };
 
-export const useGetUserCheerCampaignUsers = (
+export const useGetUserCheerCampaignParticipations = (
   cheerCampaignId: string,
   params: { participatedDate?: string },
 ) => {
   return useQuery({
-    queryKey: ['user', 'cheer', 'campaign', 'users', cheerCampaignId, params],
-    queryFn: () => getUserCheerCampaignUsers(cheerCampaignId, params),
+    queryKey: [
+      'user',
+      'cheer',
+      'campaign',
+      'participations',
+      cheerCampaignId,
+      params,
+    ],
+    queryFn: () => getUserCheerCampaignParticipations(cheerCampaignId, params),
   });
 };
 

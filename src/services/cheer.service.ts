@@ -47,7 +47,7 @@ export const useGetEventCheerCampaignByEventId = (eventId: string) => {
 
 // ----- POST -----
 
-export const postEventCheerCampaignParticipant = async (
+export const postEventCheerCampaignParticipation = async (
   eventCheerCampaignId: string,
   body: {
     participationType: ParticipationType;
@@ -59,14 +59,14 @@ export const postEventCheerCampaignParticipant = async (
   );
 };
 
-export const usePostEventCheerCampaignParticipant = (
+export const usePostEventCheerCampaignParticipation = (
   eventCheerCampaignId: string,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (body: { participationType: ParticipationType }) =>
-      postEventCheerCampaignParticipant(eventCheerCampaignId, body),
+      postEventCheerCampaignParticipation(eventCheerCampaignId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['cheer', 'campaign', eventCheerCampaignId],

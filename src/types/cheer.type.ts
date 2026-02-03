@@ -40,7 +40,7 @@ export const EventCheerCampaignsViewEntitySchema = z.object({
   endDate: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  cheerChampaignUserTotalCount: z.number(),
+  cheerChampaignParticipationTotalCount: z.number(),
   discountPolicies:
     EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema.array(),
   result:
@@ -50,7 +50,7 @@ export type EventCheerCampaignsViewEntity = z.infer<
   typeof EventCheerCampaignsViewEntitySchema
 >;
 
-export const EventCheerCampaignUserEntitySchema = z.object({
+export const EventCheerCampaignParticipationResponseSchema = z.object({
   id: z.string(),
   userId: z.string(),
   cheerCampaignId: z.string(),
@@ -59,6 +59,6 @@ export const EventCheerCampaignUserEntitySchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
 });
-export type EventCheerCampaignUserEntity = z.infer<
-  typeof EventCheerCampaignUserEntitySchema
+export type EventCheerCampaignParticipationResponse = z.infer<
+  typeof EventCheerCampaignParticipationResponseSchema
 >;

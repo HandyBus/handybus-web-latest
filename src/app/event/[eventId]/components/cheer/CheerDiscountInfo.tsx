@@ -1,12 +1,12 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { cheerUpParticipantsAtom } from '../../store/cheerUpParticipantsAtom';
-import { useCheerUpDiscount } from './hooks/useCheerUpDiscount';
+import { cheerParticipationAtom } from '../../store/cheerParticipationAtom';
+import { useCheerDiscount } from './hooks/useCheerDiscount';
 import {
-  useCheerUpParticipantsAnimation,
-  useCheerUpProgressAnimation,
-} from './hooks/useCheerUpAnimation';
+  useCheerParticipationAnimation,
+  useCheerProgressAnimation,
+} from './hooks/useCheerAnimation';
 import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 import { useEffect } from 'react';
 
@@ -14,31 +14,36 @@ interface Props {
   eventId: string;
 }
 
-const CheerUpDiscountInfo = ({ eventId }: Props) => {
+const CheerDiscountInfo = ({ eventId }: Props) => {
   const { data: cheerCampaign, isLoading } =
     useGetEventCheerCampaignByEventId(eventId);
-  const [currentParticipants, setCurrentParticipants] = useAtom(
-    cheerUpParticipantsAtom,
+  const [currentParticipations, setCurrentParticipations] = useAtom(
+    cheerParticipationAtom,
   );
 
   useEffect(() => {
-    if (cheerCampaign?.cheerChampaignUserTotalCount !== undefined) {
-      setCurrentParticipants(cheerCampaign.cheerChampaignUserTotalCount);
+    if (cheerCampaign?.cheerChampaignParticipationTotalCount !== undefined) {
+      setCurrentParticipations(
+        cheerCampaign.cheerChampaignParticipationTotalCount,
+      );
     }
-  }, [cheerCampaign?.cheerChampaignUserTotalCount, setCurrentParticipants]);
+  }, [
+    cheerCampaign?.cheerChampaignParticipationTotalCount,
+    setCurrentParticipations,
+  ]);
 
   // 먼저 애니메이션으로 표시되는 참여 수를 가져옴
-  const { displayParticipants, showCheerUpMessage, isAnimating } =
-    useCheerUpParticipantsAnimation(currentParticipants);
+  const { displayParticipations, showCheerMessage, isAnimating } =
+    useCheerParticipationAnimation(currentParticipations);
 
   // displayParticipants를 기준으로 할인율과 진행률 계산
-  const { currentDiscountRate, nextGoal, currentProgress } = useCheerUpDiscount(
-    displayParticipants,
+  const { currentDiscountRate, nextGoal, currentProgress } = useCheerDiscount(
+    displayParticipations,
     cheerCampaign,
   );
 
   // 진행률 애니메이션
-  const { animatedProgress } = useCheerUpProgressAnimation({
+  const { animatedProgress } = useCheerProgressAnimation({
     currentProgress,
     isAnimating,
   });
@@ -156,11 +161,11 @@ const CheerUpDiscountInfo = ({ eventId }: Props) => {
                 : 'text-basic-grey-600'
             }`}
           >
-            {displayParticipants.toLocaleString()}
+            {displayParticipations.toLocaleString()}
           </span>
           명이 응원 중이에요
           {/* +1 응원 적립 메시지 */}
-          {showCheerUpMessage && (
+          {showCheerMessage && (
             <div className="absolute left-1/2 top-[-50px] -translate-x-1/2 animate-bounce rounded-full bg-brand-primary-400 px-12 text-14 font-700 text-basic-white shadow-lg">
               <span className="inline-block animate-pulse">✨</span>{' '}
               <span>+1 응원 적립!</span>{' '}
@@ -173,4 +178,4 @@ const CheerUpDiscountInfo = ({ eventId }: Props) => {
   );
 };
 
-export default CheerUpDiscountInfo;
+export default CheerDiscountInfo;

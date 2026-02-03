@@ -2,14 +2,14 @@ import { useState, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import {
   useGetEventCheerCampaignByEventId,
-  usePostEventCheerCampaignParticipant,
+  usePostEventCheerCampaignParticipation,
 } from '@/services/cheer.service';
-import { useGetUserCheerCampaignUsers } from '@/services/user.service';
+import { useGetUserCheerCampaignParticipations } from '@/services/user.service';
 import { toast } from 'react-toastify';
 import { ParticipationType } from '@/types/cheer.type';
 import dayjs from 'dayjs';
 
-export const useCheerUpButton = (eventId: string) => {
+export const useCheerButton = (eventId: string) => {
   const [hasShared, setHasShared] = useState(false);
 
   const { data: cheerCampaign } = useGetEventCheerCampaignByEventId(eventId);
@@ -21,9 +21,12 @@ export const useCheerUpButton = (eventId: string) => {
 
   // 오늘 참여 내역 조회
   const { data: todayParticipations, refetch: refetchParticipations } =
-    useGetUserCheerCampaignUsers(cheerCampaign?.eventCheerUpCampaignId ?? '', {
-      participatedDate: today,
-    });
+    useGetUserCheerCampaignParticipations(
+      cheerCampaign?.eventCheerUpCampaignId ?? '',
+      {
+        participatedDate: today,
+      },
+    );
 
   // 참여 타입별 확인
   const hasBaseParticipation = useMemo(
@@ -48,11 +51,11 @@ export const useCheerUpButton = (eventId: string) => {
   const isAllCompleted = hasBaseParticipation && hasShareParticipation;
 
   const { mutate: participate, isPending } =
-    usePostEventCheerCampaignParticipant(
+    usePostEventCheerCampaignParticipation(
       cheerCampaign?.eventCheerUpCampaignId ?? '',
     );
 
-  const handleCheerUpClick = () => {
+  const handleCheerClick = () => {
     if (!cheerCampaign) {
       toast.error('잠시 후 다시 시도해주세요.');
       return;
@@ -104,7 +107,7 @@ export const useCheerUpButton = (eventId: string) => {
     canCheerBase,
     canCheerShare,
     hasShared,
-    handleCheerUpClick,
+    handleCheerClick,
     handleShare,
     isLoading: isPending,
   };

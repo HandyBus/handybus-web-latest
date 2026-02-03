@@ -6,7 +6,7 @@ import EventForm from '../event-form/EventForm';
 import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
-import CheerUpDiscountInfo from '../cheer-up/CheerUpDiscountInfo';
+import CheerDiscountInfo from '../cheer/CheerDiscountInfo';
 import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 
 interface Props {
@@ -39,9 +39,7 @@ const EventContent = ({ event }: Props) => {
 
   return (
     <JotaiProvider>
-      {shouldShowCheerCampaign && (
-        <CheerUpDiscountInfo eventId={event.eventId} />
-      )}
+      {shouldShowCheerCampaign && <CheerDiscountInfo eventId={event.eventId} />}
       <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />

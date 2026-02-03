@@ -2,24 +2,24 @@
 
 import Button from '@/components/buttons/button/Button';
 import useAppShare from '@/hooks/webview/useAppShare';
-import { useCheerUpButton } from './hooks/useCheerUpButton';
+import { useCheerButton } from './hooks/useCheerButton';
 
 interface Props {
   eventId: string;
   eventName: string;
 }
 
-const CheerUpBottomBar = ({ eventId, eventName }: Props) => {
+const CheerBottomBar = ({ eventId, eventName }: Props) => {
   const {
     hasBaseParticipation,
     isAllCompleted,
     canCheerBase,
     canCheerShare,
     hasShared,
-    handleCheerUpClick,
+    handleCheerClick,
     handleShare: onShareComplete,
     isLoading,
-  } = useCheerUpButton(eventId);
+  } = useCheerButton(eventId);
 
   const share = useAppShare();
 
@@ -63,7 +63,7 @@ const CheerUpBottomBar = ({ eventId, eventName }: Props) => {
         variant={isAllCompleted ? 'secondary' : 'primary'}
         size="large"
         type="button"
-        onClick={handleCheerUpClick}
+        onClick={handleCheerClick}
         disabled={isCheerDisabled}
       >
         {getCheerButtonText()}
@@ -72,4 +72,4 @@ const CheerUpBottomBar = ({ eventId, eventName }: Props) => {
   );
 };
 
-export default CheerUpBottomBar;
+export default CheerBottomBar;
