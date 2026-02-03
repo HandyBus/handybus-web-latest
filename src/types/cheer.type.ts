@@ -20,7 +20,7 @@ const EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema =
     eventCheerDiscountPolicyId: z.string(),
     minParticipationCount: z.number(),
     discountRate: z.number(),
-    isActive: z.boolean(),
+    isActive: z.number(), // TODO: boolean으로 변경
   });
 
 const EventCheerCampaignResultInEventCheerCampaignsViewEntitySchema = z.object({
@@ -40,7 +40,7 @@ export const EventCheerCampaignsViewEntitySchema = z.object({
   endDate: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  cheerChampaignParticipationTotalCount: z.number(),
+  cheerCampaignParticipationTotalCount: z.number(),
   discountPolicies:
     EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema.array(),
   result:

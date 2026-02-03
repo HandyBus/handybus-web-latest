@@ -10,7 +10,6 @@ import { useAtomValue } from 'jotai';
 
 export const useCheerButton = () => {
   const cheerCampaign = useAtomValue(cheerCampaignAtom);
-  console.log(cheerCampaign);
 
   const [hasShared, setHasShared] = useState(false);
 
@@ -22,12 +21,10 @@ export const useCheerButton = () => {
   const eventCheerCampaignId = cheerCampaign?.eventCheerCampaignId ?? '';
 
   // 오늘 참여 내역 조회
-  const { data: todayParticipations } = useGetUserCheerCampaignParticipations(
-    eventCheerCampaignId,
-    {
+  const { data: todayParticipations, refetch: refetchParticipations } =
+    useGetUserCheerCampaignParticipations(eventCheerCampaignId, {
       participatedDate: today,
-    },
-  );
+    });
 
   // 참여 타입별 확인
   const hasBaseParticipation = useMemo(
@@ -77,12 +74,15 @@ export const useCheerButton = () => {
     participate(
       { participationType },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           confetti({
             particleCount: 100,
             spread: 70,
             origin: { y: 0.9 },
           });
+
+          // 참여 내역을 즉시 refetch하여 버튼 상태 업데이트
+          await refetchParticipations();
 
           if (participationType === 'SHARE') {
             setHasShared(false);

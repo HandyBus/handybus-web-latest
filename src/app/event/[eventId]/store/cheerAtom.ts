@@ -32,7 +32,7 @@ export const isCheerCampaignRunningAtom = atom((get) => {
  */
 export const cheerParticipationAtom = atom((get) => {
   const cheerCampaign = get(cheerCampaignAtom);
-  return cheerCampaign?.cheerChampaignParticipationTotalCount ?? 0;
+  return cheerCampaign?.cheerCampaignParticipationTotalCount ?? 0;
 });
 
 /**
@@ -45,8 +45,8 @@ export const incrementCheerParticipationAtom = atom(
     if (currentCampaign) {
       set(cheerCampaignAtom, {
         ...currentCampaign,
-        cheerChampaignParticipationTotalCount:
-          currentCampaign.cheerChampaignParticipationTotalCount + increment,
+        cheerCampaignParticipationTotalCount:
+          currentCampaign.cheerCampaignParticipationTotalCount + increment,
       });
     }
   },

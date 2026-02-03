@@ -71,6 +71,9 @@ export const usePostEventCheerCampaignParticipation = (
       queryClient.invalidateQueries({
         queryKey: ['cheer', 'campaign'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['user', 'cheer', 'campaign', 'participations'],
+      });
     },
   });
 };
