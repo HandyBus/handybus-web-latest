@@ -34,6 +34,7 @@ export const getPhaseAndEnabledStatus = (
     case isReservationOpen && isReservationOngoing:
       return { phase: 'reservation', enabledStatus: 'enabled' };
     case isReservationOpen && !isReservationOngoing:
+      return { phase: 'reservation', enabledStatus: 'disabled' };
     default:
       return { phase: 'standBy', enabledStatus: 'disabled' };
   }

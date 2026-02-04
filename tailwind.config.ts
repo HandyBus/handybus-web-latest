@@ -141,6 +141,7 @@ const config: Config = {
         marquee: 'marquee 4s linear infinite',
         marquee2: 'marquee2 4s linear infinite',
         wave: 'wave 1.5s ease-in-out infinite',
+        'pulse-primary': 'pulsePrimary 1.5s ease-in-out infinite',
       },
       keyframes: {
         moveRoad: {
@@ -158,6 +159,10 @@ const config: Config = {
         wave: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' },
+        },
+        pulsePrimary: {
+          '0%, 100%': { backgroundColor: 'rgb(var(--brand-primary-100))' },
+          '50%': { backgroundColor: 'rgb(var(--brand-primary-400))' },
         },
       },
     },

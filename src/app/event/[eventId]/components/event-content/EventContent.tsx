@@ -3,11 +3,8 @@
 import { useMemo } from 'react';
 import { EventsViewEntity } from '@/types/event.type';
 import EventForm from '../event-form/EventForm';
-import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
-import CheerUpDiscountInfo from '../cheer-up/CheerUpDiscountInfo';
-import { EVENT_CHEER_UP_TEST_EVENT_ID } from '../cheer-up/cheer-up.const';
 
 interface Props {
   event: EventsViewEntity;
@@ -24,21 +21,22 @@ const EventContent = ({ event }: Props) => {
     [shuttleRoutesPages],
   );
 
-  const shuttleRoutesOpen = useMemo(
+  const openShuttleRoutes = useMemo(
     () => shuttleRoutes.filter((route) => route.status === 'OPEN'),
     [shuttleRoutes],
   );
 
-  const isCheerUpEvent = event.eventId === EVENT_CHEER_UP_TEST_EVENT_ID;
+  if (event.eventStatus === 'STAND_BY') {
+    return null;
+  }
 
   return (
-    <JotaiProvider>
-      {isCheerUpEvent && <CheerUpDiscountInfo />}
-      <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
+    <>
+      <EventForm event={event} openShuttleRoutes={openShuttleRoutes} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
       )}
-    </JotaiProvider>
+    </>
   );
 };
 

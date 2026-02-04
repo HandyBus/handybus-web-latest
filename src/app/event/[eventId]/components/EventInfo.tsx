@@ -1,16 +1,18 @@
 'use client';
 
-// import Badge from '@/components/badge/Badge';
+import Badge from '@/components/badge/Badge';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
 import { getPhaseAndEnabledStatus } from '@/utils/event.util';
+import { useAtomValue } from 'jotai';
+import { isCheerCampaignRunningAtom } from '../store/cheerAtom';
 
 interface Props {
   event: EventsViewEntity;
   isReservationClosingSoon: boolean;
 }
 
-const EventInfo = ({ event }: Props) => {
+const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
   const parsedDateString = dateString(
     event.dailyEvents.map((v) => v.dailyEventDate),
     {
@@ -19,6 +21,8 @@ const EventInfo = ({ event }: Props) => {
   );
 
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
+
+  const isCheerCampaignRunning = useAtomValue(isCheerCampaignRunningAtom);
 
   return (
     <>
@@ -30,8 +34,8 @@ const EventInfo = ({ event }: Props) => {
         <h4 className="mb-4 text-16 font-500 text-basic-grey-500">
           {event.eventLocationName}
         </h4>
-        {/* {enabledStatus === 'enabled' &&
-          (phase === 'reservation' ? (
+        {phase === 'reservation' &&
+          (enabledStatus === 'enabled' ? (
             <div className="flex items-center gap-4">
               <h5 className="text-20 font-600">
                 {event.eventMinRoutePrice?.toLocaleString()}원~
@@ -43,6 +47,12 @@ const EventInfo = ({ event }: Props) => {
               )}
             </div>
           ) : (
+            <span className="text-20 font-600 text-basic-grey-500">
+              예약 마감
+            </span>
+          ))}
+        {phase === 'demand' &&
+          (enabledStatus === 'enabled' ? (
             <div className="flex items-center gap-4">
               <span className="text-20 font-600 text-basic-grey-500">
                 판매 대기
@@ -51,17 +61,23 @@ const EventInfo = ({ event }: Props) => {
                 수요조사 진행 중
               </Badge>
             </div>
-          ))} */}
-        {enabledStatus === 'disabled' &&
-          (phase === 'reservation' ? (
-            <span className="text-20 font-600 text-basic-grey-500">
-              예약 마감
-            </span>
           ) : (
             <span className="text-20 font-600 text-basic-grey-500">
               수요조사 불가
             </span>
           ))}
+        {phase === 'standBy' && (
+          <div className="flex items-center gap-4">
+            <span className="text-20 font-600 text-basic-grey-500">
+              판매 대기
+            </span>
+            {isCheerCampaignRunning && (
+              <Badge className="bg-brand-primary-50 text-brand-primary-400">
+                응원하기 진행 중
+              </Badge>
+            )}
+          </div>
+        )}
       </section>
     </>
   );

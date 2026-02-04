@@ -1,5 +1,4 @@
 import { useSetAtom } from 'jotai';
-import { eventAtom } from '../../../store/eventAtom';
 import { useEffect, useRef } from 'react';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { userDemandsAtom } from '../../../store/userDemandsAtom';
@@ -17,7 +16,6 @@ interface Props {
 
 const useEventInitialization = ({ event, shuttleRoutes }: Props) => {
   const isInitialized = useRef(false);
-  const setEvent = useSetAtom(eventAtom);
   const setDailyEventIdWithRoutes = useSetAtom(dailyEventIdsWithRoutesAtom);
 
   const setUserDemands = useSetAtom(userDemandsAtom);
@@ -52,7 +50,6 @@ const useEventInitialization = ({ event, shuttleRoutes }: Props) => {
       return;
     }
     isInitialized.current = true;
-    setEvent(event);
     setDailyEventIdWithRoutes(shuttleRoutes);
     updateUserDemands();
     updateUserAlertRequests();
