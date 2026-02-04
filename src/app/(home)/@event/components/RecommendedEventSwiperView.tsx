@@ -9,6 +9,7 @@ import ViewAllButton from '@/app/(home)/@event/components/ViewAllButton';
 import Link from 'next/link';
 import { EventsViewEntity } from '@/types/event.type';
 import { dateString } from '@/utils/dateString.util';
+import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 
 interface Props {
   events: EventsViewEntity[];
@@ -47,17 +48,11 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
             return (
               <SwiperSlide key={v.eventId} style={{ width: 'auto' }}>
                 <div className="pr-[6px]">
-                  <Card
-                    variant={'MEDIUM'}
-                    image={v.eventImageUrl}
-                    title={v.eventName}
-                    date={formattedDate}
-                    location={v.eventLocationName}
-                    price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                    isSaleStarted={v.eventMinRoutePrice !== null}
+                  <EventCard
+                    event={v}
+                    formattedDate={formattedDate}
+                    isImportant={isImportant}
                     order={idx + 1}
-                    href={`/event/${v.eventId}`}
-                    priority={isImportant}
                   />
                 </div>
               </SwiperSlide>
@@ -85,3 +80,40 @@ const RecommendedEventSwiperView = ({ events }: Props) => {
 };
 
 export default RecommendedEventSwiperView;
+
+interface EventCardProps {
+  event: EventsViewEntity;
+  formattedDate: string;
+  isImportant: boolean;
+  order: number;
+}
+
+const EventCard = ({
+  event,
+  formattedDate,
+  isImportant,
+  order,
+}: EventCardProps) => {
+  const { data: eventCheerCampaign } = useGetEventCheerCampaignByEventId(
+    event.eventId,
+  );
+
+  const showEventCampaignOngoingBadge =
+    event.eventStatus === 'STAND_BY' && !!eventCheerCampaign;
+
+  return (
+    <Card
+      variant={'MEDIUM'}
+      image={event.eventImageUrl}
+      title={event.eventName}
+      date={formattedDate}
+      location={event.eventLocationName}
+      price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
+      showPrice={event.eventMinRoutePrice !== null}
+      showEventCampaignOngoingBadge={showEventCampaignOngoingBadge}
+      order={order}
+      href={`/event/${event.eventId}`}
+      priority={isImportant}
+    />
+  );
+};

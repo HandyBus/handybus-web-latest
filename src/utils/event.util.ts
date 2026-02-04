@@ -18,14 +18,15 @@ export const getPhaseAndEnabledStatus = (
   if (!event) {
     return { phase: 'standBy', enabledStatus: 'disabled' };
   }
-  const isDemandOngoing = event.dailyEvents.some(
-    (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
-  );
+  const isStandBy = event.eventStatus === 'STAND_BY';
+  const isDemandOngoing =
+    event.eventStatus === 'OPEN' &&
+    event.dailyEvents.some((dailyEvent) => dailyEvent.dailyEventIsDemandOpen);
   const isReservationOpen = event.eventMinRoutePrice !== null;
   const isReservationOngoing = event.eventHasOpenRoute;
 
   switch (true) {
-    case event.eventStatus === 'STAND_BY':
+    case isStandBy:
       return { phase: 'standBy', enabledStatus: 'disabled' };
     case isDemandOngoing && !isReservationOpen:
       return { phase: 'demand', enabledStatus: 'enabled' };
@@ -231,13 +232,13 @@ export const calculateTotalPrice = ({
   tripType,
   passengerCount,
   coupon,
-  // hasReferralCode,
+  hasReferralCode,
 }: {
   priceOfTripType: PriceOfTripType;
   tripType: TripType;
   passengerCount: number;
   coupon: IssuedCouponsViewEntity | null;
-  // hasReferralCode: boolean;
+  hasReferralCode: boolean;
 }) => {
   const price = priceOfTripType[tripType];
 
@@ -260,13 +261,17 @@ export const calculateTotalPrice = ({
         coupon,
       })
     : 0;
-  // const REFERRAL_DISCOUNT_AMOUNT = 1000;
-  // const referralDiscountAmount = hasReferralCode ? REFERRAL_DISCOUNT_AMOUNT : 0;
+
+  // TODO: 중요!!!! 추후 리퍼럴을 다시 이용할 때에는 여기 금액을 실제 api 상의 리퍼럴 할인 금액으로 반영해두어야함
+  const REFERRAL_DISCOUNT_AMOUNT = 1000;
+  const referralDiscountAmount = hasReferralCode ? REFERRAL_DISCOUNT_AMOUNT : 0;
 
   const finalPrice = Math.max(
     Math.floor(
-      totalPrice - totalEarlybirdDiscountAmount - totalCouponDiscountAmount,
-      // referralDiscountAmount,
+      totalPrice -
+        totalEarlybirdDiscountAmount -
+        totalCouponDiscountAmount -
+        referralDiscountAmount,
     ),
     0,
   );
@@ -275,7 +280,7 @@ export const calculateTotalPrice = ({
     finalPrice,
     totalCouponDiscountAmount,
     totalEarlybirdDiscountAmount,
-    // referralDiscountAmount,
+    referralDiscountAmount,
   };
 };
 

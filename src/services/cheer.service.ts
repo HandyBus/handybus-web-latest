@@ -9,10 +9,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const getEventCheerCampaign = async (eventCheerCampaignId: string) => {
   const res = await instance.get(
-    `/v1/shuttle-operation/cheeer/campaigns/${eventCheerCampaignId}`,
+    `/v1/shuttle-operation/cheer/campaigns/${eventCheerCampaignId}`,
     {
       shape: {
-        eventCheerCampaign: EventCheerCampaignsViewEntitySchema,
+        eventCheerCampaign: EventCheerCampaignsViewEntitySchema.nullable(),
       },
     },
   );
@@ -31,7 +31,7 @@ export const getEventCheerCampaignByEventId = async (eventId: string) => {
     `/v1/shuttle-operation/events/${eventId}/cheer/campaigns`,
     {
       shape: {
-        eventCheerCampaign: EventCheerCampaignsViewEntitySchema,
+        eventCheerCampaign: EventCheerCampaignsViewEntitySchema.nullable(),
       },
     },
   );

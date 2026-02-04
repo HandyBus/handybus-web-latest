@@ -16,6 +16,7 @@ import NavBar from '@/components/nav-bar/NavBar';
 import { checkIsReservationClosingSoon } from './utils/checkIsReservationClosingSoon.util';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 
 export type EventTypeWithAll = EventType | 'ALL';
 
@@ -70,30 +71,27 @@ const Page = () => {
                     const isClosingSoon = checkIsReservationClosingSoon({
                       event,
                     });
+                    const isDemandOngoing =
+                      event.eventStatus === 'OPEN' &&
+                      event.dailyEvents.some(
+                        (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
+                      );
+                    const isSaleStarted =
+                      event.eventStatus === 'OPEN' &&
+                      event.eventMinRoutePrice !== null;
 
                     const isImportant = index < 4;
 
                     return (
-                      <div className="w-full" key={event.eventId}>
-                        <Card
-                          key={event.eventId}
-                          image={event.eventImageUrl}
-                          variant="GRID"
-                          title={event.eventName}
-                          date={formattedDate}
-                          location={event.eventLocationName}
-                          price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                          isSaleStarted={event.eventMinRoutePrice !== null}
-                          isReservationClosingSoon={isClosingSoon}
-                          isDemandOngoing={
-                            event.eventStatus === 'OPEN' &&
-                            event.eventMinRoutePrice === null
-                          }
-                          href={`/event/${event.eventId}`}
-                          priority={isImportant}
-                          fadeIn={!isImportant}
-                        />
-                      </div>
+                      <EventCard
+                        key={event.eventId}
+                        event={event}
+                        formattedDate={formattedDate}
+                        isClosingSoon={isClosingSoon}
+                        isDemandOngoing={isDemandOngoing}
+                        isSaleStarted={isSaleStarted}
+                        isImportant={isImportant}
+                      />
                     );
                   })}
               </div>
@@ -124,3 +122,55 @@ const Page = () => {
 };
 
 export default Page;
+
+interface EventCardProps {
+  event: {
+    eventId: string;
+    eventImageUrl: string;
+    eventName: string;
+    eventLocationName: string;
+    eventMinRoutePrice: number | null;
+    eventStatus: string;
+  };
+  formattedDate: string;
+  isClosingSoon: boolean;
+  isDemandOngoing: boolean;
+  isSaleStarted: boolean;
+  isImportant: boolean;
+}
+
+const EventCard = ({
+  event,
+  formattedDate,
+  isClosingSoon,
+  isDemandOngoing,
+  isSaleStarted,
+  isImportant,
+}: EventCardProps) => {
+  const { data: eventCheerCampaign } = useGetEventCheerCampaignByEventId(
+    event.eventId,
+  );
+
+  const showEventCampaignOngoingBadge =
+    event.eventStatus === 'STAND_BY' && !!eventCheerCampaign;
+
+  return (
+    <div className="w-full">
+      <Card
+        image={event.eventImageUrl}
+        variant="GRID"
+        title={event.eventName}
+        date={formattedDate}
+        location={event.eventLocationName}
+        price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
+        showPrice={isSaleStarted}
+        showReservationClosingSoonBadge={isClosingSoon}
+        showDemandOngoingBadge={isDemandOngoing && !isSaleStarted}
+        showEventCampaignOngoingBadge={showEventCampaignOngoingBadge}
+        href={`/event/${event.eventId}`}
+        priority={isImportant}
+        fadeIn={!isImportant}
+      />
+    </div>
+  );
+};

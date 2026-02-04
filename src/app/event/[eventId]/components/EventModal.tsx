@@ -6,7 +6,6 @@ interface Props {
 
 const EventModal = ({}: Props) => {
   return null;
-  // return <ModalPortal>{T1_EVENT_ID === eventId && <T1Modal />}</ModalPortal>;
 };
 
 export default EventModal;
