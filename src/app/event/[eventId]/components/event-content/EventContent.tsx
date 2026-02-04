@@ -3,11 +3,8 @@
 import { useMemo } from 'react';
 import { EventsViewEntity } from '@/types/event.type';
 import EventForm from '../event-form/EventForm';
-import { useAtomValue } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
-import CheerDiscountInfo from '../cheer/CheerDiscountInfo';
-import { isCheerCampaignRunningAtom } from '../../store/cheerAtom';
 
 interface Props {
   event: EventsViewEntity;
@@ -29,11 +26,12 @@ const EventContent = ({ event }: Props) => {
     [shuttleRoutes],
   );
 
-  const isCheerCampaignRunning = useAtomValue(isCheerCampaignRunningAtom);
+  if (event.eventStatus === 'STAND_BY') {
+    return null;
+  }
 
   return (
     <>
-      {isCheerCampaignRunning && <CheerDiscountInfo />}
       <EventForm event={event} openShuttleRoutes={openShuttleRoutes} />
       {event.eventMinRoutePrice !== null && (
         <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />

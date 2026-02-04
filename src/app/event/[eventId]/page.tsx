@@ -8,6 +8,7 @@ import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { checkIsReservationClosingSoon } from '../utils/checkIsReservationClosingSoon.util';
 import EventProvider from './components/EventProvider';
+import EventCampaign from './components/cheer/EventCampaign';
 // import ReferralDiscountNotice from './components/ReferralDiscountNotice';
 
 // const SEARCH_PARAMS_KEYS = {
@@ -45,6 +46,7 @@ const Page = async ({
             eventName={event.eventName}
           />
           <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
+          <EventCampaign />
           <EventContent event={event} />
           <EventOverview
             event={event}

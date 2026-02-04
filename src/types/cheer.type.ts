@@ -20,7 +20,7 @@ const EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema =
     eventCheerDiscountPolicyId: z.string(),
     minParticipationCount: z.number(),
     discountRate: z.number(),
-    isActive: z.number(), // TODO: boolean으로 변경
+    isActive: z.boolean(),
   });
 
 const EventCheerCampaignResultInEventCheerCampaignsViewEntitySchema = z.object({

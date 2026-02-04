@@ -1,114 +1,146 @@
-import { useState, useMemo } from 'react';
-import confetti from 'canvas-confetti';
-import { usePostEventCheerCampaignParticipation } from '@/services/cheer.service';
-import { useGetUserCheerCampaignParticipations } from '@/services/user.service';
-import { toast } from 'react-toastify';
-import { ParticipationType } from '@/types/cheer.type';
-import dayjs from 'dayjs';
-import { cheerCampaignAtom } from '../../../store/cheerAtom';
+import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAtomValue } from 'jotai';
+import { toast } from 'react-toastify';
+import { usePostEventCheerCampaignParticipation } from '@/services/cheer.service';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
+import {
+  cheerCampaignAtom,
+  userTodayParticipationCountAtom,
+  hasTodayBaseParticipationAtom,
+  hasTodayShareParticipationAtom,
+  userTotalParticipationCountAtom,
+} from '../../../store/cheerAtom';
+import useCheerShare from './useCheerShare';
+import confetti from 'canvas-confetti';
 
-export const useCheerButton = () => {
+interface UseCheerButtonProps {
+  shouldShowShareButton: boolean;
+  hideShareButton: () => void;
+  onFirstParticipationSuccess: () => void;
+}
+
+// 응원하기 버튼 관리 훅
+const useCheerButton = ({
+  shouldShowShareButton,
+  hideShareButton,
+  onFirstParticipationSuccess,
+}: UseCheerButtonProps) => {
+  const router = useRouter();
   const cheerCampaign = useAtomValue(cheerCampaignAtom);
-
-  const [hasShared, setHasShared] = useState(false);
-
-  const today = useMemo(
-    () => dayjs().tz('Asia/Seoul').format('YYYY-MM-DD'),
-    [],
+  const userTotalParticipationCount = useAtomValue(
+    userTotalParticipationCountAtom,
   );
-
-  const eventCheerCampaignId = cheerCampaign?.eventCheerCampaignId ?? '';
-
-  // 오늘 참여 내역 조회
-  const { data: todayParticipations, refetch: refetchParticipations } =
-    useGetUserCheerCampaignParticipations(eventCheerCampaignId, {
-      participatedDate: today,
-    });
-
-  // 참여 타입별 확인
-  const hasBaseParticipation = useMemo(
-    () =>
-      todayParticipations?.some(
-        (participation) => participation.participationType === 'BASE',
-      ) ?? false,
-    [todayParticipations],
+  const userTodayParticipationCount = useAtomValue(
+    userTodayParticipationCountAtom,
   );
-  const hasShareParticipation = useMemo(
-    () =>
-      todayParticipations?.some(
-        (participation) => participation.participationType === 'SHARE',
-      ) ?? false,
-    [todayParticipations],
+  const hasTodayBaseParticipation = useAtomValue(hasTodayBaseParticipationAtom);
+  const hasTodayShareParticipation = useAtomValue(
+    hasTodayShareParticipationAtom,
   );
+  const { handleShare } = useCheerShare();
 
-  // 버튼 상태 결정
-  const canCheerBase = !hasBaseParticipation;
-  const canCheerShare =
-    hasBaseParticipation && hasShared && !hasShareParticipation;
-  const isAllCompleted = hasBaseParticipation && hasShareParticipation;
+  const { mutate: participate, isPending: isParticipating } =
+    usePostEventCheerCampaignParticipation(
+      cheerCampaign?.eventCheerCampaignId ?? '',
+    );
 
-  const { mutate: participate, isPending } =
-    usePostEventCheerCampaignParticipation(eventCheerCampaignId);
+  // 버튼 상태 계산
+  const buttonState = useMemo(() => {
+    if (userTodayParticipationCount >= 2) {
+      return {
+        text: '오늘 가능한 응원을 모두 사용했어요',
+        disabled: true,
+        showShareButton: false,
+      };
+    }
+    if (shouldShowShareButton) {
+      return {
+        text: '공유하고 한번 더 응원하기',
+        disabled: false,
+        showShareButton: true,
+      };
+    }
+    return {
+      text: '응원하기',
+      disabled: false,
+      showShareButton: false,
+    };
+  }, [
+    userTodayParticipationCount,
+    shouldShowShareButton,
+    hasTodayBaseParticipation,
+    hasTodayShareParticipation,
+  ]);
 
-  const handleCheerClick = () => {
-    if (!cheerCampaign || !eventCheerCampaignId) {
-      toast.error(
-        '응원 캠페인 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.',
+  const runConfetti = () => {
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.9 } });
+  };
+
+  const handleCheerButtonClick = () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) {
+      const currentUrl = window.location.pathname + window.location.search;
+      const loginPath = createLoginRedirectPath(currentUrl);
+      router.push(loginPath);
+      return;
+    }
+
+    if (!cheerCampaign?.eventCheerCampaignId) {
+      return;
+    }
+
+    // 공유하고 한번 더 응원하기 버튼인 경우
+    if (buttonState.showShareButton) {
+      handleShare();
+      hideShareButton();
+      return;
+    }
+
+    // 첫 번째 응원 (BASE 타입)
+    if (userTodayParticipationCount === 0) {
+      const isFirstParticipation = userTotalParticipationCount === 0;
+      participate(
+        { participationType: 'BASE' },
+        {
+          onSuccess: () => {
+            runConfetti();
+            if (isFirstParticipation) {
+              onFirstParticipationSuccess();
+            }
+          },
+          onError: (error) => {
+            console.error('응원 참여 실패:', error);
+            toast.error('잠시 후 다시 시도해주세요.');
+          },
+        },
       );
       return;
     }
 
-    let participationType: ParticipationType;
-    switch (true) {
-      case canCheerBase:
-        participationType = 'BASE';
-        break;
-      case canCheerShare:
-        participationType = 'SHARE';
-        break;
-      default:
-        return;
+    // 두 번째 응원 (SHARE 타입)
+    if (userTodayParticipationCount === 1 && hasTodayBaseParticipation) {
+      participate(
+        { participationType: 'SHARE' },
+        {
+          onSuccess: () => {
+            runConfetti();
+          },
+          onError: (error) => {
+            console.error('응원 참여 실패:', error);
+            toast.error('잠시 후 다시 시도해주세요.');
+          },
+        },
+      );
     }
-
-    participate(
-      { participationType },
-      {
-        onSuccess: async () => {
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.9 },
-          });
-
-          // 참여 내역을 즉시 refetch하여 버튼 상태 업데이트
-          await refetchParticipations();
-
-          if (participationType === 'SHARE') {
-            setHasShared(false);
-          }
-        },
-        onError: (error) => {
-          console.error(error);
-          toast.error('잠시 후 다시 시도해주세요.');
-        },
-      },
-    );
-  };
-
-  const handleShare = () => {
-    setHasShared(true);
   };
 
   return {
-    hasBaseParticipation,
-    hasShareParticipation,
-    isAllCompleted,
-    canCheerBase,
-    canCheerShare,
-    hasShared,
-    handleCheerClick,
-    handleShare,
-    isLoading: isPending,
+    buttonState,
+    handleCheerButtonClick,
+    isParticipating,
   };
 };
+
+export default useCheerButton;

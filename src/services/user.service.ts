@@ -81,7 +81,7 @@ export const useGetUserReferrals = () => {
 
 export const getUserCheerCampaignParticipations = async (
   cheerCampaignId: string,
-  params: { participatedDate?: string },
+  params?: { participatedDate?: string },
 ) => {
   const searchParams = toSearchParams(params);
   const res = await authInstance.get(
@@ -98,7 +98,8 @@ export const getUserCheerCampaignParticipations = async (
 
 export const useGetUserCheerCampaignParticipations = (
   cheerCampaignId: string,
-  params: { participatedDate?: string },
+  params?: { participatedDate?: string },
+  enabled?: boolean,
 ) => {
   return useQuery({
     queryKey: [
@@ -110,6 +111,7 @@ export const useGetUserCheerCampaignParticipations = (
       params,
     ],
     queryFn: () => getUserCheerCampaignParticipations(cheerCampaignId, params),
+    enabled,
   });
 };
 

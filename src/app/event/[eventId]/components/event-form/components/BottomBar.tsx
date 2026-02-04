@@ -9,9 +9,6 @@ import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import { useRouter } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import useAppShare from '@/hooks/webview/useAppShare';
-import CheerBottomBar from '../../cheer/CheerBottomBar';
-import { useAtomValue } from 'jotai';
-import { isCheerCampaignRunningAtom } from '../../../store/cheerAtom';
 
 interface Props {
   eventName: string;
@@ -45,11 +42,6 @@ const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
     });
   };
   const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
-
-  const isCheerCampaignRunning = useAtomValue(isCheerCampaignRunningAtom);
-  if (isCheerCampaignRunning) {
-    return <CheerBottomBar eventName={eventName} />;
-  }
 
   return (
     <>
