@@ -32,18 +32,19 @@ const useFirstCheerModal = () => {
     setIsOpen(false);
   };
 
+  const hideShareButton = () => {
+    setShouldShowShareButton(false);
+  };
+
   const handleShareClick = () => {
     handleShare();
+    hideShareButton();
     closeModal();
   };
 
   const handleLater = () => {
     closeModal();
     setShouldShowShareButton(true);
-  };
-
-  const hideShareButton = () => {
-    setShouldShowShareButton(false);
   };
 
   return {
