@@ -78,7 +78,7 @@ const DiscountProgressBarItem = ({
       case 'achieved':
         return 'bg-brand-primary-400';
       case 'next':
-        return 'bg-brand-primary-100';
+        return 'bg-brand-primary-100 animate-pulse-primary';
       case 'pending':
         return 'bg-basic-grey-200';
     }
