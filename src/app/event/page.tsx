@@ -70,6 +70,14 @@ const Page = () => {
                     const isClosingSoon = checkIsReservationClosingSoon({
                       event,
                     });
+                    const isDemandOngoing =
+                      event.eventStatus === 'OPEN' &&
+                      event.dailyEvents.some(
+                        (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
+                      );
+                    const isSaleStarted =
+                      event.eventStatus === 'OPEN' &&
+                      event.eventMinRoutePrice !== null;
 
                     const isImportant = index < 4;
 
@@ -83,11 +91,10 @@ const Page = () => {
                           date={formattedDate}
                           location={event.eventLocationName}
                           price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                          isSaleStarted={event.eventMinRoutePrice !== null}
-                          isReservationClosingSoon={isClosingSoon}
-                          isDemandOngoing={
-                            event.eventStatus === 'OPEN' &&
-                            event.eventMinRoutePrice === null
+                          showPrice={isSaleStarted}
+                          showReservationClosingSoonBadge={isClosingSoon}
+                          showDemandOngoingBadge={
+                            isDemandOngoing && !isSaleStarted
                           }
                           href={`/event/${event.eventId}`}
                           priority={isImportant}

@@ -12,9 +12,9 @@ interface Props {
   variant: 'GRID' | 'LARGE' | 'MEDIUM';
   image: string | null;
   order?: number;
-  isSaleStarted?: boolean;
-  isReservationClosingSoon?: boolean;
-  isDemandOngoing?: boolean;
+  showPrice?: boolean;
+  showReservationClosingSoonBadge?: boolean;
+  showDemandOngoingBadge?: boolean;
   title?: string;
   date?: string;
   location?: string;
@@ -28,9 +28,9 @@ const Card = ({
   variant,
   image,
   order,
-  isSaleStarted = true,
-  isReservationClosingSoon,
-  isDemandOngoing,
+  showPrice = true,
+  showReservationClosingSoonBadge = false,
+  showDemandOngoingBadge = false,
   title,
   date,
   location,
@@ -44,9 +44,9 @@ const Card = ({
       <GridCard
         variant={variant}
         image={image}
-        isSaleStarted={isSaleStarted}
-        isReservationClosingSoon={isReservationClosingSoon}
-        isDemandOngoing={isDemandOngoing}
+        showPrice={showPrice}
+        showReservationClosingSoonBadge={showReservationClosingSoonBadge}
+        showDemandOngoingBadge={showDemandOngoingBadge}
         title={title}
         date={date}
         price={price}
@@ -63,9 +63,9 @@ const Card = ({
         variant={variant}
         image={image}
         order={order}
-        isSaleStarted={isSaleStarted}
-        isDemandOngoing={isDemandOngoing}
-        isReservationClosingSoon={isReservationClosingSoon}
+        showPrice={showPrice}
+        showReservationClosingSoonBadge={showReservationClosingSoonBadge}
+        showDemandOngoingBadge={showDemandOngoingBadge}
         title={title}
         price={price}
         href={href}
@@ -78,9 +78,9 @@ const Card = ({
       <MediumCard
         variant={variant}
         image={image}
-        isSaleStarted={isSaleStarted}
-        isDemandOngoing={isDemandOngoing}
-        isReservationClosingSoon={isReservationClosingSoon}
+        showPrice={showPrice}
+        showReservationClosingSoonBadge={showReservationClosingSoonBadge}
+        showDemandOngoingBadge={showDemandOngoingBadge}
         title={title}
         date={date}
         price={price}
@@ -96,9 +96,9 @@ export default Card;
 
 const GridCard = ({
   image,
-  isSaleStarted,
-  isReservationClosingSoon,
-  isDemandOngoing,
+  showPrice,
+  showReservationClosingSoonBadge,
+  showDemandOngoingBadge,
   title,
   date,
   price,
@@ -174,14 +174,14 @@ const GridCard = ({
           className={imageClassName}
           onLoad={shouldFadeIn ? handleImageLoad : undefined}
         />
-        {isDemandOngoing && (
+        {showDemandOngoingBadge && (
           <Badge
             className={`absolute right-12 top-12 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}
           >
             수요조사중
           </Badge>
         )}
-        {isReservationClosingSoon && (
+        {showReservationClosingSoonBadge && (
           <Badge
             className={`absolute right-12 top-12 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}
           >
@@ -198,10 +198,10 @@ const GridCard = ({
         </p>
         <p
           className={`text-14 font-600 leading-[140%] ${
-            isSaleStarted ? 'text-basic-black' : 'text-basic-grey-500'
+            showPrice ? 'text-basic-black' : 'text-basic-grey-500'
           }`}
         >
-          {isSaleStarted ? price : '판매대기'}
+          {showPrice ? price : '판매대기'}
         </p>
       </div>
     </Link>
@@ -211,7 +211,7 @@ const GridCard = ({
 const LargeCard = ({
   image,
   order,
-  isSaleStarted,
+  showPrice,
   title,
   price,
   href,
@@ -316,7 +316,7 @@ const LargeCard = ({
             className={`text-16 font-600 leading-[140%] 
             text-basic-white`}
           >
-            {isSaleStarted ? price : '판매대기'}
+            {showPrice ? price : '판매대기'}
           </p>
         </div>
       </div>
@@ -326,9 +326,9 @@ const LargeCard = ({
 
 const MediumCard = ({
   image,
-  isSaleStarted,
-  isReservationClosingSoon,
-  isDemandOngoing,
+  showPrice,
+  showReservationClosingSoonBadge,
+  showDemandOngoingBadge,
   title,
   date,
   price,
@@ -412,17 +412,17 @@ const MediumCard = ({
         </p>
         <p
           className={`text-14 font-600 leading-[140%] ${
-            isSaleStarted ? 'text-basic-black' : 'text-basic-grey-500'
+            showPrice ? 'text-basic-black' : 'text-basic-grey-500'
           }`}
         >
-          {isSaleStarted ? price : '판매대기'}
+          {showPrice ? price : '판매대기'}
         </p>
-        {isDemandOngoing && (
+        {showDemandOngoingBadge && (
           <Badge className={`mt-4 ${DEMAND_ONGOING_BADGE_CLASS_NAME}`}>
             수요조사 진행 중
           </Badge>
         )}
-        {isReservationClosingSoon && (
+        {showReservationClosingSoonBadge && (
           <Badge className={`mt-4 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}>
             마감임박
           </Badge>

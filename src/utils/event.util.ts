@@ -18,14 +18,15 @@ export const getPhaseAndEnabledStatus = (
   if (!event) {
     return { phase: 'standBy', enabledStatus: 'disabled' };
   }
-  const isDemandOngoing = event.dailyEvents.some(
-    (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
-  );
+  const isStandBy = event.eventStatus === 'STAND_BY';
+  const isDemandOngoing =
+    event.eventStatus === 'OPEN' &&
+    event.dailyEvents.some((dailyEvent) => dailyEvent.dailyEventIsDemandOpen);
   const isReservationOpen = event.eventMinRoutePrice !== null;
   const isReservationOngoing = event.eventHasOpenRoute;
 
   switch (true) {
-    case event.eventStatus === 'STAND_BY':
+    case isStandBy:
       return { phase: 'standBy', enabledStatus: 'disabled' };
     case isDemandOngoing && !isReservationOpen:
       return { phase: 'demand', enabledStatus: 'enabled' };
