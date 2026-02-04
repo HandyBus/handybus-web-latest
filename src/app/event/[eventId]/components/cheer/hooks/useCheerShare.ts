@@ -7,13 +7,13 @@ const useCheerShare = () => {
   const event = useAtomValue(eventAtom);
   const share = useAppShare();
 
-  const handleShare = () => {
+  const handleShare = async (): Promise<boolean> => {
     if (!event) {
-      return;
+      return false;
     }
 
     const currentUrl = window.location.href;
-    share({
+    return await share({
       title: event.eventName,
       message: `${event.eventName} 응원하고 할인받기`,
       url: currentUrl,

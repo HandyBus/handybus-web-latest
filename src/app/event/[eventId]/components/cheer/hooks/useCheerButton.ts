@@ -78,7 +78,7 @@ const useCheerButton = ({
     confetti({ particleCount: 100, spread: 70, origin: { y: 0.9 } });
   };
 
-  const handleCheerButtonClick = () => {
+  const handleCheerButtonClick = async () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) {
       const currentUrl = window.location.pathname + window.location.search;
@@ -93,8 +93,11 @@ const useCheerButton = ({
 
     // 공유하고 한번 더 응원하기 버튼인 경우
     if (buttonState.showShareButton) {
-      handleShare();
-      hideShareButton();
+      const shareSuccess = await handleShare();
+      // 공유가 성공적으로 완료된 경우에만 버튼 숨김
+      if (shareSuccess) {
+        hideShareButton();
+      }
       return;
     }
 
