@@ -28,7 +28,7 @@ const CommonSidoStep = ({
   const dailyEventIdsWithHubs = useAtomValue(dailyEventIdsWithHubsAtom);
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const dailyEvent = getValues('dailyEvent');
-  const isDemandOpen = dailyEvent.dailyEventStatus === 'OPEN';
+  const isDemandOpen = dailyEvent.dailyEventIsDemandOpen;
   const sidosWithGungus = dailyEventIdsWithHubs?.[dailyEvent.dailyEventId];
   const isReservationOpen = Object.keys(sidosWithGungus ?? {}).length > 0;
 

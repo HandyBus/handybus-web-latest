@@ -6,7 +6,7 @@ import { compareToNow } from '@/utils/dateString.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
 
-export type EventPhase = 'demand' | 'reservation';
+export type EventPhase = 'standBy' | 'demand' | 'reservation';
 export type EventEnabledStatus = 'enabled' | 'disabled';
 
 export const getPhaseAndEnabledStatus = (
@@ -16,13 +16,18 @@ export const getPhaseAndEnabledStatus = (
   enabledStatus: EventEnabledStatus;
 } => {
   if (!event) {
-    return { phase: 'demand', enabledStatus: 'disabled' };
+    return { phase: 'standBy', enabledStatus: 'disabled' };
   }
-  const isDemandOngoing = event.eventStatus === 'OPEN';
+  // NOTE: 이제 각 dailyEvent 별로 수요조사 여부를 결정할 수 있게 개편되었지만, 어드민에서 수요조사를 열때는 모든 dailyEvent의 수요조사를 한번에 열도록 해야한다. 일부 dailyEvent 만 수요조사 가능한 flow가 고려되지 않았기에 의도치 않은 ui가 보여질 수 있다.
+  const isDemandOngoing = event.dailyEvents.some(
+    (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
+  );
   const isReservationOpen = event.eventMinRoutePrice !== null;
   const isReservationOngoing = event.eventHasOpenRoute;
 
   switch (true) {
+    case event.eventStatus === 'STAND_BY':
+      return { phase: 'standBy', enabledStatus: 'disabled' };
     case isDemandOngoing && !isReservationOpen:
       return { phase: 'demand', enabledStatus: 'enabled' };
     case !isDemandOngoing && !isReservationOpen:
@@ -31,7 +36,7 @@ export const getPhaseAndEnabledStatus = (
       return { phase: 'reservation', enabledStatus: 'enabled' };
     case isReservationOpen && !isReservationOngoing:
     default:
-      return { phase: 'reservation', enabledStatus: 'disabled' };
+      return { phase: 'standBy', enabledStatus: 'disabled' };
   }
 };
 

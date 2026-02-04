@@ -104,4 +104,8 @@ const BUTTON_TEXT = {
     enabled: '수요조사 참여하기',
     disabled: '인원 부족으로 열리지 않았어요',
   },
+  standBy: {
+    enabled: '판매 대기 중',
+    disabled: '판매 대기 중',
+  },
 };

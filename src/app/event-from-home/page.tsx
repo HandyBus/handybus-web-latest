@@ -25,24 +25,14 @@ const Page = () => {
     data: events,
     isLoading,
     error,
-  } = useGetEvents({ status: 'OPEN,CLOSED' });
-
-  const filteredEventsByStatus = useMemo(
-    () =>
-      events?.filter((event) =>
-        event.eventStatus === 'CLOSED' && event.eventMinRoutePrice === null
-          ? false
-          : true,
-      ),
-    [events],
-  );
+  } = useGetEvents({ status: 'STAND_BY,OPEN' });
 
   const filteredEventsByType = useMemo(() => {
     if (type === 'ALL') {
-      return filteredEventsByStatus;
+      return events;
     }
-    return filteredEventsByStatus?.filter((event) => event.eventType === type);
-  }, [filteredEventsByStatus, type]);
+    return events?.filter((event) => event.eventType === type);
+  }, [events, type]);
 
   const sortedEvents = useMemo(
     () =>
