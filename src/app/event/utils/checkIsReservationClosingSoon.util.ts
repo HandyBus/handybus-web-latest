@@ -11,9 +11,7 @@ export const checkIsReservationClosingSoon = ({
 }: {
   event: EventsViewEntity;
 }) => {
-  const hasOpenRoute =
-    (event.eventStatus === 'OPEN' || event.eventStatus === 'CLOSED') &&
-    event.eventHasOpenRoute;
+  const hasOpenRoute = event.eventStatus === 'OPEN' && event.eventHasOpenRoute;
 
   const dailyEventsAfterToday = event.dailyEvents.filter((dailyEvent) =>
     dayjs(dailyEvent.dailyEventDate)

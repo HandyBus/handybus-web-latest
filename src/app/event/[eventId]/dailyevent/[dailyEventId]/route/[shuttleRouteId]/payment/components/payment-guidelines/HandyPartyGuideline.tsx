@@ -3,9 +3,9 @@ const SUB_TITLE_STYLE = 'text-14 font-600 text-basic-black mb-4';
 const TEXT_STYLE =
   'text-14 font-500 text-basic-grey-700 list-disc pl-20 leading-[22.4px]';
 
-const ShuttleBusGuideline = () => {
+const HandyPartyGuideline = () => {
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-8">
       <section className="rounded-8 bg-basic-grey-50 p-16">
         <h5 className={TITLE_STYLE}>꼭 알아두세요</h5>
         <article>
@@ -75,12 +75,20 @@ const ShuttleBusGuideline = () => {
                 예약한 셔틀은 환불 신청 시점에 따라 수수료가 발생하거나 환불이
                 불가할 수 있습니다.
               </li>
+              <ul>
+                <li>탑승 6일 전 23:59까지 수수료 없음</li>
+              </ul>
             </ul>
           </article>
         </div>
+      </section>
+      <section className="rounded-8 bg-basic-blue-100 px-16 py-12">
+        <p className="text-14 font-500 leading-[160%] text-basic-blue-400">
+          예약 완료 후 2시간 내 무료 취소가 가능합니다.
+        </p>
       </section>
     </div>
   );
 };
 
-export default ShuttleBusGuideline;
+export default HandyPartyGuideline;

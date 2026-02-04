@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "test": "vitest run",
+    "test:related": "vitest run --changed",
+    "test:watch": "vitest",
     "build": "next build",
     "start": "node_modules/next/dist/bin/next start",
     "lint": "next lint",
@@ -56,16 +59,19 @@
     "@types/node": "^20",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^8.0.0",
+    "jsdom": "^27.4.0",
     "kakao.maps.d.ts": "^0.1.40",
     "lint-staged": "^15.2.10",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.18"
   }
 }

@@ -33,7 +33,7 @@ const CustomerSupport = () => {
             onSelect={(value) => {
               setSelectedTab(value);
             }}
-            className="absolute w-[calc(100%-32px)]"
+            className="mb-16 w-full"
           />
           <FAQList selectedTab={selectedTab as 'reservation' | 'boarding'} />
         </TitledSection>

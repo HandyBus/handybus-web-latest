@@ -5,7 +5,7 @@ const TEXT_STYLE =
 
 const ShuttleBusGuideline = () => {
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-8">
       <section className="rounded-8 bg-basic-grey-50 p-16">
         <h5 className={TITLE_STYLE}>꼭 알아두세요</h5>
         <article>
@@ -14,7 +14,7 @@ const ShuttleBusGuideline = () => {
               핸디버스는 본 셔틀 노선의 판매 중개자로, 직접 제공자는 각
               운송업체에 있습니다.
             </li>
-            <li>★셔틀버스 운행 여부는 탑승 11일 전까지 확정됩니다. </li>
+            <li>★셔틀버스 운행 여부는 탑승 7일 전까지 확정됩니다. </li>
             <li>★최종 탑승 정보는 탑승 1일 전 안내드립니다.</li>
             <li>
               ★승하차위치는 현장 상황에 따라 변경될 수 있으며, 변경 시 문자로
@@ -38,7 +38,7 @@ const ShuttleBusGuideline = () => {
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
             <ul className={TEXT_STYLE}>
               <li>
-                ★최소 인원 미달로 인해 무산될 수 있으며, 무산 시 탑승 11일 전
+                ★최소 인원 미달로 인해 무산될 수 있으며, 무산 시 탑승 7일 전
                 개별 안내드립니다.
               </li>
               <li>
@@ -74,9 +74,18 @@ const ShuttleBusGuideline = () => {
                 예약한 셔틀은 환불 신청 시점에 따라 수수료가 발생하거나 환불이
                 불가할 수 있습니다.
               </li>
+              <ul className={TEXT_STYLE}>
+                <li>탑승 7일전 00:00부터 취소 수수료 발생</li>
+                <li>탑승 5일전 00:00~ 환불 불가</li>
+              </ul>
             </ul>
           </article>
         </div>
+      </section>
+      <section className="rounded-8 bg-basic-blue-100 px-16 py-12">
+        <p className="text-14 font-500 leading-[160%] text-basic-blue-400">
+          탑승 5일 전 예약 시, 2시간 내 무료 취소가 가능합니다. (이후 환불 불가)
+        </p>
       </section>
     </div>
   );

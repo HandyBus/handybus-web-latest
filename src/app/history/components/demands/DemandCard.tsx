@@ -39,8 +39,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
   const demandStatusText =
     demand.status === 'CANCELLED'
       ? '수요조사 취소'
-      : dailyEvent.dailyEventStatus === 'OPEN' ||
-          dailyEvent.dailyEventStatus === 'CLOSED'
+      : dailyEvent.dailyEventIsDemandOpen
         ? '수요조사 완료'
         : '수요조사 마감';
 
@@ -58,30 +57,26 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     demand.hasShuttleRouteInRelatedRegion && !demand.hasShuttleRoute;
 
   const showDemandCount =
-    dailyEvent.dailyEventStatus === 'OPEN' &&
+    dailyEvent.dailyEventIsDemandOpen &&
     !isDemandFulfilled &&
     !isDemandCancelled &&
     !isShuttleRouteCreatedInDemandHub &&
     !isShuttleRouteCreatedOnlyInRelatedRegion;
   const showShuttleRouteCreatedInDemandHubCTA =
-    (dailyEvent.dailyEventStatus === 'OPEN' ||
-      dailyEvent.dailyEventStatus === 'CLOSED') &&
+    dailyEvent.dailyEventStatus === 'OPEN' &&
     !isDemandFulfilled &&
     !isDemandCancelled &&
     isShuttleRouteCreatedInDemandHub &&
     !isShuttleRouteCreatedOnlyInRelatedRegion;
   const showShuttleRouteCreatedOnlyInRelatedRegionCTA =
-    (dailyEvent.dailyEventStatus === 'OPEN' ||
-      dailyEvent.dailyEventStatus === 'CLOSED') &&
+    dailyEvent.dailyEventStatus === 'OPEN' &&
     !isDemandFulfilled &&
     !isDemandCancelled &&
     !isShuttleRouteCreatedInDemandHub &&
     isShuttleRouteCreatedOnlyInRelatedRegion;
 
   const ableToRedirectToDemandDetail =
-    (dailyEvent.dailyEventStatus === 'OPEN' ||
-      dailyEvent.dailyEventStatus === 'CLOSED') &&
-    !isDemandCancelled;
+    dailyEvent.dailyEventStatus === 'OPEN' && !isDemandCancelled;
 
   const router = useRouter();
   const redirectToDemandDetail = handleClickAndStopPropagation(() => {
@@ -108,7 +103,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
                   'OPEN' &&
                   'text-brand-primary-400',
                 demand.status === 'SUBMITTED' &&
-                  dailyEvent.dailyEventStatus === 'CLOSED' &&
+                  !dailyEvent.dailyEventIsDemandOpen &&
                   'text-basic-black',
                 demand.status === 'SUBMITTED' &&
                   (dailyEvent.dailyEventStatus === 'ENDED' ||
