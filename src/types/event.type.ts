@@ -9,18 +9,12 @@ export type EventType = z.infer<typeof EventTypeEnum>;
 export const EventStatusEnum = z.enum([
   'STAND_BY',
   'OPEN',
-  'CLOSED', // TODO: 삭제
   'ENDED',
   'INACTIVE',
 ]);
 export type EventStatus = z.infer<typeof EventStatusEnum>;
 
-export const DailyEventStatusEnum = z.enum([
-  'OPEN',
-  'CLOSED', // TODO: 삭제
-  'ENDED',
-  'INACTIVE',
-]);
+export const DailyEventStatusEnum = z.enum(['OPEN', 'ENDED', 'INACTIVE']);
 export type DailyEventStatus = z.infer<typeof DailyEventStatusEnum>;
 
 export const DemandControlModeEnum = z.enum(['AUTO', 'MANUAL']);

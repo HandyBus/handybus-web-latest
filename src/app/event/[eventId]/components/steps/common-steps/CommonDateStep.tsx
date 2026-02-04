@@ -32,7 +32,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       return;
     }
 
-    const isDemandOpen = dailyEvent.dailyEventStatus === 'OPEN';
+    const isDemandOpen = dailyEvent.dailyEventIsDemandOpen;
     const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
       dailyEvent.dailyEventId,
     );
@@ -102,8 +102,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       <section className="flex flex-col gap-8">
         {dailyEventWithDemandStats.map((dailyEventWithDemandStat) => {
           const isDemandPhase = phase === 'demand';
-          const isDemandOpen =
-            dailyEventWithDemandStat.dailyEventStatus === 'OPEN';
+          const isDemandOpen = dailyEventWithDemandStat.dailyEventIsDemandOpen;
           const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
             dailyEventWithDemandStat.dailyEventId,
           );

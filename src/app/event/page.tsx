@@ -26,25 +26,14 @@ const Page = () => {
     data: events,
     isLoading,
     error,
-    // TODO: @jujeon - 임시로 OPEN,CLOSED -> STAND_BY,OPEN 로 변경 - 추후 자세한 검토 필요
   } = useGetEvents({ status: 'STAND_BY,OPEN' });
-
-  const filteredEventsByStatus = useMemo(
-    () =>
-      events?.filter((event) =>
-        event.eventStatus === 'CLOSED' && event.eventMinRoutePrice === null
-          ? false
-          : true,
-      ),
-    [events],
-  );
 
   const filteredEventsByType = useMemo(() => {
     if (type === 'ALL') {
-      return filteredEventsByStatus;
+      return events;
     }
-    return filteredEventsByStatus?.filter((event) => event.eventType === type);
-  }, [filteredEventsByStatus, type]);
+    return events?.filter((event) => event.eventType === type);
+  }, [events, type]);
 
   const sortedEvents = useMemo(
     () =>
