@@ -93,18 +93,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
             {extendedEvents?.map((v: EventsViewEntity, idx: number) => (
               <SwiperSlide key={v.eventId + idx} style={{ width: 'auto' }}>
                 <div className="pr-[12px]">
-                  <Card
-                    variant={'LARGE'}
-                    image={v.eventImageUrl}
-                    title={v.eventName}
-                    date={v.startDate}
-                    location={v.eventLocationName}
-                    price={`${v.eventMinRoutePrice?.toLocaleString()}원 ~`}
-                    isSaleStarted={v.eventMinRoutePrice !== null}
-                    order={(idx % cardCount) + 1}
-                    href={`/event/${v.eventId}`}
-                    priority
-                  />
+                  <EventCard event={v} order={(idx % cardCount) + 1} />
                 </div>
               </SwiperSlide>
             ))}
@@ -116,6 +105,28 @@ const TrendEventsSwiperView = ({ events }: Props) => {
 };
 
 export default TrendEventsSwiperView;
+
+interface EventCardProps {
+  event: EventsViewEntity;
+  order: number;
+}
+
+const EventCard = ({ event, order }: EventCardProps) => {
+  return (
+    <Card
+      variant={'LARGE'}
+      image={event.eventImageUrl}
+      title={event.eventName}
+      date={event.startDate}
+      location={event.eventLocationName}
+      price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}
+      showPrice={event.eventMinRoutePrice !== null}
+      order={order}
+      href={`/event/${event.eventId}`}
+      priority
+    />
+  );
+};
 
 const extendArray = <T,>(arr: T[]): T[] => {
   if (arr.length === 0) {

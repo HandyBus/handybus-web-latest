@@ -7,6 +7,8 @@ const DEMAND_ONGOING_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
 const BOOKING_CLOSING_SOON_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-red-100 leading-[160%] text-basic-red-400';
+const EVENT_CAMPAIGN_ONGOING_BADGE_CLASS_NAME =
+  'inline-flex shrink-0 bg-brand-primary-50 leading-[160%] text-brand-primary-400';
 
 interface Props {
   variant: 'GRID' | 'LARGE' | 'MEDIUM';
@@ -15,6 +17,7 @@ interface Props {
   showPrice?: boolean;
   showReservationClosingSoonBadge?: boolean;
   showDemandOngoingBadge?: boolean;
+  showEventCampaignOngoingBadge?: boolean;
   title?: string;
   date?: string;
   location?: string;
@@ -31,6 +34,7 @@ const Card = ({
   showPrice = true,
   showReservationClosingSoonBadge = false,
   showDemandOngoingBadge = false,
+  showEventCampaignOngoingBadge = false,
   title,
   date,
   location,
@@ -47,6 +51,7 @@ const Card = ({
         showPrice={showPrice}
         showReservationClosingSoonBadge={showReservationClosingSoonBadge}
         showDemandOngoingBadge={showDemandOngoingBadge}
+        showEventCampaignOngoingBadge={showEventCampaignOngoingBadge}
         title={title}
         date={date}
         price={price}
@@ -66,6 +71,7 @@ const Card = ({
         showPrice={showPrice}
         showReservationClosingSoonBadge={showReservationClosingSoonBadge}
         showDemandOngoingBadge={showDemandOngoingBadge}
+        showEventCampaignOngoingBadge={showEventCampaignOngoingBadge}
         title={title}
         price={price}
         href={href}
@@ -81,6 +87,7 @@ const Card = ({
         showPrice={showPrice}
         showReservationClosingSoonBadge={showReservationClosingSoonBadge}
         showDemandOngoingBadge={showDemandOngoingBadge}
+        showEventCampaignOngoingBadge={showEventCampaignOngoingBadge}
         title={title}
         date={date}
         price={price}
@@ -99,6 +106,7 @@ const GridCard = ({
   showPrice,
   showReservationClosingSoonBadge,
   showDemandOngoingBadge,
+  showEventCampaignOngoingBadge,
   title,
   date,
   price,
@@ -186,6 +194,13 @@ const GridCard = ({
             className={`absolute right-12 top-12 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}
           >
             마감임박
+          </Badge>
+        )}
+        {showEventCampaignOngoingBadge && (
+          <Badge
+            className={`absolute right-12 top-12 ${EVENT_CAMPAIGN_ONGOING_BADGE_CLASS_NAME}`}
+          >
+            응원하기중
           </Badge>
         )}
       </div>
@@ -329,6 +344,7 @@ const MediumCard = ({
   showPrice,
   showReservationClosingSoonBadge,
   showDemandOngoingBadge,
+  showEventCampaignOngoingBadge,
   title,
   date,
   price,
@@ -425,6 +441,11 @@ const MediumCard = ({
         {showReservationClosingSoonBadge && (
           <Badge className={`mt-4 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}>
             마감임박
+          </Badge>
+        )}
+        {showEventCampaignOngoingBadge && (
+          <Badge className={`mt-4 ${EVENT_CAMPAIGN_ONGOING_BADGE_CLASS_NAME}`}>
+            응원하기 진행 중
           </Badge>
         )}
       </div>
