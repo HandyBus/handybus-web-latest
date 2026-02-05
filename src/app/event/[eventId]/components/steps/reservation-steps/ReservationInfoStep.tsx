@@ -200,7 +200,7 @@ const ReservationInfoStep = ({
             {regularPrice.toLocaleString()}원 x {passengerCount}
           </span>
           <span
-            className={`font-600 ${isEarlybird ? 'text-14 text-basic-grey-300 line-through' : 'text-16'}`}
+            className={`font-600 ${isDiscounted ? 'text-14 text-basic-grey-300 line-through' : 'text-16'}`}
           >
             {(regularPrice * passengerCount).toLocaleString()} 원
           </span>

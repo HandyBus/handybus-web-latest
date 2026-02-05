@@ -210,7 +210,7 @@ const calculateTotalCheerCampaignDiscountAmount = ({
   const totalPrice = price * passengerCount;
 
   const totalCheerCampaignDiscount = Math.floor(
-    totalPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+    totalPrice * (cheerCampaignFinalDiscountRate / 100),
   );
   return totalCheerCampaignDiscount;
 };
