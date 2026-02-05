@@ -56,7 +56,7 @@ export const cheerTotalParticipationCountAtom = atom((get) => {
  * 사용자의 오늘 참여 횟수 derived atom
  */
 export const userTotalParticipationCountAtom = atom((get) => {
-  const participations = get(userTodayParticipationsAtom);
+  const participations = get(userTotalParticipationsAtom);
   return participations.length;
 });
 
