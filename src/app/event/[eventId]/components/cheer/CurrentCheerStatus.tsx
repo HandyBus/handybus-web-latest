@@ -29,7 +29,7 @@ const CurrentCheerStatus = ({
     <article className="grid grid-cols-2">
       <div>
         <div className="text-12 font-500 leading-[160%] text-basic-grey-600">
-          다음 할인률까지
+          다음 할인율까지
         </div>
         <div className="flex items-center gap-[2px] text-14 font-500 leading-[160%] text-basic-black">
           {nextTargetPolicy ? (

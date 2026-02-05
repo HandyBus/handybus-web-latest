@@ -26,6 +26,7 @@ import dayjs from 'dayjs';
 import GuidelineSection from './sections/GuidelineSection';
 import { PAYMENT_PARAMS_KEYS } from '../payment.const';
 import ReferralDiscountNotice from './ReferralDiscountNotice';
+import { EventCheerCampaignsViewEntity } from '@/types/cheer.type';
 
 interface ContentProps {
   tripType: TripType;
@@ -42,6 +43,7 @@ interface ContentProps {
   desiredHubLongitude?: number;
   reservationStartTime?: string;
   referralCode?: string;
+  cheerCampaign: EventCheerCampaignsViewEntity | null;
 }
 
 const Content = ({
@@ -59,6 +61,7 @@ const Content = ({
   desiredHubLongitude,
   reservationStartTime,
   referralCode,
+  cheerCampaign,
 }: ContentProps) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -73,6 +76,7 @@ const Content = ({
     finalPrice,
     totalEarlybirdDiscountAmount,
     totalCouponDiscountAmount,
+    totalCheerCampaignDiscountAmount,
     referralDiscountAmount,
   } = calculateTotalPrice({
     priceOfTripType,
@@ -80,6 +84,8 @@ const Content = ({
     passengerCount,
     coupon: selectedCoupon,
     hasReferralCode: !!referralCode,
+    cheerCampaignFinalDiscountRate:
+      cheerCampaign?.result?.finalDiscountRate ?? null,
   });
 
   const {
@@ -269,6 +275,7 @@ const Content = ({
         regularPrice={regularPrice}
         finalPrice={finalPrice}
         totalCouponDiscountAmount={totalCouponDiscountAmount}
+        totalCheerCampaignDiscountAmount={totalCheerCampaignDiscountAmount}
         totalEarlybirdDiscountAmount={totalEarlybirdDiscountAmount}
         referralDiscountAmount={referralDiscountAmount}
         passengerCount={passengerCount}

@@ -44,8 +44,7 @@ export const isCheerCampaignRunningAtom = atom((get) => {
 });
 
 /**
- * 응원 캠페인 참여 수 derived atom
- * cheerCampaignAtom에서 자동으로 추출
+ * 응원 캠페인 참여 수 derived atoms
  */
 export const cheerTotalParticipationCountAtom = atom((get) => {
   const cheerCampaign = get(cheerCampaignAtom);
@@ -53,10 +52,18 @@ export const cheerTotalParticipationCountAtom = atom((get) => {
 });
 
 /**
+ * 응원 캠페인 참여 유저 수 derived atom
+ */
+export const cheerTotalParticipationUserCountAtom = atom((get) => {
+  const cheerCampaign = get(cheerCampaignAtom);
+  return cheerCampaign?.cheerCampaignParticipationTotalUserCount ?? 0;
+});
+
+/**
  * 사용자의 오늘 참여 횟수 derived atom
  */
 export const userTotalParticipationCountAtom = atom((get) => {
-  const participations = get(userTodayParticipationsAtom);
+  const participations = get(userTotalParticipationsAtom);
   return participations.length;
 });
 
@@ -100,3 +107,11 @@ export const incrementCheerParticipationAtom = atom(
     }
   },
 );
+
+/**
+ * 응원 캠페인 결과 derived atom
+ */
+export const cheerCampaignFinalDiscountRateAtom = atom((get) => {
+  const cheerCampaign = get(cheerCampaignAtom);
+  return cheerCampaign?.result?.finalDiscountRate ?? null;
+});

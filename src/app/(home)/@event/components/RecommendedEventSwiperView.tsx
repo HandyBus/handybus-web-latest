@@ -99,7 +99,9 @@ const EventCard = ({
   );
 
   const showEventCampaignOngoingBadge =
-    event.eventStatus === 'STAND_BY' && !!eventCheerCampaign;
+    event.eventStatus === 'STAND_BY' &&
+    !!eventCheerCampaign &&
+    eventCheerCampaign.status === 'RUNNING';
 
   return (
     <Card

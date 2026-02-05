@@ -36,10 +36,12 @@ const useFirstCheerModal = () => {
     setShouldShowShareButton(false);
   };
 
-  const handleShareClick = () => {
-    handleShare();
-    hideShareButton();
-    closeModal();
+  const handleShareClick = async () => {
+    const shareSuccess = await handleShare();
+    if (shareSuccess) {
+      hideShareButton();
+      closeModal();
+    }
   };
 
   const handleLater = () => {
