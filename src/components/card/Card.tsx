@@ -7,8 +7,6 @@ const DEMAND_ONGOING_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-blue-100 leading-[160%] text-basic-blue-400';
 const BOOKING_CLOSING_SOON_BADGE_CLASS_NAME =
   'inline-flex shrink-0 bg-basic-red-100 leading-[160%] text-basic-red-400';
-const EVENT_CAMPAIGN_ONGOING_BADGE_CLASS_NAME =
-  'inline-flex shrink-0 bg-brand-primary-50 leading-[160%] text-brand-primary-400';
 
 interface Props {
   variant: 'GRID' | 'LARGE' | 'MEDIUM';
@@ -197,11 +195,11 @@ const GridCard = ({
           </Badge>
         )}
         {showEventCampaignOngoingBadge && (
-          <Badge
-            className={`absolute right-12 top-12 ${EVENT_CAMPAIGN_ONGOING_BADGE_CLASS_NAME}`}
+          <div
+            className={`absolute bottom-[-0.3px] left-[-0.3px] right-[-0.3px] flex h-[38px] items-center justify-center whitespace-nowrap break-keep rounded-b-[7px] bg-basic-blue-100 text-12 font-600 text-basic-blue-400`}
           >
-            응원하기중
-          </Badge>
+            응원하고 할인 받기 🎉
+          </div>
         )}
       </div>
       <div className="py-12 pl-4 pr-12">
@@ -444,9 +442,11 @@ const MediumCard = ({
           </Badge>
         )}
         {showEventCampaignOngoingBadge && (
-          <Badge className={`mt-4 ${EVENT_CAMPAIGN_ONGOING_BADGE_CLASS_NAME}`}>
-            응원하기 진행 중
-          </Badge>
+          <div
+            className={`absolute bottom-[-0.3px] left-[-0.3px] right-[-0.3px] flex h-[38px] items-center justify-center whitespace-nowrap break-keep rounded-b-[7px] bg-basic-blue-100 text-12 font-600 text-basic-blue-400`}
+          >
+            응원하고 할인 받기 🎉
+          </div>
         )}
       </div>
     </Link>

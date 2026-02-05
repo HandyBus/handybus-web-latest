@@ -13,6 +13,7 @@ import DiscountPolicies from './DiscountPolicies';
 import CurrentCheerStatus from './CurrentCheerStatus';
 import useFirstCheerModal from './hooks/useFirstCheerModal';
 import useCheerButton from './hooks/useCheerButton';
+import Tooltip from '@/components/tooltip/Tooltip';
 
 const CheerCampaignInfo = () => {
   const cheerCampaign = useAtomValue(cheerCampaignAtom);
@@ -58,7 +59,13 @@ const CheerCampaignInfo = () => {
         onLater={handleLater}
       />
       <section className="mx-16 mb-16 flex flex-col gap-16 rounded-8 border-[1.5px] border-[#F3F3F3] p-16">
-        <h3 className="h-[22px] text-16 font-600">응원하고 할인 받기</h3>
+        <h3 className="flex h-[22px] items-center justify-between">
+          <span className="text-16 font-600">응원하고 할인 받기</span>
+          <Tooltip
+            position="left"
+            content="적용된 할인율은 모든 노선에 일괄 적용됩니다."
+          />
+        </h3>
         <DiscountPolicies
           cheerCampaign={cheerCampaign}
           totalParticipationCount={totalParticipationCount}
