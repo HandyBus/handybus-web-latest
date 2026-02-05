@@ -13,6 +13,7 @@ import {
 import { EventFormValues } from '../../../form.type';
 import { dailyEventIdsWithRoutesAtom } from '../../../store/dailyEventIdsWithRoutesAtom';
 import { getRouteOfHubWithInfo } from '../../../store/dailyEventIdsWithHubsAtom';
+import { cheerCampaignFinalDiscountRateAtom } from '../../../store/cheerAtom';
 
 interface Props {
   toReservationInfoStep: () => void;
@@ -25,6 +26,9 @@ const ReservationTripTypeStep = ({
 }: Props) => {
   const { getValues, setValue } = useFormContext<EventFormValues>();
   const dailyEventIdsWithRoutes = useAtomValue(dailyEventIdsWithRoutesAtom);
+  const cheerCampaignFinalDiscountRate = useAtomValue(
+    cheerCampaignFinalDiscountRateAtom,
+  );
   const [selectedHubWithInfo, dailyEvent] = getValues([
     'selectedHubWithInfo',
     'dailyEvent',
@@ -106,6 +110,9 @@ const ReservationTripTypeStep = ({
                   isEarlybird={price.isEarlybird}
                   regularPrice={price.regularPrice}
                   earlybirdPrice={price.earlybirdPrice}
+                  cheerCampaignFinalDiscountRate={
+                    cheerCampaignFinalDiscountRate
+                  }
                 />
               )}
             </button>
@@ -131,6 +138,7 @@ interface SeatTextProps {
   isEarlybird: boolean;
   regularPrice: number;
   earlybirdPrice: number | null;
+  cheerCampaignFinalDiscountRate: number | null;
 }
 
 const SeatText = ({
@@ -138,19 +146,40 @@ const SeatText = ({
   isEarlybird,
   regularPrice,
   earlybirdPrice,
-}: Partial<SeatTextProps>) => {
+  cheerCampaignFinalDiscountRate,
+}: SeatTextProps) => {
+  const isDiscounted = cheerCampaignFinalDiscountRate !== null || isEarlybird;
+  const calculateDiscountedPrice = () => {
+    if (isEarlybird && earlybirdPrice) {
+      if (cheerCampaignFinalDiscountRate !== null) {
+        return Math.floor(
+          earlybirdPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+        );
+      }
+      return earlybirdPrice;
+    } else {
+      if (cheerCampaignFinalDiscountRate !== null) {
+        return Math.floor(
+          regularPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+        );
+      }
+      return regularPrice;
+    }
+  };
+  const discountedPrice = calculateDiscountedPrice();
+
   if (!remainingSeatCount || !regularPrice) {
     return null;
   }
   return (
     <div className="flex items-center gap-4">
-      {isEarlybird ? (
+      {isDiscounted ? (
         <>
           <span className="text-12 font-600 text-basic-grey-300 line-through">
             {regularPrice.toLocaleString()}원
           </span>
           <span className="text-16 font-600 text-basic-grey-700">
-            {earlybirdPrice?.toLocaleString()}원
+            {discountedPrice.toLocaleString()}원
           </span>
         </>
       ) : (

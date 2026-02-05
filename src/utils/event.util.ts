@@ -195,6 +195,26 @@ const calculateTotalEarlybirdDiscountAmount = ({
   return (price.regularPrice - price.earlybirdPrice) * passengerCount;
 };
 
+const calculateTotalCheerCampaignDiscountAmount = ({
+  price,
+  passengerCount,
+  cheerCampaignFinalDiscountRate,
+}: {
+  price: number;
+  passengerCount: number;
+  cheerCampaignFinalDiscountRate: number | null;
+}) => {
+  if (!cheerCampaignFinalDiscountRate) {
+    return 0;
+  }
+  const totalPrice = price * passengerCount;
+
+  const totalCheerCampaignDiscount = Math.floor(
+    totalPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+  );
+  return totalCheerCampaignDiscount;
+};
+
 const calculateTotalCouponDiscountAmount = ({
   price,
   passengerCount,
@@ -232,12 +252,14 @@ export const calculateTotalPrice = ({
   tripType,
   passengerCount,
   coupon,
+  cheerCampaignFinalDiscountRate,
   hasReferralCode,
 }: {
   priceOfTripType: PriceOfTripType;
   tripType: TripType;
   passengerCount: number;
   coupon: IssuedCouponsViewEntity | null;
+  cheerCampaignFinalDiscountRate: number | null;
   hasReferralCode: boolean;
 }) => {
   const price = priceOfTripType[tripType];
@@ -248,15 +270,25 @@ export const calculateTotalPrice = ({
 
   const totalPrice = price.regularPrice * passengerCount;
 
+  // TODO: 더 명시적으로 리팩토링
   const totalEarlybirdDiscountAmount = calculateTotalEarlybirdDiscountAmount({
     priceOfTripType,
     tripType,
     passengerCount,
   });
+  const totalCheerCampaignDiscountAmount =
+    calculateTotalCheerCampaignDiscountAmount({
+      price: price.regularPrice - totalEarlybirdDiscountAmount / passengerCount,
+      passengerCount,
+      cheerCampaignFinalDiscountRate,
+    });
   const totalCouponDiscountAmount = coupon
     ? calculateTotalCouponDiscountAmount({
         price:
-          price.regularPrice - totalEarlybirdDiscountAmount / passengerCount,
+          (price.regularPrice -
+            totalEarlybirdDiscountAmount -
+            totalCheerCampaignDiscountAmount) /
+          passengerCount,
         passengerCount,
         coupon,
       })
@@ -270,6 +302,7 @@ export const calculateTotalPrice = ({
     Math.floor(
       totalPrice -
         totalEarlybirdDiscountAmount -
+        totalCheerCampaignDiscountAmount -
         totalCouponDiscountAmount -
         referralDiscountAmount,
     ),
@@ -280,6 +313,7 @@ export const calculateTotalPrice = ({
     finalPrice,
     totalCouponDiscountAmount,
     totalEarlybirdDiscountAmount,
+    totalCheerCampaignDiscountAmount,
     referralDiscountAmount,
   };
 };

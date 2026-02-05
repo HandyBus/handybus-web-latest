@@ -107,3 +107,11 @@ export const incrementCheerParticipationAtom = atom(
     }
   },
 );
+
+/**
+ * 응원 캠페인 결과 derived atom
+ */
+export const cheerCampaignFinalDiscountRateAtom = atom((get) => {
+  const cheerCampaign = get(cheerCampaignAtom);
+  return cheerCampaign?.result?.finalDiscountRate ?? null;
+});

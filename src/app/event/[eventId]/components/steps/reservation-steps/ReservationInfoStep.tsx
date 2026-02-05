@@ -20,6 +20,7 @@ import { eventAtom } from '../../../store/eventAtom';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useGetUser } from '@/services/user.service';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
+import { cheerCampaignFinalDiscountRateAtom } from '../../../store/cheerAtom';
 
 interface Props {
   closeBottomSheet: () => void;
@@ -66,12 +67,36 @@ const ReservationInfoStep = ({
   const price = priceOfTripType?.[tripType];
   const regularPrice = price?.regularPrice ?? 0;
   const earlybirdPrice = price?.earlybirdPrice ?? 0;
-  const discountRate = Math.floor(
-    ((regularPrice - earlybirdPrice) / regularPrice) * 100,
-  );
 
   const isRoundTrip = tripType === 'ROUND_TRIP';
   const isEarlybird = price?.isEarlybird;
+
+  // 응원하기 할인 로직
+  const cheerCampaignFinalDiscountRate = useAtomValue(
+    cheerCampaignFinalDiscountRateAtom,
+  );
+  const isDiscounted = cheerCampaignFinalDiscountRate !== null || isEarlybird;
+  const calculateDiscountedPrice = () => {
+    if (isEarlybird && earlybirdPrice) {
+      if (cheerCampaignFinalDiscountRate !== null) {
+        return Math.floor(
+          earlybirdPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+        );
+      }
+      return earlybirdPrice;
+    } else {
+      if (cheerCampaignFinalDiscountRate !== null) {
+        return Math.floor(
+          regularPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+        );
+      }
+      return regularPrice;
+    }
+  };
+  const discountedPrice = calculateDiscountedPrice();
+  const discountRate = Math.floor(
+    ((regularPrice - discountedPrice) / regularPrice) * 100,
+  );
 
   // 행사장행 및 귀가행의 탑승하는 정류장 관리
   const [toDestinationShuttleRouteHubId, setToDestinationShuttleRouteHubId] =
@@ -180,16 +205,16 @@ const ReservationInfoStep = ({
             {(regularPrice * passengerCount).toLocaleString()} 원
           </span>
         </p>
-        {isEarlybird && (
+        {isDiscounted && (
           <p className="flex h-[26px] items-center justify-end gap-4">
             <span className="text-10 font-600 text-basic-grey-700">
-              얼리버드 할인
+              최대 할인가
             </span>
             <span className="text-16 font-600 text-basic-red-400">
               {discountRate}%
             </span>
             <span className="text-16 font-600">
-              {(earlybirdPrice * passengerCount).toLocaleString()}원
+              {(discountedPrice * passengerCount).toLocaleString()}원
             </span>
           </p>
         )}
