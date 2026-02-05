@@ -44,12 +44,19 @@ export const isCheerCampaignRunningAtom = atom((get) => {
 });
 
 /**
- * 응원 캠페인 참여 수 derived atom
- * cheerCampaignAtom에서 자동으로 추출
+ * 응원 캠페인 참여 수 derived atoms
  */
 export const cheerTotalParticipationCountAtom = atom((get) => {
   const cheerCampaign = get(cheerCampaignAtom);
   return cheerCampaign?.cheerCampaignParticipationTotalCount ?? 0;
+});
+
+/**
+ * 응원 캠페인 참여 유저 수 derived atom
+ */
+export const cheerTotalParticipationUserCountAtom = atom((get) => {
+  const cheerCampaign = get(cheerCampaignAtom);
+  return cheerCampaign?.cheerCampaignParticipationTotalUserCount ?? 0;
 });
 
 /**

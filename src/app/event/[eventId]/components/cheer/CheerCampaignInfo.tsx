@@ -5,6 +5,7 @@ import Button from '@/components/buttons/button/Button';
 import {
   cheerCampaignAtom,
   cheerTotalParticipationCountAtom,
+  cheerTotalParticipationUserCountAtom,
   userTotalParticipationCountAtom,
 } from '../../store/cheerAtom';
 import FirstCheerModal from './FirstCheerModal';
@@ -20,6 +21,9 @@ const CheerCampaignInfo = () => {
   );
   const userTotalParticipationCount = useAtomValue(
     userTotalParticipationCountAtom,
+  );
+  const cheerTotalParticipationUserCount = useAtomValue(
+    cheerTotalParticipationUserCountAtom,
   );
 
   // 첫 응원 모달 관리
@@ -64,14 +68,19 @@ const CheerCampaignInfo = () => {
           totalParticipationCount={totalParticipationCount}
           userTotalParticipationCount={userTotalParticipationCount}
         />
-        <Button
-          variant="primary"
-          size="large"
-          onClick={handleCheerButtonClick}
-          disabled={buttonState.disabled || isParticipating}
-        >
-          {buttonState.text}
-        </Button>
+        <div className="flex flex-col items-center gap-8">
+          <Button
+            variant="primary"
+            size="large"
+            onClick={handleCheerButtonClick}
+            disabled={buttonState.disabled || isParticipating}
+          >
+            {buttonState.text}
+          </Button>
+          <div className="text-12 font-500 text-basic-grey-600">
+            지금까지 {cheerTotalParticipationUserCount}명이 참여했어요.
+          </div>
+        </div>
       </section>
     </>
   );

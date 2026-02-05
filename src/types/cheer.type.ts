@@ -41,6 +41,7 @@ export const EventCheerCampaignsViewEntitySchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   cheerCampaignParticipationTotalCount: z.number(),
+  cheerCampaignParticipationTotalUserCount: z.number(),
   discountPolicies:
     EventCheerDiscountPoliciesInEventCheerCampaignsViewEntitySchema.array(),
   result:
