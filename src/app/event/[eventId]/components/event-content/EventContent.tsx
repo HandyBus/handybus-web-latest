@@ -11,11 +11,10 @@ interface Props {
 }
 
 const EventContent = ({ event }: Props) => {
-  const { data: shuttleRoutesPages } = useGetShuttleRoutesOfEventWithPagination(
-    {
+  const { data: shuttleRoutesPages, isLoading } =
+    useGetShuttleRoutesOfEventWithPagination({
       eventId: event.eventId,
-    },
-  );
+    });
   const shuttleRoutes = useMemo(
     () => shuttleRoutesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [],
     [shuttleRoutesPages],
@@ -32,9 +31,17 @@ const EventContent = ({ event }: Props) => {
 
   return (
     <>
-      <EventForm event={event} openShuttleRoutes={openShuttleRoutes} />
+      <EventForm
+        event={event}
+        openShuttleRoutes={openShuttleRoutes}
+        isLoading={isLoading}
+      />
       {event.eventMinRoutePrice !== null && (
-        <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
+        <ShuttleScheduleView
+          event={event}
+          shuttleRoutes={shuttleRoutes}
+          isLoading={isLoading}
+        />
       )}
     </>
   );
