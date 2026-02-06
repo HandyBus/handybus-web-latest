@@ -36,14 +36,15 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 interface Props {
   event: EventsViewEntity;
   openShuttleRoutes: ShuttleRoutesViewEntity[];
+  isLoading: boolean;
 }
 
-const EventForm = ({ event, openShuttleRoutes }: Props) => {
+const EventForm = ({ event, openShuttleRoutes, isLoading }: Props) => {
   const { phase, enabledStatus } = getPhaseAndEnabledStatus(event);
   const isDisabled = enabledStatus === 'disabled';
 
   const isShuttleRoutesLoading =
-    event.eventHasOpenRoute && openShuttleRoutes.length === 0;
+    isLoading && event.eventHasOpenRoute && openShuttleRoutes.length === 0;
 
   if (isShuttleRoutesLoading) {
     return (
