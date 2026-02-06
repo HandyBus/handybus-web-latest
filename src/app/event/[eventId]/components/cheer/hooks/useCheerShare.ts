@@ -15,7 +15,7 @@ const useCheerShare = () => {
     const currentUrl = window.location.href;
     return await share({
       title: event.eventName,
-      message: `${event.eventName} 응원하고 할인받기`,
+      message: `${event.eventName} 응원하고 할인받기!`.trimEnd(),
       url: currentUrl,
     });
   };

@@ -7,21 +7,38 @@ export const KEYWORDS =
 export const URL = 'https://www.handybus.co.kr';
 export const OG_IMAGE_URL = URL + '/images/og-image.png';
 
+// Open Graph 이미지 권장 크기: 1200x630 (1.91:1 비율)
+const OG_IMAGE_WIDTH = 1200;
+const OG_IMAGE_HEIGHT = 630;
+
+const convertToAbsoluteUrl = (imageUrl: string): string => {
+  // 이미 절대 URL인 경우 그대로 반환
+  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+    return imageUrl;
+  }
+  // 상대 경로인 경우 절대 경로로 변환
+  const baseUrl = imageUrl.startsWith('/') ? URL : URL + '/';
+  return baseUrl + imageUrl.replace(/^\//, '');
+};
+
 export const createMetadataWithOG = ({
   title,
   keywords,
   imageUrl,
   location,
+  url,
 }: {
   title: string;
   keywords?: string;
   imageUrl?: string;
   location?: string;
+  url?: string;
 }) => {
   const description = location
     ? `핸디버스를 통해 ${location}까지 내가 원하는 셔틀을 이용해보세요!`
     : DESCRIPTION;
-  const image = imageUrl || OG_IMAGE_URL;
+  const image = imageUrl ? convertToAbsoluteUrl(imageUrl) : OG_IMAGE_URL;
+  const ogUrl = url ? convertToAbsoluteUrl(url) : URL;
   return {
     title,
     description,
@@ -29,11 +46,15 @@ export const createMetadataWithOG = ({
     openGraph: {
       title,
       description,
+      type: 'website',
+      locale: 'ko_KR',
+      url: ogUrl,
+      siteName: TITLE,
       images: [
         {
           url: image,
-          width: 480,
-          height: 360,
+          width: OG_IMAGE_WIDTH,
+          height: OG_IMAGE_HEIGHT,
           alt: '콘서트, 공연, 행사 등 다양한 이동의 여정에서 핸디버스를 만나보세요!',
         },
       ],
