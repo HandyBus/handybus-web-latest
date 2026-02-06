@@ -41,7 +41,6 @@ const BottomBar = ({ eventName, phase, enabledStatus, onClick }: Props) => {
       url: window.location.href,
     });
   };
-
   const isDemandDisabled = phase === 'demand' && enabledStatus === 'disabled';
 
   return (
@@ -88,6 +87,10 @@ const BUTTON_TEXT = {
   reservation: { enabled: '예약 가능한 셔틀 보기', disabled: '예약 마감' },
   demand: {
     enabled: '수요조사 참여하기',
-    disabled: '인원 부족으로 열리지 않았어요',
+    disabled: '지금은 수요조사 기간이 아니예요',
+  },
+  standBy: {
+    enabled: '판매 대기 중',
+    disabled: '판매 대기 중',
   },
 };

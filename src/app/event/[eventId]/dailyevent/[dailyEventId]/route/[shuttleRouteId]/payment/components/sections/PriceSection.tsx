@@ -8,7 +8,8 @@ interface Props {
   finalPrice: number;
   totalCouponDiscountAmount: number;
   totalEarlybirdDiscountAmount: number;
-  // referralDiscountAmount: number;
+  totalCheerCampaignDiscountAmount: number;
+  referralDiscountAmount: number;
   passengerCount: number;
 }
 
@@ -24,7 +25,8 @@ const PriceSection = ({
   finalPrice,
   totalCouponDiscountAmount,
   totalEarlybirdDiscountAmount,
-  // referralDiscountAmount,
+  totalCheerCampaignDiscountAmount,
+  referralDiscountAmount,
   passengerCount,
 }: Props) => {
   return (
@@ -53,6 +55,14 @@ const PriceSection = ({
             </span>
           </li>
         )}
+        {totalCheerCampaignDiscountAmount > 0 && (
+          <li className="flex h-[22px] w-full items-center justify-between">
+            <span className="text-14 font-600">응원하기 할인</span>
+            <span className="text-14 font-600">
+              -{totalCheerCampaignDiscountAmount.toLocaleString()}원
+            </span>
+          </li>
+        )}
         {totalCouponDiscountAmount > 0 && (
           <li className="flex h-[22px] w-full items-center justify-between">
             <span className="text-14 font-600">쿠폰 할인</span>
@@ -61,14 +71,14 @@ const PriceSection = ({
             </span>
           </li>
         )}
-        {/* {referralDiscountAmount > 0 && (
+        {referralDiscountAmount > 0 && (
           <li className="flex h-[22px] w-full items-center justify-between">
-            <span className="text-14 font-600">초대 링크 할인</span>
+            <span className="text-14 font-600">전용 링크 할인</span>
             <span className="text-14 font-600">
               -{referralDiscountAmount.toLocaleString()}원
             </span>
           </li>
-        )} */}
+        )}
       </div>
       <div className="h-[1px] w-full bg-basic-grey-100" />
       <div className="flex h-[30px] w-full items-center justify-between">

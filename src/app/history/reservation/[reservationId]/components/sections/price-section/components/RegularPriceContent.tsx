@@ -12,6 +12,7 @@ const RegularPriceContent = ({ payment, passengerCount }: Props) => {
   const paymentAmount = payment.paymentAmount;
   const regularPrice = payment.principalAmount / passengerCount;
   const totalEarlybirdDiscountAmount = payment.earlybirdDiscountAmount;
+  const totalCheerCampaignDiscountAmount = payment.cheerDiscountAmount;
   const totalCouponDiscountAmount = payment.couponDiscountAmount;
   const hasRefundRequests =
     payment?.refundRequests && payment.refundRequests.length > 0;
@@ -60,6 +61,17 @@ const RegularPriceContent = ({ payment, passengerCount }: Props) => {
           </span>
         </li>
       )}
+      {totalCheerCampaignDiscountAmount > 0 && (
+        <li className="flex h-[22px] w-full items-center justify-between">
+          <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
+            <ArrowDownwardTipRightIcon />
+            응원하기 할인
+          </span>
+          <span className="text-14 font-400 text-basic-grey-500">
+            -{totalCheerCampaignDiscountAmount.toLocaleString()}원
+          </span>
+        </li>
+      )}
       {totalCouponDiscountAmount > 0 && (
         <li className="flex h-[22px] w-full items-center justify-between">
           <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
@@ -75,7 +87,7 @@ const RegularPriceContent = ({ payment, passengerCount }: Props) => {
         <li className="flex h-[22px] w-full items-center justify-between">
           <span className="flex items-center gap-4 text-14 font-400 text-basic-grey-500">
             <ArrowDownwardTipRightIcon />
-            초대 코드 할인
+            전용 링크 할인
           </span>
           <span className="text-14 font-400 text-basic-grey-500">
             -{referralDiscountAmount.toLocaleString()}원

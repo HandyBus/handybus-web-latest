@@ -20,7 +20,7 @@ export const getBoardingTime = (
       reservation.type === 'TO_DESTINATION' ||
       reservation.type === 'ROUND_TRIP'
     ) {
-      return dayjs(dailyEvent.date).tz('Asia/Seoul').startOf('day');
+      return dayjs(dailyEvent.dailyEventDate).tz('Asia/Seoul').startOf('day');
     } else {
       const fromDestinationDestinationHub =
         shuttleRoute.fromDestinationShuttleRouteHubs?.find(
@@ -68,11 +68,11 @@ export const calculateRefundFee = (
 
   // 핸디팟과 셔틀버스 취소 수수료 구분
   if (isHandyParty) {
-    // 1시간 이내 전액 환불
+    // 2시간 이내 전액 환불
     const nowTime = dayjs().tz('Asia/Seoul');
     const paymentTime = dayjs(reservation.paymentCreatedAt).tz('Asia/Seoul');
 
-    if (nowTime.diff(paymentTime, 'hours') <= 1) {
+    if (nowTime.diff(paymentTime, 'hours') <= 2) {
       return 0;
     }
 
@@ -88,7 +88,7 @@ export const calculateRefundFee = (
 
     let refundFee = 0;
 
-    if (dDay >= 5) {
+    if (dDay >= 6) {
       refundFee = 0;
     } else {
       refundFee = paymentAmount;
@@ -96,11 +96,11 @@ export const calculateRefundFee = (
 
     return Math.floor(refundFee);
   } else {
-    // 1시간 이내 전액 환불
+    // 2시간 이내 전액 환불
     const nowTime = dayjs().tz('Asia/Seoul');
     const paymentTime = dayjs(reservation.paymentCreatedAt).tz('Asia/Seoul');
 
-    if (nowTime.diff(paymentTime, 'hours') <= 1) {
+    if (nowTime.diff(paymentTime, 'hours') <= 2) {
       return 0;
     }
 
@@ -116,11 +116,11 @@ export const calculateRefundFee = (
 
     let refundFee = 0;
 
-    if (dDay >= 12) {
+    if (dDay >= 8) {
       refundFee = 0;
-    } else if (dDay >= 9) {
-      refundFee = paymentAmount * 0.2;
-    } else if (dDay >= 5) {
+    } else if (dDay >= 7) {
+      refundFee = paymentAmount * 0.25;
+    } else if (dDay >= 6) {
       refundFee = paymentAmount * 0.5;
     } else {
       refundFee = paymentAmount;
@@ -134,11 +134,11 @@ export const getIsRefundable = (reservation: ReservationsViewEntity | null) => {
   if (!reservation) {
     return false;
   }
-  // 1시간 이내 전액 환불
+  // 2시간 이내 전액 환불
   const nowTime = dayjs().tz('Asia/Seoul');
   const paymentTime = dayjs(reservation.paymentCreatedAt).tz('Asia/Seoul');
 
-  if (nowTime.diff(paymentTime, 'hours') <= 1) {
+  if (nowTime.diff(paymentTime, 'hours') <= 2) {
     return true;
   }
 

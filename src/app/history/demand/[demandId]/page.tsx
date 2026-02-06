@@ -32,7 +32,10 @@ const Page = ({ params }: Props) => {
     if (demand.status === 'CANCELLED') {
       return redirectToDemandList();
     }
-    if (dailyEvent.status === 'ENDED' || dailyEvent.status === 'INACTIVE') {
+    if (
+      dailyEvent.dailyEventStatus === 'ENDED' ||
+      dailyEvent.dailyEventStatus === 'INACTIVE'
+    ) {
       return redirectToDemandList();
     }
   }

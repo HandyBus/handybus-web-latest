@@ -78,7 +78,9 @@ const Page = ({ params }: Props) => {
       </p>
       <p className="text-16 font-500">
         행사 날짜:{' '}
-        {dayjs(dailyEvent?.date).tz('Asia/Seoul').format('YYYY-MM-DD')}
+        {dayjs(dailyEvent?.dailyEventDate)
+          .tz('Asia/Seoul')
+          .format('YYYY-MM-DD')}
       </p>
       <p className="text-16 font-500">
         노선명: {reservation.shuttleRoute.name}

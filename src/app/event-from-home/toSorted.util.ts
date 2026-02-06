@@ -13,8 +13,8 @@ export const toSorted = (events: EventsViewEntity[], sort: EventSortType) => {
     case 'DATE_ASC':
       newData = events.toSorted(
         (a, b) =>
-          (dayjs(a.dailyEvents[0].date).tz().valueOf() || 0) -
-          (dayjs(b.dailyEvents[0].date).tz().valueOf() || 0),
+          (dayjs(a.dailyEvents[0].dailyEventDate).tz().valueOf() || 0) -
+          (dayjs(b.dailyEvents[0].dailyEventDate).tz().valueOf() || 0),
       );
       break;
   }

@@ -11,7 +11,7 @@ const GuideContent = ({ currentTab }: Props) => {
       : HANDYPARTY_GUIDE_STEPS;
 
   return (
-    <section className="flex flex-col gap-24 pb-[62px] pt-40">
+    <section className="mt-40 flex flex-col gap-24 pb-[62px] pt-40">
       {stepsList.map((item, index) => (
         <GuideItem
           key={item.order}
@@ -118,7 +118,7 @@ const HANDYBUS_GUIDE_STEPS = [
     category: '최종 안내',
     title: '운행 확정 알림',
     description:
-      '행사 11일 전, 최종 운행 여부를 알려드려요. 최종 확정된 셔틀은 100% 운행해요.',
+      '행사 7일 전, 최종 운행 여부를 알려드려요. 최종 확정된 셔틀은 100% 운행해요.',
   },
 ];
 
@@ -142,13 +142,13 @@ const HANDYPARTY_GUIDE_STEPS = [
     category: '결제하기',
     title: '예약하기',
     description:
-      '핸디팟을 선택 후, 주소지를 입력하세요. 핸디팟 예약은 행사 5일 전까지 가능해요.',
+      '핸디팟을 선택 후, 주소지를 입력하세요. 핸디팟 예약은 행사 6일 전까지 가능해요.',
   },
   {
     order: 4,
     category: '최종 안내',
     title: '운행 확정 알림',
     description:
-      '행사 11일 전, 최종 운행 여부를 알려드려요. 최종 확정된 셔틀은 100% 운행해요.',
+      '행사 5일 전, 최종 운행 여부를 알려드려요. 최종 확정된 셔틀은 100% 운행해요.',
   },
 ];

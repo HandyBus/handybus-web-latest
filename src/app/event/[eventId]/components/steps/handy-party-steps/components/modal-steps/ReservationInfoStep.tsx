@@ -19,6 +19,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useReservationTrackingGlobal } from '@/hooks/analytics/useReservationTrackingGlobal';
 import { useGetUser } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
+import { useAtomValue } from 'jotai';
+import { cheerCampaignFinalDiscountRateAtom } from '@/app/event/[eventId]/store/cheerAtom';
 
 const MAX_PASSENGER_COUNT = 5;
 
@@ -39,6 +41,10 @@ const ReservationInfoStep = ({
   closeBottomSheet,
   closeModal,
 }: Props) => {
+  const cheerCampaignFinalDiscountRate = useAtomValue(
+    cheerCampaignFinalDiscountRateAtom,
+  );
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const { getValues, setValue, control } =
@@ -60,9 +66,9 @@ const ReservationInfoStep = ({
     handyPartyTripType,
     userAddress,
     regularPrice,
-    earlybirdPrice,
+    discountedPrice,
     discountRate,
-    isEarlybird,
+    isDiscounted,
   } = useMemo(() => {
     const [handyPartyTripType, addressSearchResult] = getValues([
       'handyPartyTripType',
@@ -107,8 +113,27 @@ const ReservationInfoStep = ({
         ? targetRoute.earlybirdPriceToDestination
         : targetRoute.earlybirdPriceFromDestination) ?? 0;
 
+    const isDiscounted = cheerCampaignFinalDiscountRate !== null || isEarlybird;
+    const calculateDiscountedPrice = () => {
+      if (isEarlybird && earlybirdPrice) {
+        if (cheerCampaignFinalDiscountRate !== null) {
+          return Math.floor(
+            earlybirdPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+          );
+        }
+        return earlybirdPrice;
+      } else {
+        if (cheerCampaignFinalDiscountRate !== null) {
+          return Math.floor(
+            regularPrice * (1 - cheerCampaignFinalDiscountRate / 100),
+          );
+        }
+        return regularPrice;
+      }
+    };
+    const discountedPrice = calculateDiscountedPrice();
     const discountRate = Math.floor(
-      ((regularPrice - earlybirdPrice) / regularPrice) * 100,
+      ((regularPrice - discountedPrice) / regularPrice) * 100,
     );
 
     return {
@@ -117,8 +142,10 @@ const ReservationInfoStep = ({
       userAddress: addressSearchResult,
       regularPrice,
       earlybirdPrice,
+      discountedPrice,
       discountRate,
       isEarlybird,
+      isDiscounted,
     };
   }, [handyPartyRoutes, getValues]);
 
@@ -245,21 +272,21 @@ const ReservationInfoStep = ({
               {regularPrice?.toLocaleString()}원 x {passengerCount}
             </span>
             <span
-              className={`font-600 ${isEarlybird ? 'text-14 text-basic-grey-300 line-through' : 'text-16'}`}
+              className={`font-600 ${isDiscounted ? 'text-14 text-basic-grey-300 line-through' : 'text-16'}`}
             >
               {(regularPrice * passengerCount).toLocaleString()} 원
             </span>
           </p>
-          {isEarlybird && (
+          {isDiscounted && (
             <p className="flex h-[26px] items-center justify-end gap-4">
               <span className="text-10 font-600 text-basic-grey-700">
-                얼리버드 할인
+                최대 할인가
               </span>
               <span className="text-16 font-600 text-basic-red-400">
                 {discountRate}%
               </span>
               <span className="text-16 font-600">
-                {(earlybirdPrice * passengerCount).toLocaleString()}원
+                {(discountedPrice * passengerCount).toLocaleString()}원
               </span>
             </p>
           )}

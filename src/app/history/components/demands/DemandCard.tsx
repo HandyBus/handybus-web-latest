@@ -29,7 +29,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     showTime: true,
     showWeekday: true,
   });
-  const formattedEventDate = dateString(dailyEvent.date, {
+  const formattedEventDate = dateString(dailyEvent.dailyEventDate, {
     showYear: true,
     showDate: true,
     showTime: false,
@@ -39,7 +39,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
   const demandStatusText =
     demand.status === 'CANCELLED'
       ? '수요조사 취소'
-      : dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED'
+      : dailyEvent.dailyEventIsDemandOpen
         ? '수요조사 완료'
         : '수요조사 마감';
 
@@ -57,27 +57,26 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
     demand.hasShuttleRouteInRelatedRegion && !demand.hasShuttleRoute;
 
   const showDemandCount =
-    dailyEvent.status === 'OPEN' &&
+    dailyEvent.dailyEventIsDemandOpen &&
     !isDemandFulfilled &&
     !isDemandCancelled &&
     !isShuttleRouteCreatedInDemandHub &&
     !isShuttleRouteCreatedOnlyInRelatedRegion;
   const showShuttleRouteCreatedInDemandHubCTA =
-    (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
+    dailyEvent.dailyEventStatus === 'OPEN' &&
     !isDemandFulfilled &&
     !isDemandCancelled &&
     isShuttleRouteCreatedInDemandHub &&
     !isShuttleRouteCreatedOnlyInRelatedRegion;
   const showShuttleRouteCreatedOnlyInRelatedRegionCTA =
-    (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
+    dailyEvent.dailyEventStatus === 'OPEN' &&
     !isDemandFulfilled &&
     !isDemandCancelled &&
     !isShuttleRouteCreatedInDemandHub &&
     isShuttleRouteCreatedOnlyInRelatedRegion;
 
   const ableToRedirectToDemandDetail =
-    (dailyEvent.status === 'OPEN' || dailyEvent.status === 'CLOSED') &&
-    !isDemandCancelled;
+    dailyEvent.dailyEventStatus === 'OPEN' && !isDemandCancelled;
 
   const router = useRouter();
   const redirectToDemandDetail = handleClickAndStopPropagation(() => {
@@ -104,11 +103,11 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
                   'OPEN' &&
                   'text-brand-primary-400',
                 demand.status === 'SUBMITTED' &&
-                  dailyEvent.status === 'CLOSED' &&
+                  !dailyEvent.dailyEventIsDemandOpen &&
                   'text-basic-black',
                 demand.status === 'SUBMITTED' &&
-                  (dailyEvent.status === 'ENDED' ||
-                    dailyEvent.status === 'INACTIVE') &&
+                  (dailyEvent.dailyEventStatus === 'ENDED' ||
+                    dailyEvent.dailyEventStatus === 'INACTIVE') &&
                   'text-basic-grey-500',
                 demand.status === 'CANCELLED' && 'text-basic-red-400',
               )}

@@ -6,7 +6,7 @@ import { compareToNow } from '@/utils/dateString.util';
 import { ReservationsViewEntity } from '@/types/reservation.type';
 import { checkIsHandyParty } from '@/utils/handyParty.util';
 
-export type EventPhase = 'demand' | 'reservation';
+export type EventPhase = 'standBy' | 'demand' | 'reservation';
 export type EventEnabledStatus = 'enabled' | 'disabled';
 
 export const getPhaseAndEnabledStatus = (
@@ -16,13 +16,18 @@ export const getPhaseAndEnabledStatus = (
   enabledStatus: EventEnabledStatus;
 } => {
   if (!event) {
-    return { phase: 'demand', enabledStatus: 'disabled' };
+    return { phase: 'standBy', enabledStatus: 'disabled' };
   }
-  const isDemandOngoing = event.eventStatus === 'OPEN';
+  const isStandBy = event.eventStatus === 'STAND_BY';
+  const isDemandOngoing =
+    event.eventStatus === 'OPEN' &&
+    event.dailyEvents.some((dailyEvent) => dailyEvent.dailyEventIsDemandOpen);
   const isReservationOpen = event.eventMinRoutePrice !== null;
   const isReservationOngoing = event.eventHasOpenRoute;
 
   switch (true) {
+    case isStandBy:
+      return { phase: 'standBy', enabledStatus: 'disabled' };
     case isDemandOngoing && !isReservationOpen:
       return { phase: 'demand', enabledStatus: 'enabled' };
     case !isDemandOngoing && !isReservationOpen:
@@ -30,8 +35,9 @@ export const getPhaseAndEnabledStatus = (
     case isReservationOpen && isReservationOngoing:
       return { phase: 'reservation', enabledStatus: 'enabled' };
     case isReservationOpen && !isReservationOngoing:
-    default:
       return { phase: 'reservation', enabledStatus: 'disabled' };
+    default:
+      return { phase: 'standBy', enabledStatus: 'disabled' };
   }
 };
 
@@ -189,6 +195,26 @@ const calculateTotalEarlybirdDiscountAmount = ({
   return (price.regularPrice - price.earlybirdPrice) * passengerCount;
 };
 
+const calculateTotalCheerCampaignDiscountAmount = ({
+  price,
+  passengerCount,
+  cheerCampaignFinalDiscountRate,
+}: {
+  price: number;
+  passengerCount: number;
+  cheerCampaignFinalDiscountRate: number | null;
+}) => {
+  if (!cheerCampaignFinalDiscountRate) {
+    return 0;
+  }
+  const totalPrice = price * passengerCount;
+
+  const totalCheerCampaignDiscount = Math.floor(
+    totalPrice * (cheerCampaignFinalDiscountRate / 100),
+  );
+  return totalCheerCampaignDiscount;
+};
+
 const calculateTotalCouponDiscountAmount = ({
   price,
   passengerCount,
@@ -226,13 +252,15 @@ export const calculateTotalPrice = ({
   tripType,
   passengerCount,
   coupon,
-  // hasReferralCode,
+  cheerCampaignFinalDiscountRate,
+  hasReferralCode,
 }: {
   priceOfTripType: PriceOfTripType;
   tripType: TripType;
   passengerCount: number;
   coupon: IssuedCouponsViewEntity | null;
-  // hasReferralCode: boolean;
+  cheerCampaignFinalDiscountRate: number | null;
+  hasReferralCode: boolean;
 }) => {
   const price = priceOfTripType[tripType];
 
@@ -242,26 +270,41 @@ export const calculateTotalPrice = ({
 
   const totalPrice = price.regularPrice * passengerCount;
 
+  // TODO: 더 명시적으로 리팩토링
   const totalEarlybirdDiscountAmount = calculateTotalEarlybirdDiscountAmount({
     priceOfTripType,
     tripType,
     passengerCount,
   });
+  const totalCheerCampaignDiscountAmount =
+    calculateTotalCheerCampaignDiscountAmount({
+      price: price.regularPrice - totalEarlybirdDiscountAmount / passengerCount,
+      passengerCount,
+      cheerCampaignFinalDiscountRate,
+    });
   const totalCouponDiscountAmount = coupon
     ? calculateTotalCouponDiscountAmount({
         price:
-          price.regularPrice - totalEarlybirdDiscountAmount / passengerCount,
+          (price.regularPrice -
+            totalEarlybirdDiscountAmount -
+            totalCheerCampaignDiscountAmount) /
+          passengerCount,
         passengerCount,
         coupon,
       })
     : 0;
-  // const REFERRAL_DISCOUNT_AMOUNT = 1000;
-  // const referralDiscountAmount = hasReferralCode ? REFERRAL_DISCOUNT_AMOUNT : 0;
+
+  // TODO: 중요!!!! 추후 리퍼럴을 다시 이용할 때에는 여기 금액을 실제 api 상의 리퍼럴 할인 금액으로 반영해두어야함
+  const REFERRAL_DISCOUNT_AMOUNT = 1000;
+  const referralDiscountAmount = hasReferralCode ? REFERRAL_DISCOUNT_AMOUNT : 0;
 
   const finalPrice = Math.max(
     Math.floor(
-      totalPrice - totalEarlybirdDiscountAmount - totalCouponDiscountAmount,
-      // referralDiscountAmount,
+      totalPrice -
+        totalEarlybirdDiscountAmount -
+        totalCheerCampaignDiscountAmount -
+        totalCouponDiscountAmount -
+        referralDiscountAmount,
     ),
     0,
   );
@@ -270,7 +313,8 @@ export const calculateTotalPrice = ({
     finalPrice,
     totalCouponDiscountAmount,
     totalEarlybirdDiscountAmount,
-    // referralDiscountAmount,
+    totalCheerCampaignDiscountAmount,
+    referralDiscountAmount,
   };
 };
 

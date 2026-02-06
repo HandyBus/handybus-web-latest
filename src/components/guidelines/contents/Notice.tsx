@@ -12,9 +12,9 @@ const Notice = () => {
           <article>
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
             <ul className={LI_TEXT_STYLE}>
-              <li>셔틀버스 운행 여부는 탑승 11일 전까지 확정됩니다.</li>
+              <li>셔틀버스 운행 여부는 탑승 7일 전까지 확정됩니다.</li>
               <li>
-                인원 미달로 예약이 취소되는 경우, 탑승 11일 전 개별 안내드리며
+                인원 미달로 예약이 취소되는 경우, 탑승 7일 전 개별 안내드리며
                 수수료 없이 전액 환불됩니다.
               </li>
               <li>셔틀버스 예약은 탑승 5일 전까지 가능합니다.</li>
@@ -124,14 +124,14 @@ const Notice = () => {
           <article>
             <h6 className={SUB_TITLE_STYLE}>예약/결제</h6>
             <ul className={LI_TEXT_STYLE}>
-              <li>핸디팟 예약은 탑승 5일 전까지 가능합니다.</li>
+              <li>핸디팟 예약은 탑승 6일 전까지 가능합니다.</li>
               <li>
                 최소 인원 미달로 인해 예약이 취소되거나, 다른 지역을 경유하는
                 노선으로 운행될 수 있으며, 소요시간이 늘어날 수 있습니다. (경유
                 및 시간 변경으로 인한 취소/환불 불가)
               </li>
               <li>
-                인원 미달로 예약이 취소되는 경우, 탑승 4일 전 개별 안내드리며
+                인원 미달로 예약이 취소되는 경우, 탑승 5일 전 개별 안내드리며
                 수수료 없이 전액 환불됩니다.
               </li>
             </ul>
@@ -316,7 +316,7 @@ const ShuttleBusRefundTable = () => {
         <tbody className="bg-basic-white font-500 text-basic-grey-600">
           <tr className="text-basic-red-400">
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              예약 1시간 이내
+              예약 2시간 이내
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
               수수료 없음
@@ -324,7 +324,7 @@ const ShuttleBusRefundTable = () => {
           </tr>
           <tr>
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 12일 전 23:59
+              ~ 탑승 8일 전 23:59
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
               수수료 없음
@@ -332,15 +332,15 @@ const ShuttleBusRefundTable = () => {
           </tr>
           <tr>
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 9일 전 23:59
+              ~ 탑승 7일 전 23:59
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              결제 금액의 20%
+              결제 금액의 25%
             </td>
           </tr>
           <tr>
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 5일 전 23:59
+              ~ 탑승 6일 전 23:59
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
               결제 금액의 50%
@@ -348,7 +348,7 @@ const ShuttleBusRefundTable = () => {
           </tr>
           <tr>
             <td className="border-r border-basic-grey-300 px-[10px] py-[6px]">
-              탑승 4일 전 00:00 ~
+              탑승 5일 전 00:00 ~
             </td>
             <td className="px-[10px] py-[6px]">수수료 100% / 전액 환불 불가</td>
           </tr>
@@ -375,7 +375,7 @@ const HandyPartyRefundTable = () => {
         <tbody className="bg-basic-white font-500 text-basic-grey-600">
           <tr className="text-basic-red-400">
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              예약 1시간 이내
+              예약 2시간 이내
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
               수수료 없음
@@ -383,7 +383,7 @@ const HandyPartyRefundTable = () => {
           </tr>
           <tr>
             <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 5일 전 23:59
+              ~ 탑승 6일 전 23:59
             </td>
             <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
               수수료 없음
@@ -391,7 +391,7 @@ const HandyPartyRefundTable = () => {
           </tr>
           <tr>
             <td className="border-r border-basic-grey-300 px-[10px] py-[6px]">
-              탑승 4일 전 00:00 ~
+              탑승 5일 전 00:00 ~
             </td>
             <td className="px-[10px] py-[6px]">수수료 100% / 전액 환불 불가</td>
           </tr>

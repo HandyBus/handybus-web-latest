@@ -32,7 +32,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       return;
     }
 
-    const isDemandOpen = dailyEvent.status === 'OPEN';
+    const isDemandOpen = dailyEvent.dailyEventIsDemandOpen;
     const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
       dailyEvent.dailyEventId,
     );
@@ -72,7 +72,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       return [];
     }
     const dailyEvents = event.dailyEvents.sort((a, b) =>
-      dayjs(a.date).diff(dayjs(b.date)),
+      dayjs(a.dailyEventDate).diff(dayjs(b.dailyEventDate)),
     );
     return dailyEvents.map((dailyEvent) => {
       const demandStat = demandStats?.find(
@@ -102,7 +102,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
       <section className="flex flex-col gap-8">
         {dailyEventWithDemandStats.map((dailyEventWithDemandStat) => {
           const isDemandPhase = phase === 'demand';
-          const isDemandOpen = dailyEventWithDemandStat.status === 'OPEN';
+          const isDemandOpen = dailyEventWithDemandStat.dailyEventIsDemandOpen;
           const isReservationOpen = Object.keys(dailyEventIdsWithHubs).includes(
             dailyEventWithDemandStat.dailyEventId,
           );
@@ -121,7 +121,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
                 className="group flex w-full items-center justify-between py-12 text-left"
               >
                 <span className="text-16 font-600 text-basic-grey-700 group-disabled:text-basic-grey-300">
-                  {formatFullDate(dailyEventWithDemandStat.date)}
+                  {formatFullDate(dailyEventWithDemandStat.dailyEventDate)}
                 </span>
                 {isDailyEventEnded ? (
                   <DailyEventStatusChip status="예약마감" />
@@ -151,8 +151,8 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
 
 export default CommonDateStep;
 
-const formatFullDate = (date: string) => {
-  const tokens = dateString(date, {
+const formatFullDate = (dailyEventDate: string) => {
+  const tokens = dateString(dailyEventDate, {
     showYear: true,
     showDate: true,
     showWeekday: true,

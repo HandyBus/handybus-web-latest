@@ -7,51 +7,53 @@ import EventOverview from './components/EventOverview';
 import EventModal from './components/EventModal';
 import KakaoMapScript from '@/components/kakao-map/KakaoMapScript';
 import { checkIsReservationClosingSoon } from '../utils/checkIsReservationClosingSoon.util';
-// import ReferralDiscountNotice from './components/ReferralDiscountNotice';
+import EventProvider from './components/EventProvider';
+import EventCampaign from './components/cheer/EventCampaign';
+import ReferralDiscountNotice from './components/ReferralDiscountNotice';
 
-// const SEARCH_PARAMS_KEYS = {
-//   referralCode: 'referral-code',
-// } as const;
+const SEARCH_PARAMS_KEYS = {
+  referralCode: 'referral-code',
+} as const;
 
 interface Props {
   params: {
     eventId: string;
   };
-  // searchParams: {
-  //   [SEARCH_PARAMS_KEYS.referralCode]?: string;
-  // };
+  searchParams: {
+    [SEARCH_PARAMS_KEYS.referralCode]?: string;
+  };
 }
 
-const Page = async ({
-  params,
-  // searchParams
-}: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
   const event = await getEvent(params.eventId);
 
   const isClosingSoon = checkIsReservationClosingSoon({ event });
 
-  // const hasReferralCode = Boolean(
-  //   searchParams[SEARCH_PARAMS_KEYS.referralCode],
-  // );
+  const hasReferralCode = Boolean(
+    searchParams[SEARCH_PARAMS_KEYS.referralCode],
+  );
 
   return (
     <>
-      <main>
-        {/* {hasReferralCode && <ReferralDiscountNotice />} */}
-        <EventImage
-          eventImageUrl={event.eventImageUrl}
-          eventName={event.eventName}
-        />
-        <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
-        <EventContent event={event} />
-        <EventOverview
-          event={event}
-          eventDetailImageUrl={event.eventDetailImageUrl}
-        />
-        <EventGuidelines />
-        <EventModal eventId={params.eventId} />
-        <div className="h-100 bg-basic-grey-50" />
-      </main>
+      <EventProvider event={event}>
+        <main>
+          {hasReferralCode && <ReferralDiscountNotice />}
+          <EventImage
+            eventImageUrl={event.eventImageUrl}
+            eventName={event.eventName}
+          />
+          <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
+          <EventCampaign />
+          <EventContent event={event} />
+          <EventOverview
+            event={event}
+            eventDetailImageUrl={event.eventDetailImageUrl}
+          />
+          <EventGuidelines />
+          <EventModal eventId={params.eventId} />
+          <div className="h-100 bg-basic-grey-50" />
+        </main>
+      </EventProvider>
       <KakaoMapScript libraries={['services']} />
     </>
   );

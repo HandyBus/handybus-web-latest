@@ -12,11 +12,13 @@ export const TIME_NOT_DETERMINED_EVENT_ID = '';
 interface ShuttleScheduleViewProps {
   event: EventsViewEntity;
   shuttleRoutes: ShuttleRoutesViewEntity[];
+  isLoading: boolean;
 }
 
 const ShuttleScheduleView = ({
   event,
   shuttleRoutes,
+  isLoading,
 }: ShuttleScheduleViewProps) => {
   const { eventLocationName } = event;
 
@@ -31,7 +33,7 @@ const ShuttleScheduleView = ({
     getEarliestDestinationTime(shuttleRoutes);
 
   const isShuttleScheduleReady =
-    earliestDestinationArrival && earliestDestinationDeparture;
+    !isLoading && earliestDestinationArrival && earliestDestinationDeparture;
 
   if (!isShuttleScheduleReady) {
     return <ShuttleScheduleSkeleton />;

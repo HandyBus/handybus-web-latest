@@ -1,10 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { EventsViewEntity } from '@/types/event.type';
 import EventForm from '../event-form/EventForm';
-import { Provider as JotaiProvider } from 'jotai';
 import { useGetShuttleRoutesOfEventWithPagination } from '@/services/shuttleRoute.service';
-import { useMemo } from 'react';
 import ShuttleScheduleView from './components/ShuttleScheduleView';
 
 interface Props {
@@ -12,28 +11,39 @@ interface Props {
 }
 
 const EventContent = ({ event }: Props) => {
-  const { data: shuttleRoutesPages } = useGetShuttleRoutesOfEventWithPagination(
-    {
+  const { data: shuttleRoutesPages, isLoading } =
+    useGetShuttleRoutesOfEventWithPagination({
       eventId: event.eventId,
-    },
-  );
+    });
   const shuttleRoutes = useMemo(
     () => shuttleRoutesPages?.pages.flatMap((page) => page.shuttleRoutes) ?? [],
     [shuttleRoutesPages],
   );
 
-  const shuttleRoutesOpen = useMemo(
+  const openShuttleRoutes = useMemo(
     () => shuttleRoutes.filter((route) => route.status === 'OPEN'),
     [shuttleRoutes],
   );
 
+  if (event.eventStatus === 'STAND_BY') {
+    return null;
+  }
+
   return (
-    <JotaiProvider>
-      <EventForm event={event} shuttleRoutesOpen={shuttleRoutesOpen} />
+    <>
+      <EventForm
+        event={event}
+        openShuttleRoutes={openShuttleRoutes}
+        isLoading={isLoading}
+      />
       {event.eventMinRoutePrice !== null && (
-        <ShuttleScheduleView event={event} shuttleRoutes={shuttleRoutes} />
+        <ShuttleScheduleView
+          event={event}
+          shuttleRoutes={shuttleRoutes}
+          isLoading={isLoading}
+        />
       )}
-    </JotaiProvider>
+    </>
   );
 };
 

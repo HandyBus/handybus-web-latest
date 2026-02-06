@@ -12,7 +12,8 @@ import Content from './components/Content';
 import { PAYMENT_PARAMS_KEYS } from './payment.const';
 import { useState } from 'react';
 import TossPaymentsScript from '@/components/script/TossPaymentsScript';
-// import useCheckReferral from './hooks/useCheckReferral';
+import useCheckReferral from './hooks/useCheckReferral';
+import { useGetEventCheerCampaignByEventId } from '@/services/cheer.service';
 
 interface Props {
   params: {
@@ -67,15 +68,17 @@ const Page = ({ params }: Props) => {
   const { data: coupons, isLoading: isCouponsLoading } = useGetUserCoupons({
     issuedCouponStatus: 'BEFORE_USE',
   });
+  const { data: cheerCampaign, isLoading: isCheerCampaignLoading } =
+    useGetEventCheerCampaignByEventId(eventId);
 
   const [isTossPaymentsScriptLoaded, setIsTossPaymentsScriptLoaded] =
     useState(false);
 
-  // useCheckReferral({
-  //   eventId,
-  //   shuttleRouteId,
-  //   referralCode,
-  // });
+  useCheckReferral({
+    eventId,
+    shuttleRouteId,
+    referralCode,
+  });
 
   const isLoading =
     !tripType ||
@@ -85,6 +88,7 @@ const Page = ({ params }: Props) => {
     isShuttleRouteLoading ||
     isUserLoading ||
     isCouponsLoading ||
+    isCheerCampaignLoading ||
     !isTossPaymentsScriptLoaded;
 
   return (
@@ -95,6 +99,7 @@ const Page = ({ params }: Props) => {
           shuttleRoute &&
           user &&
           coupons &&
+          cheerCampaign !== undefined &&
           isTossPaymentsScriptLoaded && (
             <Content
               event={event}
@@ -111,6 +116,7 @@ const Page = ({ params }: Props) => {
               desiredHubLongitude={desiredHubLongitude ?? undefined}
               reservationStartTime={reservationStartTime ?? undefined}
               referralCode={referralCode}
+              cheerCampaign={cheerCampaign}
             />
           )}
       </DeferredSuspense>

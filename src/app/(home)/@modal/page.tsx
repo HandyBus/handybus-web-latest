@@ -5,7 +5,6 @@ import argentModalImage from './images/argent-modal.png';
 import ArgentModal from './components/ArgentModal';
 // import { useRouter } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
-// import OneDayModal from './components/OneDayModal';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import {
   getAppLaunchEventCouponDownloadModalSeen,
@@ -16,7 +15,6 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
-// import HandybusCareInfoImage from './images/handybus-care-info.png';
 
 // import AppLaunchEventImage from './images/app-launch-event.png';
 
@@ -123,12 +121,6 @@ const Page = () => {
           variant="transparent"
           closeForTodayText="오늘은 그만 보기"
           onClose={handleModalClose}
-        /> */}
-        {/* <OneDayModal
-          image={PaymentErrorImage}
-          handleClick={() => {}}
-          variant="transparent"
-          closeForTodayText="오늘은 그만 보기"
         /> */}
       </ModalPortal>
       <AppLaunchEventCouponDownloadModal
