@@ -41,7 +41,7 @@ export const checkIsPossibleHandyPartyArea = (
 
 // 주소를 핸디팟 권역으로 변환
 export const getHandyPartyArea = (address: string) => {
-  const [itemSido, itemGungu, itemDong] = address.split(' ');
+  const [itemSido, itemGungu, ...restAddress] = address.split(' ');
 
   // HANDY_PARTY_AREA_TO_ADDRESS에서 sido가 동일하고 gungu가 배열에 포함되는 entry 찾기
   const matchingArea = Object.entries(HANDY_PARTY_AREA_TO_ADDRESS).find(
@@ -51,7 +51,7 @@ export const getHandyPartyArea = (address: string) => {
         (gungu) => itemGungu === gungu,
       );
       const isDongMatch = addressInfo.dong
-        ? addressInfo.dong.some((dong) => itemDong === dong)
+        ? addressInfo.dong.some((dong) => restAddress.includes(dong))
         : true;
 
       return isSidoMatch && isGunguMatch && isDongMatch;
