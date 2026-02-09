@@ -416,6 +416,13 @@ const MediumCard = ({
           className={imageClassName}
           onLoad={shouldFadeIn ? handleImageLoad : undefined}
         />
+        {showEventCampaignOngoingBadge && (
+          <div
+            className={`absolute bottom-[-0.3px] left-[-0.3px] right-[-0.3px] flex h-[38px] items-center justify-center whitespace-nowrap break-keep rounded-b-[7px] bg-basic-blue-100 text-12 font-600 text-basic-blue-400`}
+          >
+            응원하고 할인 받기 🎉
+          </div>
+        )}
       </div>
       <div className="py-12 pl-4 pr-12">
         <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black">
@@ -440,13 +447,6 @@ const MediumCard = ({
           <Badge className={`mt-4 ${BOOKING_CLOSING_SOON_BADGE_CLASS_NAME}`}>
             마감임박
           </Badge>
-        )}
-        {showEventCampaignOngoingBadge && (
-          <div
-            className={`absolute bottom-[-0.3px] left-[-0.3px] right-[-0.3px] flex h-[38px] items-center justify-center whitespace-nowrap break-keep rounded-b-[7px] bg-basic-blue-100 text-12 font-600 text-basic-blue-400`}
-          >
-            응원하고 할인 받기 🎉
-          </div>
         )}
       </div>
     </Link>
