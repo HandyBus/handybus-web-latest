@@ -20,6 +20,7 @@ import { useState } from 'react';
 import MarketingConsentModal from './components/MarketingConsentModal';
 import useAppShare from '@/hooks/webview/useAppShare';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import dayjs from 'dayjs';
 
 const APP_LAUNCH_EVENT_COUPON_CODES = [
   'APP_LAUNCH_EVENT_1',
@@ -57,6 +58,11 @@ const Page = () => {
     if (!isLoggedIn) {
       const redirectUrl = createLoginRedirectPath(`/app-launch-event`);
       router.replace(redirectUrl);
+      return;
+    }
+
+    if (dayjs().tz('Asia/Seoul').isAfter(dayjs('2026-03-31'), 'day')) {
+      toast.error('이벤트 기간이 지났어요.');
       return;
     }
 
@@ -119,7 +125,7 @@ const Page = () => {
         <Image src={FirstImage} alt="핸디버스 앱 출시 이벤트" />
         <Image src={SecondImage} alt="핸디버스 앱 출시 이벤트" />
         <ul className="space-y-2 mx-16 list-outside list-disc border-t border-basic-grey-200 pb-32 pl-12 pt-24 text-10 font-400 text-basic-grey-400">
-          <li>행사기간 : 2025년 11월 10일 ~ 2025년 12월 31일</li>
+          <li>행사기간 : 2025년 11월 10일 ~ 2026년 3월 31일</li>
           <li>마케팅 수신 동의 사용자에 한하여 제공됩니다.</li>
           <li>
             앱 다운로드 및 마케팅 수신 동의 후 하단의 다운받기 버튼을 누르면
