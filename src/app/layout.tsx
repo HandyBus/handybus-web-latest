@@ -122,6 +122,41 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
+        {isProduction && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src="https://cdn.amplitude.com/script/9cbe7057622300e485434d044765ce75.js"
+            />
+            <Script
+              id="amplitude-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
+                  window.amplitude.init('9cbe7057622300e485434d044765ce75', {
+                    "fetchRemoteConfig": true,
+                    "autocapture": {
+                      "attribution": true,
+                      "fileDownloads": true,
+                      "formInteractions": true,
+                      "pageViews": true,
+                      "sessions": true,
+                      "elementInteractions": true,
+                      "networkTracking": true,
+                      "webVitals": true,
+                      "frustrationInteractions": {
+                        "errorClicks": true,
+                        "deadClicks": true,
+                        "rageClicks": true
+                      }
+                    }
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className="bg-basic-white">
         <Provider>
