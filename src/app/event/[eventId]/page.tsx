@@ -10,6 +10,7 @@ import { checkIsReservationClosingSoon } from '../utils/checkIsReservationClosin
 import EventProvider from './components/EventProvider';
 import EventCampaign from './components/cheer/EventCampaign';
 import ReferralDiscountNotice from './components/ReferralDiscountNotice';
+import { generateEventJsonLd } from './utils/generateEventJsonLd.util';
 
 const SEARCH_PARAMS_KEYS = {
   referralCode: 'referral-code',
@@ -33,8 +34,15 @@ const Page = async ({ params, searchParams }: Props) => {
     searchParams[SEARCH_PARAMS_KEYS.referralCode],
   );
 
+  // JSON-LD 구조화 데이터 생성 (Google Rich Results용)
+  const jsonLd = generateEventJsonLd(event);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <EventProvider event={event}>
         <main>
           {hasReferralCode && <ReferralDiscountNotice />}
