@@ -81,13 +81,25 @@ export const metadata: Metadata = {
   },
 };
 
-const JSON_LD = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: TITLE,
-  description: DESCRIPTION,
-  url: URL,
-};
+// WebSite 및 Organization 구조화 데이터
+const JSON_LD = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: TITLE,
+    description: DESCRIPTION,
+    url: URL,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: '주식회사 스테이브',
+    alternateName: '핸디버스',
+    url: URL,
+    logo: `${URL}/icons/logo-v3.svg`,
+    description: DESCRIPTION,
+  },
+];
 
 export default function RootLayout({
   children,
