@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import useWebViewMessage from './useWebViewMessage';
 
 const useAppShare = () => {
-  const { sendMessage, isApp } = useWebViewMessage();
+  const { sendRequest, isApp } = useWebViewMessage();
 
   const share = useCallback(
     async (params: {
@@ -13,9 +13,20 @@ const useAppShare = () => {
       url: string;
     }): Promise<boolean> => {
       if (isApp) {
-        // 앱 환경: 메시지 전송 성공 여부만 반환
-        // TODO: 앱 환경에서 공유 완료 여부를 확인하는 로직 추가
-        return sendMessage('SHARE', params);
+        // 앱 환경: SHARE 요청 후 SHARE_RESULT 응답 대기
+        try {
+          const result = await sendRequest(
+            'SHARE',
+            params,
+            'SHARE_RESULT',
+            30000, // 공유 시트가 열려있을 수 있으므로 타임아웃 넉넉히 설정
+          );
+          console.log('[WebView] Share result:', result);
+          return result.isSuccess;
+        } catch {
+          console.error('[WebView] Share request failed or timed out');
+          return false;
+        }
       } else {
         // 웹 환경에서는 Web Share API 사용
         if (navigator.share) {
@@ -43,7 +54,7 @@ const useAppShare = () => {
         }
       }
     },
-    [sendMessage, isApp],
+    [sendRequest, isApp],
   );
 
   return share;
