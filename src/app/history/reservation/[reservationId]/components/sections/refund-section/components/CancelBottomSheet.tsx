@@ -200,7 +200,10 @@ const CancelBottomSheet = ({
 
     if (cancelReason === CANCEL_REASON_OPTIONS.OTHER_SHUTTLE) {
       setHistoryAndStep(REFUND_STEPS[2]);
-    } else if (payment?.refundExecutionCapability === 'MANUAL') {
+    } else if (
+      payment?.refundExecutionCapability === 'MANUAL' ||
+      payment?.refundExecutionCapability === 'UNKNOWN'
+    ) {
       setHistoryAndStep(REFUND_STEPS[3]);
     } else {
       setHistoryAndStep(REFUND_STEPS[4]);
@@ -217,7 +220,10 @@ const CancelBottomSheet = ({
       if (!isValid) return;
     }
 
-    if (payment?.refundExecutionCapability === 'MANUAL') {
+    if (
+      payment?.refundExecutionCapability === 'MANUAL' ||
+      payment?.refundExecutionCapability === 'UNKNOWN'
+    ) {
       setHistoryAndStep(REFUND_STEPS[3]);
     } else {
       setHistoryAndStep(REFUND_STEPS[4]);
