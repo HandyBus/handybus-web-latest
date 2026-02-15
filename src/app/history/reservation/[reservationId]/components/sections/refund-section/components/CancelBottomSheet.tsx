@@ -26,6 +26,8 @@ import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import { createFeedbackContent } from '../utils/createFeedbackContent.util';
 import RadioInputGroup from './RadioInputGroup';
+import TextInput from '@/components/inputs/text-input/TextInput';
+import { PaymentsViewEntity } from '@/types/payment.type';
 
 const USER_CANCELLATION_FEE_REASON = '자동 승인 환불 요청';
 
@@ -34,10 +36,12 @@ export interface CancelReasonForm {
   cancelReasonDescription: string;
   cancelReasonDetail: string;
   cancelReasonDetailDescription: string;
+  refundAccountNumber: string;
 }
 
 interface Props extends BottomSheetRefs {
   reservation: ReservationsViewEntity | null;
+  payment: PaymentsViewEntity | null;
   closeBottomSheet: () => void;
   isTransferredReservation: boolean;
 }
@@ -46,6 +50,7 @@ const CancelBottomSheet = ({
   bottomSheetRef,
   contentRef,
   reservation,
+  payment,
   closeBottomSheet,
   isTransferredReservation,
 }: Props) => {
@@ -102,7 +107,7 @@ const CancelBottomSheet = ({
     usePostFeedback();
 
   const onSubmit = async () => {
-    if (!reservation || !reservation.paymentId) {
+    if (!reservation || !reservation.paymentId || !payment) {
       return;
     }
 
@@ -135,9 +140,11 @@ const CancelBottomSheet = ({
 
     try {
       if (isRefundable) {
+        const refundAccountNumber = getValues('refundAccountNumber') || null;
         await postRefund({
           paymentId: reservation.paymentId,
           refundReason: USER_CANCELLATION_FEE_REASON,
+          refundAccountNumber,
         });
       } else {
         await putCancelReservation(reservation.reservationId);
@@ -192,9 +199,14 @@ const CancelBottomSheet = ({
     }
 
     if (cancelReason === CANCEL_REASON_OPTIONS.OTHER_SHUTTLE) {
-      setHistoryAndStep('조금만 더 자세히 알려주시겠어요?');
+      setHistoryAndStep(REFUND_STEPS[2]);
+    } else if (
+      payment?.refundExecutionCapability === 'MANUAL' ||
+      payment?.refundExecutionCapability === 'UNKNOWN'
+    ) {
+      setHistoryAndStep(REFUND_STEPS[3]);
     } else {
-      setHistoryAndStep('정말 취소하시겠어요?');
+      setHistoryAndStep(REFUND_STEPS[4]);
     }
   };
 
@@ -208,7 +220,21 @@ const CancelBottomSheet = ({
       if (!isValid) return;
     }
 
-    setHistoryAndStep('정말 취소하시겠어요?');
+    if (
+      payment?.refundExecutionCapability === 'MANUAL' ||
+      payment?.refundExecutionCapability === 'UNKNOWN'
+    ) {
+      setHistoryAndStep(REFUND_STEPS[3]);
+    } else {
+      setHistoryAndStep(REFUND_STEPS[4]);
+    }
+  };
+
+  const handleClickRefundAccountNumberNextButton = async () => {
+    const isValid = await trigger(['refundAccountNumber']);
+    if (!isValid) return;
+
+    setHistoryAndStep(REFUND_STEPS[4]);
   };
 
   return (
@@ -224,7 +250,7 @@ const CancelBottomSheet = ({
         className="max-h-[55dvh] overflow-y-auto scrollbar-hidden"
       >
         <Funnel>
-          <Step name="취소하시겠어요?">
+          <Step name={REFUND_STEPS[0]}>
             {refundFee !== null && (
               <article className="mb-16 flex w-full flex-col items-center justify-center gap-8 rounded-8 bg-basic-grey-50 px-16 py-12">
                 <h5 className="text-18 font-600 text-basic-grey-700">
@@ -238,7 +264,7 @@ const CancelBottomSheet = ({
             <div className="flex flex-col gap-8">
               <Button
                 type="button"
-                onClick={() => setHistoryAndStep('취소 사유를 알려주세요')}
+                onClick={() => setHistoryAndStep(REFUND_STEPS[1])}
                 variant="s-destructive"
               >
                 취소 진행하기
@@ -249,7 +275,7 @@ const CancelBottomSheet = ({
             </div>
           </Step>
 
-          <Step name="취소 사유를 알려주세요">
+          <Step name={REFUND_STEPS[1]}>
             <RadioInputGroup
               options={CANCEL_REASON_OPTIONS}
               name="cancelReason"
@@ -273,7 +299,7 @@ const CancelBottomSheet = ({
             </div>
           </Step>
 
-          <Step name="조금만 더 자세히 알려주시겠어요?">
+          <Step name={REFUND_STEPS[2]}>
             <RadioInputGroup
               options={CANCEL_REASON_DETAIL_OPTIONS}
               name="cancelReasonDetail"
@@ -297,7 +323,33 @@ const CancelBottomSheet = ({
             </div>
           </Step>
 
-          <Step name="정말 취소하시겠어요?">
+          <Step name={REFUND_STEPS[3]}>
+            <div className="mb-16">
+              <TextInput
+                name="refundAccountNumber"
+                setValue={setValue}
+                control={control}
+                placeholder="환불 받을 계좌번호를 정확하게 입력해 주세요."
+                rules={{
+                  required: '계좌번호를 입력해 주세요.',
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-8">
+              <Button
+                type="button"
+                onClick={handleClickRefundAccountNumberNextButton}
+                variant="s-destructive"
+              >
+                다음
+              </Button>
+              <Button type="button" onClick={closeBottomSheet} variant="text">
+                예약 유지하기
+              </Button>
+            </div>
+          </Step>
+
+          <Step name={REFUND_STEPS[4]}>
             {refundFee !== null &&
               refundAmount !== null &&
               paymentAmount !== null && (

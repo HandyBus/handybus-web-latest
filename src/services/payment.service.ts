@@ -52,9 +52,14 @@ export const useGetReferral = (referralCode?: string) => {
 };
 
 // ----- POST -----
-export const postRefund = async (paymentId: string, refundReason: string) => {
+export const postRefund = async (
+  paymentId: string,
+  refundReason: string,
+  refundAccountNumber: string | null,
+) => {
   await authInstance.post(`/v1/billing/payments/${paymentId}/refunds`, {
     refundReason,
+    refundAccountNumber,
   });
 };
 
@@ -63,10 +68,12 @@ export const usePostRefund = () => {
     mutationFn: ({
       paymentId,
       refundReason,
+      refundAccountNumber,
     }: {
       paymentId: string;
       refundReason: string;
-    }) => postRefund(paymentId, refundReason),
+      refundAccountNumber: string | null;
+    }) => postRefund(paymentId, refundReason, refundAccountNumber),
   });
 };
 

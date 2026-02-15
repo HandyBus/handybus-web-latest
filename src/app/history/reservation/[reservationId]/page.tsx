@@ -44,8 +44,6 @@ const Page = ({ params }: Props) => {
   const isTransferredReservation =
     reservation?.userId !== reservation?.originalUserId;
 
-  console.log(reservationTransferRequests);
-
   return (
     <>
       <DeferredSuspense
