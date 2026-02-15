@@ -63,12 +63,14 @@ const RefundRequestList = ({ refundRequests, isCanceled }: Props) => {
               <span className="flex items-center gap-4">
                 <ArrowDownwardTipRightIcon />
                 환불 일시 |{' '}
-                {dateString(refundRequest.refundAt, {
-                  showYear: true,
-                  showDate: true,
-                  showWeekday: false,
-                  showTime: true,
-                })}
+                {refundRequest.refundAt
+                  ? dateString(refundRequest.refundAt, {
+                      showYear: true,
+                      showDate: true,
+                      showWeekday: false,
+                      showTime: true,
+                    })
+                  : '환불 처리 중'}
               </span>
               <span>{refundRequest.refundAmount.toLocaleString()}원</span>
             </div>

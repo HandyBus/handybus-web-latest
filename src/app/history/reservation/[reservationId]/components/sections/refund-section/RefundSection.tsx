@@ -5,11 +5,13 @@ import { ReservationsViewEntity } from '@/types/reservation.type';
 import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import { PaymentsViewEntity } from '@/types/payment.type';
 
 interface Props {
   isCanceled: boolean;
   isEnded: boolean;
   reservation: ReservationsViewEntity;
+  payment: PaymentsViewEntity;
   isTransferredReservation: boolean;
   reservationTransferRequests: ReservationTransferRequestsEntity[];
 }
@@ -19,6 +21,7 @@ const RefundSection = ({
   isEnded,
   isTransferredReservation,
   reservation,
+  payment,
   reservationTransferRequests,
 }: Props) => {
   const {
@@ -83,6 +86,7 @@ const RefundSection = ({
       <CancelBottomSheet
         isTransferredReservation={isTransferredReservation}
         reservation={reservation}
+        payment={payment}
         bottomSheetRef={cancelBottomSheetRef}
         contentRef={cancelBottomSheetContentRef}
         closeBottomSheet={closeCancelBottomSheet}

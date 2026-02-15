@@ -10,6 +10,7 @@ interface CancelReasonForm {
   cancelReasonDescription: string;
   cancelReasonDetail: string;
   cancelReasonDetailDescription: string;
+  refundAccountNumber: string;
 }
 
 export const createFeedbackContent = (
