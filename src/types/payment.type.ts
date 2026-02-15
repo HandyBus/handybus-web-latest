@@ -6,6 +6,20 @@ import {
   ReservationStatusEnum,
 } from './reservation.type';
 
+// ----- ENUM -----
+
+export const RefundStatusEnum = z.enum(['REQUESTED', 'COMPLETED', 'FAILED']);
+export type RefundStatus = z.infer<typeof RefundStatusEnum>;
+
+export const RefundExecutionCapabilityEnum = z.enum([
+  'UNKNOWN',
+  'AUTO',
+  'MANUAL',
+]);
+export type RefundExecutionCapability = z.infer<
+  typeof RefundExecutionCapabilityEnum
+>;
+
 // ----- GET -----
 
 export const RefundRequestsInPaymentsViewEntitySchema = z
@@ -21,7 +35,9 @@ export const RefundRequestsInPaymentsViewEntitySchema = z
     updatedAt: z.string(),
     refundAt: z.string().nullable(), // 환불 완료 시점
     failedReason: z.string(),
-    status: z.enum(['REQUESTED', 'COMPLETED', 'FAILED']),
+    status: RefundStatusEnum,
+    refundAccountNumber: z.string().nullable(),
+    isActive: z.boolean(),
   })
   .strict();
 export type RefundRequestsInPaymentsViewEntity = z.infer<
@@ -47,6 +63,7 @@ export const PaymentsViewEntitySchema = z
     updatedAt: z.string(),
     refundRequests: RefundRequestsInPaymentsViewEntitySchema.array().nullable(),
     isConfirmed: z.boolean(),
+    refundExecutionCapability: RefundExecutionCapabilityEnum,
     userId: z.string(),
   })
   .strict();
