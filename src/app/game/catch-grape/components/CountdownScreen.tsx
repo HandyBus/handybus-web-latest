@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import LogoIcon from './icons/logo.svg';
 import styles from './CountdownScreen.module.css';
 
 interface CountdownScreenProps {
@@ -31,12 +30,7 @@ const CountdownScreen = ({ onComplete }: CountdownScreenProps) => {
   }, [onComplete]);
 
   return (
-    <div className="px-5 relative flex h-full w-full flex-col items-center overflow-hidden bg-basic-grey-50 pb-8 pt-[24px]">
-      {/* HandyBus Logo */}
-      <div className="mb-[84px] flex h-[56px] w-[56px] items-center justify-center">
-        <LogoIcon />
-      </div>
-
+    <div className="px-5 relative flex h-full w-full flex-col items-center overflow-hidden bg-basic-grey-50 pb-8 pt-[72px]">
       {/* Instruction Text */}
       <div className="mb-[52px] flex flex-col items-center gap-8">
         <h2 className="m-0 p-0 text-center text-[20px] font-600 leading-[140%] text-basic-black">

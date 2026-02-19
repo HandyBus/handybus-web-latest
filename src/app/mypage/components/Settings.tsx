@@ -8,6 +8,9 @@ const Settings = () => {
       <section className="px-16">
         <ListButton href="/mypage/coupons">쿠폰</ListButton>
         <ListButton href="/mypage/reviews">내 후기</ListButton>
+        <ListButton href="/game/catch-grape" isNew>
+          포도알 트레이닝
+        </ListButton>
         <ListButton href="/announcements">공지사항</ListButton>
         <ListButton href="/help/handybus-guide">이용방법</ListButton>
       </section>
