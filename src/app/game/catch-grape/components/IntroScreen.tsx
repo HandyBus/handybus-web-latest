@@ -1,21 +1,28 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import LogoIcon from './icons/logo.svg';
 import { useGetRankings } from '@/services/game.service';
-import { RankingEntry } from '@/types/game.type';
+import { useGetUser } from '@/services/user.service';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createUniqueNickname } from '../utils/game.util';
-import Link from 'next/link';
 
 interface IntroScreenProps {
   initialNickname?: string;
-  onStart: (nickname: string, rankings: RankingEntry[]) => void;
+  onStart: (nickname: string) => void;
 }
 
 const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   const [nickname, setNickname] = useState(initialNickname || '');
   const { data: rankings = [], isLoading } = useGetRankings();
   const hasInitializedNickname = useRef(false);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(getIsLoggedIn());
+  }, []);
+  const { data: user, isLoading: isUserLoading } = useGetUser({
+    enabled: isLoggedIn,
+  });
 
   useEffect(() => {
     // First priority: if initialNickname is provided (from game restart), use it
@@ -26,15 +33,30 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   }, [initialNickname]);
 
   useEffect(() => {
-    // Second priority: generate random nickname only once on first load when no initialNickname
-    // Wait for loading to finish to check for duplicates against existing rankings,
-    if (!initialNickname && !isLoading && !hasInitializedNickname.current) {
-      hasInitializedNickname.current = true;
-      const existingNicknames = rankings.map((r) => r.nickname);
-      const randomNickname = createUniqueNickname(existingNicknames);
-      setNickname(randomNickname);
+    // Second priority: set nickname based on login status
+    if (!initialNickname && !hasInitializedNickname.current) {
+      if (isLoggedIn) {
+        // Wait for both rankings and user data to load
+        if (!isLoading && !isUserLoading) {
+          hasInitializedNickname.current = true;
+          if (user?.name && user?.phoneNumber) {
+            const phoneLast4 = user.phoneNumber.slice(-4);
+            setNickname(`${user.name}${phoneLast4}`.slice(0, 8));
+          } else {
+            const existingNicknames = rankings.map((r) => r.nickname);
+            const randomNickname = createUniqueNickname(existingNicknames);
+            setNickname(randomNickname);
+          }
+        }
+      } else if (!isLoading) {
+        // Not logged in - use random nickname
+        hasInitializedNickname.current = true;
+        const existingNicknames = rankings.map((r) => r.nickname);
+        const randomNickname = createUniqueNickname(existingNicknames);
+        setNickname(randomNickname);
+      }
     }
-  }, [initialNickname, isLoading, rankings]);
+  }, [initialNickname, isLoading, rankings, isLoggedIn, isUserLoading, user]);
 
   const displayRankings = Array.from({ length: 5 }, (_, i) => {
     if (isLoading) {
@@ -56,7 +78,7 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   });
 
   const handleStart = () => {
-    onStart(nickname, rankings);
+    onStart(nickname);
   };
 
   const handleNicknameChange = (value: string) => {
@@ -65,15 +87,7 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   };
 
   return (
-    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between bg-basic-grey-50 pb-0 pt-[24px]">
-      {/* HandyBus Logo */}
-      <Link
-        href="/"
-        className="flex h-[56px] w-[56px] items-center justify-center"
-      >
-        <LogoIcon />
-      </Link>
-
+    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between bg-basic-grey-50 pb-0 pt-[72px]">
       {/* Center Content Section (Title + Rankings) */}
       <div className="flex w-full flex-col items-center">
         {/* Title Section */}

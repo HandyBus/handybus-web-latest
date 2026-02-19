@@ -151,3 +151,40 @@ export const getPendingPushToken = (): PendingPushToken | null => {
 export const removePendingPushToken = () => {
   localStorage.removeItem(PENDING_PUSH_TOKEN);
 };
+
+// 포도알 게임 비로그인 플레이 횟수 (매일 KST 00:00 초기화)
+export const GRAPE_GAME_PLAY_COUNT = 'grape-game-play-count';
+
+interface GrapeGamePlayData {
+  count: number;
+  date: string; // YYYY-MM-DD (KST)
+}
+
+const getKSTDateString = (): string => {
+  const now = new Date();
+  const kstTime = new Date(
+    now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000,
+  );
+  return kstTime.toISOString().split('T')[0];
+};
+
+export const getGrapeGamePlayCount = (): number => {
+  const data = localStorage.getItem(GRAPE_GAME_PLAY_COUNT);
+  if (!data) return 0;
+  try {
+    const parsed: GrapeGamePlayData = JSON.parse(data);
+    if (parsed.date !== getKSTDateString()) return 0;
+    return parsed.count;
+  } catch {
+    return 0;
+  }
+};
+
+export const incrementGrapeGamePlayCount = () => {
+  const currentCount = getGrapeGamePlayCount();
+  const data: GrapeGamePlayData = {
+    count: currentCount + 1,
+    date: getKSTDateString(),
+  };
+  localStorage.setItem(GRAPE_GAME_PLAY_COUNT, JSON.stringify(data));
+};

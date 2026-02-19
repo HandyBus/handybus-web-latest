@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import Header from './Header';
 import IntroScreen from './IntroScreen';
 import GameBoard from './GameBoard';
 import GameOverScreen from './GameOverScreen';
@@ -9,10 +11,19 @@ import PrizeScreen from './PrizeScreen';
 import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
 import { useGetRankings } from '@/services/game.service';
 import { findRankPositionByTime } from '../utils/game.util';
+import { getIsLoggedIn } from '@/utils/handleToken.util';
+import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
+import {
+  getGrapeGamePlayCount,
+  incrementGrapeGamePlayCount,
+} from '@/utils/localStorage';
 
 export type GameStep = 'intro' | 'countdown' | 'playing' | 'prize' | 'finished';
 
+const MAX_FREE_PLAYS = 3;
+
 const CatchGrapeGame = () => {
+  const router = useRouter();
   const [step, setStep] = useState<GameStep>('intro');
   const [nickname, setNickname] = useState('');
   const [finalScore, setFinalScore] = useState<number>(0);
@@ -25,6 +36,14 @@ const CatchGrapeGame = () => {
   const [gameRecordId, setGameRecordId] = useState<string | null>(null);
 
   const handleStart = (name: string) => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn && getGrapeGamePlayCount() >= MAX_FREE_PLAYS) {
+      router.push(createLoginRedirectPath('/game/catch-grape'));
+      return;
+    }
+    if (!isLoggedIn) {
+      incrementGrapeGamePlayCount();
+    }
     setNickname(name);
     setStep('countdown');
   };
@@ -64,6 +83,12 @@ const CatchGrapeGame = () => {
   }, []);
 
   const handleRestart = () => {
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn && getGrapeGamePlayCount() >= MAX_FREE_PLAYS) {
+      router.push(createLoginRedirectPath('/game/catch-grape'));
+      return;
+    }
+    // 플레이 횟수 증가는 handleStart에서만 수행 (intro → countdown 전환 시 1회 카운트)
     // Keep nickname for next game, only reset game state
     setStep('intro');
     setFinalScore(0);
@@ -75,6 +100,7 @@ const CatchGrapeGame = () => {
 
   return (
     <main className="relative flex w-full grow flex-col items-center overflow-hidden bg-basic-grey-50">
+      <Header />
       {step === 'intro' && (
         <IntroScreen initialNickname={nickname} onStart={handleStart} />
       )}
