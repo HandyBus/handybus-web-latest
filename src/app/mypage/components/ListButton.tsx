@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/arrow-right.svg';
+import NewIcon from 'public/icons/new.svg';
 import { ReactNode } from 'react';
 import { customTwMerge } from 'tailwind.config';
 
@@ -12,6 +13,7 @@ interface Props {
   hideArrow?: boolean;
   replace?: boolean;
   className?: string;
+  isNew?: boolean;
 }
 
 const ListButton = ({
@@ -21,6 +23,7 @@ const ListButton = ({
   hideArrow = false,
   replace = false,
   className,
+  isNew = false,
 }: Props) => {
   return (
     <>
@@ -34,7 +37,12 @@ const ListButton = ({
           )}
           replace={replace}
         >
-          {children}
+          <span className="relative">
+            {children}
+            {isNew && (
+              <NewIcon className="absolute -right-[10px] top-0 h-[8px] w-[7px]" />
+            )}
+          </span>
           <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
         </Link>
       ) : (
@@ -46,7 +54,12 @@ const ListButton = ({
             className,
           )}
         >
-          {children}
+          <span className="relative">
+            {children}
+            {isNew && (
+              <NewIcon className="absolute -right-[10px] top-0 h-[8px] w-[7px]" />
+            )}
+          </span>
           <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
         </button>
       )}
