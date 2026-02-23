@@ -6,6 +6,7 @@ import { KAKAO_CHANNEL_URL } from '@/constants/common';
 import { ReservationTransferRequestsEntity } from '@/types/reservationTransferRequest.type';
 import { handleExternalLink } from '@/utils/externalLink.util';
 import { PaymentsViewEntity } from '@/types/payment.type';
+import dayjs from 'dayjs';
 
 interface Props {
   isCanceled: boolean;
@@ -40,6 +41,29 @@ const RefundSection = ({
 
   if (isCanceled || isEnded) {
     return <div className="h-64 w-full" />;
+  }
+
+  // NOTE: 토스페이먼츠 구상잠과 신상점 사이에 계좌이체를 통해 예약한 예약자들로 인한 처리 코드.
+  // TODO: 2026.05.01에 삭제
+  if (
+    payment.principalAmount === 0 &&
+    dayjs(payment.createdAt).isBefore(dayjs('2026-02-04'))
+  ) {
+    return (
+      <section className="flex flex-col items-center justify-center gap-8 px-16 py-8">
+        <span className="text-14 font-500 text-basic-grey-600">
+          예약 취소는 카카오톡 채널을 통해 문의해주시기 바랍니다.
+        </span>
+        <Button
+          variant="text"
+          size="large"
+          className="underline"
+          onClick={() => handleExternalLink(KAKAO_CHANNEL_URL)}
+        >
+          카카오채널 문의하기
+        </Button>
+      </section>
+    );
   }
 
   return (
