@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from './Header';
 import IntroScreen from './IntroScreen';
@@ -8,7 +8,10 @@ import GameBoard from './GameBoard';
 import GameOverScreen from './GameOverScreen';
 import CountdownScreen from './CountdownScreen';
 import PrizeScreen from './PrizeScreen';
-import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
+import {
+  CatchGrapeGameRecordReadModel,
+  GameActorContext,
+} from '@/types/game.type';
 import { useGetRankings } from '@/services/game.service';
 import { findRankPositionByTime } from '../utils/game.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
@@ -16,6 +19,8 @@ import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
 import {
   getGrapeGamePlayCount,
   incrementGrapeGamePlayCount,
+  getOrCreateGrapeGameGuestKey,
+  setCatchGrapeLoginIntent,
 } from '@/utils/localStorage';
 
 export type GameStep = 'intro' | 'countdown' | 'playing' | 'prize' | 'finished';
@@ -33,11 +38,27 @@ const CatchGrapeGame = () => {
 
   const [prizeRank, setPrizeRank] = useState<number>(0);
   const [userRank, setUserRank] = useState<number>(0);
-  const [gameRecordId, setGameRecordId] = useState<string | null>(null);
+  const [gameRecord, setGameRecord] =
+    useState<CatchGrapeGameRecordReadModel | null>(null);
+
+  // actor context: 로그인 여부에 따라 결정
+  const [actorContext, setActorContext] = useState<GameActorContext | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (getIsLoggedIn()) {
+      setActorContext({ actorType: 'USER' });
+    } else {
+      const guestKey = getOrCreateGrapeGameGuestKey();
+      setActorContext({ actorType: 'GUEST', guestKey });
+    }
+  }, []);
 
   const handleStart = (name: string) => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn && getGrapeGamePlayCount() >= MAX_FREE_PLAYS) {
+      setCatchGrapeLoginIntent();
       router.push(createLoginRedirectPath('/game/catch-grape'));
       return;
     }
@@ -62,7 +83,7 @@ const CatchGrapeGame = () => {
       setScores(allScores);
 
       if (record) {
-        setGameRecordId(record.id);
+        setGameRecord(record);
       }
 
       const rank = findRankPositionByTime(averageScore, rankings);
@@ -85,17 +106,16 @@ const CatchGrapeGame = () => {
   const handleRestart = () => {
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn && getGrapeGamePlayCount() >= MAX_FREE_PLAYS) {
+      setCatchGrapeLoginIntent();
       router.push(createLoginRedirectPath('/game/catch-grape'));
       return;
     }
-    // 플레이 횟수 증가는 handleStart에서만 수행 (intro → countdown 전환 시 1회 카운트)
-    // Keep nickname for next game, only reset game state
     setStep('intro');
     setFinalScore(0);
     setScores([]);
     setPrizeRank(0);
     setUserRank(0);
-    setGameRecordId(null);
+    setGameRecord(null);
   };
 
   return (
@@ -107,28 +127,34 @@ const CatchGrapeGame = () => {
       {step === 'countdown' && (
         <CountdownScreen onComplete={handleCountdownComplete} />
       )}
-      {step === 'playing' && (
-        <GameBoard nickname={nickname} onFinish={handleGameFinish} />
+      {step === 'playing' && actorContext && (
+        <GameBoard
+          nickname={nickname}
+          actorContext={actorContext}
+          onFinish={handleGameFinish}
+        />
       )}
-      {step === 'prize' && (
+      {step === 'prize' && actorContext && (
         <PrizeScreen
           nickname={nickname}
           averageScore={finalScore}
           scores={scores}
           rank={prizeRank}
           rankings={rankings}
-          gameRecordId={gameRecordId}
+          gameRecord={gameRecord}
+          actorContext={actorContext}
           onRestart={handleRestart}
           onNicknameChange={handleNicknameChange}
         />
       )}
-      {step === 'finished' && (
+      {step === 'finished' && actorContext && (
         <GameOverScreen
           nickname={nickname}
           averageScore={finalScore}
           scores={scores}
           rankings={rankings}
-          gameRecordId={gameRecordId}
+          gameRecord={gameRecord}
+          actorContext={actorContext}
           userRank={userRank}
           onRestart={handleRestart}
         />

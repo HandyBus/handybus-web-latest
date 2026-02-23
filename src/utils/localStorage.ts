@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { BIG_REGIONS, BigRegionsType } from '@/constants/regions';
 
 // 로그인 시 리다이렉트 될 주소
@@ -152,39 +153,57 @@ export const removePendingPushToken = () => {
   localStorage.removeItem(PENDING_PUSH_TOKEN);
 };
 
-// 포도알 게임 비로그인 플레이 횟수 (매일 KST 00:00 초기화)
+// 포도알 게임 비로그인 플레이 횟수 (총 누적, 날짜 기준 없음)
 export const GRAPE_GAME_PLAY_COUNT = 'grape-game-play-count';
-
-interface GrapeGamePlayData {
-  count: number;
-  date: string; // YYYY-MM-DD (KST)
-}
-
-const getKSTDateString = (): string => {
-  const now = new Date();
-  const kstTime = new Date(
-    now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000,
-  );
-  return kstTime.toISOString().split('T')[0];
-};
 
 export const getGrapeGamePlayCount = (): number => {
   const data = localStorage.getItem(GRAPE_GAME_PLAY_COUNT);
   if (!data) return 0;
-  try {
-    const parsed: GrapeGamePlayData = JSON.parse(data);
-    if (parsed.date !== getKSTDateString()) return 0;
-    return parsed.count;
-  } catch {
+  const parsed = Number(data);
+  if (!Number.isInteger(parsed) || parsed < 0) {
     return 0;
   }
+  return parsed;
 };
 
 export const incrementGrapeGamePlayCount = () => {
   const currentCount = getGrapeGamePlayCount();
-  const data: GrapeGamePlayData = {
-    count: currentCount + 1,
-    date: getKSTDateString(),
-  };
-  localStorage.setItem(GRAPE_GAME_PLAY_COUNT, JSON.stringify(data));
+  localStorage.setItem(GRAPE_GAME_PLAY_COUNT, String(currentCount + 1));
+};
+
+// 포도알 게임 게스트 식별 키 (UUID, 영구 보관)
+export const GRAPE_GAME_GUEST_KEY = 'grape-game-guest-key';
+
+export const getGrapeGameGuestKey = (): string | null => {
+  return localStorage.getItem(GRAPE_GAME_GUEST_KEY);
+};
+
+export const getOrCreateGrapeGameGuestKey = (): string => {
+  const existing = localStorage.getItem(GRAPE_GAME_GUEST_KEY);
+  if (existing) return existing;
+  const newKey =
+    typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${dayjs().valueOf()}-${Math.random().toString(36).slice(2, 11)}`;
+  localStorage.setItem(GRAPE_GAME_GUEST_KEY, newKey);
+  return newKey;
+};
+
+export const removeGrapeGameGuestKey = () => {
+  localStorage.removeItem(GRAPE_GAME_GUEST_KEY);
+};
+
+// 포도알 게임에서 로그인으로 리다이렉트됨을 표시하는 플래그
+export const CATCH_GRAPE_LOGIN_INTENT = 'catch-grape-login-intent';
+
+export const setCatchGrapeLoginIntent = () => {
+  localStorage.setItem(CATCH_GRAPE_LOGIN_INTENT, '1');
+};
+
+export const getCatchGrapeLoginIntent = (): boolean => {
+  return Boolean(localStorage.getItem(CATCH_GRAPE_LOGIN_INTENT));
+};
+
+export const removeCatchGrapeLoginIntent = () => {
+  localStorage.removeItem(CATCH_GRAPE_LOGIN_INTENT);
 };

@@ -2,7 +2,11 @@
 
 import React, { Dispatch, SetStateAction } from 'react';
 import ArrowRightIcon from './icons/arrow-right.svg';
-import { RankingEntry } from '@/types/game.type';
+import {
+  CatchGrapeGameRecordReadModel,
+  GameActorContext,
+  RankingEntry,
+} from '@/types/game.type';
 import { useUpdateGameRecord } from '@/services/game.service';
 
 interface GameOverScreenProps {
@@ -10,7 +14,8 @@ interface GameOverScreenProps {
   averageScore: number;
   scores: number[];
   rankings: RankingEntry[];
-  gameRecordId: string | null;
+  gameRecord: CatchGrapeGameRecordReadModel | null;
+  actorContext: GameActorContext;
   userRank: number;
   onRestart: () => void;
 }
@@ -20,7 +25,8 @@ const GameOverScreen = ({
   averageScore,
   scores,
   rankings,
-  gameRecordId,
+  gameRecord,
+  actorContext,
   userRank,
   onRestart,
 }: GameOverScreenProps) => {
@@ -39,11 +45,21 @@ const GameOverScreen = ({
         type: 'share_result',
       });
 
-      if (gameRecordId) {
-        await updateRecord({
-          catchGrapeGameRecordId: gameRecordId,
-          isShared: true,
-        });
+      if (gameRecord) {
+        const payload =
+          actorContext.actorType === 'USER'
+            ? {
+                actorType: 'USER' as const,
+                catchGrapeGameRecordId: gameRecord.id,
+                isShared: true,
+              }
+            : {
+                actorType: 'GUEST' as const,
+                catchGrapeGameRecordId: gameRecord.id,
+                guestKey: actorContext.guestKey,
+                isShared: true,
+              };
+        await updateRecord(payload);
       }
     } catch (error) {
       console.error('handleShare Error:', error);

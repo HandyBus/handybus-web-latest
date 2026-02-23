@@ -3,7 +3,11 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import ArrowRightIcon from './icons/arrow-right.svg';
 import { useUpdateGameRecord } from '@/services/game.service';
-import { RankingEntry } from '@/types/game.type';
+import {
+  CatchGrapeGameRecordReadModel,
+  GameActorContext,
+  RankingEntry,
+} from '@/types/game.type';
 
 interface PrizeScreenProps {
   nickname: string;
@@ -11,7 +15,8 @@ interface PrizeScreenProps {
   scores: number[];
   rank: number;
   rankings: RankingEntry[];
-  gameRecordId: string | null;
+  gameRecord: CatchGrapeGameRecordReadModel | null;
+  actorContext: GameActorContext;
   onRestart: () => void;
   onNicknameChange: (newNickname: string) => void;
 }
@@ -22,7 +27,8 @@ const PrizeScreen = ({
   scores,
   rank,
   rankings,
-  gameRecordId,
+  gameRecord,
+  actorContext,
   onRestart,
   onNicknameChange,
 }: PrizeScreenProps) => {
@@ -32,17 +38,35 @@ const PrizeScreen = ({
   const { mutateAsync: updateRecord, isPending: isUpdating } =
     useUpdateGameRecord();
 
+  const buildUpdatePayload = (fields: {
+    nickname?: string;
+    isShared?: boolean;
+  }) => {
+    if (!gameRecord) return null;
+    if (actorContext.actorType === 'USER') {
+      return {
+        actorType: 'USER' as const,
+        catchGrapeGameRecordId: gameRecord.id,
+        ...fields,
+      };
+    }
+    return {
+      actorType: 'GUEST' as const,
+      catchGrapeGameRecordId: gameRecord.id,
+      guestKey: actorContext.guestKey,
+      ...fields,
+    };
+  };
+
   const handleNicknameChange = async (newNickname: string) => {
-    if (!gameRecordId) {
+    const payload = buildUpdatePayload({ nickname: newNickname });
+    if (!payload) {
       setIsNicknameModalOpen(false);
       return;
     }
 
     try {
-      await updateRecord({
-        catchGrapeGameRecordId: gameRecordId,
-        nickname: newNickname,
-      });
+      await updateRecord(payload);
       onNicknameChange(newNickname);
       setIsNicknameModalOpen(false);
     } catch (error) {
@@ -63,11 +87,9 @@ const PrizeScreen = ({
         type: 'share_result',
       });
 
-      if (gameRecordId) {
-        await updateRecord({
-          catchGrapeGameRecordId: gameRecordId,
-          isShared: true,
-        });
+      const payload = buildUpdatePayload({ isShared: true });
+      if (payload) {
+        await updateRecord(payload);
       }
     } catch (error) {
       console.error('handleShare Error:', error);
