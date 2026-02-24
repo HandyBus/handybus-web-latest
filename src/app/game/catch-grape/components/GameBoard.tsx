@@ -124,25 +124,26 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
 
   return (
     <div className="relative flex h-full w-full flex-1 flex-col overflow-hidden bg-basic-grey-50">
-      {/* Header - Increased top padding for safe area */}
-      <div className="mb-[42px] flex flex-col justify-between pt-[24px] [@media(max-height:750px)]:mb-8">
-        {/* Stage Counter */}
-        <div className="mb-44 flex items-center justify-end gap-8 px-[32px]">
-          {/* Purple circle indicator */}
-          <div className="h-16 w-16 rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]"></div>
-          <span className="text-[20px] font-600 leading-[160%]">
-            {stage}/{TOTAL_STAGES}
-          </span>
-        </div>
+      {/* Header */}
+      <div className="mb-24 px-[32px] pt-[24px] [@media(max-height:680px)]:mb-8">
+        <div className="relative flex items-center justify-center">
+          {/* Timer */}
+          <div className="text-center text-[18px] font-600 leading-[140%] text-basic-black">
+            {time}ms
+          </div>
 
-        {/* Timer */}
-        <div className="text-center text-[24px] font-500 leading-[160%] text-basic-black">
-          {time}ms
+          {/* Stage Counter */}
+          <div className="absolute right-0 flex items-center gap-8">
+            <div className="h-[13px] w-[13px] rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]" />
+            <span className="text-[16px] font-600 leading-[140%]">
+              {stage}/{TOTAL_STAGES}
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Grid Area */}
-      <div className="pt-2 flex flex-1 items-start justify-center overflow-y-auto px-4">
+      <div className="flex flex-1 items-start justify-center overflow-y-auto px-4">
         <div
           className="grid content-start justify-items-center"
           style={{

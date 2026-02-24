@@ -45,25 +45,37 @@ const CatchGrapeGame = () => {
   const [actorContext, setActorContext] = useState<GameActorContext | null>(
     null,
   );
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  const isGuestPlayLimitReached = useCallback(() => {
+    return !getIsLoggedIn() && getGrapeGamePlayCount() >= MAX_FREE_PLAYS;
+  }, []);
+
+  const redirectToCatchGrapeLogin = useCallback(() => {
+    setCatchGrapeLoginIntent();
+    router.push(createLoginRedirectPath('/game/catch-grape'));
+  }, [router]);
 
   useEffect(() => {
     if (getIsLoggedIn()) {
       setActorContext({ actorType: 'USER' });
+      setShowLoginPrompt(false);
     } else {
       const guestKey = getOrCreateGrapeGameGuestKey();
       setActorContext({ actorType: 'GUEST', guestKey });
+      setShowLoginPrompt(getGrapeGamePlayCount() >= MAX_FREE_PLAYS);
     }
   }, []);
 
   const handleStart = (name: string) => {
     const isLoggedIn = getIsLoggedIn();
-    if (!isLoggedIn && getGrapeGamePlayCount() >= MAX_FREE_PLAYS) {
-      setCatchGrapeLoginIntent();
-      router.push(createLoginRedirectPath('/game/catch-grape'));
+    if (!isLoggedIn && isGuestPlayLimitReached()) {
+      redirectToCatchGrapeLogin();
       return;
     }
     if (!isLoggedIn) {
       incrementGrapeGamePlayCount();
+      setShowLoginPrompt(isGuestPlayLimitReached());
     }
     setNickname(name);
     setStep('countdown');
@@ -74,7 +86,7 @@ const CatchGrapeGame = () => {
   };
 
   const handleGameFinish = useCallback(
-    async (
+    (
       averageScore: number,
       allScores: number[],
       record: CatchGrapeGameRecordReadModel | null,
@@ -104,10 +116,8 @@ const CatchGrapeGame = () => {
   }, []);
 
   const handleRestart = () => {
-    const isLoggedIn = getIsLoggedIn();
-    if (!isLoggedIn && getGrapeGamePlayCount() >= MAX_FREE_PLAYS) {
-      setCatchGrapeLoginIntent();
-      router.push(createLoginRedirectPath('/game/catch-grape'));
+    if (isGuestPlayLimitReached()) {
+      redirectToCatchGrapeLogin();
       return;
     }
     setStep('intro');
@@ -145,6 +155,7 @@ const CatchGrapeGame = () => {
           actorContext={actorContext}
           onRestart={handleRestart}
           onNicknameChange={handleNicknameChange}
+          showLoginPrompt={showLoginPrompt}
         />
       )}
       {step === 'finished' && actorContext && (
@@ -157,6 +168,7 @@ const CatchGrapeGame = () => {
           actorContext={actorContext}
           userRank={userRank}
           onRestart={handleRestart}
+          showLoginPrompt={showLoginPrompt}
         />
       )}
     </main>

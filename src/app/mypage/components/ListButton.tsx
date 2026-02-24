@@ -25,6 +25,10 @@ const ListButton = ({
   className,
   isNew = false,
 }: Props) => {
+  const contentClassName = hideArrow
+    ? 'relative block w-full'
+    : 'relative inline-flex';
+
   return (
     <>
       {href ? (
@@ -37,13 +41,17 @@ const ListButton = ({
           )}
           replace={replace}
         >
-          <span className="relative">
+          <span className={contentClassName}>
             {children}
             {isNew && (
               <NewIcon className="absolute -right-[10px] top-0 h-[8px] w-[7px]" />
             )}
           </span>
-          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
+          {!hideArrow && (
+            <div className="ml-auto">
+              <ArrowRightIcon />
+            </div>
+          )}
         </Link>
       ) : (
         <button
@@ -54,13 +62,17 @@ const ListButton = ({
             className,
           )}
         >
-          <span className="relative">
+          <span className={contentClassName}>
             {children}
             {isNew && (
               <NewIcon className="absolute -right-[10px] top-0 h-[8px] w-[7px]" />
             )}
           </span>
-          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
+          {!hideArrow && (
+            <div className="ml-auto">
+              <ArrowRightIcon />
+            </div>
+          )}
         </button>
       )}
     </>
