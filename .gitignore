@@ -42,6 +42,9 @@ next-env.d.ts
 # figma
 figma_nodes.json
 
+# omx
+.omx/
+
 .env
 .eslintcache
 *storybook.log

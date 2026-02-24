@@ -9,6 +9,9 @@ const Settings = () => {
       <section className="px-16">
         <ListButton href="/mypage/coupons">쿠폰</ListButton>
         <ListButton href="/mypage/reviews">내 후기</ListButton>
+        <ListButton href="/game/catch-grape" isNew>
+          포도알 트레이닝
+        </ListButton>
         <ListButton href="/mypage/settings">환경설정</ListButton>
       </section>
       <div className="h-[8px] bg-basic-grey-50" />

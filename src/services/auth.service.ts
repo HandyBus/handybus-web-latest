@@ -4,9 +4,19 @@ import { TokenShape } from '@/types/auth.type';
 
 // ----- POST -----
 
+export interface LoginExternalContext {
+  catchGrapeGameGuestKey?: string;
+}
+
+export interface PostLoginParams {
+  code: string;
+  state?: string;
+  externalContext?: LoginExternalContext;
+}
+
 export const postLogin = async (
   method: 'kakao' | 'naver' | 'apple',
-  { code, state }: { code: string; state?: string },
+  { code, state, externalContext }: PostLoginParams,
 ) => {
   const body = {
     authChannel: method,
@@ -29,6 +39,7 @@ export const postLogin = async (
             code,
           }
         : undefined,
+    externalContext: externalContext || undefined,
   };
   const res = await instance.post('/v1/auth/login', body, {
     shape: TokenShape,

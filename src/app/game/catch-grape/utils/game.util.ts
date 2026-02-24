@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { RankingEntry } from '@/types/game.type';
 
 const NICKNAME_PREFIXES = [
@@ -45,7 +46,7 @@ export const createUniqueNickname = (existingNicknames: string[]): string => {
   }
 
   // Fallback to timestamp based name if we can't find a unique one
-  return `Player${Date.now() % 10000}`.slice(0, 8);
+  return `Player${dayjs().valueOf() % 10000}`.slice(0, 8);
 };
 
 /**
