@@ -18,6 +18,7 @@ interface GameOverScreenProps {
   actorContext: GameActorContext;
   userRank: number;
   onRestart: () => void;
+  showLoginPrompt: boolean;
 }
 
 const GameOverScreen = ({
@@ -29,6 +30,7 @@ const GameOverScreen = ({
   actorContext,
   userRank,
   onRestart,
+  showLoginPrompt,
 }: GameOverScreenProps) => {
   const [isHallOfFame, setIsHallOfFame] = React.useState(false);
 
@@ -102,25 +104,32 @@ const GameOverScreen = ({
       </div>
 
       {/* Bottom Button Section - Figma: 2 buttons */}
-      <div className="mb-10 flex w-full gap-8 p-16">
-        {/* Restart Button (Solid style) */}
-        <button
-          onClick={() => {
-            window.gtag?.('event', 'catch_grape_restart', {});
-            onRestart();
-          }}
-          className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
-        >
-          다시하기
-        </button>
+      <div className="flex w-full flex-col items-center">
+        {showLoginPrompt && (
+          <p className="text-center text-14 font-500 leading-[160%]">
+            로그인 후 무제한으로 연습해 보세요!
+          </p>
+        )}
+        <div className="flex w-full gap-8 p-16">
+          {/* Restart Button (Solid style) */}
+          <button
+            onClick={() => {
+              window.gtag?.('event', 'catch_grape_restart', {});
+              onRestart();
+            }}
+            className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
+          >
+            다시하기
+          </button>
 
-        {/* Share Button (Outlined style) */}
-        <button
-          className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-400 text-[16px] font-600 leading-[160%] text-basic-white transition-colors active:bg-brand-primary-500"
-          onClick={() => handleShare()}
-        >
-          친구도 알려주기
-        </button>
+          {/* Share Button (Outlined style) */}
+          <button
+            className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-400 text-[16px] font-600 leading-[160%] text-basic-white transition-colors active:bg-brand-primary-500"
+            onClick={() => handleShare()}
+          >
+            친구도 알려주기
+          </button>
+        </div>
       </div>
     </div>
   );

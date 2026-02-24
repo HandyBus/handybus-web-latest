@@ -27,19 +27,22 @@ const Header = () => {
   };
 
   return (
-    <header className="flex w-full items-center justify-between bg-basic-white px-16 py-12">
-      <div className="flex items-center gap-8">
-        <button type="button" onClick={handleClose}>
-          <CloseIcon className="h-24 w-24" />
+    <>
+      <header className="fixed-centered-layout top-0 z-50 flex items-center justify-between bg-basic-white px-16 py-12">
+        <div className="flex items-center gap-8">
+          <button type="button" onClick={handleClose}>
+            <CloseIcon className="h-24 w-24" />
+          </button>
+          <h1 className="text-18 font-700 leading-[140%] text-basic-black">
+            포도알 게임
+          </h1>
+        </div>
+        <button type="button" onClick={handleShare}>
+          <ShareIcon className="h-32 w-32" />
         </button>
-        <h1 className="text-18 font-700 leading-[140%] text-basic-black">
-          포도알 게임
-        </h1>
-      </div>
-      <button type="button" onClick={handleShare}>
-        <ShareIcon className="h-32 w-32" />
-      </button>
-    </header>
+      </header>
+      <div className="h-56 w-full shrink-0" aria-hidden="true" />
+    </>
   );
 };
 
