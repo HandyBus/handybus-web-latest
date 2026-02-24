@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useGetRankings } from '@/services/game.service';
-import { useGetUser } from '@/services/user.service';
-import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createUniqueNickname } from '../utils/game.util';
 
 interface IntroScreenProps {
@@ -16,14 +14,6 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   const { data: rankings = [], isLoading } = useGetRankings();
   const hasInitializedNickname = useRef(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(getIsLoggedIn());
-  }, []);
-  const { data: user, isLoading: isUserLoading } = useGetUser({
-    enabled: isLoggedIn,
-  });
-
   useEffect(() => {
     // First priority: if initialNickname is provided (from game restart), use it
     if (initialNickname) {
@@ -33,30 +23,14 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   }, [initialNickname]);
 
   useEffect(() => {
-    // Second priority: set nickname based on login status
-    if (!initialNickname && !hasInitializedNickname.current) {
-      if (isLoggedIn) {
-        // Wait for both rankings and user data to load
-        if (!isLoading && !isUserLoading) {
-          hasInitializedNickname.current = true;
-          if (user?.name && user?.phoneNumber) {
-            const phoneLast4 = user.phoneNumber.slice(-4);
-            setNickname(`${user.name}${phoneLast4}`.slice(0, 8));
-          } else {
-            const existingNicknames = rankings.map((r) => r.nickname);
-            const randomNickname = createUniqueNickname(existingNicknames);
-            setNickname(randomNickname);
-          }
-        }
-      } else if (!isLoading) {
-        // Not logged in - use random nickname
-        hasInitializedNickname.current = true;
-        const existingNicknames = rankings.map((r) => r.nickname);
-        const randomNickname = createUniqueNickname(existingNicknames);
-        setNickname(randomNickname);
-      }
+    // Second priority: set a random nickname regardless of login status
+    if (!initialNickname && !hasInitializedNickname.current && !isLoading) {
+      hasInitializedNickname.current = true;
+      const existingNicknames = rankings.map((r) => r.nickname);
+      const randomNickname = createUniqueNickname(existingNicknames);
+      setNickname(randomNickname);
     }
-  }, [initialNickname, isLoading, rankings, isLoggedIn, isUserLoading, user]);
+  }, [initialNickname, isLoading, rankings]);
 
   const displayRankings = Array.from({ length: 5 }, (_, i) => {
     if (isLoading) {
