@@ -2,15 +2,20 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   CatchGrapeGameRecordReadModel,
   CatchGrapeGameRecordReadModelSchema,
+  CreateGameRecordRequest,
   RankingEntry,
 } from '@/types/game.type';
-import { instance } from './config';
+import { authInstance, instance } from './config';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
+
+const getKSTDateString = (): string => {
+  return dayjs().tz('Asia/Seoul').format('YYYY-MM-DD');
+};
 
 /**
  * Get all game records
@@ -39,79 +44,39 @@ export const useGetGameRecords = () =>
   });
 
 /**
- * Create a new game record
- * POST /v1/game/catch-grape-game-records
+ * 일별 상위 5순위 조회
+ * GET /v1/game/catch-grape-game-records/top?date=YYYY-MM-DD
  */
-export interface CreateGameRecordRequest {
-  nickname: string;
-  time: number;
-}
-
-export const createGameRecord = async (
-  body: CreateGameRecordRequest,
-): Promise<CatchGrapeGameRecordReadModel> => {
-  const res = await instance.post('/v1/game/catch-grape-game-records', body, {
-    shape: {
-      catchGrapeGameRecord: CatchGrapeGameRecordReadModelSchema,
+export const getTopRankings = async (
+  date: string,
+): Promise<CatchGrapeGameRecordReadModel[]> => {
+  const res = await instance.get(
+    `/v1/game/catch-grape-game-records/top?date=${date}`,
+    {
+      shape: {
+        catchGrapeGameRecords: CatchGrapeGameRecordReadModelSchema.array(),
+      },
     },
-  });
-  return res.catchGrapeGameRecord;
+  );
+  return res.catchGrapeGameRecords;
 };
 
-export const useCreateGameRecord = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: createGameRecord,
-    onSuccess: () => {
-      // Invalidate rankings to refresh after creating a new record
-      queryClient.invalidateQueries({ queryKey: ['game', 'rankings'] });
-    },
+export const useGetTopRankings = () => {
+  const date = getKSTDateString();
+  return useQuery({
+    queryKey: ['game', 'rankings', 'top', date],
+    queryFn: () => getTopRankings(date),
   });
 };
 
 /**
- * Update a game record (nickname and share status)
- * PUT /v1/game/catch-grape-game-records
- */
-export interface UpdateGameRecordRequest {
-  catchGrapeGameRecordId: string;
-  nickname?: string;
-  isShared?: boolean;
-}
-
-export const updateGameRecord = async (
-  body: UpdateGameRecordRequest,
-): Promise<CatchGrapeGameRecordReadModel> => {
-  const res = await instance.put('/v1/game/catch-grape-game-records', body, {
-    shape: {
-      catchGrapeGameRecord: CatchGrapeGameRecordReadModelSchema,
-    },
-  });
-  return res.catchGrapeGameRecord;
-};
-
-export const useUpdateGameRecord = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: updateGameRecord,
-    onSuccess: () => {
-      // Invalidate rankings to refresh after updating
-      queryClient.invalidateQueries({ queryKey: ['game', 'rankings'] });
-    },
-  });
-};
-
-/**
- * Get rankings from game records
+ * Get rankings from game records (전체 레코드 기반)
  * Converts CatchGrapeGameRecordReadModel[] to RankingEntry[]
  */
 export const getRankings = async (): Promise<RankingEntry[]> => {
   const records = await getGameRecords();
 
   // Sort by time (ascending - lower is better) and take top 5
-  // Removed isShared filter to show all records as requested
   const sortedRecords = [...records].sort((a, b) => a.time - b.time);
 
   return sortedRecords.map((record) => ({
@@ -127,3 +92,78 @@ export const useGetRankings = () =>
     queryKey: ['game', 'rankings'],
     queryFn: getRankings,
   });
+
+/**
+ * 포도알 게임 기록 생성 (v2)
+ * POST /v2/game/catch-grape-game-records
+ * actorType에 따라 instance/authInstance 분기
+ */
+
+export const createGameRecord = async (
+  body: CreateGameRecordRequest,
+): Promise<CatchGrapeGameRecordReadModel> => {
+  const api = body.actorType === 'USER' ? authInstance : instance;
+  const res = await api.post('/v2/game/catch-grape-game-records', body, {
+    shape: {
+      catchGrapeGameRecord: CatchGrapeGameRecordReadModelSchema,
+    },
+  });
+  return res.catchGrapeGameRecord;
+};
+
+export const useCreateGameRecord = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createGameRecord,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['game', 'rankings'] });
+    },
+  });
+};
+
+/**
+ * 포도알 게임 기록 수정 (v2)
+ * PUT /v2/game/catch-grape-game-records
+ * actorType에 따라 instance/authInstance 분기
+ */
+export type UpdateGameRecordRequest =
+  | {
+      actorType: 'USER';
+      catchGrapeGameRecordId: string;
+      nickname?: string;
+      isShared?: boolean;
+    }
+  | {
+      actorType: 'GUEST';
+      catchGrapeGameRecordId: string;
+      guestKey: string;
+      nickname?: string;
+      isShared?: boolean;
+    };
+
+export const updateGameRecord = async (
+  body: UpdateGameRecordRequest,
+): Promise<CatchGrapeGameRecordReadModel> => {
+  const api = body.actorType === 'USER' ? authInstance : instance;
+  // actorType은 FE 라우팅용, API body에서는 제외
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { actorType, ...payload } = body;
+  const res = await api.put('/v2/game/catch-grape-game-records', payload, {
+    shape: {
+      catchGrapeGameRecord: CatchGrapeGameRecordReadModelSchema,
+    },
+  });
+  return res.catchGrapeGameRecord;
+};
+
+export const useUpdateGameRecord = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateGameRecord,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['game', 'rankings'] });
+    },
+  });
+};

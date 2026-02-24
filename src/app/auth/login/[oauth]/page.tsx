@@ -16,6 +16,9 @@ import {
   removeEntryGreetingIncomplete,
   removeRedirectUrl,
   setEntryGreetingIncomplete,
+  getCatchGrapeLoginIntent,
+  removeCatchGrapeLoginIntent,
+  getGrapeGameGuestKey,
 } from '@/utils/localStorage';
 import { getRedirectUrl } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
@@ -63,10 +66,22 @@ const OAuth = ({ params, searchParams }: Props) => {
       return;
     }
 
+    // 포도알 게임에서 로그인 경유 시 guestKey를 externalContext로 전달
+    const isCatchGrapeLogin = getCatchGrapeLoginIntent();
+    const guestKey = isCatchGrapeLogin ? getGrapeGameGuestKey() : null;
+
+    // intent 플래그는 성공/실패 무관하게 항상 정리 (누수 방지)
+    if (isCatchGrapeLogin) {
+      removeCatchGrapeLoginIntent();
+    }
+
     try {
       const tokens = await postLogin(params.oauth, {
         code: searchParams.code,
         state: searchParams?.state,
+        externalContext: guestKey
+          ? { catchGrapeGameGuestKey: guestKey }
+          : undefined,
       });
 
       setAccessToken(tokens.accessToken);

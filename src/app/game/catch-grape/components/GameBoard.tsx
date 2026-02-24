@@ -4,11 +4,15 @@ import { useState, useEffect, useRef, memo, useCallback } from 'react';
 import CheckIcon from './icons/check.svg';
 import { twMerge } from 'tailwind-merge';
 import { useCreateGameRecord } from '@/services/game.service';
-import { CatchGrapeGameRecordReadModel } from '@/types/game.type';
+import {
+  CatchGrapeGameRecordReadModel,
+  GameActorContext,
+} from '@/types/game.type';
 import dayjs from 'dayjs';
 
 interface GameBoardProps {
   nickname: string;
+  actorContext: GameActorContext;
   onFinish: (
     averageScore: number,
     allScores: number[],
@@ -23,7 +27,7 @@ const GRID_COLS = 14;
 const GRID_ROWS = 20;
 const GRID_SIZE = GRID_COLS * GRID_ROWS;
 
-const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
+const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
   const [stage, setStage] = useState(0);
   const [time, setTime] = useState(0);
   const [isSelected, setIsSelected] = useState<boolean>(false);
@@ -33,6 +37,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
   const [attemptTimes, setAttemptTimes] = useState<number[]>([]);
+  const isSubmittingRef = useRef(false);
 
   const { mutateAsync: createRecord, isPending: isSubmitting } =
     useCreateGameRecord();
@@ -71,57 +76,74 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
   );
 
   const handleNextStage = async () => {
+    if (isSubmittingRef.current) return;
+
     const currentTime = dayjs().valueOf() - startTimeRef.current;
     const updatedAttemptTimes = [...attemptTimes, currentTime];
     setAttemptTimes(updatedAttemptTimes);
 
     if (stage === TOTAL_STAGES - 1) {
       if (timerRef.current) clearInterval(timerRef.current);
+      isSubmittingRef.current = true;
+
       const allScores = updatedAttemptTimes.map((score) => score);
       const averageTime = Math.round(
         updatedAttemptTimes.reduce((a, b) => a + b, 0) /
           updatedAttemptTimes.length,
       );
-      console.log('averageTime', averageTime);
 
       try {
-        const record = await createRecord({
-          nickname,
-          time: averageTime,
-        });
+        const payload =
+          actorContext.actorType === 'USER'
+            ? { actorType: 'USER' as const, nickname, time: averageTime }
+            : {
+                actorType: 'GUEST' as const,
+                guestKey: actorContext.guestKey,
+                nickname,
+                time: averageTime,
+              };
+        const record = await createRecord(payload);
         onFinish(averageTime, allScores, record);
       } catch (error) {
         console.error('Failed to create game record:', error);
         onFinish(averageTime, allScores, null);
+      } finally {
+        isSubmittingRef.current = false;
       }
     } else {
+      isSubmittingRef.current = true;
       setStage((prev) => prev + 1);
       setTime(0);
       startTimeRef.current = dayjs().valueOf();
+      // 다음 렌더 사이클에서 lock 해제 (stage 변경으로 isSelected가 false로 리셋됨)
+      requestAnimationFrame(() => {
+        isSubmittingRef.current = false;
+      });
     }
   };
 
   return (
     <div className="relative flex h-full w-full flex-1 flex-col overflow-hidden bg-basic-grey-50">
-      {/* Header - Increased top padding for safe area */}
-      <div className="mb-[42px] flex flex-col justify-between pt-[24px] [@media(max-height:750px)]:mb-8">
-        {/* Stage Counter */}
-        <div className="mb-44 flex items-center justify-end gap-8 px-[32px]">
-          {/* Purple circle indicator */}
-          <div className="h-16 w-16 rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]"></div>
-          <span className="text-[20px] font-600 leading-[160%]">
-            {stage}/{TOTAL_STAGES}
-          </span>
-        </div>
+      {/* Header */}
+      <div className="mb-24 px-[32px] pt-[24px] [@media(max-height:680px)]:mb-8">
+        <div className="relative flex items-center justify-center">
+          {/* Timer */}
+          <div className="text-center text-[18px] font-600 leading-[140%] text-basic-black">
+            {time}ms
+          </div>
 
-        {/* Timer */}
-        <div className="text-center text-[24px] font-500 leading-[160%] text-basic-black">
-          {time}ms
+          {/* Stage Counter */}
+          <div className="absolute right-0 flex items-center gap-8">
+            <div className="h-[13px] w-[13px] rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]" />
+            <span className="text-[16px] font-600 leading-[140%]">
+              {stage}/{TOTAL_STAGES}
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Grid Area */}
-      <div className="pt-2 flex flex-1 items-start justify-center overflow-y-auto px-4">
+      <div className="flex flex-1 items-start justify-center overflow-y-auto px-4">
         <div
           className="grid content-start justify-items-center"
           style={{
@@ -151,7 +173,7 @@ const GameBoard = ({ nickname, onFinish }: GameBoardProps) => {
         <button
           onClick={handleNextStage}
           disabled={!isSelected || isSubmitting}
-          className={`flex h-[52px] w-full items-center justify-center rounded-8 text-[16px] font-600 leading-[160%] text-basic-white transition-all 
+          className={`flex h-[52px] w-full items-center justify-center rounded-8 text-[16px] font-600 leading-[160%] text-basic-white transition-all
               ${isSelected && !isSubmitting ? 'bg-brand-primary-400 active:bg-brand-primary-500' : 'bg-basic-grey-200'}`}
         >
           {isSubmitting ? '저장 중...' : '선택 완료'}

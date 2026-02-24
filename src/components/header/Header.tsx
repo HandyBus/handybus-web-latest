@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import LogoIcon from 'public/icons/logo-v3.svg';
@@ -7,13 +8,27 @@ import BackIcon from './icons/back.svg';
 import HomeIcon from './icons/home.svg';
 import AnnouncementsIcon from './icons/announcement.svg';
 import useEnvironment from '@/hooks/useEnvironment';
+import AppDownloadBanner from '@/components/app-download-banner/AppDownloadBanner';
 
 const Header = () => {
   // 경로에 따른 페이지명 표시
   const router = useRouter();
-  const { isApp } = useEnvironment();
+  const { isLoading, isApp, isMobileWeb } = useEnvironment();
   const pathname = usePathname();
   const isHome = pathname === '/';
+
+  const showBanner = !isLoading && !isApp && isMobileWeb;
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--app-header-offset',
+      showBanner ? '120px' : '56px',
+    );
+
+    return () => {
+      document.documentElement.style.setProperty('--app-header-offset', '56px');
+    };
+  }, [showBanner]);
 
   const isHideBackButton = PATHNAME_TO_HIDE_BACK_BUTTON.includes(pathname);
 
@@ -44,7 +59,10 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed-centered-layout top-0 z-50 flex h-56 items-center justify-between bg-basic-white px-16">
+      {showBanner && <AppDownloadBanner />}
+      <header
+        className={`fixed-centered-layout z-50 flex h-56 items-center justify-between bg-basic-white px-16 ${showBanner ? 'top-[64px]' : 'top-0'}`}
+      >
         {isHome || !isApp ? (
           <Link href="/">
             <LogoIcon />
@@ -73,7 +91,7 @@ const Header = () => {
           </Link>
         </div>
       </header>
-      <div className="h-56" aria-hidden="true" />
+      <div className={showBanner ? 'h-[120px]' : 'h-56'} aria-hidden="true" />
     </>
   );
 };

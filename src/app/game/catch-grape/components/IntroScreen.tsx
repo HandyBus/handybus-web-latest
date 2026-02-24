@@ -1,15 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import LogoIcon from './icons/logo.svg';
 import { useGetRankings } from '@/services/game.service';
-import { RankingEntry } from '@/types/game.type';
 import { createUniqueNickname } from '../utils/game.util';
-import Link from 'next/link';
 
 interface IntroScreenProps {
   initialNickname?: string;
-  onStart: (nickname: string, rankings: RankingEntry[]) => void;
+  onStart: (nickname: string) => void;
 }
 
 const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
@@ -26,9 +23,8 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   }, [initialNickname]);
 
   useEffect(() => {
-    // Second priority: generate random nickname only once on first load when no initialNickname
-    // Wait for loading to finish to check for duplicates against existing rankings,
-    if (!initialNickname && !isLoading && !hasInitializedNickname.current) {
+    // Second priority: set a random nickname regardless of login status
+    if (!initialNickname && !hasInitializedNickname.current && !isLoading) {
       hasInitializedNickname.current = true;
       const existingNicknames = rankings.map((r) => r.nickname);
       const randomNickname = createUniqueNickname(existingNicknames);
@@ -56,7 +52,7 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   });
 
   const handleStart = () => {
-    onStart(nickname, rankings);
+    onStart(nickname);
   };
 
   const handleNicknameChange = (value: string) => {
@@ -65,15 +61,7 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   };
 
   return (
-    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between bg-basic-grey-50 pb-0 pt-[24px]">
-      {/* HandyBus Logo */}
-      <Link
-        href="/"
-        className="flex h-[56px] w-[56px] items-center justify-center"
-      >
-        <LogoIcon />
-      </Link>
-
+    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between bg-basic-grey-50 pb-0 pt-[72px]">
       {/* Center Content Section (Title + Rankings) */}
       <div className="flex w-full flex-col items-center">
         {/* Title Section */}

@@ -29,6 +29,7 @@ interface Props {
   };
 }
 
+// deprecated, 대신 /history/reservation/[reservationId] 로 직접 리디렉트 되도록 변경되었음.
 const PaymentsCompleted = ({ params }: Props) => {
   usePreventScroll();
   const { reservationId } = params;

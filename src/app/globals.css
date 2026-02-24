@@ -43,6 +43,7 @@
 
   /* 모바일 기기에서 상단 safe area inset */
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --app-header-offset: 56px;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

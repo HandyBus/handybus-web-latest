@@ -32,7 +32,7 @@ const Reviews = () => {
         onSelect={(value) => {
           router.replace(`/mypage/reviews?type=${value}`);
         }}
-        className="top-56"
+        className="top-[var(--app-header-offset)]"
       />
       {renderTab()}
     </main>

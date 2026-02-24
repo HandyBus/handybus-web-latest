@@ -1,20 +1,24 @@
 'use client';
 
 import React, { Dispatch, SetStateAction } from 'react';
-import LogoIcon from './icons/logo.svg';
 import ArrowRightIcon from './icons/arrow-right.svg';
-import { RankingEntry } from '@/types/game.type';
+import {
+  CatchGrapeGameRecordReadModel,
+  GameActorContext,
+  RankingEntry,
+} from '@/types/game.type';
 import { useUpdateGameRecord } from '@/services/game.service';
-import Link from 'next/link';
 
 interface GameOverScreenProps {
   nickname: string;
   averageScore: number;
   scores: number[];
   rankings: RankingEntry[];
-  gameRecordId: string | null;
+  gameRecord: CatchGrapeGameRecordReadModel | null;
+  actorContext: GameActorContext;
   userRank: number;
   onRestart: () => void;
+  showLoginPrompt: boolean;
 }
 
 const GameOverScreen = ({
@@ -22,26 +26,42 @@ const GameOverScreen = ({
   averageScore,
   scores,
   rankings,
-  gameRecordId,
+  gameRecord,
+  actorContext,
   userRank,
   onRestart,
+  showLoginPrompt,
 }: GameOverScreenProps) => {
   const [isHallOfFame, setIsHallOfFame] = React.useState(false);
 
   const { mutateAsync: updateRecord } = useUpdateGameRecord();
 
   const handleShare = async () => {
+    if (!navigator.share) return;
     try {
-      const shareUrl = `${window.location.origin}/game/catch-grape`;
-      navigator.share({
+      const shareUrl = `${window.location.origin}/game/catch-grape?utm_source=share&utm_medium=share&utm_campaign=catch_grape`;
+      await navigator.share({
         text: `이번 티켓팅, 맹연습해서 같이 성공할까요? 친구의 포도알 잡기 실력은 평균 ${averageScore}ms 예요. ${shareUrl}`,
       });
+      window.gtag?.('event', 'catch_grape_click', {
+        type: 'share_result',
+      });
 
-      if (gameRecordId) {
-        await updateRecord({
-          catchGrapeGameRecordId: gameRecordId,
-          isShared: true,
-        });
+      if (gameRecord) {
+        const payload =
+          actorContext.actorType === 'USER'
+            ? {
+                actorType: 'USER' as const,
+                catchGrapeGameRecordId: gameRecord.id,
+                isShared: true,
+              }
+            : {
+                actorType: 'GUEST' as const,
+                catchGrapeGameRecordId: gameRecord.id,
+                guestKey: actorContext.guestKey,
+                isShared: true,
+              };
+        await updateRecord(payload);
       }
     } catch (error) {
       console.error('handleShare Error:', error);
@@ -52,15 +72,7 @@ const GameOverScreen = ({
   const formattedRank = userRank.toLocaleString();
 
   return (
-    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between pb-0 pt-[24px]">
-      {/* HandyBus Logo */}
-      <Link
-        href="/"
-        className="flex h-[56px] w-[56px] items-center justify-center"
-      >
-        <LogoIcon />
-      </Link>
-
+    <div className="px-5 relative flex h-full w-full flex-1 flex-col items-center justify-between pb-0 pt-[72px]">
       {/* Center Content Section */}
       <div className="flex w-full flex-col items-center">
         {/* Title */}
@@ -92,22 +104,32 @@ const GameOverScreen = ({
       </div>
 
       {/* Bottom Button Section - Figma: 2 buttons */}
-      <div className="mb-10 flex w-full gap-8 p-16">
-        {/* Share Button (Outlined style) */}
-        <button
-          className="mb-3 flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
-          onClick={() => handleShare()}
-        >
-          친구도 알려주기
-        </button>
+      <div className="flex w-full flex-col items-center">
+        {showLoginPrompt && (
+          <p className="text-center text-14 font-500 leading-[160%]">
+            로그인 후 무제한으로 연습해 보세요!
+          </p>
+        )}
+        <div className="flex w-full gap-8 p-16">
+          {/* Restart Button (Solid style) */}
+          <button
+            onClick={() => {
+              window.gtag?.('event', 'catch_grape_restart', {});
+              onRestart();
+            }}
+            className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
+          >
+            다시하기
+          </button>
 
-        {/* Restart Button (Solid style) */}
-        <button
-          onClick={onRestart}
-          className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-400 text-[16px] font-600 leading-[160%] text-basic-white transition-colors active:bg-brand-primary-500"
-        >
-          다시 해볼래!
-        </button>
+          {/* Share Button (Outlined style) */}
+          <button
+            className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-400 text-[16px] font-600 leading-[160%] text-basic-white transition-colors active:bg-brand-primary-500"
+            onClick={() => handleShare()}
+          >
+            친구도 알려주기
+          </button>
+        </div>
       </div>
     </div>
   );

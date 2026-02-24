@@ -24,6 +24,7 @@ import { useReservationTracking } from '@/hooks/analytics/useReservationTracking
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 import GuidelineSection from './sections/GuidelineSection';
+import CancellationPolicySection from './sections/CancellationPolicySection';
 import { PAYMENT_PARAMS_KEYS } from '../payment.const';
 import ReferralDiscountNotice from './ReferralDiscountNotice';
 import { EventCheerCampaignsViewEntity } from '@/types/cheer.type';
@@ -280,6 +281,7 @@ const Content = ({
         referralDiscountAmount={referralDiscountAmount}
         passengerCount={passengerCount}
       />
+      <CancellationPolicySection isHandyParty={isHandyParty} />
       <PaymentSection />
       <GuidelineSection
         isHandyParty={isHandyParty}

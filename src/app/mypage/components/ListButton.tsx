@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/arrow-right.svg';
+import NewIcon from 'public/icons/new.svg';
 import { ReactNode } from 'react';
 import { customTwMerge } from 'tailwind.config';
 
@@ -12,6 +13,7 @@ interface Props {
   hideArrow?: boolean;
   replace?: boolean;
   className?: string;
+  isNew?: boolean;
 }
 
 const ListButton = ({
@@ -21,7 +23,12 @@ const ListButton = ({
   hideArrow = false,
   replace = false,
   className,
+  isNew = false,
 }: Props) => {
+  const contentClassName = hideArrow
+    ? 'relative block w-full'
+    : 'relative inline-flex';
+
   return (
     <>
       {href ? (
@@ -34,8 +41,17 @@ const ListButton = ({
           )}
           replace={replace}
         >
-          {children}
-          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
+          <span className={contentClassName}>
+            {children}
+            {isNew && (
+              <NewIcon className="absolute -right-[10px] top-0 h-[8px] w-[7px]" />
+            )}
+          </span>
+          {!hideArrow && (
+            <div className="ml-auto">
+              <ArrowRightIcon />
+            </div>
+          )}
         </Link>
       ) : (
         <button
@@ -46,8 +62,17 @@ const ListButton = ({
             className,
           )}
         >
-          {children}
-          <div className="ml-auto">{!hideArrow && <ArrowRightIcon />}</div>
+          <span className={contentClassName}>
+            {children}
+            {isNew && (
+              <NewIcon className="absolute -right-[10px] top-0 h-[8px] w-[7px]" />
+            )}
+          </span>
+          {!hideArrow && (
+            <div className="ml-auto">
+              <ArrowRightIcon />
+            </div>
+          )}
         </button>
       )}
     </>
