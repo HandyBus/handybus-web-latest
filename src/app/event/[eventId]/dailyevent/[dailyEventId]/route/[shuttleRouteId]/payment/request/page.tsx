@@ -9,7 +9,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
-import { getUserReservation } from '@/services/reservation.service';
+import {
+  getUserReservation,
+  getUserReservations,
+} from '@/services/reservation.service';
+import { gtagCompleteReservation } from '@/utils/analytics/reservationAnalytics.util';
 import { setTimeoutWithRetry } from '@/utils/setTimeoutWithRetry';
 import RoadIcon from './icons/road.svg';
 import BusIcon from './icons/bus.svg';
@@ -45,10 +49,59 @@ const Page = ({ params }: PageProps) => {
     initialStep: 'request_payment',
   });
 
+  const fireCompletionTracking = async (reservationId: string) => {
+    try {
+      const [{ reservation }, pastReservations] = await Promise.all([
+        getUserReservation(reservationId),
+        getUserReservations({ eventProgressStatus: 'PAST' }),
+      ]);
+      const dailyEventId = reservation.shuttleRoute.dailyEventId;
+      const eventName = reservation.shuttleRoute.event.eventName;
+      const eventDate = reservation.shuttleRoute.event.dailyEvents.find(
+        (de) => de.dailyEventId === dailyEventId,
+      )?.dailyEventDate;
+      const hubToDestination =
+        reservation.shuttleRoute.toDestinationShuttleRouteHubs?.find(
+          (hub) =>
+            hub.shuttleRouteHubId ===
+            reservation.toDestinationShuttleRouteHubId,
+        )?.name;
+      const hubFromDestination =
+        reservation.shuttleRoute.fromDestinationShuttleRouteHubs?.find(
+          (hub) =>
+            hub.shuttleRouteHubId ===
+            reservation.fromDestinationShuttleRouteHubId,
+        )?.name;
+      const hasOtherEventReservation = pastReservations?.some(
+        (r) => r.shuttleRoute.eventId !== params.eventId,
+      );
+      const totalTimeMs = reservationStartTime
+        ? dayjs().diff(dayjs(reservationStartTime), 'ms')
+        : 0;
+
+      gtagCompleteReservation(
+        params.eventId,
+        eventName,
+        eventDate,
+        hubToDestination,
+        hubFromDestination,
+        reservation.type,
+        totalTimeMs,
+        hasOtherEventReservation,
+        reservation.paymentId ?? undefined,
+        undefined,
+      );
+    } catch {
+      // Tracking failure should not block redirect
+    }
+  };
+
   const polling = async (reservationId: string) => {
     const res = await getUserReservation(reservationId);
     if (res.reservation.reservationStatus === 'COMPLETE_PAYMENT') {
-      router.replace(pathname + `/${res.reservation.reservationId}`);
+      markAsIntentionalNavigation();
+      await fireCompletionTracking(res.reservation.reservationId);
+      router.replace(`/history/reservation/${res.reservation.reservationId}`);
     }
   };
 
@@ -80,23 +133,8 @@ const Page = ({ params }: PageProps) => {
       // const createReferralResponse = await postCreateReferral(reservationId);
       // const myReferralCode = createReferralResponse.referralCode;
       markAsIntentionalNavigation();
-
-      // URLSearchParams를 사용하여 가독성 개선
-      const nextParams = new URLSearchParams();
-      if (reservationStartTime) {
-        nextParams.set(
-          PAYMENT_PARAMS_KEYS.reservationStartTime,
-          reservationStartTime,
-        );
-      }
-      // if (myReferralCode) {
-      //   nextParams.set(PAYMENT_PARAMS_KEYS.referralCode, myReferralCode);
-      // }
-
-      const queryString = nextParams.toString();
-      router.replace(
-        `${pathname}/${res.reservationId}${queryString ? `?${queryString}` : ''}`,
-      );
+      await fireCompletionTracking(res.reservationId);
+      router.replace(`/history/reservation/${res.reservationId}`);
     } catch (e) {
       const error = e as CustomError;
       Sentry.captureException(error, {

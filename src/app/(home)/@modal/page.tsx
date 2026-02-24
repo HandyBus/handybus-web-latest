@@ -15,9 +15,11 @@ import { useEffect, useState } from 'react';
 import Modal from '@/components/modals/Modal';
 import Button from '@/components/buttons/button/Button';
 import { handleExternalLink } from '@/utils/externalLink.util';
+import OneDayModal from './components/OneDayModal';
+
+import ParkHyoShinConfirmedImage from './images/park-hyo-shin-confirmed.png';
 
 // import AppLaunchEventImage from './images/app-launch-event.png';
-
 // import { getInvitePaybackEventUrl } from '@/utils/promotion.util';
 // import InvitePaybackEventImage from './images/invite-payback-event.png';
 // import { useReferralTracking } from '@/hooks/analytics/useReferralTracking';
@@ -115,13 +117,12 @@ const Page = () => {
             handleClick={handleAppLaunchEventOpen}
           />
         )} */}
-        {/* <OneDayModal
-          image={InvitePaybackEventImage}
-          handleClick={handleInvitePaybackEventOpen}
+        <OneDayModal
+          image={ParkHyoShinConfirmedImage}
+          handleClick={() => {}}
           variant="transparent"
           closeForTodayText="오늘은 그만 보기"
-          onClose={handleModalClose}
-        /> */}
+        />
       </ModalPortal>
       <AppLaunchEventCouponDownloadModal
         isOpen={isAppLaunchEventCouponDownloadModalOpen}

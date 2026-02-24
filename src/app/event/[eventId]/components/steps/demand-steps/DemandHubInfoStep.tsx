@@ -9,6 +9,7 @@ import { eventAtom } from '../../../store/eventAtom';
 import { useAtomValue } from 'jotai';
 import { DemandCompleteStatus } from '../../demand-complete-screen/DemandCompleteScreen';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
 
@@ -29,6 +30,7 @@ const DemandHubInfoStep = ({
   updateUserDemands,
   trackCompleteDemand,
 }: Props) => {
+  const router = useRouter();
   const event = useAtomValue(eventAtom);
   const { getValues } = useFormContext<EventFormValues>();
   const [dailyEvent, selectedHubForDemand, tripType] = getValues([
@@ -79,8 +81,8 @@ const DemandHubInfoStep = ({
         tripType,
         dailyEvent.dailyEventDate,
       );
-      setDemandCompleteStatus('success');
       updateUserDemands();
+      router.replace('/history?type=demand');
     } catch (error) {
       Sentry.captureException(error, {
         tags: {

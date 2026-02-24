@@ -15,7 +15,7 @@ interface FilterBarProps {
 const FilterBar = ({ type, setType, sort, onSort }: FilterBarProps) => {
   return (
     <>
-      <div className="fixed-centered-layout top-56 z-40 h-60 bg-basic-white">
+      <div className="fixed-centered-layout top-[var(--app-header-offset)] z-40 h-60 bg-basic-white">
         <div className="flex w-full justify-between px-16 pb-16 pt-12">
           <div className="flex gap-8">
             <Chip onClick={() => setType('ALL')} isSelected={type === 'ALL'}>
