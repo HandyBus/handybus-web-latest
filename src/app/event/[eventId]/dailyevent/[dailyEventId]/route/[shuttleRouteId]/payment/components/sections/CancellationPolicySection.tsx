@@ -1,5 +1,5 @@
 import Section from '../Section';
-import CancellationPolicyTable from '@/components/cancellation-policy/CancellationPolicyTable';
+import CancellationPolicyTable from './CancellationPolicyTable';
 import {
   SHUTTLE_BUS_CANCELLATION_POLICY_DATA,
   HANDY_PARTY_CANCELLATION_POLICY_DATA,

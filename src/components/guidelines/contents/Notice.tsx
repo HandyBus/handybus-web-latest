@@ -1,3 +1,9 @@
+import {
+  HANDY_PARTY_CANCELLATION_POLICY_DATA,
+  SHUTTLE_BUS_CANCELLATION_POLICY_DATA,
+  type CancellationPolicyRow,
+} from '@/constants/cancellation-policy';
+
 const TITLE_STYLE = 'text-16 font-600 text-basic-black mb-8';
 const SUB_TITLE_STYLE = 'text-14 font-600 text-basic-grey-700';
 const LI_TEXT_STYLE = 'text-14 font-400 text-basic-grey-600 list-disc pl-16';
@@ -112,7 +118,7 @@ const Notice = () => {
               </li>
               <li>시간대는 한국 기준으로 적용됩니다.</li>
               <div className="mt-12">
-                <ShuttleBusRefundTable />
+                <RefundTable data={SHUTTLE_BUS_CANCELLATION_POLICY_DATA} />
               </div>
             </ul>
           </article>
@@ -203,7 +209,7 @@ const Notice = () => {
               </li>
               <li>시간대는 한국 기준으로 적용됩니다.</li>
               <div className="mt-12">
-                <HandyPartyRefundTable />
+                <RefundTable data={HANDY_PARTY_CANCELLATION_POLICY_DATA} />
               </div>
             </ul>
           </article>
@@ -299,66 +305,11 @@ const Notice = () => {
 
 export default Notice;
 
-const ShuttleBusRefundTable = () => {
-  return (
-    <div className="overflow-hidden rounded-[5px] border border-basic-grey-300 text-12 text-basic-black">
-      <table className="w-full border-collapse">
-        <thead className="font-600 text-basic-grey-700">
-          <tr className="bg-basic-grey-100 text-left">
-            <th className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              환불 신청 시점
-            </th>
-            <th className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              수수료
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-basic-white font-500 text-basic-grey-600">
-          <tr className="text-basic-red-400">
-            <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              예약 2시간 이내
-            </td>
-            <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              수수료 없음
-            </td>
-          </tr>
-          <tr>
-            <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 8일 전 23:59
-            </td>
-            <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              수수료 없음
-            </td>
-          </tr>
-          <tr>
-            <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 7일 전 23:59
-            </td>
-            <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              결제 금액의 25%
-            </td>
-          </tr>
-          <tr>
-            <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 6일 전 23:59
-            </td>
-            <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              결제 금액의 50%
-            </td>
-          </tr>
-          <tr>
-            <td className="border-r border-basic-grey-300 px-[10px] py-[6px]">
-              탑승 5일 전 00:00 ~
-            </td>
-            <td className="px-[10px] py-[6px]">수수료 100% / 전액 환불 불가</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-};
+interface RefundTableProps {
+  data: CancellationPolicyRow[];
+}
 
-const HandyPartyRefundTable = () => {
+const RefundTable = ({ data }: RefundTableProps) => {
   return (
     <div className="overflow-hidden rounded-[5px] border border-basic-grey-300 text-12 text-basic-black">
       <table className="w-full border-collapse">
@@ -373,28 +324,31 @@ const HandyPartyRefundTable = () => {
           </tr>
         </thead>
         <tbody className="bg-basic-white font-500 text-basic-grey-600">
-          <tr className="text-basic-red-400">
-            <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              예약 2시간 이내
-            </td>
-            <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              수수료 없음
-            </td>
-          </tr>
-          <tr>
-            <td className="border-b border-r border-basic-grey-300 px-[10px] py-[6px]">
-              ~ 탑승 6일 전 23:59
-            </td>
-            <td className="border-b border-basic-grey-300 px-[10px] py-[6px]">
-              수수료 없음
-            </td>
-          </tr>
-          <tr>
-            <td className="border-r border-basic-grey-300 px-[10px] py-[6px]">
-              탑승 5일 전 00:00 ~
-            </td>
-            <td className="px-[10px] py-[6px]">수수료 100% / 전액 환불 불가</td>
-          </tr>
+          {data.map((row, index) => (
+            <tr
+              key={row.timing}
+              className={row.highlight ? 'text-basic-red-400' : ''}
+            >
+              <td
+                className={`border-r border-basic-grey-300 px-[10px] py-[6px] ${
+                  index < data.length - 1
+                    ? 'border-b border-basic-grey-300'
+                    : ''
+                }`}
+              >
+                {row.timing}
+              </td>
+              <td
+                className={`px-[10px] py-[6px] ${
+                  index < data.length - 1
+                    ? 'border-b border-basic-grey-300'
+                    : ''
+                }`}
+              >
+                {row.fee}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
