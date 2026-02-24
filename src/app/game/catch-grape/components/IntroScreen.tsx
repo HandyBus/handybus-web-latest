@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useGetRankings } from '@/services/game.service';
+import { useGetTopRankings } from '@/services/game.service';
 import { createUniqueNickname } from '../utils/game.util';
 
 interface IntroScreenProps {
@@ -11,7 +11,7 @@ interface IntroScreenProps {
 
 const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
   const [nickname, setNickname] = useState(initialNickname || '');
-  const { data: rankings = [], isLoading } = useGetRankings();
+  const { data: rankings = [], isLoading } = useGetTopRankings();
   const hasInitializedNickname = useRef(false);
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
       return {
         id: `${i}`,
         nickname: '--------',
-        score: 0,
         time: 0,
       };
     }
@@ -45,7 +44,6 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
       rankings[i] || {
         id: `empty-${i}`,
         nickname: '기록 없음',
-        score: 0,
         time: 0,
       }
     );
@@ -104,11 +102,11 @@ const IntroScreen = ({ initialNickname, onStart }: IntroScreenProps) => {
                   <span
                     className={`min-w-52 text-12 font-600 ${isLoading || isEmpty ? 'text-basic-grey-400' : ''}`}
                   >
-                    {entry.score === 0
+                    {entry.time === 0
                       ? '-----'
-                      : entry.score >= 100000
+                      : entry.time >= 100000
                         ? '99999ms'
-                        : `${entry.score}ms`}
+                        : `${entry.time}ms`}
                   </span>
                   <span
                     className={`truncate text-12 font-600 ${isLoading || isEmpty ? 'text-basic-grey-400' : ''}`}
