@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   CatchGrapeGameRecordReadModel,
   CatchGrapeGameRecordReadModelSchema,
+  CreateGameRecordRequest,
   RankingEntry,
 } from '@/types/game.type';
 import { authInstance, instance } from './config';
@@ -97,9 +98,6 @@ export const useGetRankings = () =>
  * POST /v2/game/catch-grape-game-records
  * actorType에 따라 instance/authInstance 분기
  */
-export type CreateGameRecordRequest =
-  | { actorType: 'USER'; nickname: string; time: number }
-  | { actorType: 'GUEST'; guestKey: string; nickname: string; time: number };
 
 export const createGameRecord = async (
   body: CreateGameRecordRequest,

@@ -29,6 +29,31 @@ export interface RankingEntry {
 }
 
 // 컴포넌트/서비스 공용 actor context 타입
-export type GameActorContext =
-  | { actorType: 'USER' }
-  | { actorType: 'GUEST'; guestKey: string };
+export const GameActorContextSchema = z.discriminatedUnion('actorType', [
+  z.object({
+    actorType: z.literal('USER'),
+  }),
+  z.object({
+    actorType: z.literal('GUEST'),
+    guestKey: z.string(),
+  }),
+]);
+export type GameActorContext = z.infer<typeof GameActorContextSchema>;
+
+export const CreateGameRecordRequestSchema = z.discriminatedUnion('actorType', [
+  z.object({
+    actorType: z.literal('USER'),
+    nickname: z.string(),
+    time: z.number(),
+  }),
+  z.object({
+    actorType: z.literal('GUEST'),
+    guestKey: z.string(),
+    nickname: z.string(),
+    time: z.number(),
+  }),
+]);
+
+export type CreateGameRecordRequest = z.infer<
+  typeof CreateGameRecordRequestSchema
+>;
