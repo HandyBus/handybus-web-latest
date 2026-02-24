@@ -117,6 +117,7 @@ export const useCreateGameRecord = () => {
   return useMutation({
     mutationFn: createGameRecord,
     onSuccess: () => {
+      // prefix 매칭으로 ['game', 'rankings', 'top', date]도 함께 무효화
       queryClient.invalidateQueries({ queryKey: ['game', 'rankings'] });
     },
   });
@@ -163,6 +164,7 @@ export const useUpdateGameRecord = () => {
   return useMutation({
     mutationFn: updateGameRecord,
     onSuccess: () => {
+      // prefix 매칭으로 ['game', 'rankings', 'top', date]도 함께 무효화
       queryClient.invalidateQueries({ queryKey: ['game', 'rankings'] });
     },
   });
