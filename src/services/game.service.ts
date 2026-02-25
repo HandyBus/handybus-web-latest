@@ -32,8 +32,8 @@ export const getGameRecords = async (): Promise<
 
   return res.catchGrapeGameRecords.filter(
     (record) =>
-      dayjs(record.createdAt).tz('Asia/Seoul').day() ===
-      dayjs().tz('Asia/Seoul').day(),
+      dayjs(record.createdAt).tz('Asia/Seoul').format('YYYY-MM-DD') ===
+      dayjs().tz('Asia/Seoul').format('YYYY-MM-DD'),
   );
 };
 
