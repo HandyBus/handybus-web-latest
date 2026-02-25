@@ -37,7 +37,6 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
   const [attemptTimes, setAttemptTimes] = useState<number[]>([]);
-  const isSubmittingRef = useRef(false);
 
   const { mutateAsync: createRecord, isPending: isSubmitting } =
     useCreateGameRecord();
@@ -63,7 +62,6 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
     if (stage < TOTAL_STAGES) {
       setTargetIndex(Math.floor(Math.random() * GRID_SIZE));
       setIsSelected(false);
-      isSubmittingRef.current = false;
     }
   }, [stage]);
 
@@ -77,16 +75,12 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
   );
 
   const handleNextStage = async () => {
-    if (isSubmittingRef.current) return;
-
     const currentTime = dayjs().valueOf() - startTimeRef.current;
     const updatedAttemptTimes = [...attemptTimes, currentTime];
     setAttemptTimes(updatedAttemptTimes);
 
     if (stage === TOTAL_STAGES - 1) {
       if (timerRef.current) clearInterval(timerRef.current);
-      isSubmittingRef.current = true;
-
       const allScores = updatedAttemptTimes.map((score) => score);
       const averageTime = Math.round(
         updatedAttemptTimes.reduce((a, b) => a + b, 0) /
@@ -108,11 +102,8 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
       } catch (error) {
         console.error('Failed to create game record:', error);
         onFinish(averageTime, allScores, null);
-      } finally {
-        isSubmittingRef.current = false;
       }
     } else {
-      isSubmittingRef.current = true;
       setStage((prev) => prev + 1);
       setTime(0);
       startTimeRef.current = dayjs().valueOf();
