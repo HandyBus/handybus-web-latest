@@ -35,7 +35,7 @@ const GrapeGameCard = () => {
         <GrapeGameIcon />
         <div>
           <p className="text-12 font-500 leading-[160%] text-basic-grey-600">
-            티케팅도 문제 없지
+            피켓팅도 문제 없지
           </p>
           <h3 className="text-14 font-600 leading-[160%] text-[#5340BE]">
             포도알 트레이닝
