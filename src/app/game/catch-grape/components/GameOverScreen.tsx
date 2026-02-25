@@ -5,7 +5,6 @@ import ArrowRightIcon from './icons/arrow-right.svg';
 import {
   CatchGrapeGameRecordReadModel,
   GameActorContext,
-  RankingEntry,
 } from '@/types/game.type';
 import { useUpdateGameRecord } from '@/services/game.service';
 
@@ -13,7 +12,7 @@ interface GameOverScreenProps {
   nickname: string;
   averageScore: number;
   scores: number[];
-  rankings: RankingEntry[];
+  top5Rankings: CatchGrapeGameRecordReadModel[];
   gameRecord: CatchGrapeGameRecordReadModel | null;
   actorContext: GameActorContext;
   userRank: number;
@@ -25,7 +24,7 @@ const GameOverScreen = ({
   nickname,
   averageScore,
   scores,
-  rankings,
+  top5Rankings,
   gameRecord,
   actorContext,
   userRank,
@@ -98,7 +97,10 @@ const GameOverScreen = ({
               setIsHallOfFame={setIsHallOfFame}
             />
           ) : (
-            <HallOfFame rankings={rankings} setIsHallOfFame={setIsHallOfFame} />
+            <HallOfFame
+              top5Rankings={top5Rankings}
+              setIsHallOfFame={setIsHallOfFame}
+            />
           )}
         </div>
       </div>
@@ -208,11 +210,11 @@ const MyRecords = ({
 };
 
 interface HallOfFameProps {
-  rankings: RankingEntry[];
+  top5Rankings: CatchGrapeGameRecordReadModel[];
   setIsHallOfFame: Dispatch<SetStateAction<boolean>>;
 }
 
-const HallOfFame = ({ rankings, setIsHallOfFame }: HallOfFameProps) => {
+const HallOfFame = ({ top5Rankings, setIsHallOfFame }: HallOfFameProps) => {
   return (
     <div className="flex flex-col gap-16">
       <h2 className="text-center text-[13px] font-700">
@@ -226,7 +228,7 @@ const HallOfFame = ({ rankings, setIsHallOfFame }: HallOfFameProps) => {
           else if (rank === 2) circleClass = 'bg-[#B0A4F6] text-basic-white';
           else if (rank === 3) circleClass = 'bg-[#D2C9FA] text-basic-white';
 
-          const rankEntry = rankings[rank - 1];
+          const rankEntry = top5Rankings[rank - 1];
           const isEmpty = !rankEntry;
 
           return (
@@ -239,11 +241,11 @@ const HallOfFame = ({ rankings, setIsHallOfFame }: HallOfFameProps) => {
               <span
                 className={`min-w-52 text-12 font-600 ${isEmpty ? 'text-basic-grey-400' : ''}`}
               >
-                {!rankEntry?.score
+                {!rankEntry?.time
                   ? '-----'
-                  : rankEntry?.score >= 100000
+                  : rankEntry?.time >= 100000
                     ? '99999ms'
-                    : `${rankEntry?.score}ms`}
+                    : `${rankEntry?.time}ms`}
               </span>
               <span
                 className={`truncate text-12 font-600 ${isEmpty ? 'text-basic-grey-400' : ''}`}

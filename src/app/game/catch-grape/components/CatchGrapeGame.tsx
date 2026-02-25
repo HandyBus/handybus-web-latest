@@ -12,7 +12,7 @@ import {
   CatchGrapeGameRecordReadModel,
   GameActorContext,
 } from '@/types/game.type';
-import { useGetRankings } from '@/services/game.service';
+import { useGetRankings, useGetTopRankings } from '@/services/game.service';
 import { findRankPositionByTime } from '../utils/game.util';
 import { getIsLoggedIn } from '@/utils/handleToken.util';
 import { createLoginRedirectPath } from '@/hooks/useAuthRouter';
@@ -35,6 +35,7 @@ const CatchGrapeGame = () => {
   const [scores, setScores] = useState<number[]>([]);
 
   const { data: rankings = [] } = useGetRankings();
+  const { data: top5Rankings = [] } = useGetTopRankings();
 
   const [prizeRank, setPrizeRank] = useState<number>(0);
   const [userRank, setUserRank] = useState<number>(0);
@@ -150,7 +151,7 @@ const CatchGrapeGame = () => {
           averageScore={finalScore}
           scores={scores}
           rank={prizeRank}
-          rankings={rankings}
+          top5Rankings={top5Rankings}
           gameRecord={gameRecord}
           actorContext={actorContext}
           onRestart={handleRestart}
@@ -163,7 +164,7 @@ const CatchGrapeGame = () => {
           nickname={nickname}
           averageScore={finalScore}
           scores={scores}
-          rankings={rankings}
+          top5Rankings={top5Rankings}
           gameRecord={gameRecord}
           actorContext={actorContext}
           userRank={userRank}

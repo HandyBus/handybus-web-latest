@@ -63,6 +63,7 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
     if (stage < TOTAL_STAGES) {
       setTargetIndex(Math.floor(Math.random() * GRID_SIZE));
       setIsSelected(false);
+      isSubmittingRef.current = false;
     }
   }, [stage]);
 
@@ -115,35 +116,32 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
       setStage((prev) => prev + 1);
       setTime(0);
       startTimeRef.current = dayjs().valueOf();
-      // 다음 렌더 사이클에서 lock 해제 (stage 변경으로 isSelected가 false로 리셋됨)
-      requestAnimationFrame(() => {
-        isSubmittingRef.current = false;
-      });
     }
   };
 
   return (
     <div className="relative flex h-full w-full flex-1 flex-col overflow-hidden bg-basic-grey-50">
-      {/* Header */}
-      <div className="mb-24 px-[32px] pt-[24px] [@media(max-height:680px)]:mb-8">
-        <div className="relative flex items-center justify-center">
-          {/* Timer */}
-          <div className="text-center text-[18px] font-600 leading-[140%] text-basic-black">
-            {time}ms
-          </div>
+      {/* Header + Grid Area */}
+      <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto">
+        {/* Header */}
+        <div className="mb-24 w-full px-[32px] pt-[24px] [@media(max-height:680px)]:mb-8">
+          <div className="relative flex items-center justify-center">
+            {/* Timer */}
+            <div className="text-center text-[18px] font-600 leading-[140%] text-basic-black">
+              {time}ms
+            </div>
 
-          {/* Stage Counter */}
-          <div className="absolute right-0 flex items-center gap-8">
-            <div className="h-[13px] w-[13px] rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]" />
-            <span className="text-[16px] font-600 leading-[140%]">
-              {stage}/{TOTAL_STAGES}
-            </span>
+            {/* Stage Counter */}
+            <div className="absolute right-0 flex items-center gap-8">
+              <div className="h-[13px] w-[13px] rounded-full border-2 border-solid border-[#7C68ED] bg-[#D2C9FA]" />
+              <span className="text-[16px] font-600 leading-[140%]">
+                {stage}/{TOTAL_STAGES}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Grid Area */}
-      <div className="flex flex-1 items-start justify-center overflow-y-auto px-4">
+        {/* Grid */}
         <div
           className="grid content-start justify-items-center"
           style={{
