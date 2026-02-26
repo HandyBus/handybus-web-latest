@@ -71,6 +71,9 @@ const Content = ({
     useState<IssuedCouponsViewEntity | null>(null);
 
   const remainingSeat = getRemainingSeat(shuttleRoute);
+  const hasSufficientSeats =
+    remainingSeat[tripType] !== null &&
+    (remainingSeat[tripType] ?? 0) >= passengerCount;
   const priceOfTripType = calculatePriceOfTripType(shuttleRoute);
   const regularPrice = priceOfTripType[tripType].regularPrice;
   const {
@@ -96,6 +99,7 @@ const Content = ({
   } = useTossPayments({
     userId: user.userId,
     initialPrice: finalPrice,
+    enabled: hasSufficientSeats,
   });
 
   const [isGuidelineSeen, setIsGuidelineSeen] = useState(false);
@@ -231,10 +235,7 @@ const Content = ({
   };
 
   // 에러 처리
-  if (
-    remainingSeat[tripType] === null ||
-    (remainingSeat[tripType] ?? 0) < passengerCount
-  ) {
+  if (!hasSufficientSeats) {
     toast.error('남은 좌석이 없습니다.');
     router.replace(`/event/${event.eventId}`);
     return;
