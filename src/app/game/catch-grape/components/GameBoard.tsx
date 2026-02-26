@@ -75,6 +75,8 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
   );
 
   const handleNextStage = async () => {
+    if (!isSelected || isSubmitting) return;
+
     const currentTime = dayjs().valueOf() - startTimeRef.current;
     const updatedAttemptTimes = [...attemptTimes, currentTime];
     setAttemptTimes(updatedAttemptTimes);
@@ -160,8 +162,8 @@ const GameBoard = ({ nickname, actorContext, onFinish }: GameBoardProps) => {
       {/* Footer */}
       <div className="bg-white border-t border-basic-grey-100 p-16">
         <button
-          onClick={handleNextStage}
-          disabled={!isSelected || isSubmitting}
+          onPointerUp={handleNextStage}
+          aria-disabled={!isSelected || isSubmitting}
           className={`flex h-[52px] w-full items-center justify-center rounded-8 text-[16px] font-600 leading-[160%] text-basic-white transition-all
               ${isSelected && !isSubmitting ? 'bg-brand-primary-400 active:bg-brand-primary-500' : 'bg-basic-grey-200'}`}
         >
@@ -194,7 +196,7 @@ const GridNode = memo(
 
     return (
       <button
-        onClick={() => onClick(index)}
+        onPointerUp={() => onClick(index)}
         className={twMerge(
           nodeClasses,
           'flex items-center justify-center rounded-8',
