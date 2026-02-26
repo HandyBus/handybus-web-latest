@@ -22,12 +22,14 @@ interface Props {
   userId: string;
   initialPrice: number;
   isScriptLoaded?: boolean;
+  enabled?: boolean;
 }
 
 const useTossPayments = ({
   userId,
   initialPrice,
   isScriptLoaded = true,
+  enabled = true,
 }: Props) => {
   const isInitializing = useRef(false);
   const [isTossInitialized, setIsTossInitialized] = useState(false);
@@ -128,10 +130,10 @@ const useTossPayments = ({
   }, [userId, initialPrice]);
 
   useEffect(() => {
-    if (isScriptLoaded && !isTossInitialized) {
+    if (enabled && isScriptLoaded && !isTossInitialized) {
       initializeTossPayments();
     }
-  }, [isScriptLoaded, initializeTossPayments, isTossInitialized]);
+  }, [enabled, isScriptLoaded, initializeTossPayments, isTossInitialized]);
 
   // 결제 요청
   const requestPayment = async ({
