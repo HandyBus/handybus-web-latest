@@ -11,14 +11,13 @@ export const OG_IMAGE_URL = URL + '/images/og-image.png';
 const OG_IMAGE_WIDTH = 1200;
 const OG_IMAGE_HEIGHT = 630;
 
-const convertToAbsoluteUrl = (imageUrl: string): string => {
+const convertToAbsoluteUrl = (path: string): string => {
   // 이미 절대 URL인 경우 그대로 반환
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-    return imageUrl;
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
   }
-  // 상대 경로인 경우 절대 경로로 변환
-  const baseUrl = imageUrl.startsWith('/') ? URL : URL + '/';
-  return baseUrl + imageUrl.replace(/^\//, '');
+  // 상대 경로인 경우 절대 경로로 변환 (슬래시 정확히 1개 보장)
+  return URL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
 };
 
 export const createMetadataWithOG = ({
