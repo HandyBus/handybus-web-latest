@@ -7,6 +7,7 @@ import {
   GameActorContext,
 } from '@/types/game.type';
 import { useUpdateGameRecord } from '@/services/game.service';
+import { pushDataLayerEvent } from '@/utils/analytics/dataLayer.util';
 
 interface GameOverScreenProps {
   nickname: string;
@@ -42,7 +43,7 @@ const GameOverScreen = ({
       await navigator.share({
         text: `이번 티켓팅, 맹연습해서 같이 성공할까요? 친구의 포도알 잡기 실력은 평균 ${averageScore}ms 예요. ${shareUrl}`,
       });
-      window.gtag?.('event', 'catch_grape_click', {
+      pushDataLayerEvent('catch_grape_click', {
         type: 'share_result',
       });
 
@@ -116,7 +117,7 @@ const GameOverScreen = ({
           {/* Restart Button (Solid style) */}
           <button
             onClick={() => {
-              window.gtag?.('event', 'catch_grape_restart', {});
+              pushDataLayerEvent('catch_grape_restart', {});
               onRestart();
             }}
             className="flex h-[52px] w-full items-center justify-center rounded-8 bg-brand-primary-50 text-[16px] font-600 leading-[160%] text-brand-primary-400 transition-colors active:bg-brand-primary-100"
