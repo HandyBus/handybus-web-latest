@@ -1,7 +1,7 @@
 'use client';
 
 import { Provider as JotaiProvider, useSetAtom } from 'jotai';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { EventsViewEntity } from '@/types/event.type';
 import { eventAtom } from '../store/eventAtom';
 import {
@@ -36,7 +36,10 @@ const EventProviderContent = ({ event, children }: Props) => {
   }, [cheerCampaign, setCheerCampaign]);
 
   // user total participations
-  const isLoggedIn = getIsLoggedIn();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(getIsLoggedIn());
+  }, []);
   const setUserTotalParticipations = useSetAtom(userTotalParticipationsAtom);
   const { data: userTotalParticipations } =
     useGetUserCheerCampaignParticipations(
