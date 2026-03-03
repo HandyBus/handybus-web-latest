@@ -15,6 +15,7 @@ interface Props {
   banner: ReactNode;
   announcement: ReactNode;
   event: ReactNode;
+  artist: ReactNode;
   modal: ReactNode;
   greeting: ReactNode;
   help: ReactNode;
@@ -24,6 +25,7 @@ const WithFooterLayout = ({
   banner,
   announcement,
   event,
+  artist,
   greeting,
   help,
   modal,
@@ -33,6 +35,7 @@ const WithFooterLayout = ({
       <Header />
       <main className="w-full grow">
         {event}
+        {artist}
         {help}
         {banner}
         {announcement}

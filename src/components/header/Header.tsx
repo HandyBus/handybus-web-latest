@@ -101,6 +101,8 @@ export default Header;
 // 새로운 페이지 개발 시 이곳에 페이지명을 추가해주세요.
 const URL_TO_PAGE_NAME = {
   '/login': '로그인',
+  '/artist': '모든 아티스트',
+  '/artist/:id': '아티스트 정보',
   '/event': '모든 행사',
   '/event/:id': '행사 정보',
   '/event/:id/dailyevent/:id/route/:id/payment/request': '결제',
