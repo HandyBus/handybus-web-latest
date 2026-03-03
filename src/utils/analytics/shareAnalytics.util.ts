@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { pushDataLayerEvent } from './dataLayer.util';
 
 export type ShareChannel = 'kakao' | 'x' | 'copy';
 
@@ -30,28 +31,26 @@ export const gtagShare = (
   max_scroll_depth: number,
   userActionInfo: UserActionInfo,
 ) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    const baseParams = {
-      event_category: 'share',
-      event_id: eventId,
-      event_name: eventName.substring(0, 100),
-      share_channel: share_channel,
-      current_scroll_depth: current_scroll_depth,
-      max_scroll_depth: max_scroll_depth,
-      timestamp: dayjs().toISOString(),
-    };
+  const baseParams = {
+    event_category: 'share',
+    event_id: eventId,
+    event_name: eventName.substring(0, 100),
+    share_channel: share_channel,
+    current_scroll_depth: current_scroll_depth,
+    max_scroll_depth: max_scroll_depth,
+    timestamp: dayjs().toISOString(),
+  };
 
-    const userActionParams = {
-      user_action_status: userActionInfo.status,
-      ...(userActionInfo.status !== 'no_action' && {
-        user_action_timestamp: userActionInfo.user_action_timestamp,
-        time_since_action: userActionInfo.time_since_action_text,
-      }),
-    };
+  const userActionParams = {
+    user_action_status: userActionInfo.status,
+    ...(userActionInfo.status !== 'no_action' && {
+      user_action_timestamp: userActionInfo.user_action_timestamp,
+      time_since_action: userActionInfo.time_since_action_text,
+    }),
+  };
 
-    window.gtag('event', 'share', {
-      ...baseParams,
-      ...userActionParams,
-    });
-  }
+  pushDataLayerEvent('share', {
+    ...baseParams,
+    ...userActionParams,
+  });
 };

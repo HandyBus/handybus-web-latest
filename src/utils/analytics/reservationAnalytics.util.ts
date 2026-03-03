@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { pushDataLayerEvent } from './dataLayer.util';
 
 export type ReservationStep =
   | 'select_date'
@@ -24,16 +25,14 @@ export const gtagEnterReservation = (
   currentScrollDepth: number,
   maxScrollDepth: number,
 ) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'enter_reservation', {
-      event_category: 'reservation_funnel',
-      event_id: eventId,
-      event_name: eventName.substring(0, 100),
-      current_scroll_depth: currentScrollDepth,
-      max_scroll_depth: maxScrollDepth,
-      timestamp: dayjs().toISOString(),
-    });
-  }
+  pushDataLayerEvent('enter_reservation', {
+    event_category: 'reservation_funnel',
+    event_id: eventId,
+    event_name: eventName.substring(0, 100),
+    current_scroll_depth: currentScrollDepth,
+    max_scroll_depth: maxScrollDepth,
+    timestamp: dayjs().toISOString(),
+  });
 };
 
 export const gtagAbandonReservation = (
@@ -44,18 +43,16 @@ export const gtagAbandonReservation = (
   totalTimeMs: number,
   debug?: string,
 ) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'abandon_reservation', {
-      event_category: 'reservation_funnel',
-      event_id: eventId,
-      event_name: eventName.substring(0, 100),
-      reservation_step: reservationStep,
-      exit_type: exitType,
-      debug,
-      total_time_ms: totalTimeMs,
-      timestamp: dayjs().toISOString(),
-    });
-  }
+  pushDataLayerEvent('abandon_reservation', {
+    event_category: 'reservation_funnel',
+    event_id: eventId,
+    event_name: eventName.substring(0, 100),
+    reservation_step: reservationStep,
+    exit_type: exitType,
+    debug,
+    total_time_ms: totalTimeMs,
+    timestamp: dayjs().toISOString(),
+  });
 };
 
 export const gtagCompleteReservation = (
@@ -70,20 +67,18 @@ export const gtagCompleteReservation = (
   paymentId: string | undefined,
   referralCode: string | undefined,
 ) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'complete_reservation', {
-      event_category: 'reservation_funnel',
-      event_id: eventId,
-      event_name: eventName.substring(0, 100),
-      event_date: eventDate,
-      selected_hub_to_destination: selectedHubToDestination,
-      selected_hub_from_destination: selectedHubFromDestination,
-      trip_type: tripType,
-      has_other_event_reservation: hasOtherEventReservation,
-      payment_id: paymentId,
-      referral_code: referralCode,
-      total_time_ms: totalTimeMs,
-      timestamp: dayjs().toISOString(),
-    });
-  }
+  pushDataLayerEvent('complete_reservation', {
+    event_category: 'reservation_funnel',
+    event_id: eventId,
+    event_name: eventName.substring(0, 100),
+    event_date: eventDate,
+    selected_hub_to_destination: selectedHubToDestination,
+    selected_hub_from_destination: selectedHubFromDestination,
+    trip_type: tripType,
+    has_other_event_reservation: hasOtherEventReservation,
+    payment_id: paymentId,
+    referral_code: referralCode,
+    total_time_ms: totalTimeMs,
+    timestamp: dayjs().toISOString(),
+  });
 };
