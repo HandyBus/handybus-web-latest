@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import CloseIcon from 'public/icons/close.svg';
 import ShareIcon from './icons/share.svg';
+import { pushDataLayerEvent } from '@/utils/analytics/dataLayer.util';
 
 const Header = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const Header = () => {
       await navigator.share({
         text: `이번 티켓팅, 맹연습해서 같이 성공할까요? ${shareUrl}`,
       });
-      window.gtag?.('event', 'catch_grape_click', {
+      pushDataLayerEvent('catch_grape_click', {
         type: 'share_header',
       });
     } catch (error) {
