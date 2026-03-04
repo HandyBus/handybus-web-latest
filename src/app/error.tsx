@@ -1,12 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { logout } from '@/utils/handleToken.util';
+import { logoutWithCleanup } from '@/utils/logout.util';
 import { useEffect } from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { usePathname } from 'next/navigation';
 import dayjs from 'dayjs';
-import { putUserPushToken } from '@/services/user.service';
 
 export const Error = ({
   error,
@@ -68,8 +67,7 @@ export const Error = ({
         <button
           className="h-44 w-full rounded-full bg-basic-grey-50 text-16 font-400 text-basic-grey-700"
           onClick={async () => {
-            await putUserPushToken(null);
-            await logout();
+            await logoutWithCleanup();
           }}
         >
           홈으로 돌아가기

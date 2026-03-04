@@ -4,12 +4,12 @@ import Loading from '@/components/loading/Loading';
 import usePreventRefresh from '@/hooks/usePreventRefresh';
 import usePreventScroll from '@/hooks/usePreventScroll';
 import { postIdentityVerification } from '@/services/auth.service';
-import { logout, setOnboardingStatusComplete } from '@/utils/handleToken.util';
+import { setOnboardingStatusComplete } from '@/utils/handleToken.util';
+import { logoutWithCleanup } from '@/utils/logout.util';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import * as Sentry from '@sentry/nextjs';
 import dayjs from 'dayjs';
-import { putUserPushToken } from '@/services/user.service';
 
 interface Props {
   searchParams: { identityVerificationId: string };
@@ -43,8 +43,7 @@ const Page = ({ searchParams }: Props) => {
       });
       console.error(e);
       toast.error('회원가입에 실패했어요.');
-      await putUserPushToken(null);
-      await logout();
+      await logoutWithCleanup();
     }
   };
 

@@ -1,15 +1,10 @@
 'use client';
 
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
-import {
-  putUser,
-  putUserPushToken,
-  useDeleteUser,
-  useGetUser,
-} from '@/services/user.service';
+import { putUser, useDeleteUser, useGetUser } from '@/services/user.service';
 import Loading from '@/components/loading/Loading';
 import ListButton from '../components/ListButton';
-import { logout } from '@/utils/handleToken.util';
+import { logoutWithCleanup } from '@/utils/logout.util';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { removeLastLogin } from '@/utils/localStorage';
@@ -51,8 +46,7 @@ const Page = () => {
 
   // 로그아웃
   const handleLogout = async () => {
-    await putUserPushToken(null);
-    await logout();
+    await logoutWithCleanup();
     toast.success('로그아웃이 완료되었어요');
   };
 
@@ -69,8 +63,7 @@ const Page = () => {
   } = useDeleteUser({
     onSuccess: async () => {
       removeLastLogin();
-      await putUserPushToken(null);
-      await logout();
+      await logoutWithCleanup();
       toast.success('핸디버스를 이용해 주셔서 감사합니다.');
     },
     onError: (e) => {
