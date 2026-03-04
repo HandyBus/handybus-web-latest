@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 export type ConcertStatus = 'UPCOMING' | 'NORMAL';
 
@@ -26,7 +25,6 @@ const STATUS_LABEL: Record<ConcertStatus, string> = {
 };
 
 const ConcertSection = ({ concerts }: Props) => {
-  const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   if (concerts.length === 0) return null;
@@ -39,7 +37,6 @@ const ConcertSection = ({ concerts }: Props) => {
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         >
           <Swiper
-            ref={swiper}
             slidesPerView="auto"
             className="relative w-full"
             onInit={() => setIsLoaded(true)}

@@ -178,7 +178,7 @@ const Page = () => {
         )}
       </DeferredSuspense>
       <div className="fixed-centered-layout fixed bottom-0 z-40 border-t border-basic-grey-100 bg-basic-white px-16 py-12">
-        {isApp || true ? (
+        {isApp ? (
           <Button
             type="button"
             onClick={() => setIsNotificationModalOpen(true)}
@@ -191,15 +191,17 @@ const Page = () => {
           </Button>
         )}
       </div>
-      <ArtistNotificationModal
-        isOpen={isNotificationModalOpen}
-        isPushEnabled={isPushEnabled}
-        onClose={() => setIsNotificationModalOpen(false)}
-        onEnableNotification={() => {
-          // TODO: 앱 설정으로 이동
-          setIsNotificationModalOpen(false);
-        }}
-      />
+      {isNotificationModalOpen && (
+        <ArtistNotificationModal
+          isOpen={isNotificationModalOpen}
+          isPushEnabled={isPushEnabled}
+          onClose={() => setIsNotificationModalOpen(false)}
+          onEnableNotification={() => {
+            // TODO: 앱 설정으로 이동
+            setIsNotificationModalOpen(false);
+          }}
+        />
+      )}
     </>
   );
 };

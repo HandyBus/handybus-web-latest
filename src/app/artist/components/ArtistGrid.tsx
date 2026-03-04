@@ -14,7 +14,7 @@ const ArtistGrid = ({ artists }: Props) => {
           href={`/artist/${artist.artistId}`}
           className="flex flex-col items-center gap-8"
         >
-          <div className="aspect-square w-full rounded-8 bg-[#181F2914]" />
+          <div className="aspect-square w-full rounded-8 bg-basic-black/[0.08]" />
           <span className="line-clamp-2 w-full text-center text-14 font-600 leading-[140%]">
             {artist.artistName}
           </span>

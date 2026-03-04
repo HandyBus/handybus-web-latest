@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
 import { ArtistsViewEntity } from '@/types/artist.type';
 
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const MemberSection = ({ members }: Props) => {
-  const swiper = useRef<SwiperRef>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -28,7 +26,6 @@ const MemberSection = ({ members }: Props) => {
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         >
           <Swiper
-            ref={swiper}
             slidesPerView="auto"
             className="relative w-full"
             onInit={() => setIsLoaded(true)}
