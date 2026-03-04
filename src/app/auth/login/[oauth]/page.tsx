@@ -89,6 +89,15 @@ const OAuth = ({ params, searchParams }: Props) => {
       requestMessageToAppForPushToken();
 
       const user = await getUser({ skipCheckOnboarding: true });
+
+      // Amplitude 사용자 식별
+      if (typeof window !== 'undefined' && window.amplitude) {
+        window.amplitude.setUserId(user.userId);
+        const identify = new window.amplitude.Identify();
+        identify.set('name', user.name ?? '');
+        window.amplitude.identify(identify);
+      }
+
       const isOnboardingComplete = user?.onboardingComplete || false;
       const isEntryGreetingChecked = user?.entryGreetingChecked || false;
 
