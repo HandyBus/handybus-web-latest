@@ -12,6 +12,7 @@ declare global {
       setUserId: (userId: string) => void;
       identify: (identify: AmplitudeIdentify) => void;
       Identify: new () => AmplitudeIdentify;
+      reset: () => void;
     };
   }
 }

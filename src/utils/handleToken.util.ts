@@ -64,8 +64,16 @@ export const getIsLoggedIn = () => {
   return isLoggedIn;
 };
 
+// Amplitude 사용자 식별 초기화
+const resetAmplitudeIdentity = () => {
+  if (typeof window !== 'undefined' && window.amplitude) {
+    window.amplitude.reset();
+  }
+};
+
 // 로그아웃 (모든 토큰 삭제 및 홈으로 이동)
 export const logout = async () => {
+  resetAmplitudeIdentity();
   removeOnboardingStatus();
   removeAccessToken();
   removeRefreshToken();
@@ -76,6 +84,7 @@ export const logout = async () => {
 export const logoutWithLoginRedirect = async (redirectUrl?: string) => {
   const redirectPath =
     redirectUrl || window.location.pathname + window.location.search;
+  resetAmplitudeIdentity();
   removeOnboardingStatus();
   removeAccessToken();
   removeRefreshToken();
