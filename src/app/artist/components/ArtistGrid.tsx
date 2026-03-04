@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArtistDetailViewEntity } from '@/types/artist.type';
+import { ArtistsViewEntity } from '@/types/artist.type';
 
 interface Props {
-  artists: ArtistDetailViewEntity[];
+  artists: ArtistsViewEntity[];
 }
 
 const ArtistGrid = ({ artists }: Props) => {

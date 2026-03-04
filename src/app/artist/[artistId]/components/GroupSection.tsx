@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArtistsInArtistViewEntity } from '@/types/artist.type';
+import { ArtistsViewEntity } from '@/types/artist.type';
 
 interface Props {
-  groups: ArtistsInArtistViewEntity[];
+  groups: ArtistsViewEntity[];
 }
 
 const GroupSection = ({ groups }: Props) => {

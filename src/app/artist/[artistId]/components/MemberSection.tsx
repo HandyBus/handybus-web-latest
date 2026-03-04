@@ -5,10 +5,10 @@ import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
-import { ArtistsInArtistViewEntity } from '@/types/artist.type';
+import { ArtistsViewEntity } from '@/types/artist.type';
 
 interface Props {
-  members: ArtistsInArtistViewEntity[];
+  members: ArtistsViewEntity[];
 }
 
 const MemberSection = ({ members }: Props) => {

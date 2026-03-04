@@ -6,6 +6,7 @@ import useEnvironment from '@/hooks/useEnvironment';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Button from '@/components/buttons/button/Button';
+import { ArtistsViewEntity } from '@/types/artist.type';
 import ArtistHero from './components/ArtistHero';
 import MemberSection from './components/MemberSection';
 import GroupSection from './components/GroupSection';
@@ -19,8 +20,8 @@ interface MockArtist {
   artistEnglishName?: string;
   imageUrl?: string | null;
   artistDescription: { description: string } | null;
-  parentArtists: { artistId: string; artistName: string }[] | null;
-  childArtists: { artistId: string; artistName: string }[] | null;
+  parentArtists: ArtistsViewEntity[] | null;
+  childArtists: ArtistsViewEntity[] | null;
 }
 
 const MOCK_ARTISTS: MockArtist[] = [
