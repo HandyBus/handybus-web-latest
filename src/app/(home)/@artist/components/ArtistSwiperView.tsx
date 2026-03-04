@@ -5,10 +5,13 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperRef } from 'swiper/react';
 import 'swiper/css';
-import { ArtistDetailViewEntity } from '@/types/artist.type';
+interface Artist {
+  artistId: string;
+  artistName: string;
+}
 
 interface Props {
-  artists: ArtistDetailViewEntity[];
+  artists: Artist[];
 }
 
 const ArtistSwiperView = ({ artists }: Props) => {
@@ -45,7 +48,7 @@ const ArtistSwiperView = ({ artists }: Props) => {
 export default ArtistSwiperView;
 
 interface ArtistCardProps {
-  artist: ArtistDetailViewEntity;
+  artist: Artist;
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import useEnvironment from '@/hooks/useEnvironment';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
@@ -10,6 +11,7 @@ import MemberSection from './components/MemberSection';
 import GroupSection from './components/GroupSection';
 import ArtistInfoSection from './components/ArtistInfoSection';
 import ConcertSection, { ConcertItem } from './components/ConcertSection';
+import ArtistNotificationModal from './components/ArtistNotificationModal';
 
 interface MockArtist {
   artistId: string;
@@ -135,6 +137,9 @@ const MOCK_CONCERTS: ConcertItem[] = [
 const Page = () => {
   const { artistId } = useParams<{ artistId: string }>();
   const { isApp } = useEnvironment();
+  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+  // TODO: 실제 구현 시 앱에 메시지를 보내서 푸시알림 설정 여부를 받아옴
+  const [isPushEnabled] = useState(false);
 
   const artist = MOCK_ARTISTS.find((a) => a.artistId === artistId) ?? null;
 
@@ -173,13 +178,27 @@ const Page = () => {
       </DeferredSuspense>
       <div className="fixed-centered-layout fixed bottom-0 z-40 border-t border-basic-grey-100 bg-basic-white px-16 py-12">
         {isApp || true ? (
-          <Button type="button">아티스트 알림 받기</Button>
+          <Button
+            type="button"
+            onClick={() => setIsNotificationModalOpen(true)}
+          >
+            아티스트 알림 받기
+          </Button>
         ) : (
           <Button type="button" variant="tertiary" disabled>
             앱 전용 기능이에요
           </Button>
         )}
       </div>
+      <ArtistNotificationModal
+        isOpen={isNotificationModalOpen}
+        isPushEnabled={isPushEnabled}
+        onClose={() => setIsNotificationModalOpen(false)}
+        onEnableNotification={() => {
+          // TODO: 앱 설정으로 이동
+          setIsNotificationModalOpen(false);
+        }}
+      />
     </>
   );
 };
