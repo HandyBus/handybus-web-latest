@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArtistsViewEntity } from '@/types/artist.type';
+import { ArtistsInArtistViewEntity } from '@/types/artist.type';
 
 interface Props {
-  groups: ArtistsViewEntity[];
+  groups: ArtistsInArtistViewEntity[];
 }
 
 const GroupSection = ({ groups }: Props) => {
@@ -18,7 +18,9 @@ const GroupSection = ({ groups }: Props) => {
           >
             <div className="aspect-square w-[80px] rounded-8 bg-basic-grey-100" />
             <span className="w-full truncate text-center text-12 font-500 text-basic-grey-700">
-              {group.artistName}
+              {group.artistAbbreviatedName ??
+                group.artistDisplayName ??
+                group.artistName}
             </span>
           </Link>
         ))}

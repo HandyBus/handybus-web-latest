@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { ArtistsViewEntity } from '@/types/artist.type';
+import { ArtistsInArtistViewEntity } from '@/types/artist.type';
 
 interface Props {
-  members: ArtistsViewEntity[];
+  members: ArtistsInArtistViewEntity[];
 }
 
 const MemberSection = ({ members }: Props) => {
@@ -42,7 +42,9 @@ const MemberSection = ({ members }: Props) => {
                   >
                     <div className="aspect-square w-[80px] rounded-8 bg-basic-grey-100" />
                     <span className="line-clamp-2 w-full text-center text-12 font-500 leading-[160%]">
-                      {member.artistName}
+                      {member.artistAbbreviatedName ??
+                        member.artistDisplayName ??
+                        member.artistName}
                     </span>
                   </Link>
                 </div>

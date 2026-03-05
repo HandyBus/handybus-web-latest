@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ArtistsViewEntitySchema } from './artist.type';
+import { ArtistsInArtistViewEntitySchema } from './artist.type';
 
 //  ----- ENUM -----
 
@@ -53,7 +53,7 @@ export const EventsViewEntitySchema = z
     eventMinRoutePrice: z.number().nullable(),
     eventHasOpenRoute: z.boolean(),
     eventRecommendationScore: z.number(),
-    eventArtists: ArtistsViewEntitySchema.array().nullable(),
+    eventArtists: ArtistsInArtistViewEntitySchema.array().nullable(),
     dailyEvents: DailyEventsInEventsViewEntitySchema.array(),
     startDate: z.string(),
     endDate: z.string(),

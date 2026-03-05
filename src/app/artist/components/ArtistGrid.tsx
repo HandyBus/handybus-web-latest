@@ -16,7 +16,7 @@ const ArtistGrid = ({ artists }: Props) => {
         >
           <div className="aspect-square w-full rounded-8 bg-basic-black/[0.08]" />
           <span className="line-clamp-2 w-full text-center text-14 font-600 leading-[140%]">
-            {artist.artistName}
+            {artist.artistAbbreviatedName ?? artist.artistDisplayName}
           </span>
         </Link>
       ))}

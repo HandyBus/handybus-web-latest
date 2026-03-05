@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import Tooltip from '@/components/tooltip/Tooltip';
-import { ArtistsViewEntity } from '@/types/artist.type';
+import { UserFavoriteArtistsInUsersViewEntity } from '@/types/artist.type';
 
 interface Props {
-  favoriteArtists: ArtistsViewEntity[] | null;
+  favoriteArtists: UserFavoriteArtistsInUsersViewEntity[] | null;
 }
 
 const FavoriteArtists = ({ favoriteArtists }: Props) => {
@@ -56,7 +56,7 @@ const EmptyState = () => {
 };
 
 interface ArtistListProps {
-  favoriteArtists: ArtistsViewEntity[];
+  favoriteArtists: UserFavoriteArtistsInUsersViewEntity[];
 }
 
 const ArtistList = ({ favoriteArtists }: ArtistListProps) => {
@@ -94,7 +94,7 @@ const ArtistList = ({ favoriteArtists }: ArtistListProps) => {
 };
 
 interface ArtistCardProps {
-  artist: ArtistsViewEntity;
+  artist: UserFavoriteArtistsInUsersViewEntity;
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
@@ -105,7 +105,9 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
     >
       <div className="aspect-square w-[68.6px] rounded-8 bg-basic-grey-200" />
       <span className="w-full truncate text-center text-12 font-500 leading-[160%]">
-        {artist.artistName}
+        {artist.artistAbbreviatedName ??
+          artist.artistDisplayName ??
+          artist.artistName}
       </span>
     </Link>
   );

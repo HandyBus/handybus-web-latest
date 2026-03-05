@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ActiveStatusEnum } from './common.type';
-import { ArtistsViewEntitySchema } from './artist.type';
+import { UserFavoriteArtistsInUsersViewEntitySchema } from './artist.type';
 
 //  ----- ENUM -----
 
@@ -35,7 +35,8 @@ export const UsersViewEntitySchema = z
     createdAt: z.string(),
     updatedAt: z.string(),
     regionId: z.string().nullable(),
-    favoriteArtists: ArtistsViewEntitySchema.array().nullable(),
+    favoriteArtists:
+      UserFavoriteArtistsInUsersViewEntitySchema.array().nullable(),
     status: ActiveStatusEnum,
     isConnectedKakao: z.boolean(),
     isConnectedNaver: z.boolean(),
