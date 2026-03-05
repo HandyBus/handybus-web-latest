@@ -3,7 +3,7 @@
 import Header from '@/components/header/Header';
 import Button from '@/components/buttons/button/Button';
 import { useRouter } from 'next/navigation';
-import { logoutWithLoginRedirect } from '@/utils/handleToken.util';
+import { logoutWithCleanupAndLoginRedirect } from '@/utils/logout.util';
 
 interface Props {
   params: {
@@ -40,7 +40,7 @@ const Page = ({ params, searchParams }: Props) => {
             type="button"
             variant="primary"
             size="large"
-            onClick={() => logoutWithLoginRedirect(redirectUrl)}
+            onClick={() => logoutWithCleanupAndLoginRedirect(redirectUrl)}
           >
             로그아웃
           </Button>
