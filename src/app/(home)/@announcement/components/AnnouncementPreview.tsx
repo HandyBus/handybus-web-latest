@@ -5,7 +5,8 @@ import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/arrow-right.svg';
 
 const AnnouncementPreview = async () => {
-  const announcements = await getAnnouncements();
+  const data = await getAnnouncements();
+  const announcements = data.announcements;
   const announcementsSorted = announcements?.sort((a, b) => {
     return dayjs(b.createdAt).diff(dayjs(a.createdAt));
   });
