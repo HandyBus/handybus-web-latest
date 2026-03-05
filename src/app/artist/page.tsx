@@ -34,7 +34,7 @@ export default Page;
 
 const ArtistGridSkeleton = () => {
   return (
-    <div className="grid grid-cols-3 gap-x-8 gap-y-16 pt-16">
+    <div className="grid grid-cols-3 gap-x-[10px] gap-y-16 pt-16">
       {Array.from({ length: 9 }).map((_, i) => (
         <div key={i} className="flex flex-col items-center gap-8">
           <div className="aspect-square w-full animate-pulse rounded-8 bg-basic-grey-100" />

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -103,7 +104,20 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
       href={`/artist/${artist.artistId}`}
       className="flex w-[68.6px] flex-col items-center gap-8"
     >
-      <div className="aspect-square w-[68.6px] rounded-8 bg-basic-grey-200" />
+      <div className="relative aspect-square w-[68.6px] overflow-hidden rounded-8 bg-basic-grey-200">
+        {artist.artistMainImageUrl && (
+          <Image
+            src={artist.artistMainImageUrl}
+            alt={
+              artist.artistAbbreviatedName ??
+              artist.artistDisplayName ??
+              artist.artistName
+            }
+            fill
+            className="object-cover"
+          />
+        )}
+      </div>
       <span className="w-full truncate text-center text-12 font-500 leading-[160%]">
         {artist.artistAbbreviatedName ??
           artist.artistDisplayName ??

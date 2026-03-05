@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArtistsInArtistViewEntity } from '@/types/artist.type';
 
@@ -16,7 +17,20 @@ const GroupSection = ({ groups }: Props) => {
             href={`/artist/${group.artistId}`}
             className="flex w-[80px] flex-col items-center gap-4"
           >
-            <div className="aspect-square w-[80px] rounded-8 bg-basic-grey-100" />
+            <div className="relative aspect-square w-[80px] overflow-hidden rounded-8 bg-basic-grey-100">
+              {group.artistMainImageUrl && (
+                <Image
+                  src={group.artistMainImageUrl}
+                  alt={
+                    group.artistAbbreviatedName ??
+                    group.artistDisplayName ??
+                    group.artistName
+                  }
+                  fill
+                  className="object-cover"
+                />
+              )}
+            </div>
             <span className="w-full truncate text-center text-12 font-500 text-basic-grey-700">
               {group.artistAbbreviatedName ??
                 group.artistDisplayName ??

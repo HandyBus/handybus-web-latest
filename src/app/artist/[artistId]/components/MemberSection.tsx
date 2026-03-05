@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -40,7 +41,20 @@ const MemberSection = ({ members }: Props) => {
                     href={`/artist/${member.artistId}`}
                     className="flex w-[80px] flex-col items-center gap-4"
                   >
-                    <div className="aspect-square w-[80px] rounded-8 bg-basic-grey-100" />
+                    <div className="relative aspect-square w-[80px] overflow-hidden rounded-8 bg-basic-grey-100">
+                      {member.artistMainImageUrl && (
+                        <Image
+                          src={member.artistMainImageUrl}
+                          alt={
+                            member.artistAbbreviatedName ??
+                            member.artistDisplayName ??
+                            member.artistName
+                          }
+                          fill
+                          className="object-cover"
+                        />
+                      )}
+                    </div>
                     <span className="line-clamp-2 w-full text-center text-12 font-500 leading-[160%]">
                       {member.artistAbbreviatedName ??
                         member.artistDisplayName ??

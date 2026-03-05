@@ -34,7 +34,6 @@ export const useGetArtists = (options?: GetArtistsOptions) =>
     queryFn: ({ pageParam }: { pageParam: string | undefined }) =>
       getArtists({ page: pageParam, ...options }),
     initialPageParam: undefined,
-    initialData: { pages: [], pageParams: [] },
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
