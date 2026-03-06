@@ -82,6 +82,10 @@ export interface AppToWebMessages {
   PUSH_TOKEN: {
     token: string | null;
   };
+  /** 앱에서 웹으로 알림 오픈 이벤트 전달 */
+  NOTIFICATION_OPENED: {
+    notificationDeliveryId: string;
+  };
   /** 앱에서 웹으로 공유 결과 전달 */
   SHARE_RESULT: {
     /** 공유 성공 여부 */

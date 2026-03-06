@@ -6,6 +6,7 @@ import useEnvironment from '@/hooks/useEnvironment';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Button from '@/components/buttons/button/Button';
+import useWebViewMessage from '@/hooks/webview/useWebViewMessage';
 import { useGetArtist } from '@/services/artist.service';
 import { useGetEventsByArtistId } from '@/services/event.service';
 import { useGetUser, usePutUser } from '@/services/user.service';
@@ -16,33 +17,83 @@ import GroupSection from './components/GroupSection';
 import ArtistInfoSection from './components/ArtistInfoSection';
 import ArtistNotificationModal from './components/ArtistNotificationModal';
 
+const APP_NOTIFICATION_SETTINGS_SCREEN = 'app_notification_settings';
+
 const Page = () => {
   const { artistId } = useParams<{ artistId: string }>();
   const { isApp } = useEnvironment();
+  const { sendMessage, sendRequest } = useWebViewMessage();
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+  const [
+    isCheckingNotificationPermission,
+    setIsCheckingNotificationPermission,
+  ] = useState(false);
 
   const { data: artist, isLoading } = useGetArtist(artistId);
   const { data: eventList = [] } = useGetEventsByArtistId(artistId);
   const { data: user } = useGetUser({ enabled: isApp });
+  const favoriteArtistIds =
+    user?.favoriteArtists?.map((artist) => artist.artistId) ?? [];
 
-  const isFavorite =
-    user?.favoriteArtists?.some((a) => a.artistId === artistId) ?? false;
+  const isFavorite = favoriteArtistIds.includes(artistId);
 
-  const { mutate: updateUser, isPending } = usePutUser({
+  const {
+    mutate: updateUser,
+    mutateAsync: updateUserAsync,
+    isPending,
+  } = usePutUser({
     onSuccess: () => {
       setIsNotificationModalOpen(false);
     },
   });
 
-  const handleToggleFavorite = () => {
+  const addFavoriteArtist = async () => {
     if (!user || isPending) return;
-    const currentIds = user.favoriteArtists?.map((a) => a.artistId) ?? [];
-    if (isFavorite) {
-      updateUser({
-        favoriteArtistsIds: currentIds.filter((id) => id !== artistId),
-      });
-    } else {
-      updateUser({ favoriteArtistsIds: [...currentIds, artistId] });
+
+    const nextIds = Array.from(new Set([...favoriteArtistIds, artistId]));
+    await updateUserAsync({ favoriteArtistsIds: nextIds });
+  };
+
+  const removeFavoriteArtist = () => {
+    if (!user || isPending) return;
+
+    updateUser({
+      favoriteArtistsIds: favoriteArtistIds.filter((id) => id !== artistId),
+    });
+  };
+
+  const handleEnableNotification = async () => {
+    if (!isApp || !user || isPending || isCheckingNotificationPermission) {
+      return;
+    }
+
+    setIsCheckingNotificationPermission(true);
+    try {
+      const permissionResult = await sendRequest(
+        'REQUEST_PERMISSION',
+        { permission: 'notification' },
+        'PERMISSION_RESULT',
+        5000,
+      );
+
+      if (permissionResult.permission !== 'notification') return;
+
+      if (!permissionResult.granted) {
+        const didNavigate = sendMessage('NAVIGATE', {
+          screen: APP_NOTIFICATION_SETTINGS_SCREEN,
+        });
+
+        if (didNavigate) {
+          setIsNotificationModalOpen(false);
+        }
+        return;
+      }
+
+      await addFavoriteArtist();
+    } catch (error) {
+      console.error('[ArtistNotification] Failed to check permission', error);
+    } finally {
+      setIsCheckingNotificationPermission(false);
     }
   };
 
@@ -88,7 +139,7 @@ const Page = () => {
             <Button
               type="button"
               variant="tertiary"
-              onClick={handleToggleFavorite}
+              onClick={removeFavoriteArtist}
               disabled={isPending}
             >
               알림 그만 받기
@@ -113,7 +164,7 @@ const Page = () => {
           isOpen={isNotificationModalOpen}
           isPushEnabled={isFavorite}
           onClose={() => setIsNotificationModalOpen(false)}
-          onEnableNotification={handleToggleFavorite}
+          onEnableNotification={handleEnableNotification}
         />
       )}
     </>
