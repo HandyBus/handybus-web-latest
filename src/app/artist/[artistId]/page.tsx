@@ -17,6 +17,8 @@ import GroupSection from './components/GroupSection';
 import ArtistInfoSection from './components/ArtistInfoSection';
 import ArtistNotificationModal from './components/ArtistNotificationModal';
 
+const APP_NOTIFICATION_SETTINGS_SCREEN = 'app_notification_settings';
+
 const Page = () => {
   const { artistId } = useParams<{ artistId: string }>();
   const { isApp } = useEnvironment();
@@ -30,33 +32,33 @@ const Page = () => {
   const { data: artist, isLoading } = useGetArtist(artistId);
   const { data: eventList = [] } = useGetEventsByArtistId(artistId);
   const { data: user } = useGetUser({ enabled: isApp });
+  const favoriteArtistIds =
+    user?.favoriteArtists?.map((artist) => artist.artistId) ?? [];
 
-  const isFavorite =
-    user?.favoriteArtists?.some((artist) => artist.artistId === artistId) ??
-    false;
+  const isFavorite = favoriteArtistIds.includes(artistId);
 
-  const { mutate: updateUser, isPending } = usePutUser({
+  const {
+    mutate: updateUser,
+    mutateAsync: updateUserAsync,
+    isPending,
+  } = usePutUser({
     onSuccess: () => {
       setIsNotificationModalOpen(false);
     },
   });
 
-  const addFavoriteArtist = () => {
+  const addFavoriteArtist = async () => {
     if (!user || isPending) return;
 
-    const currentIds =
-      user.favoriteArtists?.map((artist) => artist.artistId) ?? [];
-    const nextIds = Array.from(new Set([...currentIds, artistId]));
-    updateUser({ favoriteArtistsIds: nextIds });
+    const nextIds = Array.from(new Set([...favoriteArtistIds, artistId]));
+    await updateUserAsync({ favoriteArtistsIds: nextIds });
   };
 
   const removeFavoriteArtist = () => {
     if (!user || isPending) return;
 
-    const currentIds =
-      user.favoriteArtists?.map((artist) => artist.artistId) ?? [];
     updateUser({
-      favoriteArtistsIds: currentIds.filter((id) => id !== artistId),
+      favoriteArtistsIds: favoriteArtistIds.filter((id) => id !== artistId),
     });
   };
 
@@ -78,7 +80,7 @@ const Page = () => {
 
       if (!permissionResult.granted) {
         const didNavigate = sendMessage('NAVIGATE', {
-          screen: 'app_notification_settings',
+          screen: APP_NOTIFICATION_SETTINGS_SCREEN,
         });
 
         if (didNavigate) {
@@ -87,7 +89,7 @@ const Page = () => {
         return;
       }
 
-      addFavoriteArtist();
+      await addFavoriteArtist();
     } catch (error) {
       console.error('[ArtistNotification] Failed to check permission', error);
     } finally {
