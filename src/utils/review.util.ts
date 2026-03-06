@@ -8,7 +8,7 @@ export const checkIsReviewWritingPeriod = (
 ) => {
   const event = reservation.shuttleRoute.event;
   const shuttleRoute = reservation.shuttleRoute;
-  const dailyEvent = event.dailyEvents.find(
+  const dailyEvent = (event.dailyEvents ?? []).find(
     (dailyEvent) => dailyEvent.dailyEventId === shuttleRoute.dailyEventId,
   );
 

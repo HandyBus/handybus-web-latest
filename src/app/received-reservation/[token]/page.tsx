@@ -65,7 +65,7 @@ const Page = ({ params }: Props) => {
     return null;
   }
 
-  const dailyEvent = reservation.shuttleRoute.event.dailyEvents.find(
+  const dailyEvent = (reservation.shuttleRoute.event.dailyEvents ?? []).find(
     (dailyEvent) =>
       dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
   );
@@ -74,7 +74,7 @@ const Page = ({ params }: Props) => {
     <main className="flex grow flex-col items-center justify-center">
       <h1 className="text-22 font-700">선물 받은 예약이 있어요!</h1>
       <p className="text-16 font-500">
-        행사명: {reservation.shuttleRoute.event.eventName}
+        행사명: {reservation.shuttleRoute.event.eventDisplayName}
       </p>
       <p className="text-16 font-500">
         행사 날짜:{' '}

@@ -10,11 +10,11 @@ export const generateMetadata = async ({
 }) => {
   const event = await getEvent(params.eventId);
   const metadata = createMetadataWithOG({
-    title: `${event.eventName} 행사 상세보기 | ${TITLE}`,
+    title: `${event.eventDisplayName} 행사 상세보기 | ${TITLE}`,
     imageUrl: event.eventImageUrl ?? DEFAULT_EVENT_IMAGE,
     location: event.eventLocationName,
     url: `/event/${params.eventId}`,
-    keywords: `${event.eventName}, ${event.eventName} 셔틀 수요조사, ${event.eventName} 셔틀 예약, ${event.eventName} 셔틀, ${event.eventName} 버스, ${event.eventName} 택시, ${event.eventName} 택시팟, ${event.eventName} 핸디팟, ${event.eventName} 차대절, ${event.eventName} 버스 대절, ${event.eventName} 행사 셔틀`,
+    keywords: `${event.eventDisplayName}, ${event.eventDisplayName} 셔틀 수요조사, ${event.eventDisplayName} 셔틀 예약, ${event.eventDisplayName} 셔틀, ${event.eventDisplayName} 버스, ${event.eventDisplayName} 택시, ${event.eventDisplayName} 택시팟, ${event.eventDisplayName} 핸디팟, ${event.eventDisplayName} 차대절, ${event.eventDisplayName} 버스 대절, ${event.eventDisplayName} 행사 셔틀`,
   });
   return metadata;
 };

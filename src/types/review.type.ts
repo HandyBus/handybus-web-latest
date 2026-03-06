@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { ActiveStatusEnum } from './common.type';
 import { EventTypeEnum } from './event.type';
-import { ArtistsViewEntitySchema } from './artist.type';
+import { ArtistsInArtistViewEntitySchema } from './artist.type';
 
 //  ----- GET -----
 
@@ -29,7 +29,7 @@ export const ReviewsViewEntitySchema = z
     eventType: EventTypeEnum,
     eventLocationName: z.string(),
     eventImageUrl: z.string().url(),
-    eventArtists: ArtistsViewEntitySchema.array().nullable(),
+    eventArtists: ArtistsInArtistViewEntitySchema.array().nullable(),
     reviewImages: z
       .object({
         imageUrl: z.string().url(),

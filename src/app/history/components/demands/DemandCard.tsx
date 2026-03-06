@@ -142,7 +142,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
           <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
             <Image
               src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
-              alt={`${event.eventName} 행사 포스터`}
+              alt={`${event.eventDisplayName} 행사 포스터`}
               fill
               className="object-cover"
             />
@@ -154,7 +154,7 @@ const DemandCard = ({ demand, event, dailyEvent }: Props) => {
                 !ableToRedirectToDemandDetail && 'text-basic-grey-400',
               )}
             >
-              {event.eventName}
+              {event.eventDisplayName}
             </h5>
             <p
               className={customTwMerge(

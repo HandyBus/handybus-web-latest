@@ -6,7 +6,7 @@ export const getBoardingTime = (
   reservation: ReservationsViewEntity,
 ): Dayjs | null => {
   const shuttleRoute = reservation.shuttleRoute;
-  const dailyEvent = shuttleRoute.event.dailyEvents.find(
+  const dailyEvent = (shuttleRoute.event.dailyEvents ?? []).find(
     (dailyEvent) => dailyEvent.dailyEventId === shuttleRoute.dailyEventId,
   );
   if (!dailyEvent) {

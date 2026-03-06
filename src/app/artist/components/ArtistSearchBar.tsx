@@ -21,6 +21,7 @@ const ArtistSearchBar = ({ query, onChangeQuery }: Props) => {
           type="button"
           onClick={() => onChangeQuery('')}
           className="flex shrink-0 items-center"
+          aria-label="검색어 지우기"
         >
           <CloseIcon className="h-20 w-20" />
         </button>

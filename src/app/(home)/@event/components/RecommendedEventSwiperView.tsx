@@ -107,7 +107,7 @@ const EventCard = ({
     <Card
       variant={'MEDIUM'}
       image={event.eventImageUrl}
-      title={event.eventName}
+      title={event.eventDisplayName}
       date={formattedDate}
       location={event.eventLocationName}
       price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}

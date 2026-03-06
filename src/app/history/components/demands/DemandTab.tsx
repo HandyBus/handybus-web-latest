@@ -81,7 +81,7 @@ const DemandTab = () => {
               <ul className="flex flex-col gap-16 px-16 pb-48">
                 {demands?.map((demand) => {
                   const event = demand.event;
-                  const dailyEvent = event.dailyEvents.find(
+                  const dailyEvent = (event.dailyEvents ?? []).find(
                     (dailyEvent) =>
                       dailyEvent.dailyEventId === demand.dailyEventId,
                   );

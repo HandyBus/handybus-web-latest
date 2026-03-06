@@ -143,7 +143,10 @@ export const usePutUser = ({
   return useMutation({
     mutationFn: (body: UpdateMeRequest) => putUser(body, options),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['user', 'stats'] });
+      await queryClient.invalidateQueries({ queryKey: ['user'], exact: true });
+      await queryClient.invalidateQueries({
+        queryKey: ['user', 'stats'],
+      });
       onSuccess?.();
     },
     onError,

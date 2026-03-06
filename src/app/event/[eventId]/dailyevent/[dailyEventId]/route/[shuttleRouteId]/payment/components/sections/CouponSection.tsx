@@ -172,7 +172,7 @@ const Coupon = ({ coupon, onClick, selected, disabled }: CouponProps) => {
   const allowedEventIdText = !coupon.allowedEventId
     ? '모든 행사에 사용 가능한 쿠폰'
     : allowedEvent
-      ? `${allowedEvent.eventName} 쿠폰`
+      ? `${allowedEvent.eventDisplayName} 쿠폰`
       : ' ';
 
   const maxApplicablePeopleText =

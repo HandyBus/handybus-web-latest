@@ -48,7 +48,7 @@ const Page = async ({ params, searchParams }: Props) => {
           {hasReferralCode && <ReferralDiscountNotice />}
           <EventImage
             eventImageUrl={event.eventImageUrl}
-            eventName={event.eventName}
+            eventName={event.eventDisplayName}
           />
           <EventInfo event={event} isReservationClosingSoon={isClosingSoon} />
           <EventCampaign />

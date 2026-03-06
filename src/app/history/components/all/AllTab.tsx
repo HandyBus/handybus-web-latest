@@ -66,7 +66,7 @@ const AllTab = () => {
 
     for (const demand of demands) {
       const event = demand.event;
-      const dailyEvent = event.dailyEvents.find(
+      const dailyEvent = (event.dailyEvents ?? []).find(
         (de) => de.dailyEventId === demand.dailyEventId,
       );
       if (event && dailyEvent) {
@@ -83,7 +83,7 @@ const AllTab = () => {
     if (reservations) {
       for (const reservation of reservations) {
         const event = reservation.shuttleRoute.event;
-        const dailyEvent = event.dailyEvents.find(
+        const dailyEvent = (event.dailyEvents ?? []).find(
           (de) => de.dailyEventId === reservation.shuttleRoute.dailyEventId,
         );
         if (event && dailyEvent) {

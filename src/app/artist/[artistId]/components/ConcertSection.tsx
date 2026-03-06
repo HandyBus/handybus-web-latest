@@ -1,33 +1,27 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-export type ConcertStatus = 'UPCOMING' | 'NORMAL';
-
-export interface ConcertItem {
-  eventId: string;
-  eventName: string;
-  eventImageUrl: string | null;
-  concertStatus: ConcertStatus;
-  startDate: string;
-  endDate: string;
-}
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
+import type { EventsViewEntity } from '@/types/event.type';
+import { dateString } from '@/utils/dateString.util';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface Props {
-  concerts: ConcertItem[];
+  eventList: EventsViewEntity[];
 }
 
-const STATUS_LABEL: Record<ConcertStatus, string> = {
-  UPCOMING: '공연 예정',
-  NORMAL: '',
-};
-
-const ConcertSection = ({ concerts }: Props) => {
+const ConcertSection = ({ eventList }: Props) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  if (concerts.length === 0) return null;
+  if (eventList.length === 0) return null;
 
   return (
     <section className="py-24">
@@ -44,10 +38,10 @@ const ConcertSection = ({ concerts }: Props) => {
             <SwiperSlide style={{ width: 'auto' }}>
               <div className="w-16" />
             </SwiperSlide>
-            {concerts.map((concert) => (
-              <SwiperSlide key={concert.eventId} style={{ width: 'auto' }}>
+            {eventList.map((event) => (
+              <SwiperSlide key={event.eventId} style={{ width: 'auto' }}>
                 <div className="pr-12">
-                  <ConcertCard concert={concert} />
+                  <ConcertCard event={event} />
                 </div>
               </SwiperSlide>
             ))}
@@ -64,27 +58,47 @@ const ConcertSection = ({ concerts }: Props) => {
 export default ConcertSection;
 
 interface ConcertCardProps {
-  concert: ConcertItem;
+  event: EventsViewEntity;
 }
 
-const ConcertCard = ({ concert }: ConcertCardProps) => {
+const ConcertCard = ({ event }: ConcertCardProps) => {
+  const todayKR = dayjs().tz('Asia/Seoul').startOf('day');
+
+  const isUpcoming =
+    (event.dailyEvents ?? []).length > 0 &&
+    (event.dailyEvents ?? []).every(
+      (de) => !dayjs(de.dailyEventDate).isBefore(todayKR, 'day'),
+    );
+
   return (
-    <Link href={`/event/${concert.eventId}`} className="block w-[145px]">
+    <Link href={`/event/${event.eventId}`} className="block w-[145px]">
       <div className="relative h-[193px] w-[145px] overflow-hidden rounded-8 bg-basic-grey-200">
-        {concert.concertStatus === 'UPCOMING' && (
+        <Image
+          src={event.eventOfficialPosterImageUrl ?? DEFAULT_EVENT_IMAGE}
+          alt={event.eventOfficialName}
+          fill
+          className="object-cover"
+          sizes="145px"
+        />
+        {isUpcoming && (
           <div className="bg-black/20 absolute inset-0 flex items-center justify-center">
             <span className="bg-black/50 rounded-4 px-8 py-4 text-12 font-600 text-basic-white">
-              {STATUS_LABEL['UPCOMING']}
+              공연 예정
             </span>
           </div>
         )}
       </div>
       <div className="pt-8">
         <p className="line-clamp-2 break-all text-14 font-600 leading-[140%] text-basic-black">
-          {concert.eventName}
+          {event.eventOfficialName}
         </p>
         <p className="text-12 font-500 leading-[160%] text-basic-grey-500">
-          {concert.startDate} - {concert.endDate}
+          {dateString(
+            event.startDate === event.endDate
+              ? event.startDate
+              : [event.startDate, event.endDate],
+            { showWeekday: false },
+          )}
         </p>
       </div>
     </Link>

@@ -8,7 +8,7 @@ export const checkIsReservationTransferablePeriod = (
   const RESERVATION_TRANSFERABLE_PERIOD_DAYS = 6;
 
   const shuttleRoute = reservation.shuttleRoute;
-  const dailyEvent = shuttleRoute.event.dailyEvents.find(
+  const dailyEvent = (shuttleRoute.event.dailyEvents ?? []).find(
     (dailyEvent) => dailyEvent.dailyEventId === shuttleRoute.dailyEventId,
   );
   if (!dailyEvent) {

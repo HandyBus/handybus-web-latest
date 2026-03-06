@@ -56,8 +56,8 @@ const Page = ({ params }: PageProps) => {
         getUserReservations({ eventProgressStatus: 'PAST' }),
       ]);
       const dailyEventId = reservation.shuttleRoute.dailyEventId;
-      const eventName = reservation.shuttleRoute.event.eventName;
-      const eventDate = reservation.shuttleRoute.event.dailyEvents.find(
+      const eventName = reservation.shuttleRoute.event.eventDisplayName;
+      const eventDate = (reservation.shuttleRoute.event.dailyEvents ?? []).find(
         (de) => de.dailyEventId === dailyEventId,
       )?.dailyEventDate;
       const hubToDestination =

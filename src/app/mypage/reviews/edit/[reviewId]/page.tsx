@@ -71,7 +71,7 @@ interface EventInfoCardProps {
 }
 
 const EventInfoCard = ({ event, reservation }: EventInfoCardProps) => {
-  const dailyEvent = event.dailyEvents.find(
+  const dailyEvent = (event.dailyEvents ?? []).find(
     (dailyEvent) =>
       dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
   );
@@ -85,7 +85,9 @@ const EventInfoCard = ({ event, reservation }: EventInfoCardProps) => {
 
   return (
     <section className="px-16 pb-[26px] pt-16">
-      <h6 className="line-clamp-1 grow text-16 font-600">{event.eventName}</h6>
+      <h6 className="line-clamp-1 grow text-16 font-600">
+        {event.eventDisplayName}
+      </h6>
       <p className="text-12 font-500 text-basic-grey-700">
         {event.eventLocationName}
       </p>
