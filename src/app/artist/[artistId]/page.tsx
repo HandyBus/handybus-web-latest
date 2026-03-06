@@ -22,8 +22,10 @@ const Page = () => {
   const { isApp } = useEnvironment();
   const { sendMessage, sendRequest } = useWebViewMessage();
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
-  const [isCheckingNotificationPermission, setIsCheckingNotificationPermission] =
-    useState(false);
+  const [
+    isCheckingNotificationPermission,
+    setIsCheckingNotificationPermission,
+  ] = useState(false);
 
   const { data: artist, isLoading } = useGetArtist(artistId);
   const { data: eventList = [] } = useGetEventsByArtistId(artistId);
@@ -158,7 +160,7 @@ const Page = () => {
       {isNotificationModalOpen && (
         <ArtistNotificationModal
           isOpen={isNotificationModalOpen}
-          isLoading={isCheckingNotificationPermission || isPending}
+          isPushEnabled={isFavorite}
           onClose={() => setIsNotificationModalOpen(false)}
           onEnableNotification={handleEnableNotification}
         />
