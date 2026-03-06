@@ -10,10 +10,10 @@ interface Props {
 
 export const useInvitePaybackAnalytics = ({ event, reservation }: Props) => {
   const eventId = event.eventId;
-  const eventName = event.eventName;
+  const eventName = event.eventDisplayName;
   const eventDate = useMemo(
     () =>
-      event.dailyEvents.find(
+      (event.dailyEvents ?? []).find(
         (dailyEvent) =>
           dailyEvent.dailyEventId === reservation.shuttleRoute.dailyEventId,
       )?.dailyEventDate ?? '',

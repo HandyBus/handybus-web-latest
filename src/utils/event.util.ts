@@ -21,7 +21,9 @@ export const getPhaseAndEnabledStatus = (
   const isStandBy = event.eventStatus === 'STAND_BY';
   const isDemandOngoing =
     event.eventStatus === 'OPEN' &&
-    event.dailyEvents.some((dailyEvent) => dailyEvent.dailyEventIsDemandOpen);
+    (event.dailyEvents ?? []).some(
+      (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
+    );
   const isReservationOpen = event.eventMinRoutePrice !== null;
   const isReservationOngoing = event.eventHasOpenRoute;
 

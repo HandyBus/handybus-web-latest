@@ -106,7 +106,7 @@ const TicketSwiperView = ({ reservation }: Props) => {
               {/* 탑승지/하차지 */}
               <section className="flex flex-col gap-8 px-16 py-16">
                 <h2 className="text-14 font-600 leading-[140%] text-basic-grey-600">
-                  {reservation.shuttleRoute.event.eventName}
+                  {reservation.shuttleRoute.event.eventDisplayName}
                 </h2>
                 <div className="flex gap-8">
                   <div>

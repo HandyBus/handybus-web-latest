@@ -183,21 +183,21 @@ const Content = ({
   const demandTrackingParams = useMemo(
     () => ({
       eventId: event.eventId,
-      eventName: event.eventName,
+      eventName: event.eventDisplayName,
       isBottomSheetOpen: isOpen,
       isActive: phase === 'demand',
     }),
-    [event.eventId, event.eventName, isOpen, phase],
+    [event.eventId, event.eventDisplayName, isOpen, phase],
   );
 
   const reservationTrackingParams = useMemo(
     () => ({
       eventId: event.eventId,
-      eventName: event.eventName,
+      eventName: event.eventDisplayName,
       isBottomSheetOpen: isOpen,
       isActive: phase === 'reservation',
     }),
-    [event.eventId, event.eventName, isOpen, phase],
+    [event.eventId, event.eventDisplayName, isOpen, phase],
   );
 
   const { trackEnterDemand, trackCompleteDemand, setDemandTrackingStep } =
@@ -233,7 +233,7 @@ const Content = ({
     <>
       <form className="flex flex-col gap-8">
         <BottomBar
-          eventName={event.eventName}
+          eventName={event.eventDisplayName}
           phase={phase}
           enabledStatus={enabledStatus}
           onClick={handleOpenBottomSheet}
@@ -277,7 +277,7 @@ const Content = ({
           status={demandCompleteStatus ?? 'success'}
           setDemandCompleteStatus={setDemandCompleteStatus}
           demandCount={demandCount}
-          eventName={event.eventName}
+          eventName={event.eventDisplayName}
         />
       )}
       {isAlertRequestFeedbackScreenOpen && (

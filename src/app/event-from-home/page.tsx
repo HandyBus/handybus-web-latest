@@ -72,7 +72,7 @@ const Page = () => {
                     });
                     const isDemandOngoing =
                       event.eventStatus === 'OPEN' &&
-                      event.dailyEvents.some(
+                      (event.dailyEvents ?? []).some(
                         (dailyEvent) => dailyEvent.dailyEventIsDemandOpen,
                       );
                     const isSaleStarted =
@@ -124,8 +124,8 @@ export default Page;
 interface EventCardProps {
   event: {
     eventId: string;
-    eventImageUrl: string;
-    eventName: string;
+    eventImageUrl: string | null;
+    eventDisplayName: string;
     eventLocationName: string;
     eventMinRoutePrice: number | null;
     eventStatus: string;
@@ -159,7 +159,7 @@ const EventCard = ({
       <Card
         image={event.eventImageUrl}
         variant="GRID"
-        title={event.eventName}
+        title={event.eventDisplayName}
         date={formattedDate}
         location={event.eventLocationName}
         price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}

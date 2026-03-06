@@ -31,7 +31,7 @@ const EventInfoSection = ({ event }: Props) => {
         </div>
         <div className="flex flex-1 flex-col gap-4">
           <h3 className="line-clamp-2 text-16 font-600 leading-[140%]">
-            {event.eventName}
+            {event.eventDisplayName}
           </h3>
           <p className="flex flex-col gap-[2px]">
             <span className="line-clamp-1 text-12 font-500 leading-[160%] text-basic-grey-700">

@@ -42,8 +42,13 @@ next-env.d.ts
 # figma
 figma_nodes.json
 
-# omx
+# codex omx
 .omx/
+AGENTS.md
+
+# claude
+.claude/
+CLAUDE.md
 
 .env
 .eslintcache

@@ -14,7 +14,7 @@ const ShuttleInfoSection = ({ reservation }: Props) => {
   const boardingTime = getBoardingTime(reservation);
   const tripType = reservation.type;
 
-  const eventName = event.eventName;
+  const eventName = event.eventDisplayName;
   const formattedBoardingTime = dateString(boardingTime, {
     showYear: true,
     showDate: true,
