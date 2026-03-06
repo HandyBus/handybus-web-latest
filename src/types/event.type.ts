@@ -46,7 +46,7 @@ export const EventsViewEntitySchema = z
     regionHubId: z.string(),
     eventStatus: EventStatusEnum,
     eventMetadata: z.record(z.string(), z.any()).nullable(),
-    eventImageUrl: z.string(),
+    eventImageUrl: z.string().nullable(),
     eventDisplayImageUrl: z.string().nullable(),
     eventDetailImageUrl: z.string().nullable(),
     eventTicketUrl: z.string().nullable(),

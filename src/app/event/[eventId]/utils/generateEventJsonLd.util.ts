@@ -14,8 +14,8 @@ export const generateEventJsonLd = (event: EventsViewEntity) => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Event',
-    name: event.eventName,
-    description: `${event.eventName} 전용 셔틀 예약 서비스. 핸디버스를 통해 ${event.eventLocationName}까지 편리하게 이동하세요.`,
+    name: event.eventDisplayName,
+    description: `${event.eventDisplayName} 전용 셔틀 예약 서비스. 핸디버스를 통해 ${event.eventLocationName}까지 편리하게 이동하세요.`,
     image: [event.eventImageUrl],
     startDate: event.startDate,
     endDate: event.endDate,
@@ -37,7 +37,7 @@ export const generateEventJsonLd = (event: EventsViewEntity) => {
     },
     offers: {
       '@type': 'Offer',
-      name: `${event.eventName} 셔틀 티켓`,
+      name: `${event.eventDisplayName} 셔틀 티켓`,
       description: '행사 전용 셔틀 예약',
       url: `https://www.handybus.co.kr/event/${event.eventId}`,
       price: event.eventMinRoutePrice ?? 0,

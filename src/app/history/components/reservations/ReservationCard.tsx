@@ -112,14 +112,14 @@ const ReservationCard = ({ reservation, event, dailyEvent }: Props) => {
           <div className="relative h-[70px] w-52 shrink-0 overflow-hidden rounded-4">
             <Image
               src={event.eventImageUrl || DEFAULT_EVENT_IMAGE}
-              alt={`${event.eventName} 행사 포스터`}
+              alt={`${event.eventDisplayName} 행사 포스터`}
               fill
               className="object-cover"
             />
           </div>
           <div className="flex grow flex-col pl-12 text-left">
             <h5 className="line-clamp-1 h-[23px] text-16 font-600 leading-[140%]">
-              {event.eventName}
+              {event.eventDisplayName}
             </h5>
             <p className="flex h-[22px] items-center gap-[6px] whitespace-nowrap break-keep text-14 font-500 leading-[160%] text-basic-grey-700">
               <span>{formattedEventDate}</span>

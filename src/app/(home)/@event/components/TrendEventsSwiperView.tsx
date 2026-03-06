@@ -117,7 +117,7 @@ const EventCard = ({ event, order }: EventCardProps) => {
     <Card
       variant={'LARGE'}
       image={event.eventImageUrl}
-      title={event.eventName}
+      title={event.eventDisplayName}
       date={event.startDate}
       location={event.eventLocationName}
       price={`${event.eventMinRoutePrice?.toLocaleString()}원 ~`}

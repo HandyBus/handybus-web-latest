@@ -29,7 +29,7 @@ interface TicketItemProps {
 const TicketItem = ({ reservation }: TicketItemProps) => {
   const { push } = useRouter();
   const { type, shuttleRoute, passengerCount } = reservation;
-  const eventName = shuttleRoute.event.eventName;
+  const eventName = shuttleRoute.event.eventDisplayName;
   const { departureTime, departureLocation } =
     getBoardingInformation(reservation);
 

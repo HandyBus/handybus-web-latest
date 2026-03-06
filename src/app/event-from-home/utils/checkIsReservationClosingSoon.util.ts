@@ -13,7 +13,7 @@ export const checkIsReservationClosingSoon = ({
 }) => {
   const hasOpenRoute = event.eventStatus === 'OPEN' && event.eventHasOpenRoute;
 
-  const dailyEventsAfterToday = event.dailyEvents.filter((dailyEvent) =>
+  const dailyEventsAfterToday = (event.dailyEvents ?? []).filter((dailyEvent) =>
     dayjs(dailyEvent.dailyEventDate)
       .tz('Asia/Seoul')
       .isAfter(dayjs().tz('Asia/Seoul')),

@@ -7,14 +7,14 @@ export const toSorted = (events: EventsViewEntity[], sort: EventSortType) => {
   switch (sort) {
     case 'NAME_ASC':
       newData = events.toSorted((a, b) =>
-        a.eventName.localeCompare(b.eventName),
+        a.eventDisplayName.localeCompare(b.eventDisplayName),
       );
       break;
     case 'DATE_ASC':
       newData = events.toSorted(
         (a, b) =>
-          (dayjs(a.dailyEvents[0].dailyEventDate).tz().valueOf() || 0) -
-          (dayjs(b.dailyEvents[0].dailyEventDate).tz().valueOf() || 0),
+          (dayjs(a.dailyEvents?.[0]?.dailyEventDate).tz().valueOf() || 0) -
+          (dayjs(b.dailyEvents?.[0]?.dailyEventDate).tz().valueOf() || 0),
       );
       break;
   }

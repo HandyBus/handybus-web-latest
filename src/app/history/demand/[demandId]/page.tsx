@@ -23,7 +23,7 @@ const Page = ({ params }: Props) => {
   };
 
   if (isSuccess) {
-    const dailyEvent = demand?.event.dailyEvents.find(
+    const dailyEvent = (demand?.event.dailyEvents ?? []).find(
       (dailyEvent) => dailyEvent.dailyEventId === demand?.dailyEventId,
     );
     if (!dailyEvent || !demand) {

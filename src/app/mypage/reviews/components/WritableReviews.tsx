@@ -40,7 +40,7 @@ const WritableReviews = () => {
           <ul className="flex flex-col gap-16 px-16 pb-16 pt-24">
             {reservationsWithNotWrittenReview.map((reservation) => {
               const event = reservation.shuttleRoute.event;
-              const dailyEvent = event.dailyEvents.find(
+              const dailyEvent = (event.dailyEvents ?? []).find(
                 (dailyEvent) =>
                   dailyEvent.dailyEventId ===
                   reservation.shuttleRoute.dailyEventId,

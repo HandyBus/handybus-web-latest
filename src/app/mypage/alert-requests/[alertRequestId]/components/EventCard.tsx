@@ -9,7 +9,7 @@ interface Props {
 }
 
 const EventCard = ({ event }: Props) => {
-  const dates = event.dailyEvents.map(
+  const dates = (event.dailyEvents ?? []).map(
     (dailyEvent) => dailyEvent.dailyEventDate,
   );
   const formattedEventDate = dateString(dates, {
@@ -31,7 +31,9 @@ const EventCard = ({ event }: Props) => {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <h2 className="line-clamp-2 text-16 font-600">{event.eventName}</h2>
+        <h2 className="line-clamp-2 text-16 font-600">
+          {event.eventDisplayName}
+        </h2>
         <p className="text-12 font-500 text-basic-grey-700">
           {formattedEventDate}
         </p>

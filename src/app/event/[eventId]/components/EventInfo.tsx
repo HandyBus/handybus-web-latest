@@ -14,7 +14,7 @@ interface Props {
 
 const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
   const parsedDateString = dateString(
-    event.dailyEvents.map((v) => v.dailyEventDate),
+    (event.dailyEvents ?? []).map((v) => v.dailyEventDate),
     {
       showWeekday: false,
     },
@@ -27,7 +27,7 @@ const EventInfo = ({ event, isReservationClosingSoon }: Props) => {
   return (
     <>
       <section className="flex flex-col px-16 py-24">
-        <h1 className="mb-4 text-20 font-700">{event.eventName}</h1>
+        <h1 className="mb-4 text-20 font-700">{event.eventDisplayName}</h1>
         <h3 className="mb-[2px] text-16 font-500 text-basic-grey-700">
           {parsedDateString}
         </h3>

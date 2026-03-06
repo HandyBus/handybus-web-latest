@@ -111,7 +111,7 @@ const Content = ({
   // 예약 추적 훅
   const { markAsIntentionalNavigation } = useReservationTracking({
     eventId: event.eventId,
-    eventName: event.eventName,
+    eventName: event.eventDisplayName,
     isBottomSheetOpen: false, // 결제 페이지에서는 바텀시트 없음
     isActive: true,
     reservationStartTime,
@@ -165,7 +165,10 @@ const Content = ({
       const successUrl = `${baseUrl}/request?reservationId=${postReservationResponse.reservationId}${reservationStartTime ? `&${PAYMENT_PARAMS_KEYS.reservationStartTime}=${reservationStartTime}` : ''}`;
       const failUrl = `${baseUrl}/request/fail`;
       const orderName =
-        `[${shuttleRoute.name}] ${shuttleRoute.event.eventName}`.slice(0, 99);
+        `[${shuttleRoute.name}] ${shuttleRoute.event.eventDisplayName}`.slice(
+          0,
+          99,
+        );
 
       const onError = (error: CustomError) => {
         if (error.statusCode === 403) {

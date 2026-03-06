@@ -67,9 +67,9 @@ const PaymentsCompletedPage = ({
 }: PaymentsCompletedPageProps) => {
   const dailyEventId = reservation.shuttleRoute.dailyEventId;
 
-  const eventName = reservation.shuttleRoute.event.eventName;
+  const eventName = reservation.shuttleRoute.event.eventDisplayName;
   // const eventDate =
-  //   reservation.shuttleRoute.event.dailyEvents.find(
+  //   (reservation.shuttleRoute.event.dailyEvents ?? []).find(
   //     (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
   //   )?.date ?? '';
   const reservationId = reservation.reservationId;
@@ -165,7 +165,7 @@ const useCompleteReservationTracking = ({
   paymentId,
   referralCode,
 }: UseCompleteReservationTrackingProps) => {
-  const eventDate = reservation.shuttleRoute.event.dailyEvents.find(
+  const eventDate = (reservation.shuttleRoute.event.dailyEvents ?? []).find(
     (dailyEvent) => dailyEvent.dailyEventId === dailyEventId,
   )?.dailyEventDate;
 

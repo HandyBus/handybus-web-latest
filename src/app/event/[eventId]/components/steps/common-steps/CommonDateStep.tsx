@@ -71,7 +71,7 @@ const CommonDateStep = ({ toNextStep, phase }: Props) => {
     if (!event?.dailyEvents || !demandStats) {
       return [];
     }
-    const dailyEvents = event.dailyEvents.sort((a, b) =>
+    const dailyEvents = (event.dailyEvents ?? []).sort((a, b) =>
       dayjs(a.dailyEventDate).diff(dayjs(b.dailyEventDate)),
     );
     return dailyEvents.map((dailyEvent) => {
