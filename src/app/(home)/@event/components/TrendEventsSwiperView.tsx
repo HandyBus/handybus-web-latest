@@ -7,6 +7,7 @@ import type { Swiper as SwiperType } from 'swiper';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import Card from '@/components/card/Card';
+import { DEFAULT_EVENT_IMAGE } from '@/constants/common';
 import { EventsViewEntity } from '@/types/event.type';
 import Image from 'next/image';
 
@@ -43,7 +44,7 @@ const TrendEventsSwiperView = ({ events }: Props) => {
               }`}
             >
               <Image
-                src={event.eventImageUrl}
+                src={event.eventImageUrl ?? DEFAULT_EVENT_IMAGE}
                 alt="background Image"
                 fill
                 className="object-cover"

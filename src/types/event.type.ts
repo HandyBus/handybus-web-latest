@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ArtistsInArtistViewEntitySchema } from './artist.type';
+import { ArtistsInEventsViewEntitySchema } from './artist.type';
 
 //  ----- ENUM -----
 
@@ -39,27 +39,34 @@ export const EventsViewEntitySchema = z
   .object({
     eventId: z.string(),
     eventName: z.string(),
+    eventDisplayName: z.string(),
+    eventOfficialName: z.string(),
     eventType: EventTypeEnum,
     regionId: z.string(),
     regionHubId: z.string(),
     eventStatus: EventStatusEnum,
+    eventMetadata: z.record(z.string(), z.any()).nullable(),
     eventImageUrl: z.string(),
+    eventDisplayImageUrl: z.string().nullable(),
     eventDetailImageUrl: z.string().nullable(),
+    eventTicketUrl: z.string().nullable(),
+    eventGeneralSaleDate: z.string().nullable(),
+    eventPreSaleDate: z.string().nullable(),
+    eventOfficialPosterImageUrl: z.string().nullable(),
     eventLocationName: z.string(),
     eventLocationAddress: z.string(),
     eventLocationLatitude: z.number(),
     eventLocationLongitude: z.number(),
-    eventIsPinned: z.boolean(),
-    eventMinRoutePrice: z.number().nullable(),
-    eventHasOpenRoute: z.boolean(),
-    eventRecommendationScore: z.number(),
-    eventArtists: ArtistsInArtistViewEntitySchema.array().nullable(),
-    dailyEvents: DailyEventsInEventsViewEntitySchema.array(),
+    eventArtists: ArtistsInEventsViewEntitySchema.array().nullable(),
+    dailyEvents: DailyEventsInEventsViewEntitySchema.array().nullable(),
     startDate: z.string(),
     endDate: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
-    eventMetadata: z.record(z.string(), z.any()).nullable(),
+    eventIsPinned: z.boolean(),
+    eventMinRoutePrice: z.number().nullable(),
+    eventHasOpenRoute: z.boolean(),
+    eventRecommendationScore: z.number(),
   })
   .strict();
 export type EventsViewEntity = z.infer<typeof EventsViewEntitySchema>;

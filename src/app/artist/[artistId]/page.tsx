@@ -7,8 +7,10 @@ import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Button from '@/components/buttons/button/Button';
 import { useGetArtist } from '@/services/artist.service';
+import { useGetEventsByArtistId } from '@/services/event.service';
 import { useGetUser, usePutUser } from '@/services/user.service';
 import ArtistHero from './components/ArtistHero';
+import ConcertSection from './components/ConcertSection';
 import MemberSection from './components/MemberSection';
 import GroupSection from './components/GroupSection';
 import ArtistInfoSection from './components/ArtistInfoSection';
@@ -20,6 +22,7 @@ const Page = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
 
   const { data: artist, isLoading } = useGetArtist(artistId);
+  const { data: eventList = [] } = useGetEventsByArtistId(artistId);
   const { data: user } = useGetUser({ enabled: isApp });
 
   const isFavorite =
@@ -45,6 +48,7 @@ const Page = () => {
 
   const hasMembers = !!artist?.childArtists?.length;
   const hasParentGroup = !!artist?.parentArtists?.length;
+  const hasDescription = !!artist?.artistDescription;
 
   return (
     <>
@@ -68,7 +72,13 @@ const Page = () => {
                 <Divider />
               </>
             )}
-            <ArtistInfoSection description={artist.artistDescription} />
+            {hasDescription && (
+              <>
+                <ArtistInfoSection description={artist.artistDescription} />
+                <Divider />
+              </>
+            )}
+            {eventList.length > 0 && <ConcertSection eventList={eventList} />}
           </main>
         )}
       </DeferredSuspense>

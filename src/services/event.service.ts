@@ -73,3 +73,22 @@ export const useGetTopRecommendedEvents = (limit?: number) =>
     queryKey: ['event', 'top', 'recommended', limit],
     queryFn: () => getTopRecommendedEvents(limit),
   });
+
+export const getEventsByArtistId = async (artistId: string) => {
+  const res = await instance.get(
+    `/v1/shuttle-operation/events/artists/${artistId}`,
+    {
+      shape: {
+        events: EventsViewEntitySchema.array(),
+      },
+    },
+  );
+  return res.events;
+};
+
+export const useGetEventsByArtistId = (artistId: string) =>
+  useQuery({
+    queryKey: ['event', 'artist', artistId],
+    queryFn: () => getEventsByArtistId(artistId),
+    enabled: !!artistId,
+  });
