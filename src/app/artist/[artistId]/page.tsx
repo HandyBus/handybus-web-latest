@@ -6,6 +6,7 @@ import useEnvironment from '@/hooks/useEnvironment';
 import DeferredSuspense from '@/components/loading/DeferredSuspense';
 import Loading from '@/components/loading/Loading';
 import Button from '@/components/buttons/button/Button';
+import useWebViewMessage from '@/hooks/webview/useWebViewMessage';
 import { useGetArtist } from '@/services/artist.service';
 import { useGetEventsByArtistId } from '@/services/event.service';
 import { useGetUser, usePutUser } from '@/services/user.service';
@@ -19,14 +20,18 @@ import ArtistNotificationModal from './components/ArtistNotificationModal';
 const Page = () => {
   const { artistId } = useParams<{ artistId: string }>();
   const { isApp } = useEnvironment();
+  const { sendMessage, sendRequest } = useWebViewMessage();
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+  const [isCheckingNotificationPermission, setIsCheckingNotificationPermission] =
+    useState(false);
 
   const { data: artist, isLoading } = useGetArtist(artistId);
   const { data: eventList = [] } = useGetEventsByArtistId(artistId);
   const { data: user } = useGetUser({ enabled: isApp });
 
   const isFavorite =
-    user?.favoriteArtists?.some((a) => a.artistId === artistId) ?? false;
+    user?.favoriteArtists?.some((artist) => artist.artistId === artistId) ??
+    false;
 
   const { mutate: updateUser, isPending } = usePutUser({
     onSuccess: () => {
@@ -34,15 +39,57 @@ const Page = () => {
     },
   });
 
-  const handleToggleFavorite = () => {
+  const addFavoriteArtist = () => {
     if (!user || isPending) return;
-    const currentIds = user.favoriteArtists?.map((a) => a.artistId) ?? [];
-    if (isFavorite) {
-      updateUser({
-        favoriteArtistsIds: currentIds.filter((id) => id !== artistId),
-      });
-    } else {
-      updateUser({ favoriteArtistsIds: [...currentIds, artistId] });
+
+    const currentIds =
+      user.favoriteArtists?.map((artist) => artist.artistId) ?? [];
+    const nextIds = Array.from(new Set([...currentIds, artistId]));
+    updateUser({ favoriteArtistsIds: nextIds });
+  };
+
+  const removeFavoriteArtist = () => {
+    if (!user || isPending) return;
+
+    const currentIds =
+      user.favoriteArtists?.map((artist) => artist.artistId) ?? [];
+    updateUser({
+      favoriteArtistsIds: currentIds.filter((id) => id !== artistId),
+    });
+  };
+
+  const handleEnableNotification = async () => {
+    if (!isApp || !user || isPending || isCheckingNotificationPermission) {
+      return;
+    }
+
+    setIsCheckingNotificationPermission(true);
+    try {
+      const permissionResult = await sendRequest(
+        'REQUEST_PERMISSION',
+        { permission: 'notification' },
+        'PERMISSION_RESULT',
+        5000,
+      );
+
+      if (permissionResult.permission !== 'notification') return;
+
+      if (!permissionResult.granted) {
+        const didNavigate = sendMessage('NAVIGATE', {
+          screen: 'app_notification_settings',
+        });
+
+        if (didNavigate) {
+          setIsNotificationModalOpen(false);
+        }
+        return;
+      }
+
+      addFavoriteArtist();
+    } catch (error) {
+      console.error('[ArtistNotification] Failed to check permission', error);
+    } finally {
+      setIsCheckingNotificationPermission(false);
     }
   };
 
@@ -88,7 +135,7 @@ const Page = () => {
             <Button
               type="button"
               variant="tertiary"
-              onClick={handleToggleFavorite}
+              onClick={removeFavoriteArtist}
               disabled={isPending}
             >
               알림 그만 받기
@@ -111,9 +158,9 @@ const Page = () => {
       {isNotificationModalOpen && (
         <ArtistNotificationModal
           isOpen={isNotificationModalOpen}
-          isPushEnabled={isFavorite}
+          isLoading={isCheckingNotificationPermission || isPending}
           onClose={() => setIsNotificationModalOpen(false)}
-          onEnableNotification={handleToggleFavorite}
+          onEnableNotification={handleEnableNotification}
         />
       )}
     </>
